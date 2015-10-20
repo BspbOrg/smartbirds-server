@@ -1,0 +1,24 @@
+{
+  "name": "smartbirds-server",
+  "version": "0.0.1",
+  "description": "SmartBirds Server",
+  "author": "Geno Roupsky",
+  "private": true,
+  "devDependencies": {
+    "live-reload": "latest",
+    "parallelshell": "latest"
+  },
+  "scripts": {
+    "start": "http-server $PWD/public",
+    "serve": "parallelshell 'npm run livereload' 'npm start'",
+    "livereload": "live-reload --port 9091 public/",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "env": "env"
+  },
+  "dependencies": {
+    "angular": "^1.4.7",
+    "angular-ui-bootstrap": "^0.14.2",
+    "angular-ui-router": "^0.2.15",
+    "http-server": "^0.8.5"
+  }
+}
