@@ -1,19 +1,59 @@
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Площадки</h1>
-        <div ng-if="$user.isAdmin" class="toolbar clearfix">
-            <div class="btn-group pull-right">
-                <button type="button" class="btn btn-default btn-sm">
-                    <i class="fa fa-arrow-left"></i>
-                </button>
-                <button type="button" class="btn btn-default btn-sm">
-                    <i class="fa fa-arrow-right"></i>
-                </button>
+        <h1 class="page-header">
+            Площадки
+        </h1>
+    </div>
+</div>
+
+<div ng-if="$user.isAdmin" class="row">
+    <div class="col-lg-12">
+        <form role="form" class="form form-filter">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+
+                            <div class="form-group">
+                                <label>Локация</label>
+                                <input type="text" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Площадки</label>
+                                <select class="form-control">
+                                    <option>- всички -</option>
+                                    <option>одобрени</option>
+                                    <option>заявени</option>
+                                    <option>свободни</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Наблюдател</label>
+                                <select class="form-control">
+                                    <option>- всички -</option>
+                                    <option>Иван Петров</option>
+                                    <option>Жени Драгиева</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Преброяване</label>
+                                <select class="form-control">
+                                    <option>- без значение -</option>
+                                    <option>2015 II</option>
+                                    <option>2015 I</option>
+                                    <option>2014 II</option>
+                                    <option>2014 I</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button type="button" class="btn btn-default btn-sm">
-                Some
-            </button>
-        </div>
+        </form>
     </div>
 </div>
 
