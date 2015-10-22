@@ -3,8 +3,11 @@
  */
 
 var sb = angular.module('sb', [
+    'ngSanitize',
+
     'ui.router',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'ui.select'
 ]);
 
 sb.run(function ($rootScope, $state, $stateParams) {
@@ -18,6 +21,7 @@ sb.run(function ($rootScope, $state, $stateParams) {
         isAdmin: true,
         name: "Иван Петров"
     }
+    window.$rootScope = $rootScope;
 });
 
 sb.config(function ($stateProvider, $urlRouterProvider) {
@@ -56,7 +60,9 @@ sb.config(function ($stateProvider, $urlRouterProvider) {
         ///////////
         .state('auth', {
             abstract: true,
-            templateUrl: '/views/layout.html'
+            templateUrl: '/views/layout.html',
+            controller: 'DataController',
+            controllerAs: 'data'
         })
 
         ///////////
@@ -65,7 +71,7 @@ sb.config(function ($stateProvider, $urlRouterProvider) {
         .state('auth.dashboard', {
             url: '/dashboard',
             views: {
-                'content': {templateUrl: '/views/dashboard.html'}
+                'content': { templateUrl: '/views/dashboard.html' }
             }
         })
 
@@ -88,4 +94,10 @@ sb.config(function ($stateProvider, $urlRouterProvider) {
                 'content@auth': {templateUrl: '/views/zones/request.html'}
             }
         })
+});
+
+sb.filter('default', function(){
+    return function(val, def) {
+        return val || def;
+    }
 });

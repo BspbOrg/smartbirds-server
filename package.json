@@ -17,8 +17,11 @@
   },
   "dependencies": {
     "angular": "^1.4.7",
+    "angular-sanitize": "^1.4.7",
     "angular-ui-bootstrap": "^0.14.2",
     "angular-ui-router": "^0.2.15",
-    "http-server": "^0.8.5"
+    "chance": "^0.8.0",
+    "http-server": "^0.8.5",
+    "ui-select": "^0.13.2"
   }
 }

@@ -16,4 +16,7 @@
 
 .form-filter .form-group {
     display: inline-block;
+    max-width: 30%;
+    float: left;
+    padding: 5px;
 }

@@ -16,37 +16,43 @@
 
                             <div class="form-group">
                                 <label>Локация</label>
-                                <input type="text" class="form-control">
+                                <input name="location" type="text" class="form-control"
+                                       ng-model="data.filter.location"
+                                       placeholder="- всички -"
+                                       uib-typeahead="location for location in data.locations | filter:$viewValue | limitTo:10">
                             </div>
 
                             <div class="form-group">
                                 <label>Площадки</label>
-                                <select class="form-control">
-                                    <option>- всички -</option>
-                                    <option>одобрени</option>
-                                    <option>заявени</option>
-                                    <option>свободни</option>
-                                </select>
+                                <ui-select multiple ng-model="data.filter.status" name="status">
+                                    <ui-select-match placeholder="- всички -">{{$item}}</ui-select-match>
+                                    <ui-select-choices repeat="status in data.statuses | filter:$select.search">
+                                        <div ng-bind-html="status | uibTypeaheadHighlight:$select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
                             </div>
 
                             <div class="form-group">
                                 <label>Наблюдател</label>
-                                <select class="form-control">
-                                    <option>- всички -</option>
-                                    <option>Иван Петров</option>
-                                    <option>Жени Драгиева</option>
-                                </select>
+                                <ui-select multiple ng-model="data.filter.owner" name="owner">
+                                    <ui-select-match placeholder="- всички -">{{$item}}</ui-select-match>
+                                    <ui-select-choices
+                                        repeat="owner in data.users | filter:$select.search | limitTo:10">
+                                        <div ng-bind-html="owner | uibTypeaheadHighlight:$select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
                             </div>
 
                             <div class="form-group">
-                                <label>Преброяване</label>
-                                <select class="form-control">
-                                    <option>- без значение -</option>
-                                    <option>2015 II</option>
-                                    <option>2015 I</option>
-                                    <option>2014 II</option>
-                                    <option>2014 I</option>
-                                </select>
+                                <label>Последно преброяване</label>
+                                <ui-select ng-model="data.filter.last_monitoring" name="last_monitoring">
+                                    <ui-select-match placeholder="- без значение -">{{$select.selected}}
+                                    </ui-select-match>
+                                    <ui-select-choices
+                                        repeat="monitoring in data.monitorings | filter:$select.search | limitTo:10">
+                                        <div ng-bind-html="monitoring | uibTypeaheadHighlight:$select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
                             </div>
 
                         </div>
@@ -58,6 +64,61 @@
 </div>
 
 <div class="row">
+
+    <div ng-repeat="zone in data.zones | filter:data.filterZones(data.filter)" class="col-md-6 col-lg-4">
+        <div class="panel"
+             ng-class="zone.status=='owned'?'panel-primary':zone.status=='requested'?'panel-warning':'panel-default'">
+            <div class="panel-heading">
+                <i class="fa fa-map-o fa-fw"></i> {{zone.location}}
+                <div class="pull-right">
+                    <div class="btn-group" ng-switch="($user.isAdmin?'admin':'user')+'_'+zone.status">
+                        <button ng-switch-when="admin_requested" type="button" class="btn btn-danger btn-xs">
+                            <i class="fa fa-close fa-fw"></i>
+                        </button>
+                        <button ng-switch-when="admin_requested" type="button" class="btn btn-success btn-xs">
+                            <i class="fa fa-check fa-fw"></i>
+                        </button>
+                        <button ng-if="zone.status == owned" type="button" class="btn btn-default btn-xs">
+                            <i class="fa fa-print fa-fw"></i>
+                        </button>
+                        <button ng-if="zone.status == owned" type="button" class="btn btn-default btn-xs">
+                            <i class="fa fa-download fa-fw"></i>
+                        </button>
+                        <button ng-if="zone.status == owned" type="button" class="btn btn-default btn-xs">
+                            <i class="fa fa-edit fa-fw"></i>
+                        </button>
+                        <button ng-switch-when="admin_free" type="button" class="btn btn-default btn-xs"
+                                title="Назначаване на наблюдател">
+                            <i class="fa fa-edit fa-fw"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <img src="/img/map_placeholder.gif" width="100%" class="userMap">
+            </div>
+
+            <ul ng-if="$user.isAdmin" class="list-group">
+                <li class="list-group-item">
+                    <span ng-if="$user.isAdmin">{{zone.owner|default:'свободна площадка'}}</span>
+
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <button ng-if="$user.isAdmin && zone.status=='owned'" type="button"
+                                    class="btn btn-danger btn-xs" title="Премахване на наблюдател"
+                                    ng-click="zone.status='free'; zone.owner = null;">
+                                <i class="fa fa-remove"></i>
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!-- /.panel-body -->
+        </div>
+    </div>
+
+
     <div class="col-md-6 col-lg-4">
         <div class="panel panel-primary">
             <div class="panel-heading">
