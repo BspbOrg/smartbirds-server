@@ -1,31 +1,41 @@
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Zones</h1>
+        <h1 class="page-header">Площадки</h1>
+        <div ng-if="$user.isAdmin" class="toolbar clearfix">
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default btn-sm">
+                    <i class="fa fa-arrow-left"></i>
+                </button>
+                <button type="button" class="btn btn-default btn-sm">
+                    <i class="fa fa-arrow-right"></i>
+                </button>
+            </div>
+            <button type="button" class="btn btn-default btn-sm">
+                Some
+            </button>
+        </div>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-6">
-        <div class="panel panel-default">
+    <div class="col-md-6 col-lg-4">
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 <i class="fa fa-map-o fa-fw"></i> Plovdiv, Some village
                 <div class="pull-right">
-                    <div class="btn-group" uib-dropdown>
-                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle>
-                            Actions
-                            <span class="caret"></span>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-xs">
+                            <i class="fa fa-print fa-fw"></i>
+                            Print
                         </button>
-                        <ul class="dropdown-menu pull-right" role="menu" uib-dropdown-menu>
-                            <li><a href="#">Action</a>
-                            </li>
-                            <li><a href="#">Another action</a>
-                            </li>
-                            <li><a href="#">Something else here</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a>
-                            </li>
-                        </ul>
+                        <button type="button" class="btn btn-default btn-xs">
+                            <i class="fa fa-download fa-fw"></i>
+                            kml
+                        </button>
+                        <button type="button" class="btn btn-default btn-xs" disabled>
+                            <i class="fa fa-edit fa-fw"></i>
+                            MOVP
+                        </button>
                     </div>
                 </div>
             </div>
@@ -37,7 +47,69 @@
         </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-6 col-lg-4">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <!--<i class="fa fa-map-o fa-fw"></i>-->
+                <i class="fa fa-exclamation fa-fw" title="Missing MOVP form"></i>
+                Burgas, Old village
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-xs">
+                            <i class="fa fa-print fa-fw"></i>
+                            Print
+                        </button>
+                        <button type="button" class="btn btn-default btn-xs">
+                            <i class="fa fa-download fa-fw"></i>
+                            kml
+                        </button>
+                        <button type="button" class="btn btn-default btn-xs">
+                            <i class="fa fa-edit fa-fw"></i>
+                            MOVP
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <img src="/img/map_placeholder.gif" width="100%" class="userMap">
+            </div>
+            <!-- /.panel-body -->
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <!--<i class="fa fa-map-o fa-fw"></i>-->
+                <i class="fa fa-question fa-fw" title="Pending approval"></i>
+                Varna, Selo
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-xs" disabled>
+                            <i class="fa fa-print fa-fw"></i>
+                            Print
+                        </button>
+                        <button type="button" class="btn btn-default btn-xs" disabled>
+                            <i class="fa fa-download fa-fw"></i>
+                            kml
+                        </button>
+                        <button type="button" class="btn btn-default btn-xs" disabled>
+                            <i class="fa fa-edit fa-fw"></i>
+                            MOVP
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <img src="/img/map_placeholder.gif" width="100%" class="userMap">
+            </div>
+            <!-- /.panel-body -->
+        </div>
+    </div>
+
+    <div ng-if="!$user.isAdmin" class="col-md-6 col-lg-4">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <i class="fa fa-map-o fa-fw"></i>

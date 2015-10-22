@@ -14,6 +14,10 @@ sb.run(function ($rootScope, $state, $stateParams) {
     // to active whenever 'contacts.list' or one of its decendents is active.
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
+    $rootScope.$user = {
+        isAdmin: true,
+        name: "Иван Петров"
+    }
 });
 
 sb.config(function ($stateProvider, $urlRouterProvider) {
