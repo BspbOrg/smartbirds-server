@@ -45,7 +45,7 @@ angular.module('sb')
                     if (filter.status.indexOf(zone.status) == -1) return false;
                 }
 
-                if (!$rootScope.$user.isAdmin) {
+                if (!$rootScope.$user.isAdmin && (zone.owner || !filter.status == 'free')) {
                     if ($rootScope.$user.name != zone.owner) return false;
                 }
                 return true;
