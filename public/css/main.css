@@ -20,3 +20,15 @@
     float: left;
     padding: 5px;
 }
+
+.zone .owner .actions {
+    display: none;
+}
+
+.zone .owner:hover .actions {
+    display: block;
+}
+
+.zone .owner .ui-select-container {
+    margin: -7px 0;
+}

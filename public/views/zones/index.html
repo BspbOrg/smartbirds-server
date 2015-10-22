@@ -66,16 +66,18 @@
 <div class="row">
 
     <div ng-repeat="zone in data.zones | filter:data.filterZones(data.filter)" class="col-md-6 col-lg-4">
-        <div class="panel"
+        <div class="panel zone"
              ng-class="zone.status=='owned'?'panel-primary':zone.status=='requested'?'panel-warning':'panel-default'">
             <div class="panel-heading">
                 <i class="fa fa-map-o fa-fw"></i> {{zone.location}}
                 <div class="pull-right">
                     <div class="btn-group" ng-switch="($user.isAdmin?'admin':'user')+'_'+zone.status">
-                        <button ng-switch-when="admin_requested" type="button" class="btn btn-danger btn-xs">
+                        <button ng-switch-when="admin_requested" type="button" class="btn btn-danger btn-xs"
+                                ng-click="zone.status='free'; zone.owner = null;">
                             <i class="fa fa-close fa-fw"></i>
                         </button>
-                        <button ng-switch-when="admin_requested" type="button" class="btn btn-success btn-xs">
+                        <button ng-switch-when="admin_requested" type="button" class="btn btn-success btn-xs"
+                                ng-click="zone.status='owned';">
                             <i class="fa fa-check fa-fw"></i>
                         </button>
                         <button ng-if="zone.status == owned" type="button" class="btn btn-default btn-xs">
@@ -87,10 +89,6 @@
                         <button ng-if="zone.status == owned" type="button" class="btn btn-default btn-xs">
                             <i class="fa fa-edit fa-fw"></i>
                         </button>
-                        <button ng-switch-when="admin_free" type="button" class="btn btn-default btn-xs"
-                                title="Назначаване на наблюдател">
-                            <i class="fa fa-edit fa-fw"></i>
-                        </button>
                     </div>
                 </div>
             </div>
@@ -100,112 +98,44 @@
             </div>
 
             <ul ng-if="$user.isAdmin" class="list-group">
-                <li class="list-group-item">
-                    <span ng-if="$user.isAdmin">{{zone.owner|default:'свободна площадка'}}</span>
+                <li class="list-group-item owner" ng-init="zone.$chooseOwner = false">
+                    <ui-select ng-if="zone.$chooseOwner" ng-model="zone.owner">
+                        <ui-select-match placeholder="Изберете наблюдател">
+                            {{$select.selected}}
+                            <div class="pull-right">
+                                <button role="button" class="btn btn-danger btn-xs"
+                                        ng-click="zone.owner=null; zone.$chooseOwner=false;">
+                                    <i class="fa fa-close"></i>
+                                </button>
+                                <button role="button" class="btn btn-success btn-xs"
+                                        ng-click="zone.status='owned'; zone.$chooseOwner=false;">
+                                    <i class="fa fa-check"></i>
+                                </button>
+                            </div>
+                        </ui-select-match>
+                        <ui-select-choices
+                            repeat="owner in data.users | filter:$select.search | limitTo:10">
+                            <div ng-bind-html="owner | uibTypeaheadHighlight:$select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span ng-if="$user.isAdmin && !zone.$chooseOwner">{{zone.owner|default:'свободна площадка'}}</span>
 
-                    <div class="pull-right">
+                    <div class="actions pull-right">
                         <div class="btn-group">
                             <button ng-if="$user.isAdmin && zone.status=='owned'" type="button"
                                     class="btn btn-danger btn-xs" title="Премахване на наблюдател"
                                     ng-click="zone.status='free'; zone.owner = null;">
                                 <i class="fa fa-remove"></i>
                             </button>
+                            <button ng-if="$user.isAdmin && zone.status=='free' && !zone.$chooseOwner" type="button"
+                                    class="btn btn-primary btn-xs" title="Добавяне на наблюдател"
+                                    ng-click="zone.$chooseOwner=true">
+                                <i class="fa fa-edit"></i>
+                            </button>
                         </div>
                     </div>
                 </li>
             </ul>
-            <!-- /.panel-body -->
-        </div>
-    </div>
-
-
-    <div class="col-md-6 col-lg-4">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <i class="fa fa-map-o fa-fw"></i> Plovdiv, Some village
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-xs">
-                            <i class="fa fa-print fa-fw"></i>
-                            Print
-                        </button>
-                        <button type="button" class="btn btn-default btn-xs">
-                            <i class="fa fa-download fa-fw"></i>
-                            kml
-                        </button>
-                        <button type="button" class="btn btn-default btn-xs" disabled>
-                            <i class="fa fa-edit fa-fw"></i>
-                            MOVP
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-                <img src="/img/map_placeholder.gif" width="100%" class="userMap">
-            </div>
-            <!-- /.panel-body -->
-        </div>
-    </div>
-
-    <div class="col-md-6 col-lg-4">
-        <div class="panel panel-danger">
-            <div class="panel-heading">
-                <!--<i class="fa fa-map-o fa-fw"></i>-->
-                <i class="fa fa-exclamation fa-fw" title="Missing MOVP form"></i>
-                Burgas, Old village
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-xs">
-                            <i class="fa fa-print fa-fw"></i>
-                            Print
-                        </button>
-                        <button type="button" class="btn btn-default btn-xs">
-                            <i class="fa fa-download fa-fw"></i>
-                            kml
-                        </button>
-                        <button type="button" class="btn btn-default btn-xs">
-                            <i class="fa fa-edit fa-fw"></i>
-                            MOVP
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-                <img src="/img/map_placeholder.gif" width="100%" class="userMap">
-            </div>
-            <!-- /.panel-body -->
-        </div>
-    </div>
-
-    <div class="col-md-6 col-lg-4">
-        <div class="panel panel-warning">
-            <div class="panel-heading">
-                <!--<i class="fa fa-map-o fa-fw"></i>-->
-                <i class="fa fa-question fa-fw" title="Pending approval"></i>
-                Varna, Selo
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-xs" disabled>
-                            <i class="fa fa-print fa-fw"></i>
-                            Print
-                        </button>
-                        <button type="button" class="btn btn-default btn-xs" disabled>
-                            <i class="fa fa-download fa-fw"></i>
-                            kml
-                        </button>
-                        <button type="button" class="btn btn-default btn-xs" disabled>
-                            <i class="fa fa-edit fa-fw"></i>
-                            MOVP
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-                <img src="/img/map_placeholder.gif" width="100%" class="userMap">
-            </div>
             <!-- /.panel-body -->
         </div>
     </div>
