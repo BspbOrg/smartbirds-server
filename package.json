@@ -10,6 +10,7 @@
     "parallelshell": "latest"
   },
   "scripts": {
+    "postinstall": "bower install",
     "start": "http-server $PWD/public",
     "serve": "parallelshell 'npm run livereload' 'npm start'",
     "livereload": "live-reload --port 9091 public/",
