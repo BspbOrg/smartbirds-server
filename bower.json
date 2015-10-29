@@ -1,0 +1,31 @@
+{
+  "name": "smartbirds-server",
+  "version": "0.0.1",
+  "authors": [
+    "Geno Roupsky <geno@roupsky.name>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.7",
+    "angular-bootstrap": "~0.14.3",
+    "angular-google-maps": "~2.2.1",
+    "angular-sanitize": "~1.4.7",
+    "angular-ui-router": "~0.2.15",
+    "chance": "~0.8.0",
+    "ui-select": "angular-ui-select#~0.13.2"
+  }
+}

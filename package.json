@@ -5,6 +5,7 @@
   "author": "Geno Roupsky",
   "private": true,
   "devDependencies": {
+    "bower": "^1.6.5",
     "live-reload": "latest",
     "parallelshell": "latest"
   },
@@ -16,12 +17,6 @@
     "env": "env"
   },
   "dependencies": {
-    "angular": "^1.4.7",
-    "angular-sanitize": "^1.4.7",
-    "angular-ui-bootstrap": "^0.14.2",
-    "angular-ui-router": "^0.2.15",
-    "chance": "^0.8.0",
-    "http-server": "^0.8.5",
-    "ui-select": "^0.13.2"
+    "http-server": "^0.8.5"
   }
 }
