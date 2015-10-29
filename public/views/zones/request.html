@@ -10,8 +10,8 @@
                 <div class="pull-right">
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary btn-xs" ui-sref="auth.zones"
-                                ng-disabled="!form.zone"
-                                ng-click="form.zone.status='requested';form.zone.owner=$user.name;">
+                                ng-disabled="!selectedZone || !selectedZone.selected"
+                                ng-click="selectedZone.status='requested';selectedZone.owner=$user.name;selectedZone.selected = false;selectedZone=null;">
                             Request
                             <i class="fa fa-chevron-right fa-fw"></i>
                         </button>
@@ -55,22 +55,22 @@
                         coords="selectedZone.center"
                         idkey="selectedZone.id"
                         ></ui-gmap-marker>
-                    <ui-gmap-polygons models="freeVisibleZones"
+                    <ui-gmap-polygons models="visibleZones.free"
                                       static="true"
                                       path="'path'"
                                       fill="{color: '#000', opacitiy: 0.4}"
                                       stroke="{color: '#000', opacity: 0.7, weight: 0.5}"
                                       geodesic="true"
                                       events="zonesEvents"
-                                      control="freeZonesControl"
+                                      control="zonesControl.free"
                         ></ui-gmap-polygons>
-                    <ui-gmap-polygons models="ownedVisibleZones"
+                    <ui-gmap-polygons models="visibleZones.owned"
                                       static="true"
                                       path="'path'"
                                       fill="{color: '#f00', opacitiy: 0.4}"
                                       stroke="{color: '#f00', opacity: 0.7, weight: 0.5}"
                                       geodesic="true"
-                                      control="ownedZonesControl"
+                                      control="zonesControl.owned"
                         ></ui-gmap-polygons>
                     <ui-gmap-markers models="zones"
                                      coords="'center'"

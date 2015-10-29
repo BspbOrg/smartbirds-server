@@ -19,7 +19,7 @@
                                 <input name="location" type="text" class="form-control"
                                        ng-model="data.filter.location"
                                        placeholder="- всички -"
-                                       uib-typeahead="location for location in data.locations | filter:$viewValue | limitTo:10">
+                                       uib-typeahead="location as location.id for location in ::data.locations | filter:$viewValue | limitTo:10">
                             </div>
 
                             <div class="form-group">
@@ -65,7 +65,7 @@
 
 <div class="row">
 
-    <div ng-repeat="zone in data.zones | filter:data.filterZones($user.isAdmin?data.filter:{owner:$user.name})" class="col-md-6 col-lg-4">
+    <div ng-repeat="zone in data.zones | filter:data.filterZones($user.isAdmin?data.filter:{owner:$user.name}) | limitTo:25" class="col-md-6 col-lg-4">
         <div class="panel zone"
              ng-class="zone.status=='owned'?'panel-primary':zone.status=='requested'?'panel-warning':'panel-default'">
             <div class="panel-heading">

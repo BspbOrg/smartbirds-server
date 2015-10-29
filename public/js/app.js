@@ -116,14 +116,17 @@ sb.run(function ($rootScope, zones, locations) {
         center: {latitude: 42.744820608, longitude: 25.2151370694},
         zoom: 11
     };
-    $rootScope.freeVisibleZones = [];
-    $rootScope.ownedVisibleZones = [];
-    $rootScope.freeZonesControl = {};
-    $rootScope.ownedZonesControl = {};
+    $rootScope.zoneStatuses = ['owned', 'requested', 'free'];
+    $rootScope.visibleZones = {};
+    $rootScope.zonesControl = {};
+    $rootScope.zoneStatuses.forEach(function(status){
+        $rootScope.visibleZones[status] = [];
+        $rootScope.zonesControl[status] = {};
+    });
     $rootScope.zones = zones.map(function (zone) {
         zone = {
             id: zone.id,
-            owned: zone.owned,
+            status: zone.owned?'owned':'free',
             path: zone.points.map(function (point) {
                 return {latitude: point.y, longitude: point.x}
             }),
@@ -175,6 +178,13 @@ sb.run(function ($rootScope, zones, locations) {
     });
     $rootScope.areas.forEach(function(area){
         area.locations.forEach(function(location){
+            location.zones.forEach(function(zone){
+                zone.location = location.id;
+            });
+        });
+    });
+    $rootScope.areas.forEach(function(area){
+        area.locations.forEach(function(location){
             location.center = {
                 latitude: location.zones.reduce(function(sum,zone){return sum+zone.center.latitude},0)/location.zones.length,
                 longitude: location.zones.reduce(function(sum,zone){return sum+zone.center.longitude},0)/location.zones.length
@@ -189,19 +199,21 @@ sb.run(function ($rootScope, zones, locations) {
         console.log(from, to);
         if (from && from.center)
             to.center = angular.copy(from.center);
-    }
+    };
     var addZone = function (zone) {
-        var zones = zone.owned ? $rootScope.ownedVisibleZones : $rootScope.freeVisibleZones;
-        var ctrl = zone.owned ? $rootScope.ownedZonesControl : $rootScope.freeZonesControl;
+        var zones = $rootScope.visibleZones[zone.status];
+        var ctrl = $rootScope.zonesControl[zone.status];
         zones.push(zone);
+        ctrl.updateModels(zones);
     };
     var remZone = function (zone) {
-        var zones = zone.owned ? $rootScope.ownedVisibleZones : $rootScope.freeVisibleZones;
-        var ctrl = zone.owned ? $rootScope.ownedZonesControl : $rootScope.freeZonesControl;
+        var zones = $rootScope.visibleZones[zone.status];
+        var ctrl = $rootScope.zonesControl[zone.status];
         var idx = zones.indexOf(zone);
         if (idx != -1) {
             zones.splice(idx, 1);
         }
+        ctrl.updateModels(zones);
     };
     $rootScope.zonesEvents = {
         click: function (poly, event, model, args) {
@@ -214,8 +226,8 @@ sb.run(function ($rootScope, zones, locations) {
                         return true;
                     }
                     zone.selected = !zone.selected;
-                    var zones = zone.owned ? $rootScope.ownedVisibleZones : $rootScope.freeVisibleZones;
-                    var ctrl = zone.owned ? $rootScope.ownedZonesControl : $rootScope.freeZonesControl;
+                    var zones = $rootScope.visibleZones[zone.status];
+                    var ctrl = $rootScope.visibleZones[zone.status];
                     if (zone.selected) {
                         if ($rootScope.selectedZone) {
                             $rootScope.selectedZone.selected = false;
@@ -230,26 +242,28 @@ sb.run(function ($rootScope, zones, locations) {
                         }
                         $rootScope.selectedZone = null;
                     }
-                    ctrl.updateModels(zones);
                     return false;
                 });
         }
     };
     $rootScope.clusterEvents = {
         clusteringend: function (markerClusterer) {
-            $rootScope.freeVisibleZones.length = 0;
-            $rootScope.ownedVisibleZones.length = 0;
+            for (status in $rootScope.visibleZones) {
+                $rootScope.visibleZones[status].length = 0;
+            };
             markerClusterer.getClusters().forEach(function (cluster) {
                 var visible = cluster.getSize() == 1;
                 cluster.getMarkers().each(function (marker) {
                     marker.model.visible = visible;
                     if (visible && !marker.model.selected) {
-                        (marker.model.owned ? $rootScope.ownedVisibleZones : $rootScope.freeVisibleZones).push(marker.model);
+                        $rootScope.visibleZones[marker.model.status].push(marker.model);
                     }
                 });
             });
-            $rootScope.freeZonesControl.updateModels($rootScope.freeVisibleZones);
-            $rootScope.ownedZonesControl.updateModels($rootScope.ownedVisibleZones);
+            $rootScope.zoneStatuses.forEach(function(status){
+                if (angular.isFunction($rootScope.zonesControl[status].updateModels))
+                    $rootScope.zonesControl[status].updateModels($rootScope.visibleZones[status]);
+            });
         }
     };
 });
