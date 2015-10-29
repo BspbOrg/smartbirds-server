@@ -32,3 +32,5 @@
 .zone .owner .ui-select-container {
     margin: -7px 0;
 }
+
+.angular-google-map-container { height: 800px; }
