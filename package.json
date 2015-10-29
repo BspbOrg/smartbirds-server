@@ -5,7 +5,6 @@
   "author": "Geno Roupsky",
   "private": true,
   "devDependencies": {
-    "bower": "^1.6.5",
     "live-reload": "latest",
     "parallelshell": "latest"
   },
@@ -18,6 +17,7 @@
     "env": "env"
   },
   "dependencies": {
+    "bower": "^1.6.5",
     "http-server": "^0.8.5"
   }
 }
