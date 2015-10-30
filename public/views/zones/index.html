@@ -19,7 +19,7 @@
                                 <input name="location" type="text" class="form-control"
                                        ng-model="data.filter.location"
                                        placeholder="- всички -"
-                                       uib-typeahead="location as location.id for location in ::data.locations | filter:$viewValue | limitTo:10">
+                                       uib-typeahead="location as location.id for location in ::areaLocations | filter:$viewValue | limitTo:10">
                             </div>
 
                             <div class="form-group">

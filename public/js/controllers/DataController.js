@@ -25,7 +25,7 @@ angular.module('sb')
                     if (filter.owner.indexOf(zone.owner) == -1) return false;
                 }
 
-                if (filter && filter.location && filter.location.id != zone.location) {
+                if (filter && filter.location && filter.location.zones && filter.location.zones.indexOf(zone) == -1) {
                     return false;
                 }
 
