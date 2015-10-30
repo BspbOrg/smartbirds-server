@@ -5,16 +5,19 @@
   "author": "Geno Roupsky",
   "private": true,
   "devDependencies": {
+    "budo": "latest",
     "watchify": "latest",
     "live-reload": "latest",
     "parallelshell": "latest"
   },
   "scripts": {
-    "build:js": "browserify app/scripts/client.js -o public/js/scripts.js",
+    "build:js": "browserify browser/scripts/app.js -d -o public/js/scripts.js",
     "build:watch": "watchify browser/scripts/app.js -d -o public/js/scripts.js -v",
     "postinstall": "bower install",
+    "prestart": "npm run build:js",
     "start": "http-server $PWD/public",
     "serve": "parallelshell 'npm run build:watch' 'npm run livereload' 'npm start'",
+    "dev": "budo ./browser/scripts/app.js --serve ./js/scripts.js  -d public/ --live --open",
     "livereload": "live-reload --port 9091 public/",
     "test": "echo \"Error: no test specified\" && exit 1",
     "env": "env"
