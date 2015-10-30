@@ -52,6 +52,16 @@ module.config(function ($stateProvider, $urlRouterProvider) {
         })
 
         ///////////
+        // Monitorings //
+        ///////////
+        .state('auth.monitoring', {
+            url: '/monitoring',
+            views: {
+                'content': { templateUrl: '/views/monitorings/list.html'}
+            }
+        })
+
+        ///////////
         // Zones //
         ///////////
         .state('auth.zones', {

@@ -3,6 +3,7 @@
  */
 
 var app = require('../app');
+var chance = require('chance');
 
 app.constant('locations', require('./locations'));
 app.constant('zones', require('./zones'));
@@ -12,6 +13,8 @@ app.run(function ($rootScope, zones, locations) {
         center: {latitude: 42.744820608, longitude: 25.2151370694},
         zoom: 11
     };
+
+    $rootScope.monitorings = ['2015 II', '2015 I', '2014 II', '2014 I', 'никога'];
     $rootScope.zoneStatuses = ['owned', 'requested', 'free'];
     $rootScope.visibleZones = {};
     $rootScope.zonesControl = {};
