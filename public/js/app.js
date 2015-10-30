@@ -139,6 +139,7 @@ sb.run(function ($rootScope, zones, locations) {
                 }, 0) / zone.points.length
             }
         };
+        zone.map_center = zone.center;
         locations.every(function (location) {
             if (location.zone_id != zone.id) return true;
             location.zones = location.zones || [];
