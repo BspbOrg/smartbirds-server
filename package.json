@@ -17,7 +17,7 @@
     "prestart": "npm run build:js",
     "start": "http-server $PWD/public",
     "serve": "parallelshell 'npm run build:watch' 'npm run livereload' 'npm start'",
-    "dev": "budo ./browser/scripts/app.js --serve ./js/scripts.js  -d public/ --live --open",
+    "dev": "budo ./browser/scripts/app.js --serve js/scripts.js  -d public/ --live --open",
     "livereload": "live-reload --port 9091 public/",
     "test": "echo \"Error: no test specified\" && exit 1",
     "env": "env"
