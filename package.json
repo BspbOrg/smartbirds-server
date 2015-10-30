@@ -5,19 +5,80 @@
   "author": "Geno Roupsky",
   "private": true,
   "devDependencies": {
+    "watchify": "latest",
     "live-reload": "latest",
     "parallelshell": "latest"
   },
   "scripts": {
+    "build:js": "browserify app/scripts/client.js -o public/js/scripts.js",
+    "build:watch": "watchify browser/scripts/app.js -d -o public/js/scripts.js -v",
     "postinstall": "bower install",
     "start": "http-server $PWD/public",
-    "serve": "parallelshell 'npm run livereload' 'npm start'",
+    "serve": "parallelshell 'npm run build:watch' 'npm run livereload' 'npm start'",
     "livereload": "live-reload --port 9091 public/",
     "test": "echo \"Error: no test specified\" && exit 1",
     "env": "env"
   },
   "dependencies": {
-    "bower": "^1.6.5",
-    "http-server": "^0.8.5"
+    "bower": "~1.6.5",
+    "browserify": "~12.0.1",
+    "browserify-shim": "~3.8.0",
+    "bulk-require": "~0.2.1",
+    "bulkify": "~1.1.1",
+    "http-server": "~0.8.5"
+  },
+  "browser": {
+    "angular": "./bower_components/angular/angular.js",
+    "ui.bootstrap": "./bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
+    "uiGmapgoogle-maps": "./bower_components/angular-google-maps/dist/angular-google-maps.js",
+    "ngSanitize": "./bower_components/angular-sanitize/angular-sanitize.js",
+    "angular-simple-logger": "./bower_components/angular-simple-logger/dist/angular-simple-logger.js",
+    "ui.router": "./bower_components/angular-ui-router/release/angular-ui-router.js",
+    "ui.select": "./bower_components/ui-select/dist/select.js",
+    "chance": "./bower_components/chance/chance.js",
+    "lodash": "./bower_components/lodash/lodash.js"
+  },
+  "browserify-shim": {
+    "angular": "angular",
+    "ui.bootstrap": {
+      "depends": [
+        "angular:angular"
+      ]
+    },
+    "uiGmapgoogle-maps": {
+      "depends": [
+        "angular:angular",
+        "angular-simple-logger",
+        "lodash:_"
+      ]
+    },
+    "ngSanitize": {
+      "depends": [
+        "angular:angular"
+      ]
+    },
+    "angular-simple-logger": {
+      "depends": [
+        "angular:angular"
+      ]
+    },
+    "ui.router": {
+      "depends": [
+        "angular:angular"
+      ]
+    },
+    "ui.select": {
+      "depends": [
+        "angular:angular"
+      ]
+    },
+    "chance": "chance",
+    "lodash": "_"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim",
+      "bulkify"
+    ]
   }
 }
