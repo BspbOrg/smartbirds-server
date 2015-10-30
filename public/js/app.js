@@ -195,6 +195,7 @@ sb.run(function ($rootScope, zones, locations) {
             longitude: area.locations.reduce(function(sum,location){return sum+location.center.longitude},0)/area.locations.length
         }
     });
+    $rootScope.areaLocations = [].concat($rootScope.areas, $rootScope.locations);
     $rootScope.updateCenter = function(from, to) {
         console.log(from, to);
         if (from && from.center)

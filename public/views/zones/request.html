@@ -28,9 +28,7 @@
                 <label>Локация</label>
                 <input name="location" type="text" class="form-control"
                        ng-model="zone.location" required
-                       ng-change="updateCenter(zone.location, map)"
-                       uib-typeahead="location as location.id for location in locations | filter:$viewValue | limitTo:10"
-                       typeahead-on-select="updateCenter(zone.location, map)">
+                       uib-typeahead="location as location.id for location in areaLocations | filter:$viewValue | limitTo:10">
 
                 <p class="help-block">Select location to see available zones</p>
             </div>
@@ -50,11 +48,12 @@
                                      geodesic="true"
                                      events="zonesEvents"
                         ></ui-gmap-polygon>
-                    <ui-gmap-marker
-                        idKey="'selected'"
-                        coords="selectedZone.center"
-                        idkey="selectedZone.id"
-                        ></ui-gmap-marker>
+                    <!--<ui-gmap-marker-->
+                        <!--ng-if="selectedZone && selectedZone.selected"-->
+                        <!--idKey="'selected'"-->
+                        <!--coords="selectedZone.center"-->
+                        <!--idkey="selectedZone.id"-->
+                        <!--></ui-gmap-marker>-->
                     <ui-gmap-polygons models="visibleZones.free"
                                       static="true"
                                       path="'path'"
@@ -72,11 +71,20 @@
                                       geodesic="true"
                                       control="zonesControl.owned"
                         ></ui-gmap-polygons>
-                    <ui-gmap-markers models="zones"
+                    <ui-gmap-markers ng-if="!zone.location.zones"
+                                     models="zones"
                                      coords="'center'"
                                      type="'cluster'"
                                      modelsbyref="true"
                                      options="{opacity: 0}"
+                                     typeEvents="clusterEvents"></ui-gmap-markers>
+                    <ui-gmap-markers ng-if="zone.location.zones"
+                                     models="zone.location.zones"
+                                     coords="'center'"
+                                     type="'cluster'"
+                                     modelsbyref="true"
+                                     options="{opacity: 0}"
+                                     fit="true"
                                      typeEvents="clusterEvents"></ui-gmap-markers>
                 </ui-gmap-google-map>
             </div>
