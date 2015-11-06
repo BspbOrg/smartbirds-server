@@ -6,23 +6,29 @@
   "private": true,
   "devDependencies": {
     "budo": "latest",
-    "watchify": "latest",
     "live-reload": "latest",
-    "parallelshell": "latest"
+    "mocha": "latest",
+    "parallelshell": "latest",
+    "should": "latest",
+    "watchify": "latest"
   },
   "scripts": {
-    "build:js": "browserify browser/scripts/app.js -d -o public/js/scripts.js",
-    "build:watch": "watchify browser/scripts/app.js -d -o public/js/scripts.js -v",
+    "help": "actionhero help",
+    "start": "actionhero start",
+    "ah": "actionhero",
+    "test": "mocha",
+    "dev": "parallelshell 'npm run build:watch' 'npm start'",
+
+    "build:js": "browserify ./browser/scripts/app.js -d -o ./public/js/scripts.js",
+    "build:watch": "watchify ./browser/scripts/app.js -d -o ./public/js/scripts.js -v",
+
     "postinstall": "bower install",
     "prestart": "npm run build:js",
-    "start": "http-server $PWD/public",
-    "serve": "parallelshell 'npm run build:watch' 'npm run livereload' 'npm start'",
-    "dev": "budo ./browser/scripts/app.js --serve js/scripts.js  -d public/ --live --open",
-    "livereload": "live-reload --port 9091 public/",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "env": "env"
+
+    "budo": "budo ./browser/scripts/app.js --serve js/scripts.js  -d public/ --live"
   },
   "dependencies": {
+    "actionhero": "~12.1.2",
     "bower": "~1.6.5",
     "browserify": "~12.0.1",
     "browserify-shim": "~3.8.0",

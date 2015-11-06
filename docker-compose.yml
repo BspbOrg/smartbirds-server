@@ -1,0 +1,19 @@
+web:
+  build: .
+  volumes:
+    - .:/usr/src/app
+  links:
+    - db
+  ports:
+    - "5000:5000"
+  environment:
+    DATABASE_URL: 'postgres://smartbirds:secret@db/smartbirds'
+  command: npm run dev
+
+db:
+  image: postgres
+  environment:
+    POSTGRES_PASSWORD: 'secret'
+    POSTGRES_USER: 'smartbirds'
+  ports:
+    - "5432:5432"

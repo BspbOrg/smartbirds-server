@@ -3,3 +3,5 @@ node_modules/
 bower_components/
 public/js/scripts.js
 npm-debug.log
+log/
+pids/
