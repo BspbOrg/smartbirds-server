@@ -24,17 +24,17 @@ exports.default = {
         urlPathForActions : 'api',
         // Route that static files will be served from;
         //  path (relative to your project root) to serve static content from
-        //  set to `null` to disable the file server entirely 
+        //  set to `null` to disable the file server entirely
         urlPathForFiles : 'public',
         // When visiting the root URL, should visitors see 'api' or 'file'?
         //  Visitors can always visit /api and /public as normal
         rootEndpointType : 'file',
         // simple routing also adds an 'all' route which matches /api/:action for all actions
-        simpleRouting : true,
+        simpleRouting : false,
         // queryRouting allows an action to be defined via a URL param, ie: /api?action=:action
-        queryRouting : true,
+        queryRouting : false,
         // The header which will be returned for all flat file served from /public; defined in seconds
-        flatFileCacheDuration : 60,
+        flatFileCacheDuration : 1,
         // How many times should we try to boot the server?
         // This might happen if the port is in use by another process or the socketfile is claimed
         bootAttempts: 1,
@@ -74,7 +74,7 @@ exports.default = {
   }
 }
 
-exports.production = { 
+exports.production = {
   servers: {
     web: function(api){
       return {
@@ -89,7 +89,7 @@ exports.production = {
 }
 
 exports.test = {
-  servers: { 
+  servers: {
     web: function(api){
       return {
         secure: false,

@@ -12,15 +12,19 @@ require('ui.router');
 require('ngSanitize');
 require('ui.select');
 require('ngSanitize');
+require('angular-validation-match');
+require('angular-resource');
 
 var dependencies = [
-    'ngSanitize',
+  'ngResource',
+  'ngSanitize',
 
-    'ui.router',
-    'ui.bootstrap',
-    'ui.select',
+  'ui.router',
+  'ui.bootstrap',
+  'ui.select',
 
-    'uiGmapgoogle-maps',
+  'uiGmapgoogle-maps',
+  'validation.match'
 ];
 
 module.exports = angular.module('sb', dependencies);

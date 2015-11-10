@@ -8,7 +8,6 @@ web:
     - "5000:5000"
   environment:
     DATABASE_URL: 'postgres://smartbirds:secret@db/smartbirds'
-  command: npm run dev
 
 db:
   image: postgres
