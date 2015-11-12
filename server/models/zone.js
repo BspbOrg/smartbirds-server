@@ -12,7 +12,13 @@ module.exports = function(sequelize, DataTypes) {
     lat3: DataTypes.DOUBLE,
     lon3: DataTypes.DOUBLE,
     lat4: DataTypes.DOUBLE,
-    lon4: DataTypes.DOUBLE
+    lon4: DataTypes.DOUBLE,
+    locationNameBg: DataTypes.TEXT,
+    locationNameEn: DataTypes.TEXT,
+    locationAreaBg: DataTypes.TEXT,
+    locationAreaEn: DataTypes.TEXT,
+    locationTypeBg: DataTypes.TEXT,
+    locationTypeEn: DataTypes.TEXT
   }, {
     classMethods: {
       associate: function(models) {
