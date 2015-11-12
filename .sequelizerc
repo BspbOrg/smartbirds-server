@@ -1,0 +1,9 @@
+// only used for sequelize CLI
+
+module.exports = {
+  'config': "./server/config/sequelize.js",
+  'migrations-path': "./server/migrations",
+  'seeders-path': "./server/seeders",
+  'models-path': "./server/models",
+  'env': process.env.NODE_ENV || 'development'
+};

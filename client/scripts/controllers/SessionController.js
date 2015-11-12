@@ -7,6 +7,7 @@ require('../app').controller('SessionController', function ($log,
                                                             $scope,
                                                             $state,
                                                             $stateParams,
+                                                            api,
                                                             flashService,
                                                             user) {
 

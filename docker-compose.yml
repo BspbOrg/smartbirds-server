@@ -7,7 +7,7 @@ web:
   ports:
     - "5000:5000"
   environment:
-    DATABASE_URL: 'postgres://smartbirds:secret@db/smartbirds'
+    DATABASE_URL: 'postgres://smartbirds:secret@db:5432/smartbirds'
 
 db:
   image: postgres
