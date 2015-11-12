@@ -12,7 +12,18 @@ require('../app').service('api', function ($log, $http, $resource, $q) {
       return $http({
         method: 'POST',
         url: ENDPOINT + '/session',
-        data: auth
+        data: auth,
+        withCredentials: true
+      });
+    },
+    restore: function(xsrf) {
+      return $http({
+        method: 'PUT',
+        url: ENDPOINT + '/session',
+        data: {
+          csrfToken: xsrf
+        },
+        withCredentials: true
       });
     }
   };

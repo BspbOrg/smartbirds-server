@@ -28,6 +28,11 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: true,
     },
+    'admin': {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    }
   }, {
     indexes: [
       {
@@ -69,6 +74,7 @@ module.exports = function (sequelize, DataTypes) {
           email: this.email,
           firstName: this.firstName,
           lastName: this.lastName,
+          roles: ['user'].concat(this.admin?['admin']:[])
         };
       }
     }

@@ -14,8 +14,10 @@ require('ui.select');
 require('ngSanitize');
 require('angular-validation-match');
 require('angular-resource');
+require('angular-cookies');
 
 var dependencies = [
+  'ngCookies',
   'ngResource',
   'ngSanitize',
 

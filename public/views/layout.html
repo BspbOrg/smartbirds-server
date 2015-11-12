@@ -36,13 +36,13 @@
             </li>
             <li class="dropdown" uib-dropdown>
                 <a href uib-dropdown-toggle>
-                    Здравей, {{$user.name}}
+                    Здравей, {{$user.firstName}}
                     <span class="caret"></span>
                 </a>
                 <ul uib-dropdown-menu>
                     <li class="divider"></li>
-                    <li>
-                        <a href ui-sref="home">
+                    <li ng-controller="SessionController as sessionController">
+                        <a href ng-click="sessionController.logout()">
                             <i class="fa fa-sign-out fa-fw"></i>
                             Изход
                         </a>

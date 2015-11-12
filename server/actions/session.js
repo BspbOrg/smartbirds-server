@@ -21,7 +21,7 @@ exports.sessionCreate = {
               data.response.user      = user.apiData(api);
               data.response.success   = true;
               data.response.csrfToken = sessionData.csrfToken;
-              data.connection.rawConnection.responseHeaders.push(['Set-Cookie', 'sb-csrf-token='+sessionData.csrfToken+';Path=/;HttpOnly']);
+              data.connection.rawConnection.responseHeaders.push(['Set-Cookie', 'sb-csrf-token='+sessionData.csrfToken+';Path=/;']);
               next();
             });
           }
@@ -53,6 +53,11 @@ exports.sessionCheck = {
   inputs: {},
 
   run: function(api, data, next){
+    data.response.req = {
+      headers: data.connection.rawConnection.req.headers,
+      params: data.params,
+      cookies: data.connection.rawConnection.cookies
+    };
     api.session.load(data.connection, function(error, sessionData){
       if(error){ return next(error); }
       else if(!sessionData){

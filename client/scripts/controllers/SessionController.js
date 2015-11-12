@@ -2,7 +2,13 @@
  * Created by groupsky on 10.11.15.
  */
 
-require('../app').controller('SessionController', function($log, $scope, $state, $stateParams, api, flashService) {
+require('../app').controller('SessionController', function ($log,
+                                                            $rootScope,
+                                                            $scope,
+                                                            $state,
+                                                            $stateParams,
+                                                            flashService,
+                                                            user) {
 
   var ctrl = this;
 
@@ -12,33 +18,42 @@ require('../app').controller('SessionController', function($log, $scope, $state,
     $scope.auth.email = $scope.user.email = $stateParams.email;
   }
 
-  ctrl.login = function(auth) {
+  ctrl.login = function (auth) {
     ctrl.loading = true;
     $scope.form.$setPristine();
-    api.session.login(auth).then(function(response) {
-      $log.debug('auth ok', response);
-      $state.go('auth.dashboard');
-    }, function(response) {
+    user.authenticate(auth).then(function (identity) {
+      $log.debug('auth ok', identity);
+      if ($rootScope.returnToState) {
+        $state.go($rootScope.returnToState.name, $rootScope.returnToStateParams);
+      } else {
+        $state.go('auth.dashboard');
+      }
+    }, function (response) {
       $log.debug('auth err', response);
-      flashService.error(response.data.error || 'Invalid email or password');
-    }).finally(function() {
+      flashService.error((response && (response.error || (response.data && response.data.error))) || 'Invalid email or password');
+    }).finally(function () {
       ctrl.loading = false;
     });
   };
 
-  ctrl.register = function(user) {
+  ctrl.register = function (user) {
     ctrl.loading = true;
     $scope.form.$setPristine();
-    api.user.create(user, user, function(response){
+    api.user.create(user, user, function (response) {
       $log.debug('user created', response);
       flashService.success("Account created successfully", true);
       $state.go('login', {email: response.user.email});
-    }, function(response){
+    }, function (response) {
       $log.debug('error creating user', response);
       flashService.error(response.data.error || 'Could not create account');
-    }).$promise.finally(function(){
+    }).$promise.finally(function () {
       ctrl.loading = false;
     });
-  }
+  };
+
+  ctrl.logout = function() {
+    user.logout();
+    $state.go('home');
+  };
 
 });

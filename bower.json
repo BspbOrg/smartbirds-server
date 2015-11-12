@@ -28,6 +28,7 @@
     "chance": "~0.8.0",
     "ui-select": "angular-ui-select#~0.13.2",
     "angular-validation-match": "~1.6.0",
-    "angular-resource": "~1.4.7"
+    "angular-resource": "~1.4.7",
+    "angular-cookies": "~1.4.7"
   }
 }
