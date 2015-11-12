@@ -10,7 +10,7 @@ require('../app')
         var i = null;
 
         vc.users = chance.unique(chance.name, 50);
-        vc.users.push($rootScope.$user.name);
+        vc.users.push($rootScope.$user && $rootScope.$user.name || 'Иван Петров');
         vc.locations = $rootScope.locations;
         vc.monitorings = $rootScope.monitorings;
         vc.statuses = $rootScope.zoneStatuses;

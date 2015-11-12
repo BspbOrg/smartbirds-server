@@ -2,7 +2,7 @@
  * Created by groupsky on 11.11.15.
  */
 
-require('../app').service('authorization', function ($log, $q, $rootScope, $state, $timeout, user) {
+require('../app').service('authorization', function ($log, $q, $rootScope, $state, $timeout, User, user) {
   var service = this;
 
   function check() {
@@ -22,7 +22,7 @@ require('../app').service('authorization', function ($log, $q, $rootScope, $stat
       }
       return false;
     }
-    $rootScope.$user = user.getIdentity();
+    $rootScope.$user = User.apply(user.getIdentity());
     return true;
   }
 
