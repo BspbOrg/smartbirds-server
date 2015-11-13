@@ -42,7 +42,8 @@
     "pg": "^4.4.3",
     "pg-hstore": "^2.3.2",
     "sequelize": "^3.13.0",
-    "sequelize-cli": "^2.1.0"
+    "sequelize-cli": "^2.1.0",
+    "validator": "^4.2.1"
   },
   "browser": {
     "angular": "./bower_components/angular/angular.js",

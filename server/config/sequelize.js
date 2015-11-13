@@ -37,7 +37,7 @@ function parseDatabaseUrl(databaseUrl, options) {
 exports.default = {
   sequelize: function (api) {
     return parseDatabaseUrl(process.env.DATABASE_URL || 'postgres://smartbirds:secret@localhost:5432/smartbirds', {
-      autoMigrate: false,
+      autoMigrate: true,
       loadFixtures: false
     });
   }

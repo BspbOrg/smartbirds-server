@@ -32,6 +32,11 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false
+    },
+    imported: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
     }
   }, {
     indexes: [
@@ -40,6 +45,13 @@ module.exports = function (sequelize, DataTypes) {
         fields: ['email']
       },
     ],
+
+    classMethods: {
+      associate: function(models) {
+        // associations can be defined here
+        models.User.hasMany(model.UserMeta);
+      }
+    },
 
     instanceMethods: {
       name: function () {
