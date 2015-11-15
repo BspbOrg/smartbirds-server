@@ -22,7 +22,7 @@ require('../app').service('authorization', function ($log, $q, $rootScope, $stat
       }
       return false;
     }
-    $rootScope.$user = User.apply(user.getIdentity());
+    $rootScope.$user = user;
     return true;
   }
 

@@ -11,7 +11,7 @@
             </button>
             <a class="navbar-brand" ui-sref="auth.dashboard">
                 SmartBirds
-                <span ng-if="$user.isAdmin" class="text-danger">ADMIN</span>
+                <span ng-if="$user.isAdmin()" class="text-danger">ADMIN</span>
             </a>
         </div>
         <!-- /.navbar-header -->
@@ -36,7 +36,7 @@
             </li>
             <li class="dropdown" uib-dropdown>
                 <a href uib-dropdown-toggle>
-                    Здравей, {{$user.firstName}}
+                    Здравей, {{$user.getIdentity().firstName}}
                     <span class="caret"></span>
                 </a>
                 <ul uib-dropdown-menu>

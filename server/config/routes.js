@@ -3,7 +3,8 @@ exports.default = {
     return {
 
       get: [
-        { path: '/user',     action: 'user:view' },
+        { path: '/user', action: 'user:list' },
+        { path: '/user/:id',     action: 'user:view' },
         { path: '/docs',     action: 'showDocumentation' },
         { path: '/status',   action: 'status' },
       ],
@@ -11,16 +12,15 @@ exports.default = {
       post: [
         { path: '/session',  action: 'session:create' },
         { path: '/user',     action: 'user:create' },
+        { path: '/user/:id', action: 'user:edit' },
       ],
 
       put: [
         { path: '/session',  action: 'session:check' },
-        { path: '/user',     action: 'user:edit' },
       ],
 
       delete: [
         { path: '/session',  action: 'session:destroy' },
-        { path: '/registry', action: 'registry:destroy' },
       ],
     }
   }

@@ -10,7 +10,7 @@ require('../app')
         var i = null;
 
         vc.users = chance.unique(chance.name, 50);
-        vc.users.push($rootScope.$user && $rootScope.$user.name || 'Иван Петров');
+        vc.users.push($rootScope.$user && $rootScope.$user.getIdentity().firstName || 'Иван Петров');
         vc.locations = $rootScope.locations;
         vc.monitorings = $rootScope.monitorings;
         vc.statuses = $rootScope.zoneStatuses;
@@ -25,24 +25,24 @@ require('../app')
             }
         });
         var id=1;
-        $rootScope.rows = chance.n(function() {
-            var row = {
-                id: id++,
-                monitoring: chance.pick($rootScope.monitorings),
-                zone: chance.pick(vc.ownZones),
-                date: chance.date(),
-                species: chance.word(),
-                species_count: chance.integer({min:0,max:100})
-            };
-
-            $rootScope.locations.every(function(location){
-                if (location.zones.indexOf(row.zone) == -1) return true;
-                row.location = location;
-                return false;
-            });
-
-            return row;
-        }, 100);
+        //$rootScope.rows = chance.n(function() {
+        //    var row = {
+        //        id: id++,
+        //        monitoring: chance.pick($rootScope.monitorings),
+        //        zone: chance.pick(vc.ownZones),
+        //        date: chance.date(),
+        //        species: chance.word(),
+        //        species_count: chance.integer({min:0,max:100})
+        //    };
+        //
+        //    $rootScope.locations.every(function(location){
+        //        if (location.zones.indexOf(row.zone) == -1) return true;
+        //        row.location = location;
+        //        return false;
+        //    });
+        //
+        //    return row;
+        //}, 100);
 
 
         vc.filterZones = function(filter) {

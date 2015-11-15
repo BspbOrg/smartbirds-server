@@ -31,10 +31,11 @@ module.exports = {
           var sessionData = {
             userId: user.id,
             csrfToken: csrfToken,
-            sesionCreatedAt: new Date().getTime()
+            sesionCreatedAt: new Date().getTime(),
+            user: user
           };
 
-          user.updateAttributes({lastLoginAt: new Date()}).then(function () {
+          user.update({lastLoginAt: new Date()}).then(function () {
             api.redis.client.set(key, JSON.stringify(sessionData), function (error, data) {
               if (error) {
                 return callback(error);
@@ -78,11 +79,38 @@ module.exports = {
               api.redis.client.expire(key, api.session.ttl, callback);
             });
           }
+        },
+        'admin-role': {
+          name: 'admin-role',
+          global: false,
+          priority: 1500,
+          preProcessor: function (data, callback) {
+            if (!data.session.user.admin)
+              return callback(new Error('Admin required'));
+
+            callback();
+          }
+        },
+        'admin-or-me': {
+          name: 'admin-or-me',
+          global: false,
+          priority: 1500,
+          preProcessor: function(data, callback) {
+            if (!data.session.user.admin) {
+              if (data.params.id === 'me' || data.params.id == data.session.userId) {
+                data.params.id = data.session.userId;
+              } else {
+                return callback(new Error('Admin required'));
+              }
+            }
+          }
         }
       }
     };
 
     api.actions.addMiddleware(api.session.middleware['logged-in-session']);
+    api.actions.addMiddleware(api.session.middleware['admin-role']);
+    api.actions.addMiddleware(api.session.middleware['admin-or-me']);
 
     api.params.globalSafeParams.push('csrfToken');
 

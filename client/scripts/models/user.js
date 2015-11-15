@@ -2,21 +2,14 @@
  * Created by groupsky on 12.11.15.
  */
 
-require('../app').factory('User', function () {
+require('../app').factory('User', function ($resource, ENDPOINT_URL) {
   var ROLE_ADMIN = 'admin';
 
-  var proto = {
-    hasRole: function(role) {
-      if (!this.roles) return false;
-      return this.roles.indexOf(role) !== -1;
-    }
-  };
+  var User = $resource(ENDPOINT_URL + '/users/:id');
 
-  // constructor
-  var User = function () {
-
-    if (angular.isUndefined(this.prototype))
-      angular.extend(this, proto);
+  var resourceConstructor = User.prototype.constructor;
+  User.prototype.constructor = function () {
+    resourceConstructor.apply(this, arguments);
 
     Object.defineProperties(this, {
       name: {
@@ -27,10 +20,10 @@ require('../app').factory('User', function () {
         }
       },
       isAdmin: {
-        get: function() {
+        get: function () {
           return this.hasRole(ROLE_ADMIN);
         },
-        set: function(value) {
+        set: function (value) {
           if (value) {
             this.roles = this.roles || [];
             this.roles.indexOf(ROLE_ADMIN)
@@ -48,7 +41,12 @@ require('../app').factory('User', function () {
   };
 
   // methods
-  angular.extend(User.prototype, proto);
+  angular.extend(User.prototype, {
+    hasRole: function (role) {
+      if (!this.roles) return false;
+      return this.roles.indexOf(role) !== -1;
+    }
+  });
 
   return User;
 });
