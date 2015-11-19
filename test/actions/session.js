@@ -13,39 +13,35 @@ describe('Action: session', function () {
   var admin = 'admin@smartbirds.com';
   var password = 'secret';
 
-  before(function (done) {
-    setup.init(function(){
-      done();
-    });
+  before(function () {
+    return setup.init();
   });
 
-  after(function (done) {
-    setup.finish(done);
+  after(function () {
+    return setup.finish();
   });
 
   describe(':create', function () {
-    it('logins user', function (done) {
-      setup.api.specHelper.runAction('session:create', {
+    it('logins user', function () {
+      return setup.runAction('session:create', {
         email: user,
         password: password
-      }, function (response) {
+      }).then(function (response) {
         should.not.exists(response.error);
         should.exists(response.csrfToken);
         should.exists(response.user);
-        done();
       });
     });
 
-    it('logins admin', function (done) {
-      setup.api.specHelper.runAction('session:create', {
+    it('logins admin', function () {
+      return setup.runAction('session:create', {
         email: admin,
         password: password
-      }, function (response) {
+      }).then(function (response) {
         should.not.exists(response.error);
         should.exists(response.csrfToken);
         should.exists(response.user);
         response.user.isAdmin.should.be.true();
-        done();
       });
     });
   });

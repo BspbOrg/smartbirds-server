@@ -6,12 +6,12 @@ console.log(setup);
 
 describe('smartbirds Tests', function(){
 
-  before(function(done){
-    setup.init(done);
+  before(function(){
+    return setup.init();
   });
 
-  after(function(done){
-    setup.finish(done);
+  after(function(){
+    return setup.finish();
   });
 
   it('should have booted into the test env', function(){

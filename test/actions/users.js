@@ -6,20 +6,19 @@ var _ = require('lodash');
 var should = require('should');
 var setup = require('../_setup');
 
-describe('Action: user', function () {
+describe('Action user:', function () {
 
-  before(function (done) {
-    setup.init(done);
+  var user = {email: 'user@acme.corp', password: 'secret', firstName: "User", lastName: "Model"};
+
+  before(function () {
+    return setup.init();
   });
 
-  after(function (done) {
-    setup.finish(done);
+  after(function () {
+    return setup.finish();
   });
 
-  describe(':create', function () {
-
-    var user = {email: 'user@acme.corp', password: 'secret', firstName: "User", lastName: "Model"};
-
+  describe("given no user", function () {
     beforeEach(function () {
       return setup.api.models.user.findOne({where: {email: user.email}}).then(function (user) {
         if (user) {
@@ -28,180 +27,126 @@ describe('Action: user', function () {
       });
     });
 
-    it('fails w/o email', function (done) {
-      setup.api.specHelper.runAction('user:create', _.omit(user, 'email'), function (response) {
-        response.error.should.be.equal('Error: email is a required parameter for this action');
-        done();
-      });
-    });
-
-    it('fails w/o password', function (done) {
-      setup.api.specHelper.runAction('user:create', _.omit(user, 'password'), function (response) {
-        response.error.should.be.equal('Error: password is a required parameter for this action');
-        done();
-      });
-    });
-
-    it('fails w/o firstName', function (done) {
-      setup.api.specHelper.runAction('user:create', _.omit(user, 'firstName'), function (response) {
-        response.error.should.be.equal('Error: firstName is a required parameter for this action');
-        done();
-      });
-    });
-
-    it('fails w/o lastName', function (done) {
-      setup.api.specHelper.runAction('user:create', _.omit(user, 'lastName'), function (response) {
-        response.error.should.be.equal('Error: lastName is a required parameter for this action');
-        done();
-      });
-    });
-
-    it('creates user', function (done) {
-      setup.api.specHelper.runAction('user:create', user, function (response) {
-        should.not.exist(response.error);
-        response.data.id.should.be.greaterThan(0);
-        done();
-      });
-    });
-
-    it('fails w/o duplicated email', function (done) {
-      setup.api.specHelper.runAction('user:create', user, function (response) {
-        setup.api.specHelper.runAction('user:create', user, function (response) {
-          response.error.should.be.equal('Error: Validation error');
-          done();
-        });
-      });
-    });
-
-    it('cannot create admin', function (done) {
-      setup.api.specHelper.runAction('user:create', _.assign({}, user, {isAdmin: true}), function (response) {
-        should.not.exist(response.error);
-        response.data.isAdmin.should.be.false();
-        done();
-      });
-    });
-
-    describe('given a user', function () {
-      var userId;
-      beforeEach(function (done) {
-        setup.runActionAsGuest('user:create', user, function (response) {
-          userId = response.data.id;
-          done();
-        });
-      });
-
-      describe('guest', function () {
-        var runAction = setup.runActionAsGuest.bind(setup);
-        it('cannot view user', function (done) {
-          runAction('user:view', {id: userId}, function (response) {
-            response.should.have.property('error').and.be.equal('Error: Please log in to continue');
-            done();
+    setup.describeAllRoles(function (runAction) {
+      describe("fails to create w/o", function () {
+        it('email', function () {
+          return runAction('user:create', _.omit(user, 'email')).then(function (response) {
+            response.error.should.be.equal('Error: email is a required parameter for this action');
           });
         });
 
-        it('cannot edit user', function (done) {
-          runAction('user:edit', {id: userId, firstName: 'scam'}, function (response) {
-            response.should.have.property('error').and.be.equal('Error: Please log in to continue');
-            done();
+        it('password', function () {
+          return runAction('user:create', _.omit(user, 'password')).then(function (response) {
+            response.error.should.be.equal('Error: password is a required parameter for this action');
           });
         });
 
-        it('cannot list users', function (done) {
-          runAction('user:list', {}, function (response) {
-            response.should.have.property('error').and.be.equal('Error: Please log in to continue');
-            done();
+        it('firstName', function () {
+          return runAction('user:create', _.omit(user, 'firstName')).then(function (response) {
+            response.error.should.be.equal('Error: firstName is a required parameter for this action');
           });
+        });
+
+        it('lastName', function () {
+          return runAction('user:create', _.omit(user, 'lastName')).then(function (response) {
+            response.error.should.be.equal('Error: lastName is a required parameter for this action');
+          });
+        });
+      }); // fails to create w/o
+
+      it('creates user', function () {
+        return runAction('user:create', user).then(function (response) {
+          should.not.exist(response.error);
+          response.data.id.should.be.greaterThan(0);
         });
       });
 
-      describe('user', function () {
-        var runAction = setup.runActionAsUser.bind(setup);
-        it('cannot view user', function (done) {
-          runAction('user:view', {id: userId}, function (response) {
-            response.should.have.property('error').and.be.equal('Error: Admin required');
-            done();
-          });
-        });
-        it('cannot edit user', function (done) {
-          runAction('user:edit', {id: userId, firstName: 'scam'}, function (response) {
-            response.should.have.property('error').and.be.equal('Error: Admin required');
-            done();
-          });
-        });
+    }); // describeAllRoles
 
-        it('cannot list users', function (done) {
-          runAction('user:list', {}, function (response) {
-            response.should.have.property('error').and.be.equal('Error: Admin required');
-            done();
-          });
-        });
-      });
-
-      describe('admin', function () {
-        var runAction = setup.runActionAsAdmin.bind(setup);
-        it('can view user', function (done) {
-          runAction('user:view', {id: userId}, function (response) {
-            response.should.not.have.property('error');
-            response.should.have.property('data');
-            response.data.should.have.property('email').and.be.equal(user.email);
-            done();
-          });
-        });
-        it('can edit user', function (done) {
-          runAction('user:edit', {id: userId, firstName: 'scam'}, function (response) {
-            should(response).not.have.property('error');
-            response.should.have.property('data');
-            response.data.should.have.property('firstName').and.be.equal('scam');
-            done();
-          });
-        });
-        it('can list users', function (done) {
-          runAction('user:list', {}, function (response) {
-            response.should.not.have.property('error');
-            response.should.have.property('data');
-            done();
-          });
-        });
-      });
-    });
-
-
-    describe("logged user", function () {
-      it('can create user', function (done) {
-        setup.runActionAsUser('user:create', user, function (response) {
+    setup.describeAsRoles(['Guest', 'User'], function (runAction) {
+      it('cannot create admin', function () {
+        return runAction('user:create', _.assign({}, user, {isAdmin: true})).then(function (response) {
           should.not.exist(response.error);
           response.data.isAdmin.should.be.false();
-          done();
         });
       });
+    }); // describeAs Guest, User
 
-      it('cannot create admin', function (done) {
-        setup.runActionAsUser('user:create', _.assign({}, user, {isAdmin: true}), function (response) {
-          should.not.exist(response.error);
-          response.data.isAdmin.should.be.false();
-          done();
-        });
-      });
-    });
-
-    describe("logged admin", function () {
-
-      it('can create user', function (done) {
-        setup.runActionAsAdmin('user:create', user, function (response) {
-          should.not.exist(response.error);
-          response.data.isAdmin.should.be.false();
-          done();
-        });
-      });
-
-      it('can create admin', function (done) {
-        setup.runActionAsAdmin('user:create', _.assign({}, user, {isAdmin: true}), function (response) {
+    setup.describeAsAdmin(function (runAction) {
+      it('can create admin', function () {
+        return runAction('user:create', _.assign({}, user, {isAdmin: true}), function (response) {
           should.not.exist(response.error);
           response.data.isAdmin.should.be.true();
-          done();
         });
       });
-    })
-  });
+    }); // describeAsAdmin
 
-});
+  }); // given no user
+
+
+  describe('given a user', function () {
+    var userId;
+    before(function () {
+      return setup.api.models.user.findOne({where: {email: user.email}}).then(function (user) {
+        if (user) {
+          return user.destroy();
+        }
+      }).then(function () {
+        return setup.runActionAsGuest('user:create', user).then(function (response) {
+          userId = response.data.id;
+        });
+      });
+    });
+
+    setup.describeAllRoles(function (runAction) {
+      it('fails for duplicated email', function () {
+        return runAction('user:create', user).then(function (response) {
+          response.error.should.be.equal('Error: Validation error');
+        });
+      });
+    }); // describeAllRoles
+
+    setup.describeAsRoles(['Guest', 'User'], function (runAction) {
+      it('cannot view user', function () {
+        return runAction('user:view', {id: userId}).then(function (response) {
+          response.should.have.property('error').and.not.be.empty();
+        });
+      });
+
+      it('cannot edit user', function () {
+        return runAction('user:edit', {id: userId, firstName: 'scam'}).then(function (response) {
+          response.should.have.property('error').and.not.be.empty();
+        });
+      });
+
+      it('cannot list users', function () {
+        return runAction('user:list', {}).then(function (response) {
+          response.should.have.property('error').and.not.be.empty();
+        });
+      });
+    }); // describeAs Guest, User
+
+    setup.describeAsAdmin(function (runAction) {
+      it('can view user', function () {
+        return runAction('user:view', {id: userId}).then(function (response) {
+          response.should.not.have.property('error');
+          response.should.have.property('data');
+          response.data.should.have.property('email').and.be.equal(user.email);
+        });
+      });
+      it('can edit user', function () {
+        return runAction('user:edit', {id: userId, firstName: 'scam'}).then(function (response) {
+          should(response).not.have.property('error');
+          response.should.have.property('data');
+          response.data.should.have.property('firstName').and.be.equal('scam');
+        });
+      });
+      it('can list users', function () {
+        return runAction('user:list', {}).then(function (response) {
+          response.should.not.have.property('error');
+          response.should.have.property('data');
+        });
+      });
+    }); // describeAsAdmin
+  }); // given a user
+}); // Action: user
