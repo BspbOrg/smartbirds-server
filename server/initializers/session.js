@@ -54,63 +54,87 @@ module.exports = {
       },
 
       middleware: {
-        'logged-in-session': {
-          name: 'logged-in-session',
-          global: false,
+        session: {
+          name: 'session',
+          global: true,
           priority: 1000,
-          preProcessor: function (data, callback) {
+          preProcessor: function (data, next) {
             api.session.load(data.connection, function (error, sessionData) {
-              if (error) {
-                return callback(error);
+              // if we have a session load check it and store it
+              if (!error && sessionData) {
+                var csrfToken = data.connection.rawConnection.req && data.connection.rawConnection.req.headers['x-sb-csrf-token'] || data.params.csrfToken;
+
+                if (!csrfToken || csrfToken != sessionData.csrfToken) {
+                  data.csrfError = true;
+                  return next();
+                }
+
+                data.session = sessionData;
+                var key = api.session.prefix + data.connection.fingerprint;
+                api.redis.client.expire(key, api.session.ttl, function (error) {
+                  if (error)
+                    console.error('redis error', error);
+                  next(error);
+                });
+              } else {
+                // no session - moving on
+                return next();
               }
-
-              if (!sessionData) {
-                return callback(new Error('Please log in to continue'));
-              }
-
-              var csrfToken = data.connection.rawConnection.req.headers['x-sb-csrf-token'] || data.params.csrfToken;
-
-              if (!csrfToken || csrfToken != sessionData.csrfToken) {
-                return callback(new Error('CSRF error'));
-              }
-
-              data.session = sessionData;
-              var key = api.session.prefix + data.connection.fingerprint;
-              api.redis.client.expire(key, api.session.ttl, callback);
-            });
+            })
           }
         },
-        'admin-role': {
-          name: 'admin-role',
+        auth: {
+          name: 'auth',
           global: false,
-          priority: 1500,
-          preProcessor: function (data, callback) {
-            if (!data.session.user.admin)
-              return callback(new Error('Admin required'));
-
-            callback();
+          priority: 2000,
+          preProcessor: function (data, next) {
+            if (!data.session) {
+              return next(new Error('Please log in to continue'));
+            }
+            next();
           }
         },
-        'admin-or-me': {
-          name: 'admin-or-me',
+        admin: {
+          name: 'admin',
           global: false,
-          priority: 1500,
-          preProcessor: function(data, callback) {
-            if (!data.session.user.admin) {
+          priority: 3000,
+          preProcessor: function (data, next) {
+            if (!data.session) {
+              return next(new Error('Please log in to continue'));
+            }
+            if (!data.session.user.isAdmin) {
+              return next(new Error('Admin required'));
+            }
+
+            return next();
+          }
+        },
+        owner: {
+          name: 'owner',
+          global: false,
+          priority: 3000,
+          preProcessor: function (data, next) {
+            if (!data.session) {
+              return next(new Error('Please log in to continue'));
+            }
+            if (!data.session.user.isAdmin) {
               if (data.params.id === 'me' || data.params.id == data.session.userId) {
                 data.params.id = data.session.userId;
               } else {
-                return callback(new Error('Admin required'));
+                return next(new Error('Admin required'));
               }
+            } else {
+              return next();
             }
           }
         }
       }
     };
 
-    api.actions.addMiddleware(api.session.middleware['logged-in-session']);
-    api.actions.addMiddleware(api.session.middleware['admin-role']);
-    api.actions.addMiddleware(api.session.middleware['admin-or-me']);
+    api.actions.addMiddleware(api.session.middleware.session);
+    api.actions.addMiddleware(api.session.middleware.auth);
+    api.actions.addMiddleware(api.session.middleware.admin);
+    api.actions.addMiddleware(api.session.middleware.owner);
 
     api.params.globalSafeParams.push('csrfToken');
 

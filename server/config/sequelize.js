@@ -38,8 +38,18 @@ exports.default = {
   sequelize: function (api) {
     return parseDatabaseUrl(process.env.DATABASE_URL || 'postgres://smartbirds:secret@localhost:5432/smartbirds', {
       autoMigrate: true,
-      loadFixtures: false
+      loadFixtures: false,
     });
+  }
+};
+
+exports.test = {
+  sequelize: function (api) {
+    return {
+      autoMigrate: true,
+      loadFixtures: true,
+      dialect: 'sqlite'
+    }
   }
 };
 
@@ -47,7 +57,7 @@ exports.default = {
 // Add to the exports below, if you have setup additional environment-specific settings
 
 exports.development = exports.default.sequelize();
-//exports.test = merge(exports.test);
+exports.test = merge(exports.test);
 //exports.production = merge(exports.production);
 
 function merge(overlayFn) {

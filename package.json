@@ -9,7 +9,10 @@
     "live-reload": "latest",
     "mocha": "latest",
     "parallelshell": "latest",
+    "request": "^2.67.0",
+    "sequelize-fixtures": "latest",
     "should": "latest",
+    "sqlite3": "latest",
     "watchify": "latest"
   },
   "scripts": {
@@ -17,7 +20,7 @@
     "start": "npm run ah -- start",
     "ah": "PROJECT_ROOT=`pwd`/server actionhero",
     "sq": "sequelize",
-    "test": "mocha",
+    "test": "NODE_ENV=test PROJECT_ROOT=`pwd`/server mocha",
     "dev": "parallelshell 'npm run build:watch' 'npm run ah start'",
     "build:js": "browserify ./client/scripts/app.js -d -o ./public/js/scripts.js",
     "build:watch": "watchify ./client/scripts/app.js -d -o ./public/js/scripts.js -v",
@@ -29,7 +32,7 @@
   },
   "dependencies": {
     "actionhero": "~12.1.2",
-    "ah-sequelize-plugin": "^0.7.2",
+    "ah-sequelize-plugin": "https://github.com/groupsky/ah-sequelize-plugin.git#master",
     "bcrypt": "^0.8.5",
     "bluebird": "^3.0.5",
     "bower": "~1.6.5",
@@ -39,6 +42,7 @@
     "bulkify": "~1.1.1",
     "csv-parse": "^1.0.0",
     "http-server": "~0.8.5",
+    "lodash": "^3.10.1",
     "pg": "^4.4.3",
     "pg-hstore": "^2.3.2",
     "sequelize": "^3.13.0",

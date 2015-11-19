@@ -19,11 +19,18 @@ require('../app')
       return angular.isDefined($cookies.get(_sessionKey));
     };
     service.isInRole = function (role) {
-      if (!service.isAuthenticated() || !_identity.roles) return false;
-      return _identity.roles.indexOf(role) !== -1;
+      if (!service.isAuthenticated()) return false;
+      switch (role) {
+        case 'user':
+          return true;
+        case 'admin':
+          return _identity.isAdmin;
+        default:
+          return false;
+      }
     };
     service.isInAnyRole = function (roles) {
-      if (!service.isAuthenticated() || !_identity.roles) return false;
+      if (!service.isAuthenticated()) return false;
       return roles.some(function (role) {
         return service.isInRole(role);
       });

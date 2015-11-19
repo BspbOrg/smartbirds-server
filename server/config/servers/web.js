@@ -17,7 +17,7 @@ exports.default = {
           'X-Powered-By'                : api.config.general.serverName,
           'Access-Control-Allow-Origin' : 'http://172.17.42.1:9966',
           'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS, TRACE',
-          'Access-Control-Allow-Headers': 'Content-Type',
+          'Access-Control-Allow-Headers': 'Content-Type, X-SB-CSRF-Token',
           'Access-Control-Allow-Credentials': 'true'
         },
         // Route that actions will be served from; secondary route against this route will be treated as actions,

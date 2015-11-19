@@ -33,7 +33,7 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: true,
       },
-      'admin': {
+      'isAdmin': {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: false
@@ -46,13 +46,12 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    }, {
-      indexes: [
-        {
+    }).then(function () {
+      return queryInterface.addIndex('Users', {
           unique: true,
           fields: ['email']
         }
-      ]
+      );
     });
   },
 

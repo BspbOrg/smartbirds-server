@@ -74,6 +74,21 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       })
 
       ///////////
+      // Users //
+      ///////////
+      .state('auth.users', {
+        url: '/users',
+        views: {
+          'content': {
+            templateUrl: '/views/users/list.html',
+            controller: 'UsersController',
+            controllerAs: 'usersController'
+          }
+        }
+      })
+
+
+      ///////////
       // Monitorings //
       ///////////
       .state('auth.monitoring', {

@@ -9,7 +9,8 @@ require('../app').controller('SessionController', function ($log,
                                                             $stateParams,
                                                             api,
                                                             flashService,
-                                                            user) {
+                                                            user,
+                                                            User) {
 
   var ctrl = this;
 
@@ -40,19 +41,19 @@ require('../app').controller('SessionController', function ($log,
   ctrl.register = function (user) {
     ctrl.loading = true;
     $scope.form.$setPristine();
-    api.user.create(user, user, function (response) {
+    User.save(user).$promise.then(function (response) {
       $log.debug('user created', response);
       flashService.success("Account created successfully", true);
       $state.go('login', {email: response.user.email});
     }, function (response) {
       $log.debug('error creating user', response);
       flashService.error(response.data.error || 'Could not create account');
-    }).$promise.finally(function () {
+    }).finally(function () {
       ctrl.loading = false;
     });
   };
 
-  ctrl.logout = function() {
+  ctrl.logout = function () {
     user.logout();
     $state.go('home');
   };

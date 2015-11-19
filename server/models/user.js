@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var bcrypt = require('bcrypt');
 var bcryptComplexity = 10;
 
@@ -28,7 +29,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: true,
     },
-    'admin': {
+    'isAdmin': {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false
@@ -86,8 +87,13 @@ module.exports = function (sequelize, DataTypes) {
           email: this.email,
           firstName: this.firstName,
           lastName: this.lastName,
-          roles: ['user'].concat(this.admin?['admin']:[])
+          lastLoginAt: this.lastLoginAt,
+          isAdmin: this.isAdmin
         };
+      },
+
+      apiUpdate: function (data) {
+        _.assign(this, _.pick(data, 'firstName', 'lastName'));
       }
     }
   });

@@ -1,1 +1,2 @@
-require('../app').constant('ENDPOINT_URL', 'http://localhost:5000/api');
+
+require('../app').constant('ENDPOINT_URL', 'http://'+window.location.hostname+':5000/api');

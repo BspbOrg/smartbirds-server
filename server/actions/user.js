@@ -1,3 +1,5 @@
+var _ = require('lodash');
+
 exports.userCreate = {
   name: 'user:create',
   description: 'user:create',
@@ -8,11 +10,15 @@ exports.userCreate = {
     email: {required: true},
     password: {required: true},
     firstName: {required: true},
-    lastName: {required: true}
+    lastName: {required: true},
+    isAdmin: {default: false}
   },
 
   run: function (api, data, next) {
-    var user = api.models.user.build(data.params);
+    var user = api.models.user.build(data.params, this.inputs);
+    user.isAdmin = !!(data.session && data.session.user.isAdmin && data.params.isAdmin);
+    user.lastLoginAt = null;
+    user.imported = false;
     user.updatePassword(data.params.password, function (error) {
       if (error) {
         return next(error);
@@ -21,10 +27,11 @@ exports.userCreate = {
       user.save()
         .then(function (userObj) {
           data.response.data = userObj.apiData(api);
-          next(error);
+          next();
         })
-        .catch(function (errors) {
-          next(errors.errors[0].message);
+        .catch(function (error) {
+          console.error('userCreate error:', error);
+          next(error && error.error && Array.isArray(error.error) && error.error[0].message || error);
         });
     });
   }
@@ -34,7 +41,7 @@ exports.userView = {
   name: 'user:view',
   description: 'user:view',
   outputExample: {},
-  middleware: ['logged-in-session', 'admin-or-me'],
+  middleware: ['auth', 'owner'],
 
   inputs: {
     id: {required: true}
@@ -58,7 +65,7 @@ exports.userEdit = {
   name: 'user:edit',
   description: 'user:edit',
   outputExample: {},
-  middleware: ['logged-in-session', 'admin-or-me'],
+  middleware: ['auth', 'owner'],
 
   inputs: {
     id: {required: true},
@@ -73,20 +80,21 @@ exports.userEdit = {
         if (!user) {
           return next(new Error('user not found'));
         }
-        user.update(data.params).then(function () {
-          data.response.user = user.apiData(api);
-          if (data.params.password) {
-            user.updatePassword(data.params.password, function (error) {
-              if (error) {
-                return callback(error);
-              }
-              user.save().then(function () {
-                next();
-              }).catch(next);
-            });
-          } else {
-            next();
-          }
+        //if (data.params.password) {
+        //  user.updatePassword(data.params.password, function (error) {
+        //    if (error) {
+        //      return callback(error);
+        //    }
+        //    user.save().then(function () {
+        //      next();
+        //    }).catch(next);
+        //  });
+        //}
+        user.apiUpdate(data.params);
+        user.save().then(function () {
+          data.response.data = user.apiData(api);
+          console.log(data.response, user);
+          next();
         }).catch(next);
       })
       .catch(next)
@@ -98,10 +106,10 @@ exports.userList = {
   name: "user:list",
   description: "List users. Requires admin role",
   outputExample: {
-    data: [{id: 1, email: 'user@example.com', firstName: 'John', lastName: 'Doe', roles: ['user']}],
+    data: [{id: 1, email: 'user@example.com', firstName: 'John', lastName: 'Doe', isAdmin: false}],
     count: 123
   },
-  middleware: ['logged-in-session', 'admin-role'],
+  middleware: ['admin'],
 
   inputs: {
     limit: {required: false, default: 20},
@@ -109,7 +117,6 @@ exports.userList = {
   },
 
   run: function (api, data, next) {
-
     var limit = Math.min(1000, data.params.limit || 20);
     var offset = data.params.offset || 0;
 
@@ -121,6 +128,8 @@ exports.userList = {
       data.response.data = result.rows.map(function (user) {
         return user.apiData(api);
       });
+      if (result.count > limit + offset)
+        data.connection.rawConnection.responseHttpCode = 206;
       next();
     }).catch(next);
   }

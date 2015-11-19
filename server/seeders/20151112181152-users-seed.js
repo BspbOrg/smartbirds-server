@@ -3,7 +3,7 @@
 var Promise = require('bluebird');
 
 module.exports = {
-  up: function (queryInterface, Sequelize) {
+  up: function (queryInterface, Sequelize, next) {
     var fs = require('fs');
     var parse = require('csv-parse');
     var parser = parse({columns: true, skip_empty_lines: true});
@@ -100,7 +100,7 @@ module.exports = {
           resolve(Promise.all(inserts));
         });
 
-    });
+    }).finally(next);
   },
 
   down: function (queryInterface, Sequelize) {

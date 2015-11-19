@@ -5,12 +5,12 @@
 require('../app').factory('csrfInterceptor', function($q, $cookies) {
   return {
     request: function(config) {
-      //var session = $cookies.get('sb-csrf-token');
+      var session = $cookies.get('sb-csrf-token');
       config.withCredentials = true;
+      config.headers['x-sb-csrf-token'] = session;
       return config;
     },
     response: function(response) {
-      console.log('csrf response', response);
       return response;
     }
   }
