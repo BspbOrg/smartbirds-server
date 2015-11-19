@@ -2,7 +2,6 @@ process.env.NODE_ENV = 'test';
 
 var should = require('should');
 var setup = require("./_setup");
-console.log(setup);
 
 describe('smartbirds Tests', function(){
 

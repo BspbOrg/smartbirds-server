@@ -48,7 +48,8 @@ exports.test = {
     return {
       autoMigrate: true,
       loadFixtures: true,
-      dialect: 'sqlite'
+      dialect: 'sqlite',
+      logging: process.env.LOG_DB?console.log:null
     }
   }
 };

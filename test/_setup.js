@@ -31,13 +31,11 @@ var setup = {
     });
   },
   runActionAs: function (action, params, user) {
-    console.log("=============== " + action + " as " + user);
     return setup.runAction('session:create', {
       email: user,
       password: "secret"
     }).then(function (response) {
       response.should.have.property('csrfToken').and.not.be.empty();
-      console.log("=========== logged in as", response.user.isAdmin ? 'admin' : 'user');
       var connection = new setup.api.specHelper.connection();
       connection.params = _.assign({}, params);
       connection.rawConnection.req = {headers: {'x-sb-csrf-token': response.csrfToken}};

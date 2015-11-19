@@ -7,7 +7,7 @@ var _ = require('lodash');
 var should = require('should');
 var setup = require('../_setup');
 
-describe('Action: session', function () {
+describe('Action session:', function () {
 
   var user = 'user@smartbirds.com';
   var admin = 'admin@smartbirds.com';

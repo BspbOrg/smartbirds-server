@@ -93,7 +93,6 @@ exports.userEdit = {
         user.apiUpdate(data.params);
         user.save().then(function () {
           data.response.data = user.apiData(api);
-          console.log(data.response, user);
           next();
         }).catch(next);
       })
