@@ -5,6 +5,7 @@
 var _ = require('lodash');
 var should = require('should');
 var setup = require('../_setup');
+var Promise = require('bluebird');
 
 describe('Action user:', function () {
 
@@ -147,6 +148,70 @@ describe('Action user:', function () {
           response.should.have.property('data');
         });
       });
+      it('can promote to admin', function () {
+        return runAction('user:edit', {id: userId, isAdmin: true}).then(function (response) {
+          should(response).not.have.property('error');
+          response.should.have.property('data');
+          response.data.should.have.property('isAdmin').and.be.true();
+        });
+      });
     }); // describeAsAdmin
   }); // given a user
+
+  describe('given owner', function () {
+    var email = "user@smartbirds.com";
+    var userId;
+
+    before(function () {
+      return setup.api.models.user.findOne({where: {email: email}}).then(function (user) {
+        if (!user) return Promise.reject("User doesn't exists");
+        userId = user.id;
+      });
+    });
+
+    setup.describeAsUser(function (runAction) {
+      it('can view own user', function () {
+        return runAction('user:view', {id: userId}).then(function (response) {
+          response.should.not.have.property('error');
+          response.should.have.property('data');
+          response.data.should.have.property('email').and.be.equal(email);
+        });
+      });
+      it('can view me user', function () {
+        return runAction('user:view', {id: 'me'}).then(function (response) {
+          response.should.not.have.property('error');
+          response.should.have.property('data');
+          response.data.should.have.property('email').and.be.equal(email);
+        });
+      });
+      it('can edit own user', function () {
+        return runAction('user:edit', {id: userId, firstName: 'scam'}).then(function (response) {
+          should(response).not.have.property('error');
+          response.should.have.property('data');
+          response.data.should.have.property('firstName').and.be.equal('scam');
+        });
+      });
+      it('can edit me user', function () {
+        return runAction('user:edit', {id: 'me', firstName: 'scam'}).then(function (response) {
+          should(response).not.have.property('error');
+          response.should.have.property('data');
+          response.data.should.have.property('firstName').and.be.equal('scam');
+        });
+      });
+      it('cannot self-promote to admin', function () {
+        return runAction('user:edit', {id: userId, isAdmin: true}).then(function (response) {
+          should(response).not.have.property('error');
+          response.should.have.property('data');
+          response.data.should.have.property('isAdmin').and.be.false();
+        });
+      });
+      it('cannot me-promote to admin', function () {
+        return runAction('user:edit', {id: 'me', isAdmin: true}).then(function (response) {
+          should(response).not.have.property('error');
+          response.should.have.property('data');
+          response.data.should.have.property('isAdmin').and.be.false();
+        });
+      });
+    });
+  });
 }); // Action: user

@@ -120,6 +120,7 @@ module.exports = {
             if (!data.session.user.isAdmin) {
               if (data.params.id === 'me' || data.params.id == data.session.userId) {
                 data.params.id = data.session.userId;
+                next();
               } else {
                 return next(new Error('Admin required'));
               }

@@ -73,6 +73,7 @@ exports.userEdit = {
     password: {required: false},
     firstName: {required: false},
     lastName: {required: false},
+    isAdmin: {required: false}
   },
 
   run: function (api, data, next) {
@@ -91,6 +92,8 @@ exports.userEdit = {
         //  });
         //}
         user.apiUpdate(data.params);
+        if (data.session.user.isAdmin && 'isAdmin' in data.params)
+          user.isAdmin = data.params.isAdmin;
         user.save().then(function () {
           data.response.data = user.apiData(api);
           next();
