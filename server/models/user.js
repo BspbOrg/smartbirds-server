@@ -50,7 +50,8 @@ module.exports = function (sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         // associations can be defined here
-        models.User.hasMany(model.UserMeta);
+        models.user.hasMany(models.usermeta);
+        //models.user.hasMany(models.zone, {foreignKey: 'ownerId', as: 'zones'});
       }
     },
 

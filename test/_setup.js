@@ -25,6 +25,7 @@ var setup = {
   // promisify
   runAction: function (action, params) {
     return Promise.fromNode(function (callback) {
+      console.log("runAction:", action);
       setup.api.specHelper.runAction(action, params, function (response) {
         callback(null, response);
       });

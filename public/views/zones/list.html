@@ -66,13 +66,13 @@
 <div class="row">
 
     <div
-        ng-repeat="zone in data.zones | filter:data.filterZones($user.isAdmin?data.filter:{owner:$user.name}) | limitTo:25"
+        ng-repeat="zone in rows | filter:zonesController.filterZones($user.isAdmin?data.filter:false) | limitTo:25"
         class="col-md-6 col-lg-4">
         <div class="panel zone"
              ng-class="zone.status=='owned'?'panel-primary':zone.status=='requested'?'panel-warning':'panel-default'">
             <div class="panel-heading">
                 <i class="fa fa-map-o fa-fw"></i>
-                {{zone.location}}
+                {{zone.location.type.bg}} {{zone.location.name.bg}}, {{zone.location.area.bg}}
                 <span class="hidden">({{zone.status}})</span>
 
                 <div class="pull-right">
@@ -100,9 +100,9 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <!--<img src="/img/map_placeholder.gif" width="100%" class="userMap">-->
-                <ui-gmap-google-map center='zone.center' zoom='14' options="{mapTypeId: 'satellite'}">
+                <ui-gmap-google-map center='zone.getCenter()' zoom='14' options="{mapTypeId: 'satellite'}">
                     <ui-gmap-polygon static="true"
-                                     path="zone.path"
+                                     path="zone.coordinates"
                                      fill="{color: zone.status=='free'?'#fff':zone.status=='owned'?'#f00':'#f90', opacitiy: 0.4}"
                                      stroke="{color: zone.status=='free'?'#fff':zone.status=='owned'?'#f00':'#f90', opacity: 0.7, weight: 0.5}"
                                      geodesic="true"
@@ -132,7 +132,10 @@
                             <div ng-bind-html="owner | uibTypeaheadHighlight:$select.search"></div>
                         </ui-select-choices>
                     </ui-select>
-                    <span ng-if="$user.isAdmin && !zone.$chooseOwner">{{zone.owner|default:'свободна площадка'}}</span>
+                    <span ng-if="$user.isAdmin && !zone.$chooseOwner">
+                        <a ng-if="zone.owner" href>{{zone.owner.firstName}} {{zone.owner.lastName}}</a>
+                        <span ng-if="!zone.owner">свободна площадка</span>
+                    </span>
 
                     <div class="actions pull-right">
                         <div class="btn-group">

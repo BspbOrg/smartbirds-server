@@ -7,7 +7,9 @@ module.exports = [
     model: "zone",
     data: {
       id: "user zone",
-      ownerId: 1
+      owner: {
+        email: "user@smartbirds.com"
+      }
     }
   },
   {
@@ -21,7 +23,7 @@ module.exports = [
     model: "zone",
     data: {
       id: "admin zone",
-      ownerId: 2
+      owner: {email:"admin@smartbirds.com"}
     }
   }
 

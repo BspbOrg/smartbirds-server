@@ -29,7 +29,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         // associations can be defined here
-        models.zone.hasOne(models.user, {foreignKey: 'ownerId'});
+        models.zone.belongsTo(models.user, {as: 'owner'});
       }
     },
     instanceMethods: {
@@ -37,10 +37,10 @@ module.exports = function(sequelize, DataTypes) {
         return {
           id: this.id,
           coordinates: [
-            {lat: this.lat1, lon: this.lon1},
-            {lat: this.lat2, lon: this.lon2},
-            {lat: this.lat3, lon: this.lon3},
-            {lat: this.lat4, lon: this.lon4}
+            {latitude: this.lat1, longitude: this.lon1},
+            {latitude: this.lat2, longitude: this.lon2},
+            {latitude: this.lat3, longitude: this.lon3},
+            {latitude: this.lat4, longitude: this.lon4}
           ],
           location: {
             name: {
@@ -56,9 +56,7 @@ module.exports = function(sequelize, DataTypes) {
               en: this.locationTypeEn
             }
           },
-          owner: {
-            id: this.ownerId
-          }
+          owner: this.owner?this.owner.apiData(api):(this.ownerId?{id: this.ownerId}:null)
         };
       }
     }

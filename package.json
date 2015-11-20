@@ -38,7 +38,6 @@
   },
   "dependencies": {
     "actionhero": "~12.1.2",
-    "ah-sequelize-plugin": "https://github.com/groupsky/ah-sequelize-plugin.git#master",
     "bcrypt": "~0.8.5",
     "bluebird": "~3.0.5",
     "bower": "~1.6.5",
@@ -55,7 +54,8 @@
     "pg-hstore": "~2.3.2",
     "sequelize": "~3.13.0",
     "sequelize-cli": "~2.1.0",
-    "validator": "~4.2.1"
+    "validator": "~4.2.1",
+    "umzug": "^1.6.0"
   },
   "browser": {
     "angular": "./bower_components/angular/angular.js",

@@ -108,7 +108,11 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       .state('auth.zones', {
         url: '/zones',
         views: {
-          'content': {templateUrl: '/views/zones/index.html'}
+          'content': {
+            templateUrl: '/views/zones/list.html',
+            controller: 'ZonesController',
+            controllerAs: 'zonesController'
+          }
         }
       })
 

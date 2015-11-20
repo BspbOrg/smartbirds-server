@@ -8,19 +8,27 @@ exports.zoneList = {
   middleware: ['auth'],
 
   run: function (api, data, next) {
-    var q = {};
+    var q = {
+    };
     if (!data.session.user.isAdmin) {
       q.where = {
         ownerId: data.session.userId
       };
+    } else {
+      q.include = [{model: api.models.user, as: 'owner'}];
     }
-    api.models.zone.findAndCountAll(q).then(function(result){
-      data.response.count = result.count;
-      data.response.data = result.rows.map(function(zone){
-        return zone.apiData(api);
+    try {
+      api.models.zone.findAndCountAll(q).then(function (result) {
+        data.response.count = result.count;
+        data.response.data = result.rows.map(function (zone) {
+          return zone.apiData(api);
+        });
+        next();
       });
-      next();
-    });
+    } catch (e) {
+      console.error(e);
+      next(e);
+    }
   }
 };
 //

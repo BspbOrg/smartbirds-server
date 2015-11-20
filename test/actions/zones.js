@@ -36,9 +36,12 @@ describe('Zones:', function () {
           response.should.not.have.property('error');
           response.should.have.property('data').and.be.instanceof(Array).and.have.lengthOf(1);
           response.should.have.property('count').and.be.equal(1);
+          response.data[0].should.have.property('owner');
+          response.data[0].owner.should.have.property('id').and.be.equal(1);
         });
       });
     }); // as user
+
 
     setup.describeAsAdmin(function (runAction) {
       it('can list all zones', function () {
@@ -46,6 +49,8 @@ describe('Zones:', function () {
           response.should.not.have.property('error');
           response.should.have.property('data').and.be.instanceof(Array).and.have.lengthOf(3);
           response.should.have.property('count').and.be.equal(3);
+          response.data[0].should.have.property('owner');
+          response.data[0].owner.should.have.property('email').and.be.equal("user@smartbirds.com");
         });
       });
     }); // as admin
