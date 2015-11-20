@@ -6,6 +6,7 @@ exports.default = {
         { path: '/user', action: 'user:list' },
         { path: '/user/:id',     action: 'user:view' },
         { path: '/zone', action: 'zone:list' },
+        { path: '/zone/:id', action: 'zone:view' },
         { path: '/docs',     action: 'showDocumentation' },
         { path: '/status',   action: 'status' },
       ],

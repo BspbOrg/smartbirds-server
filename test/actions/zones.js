@@ -21,11 +21,20 @@ describe('Zones:', function () {
     return setup.finish();
   });
 
+  var testZones = ['user zone', 'free zone', 'admin zone'];
+
   describe('given some zones', function () {
     setup.describeAsGuest(function (runAction) {
       it('cannot list', function () {
         return runAction('zone:list', {}).then(function (response) {
           response.should.have.property('error').and.not.empty();
+        });
+      });
+      testZones.forEach(function(zone) {
+        it('cannot view '+zone, function () {
+          return runAction('zone:view', {id: zone}).then(function (response) {
+            response.should.have.property('error').and.not.empty();
+          });
         });
       });
     }); // as guest
@@ -40,6 +49,21 @@ describe('Zones:', function () {
           response.data[0].owner.should.have.property('id').and.be.equal(1);
         });
       });
+      testZones.slice(1).forEach(function(zone) {
+        it('cannot view '+zone, function () {
+          return runAction('zone:view', {id: zone}).then(function (response) {
+            response.should.have.property('error').and.not.empty();
+          });
+        });
+      });
+      testZones.slice(0, 1).forEach(function(zone) {
+        it('can view '+zone, function () {
+          return runAction('zone:view', {id: zone}).then(function (response) {
+            response.should.not.have.property('error');
+            response.should.have.property('data');
+          });
+        });
+      });
     }); // as user
 
 
@@ -51,6 +75,14 @@ describe('Zones:', function () {
           response.should.have.property('count').and.be.equal(3);
           response.data[0].should.have.property('owner');
           response.data[0].owner.should.have.property('email').and.be.equal("user@smartbirds.com");
+        });
+      });
+      testZones.forEach(function(zone) {
+        it('can view '+zone, function () {
+          return runAction('zone:view', {id: zone}).then(function (response) {
+            response.should.not.have.property('error');
+            response.should.have.property('data');
+          });
         });
       });
     }); // as admin

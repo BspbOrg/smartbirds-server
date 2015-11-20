@@ -31,13 +31,33 @@ exports.zoneList = {
     }
   }
 };
-//
-//exports.zoneView = {
-//  name: 'zone:view',
-//  middleware: ['auth'],
-//  inputs: {id: {required: true}},
-//
-//  run: function (api, data, next) {
-//    next();
-//  }
-//};
+
+exports.zoneView = {
+  name: 'zone:view',
+  description: 'zone:view',
+  middleware: ['auth'],
+  inputs: {id: {required: true}},
+
+  run: function (api, data, next) {
+    var q = {where: {id: data.params.id}};
+    if (data.session.user.isAdmin) {
+      q.include = [{model: api.models.user, as: 'owner'}];
+    }
+    api.models.zone.findOne(q).then(function (zone) {
+        if (!zone) {
+          data.connection.rawConnection.responseHttpCode = 404;
+          return next(new Error('zone not found'));
+        }
+
+        if (!data.session.user.isAdmin && zone.ownerId != data.session.userId) {
+          data.connection.rawConnection.responseHttpCode = 401;
+          return next(new Error('no permission'));
+        }
+
+        data.response.data = zone.apiData(api);
+        next();
+      })
+      .catch(next)
+    ;
+  }
+};
