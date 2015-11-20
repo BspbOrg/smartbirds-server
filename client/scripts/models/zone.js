@@ -2,15 +2,20 @@
  * Created by groupsky on 20.11.15.
  */
 
-require('../app').factory('Zone', function($resource, ENDPOINT_URL) {
+var angular = require('angular'),
+  isDefined = angular.isDefined,
+  isUndefined = angular.isUndefined;
 
-  var Zone = $resource(ENDPOINT_URL+'/zone/:id', {
+require('../app').factory('Zone', function ($resource, ENDPOINT_URL) {
+
+  var Zone = $resource(ENDPOINT_URL + '/zone/:id', {
     id: '@id'
   });
 
   // methods
   angular.extend(Zone.prototype, {
-    getCenter: function() {
+    getCenter: function () {
+      if (isUndefined(this.coordinates)) return;
       return this.center = this.center || {
           latitude: this.coordinates.reduce(function (sum, point) {
             return sum + point.latitude;
@@ -20,7 +25,8 @@ require('../app').factory('Zone', function($resource, ENDPOINT_URL) {
           }, 0) / this.coordinates.length
         }
     },
-    getStatus: function() {
+    getStatus: function () {
+      if (isUndefined(this.owner)) return;
       return this.owner ? 'owned' : 'free';
     }
   });

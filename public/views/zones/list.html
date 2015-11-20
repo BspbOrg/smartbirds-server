@@ -135,7 +135,7 @@
                         </ui-select-choices>
                     </ui-select>
                     <span ng-if="$user.isAdmin && !zone.$chooseOwner">
-                        <a ng-if="zone.owner" href>{{zone.owner.firstName}} {{zone.owner.lastName}}</a>
+                        <a ng-if="zone.owner" href ui-sref="auth.users.view({id: zone.owner.id})">{{zone.owner.firstName}} {{zone.owner.lastName}}</a>
                         <span ng-if="!zone.owner">свободна площадка</span>
                     </span>
 

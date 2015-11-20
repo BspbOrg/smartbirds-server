@@ -2,7 +2,42 @@
     <div class="col-lg-12">
         <h1 class="page-header">
             Площадка {{zone.id}}
+            <small>
+                {{zone.location.type.bg}} {{zone.location.name.bg}}, {{zone.location.area.bg}}
+            </small>
         </h1>
     </div>
 </div>
 
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="owner">Наблюдател</label>
+                                <input id="owner" class="form-control" disabled
+                                       value="{{zone.owner.firstName}} {{zone.owner.lastName}} {{!zone.owner && 'няма'}}">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="zone">
+            <ui-gmap-google-map center='zone.getCenter()' zoom='14' options="{mapTypeId: 'satellite'}">
+                <ui-gmap-polygon static="true"
+                                 path="zone.coordinates"
+                                 fill="{color: zone.getStatus()=='free'?'#fff':zone.getStatus()=='owned'?'#f00':'#f90', opacitiy: 0.4}"
+                                 stroke="{color: zone.getStatus()=='free'?'#fff':zone.getStatus()=='owned'?'#f00':'#f90', opacity: 0.7, weight: 0.5}"
+                                 geodesic="true"
+                                 fit="true"
+                ></ui-gmap-polygon>
+            </ui-gmap-google-map>
+        </div>
+    </div>
+</div>
