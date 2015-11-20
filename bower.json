@@ -29,6 +29,9 @@
     "ui-select": "angular-ui-select#~0.13.2",
     "angular-validation-match": "~1.6.0",
     "angular-resource": "~1.4.7",
-    "angular-cookies": "~1.4.7"
+    "angular-cookies": "~1.4.7",
+    "bootstrap": "~3.3.5",
+    "font-awesome": "fontawesome#~4.2.0",
+    "startbootstrap-sb-admin-2": "~1.0.7"
   }
 }
