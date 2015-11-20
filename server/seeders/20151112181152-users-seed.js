@@ -1,6 +1,7 @@
 'use strict';
 
 var Promise = require('bluebird');
+var _ = require('lodash');
 
 module.exports = {
   up: function (queryInterface, Sequelize, next) {
@@ -13,6 +14,12 @@ module.exports = {
     var uniqueId = 0;
     var validator = require('validator');
     var cnt = 0;
+    var usersCache = {};
+    var counts = {
+      rows: 0,
+      users: 0,
+      zones: 0
+    };
 
     function notify(force) {
       if (!force && Date.now() - lastNotice < 5000) return;
@@ -20,13 +27,35 @@ module.exports = {
       console.log('waiting ' + (inserts.length - completed) + "/" + inserts.length);
     }
 
-    function findId(email) {
-      return queryInterface.rawSelect('Users', {
-        attributes: ['id'],
-        where: {
-          email: email
-        }
-      }, 'id');
+    function findId(user) {
+      var email = user.email;
+      if (email in usersCache) return usersCache[email];
+      return usersCache[email] = usersCache[email] || queryInterface.rawSelect('Users', {
+            attributes: ['id'],
+            where: {
+              email: email
+            }
+          }, 'id')
+
+          .then(function (id) {
+            if (id !== null)
+              return id;
+
+            return queryInterface.insert(null, 'Users', user)
+              .then(function () {
+                counts.users++;
+                return queryInterface.rawSelect('Users', {
+                  attributes: ['id'],
+                  where: {
+                    email: email
+                  }
+                }, 'id')
+              });
+          })
+
+          .then(function (id) {
+            return usersCache[email] = id;
+          });
     }
 
     function genMetas(userId, values) {
@@ -51,39 +80,42 @@ module.exports = {
       .on('readable', function () {
         var rec, i, metas = [];
         while (rec = parser.read()) {
+          counts.rows++;
           var record = rec;
 
           var email = validator.isEmail(record['e_mail']) && record['e_mail'] || ((record['Квадрат'] || ('user' + (uniqueId++))) + '@smartbirds.bspb.org');
 
-          inserts.push(findId(email).then(function (id) {
-            if (id !== null)
-              return id;
-
-            return queryInterface.insert(null, 'Users', {
-              email: email,
-              passwordHash: 'imported hash',
-              passwordSalt: 'imported salt',
-              firstName: record['Име'].trim(),
-              lastName: record['Фамилия'].trim(),
-              createdAt: new Date(),
-              updatedAt: new Date(),
-              imported: true
-            }).then(function () {
-              return findId(email);
-            });
+          inserts.push(findId({
+            email: email,
+            passwordHash: 'imported hash',
+            passwordSalt: 'imported salt',
+            firstName: record['Име'].trim(),
+            lastName: record['Фамилия'].trim(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            imported: true
           }).then(function (id) {
-            return queryInterface.bulkInsert('UserMeta', genMetas(id, {
-              address: record['Адрес'],
-              city: record['Населено място'],
-              postcode: record['Пощ.код'],
-              phone: record['телефон'],
-              modile: record['мобилен тел.'],
-              first_year: record['година на първо участие'],
-              level: record['ниво на участие'],
-              birds_knowledge: record['познание на птиците'],
-              profile: record['Профил'],
-              notes: record['Бележки']
-            }));
+            return Promise.all([
+              queryInterface.bulkInsert('UserMeta', genMetas(id, {
+                address: record['Адрес'],
+                city: record['Населено място'],
+                postcode: record['Пощ.код'],
+                phone: record['телефон'],
+                modile: record['мобилен тел.'],
+                first_year: record['година на първо участие'],
+                level: record['ниво на участие'],
+                birds_knowledge: record['познание на птиците'],
+                profile: record['Профил'],
+                notes: record['Бележки']
+              })),
+              record['Квадрат']?
+              queryInterface.bulkUpdate('Zones', {ownerId: id}, {id: record['Квадрат']}).then(function(res){
+                counts.zones += res[1].rowCount;
+                if (res[1].rowCount == 0) {
+                  console.warn("Unknown zone "+record['Квадрат']);
+                }
+              }):true
+            ]);
           }));
         }
       });
@@ -100,13 +132,26 @@ module.exports = {
           resolve(Promise.all(inserts));
         });
 
-    }).finally(next);
+    }).finally(function(){
+      console.info("Processed "+counts.rows+" rows");
+      console.info("Created "+counts.users+" users");
+      console.info("Updated "+counts.zones+" zones");
+      next();
+    });
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.bulkDelete('UserMeta', {imported: true})
-      .then(function () {
-        return queryInterface.bulkDelete('Users', {imported: true});
-      });
+    return queryInterface.rawSelect('Users', {
+      attributes: ['id'],
+      where: {imported: true},
+      plain: false
+    }, 'id').then(function (users) {
+      users = _.pluck(users, 'id');
+      return Promise.all([
+        queryInterface.bulkUpdate('Zones', {ownerId: null}, {ownerId: {$in: users}}),
+        queryInterface.bulkDelete('UserMeta', {userId: {$in: users}}),
+        queryInterface.bulkDelete('Users', {id: {$in: users}})
+      ]);
+    });
   }
 };

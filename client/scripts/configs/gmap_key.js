@@ -2,7 +2,7 @@ var module = require ('../app');
 
 module.config(function (uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
-        key: 'AIzaSyDvQcR1ysfLv2FpuQJ6twvQbJB-ttp-l00',
+        key: 'AIzaSyA9uIfcc1I4bNvfIS3vpGXxMxqZkjEukhY',
         libraries: 'geometry,visualization'
     });
 });

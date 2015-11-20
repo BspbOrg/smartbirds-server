@@ -2,8 +2,6 @@
  * Created by groupsky on 19.11.15.
  */
 
-var bcrypt = require('bcrypt');
-
 module.exports = [
   {
     model: "user",

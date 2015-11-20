@@ -45,12 +45,14 @@ exports.default = {
 
 exports.test = {
   sequelize: function (api) {
-    return {
+    var config = {
       autoMigrate: true,
       loadFixtures: true,
-      dialect: 'sqlite',
-      logging: process.env.LOG_DB?console.log:null
-    }
+      dialect: 'sqlite'
+    };
+    if (!process.env.LOG_DB)
+      config.logging = null;
+    return config;
   }
 };
 
