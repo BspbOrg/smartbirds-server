@@ -1,8 +1,10 @@
 var module = require ('../app');
 
-module.config(function (uiGmapGoogleMapApiProvider) {
+module
+  .constant('GMAP_KEY', 'AIzaSyA9uIfcc1I4bNvfIS3vpGXxMxqZkjEukhY')
+  .config(function (uiGmapGoogleMapApiProvider, GMAP_KEY) {
     uiGmapGoogleMapApiProvider.configure({
-        key: 'AIzaSyA9uIfcc1I4bNvfIS3vpGXxMxqZkjEukhY',
+        key: GMAP_KEY,
         libraries: 'geometry,visualization'
     });
 });

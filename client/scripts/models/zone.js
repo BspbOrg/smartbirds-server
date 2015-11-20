@@ -19,6 +19,9 @@ require('../app').factory('Zone', function($resource, ENDPOINT_URL) {
             return sum + point.longitude;
           }, 0) / this.coordinates.length
         }
+    },
+    getStatus: function() {
+      return this.owner ? 'owned' : 'free';
     }
   });
 
