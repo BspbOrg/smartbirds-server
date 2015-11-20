@@ -5,3 +5,4 @@ public/js/scripts.js
 npm-debug.log
 log/
 pids/
+public/css/main.css*
