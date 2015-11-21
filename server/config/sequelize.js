@@ -43,6 +43,15 @@ exports.default = {
   }
 };
 
+exports.production = {
+  sequelize: function (api) {
+    return parseDatabaseUrl(process.env.DATABASE_URL, {
+      autoMigrate: true,
+      loadFixtures: false,
+    });
+  }
+};
+
 exports.test = {
   sequelize: function (api) {
     var config = {
@@ -61,7 +70,7 @@ exports.test = {
 
 exports.development = exports.default.sequelize();
 exports.test = merge(exports.test);
-//exports.production = merge(exports.production);
+exports.production = merge(exports.production);
 
 function merge(overlayFn) {
   var mergeObj = {};
