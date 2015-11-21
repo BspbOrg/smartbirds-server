@@ -6,14 +6,13 @@
   "private": true,
   "devDependencies": {
     "budo": "latest",
-    "budo-less": "^1.0.1",
     "live-reload": "latest",
     "mocha": "latest",
     "parallelshell": "latest",
     "sequelize-fixtures": "latest",
     "should": "latest",
     "sqlite3": "latest",
-    "watch": "^0.16.0",
+    "watch": "latest",
     "watchify": "latest"
   },
   "scripts": {
@@ -46,17 +45,18 @@
     "browserify-shim": "~3.8.0",
     "bulk-require": "~0.2.1",
     "bulkify": "~1.1.1",
-    "csv-parse": "^1.0.0",
+    "csv-parse": "~1.0.0",
+    "envify": "~3.4.0",
     "http-server": "~0.8.5",
     "less": "~2.5.3",
-    "less-plugin-clean-css": "^1.5.1",
+    "less-plugin-clean-css": "~1.5.1",
     "lodash": "~3.10.1",
     "pg": "~4.4.3",
     "pg-hstore": "~2.3.2",
     "sequelize": "~3.13.0",
     "sequelize-cli": "~2.1.0",
-    "validator": "~4.2.1",
-    "umzug": "^1.6.0"
+    "umzug": "~1.6.0",
+    "validator": "~4.2.1"
   },
   "browser": {
     "angular": "./bower_components/angular/angular.js",
@@ -127,7 +127,8 @@
   "browserify": {
     "transform": [
       "browserify-shim",
-      "bulkify"
+      "bulkify",
+      "envify"
     ]
   }
 }
