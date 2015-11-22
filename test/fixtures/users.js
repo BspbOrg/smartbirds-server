@@ -10,8 +10,7 @@ module.exports = [
       firstName: "Regular",
       lastName: "User",
       isAdmin: false,
-      passwordHash: "$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC",
-      passwordSalt: "$2a$10$32SyvkdyXJNRRAX8PBMHq."
+      passwordHash: "$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC"
     }
   },
   {
@@ -21,8 +20,7 @@ module.exports = [
       firstName: "Admin",
       lastName: "User",
       isAdmin: true,
-      passwordHash: "$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC",
-      passwordSalt: "$2a$10$32SyvkdyXJNRRAX8PBMHq."
+      passwordHash: "$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC"
     }
   }
 

@@ -14,6 +14,8 @@ module.exports = {
     var columns = getColumns(Sequelize);
     return Promise.map(Object.keys(columns), function (columnName) {
       return queryInterface.addColumn('Users', columnName, columns[columnName]);
+    }).then(function() {
+      return queryInterface.removeColumn('Users', 'passwordSalt');
     });
   },
 
@@ -21,6 +23,11 @@ module.exports = {
     var columns = getColumns(Sequelize);
     return Promise.map(Object.keys(columns), function (columnName) {
       return queryInterface.removeColumn('Users', columnName);
+    }).then(function() {
+      return queryInterface.addColumn('Users', 'passwordSalt', {
+        type: Sequelize.TEXT,
+        allowNull: false,
+      });
     });
   }
 };

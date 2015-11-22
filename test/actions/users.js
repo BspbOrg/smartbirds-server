@@ -62,6 +62,12 @@ describe('Action user:', function () {
         });
       });
 
+      it('cannot reset password', function() {
+        return runAction('user:lost', {email: user.email}).then(function (response) {
+          response.should.have.property('error').and.not.be.empty();
+        });
+      });
+
     }); // describeAllRoles
 
     setup.describeAsRoles(['Guest', 'User'], function (runAction) {
@@ -102,7 +108,13 @@ describe('Action user:', function () {
     setup.describeAllRoles(function (runAction) {
       it('fails for duplicated email', function () {
         return runAction('user:create', user).then(function (response) {
-          response.error.should.be.equal('Error: Validation error');
+          response.should.have.property('error').and.be.equal('Error: Validation error');
+        });
+      });
+
+      it('can reset password', function() {
+        return runAction('user:lost', {email: user.email}).then(function (response) {
+          response.should.not.have.property('error');
         });
       });
     }); // describeAllRoles

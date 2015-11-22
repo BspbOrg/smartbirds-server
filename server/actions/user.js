@@ -59,7 +59,6 @@ exports.userLost = {
             locals: {passwordToken: passwordToken}
           }, 'default', function(error, toRun) {
             if(error) return next(error);
-            console.log('toRun: ', toRun);
 
             data.response.data = {success: toRun};
             next();
