@@ -15,6 +15,7 @@ exports.default = {
         { path: '/session',  action: 'session:create' },
         { path: '/user',     action: 'user:create' },
         { path: '/user/:id', action: 'user:edit' },
+        { path: '/session/:email/resetpw', action: 'user:lost' }
       ],
 
       put: [

@@ -37,6 +37,40 @@ exports.userCreate = {
   }
 };
 
+exports.userLost = {
+  name: 'user:lost',
+  description: 'user:lost',
+  inputs: {
+    email: {required: true}
+  },
+  run: function (api, data, next) {
+    api.models.user.findOne({where: {email: data.params.email}}).then(function (user) {
+        if (!user) {
+          data.connection.rawConnection.responseHttpCode = 404;
+          return next(new Error('user not found'));
+        }
+
+        user.genPasswordToken(function (error, passwordToken) {
+          if (error) return next(error);
+
+          api.tasks.enqueue("mail:send", {
+            mail: {to: user.email, subject: "Password recovery"},
+            template: "lost_password",
+            locals: {passwordToken: passwordToken}
+          }, 'default', function(error, toRun) {
+            if(error) return next(error);
+            console.log('toRun: ', toRun);
+
+            data.response.data = {success: toRun};
+            next();
+          });
+        });
+      })
+      .catch(next)
+    ;
+  }
+};
+
 exports.userView = {
   name: 'user:view',
   description: 'user:view',
@@ -50,6 +84,7 @@ exports.userView = {
   run: function (api, data, next) {
     api.models.user.findOne({where: {id: data.params.id}}).then(function (user) {
         if (!user) {
+          data.connection.rawConnection.responseHttpCode = 404;
           return next(new Error('user not found'));
         }
 
@@ -79,6 +114,7 @@ exports.userEdit = {
   run: function (api, data, next) {
     api.models.user.findOne({where: {id: data.params.id}}).then(function (user) {
         if (!user) {
+          data.connection.rawConnection.responseHttpCode = 404;
           return next(new Error('user not found'));
         }
         //if (data.params.password) {
