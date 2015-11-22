@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Reset password</h3>
+                </div>
+                <div class="panel-body">
+                    <div
+                        class="alert alert-{{flash.type}}"
+                        ng-if="flash" ng-bind="flash.message"></div>
+
+                    <form name="form" role="form" class="form form-signup">
+                        <fieldset>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="E-mail" name="email" type="email" required
+                                       disabled
+                                       ng-model="user.email">
+                            </div>
+                            <div class="form-group"
+                                 ng-class="{'has-error': form.password.$dirty && form.password.$invalid }">
+                                <input class="form-control" placeholder="Password" name="password" type="password"
+                                       value="" ng-model="user.password" required>
+                                <span ng-show="form.password.$dirty && form.password.$error.required"
+                                      class="help-block">Password is required</span>
+                            </div>
+                            <div class="form-group"
+                                 ng-class="{'has-error': form.password_confirm.$dirty && form.password_confirm.$invalid }">
+                                <input class="form-control" placeholder="Confirm password" name="password_confirm" type="password"
+                                       value="" ng-model="user.password_confirm" required match="user.password">
+                                <span ng-show="form.password_confirm.$dirty && form.password_confirm.$error.required"
+                                      class="help-block">Confirm password is required</span>
+                                <span ng-show="form.password_confirm.$dirty && form.password_confirm.$error.match"
+                                      class="help-block">Passwords don't match</span>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="panel-footer">
+                    <div class="form-actions">
+                        <button type="submit" ng-disabled="form.$invalid || sessionController.loading"
+                                ng-click="sessionController.reset(user)"
+                                class="btn btn-lg btn-primary">Reset password
+                        </button>
+                        <a href ui-sref="login({ email: user.email })" class="btn btn-lg btn-default btn-link">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

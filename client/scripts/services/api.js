@@ -24,6 +24,20 @@ require('../app').service('api', function ($log, $http, $resource, $q, ENDPOINT_
         },
         withCredentials: true
       });
+    },
+    forgotPassword: function(auth) {
+      return $http({
+        method: 'POST',
+        url: ENDPOINT_URL + '/session/' + auth.email + '/resetpw',
+        data: auth
+      });
+    },
+    resetPassword: function(auth) {
+      return $http({
+        method: 'POST',
+        url: ENDPOINT_URL + '/session/' + auth.email + '/resetpw2',
+        data: auth
+      });
     }
   };
 

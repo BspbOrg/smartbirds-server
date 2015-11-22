@@ -45,6 +45,28 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       })
 
       ///////////
+      // Forgot //
+      ///////////
+      .state('forgot', {
+        url: '/forgot?email',
+        templateUrl: '/views/forgot.html',
+        controller: 'SessionController',
+        controllerAs: 'sessionController',
+        title: 'Forgot password'
+      })
+
+      ///////////
+      // Reset //
+      ///////////
+      .state('reset', {
+        url: '/reset?email&token',
+        templateUrl: '/views/reset.html',
+        controller: 'SessionController',
+        controllerAs: 'sessionController',
+        title: 'Reset password'
+      })
+
+      ///////////
       // Auth //
       ///////////
       .state('auth', {

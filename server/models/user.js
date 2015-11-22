@@ -81,7 +81,7 @@ module.exports = function (sequelize, DataTypes) {
 
       genPasswordToken: function(callback) {
         var self = this;
-        crypto.randomBytes(128, function (ex, buf) {
+        crypto.randomBytes(64, function (ex, buf) {
           var pwToken = buf.toString('hex');
           var salt = bcrypt.genSalt(bcryptComplexity, function (error, salt) {
             if (error) return callback(error);

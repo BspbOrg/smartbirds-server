@@ -18,6 +18,8 @@ require('../app').controller('SessionController', function ($log,
     $scope.auth = $scope.auth || {};
     $scope.user = $scope.user || {};
     $scope.auth.email = $scope.user.email = $stateParams.email;
+    if ($stateParams.token)
+      $scope.auth.token = $stateParams.token;
   }
 
   ctrl.login = function (auth) {
@@ -56,6 +58,37 @@ require('../app').controller('SessionController', function ($log,
   ctrl.logout = function () {
     user.logout();
     $state.go('home');
+  };
+
+  ctrl.forgot = function (user) {
+    ctrl.loading = true;
+    $scope.form.$setPristine();
+    api.session.forgotPassword(user).then(function(response){
+      $log.debug('reset password sent', response);
+      flashService.success("Email sent", true);
+      $state.go('login', {email: user.email});
+    }, function (response) {
+      $log.debug('error requesting password reset', response);
+      flashService.error(response.data.error || 'Could not reset password');
+    }).finally(function () {
+      ctrl.loading = false;
+    });
+  };
+
+  ctrl.reset = function(user) {
+    user.token = user.token || $scope.auth.token;
+    ctrl.loading = true;
+    $scope.form.$setPristine();
+    api.session.resetPassword(user).then(function(response){
+      $log.debug('password reset', response);
+      flashService.success("Password reset", true);
+      $state.go('login', {email: user.email});
+    }, function(response){
+      $log.debug('error resetting password', response);
+      flashService.error(response.data.error || 'Could not reset password');
+    }).finally(function(){
+      ctrl.loading = true;
+    });
   };
 
 });
