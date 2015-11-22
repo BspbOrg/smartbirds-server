@@ -53,15 +53,66 @@ exports.userLost = {
         user.genPasswordToken(function (error, passwordToken) {
           if (error) return next(error);
 
-          api.tasks.enqueue("mail:send", {
-            mail: {to: user.email, subject: "Password recovery"},
-            template: "lost_password",
-            locals: {passwordToken: passwordToken}
-          }, 'default', function(error, toRun) {
-            if(error) return next(error);
+          user.save().then(function(userObj){
 
-            data.response.data = {success: toRun};
-            next();
+            api.tasks.enqueue("mail:send", {
+              mail: {to: userObj.email, subject: "Password recovery"},
+              template: "lost_password",
+              locals: {
+                passwordToken: passwordToken,
+                email: userObj.email
+              }
+            }, 'default', function(error, toRun) {
+              if(error) return next(error);
+
+              data.response.data = {success: toRun};
+              next();
+            });
+
+          }).catch(next);
+        });
+      })
+      .catch(next)
+    ;
+  }
+};
+
+exports.userReset = {
+  name: 'user:reset',
+  description: 'user:reset',
+  inputs: {
+    email: {required: true},
+    token: {required: true},
+    password: {required: true}
+  },
+  run: function(api, data, next) {
+    api.models.user.findOne({where: {email: data.params.email}}).then(function (user) {
+        if (!user) {
+          data.connection.rawConnection.responseHttpCode = 404;
+          return next(new Error('user not found'));
+        }
+
+        if (!user.forgotPasswordTimestamp || Date.now()-user.forgotPasswordTimestamp.getTime() > 1000*60*60) {
+          data.connection.rawConnection.responseHttpCode = 400;
+          return next(new Error('invalid token'));
+        }
+
+        return user.checkPasswordToken(data.params.token, function(error, matched) {
+          if (error) return next(error);
+          if (!matched) {
+            data.connection.rawConnection.responseHttpCode = 400;
+            return next(new Error('invalid token'));
+          }
+
+          return user.updatePassword(data.params.password, function(error) {
+            if (error) return next(error);
+
+            return user.save()
+              .then(function (userObj) {
+                data.response.data = userObj.apiData(api);
+                next();
+              })
+              .catch(next);
           });
         });
       })

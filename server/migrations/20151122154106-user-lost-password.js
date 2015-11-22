@@ -16,6 +16,16 @@ module.exports = {
       return queryInterface.addColumn('Users', columnName, columns[columnName]);
     }).then(function() {
       return queryInterface.removeColumn('Users', 'passwordSalt');
+    }).then(function () {
+      return queryInterface.showIndex('Users');
+    }).then(function (result) {
+      if (queryInterface.sequelize.options.dialect === 'sqlite') {
+        return queryInterface.addIndex('Users', {
+            unique: true,
+            fields: ['email']
+          }
+        );
+      }
     });
   },
 
@@ -24,10 +34,7 @@ module.exports = {
     return Promise.map(Object.keys(columns), function (columnName) {
       return queryInterface.removeColumn('Users', columnName);
     }).then(function() {
-      return queryInterface.addColumn('Users', 'passwordSalt', {
-        type: Sequelize.TEXT,
-        allowNull: false,
-      });
+      return queryInterface.addColumn('Users', 'passwordSalt', Sequelize.TEXT);
     });
   }
 };

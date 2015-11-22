@@ -11,6 +11,8 @@
     "parallelshell": "latest",
     "sequelize-fixtures": "latest",
     "should": "latest",
+    "should-sinon": "0.0.3",
+    "sinon": "^1.17.2",
     "sqlite3": "latest",
     "watch": "latest",
     "watchify": "latest"

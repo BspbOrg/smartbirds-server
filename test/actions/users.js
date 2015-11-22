@@ -4,8 +4,10 @@
 
 var _ = require('lodash');
 var should = require('should');
+var sinon = require('sinon');
 var setup = require('../_setup');
 var Promise = require('bluebird');
+require('should-sinon');
 
 describe('Action user:', function () {
 
@@ -62,7 +64,7 @@ describe('Action user:', function () {
         });
       });
 
-      it('cannot reset password', function() {
+      it('cannot reset password', function () {
         return runAction('user:lost', {email: user.email}).then(function (response) {
           response.should.have.property('error').and.not.be.empty();
         });
@@ -112,11 +114,113 @@ describe('Action user:', function () {
         });
       });
 
-      it('can reset password', function() {
+      it('can reset password', function () {
         return runAction('user:lost', {email: user.email}).then(function (response) {
           response.should.not.have.property('error');
         });
       });
+
+
+      it('sends email', function () {
+        var stub = sinon.stub(setup.api.tasks, 'enqueue');
+        stub.yields(null, true);
+        return runAction('user:lost', {email: user.email}).then(function (response) {
+          stub.restore();
+          stub.should.be.calledOnce();
+          var call = stub.getCall(0);
+          call.args.should.have.length(4);
+          call.args[0].should.be.equal('mail:send');
+          call.args[1].should.have.property('locals');
+          call.args[1].locals.should.have.property('passwordToken').and.not.be.empty();
+          call.args[1].locals.should.have.property('email').and.be.equal(user.email);
+        }).catch(function (error) {
+          stub.restore();
+          return Promise.reject(error);
+        });
+      });
+
+      describe('given password reset token', function () {
+        var token;
+        var enqueueStub;
+
+        beforeEach(function () {
+          enqueueStub = sinon.stub(setup.api.tasks, 'enqueue');
+          enqueueStub.yields(null, true);
+          return runAction('user:lost', {email: user.email}).then(function (response) {
+            var call = enqueueStub.getCall(0);
+            return token = call.args[1].locals.passwordToken;
+          });
+        });
+
+        afterEach(function () {
+          enqueueStub.restore();
+        });
+
+        it('cannot update password with expired token', function () {
+          var now = Date.now();
+          var stub = sinon.stub(Date, 'now');
+          stub.returns(now + 60 * 60 * 1000);
+          return runAction('user:reset', {
+            email: user.email,
+            token: token,
+            password: 'secret'
+          }).then(function (response) {
+            stub.restore();
+            response.should.have.property('error').and.not.empty();
+          }).catch(function (error) {
+            stub.restore();
+            return Promise.reject(error);
+          });
+        });
+
+        it('can update password with wrong token', function () {
+          return runAction('user:reset', {
+            email: user.email,
+            token: '1' + token,
+            password: 'secret'
+          }).then(function (response) {
+            response.should.have.property('error').and.not.empty();
+          });
+        });
+
+        it('cannot update password with others token', function () {
+          return runAction('user:reset', {
+            email: "user@smartbirds.com",
+            token: token,
+            password: 'secret'
+          }).then(function (response) {
+            response.should.have.property('error').and.not.empty();
+          });
+        });
+
+        it('can update password with reset token', function () {
+          return runAction('user:reset', {
+            email: user.email,
+            token: token,
+            password: 'secret'
+          }).then(function (response) {
+            response.should.not.have.property('error');
+          });
+        });
+
+        it('password is updated with reset token', function () {
+          var pass = 'secret_' + Date.now();
+          return runAction('user:reset', {
+            email: user.email,
+            token: token,
+            password: pass
+          }).then(function (response) {
+            return runAction('session:create', {
+              email: user.email,
+              password: pass
+            })
+          }).then(function (response) {
+            response.should.not.have.property('error');
+          });
+        });
+
+      });
+
     }); // describeAllRoles
 
     setup.describeAsRoles(['Guest', 'User'], function (runAction) {
