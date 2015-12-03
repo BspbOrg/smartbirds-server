@@ -139,10 +139,10 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       })
 
       ///////////
-      // Zones //
+      // View Zone //
       ///////////
       .state('auth.zones.view', {
-        url: '/:id',
+        url: '/{id:[a-zA-Z]+[0-9]+}',
         views: {
           'content@auth': {
             templateUrl: '/views/zones/view.html',
@@ -153,12 +153,15 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       })
 
       ///////////
-      // Zones //
+      // Request Zone //
       ///////////
       .state('auth.zones.request', {
         url: '/request',
         views: {
-          'content@auth': {templateUrl: '/views/zones/request.html'}
+          'content@auth': {
+            templateUrl: '/views/zones/request.html',
+            controller: 'RequestZoneController as requestZone'
+          }
         }
       })
   })

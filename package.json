@@ -6,6 +6,7 @@
   "private": true,
   "devDependencies": {
     "budo": "latest",
+    "escape-string-regexp": "^1.0.3",
     "live-reload": "latest",
     "mocha": "latest",
     "parallelshell": "latest",
@@ -78,7 +79,8 @@
     "lodash": "./bower_components/lodash/lodash.js",
     "angular-validation-match": "./bower_components/angular-validation-match/dist/angular-validation-match.min.js",
     "angular-resource": "./bower_components/angular-resource/angular-resource.js",
-    "angular-cookies": "./bower_components/angular-cookies/angular-cookies.js"
+    "angular-cookies": "./bower_components/angular-cookies/angular-cookies.js",
+    "angular-mocks": "./bower_components/angular-mocks/angular-mocks.js"
   },
   "browserify-shim": {
     "angular": "angular",
@@ -127,6 +129,11 @@
       ]
     },
     "angular-cookies": {
+      "depends": [
+        "angular:angular"
+      ]
+    },
+    "angular-mocks": {
       "depends": [
         "angular:angular"
       ]

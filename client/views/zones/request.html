@@ -1,93 +1,49 @@
 <div class="row">
-    <div class="col-lg-12">
-        <h1 class="page-header">Request zone</h1>
-    </div>
+  <div class="col-lg-12">
+    <h1 class="page-header">Заявка за зона</h1>
+  </div>
 
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="fa fa-edit fa-fw"></i> Request new form
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary btn-xs" ui-sref="auth.zones"
-                                ng-disabled="!selectedZone || !selectedZone.selected"
-                                ng-click="selectedZone.status='requested';selectedZone.owner=$user.name;selectedZone.selected = false;selectedZone=null;">
-                            Request
-                            <i class="fa fa-chevron-right fa-fw"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="pull-right">
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary" ui-sref="auth.zones"
+                    ng-disabled="!selectedZone"
+                    ng-click="requestZone.request(selectedZone)">
+              Заяви
+              <i class="fa fa-chevron-right fa-fw"></i>
+            </button>
+          </div>
         </div>
+        <h5>
+          <i class="fa fa-edit fa-fw"></i> Заявка за нова зона
+        </h5>
+      </div>
     </div>
+  </div>
 
-    <div class="col-lg-12">
-        <form name="form" role="form">
+  <div class="col-lg-12">
+    <form name="form" role="form">
 
-            <div class="form-group">
-                <label>Локация</label>
-                <input name="location" type="text" class="form-control"
-                       ng-model="zone.location" required
-                       uib-typeahead="location as location.id for location in areaLocations | filter:$viewValue | limitTo:10">
+      <div class="form-group">
+        <label>Локация</label>
+        <input name="location" type="text" class="form-control"
+               ng-model="requestZone.location" required
+               uib-typeahead="location as location.id for location in locations | filter:$viewValue | limitTo:10">
 
-                <p class="help-block">Select location to see available zones</p>
-            </div>
+        <p ng-if="!requestZone.location.id" class="help-block">Изберете област за да видите свободни зони</p>
+      </div>
 
-        </form>
+    </form>
+  </div>
+
+  <div class="col-lg-12">
+    <div class="panel panel-default request">
+      <div class="panel-body">
+        <zones-map zones="zones" model="selectedZone"></zones-map>
+      </div>
     </div>
+  </div>
 
-    <div class="col-lg-12">
-        <div class="panel panel-default request">
-            <div class="panel-body">
-                <ui-gmap-google-map center='map.center' zoom='map.zoom'>
-                    <ui-gmap-polygon ng-if="selectedZone && selectedZone.selected"
-                                     static="true"
-                                     path="selectedZone.path"
-                                     fill="{color: '#00f', opacitiy: 0.4}"
-                                     stroke="{color: '#00f', opacity: 0.7, weight: 0.5}"
-                                     geodesic="true"
-                                     events="zonesEvents"
-                        ></ui-gmap-polygon>
-                    <!--<ui-gmap-marker-->
-                        <!--ng-if="selectedZone && selectedZone.selected"-->
-                        <!--idKey="'selected'"-->
-                        <!--coords="selectedZone.center"-->
-                        <!--idkey="selectedZone.id"-->
-                        <!--></ui-gmap-marker>-->
-                    <ui-gmap-polygons models="visibleZones.free"
-                                      static="true"
-                                      path="'path'"
-                                      fill="{color: '#fff', opacitiy: 0.4}"
-                                      stroke="{color: '#fff', opacity: 0.7, weight: 0.5}"
-                                      geodesic="true"
-                                      events="zonesEvents"
-                                      control="zonesControl.free"
-                        ></ui-gmap-polygons>
-                    <ui-gmap-polygons models="visibleZones.owned"
-                                      static="true"
-                                      path="'path'"
-                                      fill="{color: '#f00', opacitiy: 0.4}"
-                                      stroke="{color: '#f00', opacity: 0.7, weight: 0.5}"
-                                      geodesic="true"
-                                      control="zonesControl.owned"
-                        ></ui-gmap-polygons>
-                    <ui-gmap-markers ng-if="!zone.location.zones"
-                                     models="zones"
-                                     coords="'center'"
-                                     type="'cluster'"
-                                     modelsbyref="true"
-                                     options="{opacity: 0}"
-                                     typeEvents="clusterEvents"></ui-gmap-markers>
-                    <ui-gmap-markers ng-if="zone.location.zones"
-                                     models="zone.location.zones"
-                                     coords="'center'"
-                                     type="'cluster'"
-                                     modelsbyref="true"
-                                     options="{opacity: 0}"
-                                     fit="true"
-                                     typeEvents="clusterEvents"></ui-gmap-markers>
-                </ui-gmap-google-map>
-            </div>
-        </div>
-    </div>
 </div>

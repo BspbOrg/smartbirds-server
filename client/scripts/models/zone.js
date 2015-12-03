@@ -10,6 +10,16 @@ require('../app').factory('Zone', function ($resource, ENDPOINT_URL) {
 
   var Zone = $resource(ENDPOINT_URL + '/zone/:id', {
     id: '@id'
+  }, {
+    listByLocation: {
+      method: 'GET',
+      params: {
+        locationId: '@locationId',
+        filter: '@filter'
+      },
+      url: ENDPOINT_URL + '/locations/:locationId/zones/:filter',
+      isArray: true
+    }
   });
 
   // methods

@@ -72,6 +72,7 @@
              ng-class="zone.getStatus()=='owned'?'panel-primary':zone.getStatus()=='requested'?'panel-warning':'panel-default'">
             <div class="panel-heading">
                 <i class="fa fa-map-marker fa-fw"></i>
+                <span class="hidden">{{zone.id}}</span>
                 {{zone.location.type.bg}} {{zone.location.name.bg}}, {{zone.location.area.bg}}
                 <span class="hidden">({{zone.getStatus()}})</span>
 
@@ -159,7 +160,7 @@
         </div>
     </div>
 
-    <div ng-if="!$user.isAdmin" class="col-md-6 col-lg-4">
+    <div ng-if="!$user.isAdmin()" class="col-md-6 col-lg-4">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <i class="fa fa-map-o fa-fw"></i>

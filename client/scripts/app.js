@@ -15,8 +15,10 @@ require('ngSanitize');
 require('angular-validation-match');
 require('angular-resource');
 require('angular-cookies');
+require('angular-mocks');
 
 var dependencies = [
+  'ngMockE2E',
   'ngCookies',
   'ngResource',
   'ngSanitize',

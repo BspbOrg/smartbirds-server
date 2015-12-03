@@ -19,23 +19,6 @@
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown" uib-dropdown>
                 <a href uib-dropdown-toggle>
-                    DEBUG
-                </a>
-                <ul uib-dropdown-menu>
-                    <li ng-if="!$user.isAdmin">
-                        <a href ng-click="$user.isAdmin = true">
-                            Стани администратор
-                        </a>
-                    </li>
-                    <li ng-if="$user.isAdmin">
-                        <a href ng-click="$user.isAdmin = false">
-                            Стани потребител
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="dropdown" uib-dropdown>
-                <a href uib-dropdown-toggle>
                     Здравей, {{$user.getIdentity().firstName}}
                     <span class="caret"></span>
                 </a>
