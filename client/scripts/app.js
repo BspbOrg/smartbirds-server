@@ -29,7 +29,8 @@ var dependencies = [
   'validation.match'
 ];
 
-module.exports = angular.module('sb', dependencies);
+var app = module.exports = angular.module('sb', dependencies);
 
 // include all js files
 bulk(__dirname, ['./**/!(app|*.spec).js']);
+
