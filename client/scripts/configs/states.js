@@ -18,7 +18,7 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       //////////
       .state("home", {
         url: "/",
-        templateUrl: '/views/home.html',
+        template: require('../../views/home.html'),
         title: 'Home'
       })
 
@@ -27,7 +27,7 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       ///////////
       .state('login', {
         url: '/login?email',
-        templateUrl: '/views/login.html',
+        template: require('../../views/login.html'),
         controller: 'SessionController',
         controllerAs: 'sessionController',
         title: 'Login'
@@ -38,7 +38,7 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       ///////////
       .state('register', {
         url: '/register?email',
-        templateUrl: '/views/register.html',
+        template: require('../../views/register.html'),
         controller: 'SessionController',
         controllerAs: 'sessionController',
         title: 'Register'
@@ -49,7 +49,7 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       ///////////
       .state('forgot', {
         url: '/forgot?email',
-        templateUrl: '/views/forgot.html',
+        template: require('../../views/forgot.html'),
         controller: 'SessionController',
         controllerAs: 'sessionController',
         title: 'Forgot password'
@@ -60,7 +60,7 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       ///////////
       .state('reset', {
         url: '/reset?email&token',
-        templateUrl: '/views/reset.html',
+        template: require('../../views/reset.html'),
         controller: 'SessionController',
         controllerAs: 'sessionController',
         title: 'Reset password'
@@ -72,7 +72,7 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       .state('auth', {
         //parent: 'base',
         abstract: true,
-        templateUrl: '/views/layout.html',
+        template: require('../../views/layout.html'),
         controller: 'DataController',
         controllerAs: 'data',
         data: {
@@ -91,7 +91,7 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       .state('auth.dashboard', {
         url: '/dashboard',
         views: {
-          'content': {templateUrl: '/views/dashboard.html'}
+          'content': {template: require('../../views/dashboard.html')}
         }
       })
 
@@ -102,7 +102,7 @@ module.config(function ($stateProvider, $urlRouterProvider) {
         url: '/users',
         views: {
           'content': {
-            templateUrl: '/views/users/list.html',
+            template: require('../../views/users/list.html'),
             controller: 'UsersController',
             controllerAs: 'usersController'
           }
@@ -117,7 +117,7 @@ module.config(function ($stateProvider, $urlRouterProvider) {
         url: '/monitoring',
         views: {
           'content': {
-            templateUrl: '/views/monitorings/list.html',
+            template: require('../../views/monitorings/list.html'),
             controller: 'MonitoringController',
             controllerAs: 'monitoringController'
           }
@@ -131,7 +131,7 @@ module.config(function ($stateProvider, $urlRouterProvider) {
         url: '/zones',
         views: {
           'content': {
-            templateUrl: '/views/zones/list.html',
+            template: require('../../views/zones/list.html'),
             controller: 'ZonesController',
             controllerAs: 'zonesController'
           }
@@ -145,7 +145,7 @@ module.config(function ($stateProvider, $urlRouterProvider) {
         url: '/:id',
         views: {
           'content@auth': {
-            templateUrl: '/views/zones/view.html',
+            template: require('../../views/zones/view.html'),
             controller: 'ZoneController',
             controllerAs: 'zoneController'
           }
@@ -158,7 +158,7 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       .state('auth.zones.request', {
         url: '/request',
         views: {
-          'content@auth': {templateUrl: '/views/zones/request.html'}
+          'content@auth': {template: require('../../views/zones/request.html')}
         }
       })
   })
