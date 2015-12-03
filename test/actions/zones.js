@@ -87,6 +87,14 @@ describe('Zones:', function () {
       });
     }); // as admin
 
+    // TODO user to list free zones for a location
+    // TODO user to request free zone for ownership
+    // TODO admin to filter zones with request for ownership
+    // TODO admin to approve ownership of requested zone
+    // TODO admin to reject ownership of requested zone
+    // TODO admin to assign free zone to user
+    // TODO admin to remove owner of zone
+
   }); // given some zones
 
 });
