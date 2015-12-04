@@ -30,7 +30,8 @@
         <label>Локация</label>
         <input name="location" type="text" class="form-control"
                ng-model="requestZone.location" required
-               uib-typeahead="location as location.id for location in locations | filter:$viewValue | limitTo:10">
+               uib-typeahead="location as location.type.bg+' '+location.name.bg+', '+location.area.bg for location in locations | filter:$viewValue | limitTo:10"
+               typeahead-template-url="/views/directives/location.html">
 
         <p ng-if="!requestZone.location.id" class="help-block">Изберете област за да видите свободни зони</p>
       </div>

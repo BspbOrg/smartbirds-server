@@ -38,7 +38,7 @@ require('../app').directive('zonesMap', /*@ngInject*/function () {
                 cluster.getMarkers().each(function (marker) {
                   marker.model.visible = visible;
                   if (visible && !marker.model.selected) {
-                    vc.zones[marker.model.status].push(marker.model);
+                    vc.zones[marker.model.getStatus()].push(marker.model);
                   }
                 });
               });
@@ -84,7 +84,7 @@ require('../app').directive('zonesMap', /*@ngInject*/function () {
           center.latitude += zone.center.latitude;
           center.longitude += zone.center.longitude;
           vc.zones.all.push(zone);
-          vc.zones[zone.status].push(zone);
+          vc.zones[zone.getStatus()].push(zone);
         });
         //if (vc.zones.all.length) {
         //  vc.center = {

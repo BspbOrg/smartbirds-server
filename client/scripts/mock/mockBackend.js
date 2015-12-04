@@ -28,27 +28,29 @@ require('../app').run(function ($httpBackend, $rootScope, ENDPOINT_URL) {
   });
 
   // locations
-  $httpBackend.whenGET(ENDPOINT_URL + '/locations').respond(function (method, url, data) {
-    return [200, {data: $rootScope.locations}, {}];
-  });
-  $httpBackend.whenGET(new RegExp(esc(ENDPOINT_URL + '/locations/')+"[^\/]+"+esc('/zones/')+"[^\/]+")).respond(function(method, url, data){
-    var path = url.split('/').slice(-3);
-    var locationId = decodeURIComponent(path[0]);
-    var filter = decodeURIComponent(path[2]);
-
-    var location = null;
-    $rootScope.locations.every(function(loc) {
-      if (loc.id == locationId) {
-        location = loc;
-        return false;
-      }
-      return true;
-    });
-    if (location) {
-      return [200, {success: true, data: location.zones}, {}];
-    } else {
-      return [404, {error: "Unknown location "+locationId}, {}];
-    }
-  });
+  $httpBackend.whenGET(ENDPOINT_URL + '/locations').passThrough();
+  //respond(function (method, url, data) {
+  //  return [200, {data: $rootScope.locations}, {}];
+  //});
+  $httpBackend.whenGET(new RegExp(esc(ENDPOINT_URL + '/locations/')+"[^\/]+"+esc('/zones/')+"[^\/]+")).passThrough();
+  //  .respond(function(method, url, data){
+  //  var path = url.split('/').slice(-3);
+  //  var locationId = decodeURIComponent(path[0]);
+  //  var filter = decodeURIComponent(path[2]);
+  //
+  //  var location = null;
+  //  $rootScope.locations.every(function(loc) {
+  //    if (loc.id == locationId) {
+  //      location = loc;
+  //      return false;
+  //    }
+  //    return true;
+  //  });
+  //  if (location) {
+  //    return [200, {success: true, data: location.zones}, {}];
+  //  } else {
+  //    return [404, {error: "Unknown location "+locationId}, {}];
+  //  }
+  //});
 
 });

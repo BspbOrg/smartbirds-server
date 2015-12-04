@@ -44,8 +44,8 @@ require('../app').factory('Zone', function ($resource, ENDPOINT_URL) {
         }
     },
     getStatus: function () {
-      if (isUndefined(this.owner)) return;
-      return this.owner ? 'owned' : 'free';
+      if (isUndefined(this.ownerId)) return;
+      return this.ownerId ? 'owned' : 'free';
     }
   });
 

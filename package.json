@@ -28,7 +28,6 @@
     "test": "npm run mocha --",
     "test:watch": "npm run mocha -- --reporter min --watch -G --full-trace",
     "dev": "docker-compose start && parallelshell 'npm run budo' 'npm run build:css:watch'",
-    "prebuild": "npm install",
     "build:js": "browserify ./client/scripts/app.js -d -o ./public/js/scripts.js",
     "build:js:watch": "watchify ./client/scripts/app.js -d -o ./public/js/scripts.js -v",
     "build:css": "lessc --clean-css --source-map --source-map-less-inline client/styles/main.less public/css/main.css",

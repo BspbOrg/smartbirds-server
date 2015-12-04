@@ -20,7 +20,7 @@ module.exports = function (sequelize, DataTypes) {
     ],
     classMethods: {
       associate: function (models) {
-        models.location.hasMany(models.zone, {as: 'zones'});
+        models.location.hasMany(models.zone, {as: 'zones', foreignKey: 'locationId'});
       }
     },
     instanceMethods: {
