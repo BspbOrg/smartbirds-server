@@ -23,12 +23,15 @@ exports.zoneList = {
       (q.include = q.include || []).push({model: api.models.user, as: 'owner'});
     }
     try {
-      api.models.zone.findAndCountAll(q).then(function (result) {
+      return api.models.zone.findAndCountAll(q).then(function (result) {
         data.response.count = result.count;
         data.response.data = result.rows.map(function (zone) {
           return zone.apiData(api);
         });
         next();
+      }).catch(function(e){
+        console.error('Failure to retrieve zones', e);
+        next(e);
       });
     } catch (e) {
       console.error(e);

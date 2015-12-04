@@ -8,7 +8,8 @@ module.exports = {
         type: Sequelize.STRING(10)
       },
       lat1: {
-        type: Sequelize.DOUBLE
+        type: Sequelize.DOUBLE,
+        default: null
       },
       lon1: {
         type: Sequelize.DOUBLE

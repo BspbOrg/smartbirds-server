@@ -91,9 +91,12 @@ module.exports = {
         });
       })
       .then(function () {
-        return Promise.each(ZoneFields, function (column) {
-          return queryInterface.removeColumn('Zones', column, null);
-        });
+        // sqlite gets bugged when removing multiple columns and we're better of just keeping them
+        if (queryInterface.sequelize.options.dialect !== 'sqlite') {
+          return Promise.each(ZoneFields, function (column) {
+            return queryInterface.removeColumn('Zones', column, null);
+          });
+        }
       })
       ;
   },

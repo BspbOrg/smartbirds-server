@@ -6,7 +6,7 @@ var _ = require('lodash');
 var should = require('should');
 var setup = require("../_setup");
 
-describe.skip('Action location:', function () {
+describe.only('Action location:', function () {
 
   before(function () {
     return setup.init();
@@ -16,7 +16,7 @@ describe.skip('Action location:', function () {
     return setup.finish();
   });
 
-  var testLocations = ['Plovdiv', 'Sofia'];
+  var testLocations = [{name: 'Plovdiv', id: 1}, {name: 'Sofia', id: 2}];
   var zoneFilters = ['free'];
 
   describe('given some locations', function () {
@@ -28,8 +28,8 @@ describe.skip('Action location:', function () {
       });
       testLocations.forEach(function (location) {
         zoneFilters.forEach(function (filter) {
-          it('cannot list ' + filter + ' zones at ' + location, function () {
-            return runAction('location:listZones', {id: location, filter: filter}).then(function (response) {
+          it('cannot list ' + filter + ' zones at ' + location.name, function () {
+            return runAction('location:listZones', {id: location.id, filter: filter}).then(function (response) {
               response.should.have.property('error').and.not.empty();
             });
           });
@@ -38,23 +38,26 @@ describe.skip('Action location:', function () {
       }); // foreach testLocations
     }); // as guest
 
-    setup.describeAsRoles(['User', 'Admin'], function(runAction) {
 
+    setup.describeAsRoles(['User', 'Admin'], function (runAction) {
       it('can list', function () {
         return runAction('location:list', {}).then(function (response) {
           response.should.not.have.property('error');
-          response.should.have.property('data').which.is.not.empty().Array;
+          response.should.have.property('data').which.is.not.empty().instanceof(Array);
         });
       });
+
       testLocations.forEach(function (location) {
         zoneFilters.forEach(function (filter) {
-          it('can list ' + filter + ' zones at ' + location, function () {
-            return runAction('location:listZones', {id: location, filter: filter}).then(function (response) {
+          it('can list ' + filter + ' zones at ' + location.name, function () {
+            return runAction('location:listZones', {id: location.id, filter: filter}).then(function (response) {
               response.should.not.have.property('error');
-              response.should.have.property('data').which.is.not.empty().Array;
+              response.should.have.property('data').which.is.not.empty().instanceof(Array);
+              for (var i=0; i<response.data.length; i++) {
+                response.data[i].should.have.property('ownerId').which.is.null();
+              }
             });
           });
-
         }); // forEach zoneFilter
       }); // foreach testLocations
 
