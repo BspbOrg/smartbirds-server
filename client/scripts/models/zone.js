@@ -19,6 +19,14 @@ require('../app').factory('Zone', function ($resource, ENDPOINT_URL) {
       },
       url: ENDPOINT_URL + '/locations/:locationId/zones/:filter',
       isArray: true
+    },
+    request: {
+      method: 'POST',
+      params: {
+        zoneId: '@zoneId',
+        userId: '@userId'
+      },
+      url: ENDPOINT_URL + '/zone/:zoneId/owner/:userId'
     }
   });
 

@@ -2,12 +2,12 @@
  * Created by groupsky on 03.12.15.
  */
 
-var escapeStringRegexp = require('escape-string-regexp');
+var esc = require('escape-string-regexp');
 
 require('../app').run(function ($httpBackend, $rootScope, ENDPOINT_URL) {
 
   // auth
-  var sessionEndpoint = new RegExp(escapeStringRegexp(ENDPOINT_URL + '/session') + '.*')
+  var sessionEndpoint = new RegExp(esc(ENDPOINT_URL + '/session') + '.*')
   $httpBackend.whenPUT(sessionEndpoint).passThrough();
   $httpBackend.whenPOST(sessionEndpoint).passThrough();
   $httpBackend.whenDELETE(sessionEndpoint).passThrough();
@@ -17,12 +17,21 @@ require('../app').run(function ($httpBackend, $rootScope, ENDPOINT_URL) {
 
   // zones
   $httpBackend.whenGET(ENDPOINT_URL+'/zone').passThrough();
+  $httpBackend.whenPOST(new RegExp(esc(ENDPOINT_URL+'/zone/')+'[^\/]+'+esc('/owner/')+"[^\/]+")).respond(function(method, url, data){
+    var path = url.split('/').slice(-3);
+    var zoneId = decodeURIComponent(path[0]);
+    var userId = decodeURIComponent(path[2]);
+
+    console.log('requested', userId, 'to own', zoneId, 'with', data);
+
+    return [200, {success: true}, {}];
+  });
 
   // locations
   $httpBackend.whenGET(ENDPOINT_URL + '/locations').respond(function (method, url, data) {
     return [200, {data: $rootScope.locations}, {}];
   });
-  $httpBackend.whenGET(new RegExp(escapeStringRegexp(ENDPOINT_URL + '/locations/')+"[^\/]+"+escapeStringRegexp('/zones/')+"[^\/]+")).respond(function(method, url, data){
+  $httpBackend.whenGET(new RegExp(esc(ENDPOINT_URL + '/locations/')+"[^\/]+"+esc('/zones/')+"[^\/]+")).respond(function(method, url, data){
     var path = url.split('/').slice(-3);
     var locationId = decodeURIComponent(path[0]);
     var filter = decodeURIComponent(path[2]);
@@ -36,7 +45,7 @@ require('../app').run(function ($httpBackend, $rootScope, ENDPOINT_URL) {
       return true;
     });
     if (location) {
-      return [200, {data: location.zones}, {}];
+      return [200, {success: true, data: location.zones}, {}];
     } else {
       return [404, {error: "Unknown location "+locationId}, {}];
     }
