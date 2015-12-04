@@ -45,6 +45,7 @@ module.exports = function (sequelize, DataTypes) {
         if (this.owner) {
           data.owner = this.owner.apiData(api);
         }
+        return data;
       }
     }
   });

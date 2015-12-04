@@ -60,6 +60,7 @@ module.exports = {
           return loc.locationTypeBg + ' ' + loc.locationNameBg + ', ' + loc.locationAreaBg + ' | ' +
             loc.locationTypeEn + ' ' + loc.locationNameEn + ', ' + loc.locationAreaEn;
         });
+        if (locationsData.length === 0) return true;
         return queryInterface.bulkInsert('Locations', locationsData.map(function (location) {
           var record = {
             createdAt: new Date(),
@@ -90,7 +91,7 @@ module.exports = {
         });
       })
       .then(function () {
-        return Promise.map(ZoneFields, function (column) {
+        return Promise.each(ZoneFields, function (column) {
           return queryInterface.removeColumn('Zones', column, null);
         });
       })
@@ -98,7 +99,7 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize) {
-    return Promise.map(ZoneFields, function (column) {
+    return Promise.each(ZoneFields, function (column) {
         return queryInterface.addColumn('Zones', column, Sequelize.TEXT);
       })
       .then(function () {

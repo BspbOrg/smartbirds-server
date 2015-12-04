@@ -6,25 +6,49 @@ module.exports = [
   {
     model: "zone",
     data: {
-      id: "user zone",
+      id: "userZonePlovdiv",
+      owner: {email: "user@smartbirds.com"},
+      location: {nameBg: 'Plovdiv'}
+    }
+  },
+  {
+    model: "zone",
+    data: {
+      id: "freeZonePlovdiv",
+      location: {nameBg: 'Plovdiv'}
+    }
+  },
+  {
+    model: "zone",
+    data: {
+      id: "adminZonePlovdiv",
+      owner: {email: "admin@smartbirds.com"},
+      location: {nameBg: 'Plovdiv'}
+    }
+  },
+  {
+    model: "zone",
+    data: {
+      id: "userZoneSofia",
       owner: {
         email: "user@smartbirds.com"
-      }
+      },
+      location: {nameBg: 'Sofia'}
     }
   },
   {
     model: "zone",
     data: {
-      id: "free zone"
+      id: "freeZoneSofia",
+      location: {nameBg: 'Sofia'}
     }
   },
-
   {
     model: "zone",
     data: {
-      id: "admin zone",
-      owner: {email:"admin@smartbirds.com"}
+      id: "adminZoneSofia",
+      owner: {email: "admin@smartbirds.com"},
+      location: {nameBg: 'Sofia'}
     }
   }
-
 ];

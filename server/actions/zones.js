@@ -2,6 +2,8 @@
  * Created by groupsky on 20.11.15.
  */
 
+var _ = require('lodash');
+
 exports.zoneList = {
   name: 'zone:list',
   description: 'zone:list',
@@ -9,13 +11,16 @@ exports.zoneList = {
 
   run: function (api, data, next) {
     var q = {
+      include: [
+        {model: api.models.location, as: 'location'}
+      ]
     };
     if (!data.session.user.isAdmin) {
-      q.where = {
+      q.where = _.extend(q.where || {}, {
         ownerId: data.session.userId
-      };
+      });
     } else {
-      q.include = [{model: api.models.user, as: 'owner'}];
+      (q.include = q.include || []).push({model: api.models.user, as: 'owner'});
     }
     try {
       api.models.zone.findAndCountAll(q).then(function (result) {
