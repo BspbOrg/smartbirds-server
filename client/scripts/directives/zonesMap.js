@@ -10,7 +10,7 @@ require('../app').directive('zonesMap', /*@ngInject*/function () {
     templateUrl: '/views/directives/zonemap.html',
     scope: {
       zones: '=',
-      model: '='
+      selectedZone: '=model'
     },
     controllerAs: 'map',
     controller: /*@ngInject*/function ($scope) {
@@ -21,6 +21,10 @@ require('../app').directive('zonesMap', /*@ngInject*/function () {
           all: [],
           free: [],
           owned: []
+        },
+        controls: {
+          free: {},
+          owned: {}
         },
         events: {
           cluster: {
@@ -42,6 +46,26 @@ require('../app').directive('zonesMap', /*@ngInject*/function () {
               //  if (angular.isFunction($rootScope.zonesControl[status].updateModels))
               //    $rootScope.zonesControl[status].updateModels($rootScope.visibleZones[status]);
               //});
+            }
+          },
+          free: {
+            click: function (poly, event, model, args) {
+              var idx = vc.zones.free.indexOf(model);
+              if (idx !== -1) {
+                vc.zones.free.splice(idx, 1);
+              }
+              if ($scope.selectedZone) {
+                vc.zones.free.push($scope.selectedZone);
+              }
+              vc.controls.free.updateModels(vc.zones.free);
+              $scope.selectedZone = model;
+            }
+          },
+          selected: {
+            click: function (poly, event, model, args) {
+              vc.zones.free.push($scope.selectedZone);
+              $scope.selectedZone = null;
+              vc.controls.free.updateModels(vc.zones.free);
             }
           }
         }
