@@ -54,26 +54,29 @@ var setup = {
   },
   describeAs: function (name, runAction, specs) {
     runAction = runAction.bind(setup);
-    describe(name, function () {
+    return describe(name, function () {
       specs(runAction);
     });
   },
   describeAsGuest: function (specs) {
-    setup.describeAs('guest', setup.runActionAsGuest, specs);
+    return setup.describeAs('guest', setup.runActionAsGuest, specs);
   },
   describeAsUser: function (specs) {
-    setup.describeAs('user', setup.runActionAsUser, specs);
+    return setup.describeAs('user', setup.runActionAsUser, specs);
   },
   describeAsAdmin: function (specs) {
-    setup.describeAs('admin', setup.runActionAsAdmin, specs);
+    return setup.describeAs('admin', setup.runActionAsAdmin, specs);
+  },
+  describeAsAuth: function(specs) {
+    return setup.describeAsRoles(['user', 'admin'], specs);
   },
   describeAsRoles: function (roles, specs) {
-    roles.forEach(function (role) {
-      setup['describeAs' + role](specs);
+    return Promise.map(roles, function (role) {
+      return setup['describeAs' + _.capitalize(role.toLowerCase())](specs);
     });
   },
   describeAllRoles: function (specs) {
-    return setup.describeAsRoles(['Guest', 'User', 'Admin'], specs);
+    return setup.describeAsRoles(['guest', 'user', 'admin'], specs);
   }
 };
 
