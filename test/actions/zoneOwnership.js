@@ -7,7 +7,7 @@ var should = require('should');
 var setup = require('../_setup');
 var Promise = require('bluebird');
 
-describe.only('Zone ownership:', function () {
+describe('Zone ownership:', function () {
 
   var testZone = 'freeZonePlovdiv';
 
@@ -19,9 +19,16 @@ describe.only('Zone ownership:', function () {
     return setup.finish();
   });
 
+  beforeEach(function () {
+    return setup.api.models.zone.findById(testZone).then(function (zone) {
+      return zone.update({
+        ownerId: null,
+        status: 'free'
+      });
+    });
+  });
 
   describe('given some zones', function () {
-
     setup.describeAsGuest(function (runAction) {
       it('cannot request ownership on free zone', function () {
         return runAction('zone:requestOwnership', {id: testZone}).then(function (response) {
@@ -40,7 +47,7 @@ describe.only('Zone ownership:', function () {
 
     describe('and a requested zone', function () {
 
-      before(function () {
+      beforeEach(function () {
         return setup.runActionAsUser2('zone:requestOwnership', {id: testZone});
       });
 
@@ -96,7 +103,7 @@ describe.only('Zone ownership:', function () {
         });
       }); // as admin
 
-      setup.describeAsRoles(['guest', 'user'], function(runAction){
+      setup.describeAsRoles(['guest', 'user'], function (runAction) {
         it('cannot approve zone ownership', function () {
           return runAction('zone:respondOwnershipRequest', {id: testZone, response: true}).then(function (response) {
             response.should.have.property('error').not.empty();
@@ -125,13 +132,13 @@ describe.only('Zone ownership:', function () {
     describe('and', function () {
       setup.describeAsUser(function (runAction) {
         var ownedZonesCount;
-        before(function () {
+        beforeEach(function () {
           return runAction('zone:list', {}).then(function (response) {
             ownedZonesCount = response.count;
           });
         });
         describe('requested zone', function () {
-          before(function () {
+          beforeEach(function () {
             return runAction('zone:requestOwnership', {id: testZone});
           });
 
