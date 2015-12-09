@@ -23,7 +23,7 @@
     "start": "npm run ah -- start",
     "ah": "PROJECT_ROOT=`pwd`/server actionhero",
     "sq": "sequelize",
-    "mocha": "NODE_ENV=test PROJECT_ROOT=`pwd`/server mocha",
+    "mocha": "NODE_ENV=test PROJECT_ROOT=`pwd`/server mocha --globals config",
     "less": "lessc",
     "test": "npm run mocha --",
     "test:watch": "npm run mocha -- --reporter min --watch -G --full-trace",
