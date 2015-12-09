@@ -7,6 +7,7 @@ module.exports = [
     model: "zone",
     data: {
       id: "userZonePlovdiv",
+      status: 'owned',
       owner: {email: "user@smartbirds.com"},
       location: {nameBg: 'Plovdiv'}
     }
@@ -23,6 +24,7 @@ module.exports = [
     data: {
       id: "adminZonePlovdiv",
       owner: {email: "admin@smartbirds.com"},
+      status: 'owned',
       location: {nameBg: 'Plovdiv'}
     }
   },
@@ -33,6 +35,7 @@ module.exports = [
       owner: {
         email: "user@smartbirds.com"
       },
+      status: 'owned',
       location: {nameBg: 'Sofia'}
     }
   },
@@ -48,6 +51,7 @@ module.exports = [
     data: {
       id: "adminZoneSofia",
       owner: {email: "admin@smartbirds.com"},
+      status: 'owned',
       location: {nameBg: 'Sofia'}
     }
   }

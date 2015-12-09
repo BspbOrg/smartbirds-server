@@ -13,7 +13,10 @@ module.exports = function (sequelize, DataTypes) {
     lon3: DataTypes.DOUBLE,
     lat4: DataTypes.DOUBLE,
     lon4: DataTypes.DOUBLE,
-    ownerId: DataTypes.INTEGER,
+    ownerId: {
+      type: DataTypes.INTEGER,
+      defaultValue: null
+    },
     status: {
       type: DataTypes.STRING(10),
       defaultValue: 'free',
