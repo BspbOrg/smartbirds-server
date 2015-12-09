@@ -22,6 +22,16 @@ module.exports = [
       isAdmin: true,
       passwordHash: "$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC"
     }
+  },
+  {
+    model: "user",
+    data: {
+      email: "user2@smartbirds.com",
+      firstName: "Second",
+      lastName: "User",
+      isAdmin: false,
+      passwordHash: "$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC"
+    }
   }
 
 ];

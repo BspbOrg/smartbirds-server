@@ -49,6 +49,9 @@ var setup = {
   runActionAsUser: function (action, params) {
     return setup.runActionAs(action, params, 'user@smartbirds.com');
   },
+  runActionAsUser2: function (action, params) {
+    return setup.runActionAs(action, params, 'user2@smartbirds.com');
+  },
   runActionAsGuest: function (action, params) {
     return setup.runAction(action, params);
   },
