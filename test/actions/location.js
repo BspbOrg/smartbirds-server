@@ -6,7 +6,7 @@ var _ = require('lodash');
 var should = require('should');
 var setup = require("../_setup");
 
-describe.only('Action location:', function () {
+describe('Action location:', function () {
 
   before(function () {
     return setup.init();
