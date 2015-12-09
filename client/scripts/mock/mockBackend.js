@@ -17,15 +17,16 @@ require('../app').run(function ($httpBackend, $rootScope, ENDPOINT_URL) {
 
   // zones
   $httpBackend.whenGET(ENDPOINT_URL+'/zone').passThrough();
-  $httpBackend.whenPOST(new RegExp(esc(ENDPOINT_URL+'/zone/')+'[^\/]+'+esc('/owner/')+"[^\/]+")).respond(function(method, url, data){
-    var path = url.split('/').slice(-3);
-    var zoneId = decodeURIComponent(path[0]);
-    var userId = decodeURIComponent(path[2]);
-
-    console.log('requested', userId, 'to own', zoneId, 'with', data);
-
-    return [200, {success: true}, {}];
-  });
+  $httpBackend.whenPOST(new RegExp(esc(ENDPOINT_URL+'/zone/')+'[^\/]+'+esc('/owner'))).passThrough();
+  //  .respond(function(method, url, data){
+  //  var path = url.split('/').slice(-3);
+  //  var zoneId = decodeURIComponent(path[0]);
+  //  var userId = decodeURIComponent(path[2]);
+  //
+  //  console.log('requested', userId, 'to own', zoneId, 'with', data);
+  //
+  //  return [200, {success: true}, {}];
+  //});
 
   // locations
   $httpBackend.whenGET(ENDPOINT_URL + '/locations').passThrough();

@@ -135,6 +135,11 @@ module.config(function ($stateProvider, $urlRouterProvider) {
             controller: 'ZonesController',
             controllerAs: 'zonesController'
           }
+        },
+        resolve: {
+          zones: /*@ngInject*/function(Zone) {
+            return Zone.query();
+          }
         }
       })
 

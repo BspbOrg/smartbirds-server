@@ -2,6 +2,18 @@
  * Created by groupsky on 09.12.15.
  */
 
+function getZone(api, data, next) {
+  var q = {
+    where: {id: data.params.id},
+    include: [{model: api.models.location, as: 'location'}]
+  };
+  if (data.session.user.isAdmin) {
+    q.include.push({model: api.models.user, as: 'owner'});
+  }
+  return api.models.zone.findOne(q)
+    .catch(next);
+}
+
 exports.zoneOwnershipRequest = {
   name: 'zone:requestOwnership',
   description: 'zone:requestOwnership',
@@ -10,7 +22,7 @@ exports.zoneOwnershipRequest = {
   inputs: {id: {required: true}},
 
   run: function (api, data, next) {
-    api.models.zone.findById(data.params.id).then(function (zone) {
+    getZone(api, data, next).then(function (zone) {
         if (!zone) {
           data.connection.rawConnection.responseHttpCode = 404;
           return next(new Error('zone not found'));
@@ -29,7 +41,6 @@ exports.zoneOwnershipRequest = {
           next();
         });
       })
-      .catch(next)
     ;
   }
 
@@ -46,7 +57,7 @@ exports.zoneOwnershipRespond = {
   },
 
   run: function (api, data, next) {
-    api.models.zone.findById(data.params.id).then(function (zone) {
+    getZone(api, data, next).then(function (zone) {
         if (!zone) {
           data.connection.rawConnection.responseHttpCode = 404;
           return next(new Error('zone not found'));
@@ -85,7 +96,7 @@ exports.zoneSetOwner = {
   },
 
   run: function (api, data, next) {
-    api.models.zone.findById(data.params.id).then(function (zone) {
+    getZone(api, data, next).then(function (zone) {
         if (!zone) {
           data.connection.rawConnection.responseHttpCode = 404;
           return next(new Error('zone not found'));
@@ -122,7 +133,7 @@ exports.zoneClearOwner = {
   },
 
   run: function (api, data, next) {
-    api.models.zone.findById(data.params.id).then(function (zone) {
+    getZone(api, data, next).then(function (zone) {
         if (!zone) {
           data.connection.rawConnection.responseHttpCode = 404;
           return next(new Error('zone not found'));

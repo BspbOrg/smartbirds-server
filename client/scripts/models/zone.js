@@ -23,10 +23,9 @@ require('../app').factory('Zone', function ($resource, ENDPOINT_URL) {
     request: {
       method: 'POST',
       params: {
-        zoneId: '@zoneId',
-        userId: '@userId'
+        id: '@id'
       },
-      url: ENDPOINT_URL + '/zone/:zoneId/owner/:userId'
+      url: ENDPOINT_URL + '/zone/:id/owner'
     }
   });
 

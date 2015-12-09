@@ -47,9 +47,14 @@ exports.zoneView = {
   inputs: {id: {required: true}},
 
   run: function (api, data, next) {
-    var q = {where: {id: data.params.id}};
+    var q = {
+      where: {id: data.params.id},
+      include: [
+        {model: api.models.location, as: 'location'}
+      ]
+    };
     if (data.session.user.isAdmin) {
-      q.include = [{model: api.models.user, as: 'owner'}];
+      q.include.push({model: api.models.user, as: 'owner'});
     }
     api.models.zone.findOne(q).then(function (zone) {
         if (!zone) {

@@ -40,8 +40,12 @@ exports.locationListZones = {
       var q = {
         where: {
           locationId: data.params.id
-        }
+        },
+        include: [{model: api.models.location, as: 'location'}]
       };
+      if (data.session.user.isAdmin) {
+        q.include.push({model: api.models.user, as: 'owner'});
+      }
       if (data.params.filter) {
         switch (data.params.filter) {
           case 'free': {

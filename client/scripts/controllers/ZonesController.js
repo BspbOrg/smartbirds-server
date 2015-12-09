@@ -2,10 +2,10 @@
  * Created by groupsky on 20.11.15.
  */
 
-require('../app').controller('ZonesController', function($scope, Zone, GMAP_KEY){
+require('../app').controller('ZonesController', function($scope, Zone, GMAP_KEY, zones){
   var controller = this;
 
-  $scope.rows = Zone.query();
+  $scope.rows = zones;
 
   controller.filterRows = function(config) {
     return function(row) {

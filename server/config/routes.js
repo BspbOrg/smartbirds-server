@@ -20,7 +20,8 @@ exports.default = {
         { path: '/user',     action: 'user:create' },
         { path: '/user/:id', action: 'user:edit' },
         { path: '/session/:email/resetpw', action: 'user:lost' },
-        { path: '/session/:email/resetpw2', action: 'user:reset' }
+        { path: '/session/:email/resetpw2', action: 'user:reset' },
+        { path: '/zone/:id/owner', action: 'zone:requestOwnership' },
       ],
 
       put: [

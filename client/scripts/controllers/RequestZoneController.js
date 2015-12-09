@@ -4,7 +4,7 @@
 
 var isFunction = require('angular').isFunction;
 
-require('../app').controller('RequestZoneController', /*@ngInject*/function ($q, $scope, $state, user, Location, Zone) {
+require('../app').controller('RequestZoneController', /*@ngInject*/function ($q, $scope, $state, user, Location, Zone, zones) {
 
   var vc = this;
 
@@ -27,11 +27,13 @@ require('../app').controller('RequestZoneController', /*@ngInject*/function ($q,
 
   vc.request = function (zone) {
     Zone.request({
-      zoneId: zone.id,
-      userId: user.getIdentity().id
+      id: zone.id
     }, {
       // here will be any form data that needs to be sent as part of the request
     });
+    zone.status = 'requested';
+    zone.ownerId = user.getIdentity().id;
+    zones.push(zone);
     $state.go('auth.zones');
   }
 
