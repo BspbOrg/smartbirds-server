@@ -13,11 +13,33 @@ module.exports = function (sequelize, DataTypes) {
     lon3: DataTypes.DOUBLE,
     lat4: DataTypes.DOUBLE,
     lon4: DataTypes.DOUBLE,
-    ownerId: DataTypes.INTEGER
+    ownerId: DataTypes.INTEGER,
+    status: {
+      type: DataTypes.STRING(10),
+      defaultValue: 'free',
+      allowNull: false,
+      validate: {
+        isIn: [['free', 'requested', 'owned']]
+      }
+    }
   }, {
+    validate: {
+      statusAndOwner: function () {
+        if (this.status === 'free') {
+          if (this.ownerId !== null) {
+            throw new Error('Status cannot be free when owner is not NULL!');
+          }
+        } else {
+          if (this.ownerId === null) {
+            throw new Error('Status cannot be ' + this.status + ' when owner is NULL!');
+          }
+        }
+      }
+    },
     indexes: [
-      { fields: ['ownerId'] },
-      { fields: ['locationId'] }
+      {fields: ['ownerId']},
+      {fields: ['locationId']},
+      {fields: ['status']}
     ],
     classMethods: {
       associate: function (models) {
@@ -37,7 +59,8 @@ module.exports = function (sequelize, DataTypes) {
             {latitude: this.lat4, longitude: this.lon4}
           ],
           locationId: this.locationId,
-          ownerId: this.ownerId
+          ownerId: this.ownerId,
+          status: this.status
         };
         if (this.location) {
           data.location = this.location.apiData(api);

@@ -88,7 +88,6 @@ module.exports = {
           inserts.push(findId({
             email: email,
             passwordHash: 'imported hash',
-            passwordSalt: 'imported salt',
             firstName: record['Име'].trim(),
             lastName: record['Фамилия'].trim(),
             createdAt: new Date(),
@@ -109,7 +108,7 @@ module.exports = {
                 notes: record['Бележки']
               })),
               record['Квадрат']?
-              queryInterface.bulkUpdate('Zones', {ownerId: id}, {id: record['Квадрат']}).then(function(res){
+              queryInterface.bulkUpdate('Zones', {ownerId: id, status: 'owned'}, {id: record['Квадрат']}).then(function(res){
                 counts.zones += res[1].rowCount;
                 if (res[1].rowCount == 0) {
                   console.warn("Unknown zone "+record['Квадрат']);
