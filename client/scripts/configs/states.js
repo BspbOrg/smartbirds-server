@@ -73,8 +73,8 @@ module.config(function ($stateProvider, $urlRouterProvider) {
         //parent: 'base',
         abstract: true,
         templateUrl: '/views/layout.html',
-        controller: 'DataController',
-        controllerAs: 'data',
+        controller: 'MainController',
+        controllerAs: 'main',
         data: {
           roles: ['user']
         },

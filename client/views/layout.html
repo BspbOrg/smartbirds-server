@@ -60,11 +60,14 @@
                         <a ui-sref="auth.zones">
                             <i class="fa fa-map fa-fw"></i>
                             Площадки
-                            <span class="badge" ng-if="$user.isAdmin" title="Заявени">3</span>
+                            <span ng-if="main.zonesIndicator" class="badge" title="Заявени зони">{{main.zonesIndicator}}</span>
                         </a>
                     </li>
                     <li ng-if="$user.isAdmin()">
-                        <a ui-sref="auth.users"><i class="fa fa-users fa-fw"></i> Потребители</a>
+                        <a ui-sref="auth.users">
+                          <i class="fa fa-users fa-fw"></i>
+                          Потребители
+                        </a>
                     </li>
                 </ul>
             </div>
