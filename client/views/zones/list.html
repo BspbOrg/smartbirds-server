@@ -35,22 +35,10 @@
               </div>
 
               <div class="form-group">
-                <label>Наблюдател</label>
+                <label for="owner">Наблюдател</label>
 
-                <div class="input-group">
-                  <input type="text" ng-model="zonesController.filter.owner" name="owner"
-                         placeholder="- всички -" class="form-control"
-                         uib-typeahead="user as user.getName() for user in zonesController.getUsers($viewValue)"
-                         typeahead-loading="zonesController.loadingUsers"
-                         typeahead-no-results="zonesController.noUsers"
-                         typeahead-wait-ms="200"
-                  >
-
-                  <div ng-if="zonesController.loadingUsers || zonesController.noUsers" class="input-group-addon">
-                    <i ng-if="zonesController.loadingUsers" class="glyphicon glyphicon-refresh"></i>
-                    <i ng-if="zonesController.noUsers" title="Няма намерени потребители" class="glyphicon glyphicon-remove"></i>
-                  </div>
-                </div>
+                <user-selector model-id="zonesController.filter.owner" name="owner"
+                               placeholder="- всички -"></user-selector>
 
                 <!--<ui-select multiple ng-model="zonesController.filter.owner" name="owner">-->
                 <!--<ui-select-match placeholder="- всички -">{{$item}}</ui-select-match>-->
@@ -144,7 +132,19 @@
             </div>
           </div>
 
-          <div ng-if="$state.chooseOwner" ng-class="{'input-group': zonesController.loadingUsers || zonesController.noUsers || zone.owner.id}">
+          <user-selector ng-if="$state.chooseOwner"
+                         model-id="zone.ownerId"
+                         model="zone.owner"
+                         name="zone{{zone.id}}-owner"
+                         placeholder="изберете потребител" input-class="input-sm"
+                         btn-class="btn-sm"
+                         confirm="true"
+                         on-select="zonesController.setOwner(zone, zone.owner); $state.chooseOwner=false"
+                         on-cancel="$state.chooseOwner=false"
+          ></user-selector>
+
+          <div ng-if="false && $state.chooseOwner"
+               ng-class="{'input-group': zonesController.loadingUsers || zonesController.noUsers || zone.owner.id}">
             <input type="text"
                    ng-model="zone.owner" name="owner"
                    placeholder="- всички -" class="form-control input-sm"

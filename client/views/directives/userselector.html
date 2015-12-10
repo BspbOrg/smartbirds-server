@@ -1,0 +1,33 @@
+<div ng-class="{'input-group': field.loadingUsers || field.noUsers || (confirm && field.value.id) }">
+  <input type="text"
+         id="{{name}}"
+         name="{{name}}"
+         class="form-control {{inputClass}}"
+         placeholder="{{placeholder}}"
+         ng-blur="field.onSelect()"
+         ng-model="field.value"
+         typeahead-append-to-body="true"
+         typeahead-editable="false"
+         typeahead-focus-first="true"
+         typeahead-loading="field.loadingUsers"
+         typeahead-on-select="field.onSelect($item, $model, $label)"
+         typeahead-no-results="field.noUsers"
+         typeahead-wait-ms="200"
+         uib-typeahead="user as user.getName() for user in field.getUsers($viewValue)"
+  >
+
+  <div ng-if="field.loadingUsers || field.noUsers" class="input-group-addon">
+    <i ng-if="field.loadingUsers" class="glyphicon glyphicon-refresh"></i>
+    <i ng-if="field.noUsers" title="Няма намерени потребители" class="glyphicon glyphicon-remove"></i>
+  </div>
+  <div ng-if="confirm && field.value.id" class="input-group-btn">
+    <button type="button" class="btn btn-danger {{btnClass}}"
+            ng-click="field.cancel($event)">
+      <i class="fa fa-close fa-fw"></i>
+    </button>
+    <button type="button" class="btn btn-success {{btnClass}}"
+            ng-click="field.confirm($event)">
+      <i class="fa fa-check fa-fw"></i>
+    </button>
+  </div>
+</div>
