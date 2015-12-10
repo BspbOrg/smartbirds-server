@@ -14,11 +14,15 @@
     margin-bottom: 20px;
 }
 
+@media (min-width: @screen-sm-min) {
 .form-filter .form-group {
     display: inline-block;
     max-width: 30%;
     float: left;
     padding: 5px;
+
+
+}
 }
 
 .zone .owner .actions {
@@ -40,4 +44,10 @@
 .request .angular-google-map-container {
     height: 800px;
     height: 60vh;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }

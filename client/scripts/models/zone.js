@@ -26,6 +26,27 @@ require('../app').factory('Zone', function ($resource, ENDPOINT_URL) {
         id: '@id'
       },
       url: ENDPOINT_URL + '/zone/:id/owner'
+    },
+    respond: {
+      method: 'POST',
+      params: {
+        id: '@id'
+      },
+      url: ENDPOINT_URL + '/zone/:id/owner/response'
+    },
+    removeOwner: {
+      method: 'DELETE',
+      params: {
+        id: '@id'
+      },
+      url: ENDPOINT_URL + '/zone/:id/owner'
+    },
+    setOwner: {
+      method: 'PUT',
+      params: {
+        id: '@id'
+      },
+      url: ENDPOINT_URL + '/zone/:id/owner'
     }
   });
 
@@ -43,10 +64,52 @@ require('../app').factory('Zone', function ($resource, ENDPOINT_URL) {
         }
     },
     getStatus: function () {
-      if (isUndefined(this.ownerId)) return;
-      return this.ownerId ? 'owned' : 'free';
+      return this.status;
+    },
+    $respond: function(response) {
+      var self = this;
+      if (response) {
+        this.status = 'owned';
+      } else {
+        this.status = 'free';
+        this.owner = null;
+        this.ownerId = null;
+      }
+      return Zone.respond.call(this, {id: this.id}, {response: response}).then(function(response){
+        var data = response.data;
+        if (data) {
+          Zone.call(self, data);
+        }
+      });
+    },
+    $removeOwner: function() {
+      this.ownerId = null;
+      this.owner = null;
+      this.status = 'free';
+      return Zone.removeOwner.call(this, {id: this.id}, this);
+    },
+
+    $setOwner: function(owner) {
+      var self = this;
+      this.owner = owner;
+      this.ownerId = owner.id;
+      this.status = 'owned';
+      return Zone.setOwner.call(this, {id: this.id}, {owner: owner.id}).then(function(response){
+        var data = response.data;
+        if (data) {
+          Zone.call(self, data);
+        }
+      });
     }
   });
+
+  Zone.statuses = function() {
+    return {
+      free: 'свободна',
+      requested: 'заявена',
+      owned: 'заета'
+    };
+  };
 
   return Zone;
 });

@@ -1,181 +1,206 @@
 <div class="row">
-    <div class="col-lg-12">
-        <h1 class="page-header">
-            Площадки
-        </h1>
-    </div>
+  <div class="col-lg-12">
+    <h1 class="page-header">
+      Площадки
+    </h1>
+  </div>
 </div>
 
 <div ng-if="$user.isAdmin" class="row">
-    <div class="col-lg-12">
-        <form role="form" class="form form-filter">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-12">
+  <div class="col-lg-12">
+    <form role="form" class="form form-filter">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-lg-12">
 
-                            <div class="form-group">
-                                <label>Локация</label>
-                                <input name="location" type="text" class="form-control"
-                                       ng-model="data.filter.location"
-                                       placeholder="- всички -"
-                                       uib-typeahead="location as location.id for location in ::areaLocations | filter:$viewValue | limitTo:10">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Площадки</label>
-                                <ui-select multiple ng-model="data.filter.status" name="status">
-                                    <ui-select-match placeholder="- всички -">{{$item}}</ui-select-match>
-                                    <ui-select-choices repeat="status in data.statuses | filter:$select.search">
-                                        <div ng-bind-html="status | uibTypeaheadHighlight:$select.search"></div>
-                                    </ui-select-choices>
-                                </ui-select>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Наблюдател</label>
-                                <ui-select multiple ng-model="data.filter.owner" name="owner">
-                                    <ui-select-match placeholder="- всички -">{{$item}}</ui-select-match>
-                                    <ui-select-choices
-                                        repeat="owner in data.users | filter:$select.search | limitTo:10">
-                                        <div ng-bind-html="owner | uibTypeaheadHighlight:$select.search"></div>
-                                    </ui-select-choices>
-                                </ui-select>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Последно преброяване</label>
-                                <ui-select ng-model="data.filter.last_monitoring" name="last_monitoring">
-                                    <ui-select-match placeholder="- без значение -">{{$select.selected}}
-                                    </ui-select-match>
-                                    <ui-select-choices
-                                        repeat="monitoring in data.monitorings | filter:$select.search | limitTo:10">
-                                        <div ng-bind-html="monitoring | uibTypeaheadHighlight:$select.search"></div>
-                                    </ui-select-choices>
-                                </ui-select>
-                            </div>
-
-                        </div>
-                    </div>
+              <!-- not implemented yet
+                <div class="form-group">
+                    <label>Локация</label>
+                    <input name="location" type="text" class="form-control"
+                           ng-model="zonesController.filter.location"
+                           placeholder="- всички -"
+                           uib-typeahead="location as location.id for location in ::areaLocations | filter:$viewValue | limitTo:10">
                 </div>
+                -->
+
+              <div class="form-group">
+                <label>Площадки</label>
+                <ui-select multiple ng-model="zonesController.filter.status" name="status">
+                  <ui-select-match placeholder="- всички -">{{$item.value}}</ui-select-match>
+                  <ui-select-choices repeat="name.id as (id, name) in zoneStatuses | filter:$select.search">
+                    <div ng-bind-html="name.value | uibTypeaheadHighlight:$select.search"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+
+              <div class="form-group">
+                <label>Наблюдател</label>
+
+                <div class="input-group">
+                  <input type="text" ng-model="zonesController.filter.owner" name="owner"
+                         placeholder="- всички -" class="form-control"
+                         uib-typeahead="user as user.getName() for user in zonesController.getUsers($viewValue)"
+                         typeahead-loading="zonesController.loadingUsers"
+                         typeahead-no-results="zonesController.noUsers"
+                         typeahead-wait-ms="200"
+                  >
+
+                  <div ng-if="zonesController.loadingUsers || zonesController.noUsers" class="input-group-addon">
+                    <i ng-if="zonesController.loadingUsers" class="glyphicon glyphicon-refresh"></i>
+                    <i ng-if="zonesController.noUsers" title="Няма намерени потребители" class="glyphicon glyphicon-remove"></i>
+                  </div>
+                </div>
+
+                <!--<ui-select multiple ng-model="zonesController.filter.owner" name="owner">-->
+                <!--<ui-select-match placeholder="- всички -">{{$item}}</ui-select-match>-->
+                <!--<ui-select-choices-->
+                <!--repeat="owner.id as owner in users | filter:$select.search | limitTo:10">-->
+                <!--<div ng-bind-html="owner.getName() | uibTypeaheadHighlight:$select.search"></div>-->
+                <!--</ui-select-choices>-->
+                <!--</ui-select>-->
+              </div>
+
+              <!-- not implemented yet
+              <div class="form-group">
+                <label>Последно преброяване</label>
+                <ui-select ng-model="zonesController.filter.last_monitoring" name="last_monitoring">
+                  <ui-select-match placeholder="- без значение -">{{$select.selected}}
+                  </ui-select-match>
+                  <ui-select-choices
+                    repeat="monitoring in monitorings | filter:$select.search | limitTo:10">
+                    <div ng-bind-html="monitoring | uibTypeaheadHighlight:$select.search"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+              -->
+
             </div>
-        </form>
-    </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 
 <div class="row">
 
-    <div
-        ng-repeat="zone in rows | filter:zonesController.filterZones($user.isAdmin?data.filter:false) | limitTo:25"
-        class="col-md-6 col-lg-4">
-        <div class="panel zone"
-             ng-class="zone.getStatus()=='owned'?'panel-primary':zone.getStatus()=='requested'?'panel-warning':'panel-default'">
-            <div class="panel-heading">
-                <i class="fa fa-map-marker fa-fw"></i>
-                <span class="hidden">{{zone.id}}</span>
-                {{zone.location.type.bg}} {{zone.location.name.bg}}, {{zone.location.area.bg}}
-                <span class="hidden">({{zone.getStatus()}})</span>
+  <div
+    ng-repeat="zone in visibleRows"
+    class="col-md-6 col-lg-4">
+    <div class="panel zone"
+         ng-class="{
+          'panel-primary': zone.status=='owned',
+          'panel-warning': zone.status=='requested',
+          'panel-default': zone.status=='free'
+          }">
+      <div class="panel-heading ellipsis"
+           title="{{zone.location.type.bg}} {{zone.location.name.bg}}, {{zone.location.area.bg}}">
+        <i class="fa fa-map-marker fa-fw"></i>
+        <span class="hidden">{{zone.id}}</span>
+        {{zone.location.type.bg}} {{zone.location.name.bg}}, {{zone.location.area.bg}}
+        <span class="hidden">({{zone.status}})</span>
+        <span class="hidden">{{($user.isAdmin()?'admin':'user')+'_'+zone.status}}</span>
+      </div>
+      <!-- /.panel-heading -->
+      <div>
+        <a href ui-sref="auth.zones.view({id: zone.id})" class="thumbnail">
+          <img ng-src="{{zonesController.getStaticMap(zone)}}" width="100%" class="userMap">
+        </a>
+        <!--<ui-gmap-google-map center='zone.getCenter()' zoom='14' options="{mapTypeId: 'satellite'}">-->
+        <!--<ui-gmap-polygon static="true"-->
+        <!--path="zone.coordinates"-->
+        <!--fill="{color: zone.getStatus()=='free'?'#fff':zone.getStatus()=='owned'?'#f00':'#f90', opacitiy: 0.4}"-->
+        <!--stroke="{color: zone.getStatus()=='free'?'#fff':zone.getStatus()=='owned'?'#f00':'#f90', opacity: 0.7, weight: 0.5}"-->
+        <!--geodesic="true"-->
+        <!--fit="true"-->
+        <!--&gt;</ui-gmap-polygon>-->
+        <!--</ui-gmap-google-map>-->
+      </div>
 
-                <div class="pull-right">
-                    <div class="btn-group" ng-switch="($user.isAdmin?'admin':'user')+'_'+zone.getStatus()">
-                        <button ng-switch-when="admin_requested" type="button" class="btn btn-danger btn-xs"
-                                ng-click="zonesController.setZoneStatus(zone, 'free')">
-                            <i class="fa fa-close fa-fw"></i>
-                        </button>
-                        <button ng-switch-when="admin_requested" type="button" class="btn btn-success btn-xs"
-                                ng-click="zonesController.setZoneStatus(zone, 'owned')">
-                            <i class="fa fa-check fa-fw"></i>
-                        </button>
-                        <button ng-switch-when="user_owned" type="button" class="btn btn-default btn-xs">
-                            <i class="fa fa-print fa-fw"></i>
-                        </button>
-                        <button ng-switch-when="user_owned" type="button" class="btn btn-default btn-xs">
-                            <i class="fa fa-download fa-fw"></i>
-                        </button>
-                        <button ng-switch-when="user_owned" type="button" class="btn btn-default btn-xs">
-                            <i class="fa fa-edit fa-fw"></i>
-                        </button>
-                    </div>
-                </div>
+      <ul ng-if="$user.isAdmin()" class="list-group">
+        <li class="list-group-item ellipsis owner" ng-init="$state={}">
+          <div ng-if="!$state.chooseOwner" class="actions pull-right"
+               ng-switch="($user.isAdmin()?'admin':'user')+'_'+zone.status">
+            <div class="btn-group">
+              <button ng-switch-when="admin_requested" type="button" class="btn btn-danger btn-xs"
+                      ng-click="zonesController.rejectRequest(zone)">
+                <i class="fa fa-close fa-fw"></i>
+              </button>
+              <button ng-switch-when="admin_requested" type="button" class="btn btn-success btn-xs"
+                      ng-click="zonesController.approveRequest(zone)">
+                <i class="fa fa-check fa-fw"></i>
+              </button>
+              <button ng-if="zone.status=='owned'" type="button"
+                      class="btn btn-danger btn-xs" title="Премахване на наблюдател"
+                      ng-click="zonesController.removeOwner(zone)">
+                <i class="fa fa-remove"></i>
+              </button>
+              <button ng-if="zone.status=='free' && !$state.chooseOwner" type="button"
+                      class="btn btn-primary btn-xs" title="Добавяне на наблюдател"
+                      ng-click="$state.chooseOwner=true">
+                <i class="fa fa-edit"></i>
+              </button>
             </div>
-            <!-- /.panel-heading -->
-            <div>
-                <a href ui-sref="auth.zones.view({id: zone.id})" class="thumbnail">
-                    <img ng-src="{{zonesController.getStaticMap(zone)}}" width="100%" class="userMap">
-                </a>
-                <!--<ui-gmap-google-map center='zone.getCenter()' zoom='14' options="{mapTypeId: 'satellite'}">-->
-                    <!--<ui-gmap-polygon static="true"-->
-                                     <!--path="zone.coordinates"-->
-                                     <!--fill="{color: zone.getStatus()=='free'?'#fff':zone.getStatus()=='owned'?'#f00':'#f90', opacitiy: 0.4}"-->
-                                     <!--stroke="{color: zone.getStatus()=='free'?'#fff':zone.getStatus()=='owned'?'#f00':'#f90', opacity: 0.7, weight: 0.5}"-->
-                                     <!--geodesic="true"-->
-                                     <!--fit="true"-->
-                        <!--&gt;</ui-gmap-polygon>-->
-                <!--</ui-gmap-google-map>-->
+          </div>
+
+          <div ng-if="$state.chooseOwner" ng-class="{'input-group': zonesController.loadingUsers || zonesController.noUsers || zone.owner.id}">
+            <input type="text"
+                   ng-model="zone.owner" name="owner"
+                   placeholder="- всички -" class="form-control input-sm"
+                   uib-typeahead="user as user.getName() for user in zonesController.getUsers($viewValue)"
+                   typeahead-loading="zonesController.loadingUsers"
+                   typeahead-no-results="zonesController.noUsers"
+                   typeahead-wait-ms="200"
+                   typeahead-append-to-body="true"
+            >
+
+            <div ng-if="zonesController.loadingUsers || zonesController.noUsers" class="input-group-addon">
+              <i ng-if="zonesController.loadingUsers" class="glyphicon glyphicon-refresh"></i>
+              <i ng-if="zonesController.noUsers" title="Няма намерени потребители"
+                 class="glyphicon glyphicon-remove"></i>
             </div>
+            <div ng-if="zone.owner.id" class="input-group-btn">
+              <button type="button" class="btn btn-danger btn-sm"
+                      ng-click="zone.owner = null; $state.chooseOwner=false">
+                <i class="fa fa-close fa-fw"></i>
+              </button>
+              <button type="button" class="btn btn-success btn-sm"
+                      ng-click="zonesController.setOwner(zone, zone.owner); $state.chooseOwner=false">
+                <i class="fa fa-check fa-fw"></i>
+              </button>
+            </div>
+          </div>
 
-            <ul ng-if="$user.isAdmin" class="list-group">
-                <li class="list-group-item owner" ng-init="zone.$chooseOwner = false">
-                    <ui-select ng-if="zone.$chooseOwner" ng-model="zone.owner">
-                        <ui-select-match placeholder="Изберете наблюдател">
-                            {{$select.selected}}
-                            <div class="pull-right">
-                                <button role="button" class="btn btn-danger btn-xs"
-                                        ng-click="zone.owner=null; zone.$chooseOwner=false;">
-                                    <i class="fa fa-close"></i>
-                                </button>
-                                <button role="button" class="btn btn-success btn-xs"
-                                        ng-click="zonesController.setZoneStatus(zone, 'owned')">
-                                    <i class="fa fa-check"></i>
-                                </button>
-                            </div>
-                        </ui-select-match>
-                        <ui-select-choices
-                            repeat="owner in data.users | filter:$select.search | limitTo:10">
-                            <div ng-bind-html="owner | uibTypeaheadHighlight:$select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                    <span ng-if="$user.isAdmin && !zone.$chooseOwner">
-                        <a ng-if="zone.owner" href ui-sref="auth.users.view({id: zone.owner.id})">{{zone.owner.firstName}} {{zone.owner.lastName}}</a>
-                        <span ng-if="!zone.owner">свободна площадка</span>
-                    </span>
+          <p ng-if="!$state.chooseOwner">
+            <a ng-if="zone.ownerId" href ui-sref="auth.users.view({id: zone.ownerId})">
+              {{zone.owner.firstName}} {{zone.owner.lastName}}
+            </a>
+            <span ng-if="!zone.ownerId">свободна площадка</span>
+          </p>
 
-                    <div class="actions pull-right">
-                        <div class="btn-group">
-                            <button ng-if="$user.isAdmin && zone.getStatus()=='owned'" type="button"
-                                    class="btn btn-danger btn-xs" title="Премахване на наблюдател"
-                                    ng-click="zonesController.setZoneStatus(zone, 'free')">
-                                <i class="fa fa-remove"></i>
-                            </button>
-                            <button ng-if="$user.isAdmin && zone.getStatus()=='free' && !zone.$chooseOwner" type="button"
-                                    class="btn btn-primary btn-xs" title="Добавяне на наблюдател"
-                                    ng-click="zone.$chooseOwner=true">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <!-- /.panel-body -->
-        </div>
+        </li>
+      </ul>
+      <!-- /.panel-body -->
     </div>
+  </div>
 
-    <div ng-if="!$user.isAdmin()" class="col-md-6 col-lg-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="fa fa-map-o fa-fw"></i>
-                Request new zone
-            </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-                <div class="aspect-map">
-                    <a class="text-center" href ui-sref="auth.zones.request" style="display:block;">
-                        <i class="fa fa-plus fa-fw"
-                           style="font-size: 150px; line-height: 170px; top: 50%; margin-top: -85px; position: absolute; left: 50%; margin-left: -96px;"></i>
-                    </a>
-                </div>
-            </div>
-            <!-- /.panel-body -->
+  <div ng-if="!$user.isAdmin()" class="col-md-6 col-lg-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <i class="fa fa-map-o fa-fw"></i>
+        Request new zone
+      </div>
+      <!-- /.panel-heading -->
+      <div class="panel-body">
+        <div class="aspect-map">
+          <a class="text-center" href ui-sref="auth.zones.request" style="display:block;">
+            <i class="fa fa-plus fa-fw"
+               style="font-size: 150px; line-height: 170px; top: 50%; margin-top: -85px; position: absolute; left: 50%; margin-left: -96px;"></i>
+          </a>
         </div>
+      </div>
+      <!-- /.panel-body -->
     </div>
+  </div>
 </div>

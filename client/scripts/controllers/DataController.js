@@ -45,33 +45,6 @@ require('../app')
         //}, 100);
 
 
-        vc.filterZones = function(filter) {
-            return function(zone) {
-                if (filter && filter.owner && filter.owner.length) {
-                    if (filter.owner.indexOf(zone.owner) == -1) return false;
-                }
-
-                if (filter && filter.location && filter.location.zones && filter.location.zones.indexOf(zone) == -1) {
-                    return false;
-                }
-
-                if (filter && filter.last_monitoring) {
-                    var fidx = vc.monitorings.indexOf(filter.last_monitoring);
-                    var zidx = vc.monitorings.indexOf(zone.last_monitoring);
-                    if (fidx < zidx) return false;
-                }
-
-                if (filter && filter.status && filter.status.length) {
-                    if (filter.status.indexOf(zone.status) == -1) return false;
-                }
-
-                if (!$rootScope.$user.isAdmin && (zone.owner || !filter.status == 'free')) {
-                    if ($rootScope.$user.name != zone.owner) return false;
-                }
-                return true;
-            }
-        };
-
         vc.filterRows = function(filter) {
             return function(row) {
                 if (filter && filter.monitoring && filter.monitoring != row.monitoring) {

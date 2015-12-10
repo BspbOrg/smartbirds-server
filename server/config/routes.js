@@ -22,14 +22,17 @@ exports.default = {
         { path: '/session/:email/resetpw', action: 'user:lost' },
         { path: '/session/:email/resetpw2', action: 'user:reset' },
         { path: '/zone/:id/owner', action: 'zone:requestOwnership' },
+        { path: '/zone/:id/owner/response', action: 'zone:respondOwnershipRequest' },
       ],
 
       put: [
         { path: '/session',  action: 'session:check' },
+        { path: '/zone/:id/owner', action: 'zone:setOwner' },
       ],
 
       delete: [
         { path: '/session',  action: 'session:destroy' },
+        { path: '/zone/:id/owner', action: 'zone:clearOwner' },
       ],
     }
   }

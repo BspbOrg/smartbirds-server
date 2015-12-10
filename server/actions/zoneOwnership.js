@@ -2,6 +2,8 @@
  * Created by groupsky on 09.12.15.
  */
 
+var Promise = require('bluebird');
+
 function getZone(api, data, next) {
   var q = {
     where: {id: data.params.id},
@@ -25,21 +27,25 @@ exports.zoneOwnershipRequest = {
     getZone(api, data, next).then(function (zone) {
         if (!zone) {
           data.connection.rawConnection.responseHttpCode = 404;
-          return next(new Error('zone not found'));
+          return Promise.reject(next(new Error('zone not found')));
         }
 
         if (zone.status !== 'free' && zone.ownerId !== data.session.userId) {
           data.connection.rawConnection.responseHttpCode = 409;
-          return next(new Error('zone is not free'));
+          return Promise.reject(next(new Error('zone is not free')));
         }
 
         return zone.update({
           status: 'requested',
           ownerId: data.session.userId
-        }).then(function (zone) {
-          data.response.data = zone.apiData(api);
-          next();
         });
+      })
+      .then(function (zone) {
+        return getZone(api, data, next);
+      })
+      .then(function (zone) {
+        data.response.data = zone.apiData(api);
+        next();
       })
     ;
   }
@@ -60,12 +66,12 @@ exports.zoneOwnershipRespond = {
     getZone(api, data, next).then(function (zone) {
         if (!zone) {
           data.connection.rawConnection.responseHttpCode = 404;
-          return next(new Error('zone not found'));
+          return Promise.reject(next(new Error('zone not found')));
         }
 
         if (zone.status !== 'requested') {
           data.connection.rawConnection.responseHttpCode = 409;
-          return next(new Error('zone is not requested'));
+          return Promise.reject(next(new Error('zone is not requested')));
         }
 
         if (data.params.response) {
@@ -77,10 +83,12 @@ exports.zoneOwnershipRespond = {
         }
       })
       .then(function (zone) {
+        return getZone(api, data, next);
+      })
+      .then(function (zone) {
         data.response.data = zone.apiData(api);
         next();
       })
-      .catch(next)
     ;
   }
 };
@@ -99,13 +107,13 @@ exports.zoneSetOwner = {
     getZone(api, data, next).then(function (zone) {
         if (!zone) {
           data.connection.rawConnection.responseHttpCode = 404;
-          return next(new Error('zone not found'));
+          return Promise.reject(next(new Error('zone not found')));
         }
 
         return api.models.user.findById(data.params.owner).then(function (user) {
           if (!user) {
             data.connection.rawConnection.responseHttpCode = 404;
-            return next(new Error('user not found'));
+            return Promise.reject(next(new Error('user not found')));
           }
 
           return zone.update({
@@ -115,10 +123,12 @@ exports.zoneSetOwner = {
         });
       })
       .then(function (zone) {
+        return getZone(api, data, next);
+      })
+      .then(function (zone) {
         data.response.data = zone.apiData(api);
         next();
       })
-      .catch(next)
     ;
   }
 };
@@ -136,19 +146,22 @@ exports.zoneClearOwner = {
     getZone(api, data, next).then(function (zone) {
         if (!zone) {
           data.connection.rawConnection.responseHttpCode = 404;
-          return next(new Error('zone not found'));
+          return Promise.reject(next(new Error('zone not found')));
         }
 
         return zone.update({
           status: 'free',
-          ownerId: null
+          ownerId: null,
+          owner: null
         });
+      })
+      .then(function (zone) {
+        return getZone(api, data, next);
       })
       .then(function (zone) {
         data.response.data = zone.apiData(api);
         next();
       })
-      .catch(next)
     ;
   }
 };

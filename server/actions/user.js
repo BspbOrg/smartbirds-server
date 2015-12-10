@@ -53,7 +53,7 @@ exports.userLost = {
         user.genPasswordToken(function (error, passwordToken) {
           if (error) return next(error);
 
-          user.save().then(function(userObj){
+          user.save().then(function (userObj) {
 
             api.tasks.enqueue("mail:send", {
               mail: {to: userObj.email, subject: "Password recovery"},
@@ -62,8 +62,8 @@ exports.userLost = {
                 passwordToken: passwordToken,
                 email: userObj.email
               }
-            }, 'default', function(error, toRun) {
-              if(error) return next(error);
+            }, 'default', function (error, toRun) {
+              if (error) return next(error);
 
               data.response.data = {success: toRun};
               next();
@@ -85,26 +85,26 @@ exports.userReset = {
     token: {required: true},
     password: {required: true}
   },
-  run: function(api, data, next) {
+  run: function (api, data, next) {
     api.models.user.findOne({where: {email: data.params.email}}).then(function (user) {
         if (!user) {
           data.connection.rawConnection.responseHttpCode = 404;
           return next(new Error('user not found'));
         }
 
-        if (!user.forgotPasswordTimestamp || Date.now()-user.forgotPasswordTimestamp.getTime() > 1000*60*60) {
+        if (!user.forgotPasswordTimestamp || Date.now() - user.forgotPasswordTimestamp.getTime() > 1000 * 60 * 60) {
           data.connection.rawConnection.responseHttpCode = 400;
           return next(new Error('invalid token'));
         }
 
-        return user.checkPasswordToken(data.params.token, function(error, matched) {
+        return user.checkPasswordToken(data.params.token, function (error, matched) {
           if (error) return next(error);
           if (!matched) {
             data.connection.rawConnection.responseHttpCode = 400;
             return next(new Error('invalid token'));
           }
 
-          return user.updatePassword(data.params.password, function(error) {
+          return user.updatePassword(data.params.password, function (error) {
             if (error) return next(error);
 
             return user.save()
@@ -201,17 +201,37 @@ exports.userList = {
 
   inputs: {
     limit: {required: false, default: 20},
-    offset: {required: false, default: 0}
+    offset: {required: false, default: 0},
+    q: {required: false}
   },
 
   run: function (api, data, next) {
     var limit = Math.min(1000, data.params.limit || 20);
     var offset = data.params.offset || 0;
 
-    api.models.user.findAndCountAll({
+    var q = {
       limit: limit,
       offset: offset
-    }).then(function (result) {
+    };
+
+    if (data.params.q) {
+      q.where = _.extend(q.where || {}, {
+        $or: [
+          {
+            firstName: {
+              $ilike: data.params.q + '%'
+            }
+          },
+          {
+            lastName: {
+              $ilike: data.params.q + '%'
+            }
+          }
+        ]
+      });
+    }
+
+    api.models.user.findAndCountAll(q).then(function (result) {
       data.response.count = result.count;
       data.response.data = result.rows.map(function (user) {
         return user.apiData(api);

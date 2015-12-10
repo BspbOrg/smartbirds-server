@@ -7,7 +7,7 @@ var esc = require('escape-string-regexp');
 require('../app').run(function ($httpBackend, $rootScope, ENDPOINT_URL) {
 
   // auth
-  var sessionEndpoint = new RegExp(esc(ENDPOINT_URL + '/session') + '.*')
+  var sessionEndpoint = new RegExp(esc(ENDPOINT_URL + '/session') + '.*');
   $httpBackend.whenPUT(sessionEndpoint).passThrough();
   $httpBackend.whenPOST(sessionEndpoint).passThrough();
   $httpBackend.whenDELETE(sessionEndpoint).passThrough();
@@ -15,43 +15,17 @@ require('../app').run(function ($httpBackend, $rootScope, ENDPOINT_URL) {
   // views
   $httpBackend.whenGET(/\/views\/.*/).passThrough();
 
+  // users
+  $httpBackend.whenGET(new RegExp(esc(ENDPOINT_URL+'/user')+'.*')).passThrough();
+
   // zones
-  $httpBackend.whenGET(ENDPOINT_URL+'/zone').passThrough();
-  $httpBackend.whenPOST(new RegExp(esc(ENDPOINT_URL+'/zone/')+'[^\/]+'+esc('/owner'))).passThrough();
-  //  .respond(function(method, url, data){
-  //  var path = url.split('/').slice(-3);
-  //  var zoneId = decodeURIComponent(path[0]);
-  //  var userId = decodeURIComponent(path[2]);
-  //
-  //  console.log('requested', userId, 'to own', zoneId, 'with', data);
-  //
-  //  return [200, {success: true}, {}];
-  //});
+  $httpBackend.whenGET(new RegExp(esc(ENDPOINT_URL+'/zone')+'.*')).passThrough();
+  $httpBackend.whenPOST(new RegExp(esc(ENDPOINT_URL+'/zone')+'.*')).passThrough();
+  $httpBackend.whenDELETE(new RegExp(esc(ENDPOINT_URL+'/zone/')+'[^/]+'+esc('/owner'))).passThrough();
+  $httpBackend.whenPUT(new RegExp(esc(ENDPOINT_URL+'/zone/')+'[^/]+'+esc('/owner'))).passThrough();
 
   // locations
   $httpBackend.whenGET(ENDPOINT_URL + '/locations').passThrough();
-  //respond(function (method, url, data) {
-  //  return [200, {data: $rootScope.locations}, {}];
-  //});
   $httpBackend.whenGET(new RegExp(esc(ENDPOINT_URL + '/locations/')+"[^\/]+"+esc('/zones/')+"[^\/]+")).passThrough();
-  //  .respond(function(method, url, data){
-  //  var path = url.split('/').slice(-3);
-  //  var locationId = decodeURIComponent(path[0]);
-  //  var filter = decodeURIComponent(path[2]);
-  //
-  //  var location = null;
-  //  $rootScope.locations.every(function(loc) {
-  //    if (loc.id == locationId) {
-  //      location = loc;
-  //      return false;
-  //    }
-  //    return true;
-  //  });
-  //  if (location) {
-  //    return [200, {success: true, data: location.zones}, {}];
-  //  } else {
-  //    return [404, {error: "Unknown location "+locationId}, {}];
-  //  }
-  //});
 
 });
