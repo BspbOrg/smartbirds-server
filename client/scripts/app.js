@@ -15,10 +15,8 @@ require('ngSanitize');
 require('angular-validation-match');
 require('angular-resource');
 require('angular-cookies');
-require('angular-mocks');
 
 var dependencies = [
-  'ngMockE2E',
   'ngCookies',
   'ngResource',
   'ngSanitize',
@@ -30,6 +28,11 @@ var dependencies = [
   'uiGmapgoogle-maps',
   'validation.match'
 ];
+
+if (process.env.NODE_ENV !== "production") {
+  require('angular-mocks');
+  dependencies.push('ngMockE2E');
+}
 
 var app = module.exports = angular.module('sb', dependencies);
 
