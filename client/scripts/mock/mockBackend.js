@@ -25,7 +25,6 @@ require('../app').run(function ($httpBackend, $rootScope, ENDPOINT_URL) {
   $httpBackend.whenPUT(new RegExp(esc(ENDPOINT_URL+'/zone/')+'[^/]+'+esc('/owner'))).passThrough();
 
   // locations
-  $httpBackend.whenGET(ENDPOINT_URL + '/locations').passThrough();
-  $httpBackend.whenGET(new RegExp(esc(ENDPOINT_URL + '/locations/')+"[^\/]+"+esc('/zones/')+"[^\/]+")).passThrough();
+  $httpBackend.whenGET(new RegExp(esc(ENDPOINT_URL + '/locations')+'.*')).passThrough();
 
 });

@@ -13,13 +13,14 @@
          typeahead-loading="field.loading"
          typeahead-on-select="field.onSelect($item, $model, $label)"
          typeahead-no-results="field.noResults"
+         typeahead-template-url="/views/directives/location.html"
          typeahead-wait-ms="200"
-         uib-typeahead="user as user.getName() for user in field.getModels($viewValue)"
+         uib-typeahead="location as location.type.bg+' '+location.name.bg+', '+location.area.bg for location in field.getModels($viewValue)"
   >
 
   <div ng-if="field.loading || field.noResults" class="input-group-addon">
     <i ng-if="field.loading" class="glyphicon glyphicon-refresh"></i>
-    <i ng-if="field.noResults" title="Няма намерени потребители" class="glyphicon glyphicon-remove"></i>
+    <i ng-if="field.noResults" title="Няма намерени локации" class="glyphicon glyphicon-remove"></i>
   </div>
   <div ng-if="confirm && field.value.id" class="input-group-btn">
     <button type="button" class="btn btn-danger {{btnClass}}"

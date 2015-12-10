@@ -2,8 +2,7 @@
  * Created by groupsky on 10.12.15.
  */
 
-require('../app').directive('userSelector', /*@ngInject*/function(){
-
+require('../app').directive('locationSelector', /*@ngInject*/function(){
   return {
     restrict: 'AE',
     scope: {
@@ -18,21 +17,21 @@ require('../app').directive('userSelector', /*@ngInject*/function(){
       cancel: '&onCancel',
       required: '=?'
     },
-    templateUrl: '/views/directives/userselector.html',
+    templateUrl: '/views/directives/locationselector.html',
     controllerAs: 'field',
-    controller: /*@ngInject*/function($filter, $scope, $timeout, User) {
+    controller: /*@ngInject*/function($filter, $scope, $timeout, Location) {
       var field = this;
       var filter = $filter('filter');
       var limitTo = $filter('limitTo');
 
-      $scope.$watch('model || modelId', function(userId) {
+      $scope.$watch('model || modelId', function() {
         if ($scope.model) {
           if (!field.value || field.value.id != $scope.model.id) {
             field.value = $scope.model;
           }
         } else if ($scope.modelId) {
           if (!field.value || field.value.id != $scope.modelId) {
-            field.value = User.get({id: $scope.modelId});
+            field.value = Location.get({id: $scope.modelId});
           }
         } else {
           field.value = null;
@@ -40,7 +39,7 @@ require('../app').directive('userSelector', /*@ngInject*/function(){
       });
 
       field.getModels = function (q) {
-        return User.query({q: q}).$promise.then(function(models){
+        return Location.query({q: q}).$promise.then(function(models){
           return limitTo(filter(models, q), 25);
         });
       };

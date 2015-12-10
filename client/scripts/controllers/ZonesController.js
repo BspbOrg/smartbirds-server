@@ -8,6 +8,9 @@ require('../app').controller('ZonesController', function ($scope, Zone, GMAP_KEY
   $scope.rows = zones;
   $scope.visibleRows = [].concat(zones);
   $scope.zoneStatuses = Zone.statuses();
+  if (!user.isAdmin()) {
+    delete $scope.zoneStatuses.free;
+  }
   controller.filter = {
     status: ['requested', 'owned']
   };
@@ -96,8 +99,10 @@ require('../app').controller('ZonesController', function ($scope, Zone, GMAP_KEY
         }
       }
 
-      if (filter && filter.location && filter.location.zones && filter.location.zones.indexOf(zone) == -1) {
-        return false;
+      if (filter && filter.location) {
+        if (filter.location !== zone.locationId) {
+          return false;
+        }
       }
 
       if (filter && filter.last_monitoring) {

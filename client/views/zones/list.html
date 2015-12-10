@@ -14,15 +14,11 @@
           <div class="row">
             <div class="col-lg-12">
 
-              <!-- not implemented yet
-                <div class="form-group">
-                    <label>Локация</label>
-                    <input name="location" type="text" class="form-control"
-                           ng-model="zonesController.filter.location"
-                           placeholder="- всички -"
-                           uib-typeahead="location as location.id for location in ::areaLocations | filter:$viewValue | limitTo:10">
-                </div>
-                -->
+              <div class="form-group">
+                <label for="location">Локация</label>
+                <location-selector name="location" model-id="zonesController.filter.location"
+                                   placeholder="- всички -"></location-selector>
+              </div>
 
               <div class="form-group">
                 <label>Площадки</label>
@@ -34,34 +30,12 @@
                 </ui-select>
               </div>
 
-              <div class="form-group">
+              <div ng-if="$user.isAdmin()" class="form-group">
                 <label for="owner">Наблюдател</label>
 
                 <user-selector model-id="zonesController.filter.owner" name="owner"
                                placeholder="- всички -"></user-selector>
-
-                <!--<ui-select multiple ng-model="zonesController.filter.owner" name="owner">-->
-                <!--<ui-select-match placeholder="- всички -">{{$item}}</ui-select-match>-->
-                <!--<ui-select-choices-->
-                <!--repeat="owner.id as owner in users | filter:$select.search | limitTo:10">-->
-                <!--<div ng-bind-html="owner.getName() | uibTypeaheadHighlight:$select.search"></div>-->
-                <!--</ui-select-choices>-->
-                <!--</ui-select>-->
               </div>
-
-              <!-- not implemented yet
-              <div class="form-group">
-                <label>Последно преброяване</label>
-                <ui-select ng-model="zonesController.filter.last_monitoring" name="last_monitoring">
-                  <ui-select-match placeholder="- без значение -">{{$select.selected}}
-                  </ui-select-match>
-                  <ui-select-choices
-                    repeat="monitoring in monitorings | filter:$select.search | limitTo:10">
-                    <div ng-bind-html="monitoring | uibTypeaheadHighlight:$select.search"></div>
-                  </ui-select-choices>
-                </ui-select>
-              </div>
-              -->
 
             </div>
           </div>
