@@ -1,53 +1,63 @@
 .aspect-map {
-    width: 100%;
-    padding-bottom: 66%;
-    position: relative;
-}
+  width: 100%;
+  padding-bottom: 80%;
+  position: relative;
 
-.aspect-map > * {
+  & > * {
     position: absolute;
-    top: 0; bottom: 0; left: 0; right: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 }
 
 .toolbar {
-    margin-top: -15px;
-    margin-bottom: 20px;
+  margin-top: -15px;
+  margin-bottom: 20px;
 }
 
 @media (min-width: @screen-sm-min) {
-.form-filter .form-group {
+  .form-filter .form-group {
     display: inline-block;
     max-width: 30%;
     float: left;
     padding: 5px;
 
-
-}
-}
-
-.zone .owner .actions {
-    display: none;
+  }
 }
 
-.zone .owner:hover .actions {
-    display: block;
+.zone {
+  .panel;
+
+  .thumbnail {
+    margin:0;
+    border-radius: 0;
+    padding: 0;
+    //border: none;
+  }
 }
 
-.zone .owner .ui-select-container {
-    margin: -7px 0;
-}
-
-.zone .angular-google-map-container {
-    height: 400px;
-}
-
-.request .angular-google-map-container {
-    height: 800px;
-    height: 60vh;
+.angular-google-map-container{
+  height: auto;
+  width:100%;
+  padding-top: 60%;
+  position: relative;
 }
 
 .ellipsis {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+@media print {
+  #page-wrapper {
+    margin: 0;
+    border: none;
+  }
+
+  img {
+    max-width: none !important;
+  }
 }

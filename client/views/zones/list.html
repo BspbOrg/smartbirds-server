@@ -69,15 +69,6 @@
         <a href ui-sref="auth.zones.view({id: zone.id})" class="thumbnail">
           <img ng-src="{{zonesController.getStaticMap(zone)}}" width="100%" class="userMap">
         </a>
-        <!--<ui-gmap-google-map center='zone.getCenter()' zoom='14' options="{mapTypeId: 'satellite'}">-->
-        <!--<ui-gmap-polygon static="true"-->
-        <!--path="zone.coordinates"-->
-        <!--fill="{color: zone.getStatus()=='free'?'#fff':zone.getStatus()=='owned'?'#f00':'#f90', opacitiy: 0.4}"-->
-        <!--stroke="{color: zone.getStatus()=='free'?'#fff':zone.getStatus()=='owned'?'#f00':'#f90', opacity: 0.7, weight: 0.5}"-->
-        <!--geodesic="true"-->
-        <!--fit="true"-->
-        <!--&gt;</ui-gmap-polygon>-->
-        <!--</ui-gmap-google-map>-->
       </div>
 
       <ul ng-if="$user.isAdmin()" class="list-group">
@@ -166,7 +157,7 @@
         Request new zone
       </div>
       <!-- /.panel-heading -->
-      <div class="panel-body">
+      <div>
         <div class="aspect-map">
           <a class="text-center" href ui-sref="auth.zones.request" style="display:block;">
             <i class="fa fa-plus fa-fw"
