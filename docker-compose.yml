@@ -16,3 +16,10 @@ db:
     POSTGRES_USER: 'smartbirds'
   ports:
     - "5432:5432"
+
+dbadmin:
+  image: maxexcloo/phppgadmin
+  links:
+    - "db:postgresql"
+  ports:
+    - "8080:80"
