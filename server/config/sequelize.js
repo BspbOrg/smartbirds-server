@@ -57,7 +57,12 @@ exports.test = {
     var config = {
       autoMigrate: true,
       loadFixtures: true,
-      dialect: 'sqlite'
+      dialect: 'sqlite',
+      storage: ":memory:",
+      host: "localhost",
+      port: undefined,
+      username: null,
+      password: null,
     };
     if (!process.env.LOG_DB)
       config.logging = null;
