@@ -50,11 +50,12 @@ exports.nomenclatureView = {
     };
 
     try {
-      return api.models.nomenclature.findAndCountAll(q).then(function (result) {
-        data.response.count = result.count;
-        data.response.data = result.rows.map(function (nomenclature) {
-          return nomenclature.apiData(api);
-        });
+      return api.models.nomenclature.findOne(q).then(function (nomenclature) {
+        if (!nomenclature) {
+          data.connection.rawConnection.responseHttpCode = 404;
+          return next(new Error('nomenclature not found'));
+        }
+        data.response.data = nomenclature.apiData(api);
         return next();
       }).catch(function (e) {
         console.error('Failure to list nomenclatures by type', e);
