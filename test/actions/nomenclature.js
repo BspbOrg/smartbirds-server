@@ -7,7 +7,7 @@ var should = require('should');
 var setup = require('../_setup');
 var Promise = require('bluebird');
 
-describe.only('Nomenclatures:', function () {
+describe('Nomenclatures:', function () {
 
   before(function () {
     return setup.init();
@@ -101,7 +101,7 @@ describe.only('Nomenclatures:', function () {
 
           response.should.not.have.property('error');
           response.should.have.property('data').instanceOf(Object);
-          response.data.should.have.property('slug').eq(slug);
+          response.data.should.have.property('slug').equal(slug);
         });
       });
 
