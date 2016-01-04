@@ -5,12 +5,12 @@ module.exports = function (sequelize, DataTypes) {
 
   attributes = {
     "type": {
-      type: DataTypes.STRING(64),
+      type: DataTypes.STRING(12),
       allowNull: false
     },
     "slug": {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.STRING(64),
+      allowNull: false
     },
     "labelBg": DataTypes.STRING,
     "labelEn": DataTypes.STRING
