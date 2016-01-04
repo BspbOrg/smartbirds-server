@@ -100,14 +100,8 @@ describe.only('Nomenclatures:', function () {
         return runAction('nomenclature:view', {"type": type, "slug": slug}).then(function (response) {
 
           response.should.not.have.property('error');
-          response.should.have.property('data').not.empty().instanceOf(Array);
-          response.should.have.property('count').and.be.greaterThan(0);
-
-          for (var i=0; i<response.data.length; i++) {
-            //response.data[i].should.have.property('ownerId').and.be.equal(1);
-            //response.data[i].should.have.property('location').not.empty();
-          }
-
+          response.should.have.property('data').instanceOf(Object);
+          response.data.should.have.property('slug').eq(slug);
         });
       });
 
