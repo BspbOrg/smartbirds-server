@@ -11,11 +11,11 @@ module.exports = {
         autoIncrement: true
       },
       "slug": {
-        type: Sequelize.STRING(64),
+        type: Sequelize.STRING(128),
         allowNull: false,
       },
       "type": {
-        type: Sequelize.STRING(12),
+        type: Sequelize.STRING(32),
         allowNull: false
       },
       "labelBg": {
