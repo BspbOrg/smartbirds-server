@@ -13,7 +13,9 @@ require('../app').factory('Location', /*@ngInject*/function($resource, ENDPOINT_
 
   // instance methods
   angular.extend(Location.prototype, {
-
+    toString: function() {
+      return (this.type||{}).bg+' '+(this.name||{}).bg+', '+(this.area||{}).bg;
+    }
   });
 
   return Location;

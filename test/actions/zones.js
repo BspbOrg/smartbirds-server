@@ -73,8 +73,6 @@ describe('Zones:', function () {
     setup.describeAsAdmin(function (runAction) {
       it('can list all zones', function () {
         return runAction('zone:list', {}).then(function (response) {
-          console.log(response.data);
-
           response.should.not.have.property('error');
           response.should.have.property('data').instanceof(Array).and.have.lengthOf(6);
           response.should.have.property('count').and.be.equal(6);

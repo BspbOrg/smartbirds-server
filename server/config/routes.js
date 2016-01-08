@@ -8,6 +8,7 @@ exports.default = {
         { path: '/zone', action: 'zone:list' },
         { path: '/zone/:id', action: 'zone:view' },
         { path: '/locations/', action: 'location:list' },
+        { path: '/locations/:id', action: 'location:get' },
         { path: '/locations/:id/zones', action: 'location:listZones' },
         { path: '/locations/:id/zones/:filter', action: 'location:listZones' },
 

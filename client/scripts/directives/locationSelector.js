@@ -32,6 +32,12 @@ require('../app').directive('locationSelector', /*@ngInject*/function(){
         } else if ($scope.modelId) {
           if (!field.value || field.value.id != $scope.modelId) {
             field.value = Location.get({id: $scope.modelId});
+            field.value.$promise.then(function(value){
+              field.value = false;
+              $timeout(function(){
+                field.value = value;
+              });
+            });
           }
         } else {
           field.value = null;
@@ -46,7 +52,7 @@ require('../app').directive('locationSelector', /*@ngInject*/function(){
 
       field.confirm = function() {
         $scope.model = field.value;
-        $scope.modelId = field.value ? field.value.id : null;
+        $scope.modelId = field.value ? field.value.id : undefined;
 
         if ($scope.select)
           $timeout(function(){
