@@ -18,6 +18,7 @@ exports.default = {
         { path: '/nomenclature/:type', action: 'nomenclature:typeList' },
         { path: '/nomenclature/:type/:slug', action: 'nomenclature:view' },
 
+        { path: '/cbm', action: 'formCBM:list' },
         { path: '/cbm/:id', action: 'formCBM:view' }
       ],
 

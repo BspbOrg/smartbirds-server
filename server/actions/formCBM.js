@@ -3,6 +3,44 @@
  */
 
 var _ = require('lodash');
+var Promise = require('bluebird');
+
+exports.formCBMList = {
+  name: 'formCBM:list',
+  description: 'formCBM:list',
+  middleware: ['auth'],
+  inputs: {
+    location: {}
+  },
+
+  run: function(api, data, next) {
+    var q = {
+    };
+    if (!data.session.user.isAdmin) {
+      q.where = _.extend(q.where || {}, {
+        userId: data.session.userId
+      });
+    }
+    try {
+      return api.models.formCBM.findAndCountAll(q).then(function (result) {
+        data.response.count = result.count;
+        return Promise.map(result.rows, function (model) {
+          return model.apiData(api);
+        }).then(function(rows) {
+          return data.response.data = rows;
+        }).then(function() {
+          next();
+        });
+      }).catch(function(e){
+        console.error('Failure to retrieve cbm records', e);
+        next(e);
+      });
+    } catch (e) {
+      console.error(e);
+      next(e);
+    }
+  }
+};
 
 exports.formCBMAdd = {
   name: 'formCBM:create',
