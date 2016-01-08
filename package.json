@@ -62,6 +62,7 @@
     "pg-hstore": "~2.3.2",
     "sequelize": "~3.13.0",
     "sequelize-cli": "~2.1.0",
+    "speakingurl": "^7.0.0",
     "stringify": "^3.2.0",
     "umzug": "~1.6.0",
     "validator": "~4.2.1"
