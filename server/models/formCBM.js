@@ -119,9 +119,9 @@ module.exports = function (sequelize, DataTypes) {
           self.getWindDirection({where: {type: 'main_wind_direction'}}).then(function(res){data.windDirection = res}),
           self.getWindSpeed({where: {type: 'main_wind_force'}}).then(function(res){data.windSpeed = res}),
           self.getRain({where: {type: 'main_rain'}}).then(function(res){data.rain = res}),
-          self.getZone().then(function(res){data.zone = res}),
+          self.getZone().then(function(res){data.zone = res.apiData()}),
           self.getSource({where: {type: 'main_source'}}).then(function(res){data.source = res}),
-          self.getUser().then(function(res){data.user = res}),
+          self.getUser().then(function(res){data.user = res.apiData()}),
         ]).then(function() {
           data.count = self.count;
           data.notes = self.notes;
