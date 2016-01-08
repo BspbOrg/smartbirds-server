@@ -15,7 +15,9 @@ exports.default = {
         { path: '/status',   action: 'status' },
 
         { path: '/nomenclature/:type', action: 'nomenclature:typeList' },
-        { path: '/nomenclature/:type/:slug', action: 'nomenclature:view' }
+        { path: '/nomenclature/:type/:slug', action: 'nomenclature:view' },
+
+        { path: '/cbm/:id', action: 'formCBM:view' }
       ],
 
       post: [
@@ -26,6 +28,7 @@ exports.default = {
         { path: '/session/:email/resetpw2', action: 'user:reset' },
         { path: '/zone/:id/owner', action: 'zone:requestOwnership' },
         { path: '/zone/:id/owner/response', action: 'zone:respondOwnershipRequest' },
+        { path: '/cbm',      action: 'formCBM:create' },
       ],
 
       put: [

@@ -3,6 +3,9 @@
  */
 
 'use strict';
+
+var Promise = require('bluebird');
+
 module.exports = function (sequelize, DataTypes) {
   var FormCBM = sequelize.define('FormCBM',{
     id: {
@@ -97,17 +100,45 @@ module.exports = function (sequelize, DataTypes) {
         models.formCBM.belongsToMany(models.nomenclature, {as: 'threats', through: 'FormCBMThreats', foreignKey: 'threatsSlug', targetKey: 'slug'});
 
         // other relations
-        models.formCBM.belongsTo(models.zone);
-        models.formCBM.belongsTo(models.user, {as: 'submitter'});
+        models.formCBM.belongsTo(models.zone, {as: 'zone'});
+        models.formCBM.belongsTo(models.user, {as: 'user'});
       }
     },
     instanceMethods: {
       apiData: function (api) {
-        var data = {
-          id: this.id,
-          notes: this.notes
-        };
-        return data;
+        var data = {id: this.id};
+        var self = this;
+        return Promise.all([
+          self.getPlot({where: {type: 'cbm_sector'}}).then(function(res){data.plot = res}),
+          self.getVisit({where: {type: 'cbm_visit_number'}}).then(function(res){data.visit = res}),
+          self.getSecondaryHabitat({where: {type: 'cbm_habitat'}}).then(function(res){data.secondaryHabitat = res}),
+          self.getPrimaryHabitat({where: {type: 'cbm_habitat'}}).then(function(res){data.primaryHabitat = res}),
+          self.getDistance({where: {type: 'cbm_distance'}}).then(function(res){data.distance = res}),
+          self.getSpecies({where: {type: 'birds_name'}}).then(function(res){data.species = res}),
+          self.getCloudiness({where: {type: 'main_cloud_level'}}).then(function(res){data.cloudiness = res}),
+          self.getWindDirection({where: {type: 'main_wind_direction'}}).then(function(res){data.windDirection = res}),
+          self.getWindSpeed({where: {type: 'main_wind_force'}}).then(function(res){data.windSpeed = res}),
+          self.getRain({where: {type: 'main_rain'}}).then(function(res){data.rain = res}),
+          self.getZone().then(function(res){data.zone = res}),
+          self.getSource({where: {type: 'main_source'}}).then(function(res){data.source = res}),
+          self.getUser().then(function(res){data.user = res}),
+        ]).then(function() {
+          data.count = self.count;
+          data.notes = self.notes;
+          data.visibility = self.visibility;
+          data.mto = self.mto;
+          data.cloudsType = self.cloudsType;
+          data.temperature = self.temperature;
+          data.observers = self.observers;
+          data.endTime = self.endTime;
+          data.endDate = self.endDate;
+          data.startTime = self.startTime;
+          data.startDate = self.startDate;
+          data.latitude = self.latitude;
+          data.longitude = self.longitude;
+
+          return data;
+        });
       }
     }
   });

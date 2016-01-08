@@ -37,7 +37,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   };
 
-  Nomenclature = sequelize.define('nomenclature', attributes, options);
+  Nomenclature = sequelize.define('Nomenclature', attributes, options);
 
   return Nomenclature;
 };
