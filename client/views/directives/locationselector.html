@@ -15,7 +15,7 @@
          typeahead-no-results="field.noResults"
          typeahead-template-url="/views/directives/location.html"
          typeahead-wait-ms="200"
-         uib-typeahead="location as location.type.bg+' '+location.name.bg+', '+location.area.bg for location in field.getModels($viewValue)"
+         uib-typeahead="location for location in field.getModels($viewValue)"
   >
 
   <div ng-if="field.loading || field.noResults" class="input-group-addon">
