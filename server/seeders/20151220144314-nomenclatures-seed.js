@@ -13,9 +13,18 @@ function makeNomenclature(type, labelEn, labelBg) {
 
   type = type.replace(/^form_/, '');
 
+  var slug = getSlug(slugLabel);
+
+  if (type.length >= 32) {
+    console.error("TYPE too long: '"+type+"'");
+  }
+  if (slug.length >= 128) {
+    console.error("SLUG too long! type="+type+" slug="+slug+" bg/en='"+labelBg+"'/'"+labelEn+"'");
+  }
+
   return {
     "type": type,
-    "slug": getSlug(slugLabel),
+    "slug": slug,
     "labelEn": labelEn,
     "labelBg": labelBg,
     "createdAt": new Date(),
@@ -72,6 +81,8 @@ module.exports = {
           if (labelEn && labelBg) {
             nomenclature = makeNomenclature(type, labelEn, labelBg);
             nomenclatures.push(nomenclature);
+          } else if (labelEn || labelBg) {
+            console.error("Missing bg/en for "+type+": '"+labelBg+"'/'"+labelEn+"'");
           }
 
         } // for()
@@ -79,8 +90,6 @@ module.exports = {
       } // while()
 
       if (nomenclatures.length === 0) return;
-
-      console.log('inserting ' + nomenclatures.length);
 
       inserts.push(queryInterface.bulkInsert('Nomenclatures', nomenclatures).then(function(){
         completed += nomenclatures.length;
