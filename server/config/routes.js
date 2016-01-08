@@ -13,6 +13,9 @@ exports.default = {
 
         { path: '/docs',     action: 'showDocumentation' },
         { path: '/status',   action: 'status' },
+
+        { path: '/nomenclature/:type', action: 'nomenclature:typeList' },
+        { path: '/nomenclature/:type/:slug', action: 'nomenclature:view' }
       ],
 
       post: [
