@@ -26,6 +26,35 @@ exports.locationList = {
   }
 };
 
+exports.locationGet = {
+  name: 'location:get',
+  description: 'location:get',
+  middleware: ['auth'],
+
+  inputs: {
+    id: {required: true}
+  },
+
+  run: function (api, data, next) {
+    try {
+      return api.models.location.findOne({where: {id: data.params.id}}).then(function(result){
+        if (!result) {
+          data.connection.rawConnection.responseHttpCode = 404;
+          return next(new Error('location not found'));
+        }
+        data.response.data = result.apiData(api);
+        return next();
+      }).catch(function(e) {
+        console.error('Failure to get location', e);
+        return next(e);
+      });
+    } catch (e) {
+      console.error(e);
+      return next(e);
+    }
+  }
+};
+
 exports.locationListZones = {
   name: 'location:listZones',
   description: 'location:listZones',
