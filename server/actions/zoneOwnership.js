@@ -27,12 +27,12 @@ exports.zoneOwnershipRequest = {
     getZone(api, data, next).then(function (zone) {
         if (!zone) {
           data.connection.rawConnection.responseHttpCode = 404;
-          return Promise.reject(next(new Error('zone not found')));
+          return next(new Error('zone not found'));
         }
 
         if (zone.status !== 'free' && zone.ownerId !== data.session.userId) {
           data.connection.rawConnection.responseHttpCode = 409;
-          return Promise.reject(next(new Error('zone is not free')));
+          return next(new Error('zone is not free'));
         }
 
         return zone.update({
@@ -66,12 +66,12 @@ exports.zoneOwnershipRespond = {
     getZone(api, data, next).then(function (zone) {
         if (!zone) {
           data.connection.rawConnection.responseHttpCode = 404;
-          return Promise.reject(next(new Error('zone not found')));
+          return next(new Error('zone not found'));
         }
 
         if (zone.status !== 'requested') {
           data.connection.rawConnection.responseHttpCode = 409;
-          return Promise.reject(next(new Error('zone is not requested')));
+          return next(new Error('zone is not requested'));
         }
 
         if (data.params.response) {
@@ -107,13 +107,13 @@ exports.zoneSetOwner = {
     getZone(api, data, next).then(function (zone) {
         if (!zone) {
           data.connection.rawConnection.responseHttpCode = 404;
-          return Promise.reject(next(new Error('zone not found')));
+          return next(new Error('zone not found'));
         }
 
         return api.models.user.findById(data.params.owner).then(function (user) {
           if (!user) {
             data.connection.rawConnection.responseHttpCode = 404;
-            return Promise.reject(next(new Error('user not found')));
+            return next(new Error('user not found'));
           }
 
           return zone.update({
@@ -146,7 +146,7 @@ exports.zoneClearOwner = {
     getZone(api, data, next).then(function (zone) {
         if (!zone) {
           data.connection.rawConnection.responseHttpCode = 404;
-          return Promise.reject(next(new Error('zone not found')));
+          return next(new Error('zone not found'));
         }
 
         return zone.update({
