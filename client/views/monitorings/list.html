@@ -70,11 +70,11 @@
           ng-click="monitoringController.order.reverse = monitoringController.order.key=='date|date:\'yyyyMMddHHmmss\'' && !monitoringController.order.reverse; monitoringController.order.key='date|date:\'yyyyMMddHHmmss\''">
           Дата/час
         </th>
-        <th ng-click="monitoringController.order.reverse = monitoringController.order.key=='species.labelBg' && !monitoringController.order.reverse; monitoringController.order.key='species.labelBg'">
+        <th ng-click="monitoringController.order.reverse = monitoringController.order.key=='species.label.bg' && !monitoringController.order.reverse; monitoringController.order.key='species.label.bg'">
           Вид
         </th>
         <th
-          ng-click="monitoringController.order.reverse = monitoringController.order.key=='species_count' && !monitoringController.order.reverse; monitoringController.order.key='species_count'">
+          ng-click="monitoringController.order.reverse = monitoringController.order.key=='count' && !monitoringController.order.reverse; monitoringController.order.key='count'">
           Брой
         </th>
       </tr>
@@ -86,7 +86,7 @@
         <td>{{row.zone.id}}</td>
         <td>{{row.zone.location|locationLabel}}</td>
         <td>{{row.date|date}}</td>
-        <td>{{row.species.labelBg}}</td>
+        <td>{{row.species.label.bg}}</td>
         <td>{{row.count}}</td>
       </tr>
       </tbody>
