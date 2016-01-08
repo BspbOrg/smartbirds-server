@@ -43,6 +43,7 @@ module.exports = function (sequelize, DataTypes) {
     windSpeedSlug: DataTypes.STRING(128),
     temperature: DataTypes.FLOAT,
     rainSlug: DataTypes.STRING(128),
+    observers: DataTypes.TEXT,
     endTime: {
       type: DataTypes.TIME,
       allowNull: false
@@ -61,6 +62,10 @@ module.exports = function (sequelize, DataTypes) {
     },
     zoneId: {
       type: DataTypes.STRING(10),
+      allowNull: false
+    },
+    sourceSlug: {
+      type: DataTypes.STRING(128),
       allowNull: false
     },
     latitude: DataTypes.FLOAT,
@@ -94,7 +99,6 @@ module.exports = function (sequelize, DataTypes) {
         // other relations
         models.formCBM.belongsTo(models.zone);
         models.formCBM.belongsTo(models.user, {as: 'submitter'});
-        models.formCBM.hasMany(models.formCBMObserver, {as: 'observers'});
       }
     },
     instanceMethods: {

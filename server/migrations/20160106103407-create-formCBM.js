@@ -2,7 +2,6 @@
 
 var tableName = 'FormCBM';
 var threatsTableName = 'FormCBMThreats';
-var observersTableName = 'FormCBMObservers';
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
@@ -66,6 +65,9 @@ module.exports = {
       rainSlug: {
         type: Sequelize.STRING(128)
       },
+      observers: {
+        type: Sequelize.TEXT
+      },
       endTime: {
         type: Sequelize.TIME,
         allowNull: false
@@ -86,6 +88,10 @@ module.exports = {
         type: Sequelize.STRING(10),
         allowNull: false
       },
+      sourceSlug: {
+        type: Sequelize.STRING(128),
+        allowNull: false
+      },
       latitude: {
         type: Sequelize.FLOAT
       },
@@ -103,39 +109,25 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      imported: {
+        type: Sequelize.INTEGER
       }
     }).then(function () {
-      return queryInterface.addIndex(tableName, {
-        unique: true,
-        fields: ['userId']
-      }).then(function () {
         return queryInterface.addIndex(tableName, {
-          unique: true,
-          fields: ['zoneId']
+          fields: ['userId']
         }).then(function () {
-          return queryInterface.createTable(threatsTableName, {
-            id: {
-              type: Sequelize.INTEGER,
-              primaryKey: true,
-              autoIncrement: true
-            },
-            threatsSlug: {
-              type: Sequelize.STRING(128),
-              allowNull: false
-            },
-            formCBMId: {
-              type: Sequelize.INTEGER,
-              allowNull: false
-            }
+          return queryInterface.addIndex(tableName, {
+            fields: ['zoneId']
           }).then(function () {
-            return queryInterface.createTable(observersTableName, {
+            return queryInterface.createTable(threatsTableName, {
               id: {
                 type: Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true
               },
-              observer: {
-                type: Sequelize.TEXT,
+              threatSlug: {
+                type: Sequelize.STRING(128),
                 allowNull: false
               },
               formCBMId: {
@@ -145,15 +137,13 @@ module.exports = {
             });
           });
         });
-      });
-    });
+      }
+    );
   },
 
   down: function (queryInterface, Sequelize) {
     return queryInterface.dropTable(tableName).then(function () {
-      return queryInterface.dropTable(threatsTableName).then(function () {
-        return queryInterface.dropTable(observersTableName);
-      });
+      return queryInterface.dropTable(threatsTableName);
     });
   }
 };
