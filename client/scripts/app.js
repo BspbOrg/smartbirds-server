@@ -29,11 +29,6 @@ var dependencies = [
   'validation.match'
 ];
 
-if (process.env.NODE_ENV !== "production") {
-  require('angular-mocks');
-  dependencies.push('ngMockE2E');
-}
-
 var app = module.exports = angular.module('sb', dependencies);
 
 // include all js files
