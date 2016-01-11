@@ -1,9 +1,9 @@
-<form name="form" role="form">
+<form name="cbmform" role="form">
   <div class="row">
     <div class="col-lg-12">
       <div class="pull-right">
         <div class="btn-group">
-          <button type="button" class="btn btn-primary">
+          <button type="button" class="btn btn-primary" ng-disabled="cbmform.$invalid || cbmform.$pristine">
             Запис
             <i class="fa fa-save fa-fw"></i>
           </button>
@@ -119,6 +119,52 @@
       <field name="notes" type="memo"
              label="Бележки"
              model="monitoringDetailController.data.notes"></field>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-md-4">
+      <field name="species" type="single-choice" nomenclature="birds_name" required="true"
+             label="Вид научно име"
+             model="monitoringDetailController.data.species"></field>
+    </div>
+    <div class="col-md-4">
+      <field name="distance" type="single-choice" nomenclature="cbm_distance" required="true"
+             label="Разстояние"
+             model="monitoringDetailController.data.distance"></field>
+    </div>
+    <div class="col-md-4">
+      <field name="count" type="int" min="1" required="true"
+             label="Брой индивиди"
+             model="monitoringDetailController.data.count"></field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <field name="primaryHabitat" type="single-choice" nomenclature="cbm_habitat"  required="true"
+             label="Първостепенно местообитание"
+             model="monitoringDetailController.data.primaryHabitat"></field>
+    </div>
+    <div class="col-md-6">
+      <field name="secondaryHabitat" type="single-choice" nomenclature="cbm_habitat"
+             label="Второстепенно местообитание"
+             model="monitoringDetailController.data.secondaryHabitat"></field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <field name="visit" type="single-choice" nomenclature="cbm_visit_number"  required="true"
+             label="Посещение номер"
+             model="monitoringDetailController.data.visit"></field>
+    </div>
+    <div class="col-md-6">
+      <field name="plot" type="single-choice" nomenclature="cbm_sector"
+             label="Номер на участък"
+             model="monitoringDetailController.data.plot"></field>
     </div>
   </div>
 
