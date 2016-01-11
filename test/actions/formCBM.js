@@ -9,7 +9,7 @@ var setup = require('../_setup');
 var Promise = require('bluebird');
 require('should-sinon');
 
-describe('Action formCBM:', function () {
+describe.only('Action formCBM:', function () {
   var cbmRecord = {
     plot: {
       type: 'cbm_sector',
@@ -209,14 +209,21 @@ describe('Action formCBM:', function () {
 
     }); // fails to create without
 
-    //describe('CREATE', function() {
-    //  it('creates cbm record', function () {
-    //    return runAction('formCBM:create', cbmRecord).then(function (response) {
-    //      should.not.exist(response.error);
-    //      response.data.id.should.be.greaterThan(0);
-    //    });
-    //  });
-    //});
+    describe('CREATE', function() {
+      it('creates cbm record', function () {
+        return runAction('formCBM:create', cbmRecord).then(function (response) {
+          should.not.exist(response.error);
+          response.data.id.should.be.greaterThan(0);
+        });
+      });
+
+      it('attaches the user created the record', function () {
+        return runAction('formCBM:create', cbmRecord).then(function (response) {
+          should.not.exist(response.error);
+          response.data.user.id.should.be.equal(response.requesterUser.id);
+        });
+      });
+    });
 
   });
 

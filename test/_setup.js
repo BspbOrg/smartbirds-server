@@ -40,7 +40,10 @@ var setup = {
       var connection = new setup.api.specHelper.connection();
       connection.params = _.assign({}, params);
       connection.rawConnection.req = {headers: {'x-sb-csrf-token': response.csrfToken}};
-      return setup.runAction(action, connection);
+      return setup.runAction(action, connection).then(function(actionResponse) {
+        actionResponse.requesterUser = response.user;
+        return actionResponse;
+      });
     });
   },
   runActionAsAdmin: function (action, params) {

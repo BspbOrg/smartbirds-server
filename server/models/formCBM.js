@@ -8,10 +8,6 @@ var Promise = require('bluebird');
 
 module.exports = function (sequelize, DataTypes) {
   var FormCBM = sequelize.define('FormCBM',{
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true
-    },
     plotSlug: {
       type: DataTypes.STRING(128),
       allowNull: false
@@ -106,7 +102,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     instanceMethods: {
       apiData: function (api) {
-        var data = {id: this.id};
+        var data = {};
         var self = this;
         return Promise.all([
           self.getPlot({where: {type: 'cbm_sector'}}).then(function(res){data.plot = res && res.apiData()}),
@@ -123,6 +119,7 @@ module.exports = function (sequelize, DataTypes) {
           self.getZone({include: [{model: api.models.location, as: 'location'}]}).then(function(res){data.zone = res && res.apiData()}),
           self.getUser().then(function(res){data.user = res && res.apiData()}),
         ]).then(function() {
+          data.id = self.id;
           data.count = self.count;
           data.notes = self.notes;
           data.visibility = self.visibility;
