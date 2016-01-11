@@ -68,20 +68,12 @@ module.exports = {
       observers: {
         type: Sequelize.TEXT
       },
-      endTime: {
-        type: Sequelize.TIME,
+      endDateTime: {
+        type: Sequelize.DATE,
         allowNull: false
       },
-      endDate: {
-        type: Sequelize.DATEONLY,
-        allowNull: false
-      },
-      startTime: {
-        type: Sequelize.TIME,
-        allowNull: false
-      },
-      startDate: {
-        type: Sequelize.DATEONLY,
+      startDateTime: {
+        type: Sequelize.DATE,
         allowNull: false
       },
       zoneId: {

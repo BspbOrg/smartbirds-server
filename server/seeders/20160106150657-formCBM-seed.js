@@ -1,6 +1,7 @@
 'use strict';
 
 var Promise = require('bluebird');
+var moment = require('moment');
 
 var nomenclatureColumns = [
   {
@@ -72,6 +73,12 @@ var nomenclatureColumns = [
 ];
 
 var dummyUserEmail = 'dummyUserForCBMSeed@email.com';
+
+function joinDateTime(date, time) {
+  var m = moment(date+' '+time, 'M/D/YYYY H:mm', true);
+  //console.log(date+' '+time+' => '+m.toString());
+  return m.isValid() ? m.toDate() : null;
+}
 
 module.exports = {
   up: function (queryInterface, Sequelize, next) {
@@ -169,10 +176,8 @@ module.exports = {
                     cbmRow.mto = record.mto || null;
                     cbmRow.cloudsType = record.cloudsType || null;
                     cbmRow.temperature = record.temperature || null;
-                    cbmRow.endTime = record.endTime || null;
-                    cbmRow.endDate = record.endDate || null;
-                    cbmRow.startTime = record.startTime || null;
-                    cbmRow.startDate = record.startDate || null;
+                    cbmRow.startDateTime = joinDateTime(record.startDate, record.startTime);
+                    cbmRow.endDateTime = joinDateTime(record.endDate, record.endTime);
                     cbmRow.latitude = record.latitute || null;
                     cbmRow.longitude = record.longitude || null;
                     cbmRow.observers = record.observers || null;

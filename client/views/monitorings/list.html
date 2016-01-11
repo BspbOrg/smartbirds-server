@@ -85,7 +85,7 @@
         <td>{{row.monitoring}}</td>
         <td>{{row.zone.id}}</td>
         <td>{{row.zone.location|locationLabel}}</td>
-        <td>{{row.date|date}}</td>
+        <td>{{row.startDateTime|date:'d.MM.yyyy'}} {{row.startDateTime|date:'H:mm'}} - {{row.endDateTime|date:'H:mm'}}</td>
         <td>{{row.species.label.bg}}</td>
         <td>{{row.count}}</td>
       </tr>

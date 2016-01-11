@@ -43,20 +43,12 @@ module.exports = function (sequelize, DataTypes) {
     temperature: DataTypes.FLOAT,
     rainSlug: DataTypes.STRING(128),
     observers: DataTypes.TEXT,
-    endTime: {
-      type: DataTypes.TIME,
+    endDateTime: {
+      type: DataTypes.DATE,
       allowNull: false
     },
-    endDate: {
-      type: DataTypes.DATEONLY,
-      allowNull: false
-    },
-    startTime: {
-      type: DataTypes.TIME,
-      allowNull: false
-    },
-    startDate: {
-      type: DataTypes.DATEONLY,
+    startDateTime: {
+      type: DataTypes.DATE,
       allowNull: false
     },
     zoneId: {
@@ -127,10 +119,8 @@ module.exports = function (sequelize, DataTypes) {
           data.cloudsType = self.cloudsType;
           data.temperature = self.temperature;
           data.observers = self.observers;
-          data.endTime = self.endTime;
-          data.endDate = self.endDate;
-          data.startTime = self.startTime;
-          data.startDate = self.startDate;
+          data.endDateTime = self.endDateTime;
+          data.startDateTime = self.startDateTime;
           data.latitude = self.latitude;
           data.longitude = self.longitude;
 
