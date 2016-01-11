@@ -9,7 +9,7 @@ var setup = require('../_setup');
 var Promise = require('bluebird');
 require('should-sinon');
 
-describe.only('Action formCBM:', function () {
+describe('Action formCBM:', function () {
   var cbmRecord = {
     plot: {
       type: 'cbm_sector',
@@ -209,7 +209,7 @@ describe.only('Action formCBM:', function () {
 
     }); // fails to create without
 
-    describe('CREATE', function() {
+    describe('CREATE', function () {
       it('creates cbm record', function () {
         return runAction('formCBM:create', cbmRecord).then(function (response) {
           should.not.exist(response.error);
@@ -225,6 +225,56 @@ describe.only('Action formCBM:', function () {
       });
     });
 
-  });
+  }); // describeAsAuth
+
+  describe('Get CBM record by id', function () {
+    var cbmId;
+
+    before(function () {
+      return setup.runActionAsUser2('formCBM:create', cbmRecord).then(function (response) {
+        cbmId = response.data.id;
+      });
+    });
+
+    it('is allowed if the requester user is the submitter', function () {
+      return setup.runActionAsUser2('formCBM:view', {id: cbmId}).then(function (response) {
+        response.should.not.have.property('error');
+        response.should.have.property('data');
+      });
+    });
+
+    it('should return the correct row', function () {
+      return setup.runActionAsUser2('formCBM:view', {id: cbmId}).then(function (response) {
+        response.should.not.have.property('error');
+        response.data.id.should.be.equal(cbmId);
+      });
+    });
+
+    setup.describeAsAdmin(function (runAction) {
+      it('is allowed if the requester user is admin', function () {
+        return runAction('formCBM:view', {id: cbmId}).then(function (response) {
+          response.should.not.have.property('error');
+          response.should.have.property('data');
+        });
+      });
+    });
+
+    setup.describeAsUser(function (runAction) {
+      it('is not allowed if the requester user is not the submitter', function () {
+        return runAction('formCBM:view', {id: cbmId}).then(function (response) {
+          response.should.have.property('error').and.not.empty();
+        });
+      });
+    });
+
+    setup.describeAsGuest(function (runAction) {
+      it('is not allowed if the requester is guest  user', function () {
+        return runAction('formCBM:view', {id: cbmId}).then(function (response) {
+          response.should.have.property('error').and.not.empty();
+        });
+      });
+    });
+
+  }); // Get CBM record by id
 
 }); // Action: formCBM
