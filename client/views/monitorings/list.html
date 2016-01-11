@@ -80,7 +80,8 @@
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="row in monitoringController.rows | orderBy:monitoringController.order.key:monitoringController.order.reverse">
+      <tr ng-repeat="row in monitoringController.rows | orderBy:monitoringController.order.key:monitoringController.order.reverse"
+          ng-click="$state.go('.detail', {id: row.id})">
         <td>{{row.id}}</td>
         <td>{{row.monitoring}}</td>
         <td>{{row.zone.id}}</td>

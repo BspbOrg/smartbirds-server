@@ -1,0 +1,16 @@
+<div class="form-group" ng-class="{
+  'has-success': false,
+  'has-warning': false,
+  'has-error': false,
+  'has-feedback': false
+}">
+  <label ng-if="::label" class="control-label" for="{{::name}}">{{::label}}</label>
+  <input type="text"
+         class="form-control"
+         id="{{::name}}"
+         aria-describedby="{{::name}}HelpBlock"
+         placeholder="{{::placeholder}}"
+         ng-model="model">
+  <span ng-if="help" id="{{::name}}HelpBlock" class="help-block">{{::help}}</span>
+  <span class="help-block hidden">{{model}}</span>
+</div>
