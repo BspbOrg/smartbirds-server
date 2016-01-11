@@ -163,19 +163,19 @@ module.exports = {
                   ]).then(function () {
                     cbmRow.userId = userId;
                     cbmRow.imported = index;
-                    cbmRow.count = (record.count != null && record.count != '') ? record.count : null;
-                    cbmRow.notes = (record.notes != null && record.notes != '') ? record.notes : null;
-                    cbmRow.visibility = (record.visibility != null && record.visibility != '') ? record.visibility : null;
-                    cbmRow.mto = (record.mto != null && record.mto != '') ? record.mto : null;
-                    cbmRow.cloudsType = (record.cloudsType != null && record.cloudsType != '') ? record.cloudsType : null;
-                    cbmRow.temperature = (record.temperature != null && record.temperature != '') ? record.temperature : null;
-                    cbmRow.endTime = (record.endTime != null && record.endTime != '') ? record.endTime : null;
-                    cbmRow.endDate = (record.endDate != null && record.endDate != '') ? record.endDate : null;
-                    cbmRow.startTime = (record.startTime != null && record.startTime != '') ? record.startTime : null;
-                    cbmRow.startDate = (record.startDate != null && record.startDate != '') ? record.startDate : null;
-                    cbmRow.latitude = (record.latitute != null && record.latitute != '') ? record.latitute : null;
-                    cbmRow.longitude = (record.longitude != null && record.longitude != '') ? record.longitude : null;
-                    cbmRow.observers = (record.observers != null && record.observers != '') ? record.observers : null;
+                    cbmRow.count = record.count || null;
+                    cbmRow.notes = record.notes || null;
+                    cbmRow.visibility = record.visibility || null;
+                    cbmRow.mto = record.mto || null;
+                    cbmRow.cloudsType = record.cloudsType || null;
+                    cbmRow.temperature = record.temperature || null;
+                    cbmRow.endTime = record.endTime || null;
+                    cbmRow.endDate = record.endDate || null;
+                    cbmRow.startTime = record.startTime || null;
+                    cbmRow.startDate = record.startDate || null;
+                    cbmRow.latitude = record.latitute || null;
+                    cbmRow.longitude = record.longitude || null;
+                    cbmRow.observers = record.observers || null;
                     cbmRow.createdAt = new Date();
                     cbmRow.updatedAt = new Date();
 
