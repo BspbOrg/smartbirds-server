@@ -1,6 +1,6 @@
 <sb-include src="/views/fields/container.html">
   <label ng-if="::label" class="control-label" for="{{::name}}">{{::label}}</label>
-  <input type="text"
+  <input type="time"
          class="form-control"
          id="{{::name}}"
          name="{{::name}}"
@@ -9,4 +9,5 @@
          ng-model="model"
          ng-required="::required">
   <span ng-if="help" id="{{::name}}HelpBlock" class="help-block">{{::help}}</span>
+  <span class="help-block hidden">{{model}}</span>
 </sb-include>

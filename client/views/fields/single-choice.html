@@ -1,0 +1,31 @@
+<sb-include src="/views/fields/container.html">
+  <label ng-if="::label" class="control-label" for="{{::name}}">{{::label}}</label>
+  <p class="input-group">
+    <input type="text"
+           class="form-control"
+           id="{{::name}}"
+           name="{{::name}}"
+           aria-describedby="{{::name}}HelpBlock"
+           placeholder="{{::placeholder}}"
+           ng-blur="field.onSelect()"
+           ng-model="field.value"
+           ng-required="::required"
+           typeahead-append-to-body="true"
+           typeahead-editable="false"
+           typeahead-focus-first="true"
+           typeahead-loading="field.loading"
+           typeahead-on-select="field.onSelect($item, $model, $label)"
+           typeahead-no-results="field.noResults"
+           typeahead-wait-ms="200"
+           typeahead-show-hint="true"
+           typeahead-min-length="0"
+           uib-typeahead="item for item in field.getModels($viewValue)"
+    >
+    <span class="input-group-btn">
+      <button type="button" class="btn btn-default" ng-click="popup.opened = true">
+        <i class="glyphicon glyphicon-chevron-down"></i>
+      </button>
+    </span>
+  </p>
+  <span ng-if="help" id="{{::name}}HelpBlock" class="help-block">{{::help}}</span>
+</sb-include>
