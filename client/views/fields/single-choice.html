@@ -7,17 +7,13 @@
            aria-describedby="{{::field.name}}HelpBlock"
            placeholder="{{::field.placeholder}}"
            ng-blur="field.onSelect()"
-           ng-model="field.value"
+           ng-model="field.model"
            ng-required="::field.required"
            typeahead-append-to-body="true"
            typeahead-editable="false"
            typeahead-focus-first="true"
-           typeahead-loading="field.loading"
-           typeahead-on-select="field.onSelect($item, $model, $label)"
-           typeahead-no-results="field.noResults"
-           typeahead-wait-ms="200"
            typeahead-min-length="0"
-           uib-typeahead="item for item in field.getModels($viewValue)"
+           uib-typeahead="item for item in field.values | filter:$viewValue | limitTo:7"
     >
     <span class="input-group-btn">
       <button type="button" class="btn btn-default" uib-dropdown-toggle>
@@ -26,7 +22,7 @@
     </span>
     <ul uib-dropdown-menu aria-labelledby="{{::name}}">
       <li ng-repeat="value in field.values" ng-class="{active: field.value.slug == value.slug}">
-        <a href ng-click="field.value = value">{{::value.toString()}}</a>
+        <a href ng-click="field.model = value; field.form[field.name].$setDirty()">{{::value.toString()}}</a>
       </li>
     </ul>
   </div>
