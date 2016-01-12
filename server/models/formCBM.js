@@ -4,6 +4,7 @@
 
 'use strict';
 
+var _ = require('lodash');
 var Promise = require('bluebird');
 
 module.exports = function (sequelize, DataTypes) {
@@ -126,6 +127,44 @@ module.exports = function (sequelize, DataTypes) {
 
           return data;
         });
+      },
+
+      apiUpdate: function (data) {
+        var nomenclatures = [
+          'plot',
+          'visit',
+          'secondaryHabitat',
+          'primaryHabitat',
+          'distance',
+          'species',
+          'cloudiness',
+          'windDirection',
+          'windSpeed',
+          'rain',
+          'source',
+        ];
+
+        var simpleProps = [
+          'count',
+          'endDateTime',
+          'startDateTime',
+          'notes',
+          'visibility',
+          'mto',
+          'cloudsType',
+          'temperature',
+          'observers',
+          'latitude',
+          'longitude'
+        ];
+
+        nomenclatures.forEach(function (nomenclature) {
+          this[nomenclature + 'Slug'] = _.has(data, nomenclature) && (_.isObject(data[nomenclature]) ? data[nomenclature].slug : data[nomenclature]) || this[nomenclature + 'Slug'];
+        }, this);
+
+        this.zoneId = _.has(data, 'zone') && (_.isObject(data.zone) ? data.zone.slug : data.zone) || this.zoneId;
+
+        _.assign(this, _.pick(data, simpleProps));
       }
     }
   });

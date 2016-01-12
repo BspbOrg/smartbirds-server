@@ -264,7 +264,7 @@ describe('Action formCBM:', function () {
 
   }); // Get CBM record by id
 
-  describe.only('given some cbm rows:', function () {
+  describe('given some cbm rows:', function () {
     setup.describeAsUser(function (runAction) {
       it('user is allowed to list only his records', function () {
         return runAction('formCBM:list', {}).then(function (response) {
@@ -281,11 +281,11 @@ describe('Action formCBM:', function () {
     });
 
     setup.describeAsAdmin(function (runAction) {
-      it('user is allowed to list only his records', function () {
+      it('admin is allowed to list all records', function () {
         return runAction('formCBM:list', {}).then(function (response) {
           response.should.not.have.property('error');
           response.should.have.property('data').not.empty().instanceOf(Array);
-          response.should.have.property('count').and.be.equal(4);
+          response.should.have.property('count').and.be.greaterThan(3);
         });
       });
     });
@@ -300,5 +300,54 @@ describe('Action formCBM:', function () {
       });
     });
   }); // given some cbm rows
+
+  describe('Edit cbm row', function () {
+    var cbmId;
+
+    before(function () {
+      return setup.runActionAsUser2('formCBM:create', cbmRecord).then(function (response) {
+        cbmId = response.data.id;
+      });
+    });
+
+    it('is allowed if the requester is the submitter', function () {
+      return setup.runActionAsUser2('formCBM:edit', {id: cbmId, notes: 'some new notes'}).then(function (response) {
+        response.should.not.have.property('error');
+        return setup.api.models.formCBM.findOne({where: {id: cbmId}}).then(function (cbm) {
+          cbm.notes.should.be.equal('some new notes');
+        });
+
+      });
+    });
+
+    setup.describeAsGuest(function (runAction) {
+      it('is not allowed if the requester is guest  user', function () {
+        return runAction('formCBM:edit', {id: cbmId}).then(function (response) {
+          response.should.have.property('error').and.not.empty();
+        });
+      });
+    });
+
+    setup.describeAsUser(function (runAction) {
+      it('is not allowed if the requester user is not the submitter', function () {
+        return runAction('formCBM:edit', {id: cbmId}).then(function (response) {
+          response.should.have.property('error').and.not.empty();
+        });
+      });
+    });
+
+    setup.describeAsAdmin(function (runAction) {
+      it('is allowed if the requester user is admin', function () {
+        return runAction('formCBM:edit', {id: cbmId, notes: 'some new notes'}).then(function (response) {
+          response.should.not.have.property('error');
+          return setup.api.models.formCBM.findOne({where: {id: cbmId}}).then(function (cbm) {
+            cbm.notes.should.be.equal('some new notes');
+          });
+        });
+      });
+    });
+
+
+  }); // Edit cbm row
 
 }); // Action: formCBM

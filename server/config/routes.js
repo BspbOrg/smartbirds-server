@@ -31,6 +31,7 @@ exports.default = {
         { path: '/zone/:id/owner', action: 'zone:requestOwnership' },
         { path: '/zone/:id/owner/response', action: 'zone:respondOwnershipRequest' },
         { path: '/cbm',      action: 'formCBM:create' },
+        { path: '/cbm/:id',  action: 'formCBM:edit' },
       ],
 
       put: [

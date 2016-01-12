@@ -73,24 +73,24 @@ exports.formCBMAdd = {
   },
   run: function (api, data, next) {
     var formCBM = api.models.formCBM.build(data.params, this.inputs);
-    formCBM.plotSlug = (!_.isEmpty(data.params.plot)) && (_.isObject(data.params.plot)) ? data.params.plot.slug : data.params.plot;
-    formCBM.visitSlug = (!_.isEmpty(data.params.visit)) && (_.isObject(data.params.visit)) ? data.params.visit.slug : data.visit.visit;
-    formCBM.secondaryHabitatSlug = (!_.isEmpty(data.params.secondaryHabitat)) && (_.isObject(data.params.secondaryHabitat)) ? data.params.secondaryHabitat.slug : data.params.secondaryHabitat;
-    formCBM.primaryHabitatSlug = (!_.isEmpty(data.params.primaryHabitat)) && (_.isObject(data.params.primaryHabitat)) ? data.params.primaryHabitat.slug : data.params.primaryHabitat;
-    formCBM.distanceSlug = (!_.isEmpty(data.params.distance)) && (_.isObject(data.params.distance)) ? data.params.distance.slug : data.params.distance;
-    formCBM.speciesSlug = (!_.isEmpty(data.params.species)) && (_.isObject(data.params.species)) ? data.params.species.slug : data.params.species;
-    formCBM.cloudinessSlug = (!_.isEmpty(data.params.cloudiness)) && (_.isObject(data.params.cloudiness)) ? data.params.cloudiness.slug : data.params.cloudiness;
-    formCBM.windDirectionSlug = (!_.isEmpty(data.params.windDirection)) && (_.isObject(data.params.windDirection)) ? data.params.windDirection.slug : data.params.windDirection;
-    formCBM.windSpeedSlug = (!_.isEmpty(data.params.windSpeed)) && (_.isObject(data.params.windSpeed)) ? data.params.windSpeed.slug : data.params.windSpeed;
-    formCBM.rainSlug = (!_.isEmpty(data.params.rain)) && (_.isObject(data.params.rain)) ? data.params.rain.slug : data.params.rain;
-    formCBM.sourceSlug = (!_.isEmpty(data.params.source)) && (_.isObject(data.params.source)) ? data.params.source.slug : data.params.source;
+    formCBM.plotSlug = (_.isObject(data.params.plot)) ? data.params.plot.slug : data.params.plot;
+    formCBM.visitSlug = (_.isObject(data.params.visit)) ? data.params.visit.slug : data.visit.visit;
+    formCBM.secondaryHabitatSlug = _.has(data, 'params.secondaryHabitat') && ((_.isObject(data.params.secondaryHabitat)) ? data.params.secondaryHabitat.slug : data.params.secondaryHabitat) || null;
+    formCBM.primaryHabitatSlug = (_.isObject(data.params.primaryHabitat)) ? data.params.primaryHabitat.slug : data.params.primaryHabitat;
+    formCBM.distanceSlug = (_.isObject(data.params.distance)) ? data.params.distance.slug : data.params.distance;
+    formCBM.speciesSlug = (_.isObject(data.params.species)) ? data.params.species.slug : data.params.species;
+    formCBM.cloudinessSlug = _.has(data, 'params.cloudiness') && ((_.isObject(data.params.cloudiness)) ? data.params.cloudiness.slug : data.params.cloudiness) || null;
+    formCBM.windDirectionSlug = _.has(data, 'params.windDirection') && ((_.isObject(data.params.windDirection)) ? data.params.windDirection.slug : data.params.windDirection) || null;
+    formCBM.windSpeedSlug = _.has(data, 'params.windSpeed') && ((_.isObject(data.params.windSpeed)) ? data.params.windSpeed.slug : data.params.windSpeed) || null;
+    formCBM.rainSlug = _.has(data, 'params.rain') && ((_.isObject(data.params.rain)) ? data.params.rain.slug : data.params.rain) || null;
+    formCBM.sourceSlug = (_.isObject(data.params.source)) ? data.params.source.slug : data.params.source;
 
-    formCBM.zoneId = (!_.isEmpty(data.params.zone)) && (_.isObject(data.params.zone)) ? data.params.zone.id : data.params.zone;
+    formCBM.zoneId = (_.isObject(data.params.zone)) ? data.params.zone.id : data.params.zone;
     formCBM.userId = data.session.user.id;
 
     formCBM.save()
       .then(function (cbm) {
-        cbm.apiData(api).then(function(res){
+        cbm.apiData(api).then(function (res) {
           data.response.data = res;
           next();
         });
@@ -101,6 +101,66 @@ exports.formCBMAdd = {
       });
   }
 }; // CBM create
+
+exports.formCBMEdit = {
+  name: 'formCBM:edit',
+  description: 'formCBM:edit',
+  outputExample: {},
+  middleware: ['auth'],
+
+  inputs: {
+    id: {required: true},
+    plot: {},
+    visit: {},
+    secondaryHabitat: {},
+    primaryHabitat: {},
+    count: {},
+    distance: {},
+    species: {},
+    notes: {},
+    threats: {},
+    visibility: {},
+    mto: {},
+    cloudiness: {},
+    cloudsType: {},
+    windDirection: {},
+    windSpeed: {},
+    temperature: {},
+    rain: {},
+    observers: {},
+    endDateTime: {},
+    startDateTime: {},
+    zone: {},
+    source: {},
+    latitude: {},
+    longitude: {},
+  },
+
+  run: function (api, data, next) {
+    api.models.formCBM.findOne({where: {id: data.params.id}}).then(function (formCBM) {
+      if (!formCBM) {
+        data.connection.rawConnection.responseHttpCode = 404;
+        return next(new Error('cbm not found'));
+      }
+
+      if (!data.session.user.isAdmin && formCBM.userId != data.session.userId) {
+        data.connection.rawConnection.responseHttpCode = 401;
+        return next(new Error('no permission'));
+      }
+
+      formCBM.apiUpdate(data.params);
+
+      return formCBM.save().then(function (res) {
+        data.response.data = res.apiData(api);
+        next();
+      });
+
+    }).catch(function(error) {
+      console.error(error);
+      next(error);
+    });
+  }
+}; // CBM edit
 
 exports.formCBMView = {
   name: 'formCBM:view',
