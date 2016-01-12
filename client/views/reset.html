@@ -27,7 +27,7 @@
                             <div class="form-group"
                                  ng-class="{'has-error': form.password_confirm.$dirty && form.password_confirm.$invalid }">
                                 <input class="form-control" placeholder="Confirm password" name="password_confirm" type="password"
-                                       value="" ng-model="user.password_confirm" required match="user.password">
+                                       value="" ng-model="user.password_confirm" required sb-validation-match="user.password">
                                 <span ng-show="form.password_confirm.$dirty && form.password_confirm.$error.required"
                                       class="help-block">Confirm password is required</span>
                                 <span ng-show="form.password_confirm.$dirty && form.password_confirm.$error.match"

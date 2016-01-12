@@ -12,7 +12,6 @@ require('ui.router');
 require('ngSanitize');
 require('ui.select');
 require('ngSanitize');
-require('angular-validation-match');
 require('angular-resource');
 require('angular-cookies');
 
@@ -25,8 +24,7 @@ var dependencies = [
   'ui.bootstrap',
   'ui.select',
 
-  'uiGmapgoogle-maps',
-  'validation.match'
+  'uiGmapgoogle-maps'
 ];
 
 var app = module.exports = angular.module('sb', dependencies);
