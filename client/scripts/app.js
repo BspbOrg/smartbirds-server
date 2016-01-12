@@ -15,6 +15,8 @@ require('ngSanitize');
 require('angular-validation-match');
 require('angular-resource');
 require('angular-cookies');
+require('angular-strap');
+require('angular-strap-tpl');
 
 var dependencies = [
   'ngCookies',
@@ -24,6 +26,8 @@ var dependencies = [
   'ui.router',
   'ui.bootstrap',
   'ui.select',
+
+  'mgcrea.ngStrap',
 
   'uiGmapgoogle-maps',
   'validation.match'
