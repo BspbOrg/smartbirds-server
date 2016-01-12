@@ -1,16 +1,13 @@
 <sb-include src="/views/fields/container.html">
-  <label ng-if="::label" class="control-label" for="{{::name}}">{{::label}}</label>
   <input type="text"
          class="form-control"
-         id="{{::name}}"
-         name="{{::name}}"
-         aria-describedby="{{::name}}HelpBlock"
-         placeholder="{{::placeholder}}"
-         ng-model="model"
-         ng-required="::required"
+         id="{{::field.name}}"
+         name="{{::field.name}}"
+         aria-describedby="{{::field.name}}HelpBlock"
+         placeholder="{{::field.placeholder}}"
+         ng-model="field.model"
+         ng-required="::field.required"
          bs-timepicker
          data-time-format="HH:mm"
   >
-  <span ng-if="help" id="{{::name}}HelpBlock" class="help-block">{{::help}}</span>
-  <span class="help-block hidden">{{model}}</span>
 </sb-include>

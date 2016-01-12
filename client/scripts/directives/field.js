@@ -12,27 +12,30 @@ require('../app').directive('field', /*@ngInject*/function() {
       label: '@?',
       placeholder: '@?',
       help: '@?',
-      model: '=?'
+      model: '='
     },
+    bindToController: true,
     require: '^form',
     templateUrl: function ($element, $attrs) {
       return '/views/fields/' + ($attrs.type || 'general') + '.html';
     },
     link: function($scope, $element, $attrs, formCtrl) {
       $scope.form = formCtrl;
-      $scope.type = $attrs.type;
-      $scope.required = angular.isDefined($attrs.required);
     },
     controllerAs: 'field',
     controller: /*@ngInject*/function($scope, $attrs, $filter, Nomenclature) {
       var field = this;
 
+      field.form = $scope.form;
+      field.type = $attrs.type;
+      field.required = angular.isDefined($attrs.required);
+
       switch ($attrs.type) {
         case 'date':
         case 'time': {
-          $scope.$watch('model', function() {
-            if (angular.isString($scope.model)) {
-              $scope.model = moment($scope.model).toDate();
+          $scope.$watch('field.model', function() {
+            if (angular.isString(field.model)) {
+              field.model = moment(field.model).toDate();
             }
           });
           break;
@@ -44,15 +47,15 @@ require('../app').directive('field', /*@ngInject*/function() {
           field.type = $attrs.nomenclature;
           field.values = Nomenclature.query({type: field.type});
 
-          $scope.$watch('model', function() {
-            if ($scope.model) {
-              if (!field.value || field.value.slug != $scope.model.slug) {
-                field.value = angular.copy($scope.model);
+          $scope.$watch('field.model', function() {
+            if (field.model) {
+              if (!field.value || field.value.slug != field.model.slug) {
+                field.value = angular.copy(field.model);
                 field.value.prototype = Nomenclature.prototype;
                 field.values.$promise.then(function(models) {
                   field.value = undefined;
                   models.every(function(model){
-                    if (model.slug === $scope.model.slug) {
+                    if (model.slug === field.model.slug) {
                       field.value = model;
                       return false;
                     }
@@ -72,22 +75,22 @@ require('../app').directive('field', /*@ngInject*/function() {
           };
 
           field.confirm = function() {
-            $scope.model = field.value;
+            field.model = field.value;
 
-            if ($scope.select)
+            if (field.select)
               $timeout(function(){
-                $scope.select();
+                field.select();
               });
           };
 
           field.cancel = function() {
-            if ($scope.cancel)
-              $scope.cancel();
+            if (field.onCancel)
+              field.onCancel();
           };
 
           field.onSelect = function() {
-            if ($scope.confirm) return;
-            field.confirm();
+            if (field.onConfirm) return;
+            field.onConfirm();
           };
 
           break;

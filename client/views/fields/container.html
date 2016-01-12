@@ -1,7 +1,11 @@
 <div class="form-group"
      ng-class="{
-            'has-error': name && form[name].$invalid,
-            'has-success': name && form[name].$dirty && form[name].$valid,
+            'has-error': field.name && form[field.name].$invalid,
+            'has-success': field.name && form[field.name].$dirty && form[field.name].$valid,
             'has-warning': false,
             'has-feedback': false
-          }" ng-transclude></div>
+          }">
+  <label ng-if="::field.label" class="control-label" for="{{::field.name}}">{{::field.label}}</label>
+  <ng-transclude></ng-transclude>
+  <span ng-if="::field.help" id="{{::field.name}}HelpBlock" class="help-block">{{::field.help}}</span>
+</div>

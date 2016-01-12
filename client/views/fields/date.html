@@ -1,21 +1,19 @@
 <sb-include src="/views/fields/container.html">
-  <label ng-if="::label" class="control-label" for="{{::name}}">{{::label}}</label>
   <p class="input-group">
     <input type="text"
            class="form-control"
-           id="{{::name}}"
-           name="{{::name}}"
-           aria-describedby="{{::name}}HelpBlock"
-           placeholder="{{::placeholder}}"
+           id="{{::field.name}}"
+           name="{{::field.name}}"
+           aria-describedby="{{::field.name}}HelpBlock"
+           placeholder="{{::field.placeholder}}"
            uib-datepicker-popup
-           ng-model="model"
-           is-open="popup.opened"
-           ng-required="::required">
+           ng-model="field.model"
+           is-open="field.opened"
+           ng-required="::field.required">
     <span class="input-group-btn">
-      <button type="button" class="btn btn-default" ng-click="popup.opened = true">
+      <button type="button" class="btn btn-default" ng-click="field.opened = true">
         <i class="glyphicon glyphicon-calendar"></i>
       </button>
     </span>
   </p>
-  <span ng-if="help" id="{{::name}}HelpBlock" class="help-block">{{::help}}</span>
 </sb-include>

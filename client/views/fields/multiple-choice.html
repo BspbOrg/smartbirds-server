@@ -1,12 +1,11 @@
 <sb-include src="/views/fields/container.html">
-  <label ng-if="::label" class="control-label" for="{{::name}}">{{::label}}</label>
   <ol
     class="nya-bs-select form-control"
-    id="{{::name}}"
-    name="{{::name}}"
-    aria-describedby="{{::name}}HelpBlock"
-    placeholder="{{::placeholder}}"
-    ng-model="model"
+    id="{{::field.name}}"
+    name="{{::field.name}}"
+    aria-describedby="{{::field.name}}HelpBlock"
+    placeholder="{{::field.placeholder}}"
+    ng-model="field.model"
     multiple
     selected-text-format="count>3"
     live-search="true"
@@ -14,26 +13,15 @@
   >
     <li nya-bs-option="value in field.values">
       <a href>
-        <span lang="bg">{{value.label.bg}}</span>
-        <span lang="en" class="hidden">{{value.label.en}}</span>
-        <span lang="slug" class="hidden">{{value.label.bg|slugify}}</span>
+        <span lang="bg">{{::value.label.bg}}</span>
+        <span lang="en" class="hidden">{{::value.label.en}}</span>
+        <span lang="slug" class="hidden">{{::value.label.bg|slugify}}</span>
         <span class="glyphicon glyphicon-ok check-mark">
           <span lang="bg" class="hidden">избран</span>
           <span lang="en" class="hidden">selected</span>
-          <span lang="slug" class="hidden">{{'избран'|slugify}}</span>
+          <span lang="slug" class="hidden">{{::'избран'|slugify}}</span>
         </span>
       </a>
     </li>
   </ol>
-  <!--
-  <input type="text"
-         class="form-control"
-         id="{{::name}}"
-         name="{{::name}}"
-         aria-describedby="{{::name}}HelpBlock"
-         placeholder="{{::placeholder}}"
-         ng-model="model"
-         ng-required="::required">
-   -->
-  <span ng-if="help" id="{{::name}}HelpBlock" class="help-block">{{::help}}</span>
 </sb-include>
