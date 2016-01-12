@@ -3,7 +3,7 @@
  */
 
 require('../app').filter('locationLabel', /*@ngInject*/function(Location) {
-  return function(location) {
-    return Location.prototype.toString.apply(location);
+  return function(location, lang) {
+    return Location.prototype.toString.apply(location, [lang]);
   };
 });

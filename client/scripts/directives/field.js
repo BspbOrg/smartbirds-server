@@ -24,7 +24,7 @@ require('../app').directive('field', /*@ngInject*/function () {
       $scope.form = formCtrl;
     },
     controllerAs: 'field',
-    controller: /*@ngInject*/function ($scope, $attrs, $filter, Nomenclature) {
+    controller: /*@ngInject*/function ($scope, $attrs, $filter, Nomenclature, Zone) {
       var field = this;
 
       $scope.$watch('form', function (form) {
@@ -67,6 +67,13 @@ require('../app').directive('field', /*@ngInject*/function () {
 
           break;
         }
+        case 'zone': {
+          field.values = Zone.query({
+            status: 'owned'
+          });
+          break;
+        }
+
       }
     }
   };

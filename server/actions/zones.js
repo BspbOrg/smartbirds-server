@@ -9,11 +9,23 @@ exports.zoneList = {
   description: 'zone:list',
   middleware: ['auth'],
 
+  inputs: {
+    status: {},
+    owner: {},
+    limit: {required: false, default: 20},
+    offset: {required: false, default: 0},
+  },
+
   run: function (api, data, next) {
+    //var limit = Math.min(1000, data.params.limit || 20);
+    //var offset = data.params.offset || 0;
+
     var q = {
       include: [
         {model: api.models.location, as: 'location'}
-      ]
+      ],
+      //limit: limit,
+      //offset: offset
     };
     if (!data.session.user.isAdmin) {
       q.where = _.extend(q.where || {}, {
@@ -21,6 +33,18 @@ exports.zoneList = {
       });
     } else {
       (q.include = q.include || []).push({model: api.models.user, as: 'owner'});
+      if (data.params.owner) {
+        q.where = _.extend(q.where || {}, {
+          ownerId: data.params.owner
+        });
+      }
+    }
+    if (data.params.status) {
+      q.where = _.extend(q.where || {}, {
+        status: {
+          $in: _.isArray(data.params.status)?data.params.status:[data.params.status]
+        }
+      })
     }
     try {
       return api.models.zone.findAndCountAll(q).then(function (result) {
