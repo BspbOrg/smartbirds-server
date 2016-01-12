@@ -83,7 +83,9 @@
     "angular-cookies": "./bower_components/angular-cookies/angular-cookies.js",
     "angular-strap": "./bower_components/angular-strap/dist/angular-strap.compat.js",
     "angular-strap-tpl": "./bower_components/angular-strap/dist/angular-strap.tpl.js",
-    "nya-bootstrap-select": "./bower_components/nya-bootstrap-select/dist/js/nya-bs-select.js"
+    "nya-bootstrap-select": "./bower_components/nya-bootstrap-select/dist/js/nya-bs-select.js",
+    "ngToast": "./bower_components/ngToast/dist/ngToast.js",
+    "ngAnimate": "./bower_components/angular-animate/angular-animate.js"
   },
   "browserify-shim": {
     "angular": "angular",
@@ -147,6 +149,16 @@
       ]
     },
     "nya-bootstrap-select": {
+      "depends": [
+        "angular:angular"
+      ]
+    },
+    "ngToast": {
+      "depends": [
+        "angular:angular"
+      ]
+    },
+    "ngAnimate": {
       "depends": [
         "angular:angular"
       ]
