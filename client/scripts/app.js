@@ -11,7 +11,6 @@ require('uiGmapgoogle-maps');
 require('ui.router');
 require('ngSanitize');
 require('ui.select');
-require('angular-validation-match');
 require('angular-resource');
 require('angular-cookies');
 require('angular-strap');
@@ -35,8 +34,7 @@ var dependencies = [
 
   'ngToast',
 
-  'uiGmapgoogle-maps',
-  'validation.match'
+  'uiGmapgoogle-maps'
 ];
 
 var app = module.exports = angular.module('sb', dependencies);
