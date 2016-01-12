@@ -151,7 +151,9 @@ exports.formCBMEdit = {
       formCBM.apiUpdate(data.params);
 
       return formCBM.save().then(function (res) {
-        data.response.data = res.apiData(api);
+        return res.apiData(api);
+      }).then(function(res){
+        data.response.data = res;
         next();
       });
 
