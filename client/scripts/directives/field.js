@@ -12,7 +12,8 @@ require('../app').directive('field', /*@ngInject*/function () {
       label: '@?',
       placeholder: '@?',
       help: '@?',
-      model: '='
+      model: '=',
+      nomenclature: '@?'
     },
     bindToController: true,
     require: '^form',
@@ -46,14 +47,21 @@ require('../app').directive('field', /*@ngInject*/function () {
         case 'single-choice':
         case 'multiple-choice':
         {
-          var filter = $filter('filter');
-          var limitTo = $filter('limitTo');
-          field.type = $attrs.nomenclature;
-          field.values = Nomenclature.query({type: field.type});
+          field.values = Nomenclature.query({type: field.nomenclature});
 
           $scope.$watch('field.model', function () {
-            if (field.model && !(field.model instanceof Nomenclature)) {
-              field.model = new Nomenclature(field.model);
+            if (field.model) {
+              if (angular.isArray(field.model)) {
+                field.model.forEach(function(item, idx, array){
+                  if (angular.isObject(item) && !(item instanceof Nomenclature)) {
+                    array[idx] = new Nomenclature(item);
+                  }
+                });
+              } else if (angular.isObject(field.model)) {
+                if (!(field.model instanceof Nomenclature)) {
+                  field.model = new Nomenclature(field.model);
+                }
+              }
             }
           });
 
