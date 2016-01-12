@@ -1,6 +1,7 @@
 <sb-include src="/views/fields/container.html">
+
   <label ng-if="::label" class="control-label" for="{{::name}}">{{::label}}</label>
-  <p class="input-group">
+  <div class="input-group" uib-dropdown dropdown-append-to-body="true">
     <input type="text"
            class="form-control"
            id="{{::name}}"
@@ -17,15 +18,20 @@
            typeahead-on-select="field.onSelect($item, $model, $label)"
            typeahead-no-results="field.noResults"
            typeahead-wait-ms="200"
-           typeahead-show-hint="true"
            typeahead-min-length="0"
            uib-typeahead="item for item in field.getModels($viewValue)"
     >
     <span class="input-group-btn">
-      <button type="button" class="btn btn-default" ng-click="popup.opened = true">
+      <button type="button" class="btn btn-default" uib-dropdown-toggle>
         <i class="glyphicon glyphicon-chevron-down"></i>
       </button>
     </span>
-  </p>
+    <ul uib-dropdown-menu aria-labelledby="{{::name}}">
+      <li ng-repeat="value in field.values" ng-class="{active: field.value.slug == value.slug}">
+        <a href ng-click="field.value = value">{{value.toString()}}</a>
+      </li>
+    </ul>
+  </div>
+
   <span ng-if="help" id="{{::name}}HelpBlock" class="help-block">{{::help}}</span>
 </sb-include>
