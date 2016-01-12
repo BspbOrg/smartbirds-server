@@ -264,4 +264,41 @@ describe('Action formCBM:', function () {
 
   }); // Get CBM record by id
 
+  describe.only('given some cbm rows:', function () {
+    setup.describeAsUser(function (runAction) {
+      it('user is allowed to list only his records', function () {
+        return runAction('formCBM:list', {}).then(function (response) {
+          response.should.not.have.property('error');
+          response.should.have.property('data').not.empty().instanceOf(Array);
+          response.should.have.property('count').and.be.greaterThan(0);
+
+          for (var i = 0; i < response.data.length; i++) {
+            response.data[i].should.have.property('user').not.empty();
+            response.data[i].user.should.have.property('id').and.be.equal(1);
+          }
+        });
+      });
+    });
+
+    setup.describeAsAdmin(function (runAction) {
+      it('user is allowed to list only his records', function () {
+        return runAction('formCBM:list', {}).then(function (response) {
+          response.should.not.have.property('error');
+          response.should.have.property('data').not.empty().instanceOf(Array);
+          response.should.have.property('count').and.be.equal(4);
+        });
+      });
+    });
+
+    setup.describeAsGuest(function (runAction) {
+      it('guest is not allowed to list any records', function () {
+        return runAction('formCBM:list', {}).then(function (response) {
+          response.should.have.property('error').not.empty();
+          response.should.not.have.property('data');
+          response.should.not.have.property('count');
+        });
+      });
+    });
+  }); // given some cbm rows
+
 }); // Action: formCBM
