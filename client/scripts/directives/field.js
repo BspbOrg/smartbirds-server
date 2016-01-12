@@ -37,7 +37,8 @@ require('../app').directive('field', /*@ngInject*/function() {
           });
           break;
         }
-        case 'single-choice': {
+        case 'single-choice':
+        case 'multiple-choice': {
           var filter = $filter('filter');
           var limitTo = $filter('limitTo');
           field.type = $attrs.nomenclature;
