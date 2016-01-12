@@ -1,12 +1,12 @@
 <sb-include src="/views/fields/container.html">
   <label ng-if="::label" class="control-label" for="{{::name}}">{{::label}}</label>
-  <input type="text"
+  <textarea
          class="form-control"
          id="{{::name}}"
          name="{{::name}}"
          aria-describedby="{{::name}}HelpBlock"
          placeholder="{{::placeholder}}"
          ng-model="model"
-         ng-required="::required">
+         ng-required="::required"></textarea>
   <span ng-if="help" id="{{::name}}HelpBlock" class="help-block">{{::help}}</span>
 </sb-include>

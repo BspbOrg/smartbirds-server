@@ -1,6 +1,7 @@
 <sb-include src="/views/fields/container.html">
   <label ng-if="::label" class="control-label" for="{{::name}}">{{::label}}</label>
-  <input type="text"
+  <input type="number"
+         min="1"
          class="form-control"
          id="{{::name}}"
          name="{{::name}}"

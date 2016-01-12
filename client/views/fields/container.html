@@ -1,0 +1,7 @@
+<div class="form-group"
+     ng-class="{
+            'has-error': name && form[name].$invalid,
+            'has-success': name && form[name].$dirty && form[name].$valid,
+            'has-warning': false,
+            'has-feedback': false
+          }" ng-transclude></div>
