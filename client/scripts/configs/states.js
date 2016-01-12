@@ -125,10 +125,24 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       })
 
       ///////////
-      // Monitoring //
+      // Monitoring Detail //
       ///////////
       .state('auth.monitoring.detail', {
         url: '/{id:int}',
+        views: {
+          'content@auth': {
+            templateUrl: '/views/monitorings/detail.html',
+            controller: 'MonitoringDetailController',
+            controllerAs: 'monitoringDetailController'
+          }
+        }
+      })
+
+      ///////////
+      // Monitoring Detail //
+      ///////////
+      .state('auth.monitoring.new', {
+        url: '/new',
         views: {
           'content@auth': {
             templateUrl: '/views/monitorings/detail.html',

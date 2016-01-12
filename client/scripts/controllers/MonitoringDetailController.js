@@ -6,9 +6,9 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
 
   var controller = this;
 
-  controller.data = FormCBM.get({id: $stateParams.id});
+  controller.data = $stateParams.id?FormCBM.get({id: $stateParams.id}):new FormCBM();
 
   controller.save = function() {
-    controller.data.save();
+    controller.data.$save();
   };
 });
