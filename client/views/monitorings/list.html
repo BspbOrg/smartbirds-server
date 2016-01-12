@@ -55,8 +55,12 @@
       <thead>
       <tr>
         <th ng-click="monitoringController.order.reverse = monitoringController.order.key=='id' && !monitoringController.order.reverse; monitoringController.order.key='id'">#</th>
+        <th ng-if="$user.isAdmin()"
+            ng-click="monitoringController.order.reverse = monitoringController.order.key=='user|userName' && !monitoringController.order.reverse; monitoringController.order.key='user|userName'">
+          Потребител
+        </th>
         <th
-          ng-click="monitoringController.order.reverse = monitoringController.order.key=='monitoring' && !monitoringController.order.reverse; monitoringController.order.key='monitoring'">
+          ng-click="monitoringController.order.reverse = monitoringController.order.key=='visit.label.bg' && !monitoringController.order.reverse; monitoringController.order.key='visit.label.bg'">
           Преброяване
         </th>
         <th ng-click="monitoringController.order.reverse = monitoringController.order.key=='zone.id' && !monitoringController.order.reverse; monitoringController.order.key='zone.id'">
@@ -83,7 +87,8 @@
       <tr ng-repeat="row in monitoringController.rows | orderBy:monitoringController.order.key:monitoringController.order.reverse"
           ng-click="$state.go('.detail', {id: row.id})">
         <td>{{row.id}}</td>
-        <td>{{row.monitoring}}</td>
+        <td ng-if="$user.isAdmin()">{{row.user.firstName}} {{row.user.lastName}}</td>
+        <td>{{row.visit.label.bg}}</td>
         <td>{{row.zone.id}}</td>
         <td>{{row.zone.location|locationLabel}}</td>
         <td>{{row.startDateTime|date:'d.MM.yyyy'}} {{row.startDateTime|date:'H:mm'}} - {{row.endDateTime|date:'H:mm'}}</td>
