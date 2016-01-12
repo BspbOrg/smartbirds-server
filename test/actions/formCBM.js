@@ -92,10 +92,8 @@ describe('Action formCBM:', function () {
       labelEn: 'Drizzle'
     },
     observers: 'Some test observers',
-    endTime: '10:15',
-    endDate: '10/12/2015',
-    startTime: '08:10',
-    startDate: '09/12/2015',
+    endDateTime: '10/12/2015 10:15',
+    startDateTime: '09/12/2015 08:10',
     zone: {
       id: 'userZonePlovdiv'
     },
@@ -171,27 +169,16 @@ describe('Action formCBM:', function () {
         });
       });
 
-      it('endTime', function () {
-        return runAction('formCBM:create', _.omit(cbmRecord, 'endTime')).then(function (response) {
-          response.error.should.be.equal('Error: endTime is a required parameter for this action');
+      it('endDateTime', function () {
+        return runAction('formCBM:create', _.omit(cbmRecord, 'endDateTime')).then(function (response) {
+          response.error.should.be.equal('Error: endDateTime is a required parameter for this action');
         });
       });
 
-      it('endDate', function () {
-        return runAction('formCBM:create', _.omit(cbmRecord, 'endDate')).then(function (response) {
-          response.error.should.be.equal('Error: endDate is a required parameter for this action');
-        });
-      });
 
-      it('startTime', function () {
-        return runAction('formCBM:create', _.omit(cbmRecord, 'startTime')).then(function (response) {
-          response.error.should.be.equal('Error: startTime is a required parameter for this action');
-        });
-      });
-
-      it('startDate', function () {
-        return runAction('formCBM:create', _.omit(cbmRecord, 'startDate')).then(function (response) {
-          response.error.should.be.equal('Error: startDate is a required parameter for this action');
+      it('startDateTime', function () {
+        return runAction('formCBM:create', _.omit(cbmRecord, 'startDateTime')).then(function (response) {
+          response.error.should.be.equal('Error: startDateTime is a required parameter for this action');
         });
       });
 
