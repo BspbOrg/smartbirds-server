@@ -13,7 +13,8 @@
           </button>
         </div>
       </div>
-      <h1 class="page-header">Редакция на запис</h1>
+      <h1 ng-if="monitoringDetailController.data.id" class="page-header">Редакция на запис</h1>
+      <h1 ng-if="!monitoringDetailController.data.id" class="page-header">Нов запис</h1>
     </div>
 
     <div class="col-md-4">
