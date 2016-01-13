@@ -19,6 +19,11 @@
   <div class="col-md-12">
     <form name="user.form" role="form">
 
+      <field name="admin" type="bool"
+             label="Администратор"
+             model="user.data.isAdmin"
+      ></field>
+
       <field name="firstName" type="text" required="true"
              label="Име"
              model="user.data.firstName"
