@@ -111,6 +111,21 @@ module.config(function ($stateProvider, $urlRouterProvider) {
 
 
       ///////////
+      // Users //
+      ///////////
+      .state('auth.users.detail', {
+        url: '/{id:int}',
+        views: {
+          'content@auth': {
+            templateUrl: '/views/users/detail.html',
+            controller: 'UserController',
+            controllerAs: 'user'
+          }
+        }
+      })
+
+
+      ///////////
       // Monitorings //
       ///////////
       .state('auth.monitoring', {

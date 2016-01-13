@@ -1,0 +1,58 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1 ng-if="user.data.id" class="page-header">
+      <div class="pull-right">
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary"
+                  ng-disabled="user.form.$pristine || user.form.$invalid"
+                  ng-click="user.save()">
+            Запис
+            <i class="fa fa-save fa-fw"></i>
+          </button>
+        </div>
+      </div>
+      <span ng-if="!user.data.id">Нов потребител</span>
+      <span ng-if="user.data.id">Редакция на потребител</span>
+    </h1>
+  </div>
+
+  <div class="col-md-12">
+    <form name="user.form" role="form">
+
+      <field name="admin" type="bool"
+             label="Администратор"
+             model="user.data.isAdmin"
+      ></field>
+
+      <field name="firstName" type="text" required="true"
+             label="Име"
+             model="user.data.firstName"
+      ></field>
+
+      <field name="lastName" type="text" required="true"
+             label="Фамилия"
+             model="user.data.lastName"
+      ></field>
+
+      <field name="email" type="email" required="true"
+             label="E-mail"
+             model="user.data.email"
+      ></field>
+    </form>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="pull-right">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary"
+                ng-disabled="user.form.$pristine || user.form.$invalid"
+                ng-click="user.save()">
+          Запис
+          <i class="fa fa-save fa-fw"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

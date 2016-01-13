@@ -1,0 +1,18 @@
+<div ng-class="{
+            'has-error': field.name && form[field.name].$invalid,
+            'has-success': field.name && form[field.name].$dirty && form[field.name].$valid,
+            'has-warning': false,
+            'has-feedback': false
+          }">
+  <div class="checkbox">
+    <label>
+      <input type="checkbox"
+             id="{{::field.name}}"
+             name="{{::field.name}}"
+             aria-describedby="{{::field.name}}HelpBlock"
+             ng-model="field.model">
+      {{::field.label}}
+    </label>
+  </div>
+  <span ng-if="::field.help" id="{{::field.name}}HelpBlock" class="help-block">{{::field.help}}</span>
+</div>
