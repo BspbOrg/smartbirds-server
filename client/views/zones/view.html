@@ -3,7 +3,7 @@
     <h1 class="page-header">
       Площадка {{zone.id}}
       <small>
-        {{zone.location.type.bg}} {{zone.location.name.bg}}, {{zone.location.area.bg}}
+        {{zone.location | locationLabel}}
       </small>
     </h1>
   </div>
@@ -28,8 +28,9 @@
             <div class="col-md-3">
               <div class="form-group">
                 <label for="owner">Наблюдател</label>
-                <input id="owner" class="form-control" disabled
-                       value="{{zone.owner.firstName}} {{zone.owner.lastName}} {{!zone.owner && 'няма'}}">
+                <input ng-if="zone.$resolved" id="owner" class="form-control" disabled
+                       value="{{::(zone.owner && (zone.owner.firstName + ' ' + zone.owner.lastName) || 'няма')}}">
+                <i ng-if="!zone.$resolved" class="fa fa-spinner fa-spin"></i>
               </div>
             </div>
 
