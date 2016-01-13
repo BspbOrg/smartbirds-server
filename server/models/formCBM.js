@@ -169,7 +169,7 @@ module.exports = function (sequelize, DataTypes) {
           this[nomenclature + 'Slug'] = _.has(data, nomenclature) && (_.isObject(data[nomenclature]) ? data[nomenclature].slug : data[nomenclature]) || this[nomenclature + 'Slug'];
         }, this);
 
-        this.zoneId = _.has(data, 'zone') && (_.isObject(data.zone) ? data.zone.slug : data.zone) || this.zoneId;
+        this.zoneId = _.has(data, 'zone') && ((_.isObject(data.zone) ? data.zone.id : data.zone)) || this.zoneId;
 
         _.assign(this, _.pick(data, simpleProps));
 

@@ -180,7 +180,6 @@ exports.formCBMEdit = {
     }).then(function (res) {
       return data.response.data = res;
     }).then(function () {
-      console.log(data.response.data);
       next();
     }).catch(function (error) {
       console.error(error);
