@@ -1,0 +1,29 @@
+<sb-include src="/views/fields/container.html">
+  <div class="input-group" uib-dropdown dropdown-append-to-body="true">
+    <input type="text"
+           class="form-control"
+           id="{{::field.name}}"
+           name="{{::field.name}}"
+           aria-describedby="{{::field.name}}HelpBlock"
+           placeholder="{{::field.placeholder}}"
+           ng-blur="field.onSelect()"
+           ng-model="field.model"
+           ng-required="::field.required"
+           typeahead-append-to-body="true"
+           typeahead-editable="false"
+           typeahead-focus-first="true"
+           typeahead-min-length="0"
+           uib-typeahead="item for item in field.values | filter:$viewValue | limitTo:7"
+    >
+    <span class="input-group-btn">
+      <button type="button" class="btn btn-default" uib-dropdown-toggle>
+        <i class="glyphicon glyphicon-chevron-down"></i>
+      </button>
+    </span>
+    <ul uib-dropdown-menu aria-labelledby="{{::name}}">
+      <li ng-repeat="value in field.values" ng-class="{active: field.value.id == value.id}">
+        <a href ng-click="field.model = value; field.form[field.name].$setDirty()">{{::value.id}}, <span class="text-muted">{{::value.location|locationLabel}}</span></a>
+      </li>
+    </ul>
+  </div>
+</sb-include>

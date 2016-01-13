@@ -1,0 +1,176 @@
+<form name="cbmform" role="form">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="pull-right">
+        <div class="btn-group">
+          <button type="button"
+                  class="btn btn-primary"
+                  ng-disabled="cbmform.$invalid || cbmform.$pristine"
+                  ng-click="monitoringDetailController.save()"
+          >
+            Запис
+            <i class="fa fa-save fa-fw"></i>
+          </button>
+        </div>
+      </div>
+      <h1 ng-if="monitoringDetailController.data.id" class="page-header">Редакция на запис</h1>
+      <h1 ng-if="!monitoringDetailController.data.id" class="page-header">Нов запис</h1>
+    </div>
+
+    <div class="col-md-4">
+      <field name="source" type="single-choice" nomenclature="main_source" required="true"
+             label="Източник"
+             model="monitoringDetailController.data.source"></field>
+      <field name="zone" type="zone" required="true"
+             label="Място"
+             model="monitoringDetailController.data.zone"></field>
+    </div>
+
+    <div class="col-md-4">
+      <field name="startDate" type="date" required="true"
+             label="Начална дата"
+             model="monitoringDetailController.data.startDateTime"></field>
+    </div>
+
+    <div class="col-md-4">
+      <field name="startTime" type="time" required="true"
+             label="Начален час"
+             model="monitoringDetailController.data.startDateTime"></field>
+    </div>
+
+    <div class="col-md-4">
+      <field name="endDate" type="date" required="true"
+             label="Крайна дата"
+             model="monitoringDetailController.data.endDateTime"></field>
+    </div>
+
+    <div class="col-md-4">
+      <field name="endTime" type="time" required="true"
+             label="Краен час"
+             model="monitoringDetailController.data.endDateTime"></field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <field name="observers" type="text" required="true"
+             label="Наблюдатели"
+             model="monitoringDetailController.data.observers"></field>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-md-3">
+      <field name="rain" type="single-choice" nomenclature="main_rain"
+             label="Дъжд"
+             model="monitoringDetailController.data.rain"></field>
+    </div>
+    <div class="col-md-3">
+      <field name="temperature" type="float"
+             label="Температура &deg;C"
+             model="monitoringDetailController.data.temperature"></field>
+    </div>
+    <div class="col-md-3">
+      <field name="windSpeed" type="single-choice" nomenclature="main_wind_force"
+             label="Сила на вятъра"
+             model="monitoringDetailController.data.windSpeed"></field>
+    </div>
+    <div class="col-md-3">
+      <field name="windDirection" type="single-choice" nomenclature="main_wind_direction"
+             label="Посока на вятъра"
+             model="monitoringDetailController.data.windDirection"></field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <field name="cloudsType" type="text"
+             label="Вид облаци"
+             model="monitoringDetailController.data.cloudsType"></field>
+    </div>
+    <div class="col-md-3">
+      <field name="cloudiness" type="single-choice" nomenclature="main_cloud_level"
+             label="Облачност"
+             model="monitoringDetailController.data.cloudiness"></field>
+    </div>
+    <div class="col-md-3">
+      <field name="mto" type="text"
+             label="МТО Други"
+             model="monitoringDetailController.data.mto"></field>
+    </div>
+    <div class="col-md-3">
+      <field name="visibility" type="float"
+             label="Видимост"
+             model="monitoringDetailController.data.visibility"></field>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-md-12">
+      <field name="threats" type="multiple-choice" nomenclature="main_threats"
+             label="Заплахи"
+             model="monitoringDetailController.data.threats"></field>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-md-12">
+      <field name="notes" type="memo"
+             label="Бележки"
+             model="monitoringDetailController.data.notes"></field>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-md-4">
+      <field name="species" type="single-choice" nomenclature="birds_name" required="true"
+             label="Вид научно име"
+             model="monitoringDetailController.data.species"></field>
+    </div>
+    <div class="col-md-4">
+      <field name="distance" type="single-choice" nomenclature="cbm_distance" required="true"
+             label="Разстояние"
+             model="monitoringDetailController.data.distance"></field>
+    </div>
+    <div class="col-md-4">
+      <field name="count" type="int" min="1" required="true"
+             label="Брой индивиди"
+             model="monitoringDetailController.data.count"></field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <field name="primaryHabitat" type="single-choice" nomenclature="cbm_habitat"  required="true"
+             label="Първостепенно местообитание"
+             model="monitoringDetailController.data.primaryHabitat"></field>
+    </div>
+    <div class="col-md-6">
+      <field name="secondaryHabitat" type="single-choice" nomenclature="cbm_habitat"
+             label="Второстепенно местообитание"
+             model="monitoringDetailController.data.secondaryHabitat"></field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <field name="visit" type="single-choice" nomenclature="cbm_visit_number"  required="true"
+             label="Посещение номер"
+             model="monitoringDetailController.data.visit"></field>
+    </div>
+    <div class="col-md-6">
+      <field name="plot" type="single-choice" nomenclature="cbm_sector" required="true"
+             label="Номер на участък"
+             model="monitoringDetailController.data.plot"></field>
+    </div>
+  </div>
+
+</form>

@@ -114,12 +114,40 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       // Monitorings //
       ///////////
       .state('auth.monitoring', {
-        url: '/monitoring',
+        url: '/monitoring?{location:int}&zone',
         views: {
           'content': {
             templateUrl: '/views/monitorings/list.html',
             controller: 'MonitoringController',
             controllerAs: 'monitoringController'
+          }
+        }
+      })
+
+      ///////////
+      // Monitoring Detail //
+      ///////////
+      .state('auth.monitoring.detail', {
+        url: '/{id:int}',
+        views: {
+          'content@auth': {
+            templateUrl: '/views/monitorings/detail.html',
+            controller: 'MonitoringDetailController',
+            controllerAs: 'monitoringDetailController'
+          }
+        }
+      })
+
+      ///////////
+      // Monitoring Detail //
+      ///////////
+      .state('auth.monitoring.new', {
+        url: '/new',
+        views: {
+          'content@auth': {
+            templateUrl: '/views/monitorings/detail.html',
+            controller: 'MonitoringDetailController',
+            controllerAs: 'monitoringDetailController'
           }
         }
       })

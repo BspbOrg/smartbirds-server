@@ -6,7 +6,7 @@ var angular = require('angular'),
   isDefined = angular.isDefined,
   isUndefined = angular.isUndefined;
 
-require('../app').factory('Zone', function ($resource, ENDPOINT_URL) {
+require('../app').factory('Zone', function ($resource, ENDPOINT_URL, Location) {
 
   var Zone = $resource(ENDPOINT_URL + '/zone/:id', {
     id: '@id'
@@ -100,6 +100,10 @@ require('../app').factory('Zone', function ($resource, ENDPOINT_URL) {
           Zone.call(self, data);
         }
       });
+    },
+
+    toString: function() {
+      return this.id + ', '+Location.prototype.toString.apply(this.location);
     }
   });
 

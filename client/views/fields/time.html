@@ -1,0 +1,13 @@
+<sb-include src="/views/fields/container.html">
+  <input type="text"
+         class="form-control"
+         id="{{::field.name}}"
+         name="{{::field.name}}"
+         aria-describedby="{{::field.name}}HelpBlock"
+         placeholder="{{::field.placeholder}}"
+         ng-model="field.model"
+         ng-required="::field.required"
+         bs-timepicker
+         data-time-format="HH:mm"
+  >
+</sb-include>

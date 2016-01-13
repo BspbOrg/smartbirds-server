@@ -1,0 +1,19 @@
+<sb-include src="/views/fields/container.html">
+  <p class="input-group">
+    <input type="text"
+           class="form-control"
+           id="{{::field.name}}"
+           name="{{::field.name}}"
+           aria-describedby="{{::field.name}}HelpBlock"
+           placeholder="{{::field.placeholder}}"
+           uib-datepicker-popup
+           ng-model="field.model"
+           is-open="field.opened"
+           ng-required="::field.required">
+    <span class="input-group-btn">
+      <button type="button" class="btn btn-default" ng-click="field.opened = true">
+        <i class="glyphicon glyphicon-calendar"></i>
+      </button>
+    </span>
+  </p>
+</sb-include>
