@@ -24,7 +24,7 @@ require('../app').directive('field', /*@ngInject*/function () {
       $scope.form = formCtrl;
     },
     controllerAs: 'field',
-    controller: /*@ngInject*/function ($scope, $attrs, $filter, Nomenclature, Zone) {
+    controller: /*@ngInject*/function ($scope, $attrs, $filter, $timeout, Nomenclature, Zone) {
       var field = this;
 
       $scope.$watch('form', function (form) {
@@ -70,6 +70,27 @@ require('../app').directive('field', /*@ngInject*/function () {
         case 'zone': {
           field.values = Zone.query({
             status: 'owned'
+          });
+
+          field.values.$promise.then(function(values) {
+            var value = field.model;
+            $timeout(function(){
+              field.model = value;
+              values.forEach(function(val) {
+                if (val.id == value.id)
+                  field.model = value;
+              });
+            });
+          });
+
+          $scope.$watch('field.model', function () {
+            if (field.model) {
+              if (angular.isObject(field.model)) {
+                if (!(field.model instanceof Zone)) {
+                  field.model = new Zone(field.model);
+                }
+              }
+            }
           });
           break;
         }
