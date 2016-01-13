@@ -4,6 +4,7 @@
 
 var angular = require('angular');
 var bulk = require('bulk-require');
+var info = require('../../package.json');
 
 // include angular dependencies
 require('ui.bootstrap');
@@ -37,7 +38,10 @@ var dependencies = [
   'uiGmapgoogle-maps'
 ];
 
-var app = module.exports = angular.module('sb', dependencies);
+var app = module.exports = angular.module('sb', dependencies)
+  .run(/*@ngInject*/function ($rootScope) {
+    $rootScope.$system = info;
+  });
 
 // include all js files
 bulk(__dirname, ['./**/!(app|*.spec).js']);

@@ -1,89 +1,100 @@
 <div id="wrapper">
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" ui-sref="auth.dashboard">
-                SmartBirds
-                <span ng-if="$user.isAdmin()" class="text-danger">ADMIN</span>
+  <!-- Navigation -->
+  <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" ui-sref="auth.dashboard">
+        SmartBirds
+        <span ng-if="$user.isAdmin()" class="text-danger">ADMIN</span>
+      </a>
+    </div>
+    <!-- /.navbar-header -->
+
+    <ul class="nav navbar-top-links navbar-right">
+      <li class="dropdown" uib-dropdown>
+        <a href uib-dropdown-toggle>
+          Здравей, {{$user.getIdentity().firstName}}
+          <span class="caret"></span>
+        </a>
+        <ul uib-dropdown-menu>
+          <li class="divider"></li>
+          <li ng-controller="SessionController as sessionController">
+            <a href ng-click="sessionController.logout()">
+              <i class="fa fa-sign-out fa-fw"></i>
+              Изход
             </a>
-        </div>
-        <!-- /.navbar-header -->
-
-        <ul class="nav navbar-top-links navbar-right">
-            <li class="dropdown" uib-dropdown>
-                <a href uib-dropdown-toggle>
-                    Здравей, {{$user.getIdentity().firstName}}
-                    <span class="caret"></span>
-                </a>
-                <ul uib-dropdown-menu>
-                    <li class="divider"></li>
-                    <li ng-controller="SessionController as sessionController">
-                        <a href ng-click="sessionController.logout()">
-                            <i class="fa fa-sign-out fa-fw"></i>
-                            Изход
-                        </a>
-                    </li>
-                </ul>
-            </li>
+          </li>
         </ul>
-        <!-- /.navbar-top-links -->
+      </li>
+    </ul>
+    <!-- /.navbar-top-links -->
 
-        <div class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">
-                    <li class="sidebar-search hidden">
-                        <div class="input-group custom-search-form">
-                            <input type="text" class="form-control" placeholder="Search...">
+    <div class="navbar-default sidebar" role="navigation">
+      <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+          <li class="sidebar-search hidden">
+            <div class="input-group custom-search-form">
+              <input type="text" class="form-control" placeholder="Search...">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button">
-                                        <i class="fa fa-search"></i>
+                                      <i class="fa fa-search"></i>
                                     </button>
                                 </span>
-                        </div>
-                        <!-- /input-group -->
-                    </li>
-                    <li>
-                        <a ui-sref="auth.dashboard"><i class="fa fa-dashboard fa-fw"></i> Начало</a>
-                    </li>
-                    <li>
-
-                        <a ui-sref="auth.monitoring"><i class="fa fa-files-o fa-fw"></i> Наблюдения</a>
-                    </li>
-                    <li>
-                        <a ui-sref="auth.zones">
-                            <i class="fa fa-map fa-fw"></i>
-                            Площадки
-                            <span ng-if="main.zonesIndicator" class="badge" title="Заявени зони">{{main.zonesIndicator}}</span>
-                        </a>
-                    </li>
-                    <li ng-if="$user.isAdmin()">
-                        <a ui-sref="auth.users">
-                          <i class="fa fa-users fa-fw"></i>
-                          Потребители
-                        </a>
-                    </li>
-                </ul>
             </div>
-            <!-- /.sidebar-collapse -->
-        </div>
-        <!-- /.navbar-static-side -->
-    </nav>
+            <!-- /input-group -->
+          </li>
+          <li>
+            <a ui-sref="auth.dashboard"><i class="fa fa-dashboard fa-fw"></i> Начало</a>
+          </li>
+          <li>
 
-    <!-- Page Content -->
-    <div id="page-wrapper">
-        <div class="container-fluid">
-            <ui-view name="content"></ui-view>
-        </div>
-        <!-- /.container-fluid -->
+            <a ui-sref="auth.monitoring"><i class="fa fa-files-o fa-fw"></i> Наблюдения</a>
+          </li>
+          <li>
+            <a ui-sref="auth.zones">
+              <i class="fa fa-map fa-fw"></i>
+              Площадки
+              <span ng-if="main.zonesIndicator" class="badge" title="Заявени зони">{{main.zonesIndicator}}</span>
+            </a>
+          </li>
+          <li ng-if="$user.isAdmin()">
+            <a ui-sref="auth.users">
+              <i class="fa fa-users fa-fw"></i>
+              Потребители
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- /.sidebar-collapse -->
     </div>
-    <!-- /#page-wrapper -->
+    <!-- /.navbar-static-side -->
+  </nav>
+
+  <!-- Page Content -->
+  <div id="page-wrapper">
+    <div class="container-fluid">
+      <ui-view name="content"></ui-view>
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- /#page-wrapper -->
+
+  <footer class="footer">
+    <div class="container">
+      <p class="copyright">
+        &copy; 2016 <a href="http://bspb.org">БДЗП</a>
+      </p>
+      <p class="revision">
+        {{$system.name}} {{$system.version}}
+      </p>
+    </div>
+  </footer>
 
 </div>
 <!-- /#wrapper -->
