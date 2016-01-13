@@ -214,7 +214,9 @@ module.exports = {
                               } else {
                                 threatInserts.push(queryInterface.bulkInsert('FormCBMThreats', [{
                                   threatSlug: res,
-                                  formCBMId: id
+                                  formCBMId: id,
+                                  createdAt: new Date(),
+                                  updatedAt: new Date()
                                 }]));
                               }
 

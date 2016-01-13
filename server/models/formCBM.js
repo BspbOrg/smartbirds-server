@@ -86,7 +86,6 @@ module.exports = function (sequelize, DataTypes) {
         models.formCBM.belongsTo(models.nomenclature, {as: 'windSpeed', foreignKey: 'windSpeedSlug', targetKey: 'slug'});
         models.formCBM.belongsTo(models.nomenclature, {as: 'rain', foreignKey: 'rainSlug', targetKey: 'slug'});
         models.formCBM.belongsTo(models.nomenclature, {as: 'source', foreignKey: 'sourceSlug', targetKey: 'slug'});
-        models.formCBM.belongsToMany(models.nomenclature, {as: 'threats', through: 'FormCBMThreats', foreignKey: 'threatsSlug', targetKey: 'slug'});
 
         // other relations
         models.formCBM.belongsTo(models.zone, {as: 'zone'});
@@ -98,19 +97,27 @@ module.exports = function (sequelize, DataTypes) {
         var data = {};
         var self = this;
         return Promise.all([
-          self.getPlot({where: {type: 'cbm_sector'}}).then(function(res){data.plot = res && res.apiData()}),
-          self.getVisit({where: {type: 'cbm_visit_number'}}).then(function(res){data.visit = res && res.apiData()}),
-          self.getSecondaryHabitat({where: {type: 'cbm_habitat'}}).then(function(res){data.secondaryHabitat = res && res.apiData()}),
-          self.getPrimaryHabitat({where: {type: 'cbm_habitat'}}).then(function(res){data.primaryHabitat = res && res.apiData()}),
-          self.getDistance({where: {type: 'cbm_distance'}}).then(function(res){data.distance = res && res.apiData()}),
-          self.getSpecies({where: {type: 'birds_name'}}).then(function(res){data.species = res && res.apiData()}),
-          self.getCloudiness({where: {type: 'main_cloud_level'}}).then(function(res){data.cloudiness = res && res.apiData()}),
-          self.getWindDirection({where: {type: 'main_wind_direction'}}).then(function(res){data.windDirection = res && res.apiData()}),
-          self.getWindSpeed({where: {type: 'main_wind_force'}}).then(function(res){data.windSpeed = res && res.apiData()}),
-          self.getRain({where: {type: 'main_rain'}}).then(function(res){data.rain = res && res.apiData()}),
-          self.getSource({where: {type: 'main_source'}}).then(function(res){data.source = res && res.apiData()}),
-          self.getZone({include: [{model: api.models.location, as: 'location'}]}).then(function(res){data.zone = res && res.apiData()}),
-          self.getUser().then(function(res){data.user = res && res.apiData()}),
+          self.getPlot({where: {type: 'cbm_sector'}}).then(function(res){data.plot = res && res.apiData() || null}),
+          self.getVisit({where: {type: 'cbm_visit_number'}}).then(function(res){data.visit = res && res.apiData() || null}),
+          self.getSecondaryHabitat({where: {type: 'cbm_habitat'}}).then(function(res){data.secondaryHabitat = res && res.apiData() || null}),
+          self.getPrimaryHabitat({where: {type: 'cbm_habitat'}}).then(function(res){data.primaryHabitat = res && res.apiData() || null}),
+          self.getDistance({where: {type: 'cbm_distance'}}).then(function(res){data.distance = res && res.apiData() || null}),
+          self.getSpecies({where: {type: 'birds_name'}}).then(function(res){data.species = res && res.apiData() || null}),
+          self.getCloudiness({where: {type: 'main_cloud_level'}}).then(function(res){data.cloudiness = res && res.apiData() || null}),
+          self.getWindDirection({where: {type: 'main_wind_direction'}}).then(function(res){data.windDirection = res && res.apiData() || null}),
+          self.getWindSpeed({where: {type: 'main_wind_force'}}).then(function(res){data.windSpeed = res && res.apiData() || null}),
+          self.getRain({where: {type: 'main_rain'}}).then(function(res){data.rain = res && res.apiData() || null}),
+          self.getSource({where: {type: 'main_source'}}).then(function(res){data.source = res && res.apiData() || null}),
+          self.getZone({include: [{model: api.models.location, as: 'location'}]}).then(function(res){data.zone = res && res.apiData() || null}),
+          self.getUser().then(function(res){data.user = res && res.apiData() || null}),
+          api.models.formCBMThreat.findAll({where: {formCBMId: self.id}, include: [{model: api.models.nomenclature, as: 'threat'}]}).then(function(threats){
+            if(_.isArray(threats) && !_.isEmpty(threats)) {
+              data.threats = [];
+              threats.forEach(function(cbmThreat) {
+                data.threats.push(cbmThreat.threat.apiData(api));
+              });
+            }
+          })
         ]).then(function() {
           data.id = self.id;
           data.count = self.count;
@@ -165,6 +172,8 @@ module.exports = function (sequelize, DataTypes) {
         this.zoneId = _.has(data, 'zone') && (_.isObject(data.zone) ? data.zone.slug : data.zone) || this.zoneId;
 
         _.assign(this, _.pick(data, simpleProps));
+
+        return this;
       }
     }
   });
