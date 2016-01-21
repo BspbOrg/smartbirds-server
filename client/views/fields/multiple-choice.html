@@ -11,7 +11,7 @@
     live-search="true"
     size="7"
   >
-    <li nya-bs-option="value in field.values">
+    <li nya-bs-option="value in field.values | orderBy:field.order">
       <a href>
         <span lang="bg">{{::value.label.bg}}</span>
         <span lang="en" class="hidden">{{::value.label.en}}</span>

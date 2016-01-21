@@ -32,6 +32,11 @@ require('../app').directive('field', /*@ngInject*/function () {
       });
       field.type = $attrs.type;
       field.required = angular.isDefined($attrs.required);
+      field.order = function (item) {
+        return item && item.toString().replace(/\d+/g, function(digits) {
+            return ((new Array(20).join('0'))+digits).substr(-20, 20);
+          });
+      };
 
       switch ($attrs.type) {
         case 'date':
@@ -74,13 +79,15 @@ require('../app').directive('field', /*@ngInject*/function () {
 
           field.values.$promise.then(function(values) {
             var value = field.model;
-            $timeout(function(){
-              field.model = value;
-              values.forEach(function(val) {
-                if (val.id == value.id)
-                  field.model = value;
+            if (value) {
+              $timeout(function () {
+                field.model = value;
+                values.forEach(function (val) {
+                  if (val.id === value.id)
+                    field.model = value;
+                });
               });
-            });
+            }
           });
 
           $scope.$watch('field.model', function () {
