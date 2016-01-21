@@ -7,6 +7,7 @@
          ng-blur="field.onSelect()"
          ng-model="field.value"
          ng-required="required"
+         autocomplete="off"
          typeahead-append-to-body="true"
          typeahead-editable="false"
          typeahead-focus-first="true"
@@ -14,7 +15,7 @@
          typeahead-on-select="field.onSelect($item, $model, $label)"
          typeahead-no-results="field.noResults"
          typeahead-wait-ms="200"
-         uib-typeahead="user as user.getName() for user in field.getModels($viewValue)"
+         uib-typeahead="user for user in field.getModels($viewValue)"
   >
 
   <div ng-if="field.loading || field.noResults" class="input-group-addon">

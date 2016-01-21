@@ -57,7 +57,7 @@
             <a ui-sref="auth.monitoring"><i class="fa fa-files-o fa-fw"></i> Наблюдения</a>
           </li>
           <li>
-            <a ui-sref="auth.zones">
+            <a ui-sref="auth.zones({status:['requested','owned'], location: undefined, owner: undefined})">
               <i class="fa fa-map fa-fw"></i>
               Площадки
               <span ng-if="main.zonesIndicator" class="badge" title="Заявени зони">{{main.zonesIndicator}}</span>

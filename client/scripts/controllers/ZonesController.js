@@ -2,17 +2,23 @@
  * Created by groupsky on 20.11.15.
  */
 
-require('../app').controller('ZonesController', function ($scope, Zone, GMAP_KEY, zones, user, User) {
+var angular = require('angular');
+require('../app').controller('ZonesController', function ($scope, $state, $stateParams, Zone, GMAP_KEY, user, User) {
   var controller = this;
 
-  $scope.rows = zones;
-  $scope.visibleRows = [].concat(zones);
   $scope.zoneStatuses = Zone.statuses();
   if (!user.isAdmin()) {
     delete $scope.zoneStatuses.free;
   }
-  controller.filter = {
-    status: ['requested', 'owned']
+  controller.filter = $stateParams;
+  if (controller.filter.status && !angular.isArray(controller.filter.status)) {
+    controller.filter.status = [controller.filter.status];
+  }
+  $scope.rows = Zone.query(controller.filter);
+  $scope.visibleRows = [].concat($scope.rows);
+
+  controller.updateSearch = function () {
+    $state.go('.', controller.filter);
   };
 
   controller.getUsers = function (filter) {
@@ -34,7 +40,7 @@ require('../app').controller('ZonesController', function ($scope, Zone, GMAP_KEY
       return $scope.visibleRows.length < 25;
     });
   };
-  zones.$promise.then(controller.filterRows);
+  $scope.rows.$promise.then(controller.filterRows);
   $scope.$watch(function(){return controller.filter;}, controller.filterRows, true);
 
   controller.getStaticMap = function (zone) {

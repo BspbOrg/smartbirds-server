@@ -21,6 +21,9 @@ require('../app').factory('User', function ($resource, ENDPOINT_URL) {
     hasRole: function (role) {
       if (!this.roles) return false;
       return this.roles.indexOf(role) !== -1;
+    },
+    toString: function () {
+      return this.getName();
     }
   });
 

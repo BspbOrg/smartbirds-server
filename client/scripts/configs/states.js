@@ -91,7 +91,10 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       .state('auth.dashboard', {
         url: '/dashboard',
         views: {
-          'content': {templateUrl: '/views/dashboard.html'}
+          'content': {
+            templateUrl: '/views/dashboard.html',
+            controller: 'DashboardController as dashboard'
+          }
         }
       })
 
@@ -171,17 +174,12 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       // Zones //
       ///////////
       .state('auth.zones', {
-        url: '/zones',
+        url: '/zones?status&{location:int}&{owner:int}',
         views: {
           'content': {
             templateUrl: '/views/zones/list.html',
             controller: 'ZonesController',
             controllerAs: 'zonesController'
-          }
-        },
-        resolve: {
-          zones: /*@ngInject*/function(Zone) {
-            return Zone.query();
           }
         }
       })

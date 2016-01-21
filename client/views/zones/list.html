@@ -17,12 +17,12 @@
               <div class="form-group">
                 <label for="location">Локация</label>
                 <location-selector name="location" model-id="zonesController.filter.location"
-                                   placeholder="- всички -"></location-selector>
+                                   placeholder="- всички -" on-select="zonesController.updateSearch()"></location-selector>
               </div>
 
               <div class="form-group">
                 <label>Площадки</label>
-                <ui-select multiple ng-model="zonesController.filter.status" name="status">
+                <ui-select multiple ng-model="zonesController.filter.status" name="status" on-remove="zonesController.updateSearch()" on-select="zonesController.updateSearch()">
                   <ui-select-match placeholder="- всички -">{{$item.value}}</ui-select-match>
                   <ui-select-choices repeat="name.id as (id, name) in zoneStatuses | filter:$select.search">
                     <div ng-bind-html="name.value | uibTypeaheadHighlight:$select.search"></div>
@@ -34,7 +34,7 @@
                 <label for="owner">Наблюдател</label>
 
                 <user-selector model-id="zonesController.filter.owner" name="owner"
-                               placeholder="- всички -"></user-selector>
+                               placeholder="- всички -" on-select="zonesController.updateSearch()"></user-selector>
               </div>
 
             </div>
