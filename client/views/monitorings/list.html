@@ -71,6 +71,21 @@
             </ui-select>
           </div>
 
+          <div class="form-group">
+            <label>Посещение</label>
+            <ui-select ng-model="monitoringController.filter.visit" name="visit"
+                       on-remove="monitoringController.updateFilter()"
+                       on-select="monitoringController.updateFilter()">
+              <ui-select-match allow-clear="true" placeholder="- всички -">
+                {{$select.selected.toString()}}
+              </ui-select-match>
+              <ui-select-choices
+                repeat="item.slug as item in monitoringController.visits | filter:$select.search | orderBy:'toString()' | limitTo:30">
+                <div ng-bind-html="item | nomenclatureToString | uibTypeaheadHighlight:$select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+          </div>
+
         </form>
 
       </div>

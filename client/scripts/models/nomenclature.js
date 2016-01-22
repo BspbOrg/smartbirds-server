@@ -10,8 +10,9 @@ require('../app').service('Nomenclature', /*@ngInject*/function($resource, ENDPO
 
   // instance methods
   angular.extend(Nomenclature.prototype, {
-    toString: function() {
-      return (this.label||{}).bg;
+    toString: function(locale) {
+      locale = locale || 'bg';
+      return (this.label||{})[locale];
     }
   });
 

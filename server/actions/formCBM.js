@@ -13,6 +13,7 @@ exports.formCBMList = {
     location: {},
     user: {},
     zone: {},
+    visit: {},
   },
 
   run: function (api, data, next) {
@@ -31,6 +32,11 @@ exports.formCBMList = {
     if (data.params.zone) {
       q.where = _.extend(q.where || {}, {
         zoneId: data.params.zone
+      });
+    }
+    if (data.params.visit) {
+      q.where = _.extend(q.where || {}, {
+        visitSlug: data.params.visit
       });
     }
     try {
