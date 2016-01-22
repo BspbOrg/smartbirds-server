@@ -10,7 +10,8 @@ exports.formCBMList = {
   description: 'formCBM:list',
   middleware: ['auth'],
   inputs: {
-    location: {}
+    location: {},
+    user: {}
   },
 
   run: function (api, data, next) {
@@ -19,6 +20,12 @@ exports.formCBMList = {
       q.where = _.extend(q.where || {}, {
         userId: data.session.userId
       });
+    } else {
+      if (data.params.user) {
+        q.where = _.extend(q.where || {}, {
+          userId: data.params.user
+        });
+      }
     }
     try {
       return api.models.formCBM.findAndCountAll(q).then(function (result) {
