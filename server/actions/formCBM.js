@@ -19,7 +19,12 @@ exports.formCBMList = {
   },
 
   run: function (api, data, next) {
-    var q = {};
+    var q = {
+      order: [
+        ['startDateTime', 'DESC'],
+        ['id', 'DESC']
+      ]
+    };
     if (!data.session.user.isAdmin) {
       q.where = _.extend(q.where || {}, {
         userId: data.session.userId
