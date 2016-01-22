@@ -4,6 +4,7 @@
 
 var _ = require('lodash');
 var Promise = require('bluebird');
+var moment = require('moment');
 
 exports.formCBMList = {
   name: 'formCBM:list',
@@ -14,6 +15,7 @@ exports.formCBMList = {
     user: {},
     zone: {},
     visit: {},
+    year: {},
   },
 
   run: function (api, data, next) {
@@ -37,6 +39,11 @@ exports.formCBMList = {
     if (data.params.visit) {
       q.where = _.extend(q.where || {}, {
         visitSlug: data.params.visit
+      });
+    }
+    if (data.params.year) {
+      q.where = _.extend(q.where || {}, {
+        startDateTime: {$gte: moment().year(data.params.year).startOf('year').toDate()}
       });
     }
     try {

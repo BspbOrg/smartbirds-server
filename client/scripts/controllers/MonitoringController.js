@@ -10,6 +10,7 @@ require('../app').controller('MonitoringController', /*@ngInject*/function($stat
   controller.filter = angular.copy($stateParams);
   controller.zones = Zone.query();
   controller.visits = Nomenclature.query({type: 'cbm_visit_number'});
+  controller.years = Object.keys(new Int8Array(new Date().getFullYear()-1979)).map(function(year){return Number(year)+1980}).reverse();
 
   controller.updateFilter = function() {
     console.log($stateParams, '->', controller.filter);

@@ -132,7 +132,7 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       // Monitorings //
       ///////////
       .state('auth.monitoring', {
-        url: '/monitoring?{location:int}&zone&{user:int}&visit',
+        url: '/monitoring?{location:int}&zone&{user:int}&visit&{year:int}',
         views: {
           'content': {
             templateUrl: '/views/monitorings/list.html',
