@@ -16,6 +16,7 @@ exports.formCBMList = {
     zone: {},
     visit: {},
     year: {},
+    species: {}
   },
 
   run: function (api, data, next) {
@@ -49,6 +50,11 @@ exports.formCBMList = {
     if (data.params.year) {
       q.where = _.extend(q.where || {}, {
         startDateTime: {$gte: moment().year(data.params.year).startOf('year').toDate()}
+      });
+    }
+    if (data.params.species) {
+      q.where = _.extend(q.where || {}, {
+        speciesSlug: data.params.species
       });
     }
     try {
