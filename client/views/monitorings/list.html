@@ -3,12 +3,22 @@
     <h1 class="page-header">
       <div class="pull-right">
         <div class="btn-group">
+          <button type="button"
+                  class="btn btn-danger"
+                  ng-disabled="!monitoringController.selectedRows.length"
+                  ng-click="monitoringController.deleteRows(monitoringController.selectedRows)">
+            <i class="fa fa-trash fa-fw"></i>
+            Изтриване
+            <span ng-if="monitoringController.selectedRows.length>1" class="badge">{{monitoringController.selectedRows.length}}</span>
+          </button>
+        </div>
+        <div class="btn-group">
           <a role="button"
-             class="btn btn-default"
+             class="btn btn-primary"
              ui-sref=".new"
           >
-            Ново наблюдение
             <i class="fa fa-file-o fa-fw"></i>
+            Ново наблюдение
           </a>
         </div>
       </div>
@@ -128,6 +138,9 @@
     <table class="table table-striped table-hover">
       <thead>
       <tr>
+        <th ng-click="monitoringController.toggleSelected()">
+          <input type="checkbox" ng-checked="monitoringController.allSelected">
+        </th>
         <th ng-click="monitoringController.order.reverse = monitoringController.order.key=='id' && !monitoringController.order.reverse; monitoringController.order.key='id'">#</th>
         <th ng-if="$user.isAdmin()"
             ng-click="monitoringController.order.reverse = monitoringController.order.key=='user|userName' && !monitoringController.order.reverse; monitoringController.order.key='user|userName'">
@@ -159,7 +172,8 @@
       </thead>
       <tbody>
       <tr ng-repeat="row in monitoringController.rows | orderBy:monitoringController.order.key:monitoringController.order.reverse"
-          ng-click="$state.go('.detail', {id: row.id})">
+          ng-click="$state.go('.detail', {id: row.id})" ng-class="{info: row.$selected}">
+        <td ng-click="$event.stopPropagation(); monitoringController.toggleSelected(row)"><input type="checkbox" ng-checked="row.$selected"></td>
         <td><a href ui-sref=".detail({id: row.id})">{{row.id}}</a></td>
         <td ng-if="$user.isAdmin()">{{row.user.firstName}} {{row.user.lastName}}</td>
         <td>{{row.visit.label.bg}}</td>

@@ -256,3 +256,35 @@ exports.formCBMView = {
     ;
   }
 };
+
+exports.formCBMDelete = {
+  name: 'formCBM:delete',
+  description: 'formCBM:delete',
+  middleware: ['auth'],
+  inputs: {id: {required: true}},
+
+  run: function (api, data, next) {
+    Promise.resolve(data).then(function (data) {
+      return api.models.formCBM.findOne({where: {id: data.params.id}})
+    }).then(function (formCBM) {
+      if (!formCBM) {
+        data.connection.rawConnection.responseHttpCode = 404;
+        return Promise.reject(new Error('cbm not found'));
+      }
+
+      if (!data.session.user.isAdmin && formCBM.userId != data.session.userId) {
+        data.connection.rawConnection.responseHttpCode = 401;
+        return Promise.reject(new Error('no permission'));
+      }
+
+      return formCBM;
+    }).then(function (formCBM) {
+      return formCBM.destroy();
+    }).then(function () {
+      next();
+    }).catch(function (error) {
+      console.error(error);
+      next(error);
+    });
+  }
+};
