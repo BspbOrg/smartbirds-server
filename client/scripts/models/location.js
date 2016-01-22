@@ -13,9 +13,9 @@ require('../app').factory('Location', /*@ngInject*/function($resource, ENDPOINT_
 
   // instance methods
   angular.extend(Location.prototype, {
-    toString: function(lang) {
-      lang = lang || 'bg';
-      return (this.type||{})[lang]+' '+(this.name||{})[lang]+', '+(this.area||{})[lang];
+    toString: function(locale) {
+      locale = locale || 'bg';
+      return (this.type||{})[locale]+' '+(this.name||{})[locale]+', '+(this.area||{})[locale];
     }
   });
 

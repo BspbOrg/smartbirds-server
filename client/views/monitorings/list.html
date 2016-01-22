@@ -52,12 +52,21 @@
 
           <div class="form-group">
             <label>Площадка</label>
-            <ui-select ng-model="monitoringController.filter.zone" name="zone">
+            <ui-select ng-model="monitoringController.filter.zone" name="zone"
+                       on-remove="monitoringController.updateFilter()"
+                       on-select="monitoringController.updateFilter()">
               <ui-select-match allow-clear="true" placeholder="- всички -">{{$select.selected.id}}
               </ui-select-match>
               <ui-select-choices
-                repeat="zone in zones | filter:{owner:$user.name} | filter:$select.search | limitTo:10">
-                <div ng-bind-html="zone.id | uibTypeaheadHighlight:$select.search"></div>
+                repeat="zone.id as zone in monitoringController.zones | filter:{
+                  owner: {
+                    id: $user.isAdmin()?$user.id:monitoringController.filter.user
+                  },
+                  location: {
+                    id: monitoringController.filter.location
+                  },
+                } | filter:$select.search | orderBy:'toString()' | limitTo:30">
+                <div ng-bind-html="zone | zoneToString | uibTypeaheadHighlight:$select.search"></div>
               </ui-select-choices>
             </ui-select>
           </div>

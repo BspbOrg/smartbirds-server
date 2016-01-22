@@ -3,11 +3,12 @@
  */
 
 var angular = require('angular');
-require('../app').controller('MonitoringController', /*@ngInject*/function($state, $stateParams, FormCBM) {
+require('../app').controller('MonitoringController', /*@ngInject*/function($state, $stateParams, FormCBM, Zone) {
 
   var controller = this;
 
   controller.filter = angular.copy($stateParams);
+  controller.zones = Zone.query();
 
   controller.updateFilter = function() {
     if (angular.equals(controller.filter, $stateParams))

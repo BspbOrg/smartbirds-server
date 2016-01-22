@@ -102,8 +102,8 @@ require('../app').factory('Zone', function ($resource, ENDPOINT_URL, Location) {
       });
     },
 
-    toString: function() {
-      return this.id + ', '+Location.prototype.toString.apply(this.location);
+    toString: function(locale) {
+      return this.id + ', '+Location.prototype.toString.apply(this.location, locale);
     }
   });
 
