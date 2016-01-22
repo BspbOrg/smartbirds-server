@@ -10,15 +10,25 @@ require('../app').controller('ZonesController', function ($scope, $state, $state
   if (!user.isAdmin()) {
     delete $scope.zoneStatuses.free;
   }
-  controller.filter = $stateParams;
+  controller.filter = angular.copy($stateParams);
   if (controller.filter.status && !angular.isArray(controller.filter.status)) {
     controller.filter.status = [controller.filter.status];
   }
-  $scope.rows = Zone.query(controller.filter);
-  $scope.visibleRows = [].concat($scope.rows);
+  $scope.rows = [];
+  $scope.visibleRows = [];
 
   controller.updateSearch = function () {
-    $state.go('.', controller.filter);
+    if (angular.equals(controller.filter, $stateParams))
+      return;
+    $state.go('.', controller.filter, {
+      notify: false
+    });
+    controller.requestRows();
+  };
+
+  controller.requestRows = function() {
+    $scope.rows = Zone.query(controller.filter);
+    $scope.rows.$promise.then(controller.filterRows);
   };
 
   controller.getUsers = function (filter) {
@@ -40,8 +50,6 @@ require('../app').controller('ZonesController', function ($scope, $state, $state
       return $scope.visibleRows.length < 25;
     });
   };
-  $scope.rows.$promise.then(controller.filterRows);
-  $scope.$watch(function(){return controller.filter;}, controller.filterRows, true);
 
   controller.getStaticMap = function (zone) {
     var url = "//maps.googleapis.com/maps/api/staticmap?";
@@ -123,4 +131,7 @@ require('../app').controller('ZonesController', function ($scope, $state, $state
       return true;
     }
   };
+
+  controller.requestRows();
+  $scope.$watch(function(){return controller.filter;}, controller.filterRows, true);
 });
