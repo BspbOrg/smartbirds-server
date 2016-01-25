@@ -9,7 +9,11 @@
            uib-datepicker-popup
            ng-model="field.model"
            is-open="field.opened"
-           ng-required="::field.required">
+           ng-required="::field.required"
+           current-text="Днес"
+           close-text="OK"
+           clear-text="Изчистване"
+    >
     <span class="input-group-btn">
       <button type="button" class="btn btn-default" ng-click="field.opened = true">
         <i class="glyphicon glyphicon-calendar"></i>

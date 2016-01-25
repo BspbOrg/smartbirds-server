@@ -70,6 +70,7 @@
   },
   "browser": {
     "angular": "./bower_components/angular/angular.js",
+    "angular-i18n": "./bower_components/angular-i18n/angular-locale_bg.js",
     "ui.bootstrap": "./bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
     "uiGmapgoogle-maps": "./bower_components/angular-google-maps/dist/angular-google-maps.js",
     "ngSanitize": "./bower_components/angular-sanitize/angular-sanitize.js",
@@ -88,6 +89,11 @@
   },
   "browserify-shim": {
     "angular": "angular",
+    "angular-i18n": {
+      "depends": [
+        "angular:angular"
+      ]
+    },
     "ui.bootstrap": {
       "depends": [
         "angular:angular"
