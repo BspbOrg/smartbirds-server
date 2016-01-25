@@ -171,6 +171,20 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       })
 
       ///////////
+      // Monitoring Detail //
+      ///////////
+      .state('auth.monitoring.copy', {
+        url: '/copy?{fromId:int}',
+        views: {
+          'content@auth': {
+            templateUrl: '/views/monitorings/detail.html',
+            controller: 'MonitoringDetailController',
+            controllerAs: 'monitoringDetailController'
+          }
+        }
+      })
+
+      ///////////
       // Zones //
       ///////////
       .state('auth.zones', {

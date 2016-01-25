@@ -6,7 +6,14 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
 
   var controller = this;
 
-  controller.data = $stateParams.id ? FormCBM.get({id: $stateParams.id}) : new FormCBM();
+  var id = $stateParams.id || $stateParams.fromId;
+
+  controller.data = id ? FormCBM.get({id: id}) : new FormCBM();
+  if (!$stateParams.id && $stateParams.fromId) {
+    controller.data.$promise.then(function(){
+      controller.clearForCopy();
+    });
+  }
   controller.map = {
     poi: {
       latitude: undefined,
@@ -49,6 +56,20 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
     controller.data.latitude = controller.map.center.latitude;
     controller.data.longitude = controller.map.center.longitude;
     $scope.cbmform.$setDirty();
+  };
+
+  controller.clearForCopy = function () {
+    controller.data.id = undefined;
+    controller.data.species = undefined;
+    controller.data.distance = undefined;
+    controller.data.count = undefined;
+    controller.data.plot = undefined;
+    $scope.cbmform.$setPristine();
+  };
+
+  controller.copy = function () {
+    $state.go('^.copy', {id: controller.data.id}, {notify: false});
+    controller.clearForCopy();
   };
 
   controller.save = function () {

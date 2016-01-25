@@ -12,6 +12,14 @@
               Запис
               <i class="fa fa-save fa-fw"></i>
             </button>
+            <button type="button"
+                    class="btn btn-default"
+                    ng-disabled="!monitoringDetailController.data.id"
+                    ng-click="monitoringDetailController.copy()"
+            >
+              Копие
+              <i class="fa fa-copy fa-fw"></i>
+            </button>
           </div>
         </div>
         <span ng-if="monitoringDetailController.data.id">Редакция на запис</span>
@@ -208,6 +216,14 @@
           >
             Запис
             <i class="fa fa-save fa-fw"></i>
+          </button>
+          <button type="button"
+                  class="btn btn-default"
+                  ng-disabled="!monitoringDetailController.data.id"
+                  ng-click="monitoringDetailController.copy()"
+          >
+            Копие
+            <i class="fa fa-copy fa-fw"></i>
           </button>
         </div>
       </div>
