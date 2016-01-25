@@ -4,7 +4,7 @@
 
 var isFunction = require('angular').isFunction;
 
-require('../app').controller('RequestZoneController', /*@ngInject*/function ($q, $scope, $state, user, Location, Zone, zones) {
+require('../app').controller('RequestZoneController', /*@ngInject*/function ($q, $scope, $state, user, Location, Zone) {
 
   var vc = this;
 
