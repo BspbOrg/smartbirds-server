@@ -13,7 +13,8 @@ require('../app').directive('field', /*@ngInject*/function () {
       placeholder: '@?',
       help: '@?',
       model: '=',
-      nomenclature: '@?'
+      nomenclature: '@?',
+      select: '&?onSelect'
     },
     bindToController: true,
     require: '^form',
@@ -36,6 +37,14 @@ require('../app').directive('field', /*@ngInject*/function () {
         return item && item.toString().replace(/\d+/g, function(digits) {
             return ((new Array(20).join('0'))+digits).substr(-20, 20);
           });
+      };
+
+      field.onSelect = function() {
+        $timeout(function(){
+          if (angular.isFunction(field.select)) {
+            field.select()({model: field.model});
+          }
+        });
       };
 
       switch ($attrs.type) {

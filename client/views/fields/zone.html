@@ -9,10 +9,11 @@
            ng-blur="field.onSelect()"
            ng-model="field.model"
            ng-required="::field.required"
-           typeahead-append-to-body="true"
+           typeahead-append-to-body="false"
            typeahead-editable="false"
            typeahead-focus-first="true"
            typeahead-min-length="0"
+           typeahead-on-select="::field.onSelect($item, $model, $label, $event)"
            uib-typeahead="item for item in field.values | filter:$viewValue | orderBy:field.order | limitTo:30"
     >
     <span class="input-group-btn">
@@ -23,7 +24,7 @@
     <ul uib-dropdown-menu aria-labelledby="{{::name}}">
       <li ng-repeat="value in field.values | orderBy:field.order"
           ng-class="{active: field.model.id == value.id}">
-        <a href ng-click="field.model = value; field.form[field.name].$setDirty()">{{::value.id}}, <span class="text-muted">{{::value.location|locationLabel}}</span></a>
+        <a href ng-click="field.model = value; field.form[field.name].$setDirty(); field.onSelect(value, value, value)">{{::value.id}}, <span class="text-muted">{{::value.location|locationLabel}}</span></a>
       </li>
     </ul>
   </div>
