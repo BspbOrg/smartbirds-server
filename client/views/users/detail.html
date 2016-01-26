@@ -17,7 +17,11 @@
   </div>
 
   <div class="col-md-12">
-    <form name="user.form" role="form">
+    <form name="user.form"
+          role="form"
+          confirm-on-exit="user.form.$dirty"
+          confirm-message-window="Имате незаписани промени!"
+          confirm-message-route="Имате незаписани промени. Сигурни ли сте че искате да продължите?">
 
       <field name="admin" type="bool"
              label="Администратор"
