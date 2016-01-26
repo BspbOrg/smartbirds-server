@@ -162,17 +162,12 @@
   <hr>
 
   <div class="row">
-    <div class="col-md-4">
-      <field name="species" type="single-choice" nomenclature="birds_name" required="true"
-             label="Вид научно име"
-             model="monitoringDetailController.data.species"></field>
-    </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
       <field name="distance" type="single-choice" nomenclature="cbm_distance" required="true"
              label="Разстояние"
              model="monitoringDetailController.data.distance"></field>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
       <field name="count" type="int" min="1" required="true"
              label="Брой индивиди"
              model="monitoringDetailController.data.count"></field>
@@ -202,6 +197,14 @@
       <field name="plot" type="single-choice" nomenclature="cbm_sector" required="true"
              label="Номер на участък"
              model="monitoringDetailController.data.plot"></field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-md-offset-6">
+      <field name="species" type="single-choice" nomenclature="birds_name" required="true"
+             label="Вид научно име"
+             model="monitoringDetailController.data.species"></field>
     </div>
   </div>
 
