@@ -135,41 +135,41 @@
 
 <div class="row">
   <div class="col-lg-12">
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover" sb-table="monitoringController.order">
       <thead>
       <tr>
         <th ng-click="monitoringController.toggleSelected()">
           <input type="checkbox" ng-checked="monitoringController.allSelected">
         </th>
-        <th ng-click="monitoringController.order.reverse = monitoringController.order.key=='id' && !monitoringController.order.reverse; monitoringController.order.key='id'">#</th>
+        <th sb-sorting="id">#</th>
         <th ng-if="$user.isAdmin()"
-            ng-click="monitoringController.order.reverse = monitoringController.order.key=='user|userName' && !monitoringController.order.reverse; monitoringController.order.key='user|userName'">
+            sb-sorting="user|userName">
           Потребител
         </th>
         <th
-          ng-click="monitoringController.order.reverse = monitoringController.order.key=='visit.label.bg' && !monitoringController.order.reverse; monitoringController.order.key='visit.label.bg'">
+          sb-sorting="visit.label.bg">
           Преброяване
         </th>
-        <th ng-click="monitoringController.order.reverse = monitoringController.order.key=='zone.id' && !monitoringController.order.reverse; monitoringController.order.key='zone.id'">
+        <th sb-sorting="zone.id">
           Площадка
         </th>
         <th
-          ng-click="monitoringController.order.reverse = monitoringController.order.key=='location.id' && !monitoringController.order.reverse; monitoringController.order.key='location.id'">
+          sb-sorting="location.id">
           Локация
         </th>
         <th
-          ng-click="monitoringController.order.reverse = monitoringController.order.key=='date|date:\'yyyyMMddHHmmss\'' && !monitoringController.order.reverse; monitoringController.order.key='date|date:\'yyyyMMddHHmmss\''">
+          sb-sorting="date|date:'yyyyMMddHHmmss'">
           Дата/час
         </th>
         <th
-          ng-click="monitoringController.order.reverse = monitoringController.order.key=='updatedAt|date:\'yyyyMMddHHmmss\'' && !monitoringController.order.reverse; monitoringController.order.key='updatedAt|date:\'yyyyMMddHHmmss\''">
+          sb-sorting="updatedAt|date:'yyyyMMddHHmmss'">
           Променен
         </th>
-        <th ng-click="monitoringController.order.reverse = monitoringController.order.key=='species.label.bg' && !monitoringController.order.reverse; monitoringController.order.key='species.label.bg'">
+        <th sb-sorting="species.label.bg">
           Вид
         </th>
         <th
-          ng-click="monitoringController.order.reverse = monitoringController.order.key=='count' && !monitoringController.order.reverse; monitoringController.order.key='count'">
+          sb-sorting="count">
           Брой
         </th>
       </tr>

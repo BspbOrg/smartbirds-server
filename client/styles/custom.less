@@ -83,3 +83,18 @@
     margin: 2em 0;
   }
 }
+
+
+.sorted {
+  white-space: nowrap;
+  &.asc:after {
+    content: "▲";
+  }
+  &.desc:after {
+    content: "▼";
+  }
+  &:after {
+    .text-muted;
+    display: inline-block;
+  }
+}
