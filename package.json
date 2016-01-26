@@ -55,7 +55,7 @@
     "http-server": "~0.8.5",
     "less": "~2.5.3",
     "less-plugin-clean-css": "~1.5.1",
-    "lodash": "~4.0.0",
+    "lodash": "~3.10.0",
     "moment": "^2.11.1",
     "nodemailer": "^1.10.0",
     "nodemailer-mailgun-transport": "^1.0.1",
