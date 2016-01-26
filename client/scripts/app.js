@@ -2,7 +2,6 @@
  * Created by groupsky on 30.10.15.
  */
 
-require('lodash');
 var angular = require('angular');
 var bulk = require('bulk-require');
 var info = require('../../package.json');
