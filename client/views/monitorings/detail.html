@@ -28,13 +28,30 @@
     </div>
 
     <div class="col-md-4">
-      <field name="source" type="single-choice" nomenclature="main_source" required="true"
-             label="Източник"
-             model="monitoringDetailController.data.source"></field>
       <field name="zone" type="zone" required="true"
              label="Място"
              on-select="monitoringDetailController.onZoneSelected"
              model="monitoringDetailController.data.zone"></field>
+
+      <ui-gmap-google-map ng-if="monitoringDetailController.map.poi.latitude && monitoringDetailController.map.poi.longitude"
+                          center="monitoringDetailController.data.zone.getCenter()"
+                          zoom="monitoringDetailController.map.zoom"
+                          refresh="monitoringDetailController.map.refresh && ((monitoringDetailController.map.refresh=false) || true)"
+                          bounds="monitoringDetailController.data.zone.getBounds()"
+                          options="{mapTypeId: 'satellite'}">
+        <ui-gmap-marker coords="monitoringDetailController.map.poi"
+                        idKey="'coords'"
+        ></ui-gmap-marker>
+        <ui-gmap-polygon ng-if="monitoringDetailController.data.zone.coordinates.length"
+                         path="monitoringDetailController.data.zone.coordinates"
+                         static="true"
+                         fill="{color: '#00f', opacitiy: 0.7}"
+                         stroke="{color: '#00f', opacity: 1, weight: 3}"
+                         geodesic="true"
+                         fit="false"
+                         events="{click: monitoringDetailController.map.click}"
+        ></ui-gmap-polygon>
+      </ui-gmap-google-map>
     </div>
 
     <div class="col-md-4">
@@ -60,30 +77,7 @@
              label="Краен час"
              model="monitoringDetailController.data.endDateTime"></field>
     </div>
-  </div>
 
-  <div class="row">
-    <div class="col-md-4">
-      <ui-gmap-google-map ng-if="monitoringDetailController.map.poi.latitude && monitoringDetailController.map.poi.longitude"
-                          center="monitoringDetailController.data.zone.getCenter()"
-                          zoom="monitoringDetailController.map.zoom"
-                          refresh="monitoringDetailController.map.refresh && ((monitoringDetailController.map.refresh=false) || true)"
-                          bounds="monitoringDetailController.data.zone.getBounds()"
-                          options="{mapTypeId: 'satellite'}">
-        <ui-gmap-marker coords="monitoringDetailController.map.poi"
-                        idKey="'coords'"
-        ></ui-gmap-marker>
-        <ui-gmap-polygon ng-if="monitoringDetailController.data.zone.coordinates.length"
-                         path="monitoringDetailController.data.zone.coordinates"
-                         static="true"
-                         fill="{color: '#00f', opacitiy: 0.7}"
-                         stroke="{color: '#00f', opacity: 1, weight: 3}"
-                         geodesic="true"
-                         fit="false"
-                         events="{click: monitoringDetailController.map.click}"
-        ></ui-gmap-polygon>
-      </ui-gmap-google-map>
-    </div>
     <div class="col-md-8">
       <field name="observers" type="text" required="true"
              label="Наблюдатели"

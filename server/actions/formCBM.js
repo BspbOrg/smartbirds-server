@@ -104,7 +104,7 @@ exports.formCBMAdd = {
     endDateTime: {required: true},
     startDateTime: {required: true},
     zone: {required: true},
-    source: {required: true},
+    //source: {required: true},
     latitude: {required: false},
     longitude: {required: false},
   },
@@ -120,7 +120,7 @@ exports.formCBMAdd = {
     formCBM.windDirectionSlug = _.has(data, 'params.windDirection') && ((_.isObject(data.params.windDirection)) ? data.params.windDirection.slug : data.params.windDirection) || null;
     formCBM.windSpeedSlug = _.has(data, 'params.windSpeed') && ((_.isObject(data.params.windSpeed)) ? data.params.windSpeed.slug : data.params.windSpeed) || null;
     formCBM.rainSlug = _.has(data, 'params.rain') && ((_.isObject(data.params.rain)) ? data.params.rain.slug : data.params.rain) || null;
-    formCBM.sourceSlug = (_.isObject(data.params.source)) ? data.params.source.slug : data.params.source;
+    formCBM.sourceSlug = 'common-bird-monitoring';//(_.isObject(data.params.source)) ? data.params.source.slug : data.params.source;
 
     formCBM.zoneId = (_.isObject(data.params.zone)) ? data.params.zone.id : data.params.zone;
     formCBM.userId = data.session.user.id;
@@ -137,6 +137,8 @@ exports.formCBMAdd = {
           });
         }
         return cbm;
+      }).then(function(cbm) {
+        return cbm.apiData(api);
       }).then(function (res) {
         data.response.data = res;
         next();
@@ -177,7 +179,7 @@ exports.formCBMEdit = {
     endDateTime: {},
     startDateTime: {},
     zone: {},
-    source: {},
+    //source: {},
     latitude: {},
     longitude: {},
   },

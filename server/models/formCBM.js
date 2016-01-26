@@ -150,7 +150,7 @@ module.exports = function (sequelize, DataTypes) {
           'windDirection',
           'windSpeed',
           'rain',
-          'source',
+          //'source',
         ];
 
         var simpleProps = [
