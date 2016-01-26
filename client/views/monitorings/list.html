@@ -161,6 +161,10 @@
           ng-click="monitoringController.order.reverse = monitoringController.order.key=='date|date:\'yyyyMMddHHmmss\'' && !monitoringController.order.reverse; monitoringController.order.key='date|date:\'yyyyMMddHHmmss\''">
           Дата/час
         </th>
+        <th
+          ng-click="monitoringController.order.reverse = monitoringController.order.key=='updatedAt|date:\'yyyyMMddHHmmss\'' && !monitoringController.order.reverse; monitoringController.order.key='updatedAt|date:\'yyyyMMddHHmmss\''">
+          Променен
+        </th>
         <th ng-click="monitoringController.order.reverse = monitoringController.order.key=='species.label.bg' && !monitoringController.order.reverse; monitoringController.order.key='species.label.bg'">
           Вид
         </th>
@@ -180,6 +184,7 @@
         <td>{{row.zone.id}}</td>
         <td>{{row.zone.location|locationLabel}}</td>
         <td>{{row.startDateTime|date:'d.MM.yyyy'}} {{row.startDateTime|date:'H:mm'}} - {{row.endDateTime|date:'H:mm'}}</td>
+        <td>{{row.updatedAt|date:'d.MM.yyyy'}} {{row.updatedAt|date:'H:mm'}}</td>
         <td>{{row.species.label.bg}}</td>
         <td>{{row.count}}</td>
       </tr>

@@ -22,7 +22,7 @@ exports.formCBMList = {
   run: function (api, data, next) {
     var q = {
       order: [
-        ['startDateTime', 'DESC'],
+        ['updatedAt', 'DESC'],
         ['id', 'DESC']
       ]
     };

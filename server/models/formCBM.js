@@ -131,6 +131,8 @@ module.exports = function (sequelize, DataTypes) {
           data.startDateTime = self.startDateTime;
           data.latitude = self.latitude;
           data.longitude = self.longitude;
+          data.createdAt = self.createdAt;
+          data.updatedAt = self.updatedAt;
 
           return data;
         });
