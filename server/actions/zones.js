@@ -2,6 +2,7 @@
  * Created by groupsky on 20.11.15.
  */
 
+var Promise = require('bluebird');
 var _ = require('lodash');
 
 exports.zoneList = {
@@ -42,7 +43,7 @@ exports.zoneList = {
     if (data.params.status) {
       q.where = _.extend(q.where || {}, {
         status: {
-          $in: _.isArray(data.params.status)?data.params.status:[data.params.status]
+          $in: _.isArray(data.params.status) ? data.params.status : [data.params.status]
         }
       })
     }
@@ -53,7 +54,7 @@ exports.zoneList = {
           return zone.apiData(api);
         });
         next();
-      }).catch(function(e){
+      }).catch(function (e) {
         console.error('Failure to retrieve zones', e);
         next(e);
       });
@@ -69,32 +70,52 @@ exports.zoneView = {
   description: 'zone:view',
   middleware: ['auth'],
   inputs: {id: {required: true}},
+  matchExtensionMimeType: true,
 
   run: function (api, data, next) {
-    var q = {
-      where: {id: data.params.id},
-      include: [
-        {model: api.models.location, as: 'location'}
-      ]
-    };
-    if (data.session.user.isAdmin) {
-      q.include.push({model: api.models.user, as: 'owner'});
-    }
-    api.models.zone.findOne(q).then(function (zone) {
-        if (!zone) {
-          data.connection.rawConnection.responseHttpCode = 404;
-          return next(new Error('zone not found'));
-        }
+    Promise.resolve(data).then(function (data) {
+      return {
+        where: {id: data.params.id.split('.').shift()},
+        include: [
+          {model: api.models.location, as: 'location'}
+        ]
+      };
+    }).then(function (q) {
+      if (data.session.user.isAdmin) {
+        q.include.push({model: api.models.user, as: 'owner'});
+      }
+      return q;
+    }).then(function (q) {
+      console.log('looking for' + JSON.stringify(q.where));
+      return api.models.zone.findOne(q);
+    }).then(function (zone) {
+      if (!zone) {
+        data.connection.rawConnection.responseHttpCode = 404;
+        return Promise.reject(new Error('zone not found'));
+      }
 
-        if (!data.session.user.isAdmin && zone.ownerId != data.session.userId) {
-          data.connection.rawConnection.responseHttpCode = 401;
-          return next(new Error('no permission'));
-        }
+      if (!data.session.user.isAdmin && zone.ownerId != data.session.userId) {
+        data.connection.rawConnection.responseHttpCode = 401;
+        return Promise.reject(new Error('no permission'));
+      }
 
-        data.response.data = zone.apiData(api);
-        next();
-      })
-      .catch(next)
-    ;
+      return zone;
+    }).then(function (zone) {
+      console.log('extension = ', data.connection.extension);
+      switch (data.connection.extension) {
+        case 'gpx': return api.template.render('/zone.gpx.ejs', {zone: zone});
+        case 'kml': return api.template.render('/zone.kml.ejs', {zone: zone});
+        default:
+          return {data: zone.apiData(api)};
+      }
+    }).then(function (response) {
+      console.log('response = ', response);
+      data.response = response;
+    }).then(function () {
+      next();
+    }).catch(function (error) {
+      console.error(error);
+      next(error);
+    });
   }
 };

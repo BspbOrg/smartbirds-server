@@ -44,7 +44,8 @@ exports.default = {
         'server':      [ __dirname + '/../servers'      ] ,
         'initializer': [ __dirname + '/../initializers' ] ,
         'plugin':      [ __dirname + '/../../node_modules' ] ,
-        'model':       [ __dirname + '/../models'       ]
+        'model':       [ __dirname + '/../models'       ] ,
+        'view':        [ __dirname + '/../views' ] ,
       },
       // hash containing chat rooms you wish to be created at server boot
       startingChatRooms: {
@@ -57,7 +58,7 @@ exports.default = {
   }
 }
 
-exports.test = { 
+exports.test = {
   general: function(api){
     var actionDomains = true;
     if(process.env.ACTIONDOMAINS === 'false'){
@@ -76,9 +77,9 @@ exports.test = {
   }
 }
 
-exports.production = { 
+exports.production = {
   general: function(api){
-    return {  
+    return {
       developmentMode: false
     }
   }

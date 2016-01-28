@@ -6,7 +6,7 @@ exports.default = {
         { path: '/user', action: 'user:list' },
         { path: '/user/:id',     action: 'user:view' },
         { path: '/zone', action: 'zone:list' },
-        { path: '/zone/:id', action: 'zone:view' },
+        { path: "/zone/:id([0-9A-Z]+)", action: 'zone:view' },
         { path: '/locations/', action: 'location:list' },
         { path: '/locations/:id', action: 'location:get' },
         { path: '/locations/:id/zones', action: 'location:listZones' },

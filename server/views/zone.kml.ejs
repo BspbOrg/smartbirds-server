@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name><%= zone.id %></name>
+    <Placemark>
+      <name><%= zone.id %></name>
+      <LineString>
+        <extrude>true</extrude>
+        <tessellate>true</tessellate>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>
+          <%= zone.lat1 %>, <%= zone.lon1 %>
+          <%= zone.lat2 %>, <%= zone.lon2 %>
+          <%= zone.lat3 %>, <%= zone.lon3 %>
+          <%= zone.lat4 %>, <%= zone.lon4 %>
+          <%= zone.lat1 %>, <%= zone.lon1 %>
+        </coordinates>
+      </LineString>
+    </Placemark>
+  </Document>
+</kml>

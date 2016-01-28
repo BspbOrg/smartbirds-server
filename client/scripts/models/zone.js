@@ -66,7 +66,7 @@ require('../app').factory('Zone', function ($resource, ENDPOINT_URL, Location) {
     getStatus: function () {
       return this.status;
     },
-    $respond: function(response) {
+    $respond: function (response) {
       var self = this;
       if (response) {
         this.status = 'owned';
@@ -75,26 +75,26 @@ require('../app').factory('Zone', function ($resource, ENDPOINT_URL, Location) {
         this.owner = null;
         this.ownerId = null;
       }
-      return Zone.respond.call(this, {id: this.id}, {response: response}).then(function(response){
+      return Zone.respond.call(this, {id: this.id}, {response: response}).then(function (response) {
         var data = response.data;
         if (data) {
           Zone.call(self, data);
         }
       });
     },
-    $removeOwner: function() {
+    $removeOwner: function () {
       this.ownerId = null;
       this.owner = null;
       this.status = 'free';
       return Zone.removeOwner.call(this, {id: this.id}, this);
     },
 
-    $setOwner: function(owner) {
+    $setOwner: function (owner) {
       var self = this;
       this.owner = owner;
       this.ownerId = owner.id;
       this.status = 'owned';
-      return Zone.setOwner.call(this, {id: this.id}, {owner: owner.id}).then(function(response){
+      return Zone.setOwner.call(this, {id: this.id}, {owner: owner.id}).then(function (response) {
         var data = response.data;
         if (data) {
           Zone.call(self, data);
@@ -102,12 +102,16 @@ require('../app').factory('Zone', function ($resource, ENDPOINT_URL, Location) {
       });
     },
 
-    toString: function(locale) {
-      return this.id + ', '+Location.prototype.toString.apply(this.location, locale);
+    toString: function (locale) {
+      return this.id + ', ' + Location.prototype.toString.apply(this.location, locale);
+    },
+
+    linkUrl: function () {
+      return ENDPOINT_URL + '/zone/' + this.id;
     }
   });
 
-  Zone.statuses = function() {
+  Zone.statuses = function () {
     return {
       free: 'свободна',
       requested: 'заявена',
