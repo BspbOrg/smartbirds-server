@@ -128,7 +128,7 @@ module.exports = {
         })
         .on('end', function () {
           notify(true);
-          resolve(Promise.all(inserts));
+          Promise.all(inserts).then(resolve, reject);
         });
 
     }).finally(function(){

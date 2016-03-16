@@ -75,7 +75,7 @@ var nomenclatureColumns = [
 var dummyUserEmail = 'dummyUserForCBMSeed@email.com';
 
 function joinDateTime(date, time) {
-  var m = moment(date+' '+time, 'M/D/YYYY H:mm', true);
+  var m = moment(date + ' ' + time, 'M/D/YYYY H:mm', true);
   //console.log(date+' '+time+' => '+m.toString());
   return m.isValid() ? m.toDate() : null;
 }
@@ -124,117 +124,116 @@ module.exports = {
               while (rec = parser.read()) {
                 counts.rows++;
 
-                var record = rec;
-                var cbmRow = {};
-                var index = counts.rows;
-                var threats = (record.threats != null && record.threats != '') ? record.threats.split(',') : null;
+                (function (record, index) {
+                  var cbmRow = {};
+                  var threats = (record.threats != null && record.threats != '') ? record.threats.split(',') : null;
 
-                inserts.push(
-                  Promise.all([
-                    Promise.map(nomenclatureColumns, function (column) {
-                      if (record[column.csvName] === null || record[column.csvName] == '') {
-                        if (column.required) {
-                          console.error('Null value for required field', column.csvName);
-                          return false;
-                        }
-                        return true;
-                      }
-                      return queryInterface.rawSelect('Nomenclatures', {
-                        attributes: ['slug'],
-                        where: {
-                          type: column.type,
-                          $or: {
-                            labelBg: record[column.csvName],
-                            labelEn: record[column.csvName]
+                  inserts.push(
+                    Promise.all([
+                      Promise.map(nomenclatureColumns, function (column) {
+                        if (record[column.csvName] === null || record[column.csvName] == '') {
+                          if (column.required) {
+                            console.error('Null value for required field', column.csvName);
+                            return false;
                           }
+                          return true;
                         }
-                      }, 'slug').then(function (res) {
-                        if (res === null) {
-                          console.error('No record found for ', column, ' with value', record[column.csvName]);
-                        }
-                        cbmRow[column.fieldName] = res;
-                      })
-                    }),
-                    queryInterface.rawSelect('Zones', {
-                      attributes: ['id'],
-                      where: {
-                        id: record.zone
-                      }
-                    }, 'id').then(function (res) {
-                      if (res != null) {
-                        cbmRow.zoneId = res;
-                      } else {
-                        console.error('Cannot find zone: ' + record.zone + ' in DB');
-                      }
-                    })
-                  ]).then(function () {
-                    cbmRow.userId = userId;
-                    cbmRow.imported = index;
-                    cbmRow.count = record.count || null;
-                    cbmRow.notes = record.notes || null;
-                    cbmRow.visibility = record.visibility || null;
-                    cbmRow.mto = record.mto || null;
-                    cbmRow.cloudsType = record.cloudsType || null;
-                    cbmRow.temperature = record.temperature || null;
-                    cbmRow.startDateTime = joinDateTime(record.startDate, record.startTime);
-                    cbmRow.endDateTime = joinDateTime(record.endDate, record.endTime);
-                    cbmRow.latitude = record.latitute || null;
-                    cbmRow.longitude = record.longitude || null;
-                    cbmRow.observers = record.observers || null;
-                    cbmRow.createdAt = new Date();
-                    cbmRow.updatedAt = new Date();
-
-                    return queryInterface.bulkInsert('FormCBM', [cbmRow]).then(function () {
-                      return queryInterface.rawSelect('FormCBM', {
+                        return queryInterface.rawSelect('Nomenclatures', {
+                          attributes: ['slug'],
+                          where: {
+                            type: column.type,
+                            $or: {
+                              labelBg: record[column.csvName],
+                              labelEn: record[column.csvName]
+                            }
+                          }
+                        }, 'slug').then(function (res) {
+                          if (res === null) {
+                            console.error('No record found for ', column, ' with value', record[column.csvName]);
+                          }
+                          cbmRow[column.fieldName] = res;
+                        })
+                      }),
+                      queryInterface.rawSelect('Zones', {
                         attributes: ['id'],
                         where: {
-                          imported: cbmRow.imported
+                          id: record.zone
                         }
-                      }, 'id').then(function (id) {
-                        if (id === null) {
-                          console.error('Cannot retrieve created cbm record');
-                          return;
-                        }
-                        if (threats != null && threats.length > 0) {
-                          var threatInserts = [];
-
-                          threats.forEach(function (threat) {
-                            return queryInterface.rawSelect('Nomenclatures', {
-                              attributes: ['slug'],
-                              where: {
-                                type: 'main_threats',
-                                $or: {
-                                  labelBg: threat.trim(),
-                                  labelEn: threat.trim()
-                                }
-                              }
-                            }, 'slug').then(function (res) {
-                              if (res === null) {
-                                console.error('No record found for threat with value', threat);
-                              } else {
-                                threatInserts.push(queryInterface.bulkInsert('FormCBMThreats', [{
-                                  threatSlug: res,
-                                  formCBMId: id,
-                                  createdAt: new Date(),
-                                  updatedAt: new Date()
-                                }]));
-                              }
-
-                            })
-                          });
-
-                          return Promise.all(threatInserts).then(function () {
-                            counts.inserts++;
-                          });
+                      }, 'id').then(function (res) {
+                        if (res != null) {
+                          cbmRow.zoneId = res;
                         } else {
-                          counts.inserts++;
+                          console.error('Cannot find zone: ' + record.zone + ' in DB');
                         }
+                      })
+                    ]).then(function () {
+                      cbmRow.userId = userId;
+                      cbmRow.imported = index;
+                      cbmRow.count = record.count || null;
+                      cbmRow.notes = record.notes || null;
+                      cbmRow.visibility = record.visibility || null;
+                      cbmRow.mto = record.mto || null;
+                      cbmRow.cloudsType = record.cloudsType || null;
+                      cbmRow.temperature = record.temperature || null;
+                      cbmRow.startDateTime = joinDateTime(record.startDate, record.startTime);
+                      cbmRow.endDateTime = joinDateTime(record.endDate, record.endTime);
+                      cbmRow.latitude = record.latitute || null;
+                      cbmRow.longitude = record.longitude || null;
+                      cbmRow.observers = record.observers || null;
+                      cbmRow.createdAt = new Date();
+                      cbmRow.updatedAt = new Date();
+
+                      return queryInterface.bulkInsert('FormCBM', [cbmRow]).then(function () {
+                        return queryInterface.rawSelect('FormCBM', {
+                          attributes: ['id'],
+                          where: {
+                            imported: cbmRow.imported
+                          }
+                        }, 'id').then(function (id) {
+                          if (id === null) {
+                            console.error('Cannot retrieve created cbm record');
+                            return;
+                          }
+                          if (threats != null && threats.length > 0) {
+                            var threatInserts = [];
+
+                            threats.forEach(function (threat) {
+                              return queryInterface.rawSelect('Nomenclatures', {
+                                attributes: ['slug'],
+                                where: {
+                                  type: 'main_threats',
+                                  $or: {
+                                    labelBg: threat.trim(),
+                                    labelEn: threat.trim()
+                                  }
+                                }
+                              }, 'slug').then(function (res) {
+                                if (res === null) {
+                                  console.error('No record found for threat with value', threat);
+                                } else {
+                                  threatInserts.push(queryInterface.bulkInsert('FormCBMThreats', [{
+                                    threatSlug: res,
+                                    formCBMId: id,
+                                    createdAt: new Date(),
+                                    updatedAt: new Date()
+                                  }]));
+                                }
+
+                              })
+                            });
+
+                            return Promise.all(threatInserts).then(function () {
+                              counts.inserts++;
+                            });
+                          } else {
+                            counts.inserts++;
+                          }
+                        });
+
                       });
-
-                    });
-                  })
-                );
-
+                    })
+                  );
+                })(rec, counts.rows);
               }
 
             });
@@ -247,7 +246,7 @@ module.exports = {
               })
               .on('end', function () {
                 notify(true);
-                resolve(Promise.all(inserts));
+                Promise.all(inserts).then(resolve, reject);
               });
 
           }).finally(function () {

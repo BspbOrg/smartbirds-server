@@ -113,7 +113,7 @@ module.exports = {
 
       function onParserEnd() {
         notify(true);
-        resolve(Promise.all(inserts));
+        Promise.all(inserts).then(resolve, reject);
       }
 
       parserBg
