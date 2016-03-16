@@ -16,7 +16,11 @@ exports.default = {
         { path: '/status',   action: 'status' },
 
         { path: '/nomenclature/:type', action: 'nomenclature:typeList' },
-        { path: '/nomenclature/:type/:slug', action: 'nomenclature:view' },
+        { path: '/nomenclature/:type/bg/:value', action: 'nomenclature:bg:view' },
+        { path: '/nomenclature/:type/en/:value', action: 'nomenclature:en:view' },
+
+        { path: '/species/:type', action: 'species:typeList' },
+        { path: '/species/:type/:value', action: 'species:view' },
 
         { path: '/cbm', action: 'formCBM:list' },
         { path: '/cbm/:id', action: 'formCBM:view' }

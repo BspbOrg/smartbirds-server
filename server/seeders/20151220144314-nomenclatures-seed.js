@@ -1,34 +1,19 @@
 'use strict';
 
+var _ = require('lodash');
+
 function makeNomenclature(type, labelEn, labelBg) {
-  var getSlug = require('speakingurl'),
-      slugLabel;
-
-  if (labelEn.indexOf('|') !== -1) {
-    // get the latin name
-    slugLabel = labelEn.split('|')[0].trim();
-  } else {
-    slugLabel = labelEn;
-  }
-
   type = type.replace(/^form_/, '');
-
-  var slug = getSlug(slugLabel);
 
   if (type.length >= 32) {
     console.error("TYPE too long: '"+type+"'");
   }
-  if (slug.length >= 128) {
-    console.error("SLUG too long! type="+type+" slug="+slug+" bg/en='"+labelBg+"'/'"+labelEn+"'");
-  }
-
   return {
-    "type": type,
-    "slug": slug,
-    "labelEn": labelEn,
-    "labelBg": labelBg,
-    "createdAt": new Date(),
-    "updatedAt": new Date()
+    type: type,
+    labelEn: labelEn,
+    labelBg: labelBg,
+    createdAt: new Date(),
+    updatedAt: new Date()
   };
 }
 
@@ -56,7 +41,7 @@ module.exports = {
     parserBg.on("readable", function() {
       var record;
       while(record = parserBg.read()){
-        recordsBg.push(record);
+        recordsBg.push(_.clone(record));
       }
     });
 
@@ -74,8 +59,8 @@ module.exports = {
 
         for (var i = 0; i < tLen; i++) {
           var type = types[i],
-              labelEn = recordEn[type],
-              labelBg = recordBg[type],
+              labelEn = recordEn[type].trim(),
+              labelBg = recordBg[type].trim(),
               nomenclature;
 
           if (labelEn && labelBg) {
@@ -94,6 +79,9 @@ module.exports = {
       inserts.push(queryInterface.bulkInsert('Nomenclatures', nomenclatures).then(function(){
         completed += nomenclatures.length;
         notify();
+      }, function(err) {
+        console.log('unhandled error', err);
+        return Promise.reject(err);
       }));
 
     });

@@ -9,7 +9,7 @@ var moment = require('moment');
 exports.formCBMList = {
   name: 'formCBM:list',
   description: 'formCBM:list',
-  middleware: ['auth'],
+  //middleware: ['auth'],
   inputs: {
     location: {},
     user: {},
@@ -24,19 +24,20 @@ exports.formCBMList = {
       order: [
         ['updatedAt', 'DESC'],
         ['id', 'DESC']
-      ]
+      ],
+      limit: 100,
     };
-    if (!data.session.user.isAdmin) {
-      q.where = _.extend(q.where || {}, {
-        userId: data.session.userId
-      });
-    } else {
-      if (data.params.user) {
-        q.where = _.extend(q.where || {}, {
-          userId: data.params.user
-        });
-      }
-    }
+    //if (!data.session.user.isAdmin) {
+    //  q.where = _.extend(q.where || {}, {
+    //    userId: data.session.userId
+    //  });
+    //} else {
+    //  if (data.params.user) {
+    //    q.where = _.extend(q.where || {}, {
+    //      userId: data.params.user
+    //    });
+    //  }
+    //}
     if (data.params.zone) {
       q.where = _.extend(q.where || {}, {
         zoneId: data.params.zone
@@ -44,7 +45,10 @@ exports.formCBMList = {
     }
     if (data.params.visit) {
       q.where = _.extend(q.where || {}, {
-        visitSlug: data.params.visit
+        $or: {
+          visitBg: data.params.visit,
+          visitEn: data.params.visit
+        }
       });
     }
     if (data.params.year) {
@@ -54,7 +58,7 @@ exports.formCBMList = {
     }
     if (data.params.species) {
       q.where = _.extend(q.where || {}, {
-        speciesSlug: data.params.species
+        species: data.params.species
       });
     }
     try {

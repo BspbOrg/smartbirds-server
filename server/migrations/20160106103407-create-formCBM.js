@@ -1,7 +1,6 @@
 'use strict';
 
 var tableName = 'FormCBM';
-var threatsTableName = 'FormCBMThreats';
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
@@ -11,31 +10,48 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true
       },
-      plotSlug: {
-        type: Sequelize.STRING(128),
+      plotBg: {
+        type: Sequelize.TEXT,
         allowNull: false
       },
-      visitSlug: {
-        type: Sequelize.STRING(128),
+      plotEn: {
+        type: Sequelize.TEXT,
         allowNull: false
       },
-      secondaryHabitatSlug: {
-        type: Sequelize.STRING(128)
-      },
-      primaryHabitatSlug: {
-        type: Sequelize.STRING(128),
+      visitBg: {
+        type: Sequelize.TEXT,
         allowNull: false
+      },
+      visitEn: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
+      secondaryHabitatBg: {
+        type: Sequelize.TEXT
+      },
+      secondaryHabitatEn: {
+        type: Sequelize.TEXT
+      },
+      primaryHabitatBg: {
+        type: Sequelize.TEXT
+      },
+      primaryHabitatEn: {
+        type: Sequelize.TEXT
       },
       count: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      distanceSlug: {
-        type: Sequelize.STRING(128),
+      distanceBg: {
+        type: Sequelize.TEXT,
         allowNull: false
       },
-      speciesSlug: {
-        type: Sequelize.STRING(128),
+      distanceEn: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
+      species: {
+        type: Sequelize.TEXT,
         allowNull: false
       },
       notes: {
@@ -47,23 +63,35 @@ module.exports = {
       mto: {
         type: Sequelize.TEXT
       },
-      cloudinessSlug: {
-        type: Sequelize.STRING(128)
+      cloudinessBg: {
+        type: Sequelize.TEXT
+      },
+      cloudinessEn: {
+        type: Sequelize.TEXT
       },
       cloudsType: {
         type: Sequelize.TEXT
       },
-      windDirectionSlug: {
-        type: Sequelize.STRING(128)
+      windDirectionBg: {
+        type: Sequelize.TEXT
       },
-      windSpeedSlug: {
-        type: Sequelize.STRING(128)
+      windDirectionEn: {
+        type: Sequelize.TEXT
+      },
+      windSpeedBg: {
+        type: Sequelize.TEXT
+      },
+      windSpeedEn: {
+        type: Sequelize.TEXT
       },
       temperature: {
         type: Sequelize.FLOAT
       },
-      rainSlug: {
-        type: Sequelize.STRING(128)
+      rainBg: {
+        type: Sequelize.TEXT
+      },
+      rainEn: {
+        type: Sequelize.TEXT
       },
       observers: {
         type: Sequelize.TEXT
@@ -78,10 +106,6 @@ module.exports = {
       },
       zoneId: {
         type: Sequelize.STRING(10),
-        allowNull: false
-      },
-      sourceSlug: {
-        type: Sequelize.STRING(128),
         allowNull: false
       },
       latitude: {
@@ -104,46 +128,49 @@ module.exports = {
       },
       imported: {
         type: Sequelize.INTEGER
+      },
+      threatsBg: {
+        type: Sequelize.TEXT
+      },
+      threatsEn: {
+        type: Sequelize.TEXT
       }
     }).then(function () {
-        return queryInterface.addIndex(tableName, {
+      return queryInterface.addIndex(tableName, {
           fields: ['userId']
-        }).then(function () {
+        })
+        .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['zoneId']
-          }).then(function () {
-            return queryInterface.createTable(threatsTableName, {
-              id: {
-                type: Sequelize.INTEGER,
-                primaryKey: true,
-                autoIncrement: true
-              },
-              threatSlug: {
-                type: Sequelize.STRING(128),
-                allowNull: false
-              },
-              formCBMId: {
-                type: Sequelize.INTEGER,
-                allowNull: false
-              },
-              createdAt: {
-                allowNull: false,
-                type: Sequelize.DATE
-              },
-              updatedAt: {
-                allowNull: false,
-                type: Sequelize.DATE
-              },
-            });
           });
-        });
-      }
-    );
+        })
+        .then(function () {
+          return queryInterface.addIndex(tableName, {
+            fields: ['visitBg']
+          });
+        })
+        .then(function () {
+          return queryInterface.addIndex(tableName, {
+            fields: ['visitEn']
+          });
+        })
+        .then(function () {
+          return queryInterface.addIndex(tableName, {
+            fields: ['startDateTime']
+          });
+        })
+        .then(function () {
+          return queryInterface.addIndex(tableName, {
+            fields: ['species']
+          });
+        })
+        .catch(function () {
+        })
+    });
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable(tableName).then(function () {
-      return queryInterface.dropTable(threatsTableName);
-    });
+    return queryInterface.dropTable(tableName);
   }
-};
+}
+;

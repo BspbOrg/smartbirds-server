@@ -1,6 +1,6 @@
 'use strict';
 
-var tableName = "Nomenclatures";
+var tableName = "Species";
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
@@ -14,14 +14,18 @@ module.exports = {
         type: Sequelize.STRING(32),
         allowNull: false
       },
-      "labelBg": {
+      "labelLa": {
         type: Sequelize.TEXT,
         allowNull: false
+      },
+      "labelBg": {
+        type: Sequelize.TEXT
       },
       "labelEn": {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
+      "euring": Sequelize.TEXT,
+      "code": Sequelize.TEXT,
       "createdAt": {
         allowNull: false,
         type: Sequelize.DATE
@@ -33,12 +37,25 @@ module.exports = {
     }).then(function() {
       return queryInterface.addIndex(tableName, {
         "unique": true,
+        "fields": ["type", "labelLa"]
+      });
+    }).then(function() {
+      return queryInterface.addIndex(tableName, {
+        "unique": true,
         "fields": ["type", "labelBg"]
       });
     }).then(function() {
       return queryInterface.addIndex(tableName, {
         "unique": true,
         "fields": ["type", "labelEn"]
+      });
+    }).then(function() {
+      return queryInterface.addIndex(tableName, {
+        "fields": ["type", "euring"]
+      });
+    }).then(function() {
+      return queryInterface.addIndex(tableName, {
+        "fields": ["type", "code"]
       });
     });
   },

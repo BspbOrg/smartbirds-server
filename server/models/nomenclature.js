@@ -8,26 +8,25 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING(32),
       allowNull: false
     },
-    "slug": {
-      type: DataTypes.STRING(128),
-      allowNull: false
-    },
-    "labelBg": DataTypes.STRING,
-    "labelEn": DataTypes.STRING
+    "labelBg": DataTypes.TEXT,
+    "labelEn": DataTypes.TEXT
   };
 
   options = {
     "indexes": [
       {
         "unique": true,
-        "fields": ["type", "slug"]
+        "fields": ["type", "labelBg"]
+      },
+      {
+        "unique": true,
+        "fields": ["type", "labelEn"]
       }
     ],
     "instanceMethods": {
       apiData: function (api) {
         return {
           type: this.type,
-          slug: this.slug,
           label: {
             bg: this.labelBg,
             en: this.labelEn

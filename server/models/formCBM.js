@@ -7,66 +7,223 @@
 var _ = require('lodash');
 var Promise = require('bluebird');
 
-module.exports = function (sequelize, DataTypes) {
-  var FormCBM = sequelize.define('FormCBM',{
-    plotSlug: {
-      type: DataTypes.STRING(128),
-      allowNull: false
-    },
-    visitSlug: {
-      type: DataTypes.STRING(128),
-      allowNull: false
-    },
-    secondaryHabitatSlug: DataTypes.STRING(128),
-    primaryHabitatSlug: {
-      type: DataTypes.STRING(128),
-      allowNull: false
-    },
-    count: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    distanceSlug: {
-      type: DataTypes.STRING(128),
-      allowNull: false
-    },
-    speciesSlug: {
-      type: DataTypes.STRING(128),
-      allowNull: false
-    },
-    notes: DataTypes.TEXT,
-    visibility: DataTypes.FLOAT,
-    mto: DataTypes.TEXT,
-    cloudinessSlug: DataTypes.STRING(128),
-    cloudsType: DataTypes.TEXT,
-    windDirectionSlug: DataTypes.STRING(128),
-    windSpeedSlug: DataTypes.STRING(128),
-    temperature: DataTypes.FLOAT,
-    rainSlug: DataTypes.STRING(128),
-    observers: DataTypes.TEXT,
-    endDateTime: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    startDateTime: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    zoneId: {
-      type: DataTypes.STRING(10),
-      allowNull: false
-    },
-    sourceSlug: {
-      type: DataTypes.STRING(128),
-      allowNull: false
-    },
-    latitude: DataTypes.FLOAT,
-    longitude: DataTypes.FLOAT,
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+var fields = {
+  plot: {
+    type: 'choice',
+    required: true,
+    relation: {
+      model: 'nomenclature',
+      filter: {type: 'cbm_sector'}
     }
-  }, {
+  },
+  visit: {
+    type: 'choice',
+    required: true,
+    relation: {
+      model: 'nomenclature',
+      filter: {type: 'cbm_visit_number'}
+    }
+  },
+  secondaryHabitat: {
+    type: 'choice',
+    relation: {
+      model: 'nomenclature',
+      filter: {type: 'cbm_habitat'}
+    }
+  },
+  primaryHabitat: {
+    type: 'choice',
+    relation: {
+      model: 'nomenclature',
+      filter: {type: 'cbm_habitat'}
+    }
+  },
+  distance: {
+    type: 'choice',
+    required: true,
+    relation: {
+      model: 'nomenclature',
+      filter: {type: 'cbm_distance'}
+    }
+  },
+  species: {
+    type: 'choice',
+    required: true,
+    relation: {
+      model: 'species',
+      filter: {type: 'birds'}
+    }
+  },
+  cloudiness: {
+    type: 'choice',
+    relation: {
+      model: 'nomenclature',
+      filter: {type: 'main_cloud_level'}
+    }
+  },
+  windDirection: {
+    type: 'choice',
+    relation: {
+      model: 'nomenclature',
+      filter: {type: 'main_wind_direction'}
+    }
+  },
+  windSpeed: {
+    type: 'choice',
+    relation: {
+      model: 'nomenclature',
+      filter: {type: 'main_wind_force'}
+    }
+  },
+  rain: {
+    type: 'choice',
+    relation: {
+      model: 'nomenclature',
+      filter: {type: 'main_rain'}
+    }
+  },
+
+  count: {
+    type: '+int',
+    required: true
+  },
+  endDateTime: {
+    type: 'timestamp',
+    required: true
+  },
+  startDateTime: {
+    type: 'timestamp',
+    required: true
+  },
+  notes: 'text',
+  visibility: '+num',
+  mto: 'text',
+  cloudsType: 'text',
+  temperature: 'num',
+  observers: 'text',
+  latitude: 'num',
+  longitude: 'num',
+
+  zone: {
+    type: 'choice',
+    required: true,
+    relation: {
+      model: 'zone'
+    }
+  },
+
+  threats: {
+    type: 'multi',
+    relation: {
+      model: 'nomenclature',
+      filter: {type: 'main_threats'}
+    }
+  },
+
+  user: {
+    type: 'choice',
+    required: true,
+    relation: {
+      model: 'user'
+    }
+  }
+};
+
+module.exports = function (sequelize, DataTypes) {
+  var fieldsDef = {};
+
+  _.forEach(fields, function (field, name) {
+    if (_.isString(field)) {
+      field = {type: field};
+    }
+
+    var fd = {
+      allowNull: !field.required
+    };
+
+    switch (field.type) {
+      case 'multi':
+      case 'choice':
+      {
+        switch (field.relation.model) {
+          case 'nomenclature':
+          {
+            fieldsDef[name + 'Bg'] = _.extend({
+              type: DataTypes.TEXT
+            }, fd);
+            fieldsDef[name + 'En'] = _.extend({
+              type: DataTypes.TEXT
+            }, fd);
+            break;
+          }
+          case 'species':
+          {
+            fieldsDef[name] = _.extend({
+              type: DataTypes.TEXT
+            }, fd);
+            break;
+          }
+          case 'zone':
+          {
+            fieldsDef[name + 'Id'] = _.extend({
+              type: field.type === 'multi'
+                ? DataTypes.TEXT
+                : DataTypes.STRING(10)
+            }, fd);
+            break;
+          }
+          case 'user':
+          {
+            fieldsDef[name + 'Id'] = _.extend({
+              type: field.type === 'multi'
+                ? DataTypes.TEXT
+                : DataTypes.INTEGER
+            });
+            break;
+          }
+          default:
+            throw new Error('[' + name + '] Unknown relation model ' + field.relation.model);
+        }
+        break;
+      }
+      case 'timestamp':
+      {
+        fieldsDef[name] = _.extend({
+          type: DataTypes.DATE
+        }, fd);
+        break;
+      }
+      case 'float':
+      case '+num':
+      case 'num':
+      {
+        fieldsDef[name] = _.extend({
+          type: DataTypes.FLOAT
+        }, fd);
+        break;
+      }
+      case '+int':
+      case 'int':
+      {
+        fieldsDef[name] = _.extend({
+          type: DataTypes.INTEGER
+        }, fd);
+        break;
+      }
+      case 'text':
+      {
+        fieldsDef[name] = _.extend({
+          type: DataTypes.TEXT
+        }, fd);
+        break;
+      }
+      default:
+        throw new Error('[' + name + '] Unknown field type ' + field.type);
+
+    }
+  });
+
+  return sequelize.define('FormCBM', fieldsDef, {
     freezeTableName: true,
     indexes: [
       {fields: ['zoneId']},
@@ -74,20 +231,6 @@ module.exports = function (sequelize, DataTypes) {
     ],
     classMethods: {
       associate: function (models) {
-        // define nomenclature relations
-        models.formCBM.belongsTo(models.nomenclature, {as: 'plot', foreignKey: 'plotSlug', targetKey: 'slug'});
-        models.formCBM.belongsTo(models.nomenclature, {as: 'visit', foreignKey: 'visitSlug', targetKey: 'slug'});
-        models.formCBM.belongsTo(models.nomenclature, {as: 'secondaryHabitat', foreignKey: 'secondaryHabitatSlug', targetKey: 'slug'});
-        models.formCBM.belongsTo(models.nomenclature, {as: 'primaryHabitat', foreignKey: 'primaryHabitatSlug', targetKey: 'slug'});
-        models.formCBM.belongsTo(models.nomenclature, {as: 'distance', foreignKey: 'distanceSlug', targetKey: 'slug'});
-        models.formCBM.belongsTo(models.nomenclature, {as: 'species', foreignKey: 'speciesSlug', targetKey: 'slug'});
-        models.formCBM.belongsTo(models.nomenclature, {as: 'cloudiness', foreignKey: 'cloudinessSlug', targetKey: 'slug'});
-        models.formCBM.belongsTo(models.nomenclature, {as: 'windDirection', foreignKey: 'windDirectionSlug', targetKey: 'slug'});
-        models.formCBM.belongsTo(models.nomenclature, {as: 'windSpeed', foreignKey: 'windSpeedSlug', targetKey: 'slug'});
-        models.formCBM.belongsTo(models.nomenclature, {as: 'rain', foreignKey: 'rainSlug', targetKey: 'slug'});
-        models.formCBM.belongsTo(models.nomenclature, {as: 'source', foreignKey: 'sourceSlug', targetKey: 'slug'});
-
-        // other relations
         models.formCBM.belongsTo(models.zone, {as: 'zone'});
         models.formCBM.belongsTo(models.user, {as: 'user'});
       }
@@ -96,88 +239,147 @@ module.exports = function (sequelize, DataTypes) {
       apiData: function (api) {
         var data = {};
         var self = this;
-        return Promise.all([
-          self.getPlot({where: {type: 'cbm_sector'}}).then(function(res){data.plot = res && res.apiData() || null}),
-          self.getVisit({where: {type: 'cbm_visit_number'}}).then(function(res){data.visit = res && res.apiData() || null}),
-          self.getSecondaryHabitat({where: {type: 'cbm_habitat'}}).then(function(res){data.secondaryHabitat = res && res.apiData() || null}),
-          self.getPrimaryHabitat({where: {type: 'cbm_habitat'}}).then(function(res){data.primaryHabitat = res && res.apiData() || null}),
-          self.getDistance({where: {type: 'cbm_distance'}}).then(function(res){data.distance = res && res.apiData() || null}),
-          self.getSpecies({where: {type: 'birds_name'}}).then(function(res){data.species = res && res.apiData() || null}),
-          self.getCloudiness({where: {type: 'main_cloud_level'}}).then(function(res){data.cloudiness = res && res.apiData() || null}),
-          self.getWindDirection({where: {type: 'main_wind_direction'}}).then(function(res){data.windDirection = res && res.apiData() || null}),
-          self.getWindSpeed({where: {type: 'main_wind_force'}}).then(function(res){data.windSpeed = res && res.apiData() || null}),
-          self.getRain({where: {type: 'main_rain'}}).then(function(res){data.rain = res && res.apiData() || null}),
-          self.getSource({where: {type: 'main_source'}}).then(function(res){data.source = res && res.apiData() || null}),
-          self.getZone({include: [{model: api.models.location, as: 'location'}]}).then(function(res){data.zone = res && res.apiData() || null}),
-          self.getUser().then(function(res){data.user = res && res.apiData() || null}),
-          api.models.formCBMThreat.findAll({where: {formCBMId: self.id}, include: [{model: api.models.nomenclature, as: 'threat'}]}).then(function(threats){
-            if(_.isArray(threats) && !_.isEmpty(threats)) {
-              data.threats = [];
-              threats.forEach(function(cbmThreat) {
-                data.threats.push(cbmThreat.threat.apiData(api));
-              });
+        return Promise.props(_.mapValues(fields, function (field, name) {
+          if (_.isString(field)) field = {type: field};
+          switch (field.type) {
+            case 'multi':
+            {
+              switch (field.relation.model) {
+                case 'nomenclature':
+                {
+                  var res = [];
+                  var bg = self[name + 'Bg'] && self[name + 'Bg'].split('|').map(function (val) {
+                      return val.trim();
+                    }) || [];
+                  var en = self[name + 'En'] && self[name + 'En'].split('|').map(function (val) {
+                      return val.trim();
+                    }) || [];
+                  while (bg.length && en.length) {
+                    res.push({
+                      label: {
+                        bg: bg.shift(),
+                        en: en.shift()
+                      }
+                    });
+                  }
+                  return res;
+                }
+                default:
+                  return Promise.reject(new Error('[' + name + '] Unhandled relation model ' + field.relation.model));
+              }
             }
-          })
-        ]).then(function() {
+            case 'choice':
+            {
+              switch (field.relation.model) {
+                case 'nomenclature':
+                {
+                  return (self[name + 'Bg'] || self[name + 'En']) && {
+                      label: {
+                        bg: self[name + 'Bg'],
+                        en: self[name + 'En']
+                      }
+                    } || null;
+                }
+                case 'species':
+                {
+                  return self[name];
+                }
+                case 'zone':
+                case 'user':
+                {
+                  return self[name + 'Id'];
+                }
+                default:
+                  return Promise.reject(new Error('[' + name + '] Unhandled relation model ' + field.relation.model));
+              }
+            }
+            default:
+              return self[name];
+          }
+        })).then(function (data) {
           data.id = self.id;
-          data.count = self.count;
-          data.notes = self.notes;
-          data.visibility = self.visibility;
-          data.mto = self.mto;
-          data.cloudsType = self.cloudsType;
-          data.temperature = self.temperature;
-          data.observers = self.observers;
-          data.endDateTime = self.endDateTime;
-          data.startDateTime = self.startDateTime;
-          data.latitude = self.latitude;
-          data.longitude = self.longitude;
           data.createdAt = self.createdAt;
           data.updatedAt = self.updatedAt;
-
           return data;
         });
       },
 
       apiUpdate: function (data) {
-        var nomenclatures = [
-          'plot',
-          'visit',
-          'secondaryHabitat',
-          'primaryHabitat',
-          'distance',
-          'species',
-          'cloudiness',
-          'windDirection',
-          'windSpeed',
-          'rain',
-          //'source',
-        ];
+        var self = this;
 
-        var simpleProps = [
-          'count',
-          'endDateTime',
-          'startDateTime',
-          'notes',
-          'visibility',
-          'mto',
-          'cloudsType',
-          'temperature',
-          'observers',
-          'latitude',
-          'longitude'
-        ];
+        _.forEach(fields, function (field, name) {
+          switch (field.type) {
+            case 'multi':
+            {
+              switch (field.relation.model) {
+                case 'nomenclature':
+                {
+                  if (!_.has(data, name)) return;
 
-        nomenclatures.forEach(function (nomenclature) {
-          this[nomenclature + 'Slug'] = _.has(data, nomenclature) && (_.isObject(data[nomenclature]) ? data[nomenclature].slug : data[nomenclature]) || this[nomenclature + 'Slug'];
-        }, this);
+                  var val = data[name];
 
-        this.zoneId = _.has(data, 'zone') && ((_.isObject(data.zone) ? data.zone.id : data.zone)) || this.zoneId;
+                  if (!val) {
+                    self[name + 'Bg'] = null;
+                    self[name + 'En'] = null;
+                  }
+                  if (!_.isArray(val)) val = [val];
+                  self[name + 'Bg'] = _.reduce(val, function (sum, v) {
+                    return sum + (sum && ' | ' || '') + v.label.bg;
+                  }, '');
+                  self[name + 'En'] = _.reduce(val, function (sum, v) {
+                    return sum + (sum && ' | ' || '') + v.label.en;
+                  }, '');
 
-        _.assign(this, _.pick(data, simpleProps));
+                  break;
+                }
+                default:
+                  throw new Error('[' + name + '] Unsupported relation model ' + field.relation.model);
+              }
+              break;
+            }
+            case 'choice':
+            {
+              switch (field.relation.model) {
+                case 'nomenclature':
+                {
+                  if (!_.has(data, name)) return;
+
+                  self[name + 'Bg'] = data[name].label.bg;
+                  self[name + 'En'] = data[name].label.en;
+                  break;
+                }
+                case 'species':
+                {
+                  if (!_.has(data, name)) return;
+
+                  self[name] = data[name];
+                  break;
+                }
+                case 'user':
+                case 'zone':
+                {
+                  if (!_.has(data, name)) return;
+
+                  self[name + 'Id'] = data[name];
+                  break;
+                }
+                default:
+                  throw new Error('[' + name + '] Unsupported relation model ' + field.relation.model);
+              }
+              break;
+            }
+            default:
+              if (!_.has(data, nomenclature)) return;
+
+              self[name] = data[name];
+              break;
+          }
+        });
 
         return this;
       }
     }
   });
-  return FormCBM;
 };
+
+module.exports.fields = fields;
