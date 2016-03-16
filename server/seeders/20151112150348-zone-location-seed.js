@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var Promise = require('bluebird');
 
 module.exports = {
@@ -10,11 +11,12 @@ module.exports = {
     var inserts = [];
     var completed = 0;
     var lastNotice = 0;
+    var cache = {};
 
     function notify(force) {
-      if (!force && Date.now()-lastNotice < 5000) return;
+      if (!force && Date.now() - lastNotice < 5000) return;
       lastNotice = Date.now();
-      console.log('waiting ' + (inserts.length-completed) + "/"+inserts.length);
+      console.log('waiting ' + (inserts.length - completed) + "/" + inserts.length);
     }
 
     var stream = fs.createReadStream(__dirname + '/../../data/locations.csv')
@@ -24,17 +26,54 @@ module.exports = {
         while (record = parser.read()) {
           var zoneId = record['UTMNameFul'];
           var fields = {
-            locationNameBg: record['Name_bg_naseleno_myasto'],
-            locationNameEn: record['Name_en_naseleno_myasto'],
-            locationAreaBg: record['NAME_Obshtina'],
-            locationAreaEn: record['L_NAME_Obshtina'],
-            locationTypeBg: record['Descr_bg_naseleno_myasto'],
-            locationTypeEn: record['Descr_en_naseleno_myasto']
+            nameBg: record['Name_bg_naseleno_myasto'],
+            nameEn: record['Name_en_naseleno_myasto'],
+            areaBg: record['NAME_Obshtina'],
+            areaEn: record['L_NAME_Obshtina'],
+            typeBg: record['Descr_bg_naseleno_myasto'],
+            typeEn: record['Descr_en_naseleno_myasto']
           };
-          inserts.push(queryInterface.bulkUpdate('Zones', fields, {id: zoneId}).then(function () {
-            completed++;
-            notify();
-          }));
+          (function (zoneId, fields) {
+            var key = _.reduce(fields, function (sum, val) {
+              return sum + ' ' + val;
+            }, '');
+            inserts.push(Promise.resolve(fields)
+              .then(function (fields) {
+                if (key in cache)
+                  return cache[key];
+                return cache[key] = queryInterface.rawSelect('Locations', {
+                    attributes: ['id'],
+                    where: fields
+                  }, 'id')
+
+                  .then(function (id) {
+                    if (id !== null)
+                      return id;
+
+                    var record = _.extend({
+                      createdAt: new Date(),
+                      updatedAt: new Date()
+                    }, fields);
+                    return queryInterface.bulkInsert('Locations', [record])
+                      .then(function () {
+                        return queryInterface.rawSelect('Locations', {
+                          attributes: ['id'],
+                          where: fields
+                        }, 'id');
+                      });
+                  });
+              })
+              .then(function (locationId) {
+                return queryInterface.bulkUpdate('Zones', {
+                  locationId: locationId
+                }, {id: zoneId});
+              })
+              .then(function () {
+                completed++;
+                notify();
+              })
+            );
+          })(zoneId, fields);
         }
       });
 
@@ -47,7 +86,7 @@ module.exports = {
         })
         .on('end', function () {
           notify(true);
-          resolve(Promise.all(inserts));
+          Promise.all(inserts).then(resolve, reject);
         });
 
     });
