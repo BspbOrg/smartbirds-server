@@ -150,6 +150,7 @@ module.exports = {
                         }, 'slug').then(function (res) {
                           if (res === null) {
                             console.error('No record found for ', column, ' with value', record[column.csvName]);
+                            return Promise.reject('No nomenclature value');
                           }
                           cbmRow[column.fieldName] = res;
                         })
