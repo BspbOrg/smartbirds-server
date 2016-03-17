@@ -43,12 +43,13 @@
     "actionhero": "~12.1.2",
     "bcrypt": "~0.8.5",
     "bluebird": "~3.0.5",
-    "bower": "~1.6.5",
+    "bower": "~1.7.7",
     "browserify": "~12.0.1",
     "browserify-shim": "~3.8.0",
     "bulk-require": "~0.2.1",
     "bulkify": "~1.1.1",
     "csv-parse": "~1.0.0",
+    "debug": "^2.2.0",
     "ejs": "^2.3.4",
     "email-templates": "^2.0.1",
     "envify": "~3.4.0",
@@ -74,7 +75,7 @@
     "ui.bootstrap": "./bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
     "uiGmapgoogle-maps": "./bower_components/angular-google-maps/dist/angular-google-maps.js",
     "ngSanitize": "./bower_components/angular-sanitize/angular-sanitize.js",
-    "angular-simple-logger": "./bower_components/angular-simple-logger/dist/angular-simple-logger.js",
+    "angular-simple-logger": "./bower_components/angular-simple-logger/dist/index.js",
     "ui.router": "./bower_components/angular-ui-router/release/angular-ui-router.js",
     "ui.select": "./bower_components/ui-select/dist/select.js",
     "chance": "./bower_components/chance/chance.js",
@@ -84,7 +85,9 @@
     "angular-strap-tpl": "./bower_components/angular-strap/dist/angular-strap.tpl.js",
     "nya-bootstrap-select": "./bower_components/nya-bootstrap-select/dist/js/nya-bs-select.js",
     "ngToast": "./bower_components/ngToast/dist/ngToast.js",
-    "ngAnimate": "./bower_components/angular-animate/angular-animate.js"
+    "ngAnimate": "./bower_components/angular-animate/angular-animate.js",
+    "ngInfiniteScroll": "./bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js",
+    "debug": "./node_modules/debug/browser.js"
   },
   "browserify-shim": {
     "angular": "angular",
@@ -106,11 +109,6 @@
       ]
     },
     "ngSanitize": {
-      "depends": [
-        "angular:angular"
-      ]
-    },
-    "angular-simple-logger": {
       "depends": [
         "angular:angular"
       ]
@@ -158,6 +156,11 @@
       ]
     },
     "ngAnimate": {
+      "depends": [
+        "angular:angular"
+      ]
+    },
+    "ngInfiniteScroll": {
       "depends": [
         "angular:angular"
       ]

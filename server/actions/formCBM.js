@@ -16,17 +16,25 @@ exports.formCBMList = {
     zone: {},
     visit: {},
     year: {},
-    species: {}
+    species: {},
+    limit: {required: false, default: 20},
+    offset: {required: false, default: 0}
   },
 
   run: function (api, data, next) {
+    var limit = Math.min(1000, data.params.limit || 20);
+    var offset = data.params.offset || 0;
+
     var q = {
       order: [
         ['updatedAt', 'DESC'],
         ['id', 'DESC']
       ],
-      limit: 100,
+      offset: offset
     };
+    if (limit !== -1)
+      q.limit = limit;
+
     if (!data.session.user.isAdmin) {
       q.where = _.extend(q.where || {}, {
         userId: data.session.userId

@@ -24,12 +24,12 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
   }).then(function (visits) {
     controller.visits = visits;
   });
-  $q.resolve(db.zones.$promise||db.zones).then(function(zones) {
+  $q.resolve(db.zones.$promise || db.zones).then(function (zones) {
     controller.zones = [];
-    angular.forEach(db.zones, function(zone, key) {
+    angular.forEach(db.zones, function (zone, key) {
       controller.zones.push(zone);
     });
-    controller.zones.sort(function(a, b) {
+    controller.zones.sort(function (a, b) {
       return a.id < b.id ? -1 : a.id > b.id ? +1 : 0;
     })
   });
@@ -85,8 +85,30 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
     });
   };
 
+  function fetch(query) {
+    controller.loading = true;
+    return FormCBM.query(query).$promise
+      .then(function (rows) {
+        controller.rows.push.apply(controller.rows, rows);
+        controller.endOfPages = !rows.length;
+        return rows;
+      })
+      .finally(function () {
+        controller.loading = false;
+      });
+  }
+
   controller.requestRows = function () {
-    controller.rows = FormCBM.query(controller.filter);
+    controller.rows = [];
+    controller.endOfPages = false;
+    fetch(controller.filter);
   };
   controller.requestRows();
+
+  controller.nextPage = function () {
+    fetch(angular.extend({}, controller.filter, {
+      offset: controller.rows.length,
+      limit: 20
+    }));
+  }
 });

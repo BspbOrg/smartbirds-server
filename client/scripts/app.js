@@ -20,6 +20,7 @@ require('angular-strap-tpl');
 require('nya-bootstrap-select');
 require('ngAnimate');
 require('ngToast');
+require('ngInfiniteScroll');
 
 var dependencies = [
   'ngLocale',
@@ -37,7 +38,9 @@ var dependencies = [
 
   'ngToast',
 
-  'uiGmapgoogle-maps'
+  'uiGmapgoogle-maps',
+
+  'infinite-scroll'
 ];
 
 var app = module.exports = angular.module('sb', dependencies)
