@@ -131,19 +131,9 @@ exports.formCBMAdd = {
 
     formCBM.save()
       .then(function (cbm) {
-        if (_.isArray(data.params.threats) && !_.isEmpty(data.params.threats)) {
-          var threatInserts = [];
-          data.params.threats.forEach(function (threat) {
-            threatInserts.push(api.models.formCBMThreat.create({threatSlug: threat.slug, formCBMId: cbm.id}));
-          });
-          return Promise.all(threatInserts).then(function () {
-            return cbm.apiData(api);
-          });
-        }
-        return cbm;
-      }).then(function(cbm) {
         return cbm.apiData(api);
-      }).then(function (res) {
+      })
+      .then(function (res) {
         data.response.data = res;
         next();
       })
@@ -189,45 +179,42 @@ exports.formCBMEdit = {
   },
 
   run: function (api, data, next) {
-    Promise.resolve(data).then(function (data) {
-      return api.models.formCBM.findOne({where: {id: data.params.id}})
-    }).then(function (formCBM) {
-      if (!formCBM) {
-        data.connection.rawConnection.responseHttpCode = 404;
-        return Promise.reject(new Error('cbm not found'));
-      }
+    Promise.resolve(data)
+      .then(function (data) {
+        return api.models.formCBM.findOne({where: {id: data.params.id}})
+      })
+      .then(function (formCBM) {
+        if (!formCBM) {
+          data.connection.rawConnection.responseHttpCode = 404;
+          return Promise.reject(new Error('cbm not found'));
+        }
 
-      if (!data.session.user.isAdmin && formCBM.userId != data.session.userId) {
-        data.connection.rawConnection.responseHttpCode = 401;
-        return Promise.reject(new Error('no permission'));
-      }
+        if (!data.session.user.isAdmin && formCBM.userId != data.session.userId) {
+          data.connection.rawConnection.responseHttpCode = 401;
+          return Promise.reject(new Error('no permission'));
+        }
 
-      return formCBM;
-    }).then(function (formCBM) {
-      if (_.isArray(data.params.threats) && !_.isEmpty(data.params.threats)) {
-        return api.models.formCBMThreat.destroy({where: {formCBMId: data.params.id}}).then(function () {
-          var threatInserts = [];
-          data.params.threats.forEach(function (threat) {
-            threatInserts.push(api.models.formCBMThreat.create({threatSlug: threat.slug, formCBMId: data.params.id}));
-          });
-          return formCBM;
-        });
-      }
-      return formCBM;
-    }).then(function (formCBM) {
-      return formCBM.apiUpdate(data.params);
-    }).then(function (formCBM) {
-      return formCBM.save();
-    }).then(function (cbm) {
-      return cbm.apiData(api);
-    }).then(function (res) {
-      return data.response.data = res;
-    }).then(function () {
-      next();
-    }).catch(function (error) {
-      console.error(error);
-      next(error);
-    });
+        return formCBM;
+      })
+      .then(function (formCBM) {
+        return formCBM.apiUpdate(data.params);
+      })
+      .then(function (formCBM) {
+        return formCBM.save();
+      })
+      .then(function (cbm) {
+        return cbm.apiData(api);
+      })
+      .then(function (res) {
+        return data.response.data = res;
+      })
+      .then(function () {
+        next();
+      })
+      .catch(function (error) {
+        api.logger.error(error);
+        next(error);
+      });
   }
 }; // CBM edit
 

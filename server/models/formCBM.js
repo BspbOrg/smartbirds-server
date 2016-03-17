@@ -342,8 +342,9 @@ module.exports = function (sequelize, DataTypes) {
               switch (field.relation.model) {
                 case 'nomenclature':
                 {
-                  if (!_.has(data, name)) return;
+                  if (!_.has(data, name) || !data[name]) return;
 
+                  console.log('saving nomenclature '+name);
                   self[name + 'Bg'] = data[name].label.bg;
                   self[name + 'En'] = data[name].label.en;
                   break;
@@ -369,7 +370,7 @@ module.exports = function (sequelize, DataTypes) {
               break;
             }
             default:
-              if (!_.has(data, nomenclature)) return;
+              if (!_.has(data, name)) return;
 
               self[name] = data[name];
               break;
