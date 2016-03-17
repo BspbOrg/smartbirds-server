@@ -33,7 +33,7 @@ require('../app').controller('RequestZoneController', /*@ngInject*/function ($q,
     });
     zone.status = 'requested';
     zone.ownerId = user.getIdentity().id;
-    zones.push(zone);
+    $scope.zones.push(zone);
     $state.go('auth.zones');
   }
 
