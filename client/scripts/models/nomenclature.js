@@ -3,9 +3,9 @@
  */
 
 require('../app').service('Nomenclature', /*@ngInject*/function($resource, ENDPOINT_URL) {
-  var Nomenclature = $resource(ENDPOINT_URL+'/nomenclature/:type/:slug', {
+  var Nomenclature = $resource(ENDPOINT_URL+'/nomenclature/:type/:label', {
     type: '@type',
-    slug: '@slug'
+    label: '@label'
   });
 
   // instance methods

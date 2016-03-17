@@ -210,9 +210,11 @@ exports.userList = {
     var offset = data.params.offset || 0;
 
     var q = {
-      limit: limit,
       offset: offset
     };
+
+    if (limit !== -1)
+      q.limit = limit;
 
     if (data.params.q) {
       q.where = _.extend(q.where || {}, {

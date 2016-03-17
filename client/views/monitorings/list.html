@@ -65,18 +65,15 @@
             <ui-select ng-model="monitoringController.filter.zone" name="zone"
                        on-remove="monitoringController.updateFilter()"
                        on-select="monitoringController.updateFilter()">
-              <ui-select-match allow-clear="true" placeholder="- всички -">{{$select.selected.id}}
+              <ui-select-match allow-clear="true" placeholder="- всички -">
+                {{$select.ngModel.$modelValue}}
               </ui-select-match>
               <ui-select-choices
                 repeat="zone.id as zone in monitoringController.zones | filter:{
-                  owner: {
-                    id: $user.isAdmin()?$user.id:monitoringController.filter.user
-                  },
-                  location: {
-                    id: monitoringController.filter.location
-                  },
-                } | filter:$select.search | orderBy:'toString()' | limitTo:30">
-                <div ng-bind-html="zone | zoneToString | uibTypeaheadHighlight:$select.search"></div>
+                  id: $select.search,
+                  location: {id: monitoringController.filter.location }
+                } | limitTo:30">
+                <div ng-bind-html="zone.toString() | uibTypeaheadHighlight:$select.search"></div>
               </ui-select-choices>
             </ui-select>
           </div>
@@ -87,11 +84,11 @@
                        on-remove="monitoringController.updateFilter()"
                        on-select="monitoringController.updateFilter()">
               <ui-select-match allow-clear="true" placeholder="- всички -">
-                {{$select.selected.toString()}}
+                {{$select.selected.value.toString()}}
               </ui-select-match>
               <ui-select-choices
-                repeat="item.slug as item in monitoringController.visits | filter:$select.search | orderBy:'toString()' | limitTo:30">
-                <div ng-bind-html="item | nomenclatureToString | uibTypeaheadHighlight:$select.search"></div>
+                repeat="(key, visit) in monitoringController.visits | filter:$select.search | orderBy:'toString()' | limitTo:30">
+                <div ng-bind-html="visit.value.toString() | uibTypeaheadHighlight:$select.search"></div>
               </ui-select-choices>
             </ui-select>
           </div>
@@ -117,11 +114,11 @@
                        on-remove="monitoringController.updateFilter()"
                        on-select="monitoringController.updateFilter()">
               <ui-select-match allow-clear="true" placeholder="- всички -">
-                {{$select.selected.toString()}}
+                {{$select.selected.value.toString()}}
               </ui-select-match>
               <ui-select-choices
-                repeat="item.slug as item in monitoringController.species | filter:$select.search | orderBy:'toString()' | limitTo:30">
-                <div ng-bind-html="item | nomenclatureToString | uibTypeaheadHighlight:$select.search"></div>
+                repeat="(key, species) in monitoringController.species | filter:$select.search | orderBy:'toString()' | limitTo:30">
+                <div ng-bind-html="species.value.toString() | uibTypeaheadHighlight:$select.search"></div>
               </ui-select-choices>
             </ui-select>
           </div>
@@ -143,7 +140,7 @@
         </th>
         <th sb-sorting="id">#</th>
         <th ng-if="$user.isAdmin()"
-            sb-sorting="user|userName">
+            sb-sorting="getUser().getName()">
           Потребител
         </th>
         <th
@@ -178,15 +175,18 @@
       <tr ng-repeat="row in monitoringController.rows | orderBy:monitoringController.order.key:monitoringController.order.reverse"
           ng-click="$state.go('.detail', {id: row.id})" ng-class="{info: row.$selected}">
         <td ng-click="$event.stopPropagation(); monitoringController.toggleSelected(row)"><input type="checkbox" ng-checked="row.$selected"></td>
-        <td><a href ui-sref=".detail({id: row.id})">{{row.id}}</a></td>
-        <td ng-if="$user.isAdmin()">{{row.user.firstName}} {{row.user.lastName}}</td>
-        <td>{{row.visit.label.bg}}</td>
-        <td>{{row.zone.id}}</td>
-        <td>{{row.zone.location|locationLabel}}</td>
-        <td>{{row.startDateTime|date:'d.MM.yyyy'}} {{row.startDateTime|date:'H:mm'}} - {{row.endDateTime|date:'H:mm'}}</td>
-        <td>{{row.updatedAt|date:'d.MM.yyyy'}} {{row.updatedAt|date:'H:mm'}}</td>
-        <td>{{row.species.label.bg}}</td>
-        <td>{{row.count}}</td>
+        <td><a href ui-sref=".detail({id: row.id})">{{::row.id}}</a></td>
+        <td ng-if="::$user.isAdmin()">{{row.getUser().getName()}}</td>
+        <td>{{::row.visit.label.bg}}</td>
+        <td>{{::row.zone}}</td>
+        <td>{{row.getZone().location | locationLabel}}</td>
+        <td>{{::row.startDateTime|date:'d.MM.yyyy'}} {{row.startDateTime|date:'H:mm'}} - {{row.endDateTime|date:'H:mm'}}</td>
+        <td>{{::row.updatedAt|date:'d.MM.yyyy'}} {{row.updatedAt|date:'H:mm'}}</td>
+        <td>
+          {{row.getSpecies().label.bg}}<br/>
+          <strong>{{row.getSpecies().label.la}}</strong>
+        </td>
+        <td>{{::row.count}}</td>
       </tr>
       </tbody>
     </table>

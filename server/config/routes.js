@@ -15,10 +15,12 @@ exports.default = {
         { path: '/docs',     action: 'showDocumentation' },
         { path: '/status',   action: 'status' },
 
+        { path: '/nomenclature', action: 'nomenclature:types' },
         { path: '/nomenclature/:type', action: 'nomenclature:typeList' },
         { path: '/nomenclature/:type/bg/:value', action: 'nomenclature:bg:view' },
         { path: '/nomenclature/:type/en/:value', action: 'nomenclature:en:view' },
 
+        { path: '/species', action: 'species:types' },
         { path: '/species/:type', action: 'species:typeList' },
         { path: '/species/:type/:value', action: 'species:view' },
 

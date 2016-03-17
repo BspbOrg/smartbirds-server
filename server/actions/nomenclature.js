@@ -13,6 +13,41 @@ _.forOwn({
   }
 }, function (definition, model) {
 
+  exports[model+'Types'] = {
+    name: model+':types',
+    description: model+':types',
+    middleware: ['auth'],
+
+    run: function(api, data, next) {
+      return Promise.resolve()
+        .then(function() {
+          return api.models[model].findAndCountAll();
+        })
+        .then(function(result) {
+          return Promise.map(result.rows, function (nomenclature) {
+              return nomenclature.apiData(api);
+            })
+            .then(function (rows) {
+              return {
+                count: result.count,
+                rows: rows
+              };
+            });
+        })
+        .then(function (result) {
+          data.response.count = result.count;
+          data.response.data = result.rows;
+          return data;
+        })
+        .then(function () {
+          return next();
+        }, function (e) {
+          console.error('Failure to list ' + model, e);
+          return next(e);
+        });
+    }
+  };
+
   exports[model + 'TypeList'] = {
     name: model + ':typeList',
     description: model + ':typeList',
