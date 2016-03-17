@@ -2,7 +2,8 @@
  * Created by groupsky on 17.03.16.
  */
 
-require('../app').service('db', /*@ngInject*/function (Location, Nomenclature, Species, User, Zone) {
+var angular = require('angular');
+require('../app').service('db', /*@ngInject*/function ($q, Location, Nomenclature, Species, User, Zone) {
   var db = {
     locations: {},
     nomenclatures: {},
@@ -16,8 +17,9 @@ require('../app').service('db', /*@ngInject*/function (Location, Nomenclature, S
     locations.forEach(function (location) {
       res[location.id] = location;
     });
-    delete res.$promise;
     return res;
+  }).finally(function () {
+    delete db.locations.$promise;
   });
 
 
@@ -27,8 +29,9 @@ require('../app').service('db', /*@ngInject*/function (Location, Nomenclature, S
       res[item.type] = res[item.type] || {};
       res[item.type][item.label.bg] = item;
     });
-    delete res.$promise;
     return res;
+  }).finally(function () {
+    delete db.nomenclatures.$promise;
   });
 
   db.species.$promise = Species.query({limit: -1}).$promise.then(function (items) {
@@ -37,8 +40,9 @@ require('../app').service('db', /*@ngInject*/function (Location, Nomenclature, S
       res[item.type] = res[item.type] || {};
       res[item.type][item.label.la] = item;
     });
-    delete res.$promise;
     return res;
+  }).finally(function () {
+    delete db.species.$promise;
   });
 
   db.users.$promise = User.query({limit: -1}).$promise.then(function (users) {
@@ -46,8 +50,9 @@ require('../app').service('db', /*@ngInject*/function (Location, Nomenclature, S
     users.forEach(function (user) {
       res[user.id] = user;
     });
-    delete res.$promise;
     return res;
+  }).finally(function () {
+    delete db.users.$promise;
   });
 
   db.zones.$promise = Zone.query({limit: -1}).$promise.then(function (zones) {
@@ -55,8 +60,19 @@ require('../app').service('db', /*@ngInject*/function (Location, Nomenclature, S
     zones.forEach(function (zone) {
       res[zone.id] = zone;
     });
-    delete res.$promise;
     return res;
+  }).finally(function () {
+    delete db.zones.$promise;
+  });
+
+  var promises = [];
+  angular.forEach(db, function (table) {
+    table.$promise && promises.push(table.$promise);
+  });
+  db.$promise = $q.all(promises).then(function () {
+    return db;
+  }).finally(function () {
+    delete db.$promise;
   });
 
   return db;

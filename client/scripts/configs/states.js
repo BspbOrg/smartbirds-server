@@ -82,8 +82,8 @@ module.config(function ($stateProvider, $urlRouterProvider) {
           authorize: function (authorization) {
             return authorization.authorize();
           },
-          zones: function (db) {
-            return db.zones.$promise || db.zones;
+          db: function (db) {
+            return db.$promise || db;
           }
         }
       })

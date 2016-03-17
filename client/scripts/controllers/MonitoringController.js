@@ -3,24 +3,15 @@
  */
 
 var angular = require('angular');
-require('../app').controller('MonitoringController', /*@ngInject*/function ($state, $stateParams, $filter, $q, FormCBM, Zone, Nomenclature, ngToast, user, User, Species, db) {
+require('../app').controller('MonitoringController', /*@ngInject*/function ($state, $stateParams, $q, FormCBM, ngToast, db) {
 
   var controller = this;
 
-  var filter = $filter('filter');
-  var orderBy = $filter('orderBy');
-
   controller.db = db;
   controller.filter = angular.copy($stateParams);
-  //controller.zones = db.zones;
-  //controller.visits = Nomenclature.query({type: 'cbm_visit_number'});
   controller.years = Object.keys(new Int8Array(new Date().getFullYear() - 1979)).map(function (year) {
     return Number(year) + 1980
   }).reverse();
-  //controller.species = Species.query({type: 'birds'});
-  //controller.users = User.query({
-  //  limit: 1000
-  //});
   controller.species = {};
   $q.resolve(db.species.$promise || db.species).then(function (species) {
     return species.birds.$promise || species.birds;
