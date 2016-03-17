@@ -12,7 +12,9 @@ require('../app').service('Species', /*@ngInject*/function($resource, ENDPOINT_U
   angular.extend(Species.prototype, {
     toString: function(locale) {
       locale = locale || 'bg';
-      return (this.label||{})[locale];
+      var label = (this.label||{});
+
+      return label.la + ' | ' + label[locale];
     }
   });
 
