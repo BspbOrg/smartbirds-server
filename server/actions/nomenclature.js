@@ -16,7 +16,7 @@ _.forOwn({
   exports[model + 'TypeList'] = {
     name: model + ':typeList',
     description: model + ':typeList',
-    //middleware: ['auth'],
+    middleware: ['auth'],
 
     inputs: {
       type: {required: true}

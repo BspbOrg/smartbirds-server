@@ -9,7 +9,7 @@ var moment = require('moment');
 exports.formCBMList = {
   name: 'formCBM:list',
   description: 'formCBM:list',
-  //middleware: ['auth'],
+  middleware: ['auth'],
   inputs: {
     location: {},
     user: {},
@@ -27,17 +27,17 @@ exports.formCBMList = {
       ],
       limit: 100,
     };
-    //if (!data.session.user.isAdmin) {
-    //  q.where = _.extend(q.where || {}, {
-    //    userId: data.session.userId
-    //  });
-    //} else {
-    //  if (data.params.user) {
-    //    q.where = _.extend(q.where || {}, {
-    //      userId: data.params.user
-    //    });
-    //  }
-    //}
+    if (!data.session.user.isAdmin) {
+      q.where = _.extend(q.where || {}, {
+        userId: data.session.userId
+      });
+    } else {
+      if (data.params.user) {
+        q.where = _.extend(q.where || {}, {
+          userId: data.params.user
+        });
+      }
+    }
     if (data.params.zone) {
       q.where = _.extend(q.where || {}, {
         zoneId: data.params.zone
