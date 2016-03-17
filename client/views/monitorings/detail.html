@@ -38,16 +38,14 @@
              model="monitoringDetailController.data.zone"></field>
 
       <ui-gmap-google-map ng-if="monitoringDetailController.map.poi.latitude && monitoringDetailController.map.poi.longitude"
-                          center="monitoringDetailController.data.zone.getCenter()"
+                          center="monitoringDetailController.map.center"
                           zoom="monitoringDetailController.map.zoom"
-                          refresh="monitoringDetailController.map.refresh && ((monitoringDetailController.map.refresh=false) || true)"
-                          bounds="monitoringDetailController.data.zone.getBounds()"
                           options="{mapTypeId: 'satellite'}">
         <ui-gmap-marker coords="monitoringDetailController.map.poi"
                         idKey="'coords'"
         ></ui-gmap-marker>
-        <ui-gmap-polygon ng-if="monitoringDetailController.data.zone.coordinates.length"
-                         path="monitoringDetailController.data.zone.coordinates"
+        <ui-gmap-polygon ng-if="monitoringDetailController.data.getZone().coordinates.length"
+                         path="monitoringDetailController.data.getZone().coordinates"
                          static="true"
                          fill="{color: '#00f', opacitiy: 0.7}"
                          stroke="{color: '#00f', opacity: 1, weight: 3}"
