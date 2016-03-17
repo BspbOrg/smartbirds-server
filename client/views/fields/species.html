@@ -26,7 +26,7 @@
     <ul uib-dropdown-menu aria-labelledby="{{::name}}">
       <li ng-repeat="value in field.values | orderBy:field.order"
           ng-class="{active: field.model == value }">
-        <a href ng-click="field.model = value; field.form[field.name].$setDirty()">
+        <a href ng-click="field.model = value.label.la; field.form[field.name].$setDirty()">
           {{::value.label.bg}}<br/>
           <strong>{{::value.label.la}}</strong>
         </a>
