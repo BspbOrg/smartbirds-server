@@ -20,6 +20,7 @@ require('../app').directive('zonesMap', /*@ngInject*/function () {
         zones: {
           all: [],
           free: [],
+          requested: [],
           owned: []
         },
         controls: {
