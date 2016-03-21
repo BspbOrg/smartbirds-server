@@ -7,7 +7,11 @@ module.exports = {
   up: function (queryInterface, Sequelize) {
     var fs = require('fs');
     var parse = require('csv-parse');
-    var parser = parse({columns: true, skip_empty_lines: true});
+    var parser = parse({
+      columns: true,
+      skip_empty_lines: true,
+      delimiter: ';'
+    });
     var inserts = [];
     var completed = 0;
     var lastNotice = 0;
@@ -86,13 +90,16 @@ module.exports = {
         })
         .on('end', function () {
           notify(true);
-          Promise.all(inserts).then(resolve, reject);
+          Promise.all(inserts).catch(function(e){
+            console.error('error', e);
+            return Promise.reject(e);
+          }).then(resolve, reject);
         });
 
     });
   },
 
-  down: function (queryInterface, Sequelize) {
-    return Promise.resolve(true);
+  down: function (queryInterface, Sequelize, next) {
+    return queryInterface.bulkDelete('Locations').finally(next);
   }
 };

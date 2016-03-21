@@ -65,9 +65,9 @@ var nomenclatureColumns = [
 var importUserEmail = 'import@smartbirds.org';
 
 function joinDateTime(date, time) {
-  var m = moment(date.trim() + ' ' + time.trim(), 'M/D/YYYY H:mm:ss', true);
+  var m = moment(date.trim() + ' ' + time.trim(), 'D.M.YYYY H:mm:ss', true);
   if (!m.isValid()) {
-    m = moment(date.trim() + ' ' + time.trim(), 'M/D/YYYY H:mm', true);
+    m = moment(date.trim() + ' ' + time.trim(), 'D.M.YYYY H:mm', true);
   }
   if (!m.isValid()) {
     console.log("Invalid date/time " + date+' '+time);

@@ -101,7 +101,10 @@ module.exports = {
 
       function onParserEnd() {
         notify(true);
-        Promise.all(inserts).then(resolve, reject);
+        Promise.all(inserts).catch(function(e){
+          console.error('error', e);
+          return Promise.reject(e);
+        }).then(resolve, reject);
       }
 
       parserBg

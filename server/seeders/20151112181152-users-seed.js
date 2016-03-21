@@ -7,7 +7,11 @@ module.exports = {
   up: function (queryInterface, Sequelize, next) {
     var fs = require('fs');
     var parse = require('csv-parse');
-    var parser = parse({columns: true, skip_empty_lines: true});
+    var parser = parse({
+      columns: true,
+      skip_empty_lines: true,
+      delimiter: ';'
+    });
     var inserts = [];
     var completed = 0;
     var lastNotice = 0;
@@ -83,32 +87,36 @@ module.exports = {
           counts.rows++;
           var record = rec;
 
-          var email = validator.isEmail(record['e_mail']) && record['e_mail'] || ((record['Квадрат'] || ('user' + (uniqueId++))) + '@smartbirds.bspb.org');
+          var email = record['e_mail'] && record['e_mail'].trim();
+          if (!validator.isEmail(email)) {
+            email = (record['Квадрат'] && record['Квадрат'].trim() || ('user' + (uniqueId++))) + '@smartbirds.org';
+          }
 
           inserts.push(findId({
             email: email,
             passwordHash: 'imported hash',
-            firstName: record['Име'].trim(),
-            lastName: record['Фамилия'].trim(),
+            firstName: record['Име'] && record['Име'].trim(),
+            lastName: record['Фамилия'] && record['Фамилия'].trim(),
             createdAt: new Date(),
             updatedAt: new Date(),
             imported: true
           }).then(function (id) {
+            var metas = genMetas(id, {
+              address: record['Адрес'] && record['Адрес'].trim(),
+              city: record['Населено място'] && record['Населено място'].trim(),
+              postcode: record['Пощ.код'] && record['Пощ.код'].trim(),
+              phone: record['телефон'] && record['телефон'].trim(),
+              modile: record['мобилен тел.'] && record['мобилен тел.'].trim(),
+              first_year: record['година на първо участие'] && record['година на първо участие'].trim(),
+              level: record['ниво на участие'] && record['ниво на участие'].trim(),
+              birds_knowledge: record['познание на птиците'] && record['познание на птиците'].trim(),
+              profile: record['Профил'] && record['Профил'].trim(),
+              notes: record['Бележки'] && record['Бележки'].trim()
+            });
             return Promise.all([
-              queryInterface.bulkInsert('UserMeta', genMetas(id, {
-                address: record['Адрес'],
-                city: record['Населено място'],
-                postcode: record['Пощ.код'],
-                phone: record['телефон'],
-                modile: record['мобилен тел.'],
-                first_year: record['година на първо участие'],
-                level: record['ниво на участие'],
-                birds_knowledge: record['познание на птиците'],
-                profile: record['Профил'],
-                notes: record['Бележки']
-              })),
+              metas.length && queryInterface.bulkInsert('UserMeta', metas),
               record['Квадрат']?
-              queryInterface.bulkUpdate('Zones', {ownerId: id, status: 'owned'}, {id: record['Квадрат']}).then(function(res){
+              queryInterface.bulkUpdate('Zones', {ownerId: id, status: 'owned'}, {id: record['Квадрат'].trim()}).then(function(res){
                 counts.zones += res[1].rowCount;
                 if (res[1].rowCount == 0) {
                   console.warn("Unknown zone "+record['Квадрат']);
@@ -128,7 +136,10 @@ module.exports = {
         })
         .on('end', function () {
           notify(true);
-          Promise.all(inserts).then(resolve, reject);
+          Promise.all(inserts).catch(function(e){
+            console.error('error', e);
+            return Promise.reject(e);
+          }).then(resolve, reject);
         });
 
     }).finally(function(){

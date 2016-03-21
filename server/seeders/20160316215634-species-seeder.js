@@ -20,12 +20,12 @@ function notify(force) {
 
 function importRecord(queryInterface, record) {
   return queryInterface.bulkInsert('Species', [{
-    type: record.type.trim() || null,
+    type: (record.type || 'birds').trim() || null,
     labelLa: record.species.trim() || null,
-    labelBg: record.bg.trim() || null,
-    labelEn: record.en.trim() || null,
-    euring: record.EURING.trim() || null,
-    code: record.CODE.trim() || null,
+    labelBg: (record.bg||'').trim() || null,
+    labelEn: (record.en||'').trim() || null,
+    euring: (record.EURING||'').trim() || null,
+    code: (record.CODE||'').trim() || null,
     createdAt: new Date(),
     updatedAt: new Date()
   }]);
@@ -54,7 +54,10 @@ module.exports = {
         })
         .on('end', function () {
           notify(true);
-          Promise.all(inserts).then(resolve, reject);
+          Promise.all(inserts).catch(function(e){
+            console.error('error', e);
+            return Promise.reject(e);
+          }).then(resolve, reject);
         });
 
     }).then(function () {
