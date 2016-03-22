@@ -80,7 +80,8 @@ exports.test = {
 exports.production = {
   general: function(api){
     return {
-      developmentMode: false
+      developmentMode: false,
+      filteredParams: ['password'],
     }
   }
 }

@@ -80,6 +80,13 @@ exports.production = {
     web: function(api){
       return {
         padding: null,
+        httpHeaders : {
+          'X-Powered-By'                : api.config.general.serverName,
+          'Access-Control-Allow-Origin' : 'https://smartbirds.org',
+          'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS, TRACE',
+          'Access-Control-Allow-Headers': 'Content-Type, X-SB-CSRF-Token',
+          'Access-Control-Allow-Credentials': 'true'
+        },
         metadataOptions: {
           serverInformation: false,
           requesterInformation: false
