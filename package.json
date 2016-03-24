@@ -37,7 +37,7 @@
     "prestart": "npm run migrate && npm run build",
     "migrate": "npm run sq -- db:migrate",
     "seed": "npm run sq -- db:seed",
-    "budo": "budo ./client/scripts/app.js --serve js/scripts.js  -d public/ --live"
+    "budo": "budo ./client/scripts/app.js --serve js/scripts.js  -d public/ --live --pushstate"
   },
   "dependencies": {
     "actionhero": "~12.1.2",
