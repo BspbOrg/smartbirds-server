@@ -123,7 +123,7 @@ exports.formCBMAdd = {
   run: function (api, data, next) {
     var formCBM = api.models.formCBM.build(data.params, this.inputs);
     formCBM.plotSlug = (_.isObject(data.params.plot)) ? data.params.plot.slug : data.params.plot;
-    formCBM.visitSlug = (_.isObject(data.params.visit)) ? data.params.visit.slug : data.visit.visit;
+    formCBM.visitSlug = (_.isObject(data.params.visit)) ? data.params.visit.slug : data.params.visit;
     formCBM.secondaryHabitatSlug = _.has(data, 'params.secondaryHabitat') && ((_.isObject(data.params.secondaryHabitat)) ? data.params.secondaryHabitat.slug : data.params.secondaryHabitat) || null;
     formCBM.primaryHabitatSlug = (_.isObject(data.params.primaryHabitat)) ? data.params.primaryHabitat.slug : data.params.primaryHabitat;
     formCBM.distanceSlug = (_.isObject(data.params.distance)) ? data.params.distance.slug : data.params.distance;
