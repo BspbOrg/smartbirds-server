@@ -70,16 +70,16 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
   };
 
   controller.clearForCopy = function () {
-    controller.data.id = undefined;
-    controller.data.species = undefined;
-    controller.data.distance = undefined;
-    controller.data.count = undefined;
-    controller.data.plot = undefined;
+    delete controller.data.id;
+    delete controller.data.species;
+    delete controller.data.distance;
+    delete controller.data.count;
+    delete controller.data.plot;
     $scope.cbmform.$setPristine();
   };
 
   controller.copy = function () {
-    $state.go('^.copy', {id: controller.data.id}, {notify: false});
+    $state.go('^.copy', {fromId: controller.data.id}, {notify: false});
     controller.clearForCopy();
   };
 
