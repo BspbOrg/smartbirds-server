@@ -134,6 +134,21 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
 
 
       ///////////
+      // User New //
+      ///////////
+      .state('auth.users.new', {
+        url: '/new',
+        views: {
+          'content@auth': {
+            templateUrl: '/views/users/detail.html',
+            controller: 'UserController',
+            controllerAs: 'user'
+          }
+        }
+      })
+
+
+      ///////////
       // Monitorings //
       ///////////
       .state('auth.monitoring', {
@@ -162,7 +177,7 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
       })
 
       ///////////
-      // Monitoring Detail //
+      // Monitoring New //
       ///////////
       .state('auth.monitoring.new', {
         url: '/new',

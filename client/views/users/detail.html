@@ -39,8 +39,14 @@
       ></field>
 
       <field name="email" type="email" required="true"
-             label="E-mail" readonly="true"
+             label="E-mail" readonly="user.data.id"
              model="user.data.email"
+      ></field>
+
+      <field ng-if="!user.data.id"
+             name="password" type="password" required="true"
+             label="Парола"
+             model="user.data.password"
       ></field>
 
       <field name="address" type="text"

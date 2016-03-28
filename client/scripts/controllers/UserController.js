@@ -5,7 +5,10 @@
 require('../app').controller('UserController', /*@ngInject*/function ($state, $stateParams, $q, ngToast, User) {
   var controller = this;
 
-  controller.data = User.get({id: $stateParams.id});
+  var id = $stateParams.id || $stateParams.fromId;
+
+  controller.data = id ? User.get({id: id}) : new User();
+  controller.data.id = id;
 
   controller.save = function () {
     $q.resolve(controller.data)

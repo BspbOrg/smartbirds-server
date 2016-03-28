@@ -33,7 +33,7 @@ require('../app').directive('field', /*@ngInject*/function () {
       });
       field.type = $attrs.type;
       field.required = angular.isDefined($attrs.required);
-      field.readonly = angular.isDefined($attrs.readonly);
+      field.readonly = 'readonly' in $attrs ? (angular.isDefined($attrs.readonly) ? $parse($attrs.readonly)($scope.$parent) : true) : false;
       field.order = function (item) {
         return item && item.toString().replace(/\d+/g, function (digits) {
             return ((new Array(20).join('0')) + digits).substr(-20, 20);
@@ -125,7 +125,7 @@ require('../app').directive('field', /*@ngInject*/function () {
 
         case 'select':
         {
-          field.values = $parse($attrs.choices)($scope);
+          field.values = $parse($attrs.choices)($scope.$parent);
         }
 
       }
