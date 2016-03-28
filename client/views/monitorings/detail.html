@@ -40,7 +40,7 @@
       <ui-gmap-google-map ng-if="monitoringDetailController.map.poi.latitude && monitoringDetailController.map.poi.longitude"
                           center="monitoringDetailController.map.center"
                           zoom="monitoringDetailController.map.zoom"
-                          options="{mapTypeId: 'satellite'}">
+                          options="{mapTypeId: 'hybrid'}">
         <ui-gmap-marker coords="monitoringDetailController.map.poi"
                         idKey="'coords'"
         ></ui-gmap-marker>
