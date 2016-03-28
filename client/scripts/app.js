@@ -21,12 +21,14 @@ require('nya-bootstrap-select');
 require('ngAnimate');
 require('ngToast');
 require('ngInfiniteScroll');
+require('angular-loading-bar');
 
 var dependencies = [
   'ngLocale',
   'ngCookies',
   'ngResource',
   'ngSanitize',
+  'ngAnimate',
 
   'ui.router',
   'ui.bootstrap',
@@ -40,7 +42,9 @@ var dependencies = [
 
   'uiGmapgoogle-maps',
 
-  'infinite-scroll'
+  'infinite-scroll',
+
+  'angular-loading-bar'
 ];
 
 var app = module.exports = angular.module('sb', dependencies)

@@ -88,7 +88,8 @@
     "ngToast": "./bower_components/ngToast/dist/ngToast.js",
     "ngAnimate": "./bower_components/angular-animate/angular-animate.js",
     "ngInfiniteScroll": "./bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js",
-    "debug": "./node_modules/debug/browser.js"
+    "debug": "./node_modules/debug/browser.js",
+    "angular-loading-bar": "./bower_components/angular-loading-bar/build/loading-bar.js"
   },
   "browserify-shim": {
     "angular": "angular",
@@ -162,6 +163,11 @@
       ]
     },
     "ngInfiniteScroll": {
+      "depends": [
+        "angular:angular"
+      ]
+    },
+    "angular-loading-bar": {
       "depends": [
         "angular:angular"
       ]

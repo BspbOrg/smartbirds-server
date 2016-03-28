@@ -38,7 +38,8 @@
     "angular-animate": "~1.4.8",
     "angular-i18n": "~1.4.9",
     "ngInfiniteScroll": "~1.2.2",
-    "angular-simple-logger": "^0.1.7"
+    "angular-simple-logger": "^0.1.7",
+    "angular-loading-bar": "~0.9.0"
   },
   "resolutions": {
     "font-awesome": "~4.5.0"
