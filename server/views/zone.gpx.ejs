@@ -1,20 +1,37 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <gpx xmlns="http://www.topografix.com/GPX/1/1"
      version="1.1"
-     creator="SmartBirds Server"
+     creator="Smartbirds"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
   <metadata>
-    <time><%=zone.updatedAt%></time>
+    <link href="http://smartbirds.org">
+    <text>Smartbirds</text>
+    </link>
+    <time><%= zone.updatedAt.toISOString() %></time>
+    <bounds minlat="<%= Math.floor(Math.min(zone.lat1, zone.lat2, zone.lat3, zone.lat4) * 1000000) / 1000000 %>"
+            minlon="<%= Math.floor(Math.min(zone.lon1, zone.lon2, zone.lon3, zone.lon4) * 1000000) / 1000000 %>"
+            maxlat="<%= Math.ceil(Math.max(zone.lat1, zone.lat2, zone.lat3, zone.lat4) * 1000000) / 1000000 %>"
+            maxlon="<%= Math.ceil(Math.max(zone.lon1, zone.lon2, zone.lon3, zone.lon4) * 1000000) / 1000000 %>"/>
   </metadata>
   <trk>
-    <name><%=zone.id%></name>
+    <name><%= zone.id %></name>
     <trkseg>
-      <trkpt lat="<%=zone.lat1%>" lon="<%=zone.lon1%>" />
-      <trkpt lat="<%=zone.lat2%>" lon="<%=zone.lon2%>" />
-      <trkpt lat="<%=zone.lat3%>" lon="<%=zone.lon3%>" />
-      <trkpt lat="<%=zone.lat4%>" lon="<%=zone.lon4%>" />
-      <trkpt lat="<%=zone.lat1%>" lon="<%=zone.lon1%>" />
+      <trkpt lat="<%= zone.lat1 %>" lon="<%= zone.lon1 %>">
+        <ele>0.000000</ele>
+      </trkpt>
+      <trkpt lat="<%= zone.lat2 %>" lon="<%= zone.lon2 %>">
+        <ele>0.000000</ele>
+      </trkpt>
+      <trkpt lat="<%= zone.lat3 %>" lon="<%= zone.lon3 %>">
+        <ele>0.000000</ele>
+      </trkpt>
+      <trkpt lat="<%= zone.lat4 %>" lon="<%= zone.lon4 %>">
+        <ele>0.000000</ele>
+      </trkpt>
+      <trkpt lat="<%= zone.lat1 %>" lon="<%= zone.lon1 %>">
+        <ele>0.000000</ele>
+      </trkpt>
     </trkseg>
   </trk>
 </gpx>

@@ -1,21 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<kml xmlns="http://www.opengis.net/kml/2.2">
-  <Document>
+<kml xmlns="http://www.opengis.net/kml/2.2"
+     xmlns:gx="http://www.google.com/kml/ext/2.2"
+     xmlns:kml="http://www.opengis.net/kml/2.2"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Document id="<%= zone.id %>"
+            xsi:schemaLocation="http://www.opengis.net/kml/2.2 http://schemas.opengis.net/kml/2.2.0/ogckml22.xsd http://www.google.com/kml/ext/2.2 http://code.google.com/apis/kml/schema/kml22gx.xsd">
     <name><%= zone.id %></name>
-    <Placemark>
+    <open>1</open>
+    <Snippet maxLines="0"></Snippet>
+    <Style id="PolyStyle00">
+      <LabelStyle>
+        <color>00000000</color>
+        <scale>0</scale>
+      </LabelStyle>
+      <LineStyle>
+        <color>ff6e6e6e</color>
+        <width>0.4</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>fff7cdee</color>
+      </PolyStyle>
+    </Style>
+    <Folder id="FeatureLayer0">
       <name><%= zone.id %></name>
-      <LineString>
-        <extrude>true</extrude>
-        <tessellate>true</tessellate>
-        <altitudeMode>clampToGround</altitudeMode>
-        <coordinates>
-          <%= zone.lat1 %>, <%= zone.lon1 %>
-          <%= zone.lat2 %>, <%= zone.lon2 %>
-          <%= zone.lat3 %>, <%= zone.lon3 %>
-          <%= zone.lat4 %>, <%= zone.lon4 %>
-          <%= zone.lat1 %>, <%= zone.lon1 %>
-        </coordinates>
-      </LineString>
-    </Placemark>
+      <open>1</open>
+      <Snippet maxLines="0"></Snippet>
+      <Placemark id="ID_0000">
+        <name><%= zone.id %></name>
+        <styleUrl>#PolyStyle00</styleUrl>
+        <MultiGeometry>
+          <Polygon>
+            <outerBoundaryIs>
+              <LinearRing>
+                <coordinates>
+                  <%= zone.lat1 %>,<%= zone.lon1 %>,0
+                  <%= zone.lat2 %>,<%= zone.lon2 %>,0
+                  <%= zone.lat3 %>,<%= zone.lon3 %>,0
+                  <%= zone.lat4 %>,<%= zone.lon4 %>,0
+                  <%= zone.lat1 %>,<%= zone.lon1 %>,0
+                </coordinates>
+              </LinearRing>
+            </outerBoundaryIs>
+          </Polygon>
+        </MultiGeometry>
+      </Placemark>
+    </Folder>
   </Document>
 </kml>
