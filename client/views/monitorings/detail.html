@@ -91,9 +91,32 @@
 
   <div class="row">
     <div class="col-md-3">
+      <field name="cloudiness" type="single-choice" nomenclature="main_cloud_level"
+             label="Облачност"
+             model="monitoringDetailController.data.cloudiness"></field>
+    </div>
+    <div class="col-md-3">
       <field name="rain" type="single-choice" nomenclature="main_rain"
              label="Дъжд"
              model="monitoringDetailController.data.rain"></field>
+    </div>
+    <div class="col-md-3">
+      <field name="windDirection" type="single-choice" nomenclature="main_wind_direction"
+             label="Посока на вятъра"
+             model="monitoringDetailController.data.windDirection"></field>
+    </div>
+    <div class="col-md-3">
+      <field name="windSpeed" type="single-choice" nomenclature="main_wind_force"
+             label="Сила на вятъра"
+             model="monitoringDetailController.data.windSpeed"></field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <field name="visibility" type="float"
+             label="Видимост"
+             model="monitoringDetailController.data.visibility"></field>
     </div>
     <div class="col-md-3">
       <field name="temperature" type="float"
@@ -101,37 +124,14 @@
              model="monitoringDetailController.data.temperature"></field>
     </div>
     <div class="col-md-3">
-      <field name="windSpeed" type="single-choice" nomenclature="main_wind_force"
-             label="Сила на вятъра"
-             model="monitoringDetailController.data.windSpeed"></field>
-    </div>
-    <div class="col-md-3">
-      <field name="windDirection" type="single-choice" nomenclature="main_wind_direction"
-             label="Посока на вятъра"
-             model="monitoringDetailController.data.windDirection"></field>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-3">
       <field name="cloudsType" type="text"
              label="Вид облаци"
              model="monitoringDetailController.data.cloudsType"></field>
     </div>
     <div class="col-md-3">
-      <field name="cloudiness" type="single-choice" nomenclature="main_cloud_level"
-             label="Облачност"
-             model="monitoringDetailController.data.cloudiness"></field>
-    </div>
-    <div class="col-md-3">
       <field name="mto" type="text"
              label="МТО Други"
              model="monitoringDetailController.data.mto"></field>
-    </div>
-    <div class="col-md-3">
-      <field name="visibility" type="float"
-             label="Видимост"
-             model="monitoringDetailController.data.visibility"></field>
     </div>
   </div>
 
