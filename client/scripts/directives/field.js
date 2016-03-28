@@ -25,7 +25,7 @@ require('../app').directive('field', /*@ngInject*/function () {
       $scope.form = formCtrl;
     },
     controllerAs: 'field',
-    controller: /*@ngInject*/function ($scope, $attrs, $filter, $timeout, Nomenclature, Species, db) {
+    controller: /*@ngInject*/function ($scope, $attrs, $filter, $parse, $timeout, Nomenclature, Species, db) {
       var field = this;
 
       $scope.$watch('form', function (form) {
@@ -33,6 +33,7 @@ require('../app').directive('field', /*@ngInject*/function () {
       });
       field.type = $attrs.type;
       field.required = angular.isDefined($attrs.required);
+      field.readonly = angular.isDefined($attrs.readonly);
       field.order = function (item) {
         return item && item.toString().replace(/\d+/g, function (digits) {
             return ((new Array(20).join('0')) + digits).substr(-20, 20);
@@ -120,6 +121,11 @@ require('../app').directive('field', /*@ngInject*/function () {
             return a.id < b.id ? -1 : a.id > b.id ? +1 : 0;
           });
           break;
+        }
+
+        case 'select':
+        {
+          field.values = $parse($attrs.choices)($scope);
         }
 
       }

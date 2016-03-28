@@ -37,19 +37,28 @@ module.exports = function (sequelize, DataTypes) {
       defaultValue: false
     },
     forgotPasswordHash: DataTypes.TEXT,
-    forgotPasswordTimestamp: DataTypes.DATE
+    forgotPasswordTimestamp: DataTypes.DATE,
+    address: DataTypes.TEXT,
+    birdsKnowledge: DataTypes.TEXT,
+    city: DataTypes.TEXT,
+    level: DataTypes.TEXT,
+    mobile: DataTypes.TEXT,
+    notes: DataTypes.TEXT,
+    phone: DataTypes.TEXT,
+    postcode: DataTypes.TEXT,
+    profile: DataTypes.TEXT
   }, {
     indexes: [
       {
         unique: true,
         fields: ['email']
-      },
+      }
     ],
 
     classMethods: {
-      associate: function(models) {
+      associate: function (models) {
         // associations can be defined here
-        models.user.hasMany(models.usermeta);
+        //models.user.hasMany(models.usermeta);
         //models.user.hasMany(models.zone, {foreignKey: 'ownerId', as: 'zones'});
       }
     },
@@ -79,7 +88,7 @@ module.exports = function (sequelize, DataTypes) {
         bcrypt.compare(pw, this.passwordHash, callback);
       },
 
-      genPasswordToken: function(callback) {
+      genPasswordToken: function (callback) {
         var self = this;
         crypto.randomBytes(64, function (ex, buf) {
           var pwToken = buf.toString('hex');
@@ -98,7 +107,7 @@ module.exports = function (sequelize, DataTypes) {
         });
       },
 
-      checkPasswordToken: function(token, callback) {
+      checkPasswordToken: function (token, callback) {
         bcrypt.compare(token, this.forgotPasswordHash, callback);
       },
 
@@ -109,12 +118,22 @@ module.exports = function (sequelize, DataTypes) {
           firstName: this.firstName,
           lastName: this.lastName,
           lastLoginAt: this.lastLoginAt,
-          isAdmin: this.isAdmin
+          isAdmin: this.isAdmin,
+          address: this.address,
+          birdsKnowledge: this.birdsKnowledge,
+          city: this.city,
+          level: this.level,
+          mobile: this.mobile,
+          notes: this.notes,
+          phone: this.phone,
+          postcode: this.postcode,
+          profile: this.profile
         };
       },
 
       apiUpdate: function (data) {
-        _.assign(this, _.pick(data, 'firstName', 'lastName'));
+        _.assign(this, _.pick(data, 'firstName', 'lastName', 'address', 'birdsKnowledge',
+          'city', 'level', 'mobile', 'notes', 'phone', 'postcode', 'profile'));
       }
     }
   });

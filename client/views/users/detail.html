@@ -39,9 +39,49 @@
       ></field>
 
       <field name="email" type="email" required="true"
-             label="E-mail"
+             label="E-mail" readonly="true"
              model="user.data.email"
       ></field>
+
+      <field name="address" type="text"
+             label="Адрес"
+             model="user.data.address"></field>
+
+      <field name="city" type="text"
+             label="Град"
+             model="user.data.city"></field>
+
+      <field name="postcode" type="text"
+             label="Пощенски код"
+             model="user.data.postcode"></field>
+
+      <field name="phone" type="phone"
+             label="Телефон"
+             model="user.data.phone"></field>
+
+      <field name="mobile" type="phone"
+             label="Моб. телефон"
+             model="user.data.mobile"></field>
+
+      <field name="birds_knowledge" type="select"
+             choices="['начинаещ', 'напреднал', 'професионалист']"
+             label="Ниво на познание на птиците"
+             placeholder="- няма -"
+             model="user.data.birdsKnowledge"></field>
+
+      <field name="profile" type="text"
+             label="Профил"
+             model="user.data.profile"></field>
+
+      <field name="level" type="select"
+             choices="['първо', 'второ']"
+             label="Ниво"
+             placeholder="- няма -"
+             model="user.data.level"></field>
+
+      <field name="notes" type="memo"
+             label="Бележки"
+             model="user.data.notes"></field>
     </form>
   </div>
 </div>

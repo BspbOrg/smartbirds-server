@@ -1,11 +1,10 @@
 <sb-include src="/views/fields/container.html">
-  <input type="email"
+  <input type="tel"
          class="form-control"
          id="{{::field.name}}"
          name="{{::field.name}}"
          aria-describedby="{{::field.name}}HelpBlock"
          placeholder="{{::field.placeholder}}"
-         ng-readonly="::field.readonly"
          ng-model="field.model"
          ng-required="::field.required">
 </sb-include>

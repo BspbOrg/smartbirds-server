@@ -29,6 +29,16 @@ module.exports = function (sequelize, DataTypes) {
         // associations can be defined here
 
       }
+    },
+    instanceMethods: {
+      apiData: function (api) {
+        return {
+          id: this.id,
+          userId: this.userId,
+          key: this.metaKey,
+          value: this.metaValue
+        }
+      }
     }
   });
   return UserMeta;
