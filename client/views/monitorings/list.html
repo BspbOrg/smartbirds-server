@@ -159,6 +159,10 @@
           Локация
         </th>
         <th
+          sb-sorting="plot.label.bg">
+          № Участък
+        </th>
+        <th
           sb-sorting="date|date:'yyyyMMddHHmmss'">
           Дата/час
         </th>
@@ -184,6 +188,7 @@
         <td>{{::row.visit.label.bg}}</td>
         <td>{{::row.zone}}</td>
         <td>{{row.getZone().location | locationLabel}}</td>
+        <td>{{::row.plot.label.bg}}</td>
         <td>{{::row.startDateTime|date:'d.MM.yyyy'}} {{row.startDateTime|date:'H:mm'}} - {{row.endDateTime|date:'H:mm'}}</td>
         <td>{{::row.updatedAt|date:'d.MM.yyyy'}} {{row.updatedAt|date:'H:mm'}}</td>
         <td>
