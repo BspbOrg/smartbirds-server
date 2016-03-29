@@ -89,10 +89,18 @@
     "ngAnimate": "./bower_components/angular-animate/angular-animate.js",
     "ngInfiniteScroll": "./bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js",
     "debug": "./node_modules/debug/browser.js",
-    "angular-loading-bar": "./bower_components/angular-loading-bar/build/loading-bar.js"
+    "angular-loading-bar": "./bower_components/angular-loading-bar/build/loading-bar.js",
+    "raven-js": "./bower_components/raven-js/dist/raven.js",
+    "raven-js-angular": "./bower_components/raven-js/dist/plugins/angular.js"
   },
   "browserify-shim": {
     "angular": "angular",
+    "raven-js": "Raven",
+    "raven-js-angular": {
+      "depends": [
+        "raven-js:Raven"
+      ]
+    },
     "angular-i18n": {
       "depends": [
         "angular:angular"

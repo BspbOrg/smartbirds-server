@@ -3,7 +3,7 @@
  */
 
 var angular = require('angular');
-require('../app').controller('MonitoringController', /*@ngInject*/function ($state, $stateParams, $q, FormCBM, ngToast, db) {
+require('../app').controller('MonitoringController', /*@ngInject*/function ($state, $stateParams, $q, FormCBM, ngToast, db, Raven) {
 
   var controller = this;
 
@@ -77,6 +77,7 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
         content: "Deleted " + rows.length + " records"
       });
     }, function (error) {
+      Raven.captureMessage(JSON.stringify(error));
       ngToast.create({
         className: 'danger',
         content: '<p>Error during deletion!</p><pre>' + (error && error.data && error.data.error || JSON.stringify(error, null, 2)) + '</pre>'

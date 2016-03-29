@@ -22,6 +22,7 @@ require('ngAnimate');
 require('ngToast');
 require('ngInfiniteScroll');
 require('angular-loading-bar');
+require('raven-js');
 
 var dependencies = [
   'ngLocale',
@@ -44,8 +45,12 @@ var dependencies = [
 
   'infinite-scroll',
 
-  'angular-loading-bar'
+  'angular-loading-bar',
+
+  'ngRaven'
 ];
+
+Raven.config('https://b17f1c87d9e346a8bd82335294450e57@app.getsentry.com/71564').addPlugin(require('raven-js-angular'), angular).install();
 
 var app = module.exports = angular.module('sb', dependencies)
   .run(/*@ngInject*/function ($rootScope) {
