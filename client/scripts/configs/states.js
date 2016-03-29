@@ -21,7 +21,16 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
       .state("home", {
         url: "/",
         templateUrl: '/views/home.html',
-        title: 'Home'
+        title: 'Home',
+        resolve: {
+          user: /*@ngInject*/function($rootScope, user) {
+            return user.resolve().then(function(identity) {
+              return $rootScope.$user = user;
+            }, function() {
+              return undefined;
+            })
+          }
+        }
       })
 
       ///////////
@@ -81,10 +90,10 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
           roles: ['user']
         },
         resolve: {
-          authorize: function (authorization) {
+          authorize: /*@ngInject*/function (authorization) {
             return authorization.authorize();
           },
-          db: function (db) {
+          db: /*@ngInject*/function (db) {
             return db.$promise || db;
           }
         }
@@ -245,7 +254,7 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
         }
       })
   })
-  .run(function ($rootScope, $state, $stateParams, authorization, user) {
+  .run(/*@ngInject*/function ($rootScope, $state, $stateParams, authorization, user) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
     $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {

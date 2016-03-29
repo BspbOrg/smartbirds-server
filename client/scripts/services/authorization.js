@@ -14,11 +14,11 @@ require('../app').service('authorization', function ($log, $q, $rootScope, $stat
           $state.go('forbidden');
         });
       } else {
-        $rootScope.returnToState = $rootScope.toState;
-        $rootScope.returnToStateParams = $rootScope.toStateParams;
-        $timeout(function () {
-          $state.go('login');
-        });
+        //$rootScope.returnToState = $rootScope.toState;
+        //$rootScope.returnToStateParams = $rootScope.toStateParams;
+        //$timeout(function () {
+        //  $state.go('login');
+        //});
       }
       return false;
     }
