@@ -12,9 +12,7 @@ require('../app').factory('sessionExpiredInterceptor', /*@ngInject*/function ($q
     return $q.resolve($cookies.get(user.sessionKey))
       .then(function(sessionKey) {
         if (!sessionKey) return $q.reject('no session key');
-        return api.session.restore(sessionKey, {
-          skipSessionExpiredInterceptor: true
-        });
+        return api.session.restore(sessionKey);
       })
       .then(function(response) {
         if (!response.data.success) return $q.reject(response.data);

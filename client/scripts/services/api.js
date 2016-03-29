@@ -23,7 +23,8 @@ require('../app').service('api', function ($log, $http, $resource, $q, ENDPOINT_
         data: {
           csrfToken: xsrf
         },
-        withCredentials: true
+        withCredentials: true,
+        skipSessionExpiredInterceptor: true
       }, opts));
     },
     forgotPassword: function(auth) {
