@@ -11,7 +11,16 @@ exports.userCreate = {
     password: {required: true},
     firstName: {required: true},
     lastName: {required: true},
-    isAdmin: {default: false}
+    isAdmin: {default: false},
+    address: {required: false},
+    birdsKnowledge: {required: false},
+    city: {required: false},
+    level: {required: false},
+    mobile: {required: false},
+    notes: {required: false},
+    phone: {required: false},
+    postcode: {required: false},
+    profile: {required: false}
   },
 
   run: function (api, data, next) {
@@ -158,7 +167,18 @@ exports.userEdit = {
     password: {required: false},
     firstName: {required: false},
     lastName: {required: false},
-    isAdmin: {required: false}
+    isAdmin: {required: false},
+
+    address: {required: false},
+    birdsKnowledge: {required: false},
+    city: {required: false},
+    level: {required: false},
+    mobile: {required: false},
+    notes: {required: false},
+    phone: {required: false},
+    postcode: {required: false},
+    profile: {required: false}
+
   },
 
   run: function (api, data, next) {
