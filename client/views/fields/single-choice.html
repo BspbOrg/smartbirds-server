@@ -14,7 +14,7 @@
            typeahead-editable="false"
            typeahead-focus-first="true"
            typeahead-min-length="0"
-           uib-typeahead="item as item for item in field.values | filter:$viewValue | orderBy:field.order | limitTo:30"
+           uib-typeahead="item as item for item in field.values | filter:$viewValue | orderBy:field.order"
     >
     <span class="input-group-btn">
       <button ng-if="field.model && !field.required" type="button" class="btn btn-default" ng-click="field.model = null">
