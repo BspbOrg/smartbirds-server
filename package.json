@@ -49,6 +49,7 @@
     "bulk-require": "~0.2.1",
     "bulkify": "~1.1.1",
     "csv-parse": "~1.0.0",
+    "csv-stringify": "^1.0.2",
     "debug": "^2.2.0",
     "ejs": "^2.3.4",
     "email-templates": "^2.0.1",

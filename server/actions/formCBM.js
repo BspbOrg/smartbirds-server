@@ -18,11 +18,15 @@ exports.formCBMList = {
     year: {},
     species: {},
     limit: {required: false, default: 20},
-    offset: {required: false, default: 0}
+    offset: {required: false, default: 0},
+    csrfToken: {required: false}
   },
 
   run: function (api, data, next) {
-    var limit = Math.min(1000, data.params.limit || 20);
+    var limit = parseInt(data.params.limit) || 20;
+    if (!data.session.user.isAdmin) {
+      limit = Math.max(1, Math.min(1000, limit));
+    }
     var offset = data.params.offset || 0;
 
     var q = {
@@ -70,19 +74,101 @@ exports.formCBMList = {
       });
     }
     try {
-      return api.models.formCBM.findAndCountAll(q).then(function (result) {
-        data.response.count = result.count;
-        return Promise.map(result.rows, function (model) {
-          return model.apiData(api);
-        }).then(function (rows) {
-          return data.response.data = rows;
+      return Promise.resolve(q)
+        .then(function (q) {
+          switch (data.connection.extension) {
+            case 'csv':
+              q.include = (q.include || []).concat([
+                {model: api.models.species, as: 'speciesInfo'},
+                {model: api.models.user, as: 'user'},
+              ]);
+              break;
+          }
+          return q;
+        })
+        .then(function (q) {
+          return api.models.formCBM.findAndCountAll(q);
+        })
+        .then(function (result) {
+          switch (data.connection.extension) {
+            case 'csv':
+              return new Promise(function (resolve, reject) {
+                var moment = require('moment');
+                require('csv-stringify')(result.rows.map(function (cbm) {
+                  return {
+                    temperature: cbm.temperature,
+                    cloudiness: cbm.cloudinessBg,
+                    startTime: moment(cbm.startDateTime).format("H:mm"),
+                    cloudsType: cbm.cloudsType,
+                    threats: cbm.threatsBg,
+                    observers: cbm.observers,
+                    mto: cbm.mto,
+                    startDate: moment(cbm.startDateTime).format("D.M.YYYY"),
+                    zone: cbm.zoneId,
+                    rain: cbm.rainBg,
+                    windSpeed: cbm.windSpeedBg,
+                    endTime: moment(cbm.endDateTime).format("H:mm"),
+                    visibility: cbm.visibility,
+                    notes: cbm.notes,
+                    endDate: moment(cbm.endDateTime).format("D.M.YYYY"),
+                    windDirection: cbm.windDirectionBg,
+                    longitude: cbm.longitude,
+                    distance: cbm.distanceBg,
+                    secondaryHabitat: cbm.secondaryHabitat,
+                    plot_section: cbm.plotBg,
+                    latitute: cbm.latitude,
+                    species: cbm.speciesInfo.labelLa + ' | ' + cbm.speciesInfo.labelBg,
+                    visit: cbm.visitBg,
+                    count: cbm.count,
+                    primaryHabitat: cbm.primaryHabitatBg,
+                    species_EURING_Code: cbm.speciesInfo.euring,
+                    SpeciesCode: cbm.speciesInfo.code,
+                    'ЕлПоща': cbm.user.email,
+                    'Име': cbm.user.firstName,
+                    'Фамилия': cbm.user.lastName
+                  };
+                }), {
+                  delimiter: ';',
+                  header: true
+                }, function (err, data) {
+                  if (err) {
+                    return reject(err);
+                  }
+                  console.log('data = ', data);
+                  return resolve(data);
+                });
+              });
+              break;
+            default:
+              return Promise.map(result.rows, function (model) {
+                  return model.apiData(api);
+                })
+                .then(function (data) {
+                  return {
+                    count: result.count,
+                    data: data
+                  };
+                });
+              break;
+          }
+        })
+        .then(function (response) {
+          switch (data.connection.extension) {
+            case 'csv':
+              data.connection.sendMessage(response);
+              data.toRender = false;
+              break;
+            default:
+              return data.response = response;
+              break;
+          }
         }).then(function () {
           next();
+        })
+        .catch(function (e) {
+          console.error('Failure to retrieve cbm records', e);
+          next(e);
         });
-      }).catch(function (e) {
-        console.error('Failure to retrieve cbm records', e);
-        next(e);
-      });
     } catch (e) {
       console.error(e);
       next(e);
@@ -122,14 +208,14 @@ exports.formCBMAdd = {
   },
   run: function (api, data, next) {
     Promise.resolve(data)
-      .then(function(data) {
+      .then(function (data) {
         return api.models.formCBM.build({});
       })
-      .then(function(cbm) {
+      .then(function (cbm) {
         cbm.userId = data.session.userId;
         return cbm;
       })
-      .then(function(cbm) {
+      .then(function (cbm) {
         return cbm.apiUpdate(data.params);
       })
       .then(function (formCBM) {
