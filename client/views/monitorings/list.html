@@ -117,7 +117,7 @@
                 {{$select.selected.value.toString()}}
               </ui-select-match>
               <ui-select-choices
-                repeat="(key, species) in monitoringController.species | filter:$select.search | orderBy:'toString()' | limitTo:30">
+                repeat="species.key as (key, species) in monitoringController.species | filter:$select.search | orderBy:'toString()' | limitTo:30">
                 <div ng-bind-html="species.value.toString() | uibTypeaheadHighlight:$select.search"></div>
               </ui-select-choices>
             </ui-select>
