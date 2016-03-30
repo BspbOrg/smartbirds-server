@@ -12,7 +12,7 @@
         </div>
       </div>
       <span ng-if="!user.data.id">Нов потребител</span>
-      <span ng-if="user.data.id">Редакция на потребител</span>
+      <span ng-if="user.data.id">Редакция на профил</span>
     </h1>
   </div>
 
@@ -23,7 +23,7 @@
           confirm-message-window="Имате незаписани промени!"
           confirm-message-route="Имате незаписани промени. Сигурни ли сте че искате да продължите?">
 
-      <field name="admin" type="bool"
+      <field ng-if="$user.isAdmin()" name="admin" type="bool"
              label="Администратор"
              model="user.data.isAdmin"
       ></field>

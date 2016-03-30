@@ -24,6 +24,9 @@
             <span class="caret"></span>
           </a>
           <ul uib-dropdown-menu>
+            <li>
+              <a href ui-sref="auth.users.detail({id: $user.getIdentity().id})">Профил</a>
+            </li>
             <li class="divider"></li>
             <li ng-controller="SessionController as sessionController">
               <a href ng-click="sessionController.logout()">
