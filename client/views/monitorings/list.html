@@ -87,7 +87,7 @@
                 {{$select.selected.value.toString()}}
               </ui-select-match>
               <ui-select-choices
-                repeat="(key, visit) in monitoringController.visits | filter:$select.search | orderBy:'toString()' | limitTo:30">
+                repeat="visit.key as (key, visit) in monitoringController.visits | filter:$select.search | orderBy:'toString()' | limitTo:30">
                 <div ng-bind-html="visit.value.toString() | uibTypeaheadHighlight:$select.search"></div>
               </ui-select-choices>
             </ui-select>
