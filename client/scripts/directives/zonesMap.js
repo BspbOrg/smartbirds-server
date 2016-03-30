@@ -23,6 +23,9 @@ require('../app').directive('zonesMap', /*@ngInject*/function () {
           requested: [],
           owned: []
         },
+        options: {
+          maxZoom: 15
+        },
         controls: {
           free: {},
           owned: {}
