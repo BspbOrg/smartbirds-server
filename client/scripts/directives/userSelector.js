@@ -47,7 +47,7 @@ require('../app').directive('userSelector', /*@ngInject*/function(){
 
       field.getModels = function (q) {
         return User.query({q: q}).$promise.then(function(models){
-          return limitTo(filter(models, q), 25);
+          return filter(models, q);
         });
       };
 

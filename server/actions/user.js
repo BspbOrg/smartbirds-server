@@ -237,20 +237,42 @@ exports.userList = {
       q.limit = limit;
 
     if (data.params.q) {
-      q.where = _.extend(q.where || {}, {
-        $or: [
-          {
-            firstName: {
-              $ilike: data.params.q + '%'
-            }
-          },
-          {
-            lastName: {
-              $ilike: data.params.q + '%'
-            }
-          }
-        ]
-      });
+      var vals = ('' + data.params.q).split(' ');
+      switch (vals.length) {
+        case 0:
+          break;
+        case 1:
+          q.where = _.extend(q.where || {}, {
+            $or: [].concat(
+              vals.map(function (val) {
+                return {
+                  firstName: {$ilike: val + '%'}
+                }
+              }),
+              vals.map(function (val) {
+                return {
+                  lastName: {$ilike: val + '%'}
+                }
+              })
+            )
+          });
+          break;
+        default:
+          q.where = _.extend(q.where || {}, {
+            $or: vals.map(function (val, idx, array) {
+              return {
+                $and: [
+                  {firstName: {$ilike: array.slice(0, idx).join(" ") + '%'}},
+                  {lastName: {$ilike: array.slice(idx).join(" ") + '%'}}
+                ]
+              }
+            }).concat([
+              {firstName: {$ilike: data.params.q+'%'}},
+              {lastName: {$ilike: data.params.q+'%'}}
+            ])
+          });
+          break;
+      }
     }
 
     api.models.user.findAndCountAll(q).then(function (result) {
