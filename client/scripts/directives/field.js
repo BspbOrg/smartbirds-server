@@ -4,7 +4,7 @@
 var angular = require('angular');
 var moment = require('moment');
 
-require('../app').directive('field', /*@ngInject*/function () {
+require('../app').directive('field', /*@ngInject*/function ($q) {
   return {
     restrict: 'AE',
     scope: {
@@ -82,6 +82,14 @@ require('../app').directive('field', /*@ngInject*/function () {
             }
           });
 
+          break;
+        }
+        case 'user':
+        {
+          field.values = [];
+          angular.forEach(db.users, function (item) {
+            field.values.push(item);
+          });
           break;
         }
         case 'single-choice':
