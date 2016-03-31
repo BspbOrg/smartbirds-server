@@ -2,7 +2,7 @@
  * Created by groupsky on 11.01.16.
  */
 
-require('../app').controller('MonitoringDetailController', /*@ngInject*/function ($scope, $state, $stateParams, $q, $timeout, FormCBM, ngToast, db) {
+require('../app').controller('MonitoringDetailController', /*@ngInject*/function ($scope, $state, $stateParams, $q, $timeout, FormCBM, ngToast, db, Raven) {
 
   var controller = this;
 
@@ -94,6 +94,7 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
       });
       return res;
     }, function (error) {
+      Raven.captureMessage(JSON.stringify(error));
       ngToast.create({
         className: 'danger',
         content: '<p>Could not save!</p><pre>' + (error && error.data && error.data.error || JSON.stringify(error, null, 2)) + '</pre>'
