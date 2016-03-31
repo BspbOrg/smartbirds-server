@@ -1,9 +1,9 @@
-<ui-gmap-google-map center='map.center' zoom='map.zoom'>
+<ui-gmap-google-map center='map.center' zoom='map.zoom' options="map.options">
   <ui-gmap-polygon ng-if="selectedZone"
                    static="true"
                    path="selectedZone.coordinates"
-                   fill="{color: '#00f', opacitiy: 0.7}"
-                   stroke="{color: '#00f', opacity: 1, weight: 3}"
+                   fill="{color: '#33c', opacitiy: 0.7}"
+                   stroke="{color: '#33c', opacity: 0.8, weight: 1}"
                    geodesic="true"
                    events="map.events.selected"
   ></ui-gmap-polygon>
@@ -17,8 +17,8 @@
                     models="map.zones.free"
                     static="true"
                     path="'coordinates'"
-                    fill="{color: '#333', opacity: 0.4}"
-                    stroke="{color: '#333', opacity: 0.7, weight: 0.5}"
+                    fill="{color: '#3c3', opacity: 0.025}"
+                    stroke="{color: '#3c3', opacity: 0.7, weight: 0.5}"
                     geodesic="true"
                     events="map.events.free"
                     control="map.controls.free"
@@ -27,8 +27,8 @@
                     models="map.zones.owned"
                     static="true"
                     path="'coordinates'"
-                    fill="{color: '#f00', opacity: 0.4}"
-                    stroke="{color: '#f00', opacity: 0.7, weight: 0.5}"
+                    fill="{color: '#c33', opacity: 0.4}"
+                    stroke="{color: '#c33', opacity: 0.7, weight: 0.5}"
                     geodesic="true"
                     control="map.controls.owned"
   ></ui-gmap-polygons>
