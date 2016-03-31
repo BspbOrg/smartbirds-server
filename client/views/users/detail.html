@@ -19,6 +19,7 @@
   <div class="col-md-12">
     <form name="user.form"
           role="form"
+          autocomplete="off"
           confirm-on-exit="user.form.$dirty"
           confirm-message-window="Имате незаписани промени!"
           confirm-message-route="Имате незаписани промени. Сигурни ли сте че искате да продължите?">
@@ -38,16 +39,26 @@
              model="user.data.lastName"
       ></field>
 
+      <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
+      <input ng-if="!user.hideFake" type="text" name="fakeusernameremembered1"/>
+      <input ng-if="!user.hideFake" type="password" name="fakepasswordremembered1"/>
+
       <field name="email" type="email" required="true"
              label="E-mail" readonly="user.data.id"
+             autocomplete="off"
              model="user.data.email"
       ></field>
 
       <field ng-if="!user.data.id"
              name="password" type="password" required="true"
              label="Парола"
+             autocomplete="off"
              model="user.data.password"
       ></field>
+
+      <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
+      <input ng-if="!user.hideFake"  type="text" name="fakeusernameremembered2"/>
+      <input ng-if="!user.hideFake" type="password" name="fakepasswordremembered2"/>
 
       <field name="address" type="text"
              label="Адрес"

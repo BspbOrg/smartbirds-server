@@ -2,7 +2,9 @@
  * Created by groupsky on 13.01.16.
  */
 
-require('../app').controller('UserController', /*@ngInject*/function ($state, $stateParams, $q, ngToast, User) {
+var angular = require('angular');
+
+require('../app').controller('UserController', /*@ngInject*/function ($state, $stateParams, $q, $timeout, ngToast, User) {
   var controller = this;
 
   var id = $stateParams.id || $stateParams.fromId;
@@ -37,4 +39,14 @@ require('../app').controller('UserController', /*@ngInject*/function ($state, $s
       });
   };
 
+  (function () {
+    var timeout = false;
+    var deregister = $scope.$watch(function () {
+      if (timeout) $timeout.cancel(timeout);
+      timeout = $timeout(function () {
+        deregister();
+        controller.hideFake = true;
+      });
+    }, angular.noop);
+  })();
 });
