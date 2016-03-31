@@ -57,7 +57,7 @@ module.exports = {
         session: {
           name: 'session',
           global: true,
-          priority: 1000,
+          priority: 20,
           preProcessor: function (data, next) {
             api.session.load(data.connection, function (error, sessionData) {
               // if we have a session load check it and store it
@@ -77,6 +77,8 @@ module.exports = {
                   next(error);
                 });
               } else {
+                if (error)
+                  console.error('redis error', error);
                 // no session - moving on
                 return next();
               }
@@ -89,6 +91,7 @@ module.exports = {
           priority: 2000,
           preProcessor: function (data, next) {
             if (!data.session) {
+              data.connection.rawConnection.responseHttpCode = 401;
               return next(new Error('Please log in to continue'));
             }
             next();
@@ -100,9 +103,11 @@ module.exports = {
           priority: 3000,
           preProcessor: function (data, next) {
             if (!data.session) {
+              data.connection.rawConnection.responseHttpCode = 401;
               return next(new Error('Please log in to continue'));
             }
             if (!data.session.user.isAdmin) {
+              data.connection.rawConnection.responseHttpCode = 403;
               return next(new Error('Admin required'));
             }
 
@@ -115,6 +120,7 @@ module.exports = {
           priority: 3000,
           preProcessor: function (data, next) {
             if (!data.session) {
+              data.connection.rawConnection.responseHttpCode = 401;
               return next(new Error('Please log in to continue'));
             }
             if (!data.session.user.isAdmin) {
@@ -122,6 +128,7 @@ module.exports = {
                 data.params.id = data.session.userId;
                 next();
               } else {
+                data.connection.rawConnection.responseHttpCode = 403;
                 return next(new Error('Admin required'));
               }
             } else {

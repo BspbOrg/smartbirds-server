@@ -9,7 +9,7 @@ require('../app')
 
     var _identity = undefined;
 
-    var _sessionKey = 'sb-csrf-token';
+    var _sessionKey = service.sessionKey = 'sb-csrf-token';
 
     service.isResolved = function () {
       return angular.isDefined(_identity);
@@ -68,6 +68,7 @@ require('../app')
     };
 
     service.logout = function () {
+      api.session.logout();
       service.setIdentity(null);
     };
 
@@ -84,6 +85,7 @@ require('../app')
 
       api.session.restore($cookies.get(_sessionKey)).then(function (response) {
         if (response.data.success) {
+          $cookies.put(_sessionKey, response.data.csrfToken);
           service.setIdentity(response.data.user);
           deferred.resolve(_identity);
         } else {

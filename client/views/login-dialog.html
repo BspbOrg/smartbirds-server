@@ -1,0 +1,42 @@
+<div class="modal-header">
+  <h3 class="modal-title">Please Sign In</h3>
+</div>
+<div class="modal-body">
+  <div
+    class="alert alert-{{flash.type}}"
+    ng-if="flash" ng-bind="flash.message"></div>
+  <form name="form" role="form" class="form form-signin">
+    <fieldset>
+      <div class="form-group" ng-class="{'has-error': form.email.$dirty && form.email.$invalid }">
+        <input class="form-control" placeholder="E-mail" name="email" type="email" required
+               autofocus ng-model="auth.email"
+               ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }">
+        <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">E-mail is required</span>
+        <span ng-show="form.email.$dirty && form.email.$error.email" class="help-block">Invalid e-mail</span>
+      </div>
+      <div class="form-group"
+           ng-class="{'has-error': form.password.$dirty && form.password.$invalid }">
+        <input class="form-control" placeholder="Password" name="password" type="password"
+               value="" ng-model="auth.password" required>
+                                <span ng-show="form.password.$dirty && form.password.$error.required"
+                                      class="help-block">Password is required</span>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input name="remember" type="checkbox" value="Remember Me">Remember Me
+        </label>
+      </div>
+      <div class="form-actions">
+        <button type="submit" ng-disabled="form.$invalid || sessionController.loading"
+                ng-click="$close(auth)"
+                class="btn btn-lg btn-primary">Login
+        </button>
+      </div>
+    </fieldset>
+  </form>
+</div>
+<div class="modal-footer">
+  <p><a ui-sref="forgot" href>forgot your password</a></p>
+
+  <p><a ui-sref="register" href>create an account</a></p>
+</div>
