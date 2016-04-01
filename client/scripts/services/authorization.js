@@ -33,10 +33,10 @@ require('../app').service('authorization', function ($log, $q, $rootScope, $stat
         return true;
       }
       return $q.reject();
-    }, function(error){
+    }, function (error) {
       $log.warn('failure to resolve user', error);
       $timeout(function () {
-        $state.go(user.isAuthenticated()?'forbidden':'login');
+        $state.go(user.isAuthenticated() ? 'forbidden' : 'login');
       });
       return $q.reject(error);
     });

@@ -6,13 +6,16 @@ require('../app').factory('sessionExpiredInterceptor', /*@ngInject*/function ($q
   var loginPromise = false;
   var user = undefined
     , $uibModal = undefined
-    , $http = undefined;
+    , $http = undefined
+    , api = undefined;
 
   function autoLogin() {
     return $q.resolve($cookies.get(user.sessionKey))
       .then(function(sessionKey) {
         if (!sessionKey) return $q.reject('no session key');
-        return api.session.restore(sessionKey);
+        return (api || (api = $injector.get('api'))).session.restore(sessionKey, {
+          skipSessionExpiredInterceptor: true
+        });
       })
       .then(function(response) {
         if (!response.data.success) return $q.reject(response.data);
