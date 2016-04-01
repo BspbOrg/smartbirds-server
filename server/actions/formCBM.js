@@ -15,7 +15,7 @@ function prepareQuery(api, data) {
       }
       var offset = data.params.offset || 0;
 
-      var q = {
+      q = {
         order: [
           ['updatedAt', 'DESC'],
           ['id', 'DESC']
@@ -51,7 +51,10 @@ function prepareQuery(api, data) {
       }
       if (data.params.year) {
         q.where = _.extend(q.where || {}, {
-          startDateTime: {$gte: moment().year(data.params.year).startOf('year').toDate()}
+          startDateTime: {
+            $gte: moment().year(data.params.year).startOf('year').toDate(),
+            $lte: moment().year(data.params.year).endOf('year').toDate()
+          }
         });
       }
       if (data.params.species) {
