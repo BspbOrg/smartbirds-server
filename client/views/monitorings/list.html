@@ -47,7 +47,7 @@
         <form role="form" class="form form-filter">
 
           <div ng-if="$user.isAdmin()" class="form-group">
-            <label for="owner">Наблюдател</label>
+            <label for="owner">Потребител</label>
 
             <user-selector model-id="monitoringController.filter.user" name="user"
                            placeholder="- всички -" on-select="monitoringController.updateFilter()"></user-selector>

@@ -331,6 +331,7 @@ exports.formCBMAdd = {
     endDateTime: {required: true},
     startDateTime: {required: true},
     zone: {required: true},
+    user: {required: false},
     //source: {required: true},
     latitude: {required: false},
     longitude: {required: false},
@@ -341,7 +342,9 @@ exports.formCBMAdd = {
         return api.models.formCBM.build({});
       })
       .then(function (cbm) {
-        cbm.userId = data.session.userId;
+        if (!data.session.user.isAdmin || !data.params.user) {
+          data.params.user = data.session.userId;
+        }
         return cbm;
       })
       .then(function (cbm) {
@@ -395,6 +398,7 @@ exports.formCBMEdit = {
     endDateTime: {},
     startDateTime: {},
     zone: {},
+    user: {required: false},
     //source: {},
     latitude: {},
     longitude: {},
@@ -416,6 +420,12 @@ exports.formCBMEdit = {
           return Promise.reject(new Error('no permission'));
         }
 
+        return formCBM;
+      })
+      .then(function (formCBM) {
+        if (!data.session.user.isAdmin || !data.params.user) {
+          data.params.user = data.session.userId;
+        }
         return formCBM;
       })
       .then(function (formCBM) {
