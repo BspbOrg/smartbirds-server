@@ -2,7 +2,15 @@
  * Created by groupsky on 13.11.15.
  */
 
-require('../app').config(function ($httpProvider) {
+var angular = require('angular');
+
+function defaultResourceResponseInterceptor(response) {
+  var value = response.resource;
+  value && (value.$$response = response);
+  return value;
+}
+
+require('../app').config(/*@ngInject*/function ($httpProvider, $resourceProvider) {
   var defaults = $httpProvider.defaults;
 
   // make sure we are working with an array
@@ -23,5 +31,11 @@ require('../app').config(function ($httpProvider) {
       return data;
     }
     return response;
+  });
+
+
+  angular.forEach($resourceProvider.defaults.actions, function(action) {
+    action.interceptor = action.interceptor || {};
+    action.interceptor.response = defaultResourceResponseInterceptor;
   });
 });

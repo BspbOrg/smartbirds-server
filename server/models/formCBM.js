@@ -226,11 +226,13 @@ module.exports = function (sequelize, DataTypes) {
   return sequelize.define('FormCBM', fieldsDef, {
     freezeTableName: true,
     indexes: [
+      {fields: ['species']},
       {fields: ['zoneId']},
       {fields: ['userId']}
     ],
     classMethods: {
       associate: function (models) {
+        models.formCBM.belongsTo(models.species, {as: 'speciesInfo', foreignKey: 'species', targetKey: 'labelLa'});
         models.formCBM.belongsTo(models.zone, {as: 'zone'});
         models.formCBM.belongsTo(models.user, {as: 'user'});
       }

@@ -25,6 +25,7 @@ exports.default = {
         { path: '/species/:type/:value', action: 'species:view' },
 
         { path: '/cbm', action: 'formCBM:list' },
+        { path: '/cbm.csv', action: 'formCBM:list' },
         { path: '/cbm/:id', action: 'formCBM:view' }
       ],
 

@@ -3,7 +3,7 @@
  */
 
 var angular = require('angular');
-require('../app').controller('MonitoringController', /*@ngInject*/function ($state, $stateParams, $q, FormCBM, ngToast, db, Raven) {
+require('../app').controller('MonitoringController', /*@ngInject*/function ($state, $stateParams, $q, FormCBM, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, $cookies) {
 
   var controller = this;
 
@@ -88,8 +88,14 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
 
   function fetch(query) {
     controller.loading = true;
+    controller.downloadLink = ENDPOINT_URL + '/cbm.csv?'+$httpParamSerializer(angular.extend({}, query, {
+        limit: -1,
+        offset: 0,
+        csrfToken: $cookies.get('sb-csrf-token')
+      }));
     return FormCBM.query(query).$promise
       .then(function (rows) {
+        controller.count = rows.$$response.data.$$response.count;
         controller.rows.push.apply(controller.rows, rows);
         controller.endOfPages = !rows.length;
         return rows;
@@ -111,5 +117,6 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
       offset: controller.rows.length,
       limit: 20
     }));
-  }
+  };
+
 });
