@@ -1,0 +1,44 @@
+<ui-gmap-google-map center='map.center' zoom='map.zoom' options="map.options">
+  <ui-gmap-polygon ng-if="selectedZone"
+                   static="true"
+                   path="selectedZone.coordinates"
+                   fill="{color: '#33c', opacitiy: 0.7}"
+                   stroke="{color: '#33c', opacity: 0.8, weight: 1}"
+                   geodesic="true"
+                   events="map.events.selected"
+  ></ui-gmap-polygon>
+  <!--<ui-gmap-marker-->
+  <!--ng-if="selectedZone && selectedZone.selected"-->
+  <!--idKey="'selected'"-->
+  <!--coords="selectedZone.center"-->
+  <!--idkey="selectedZone.id">-->
+  <!--</ui-gmap-marker>-->
+  <ui-gmap-polygons ng-if="map.zones.free.length"
+                    models="map.zones.free"
+                    static="true"
+                    path="'coordinates'"
+                    fill="{color: '#3c3', opacity: 0.025}"
+                    stroke="{color: '#3c3', opacity: 0.7, weight: 0.5}"
+                    geodesic="true"
+                    events="map.events.free"
+                    control="map.controls.free"
+  ></ui-gmap-polygons>
+  <ui-gmap-polygons ng-if="map.zones.owned.length"
+                    models="map.zones.owned"
+                    static="true"
+                    path="'coordinates'"
+                    fill="{color: '#c33', opacity: 0.4}"
+                    stroke="{color: '#c33', opacity: 0.7, weight: 0.5}"
+                    geodesic="true"
+                    control="map.controls.owned"
+  ></ui-gmap-polygons>
+  <ui-gmap-markers ng-if="map.zones.all.length"
+                   models="map.zones.all"
+                   static="true"
+                   coords="'center'"
+                   type="'cluster'"
+                   modelsbyref="true"
+                   options="{opacity: 0}"
+                   fit="true"
+                   typeEvents="map.events.cluster"></ui-gmap-markers>
+</ui-gmap-google-map>
