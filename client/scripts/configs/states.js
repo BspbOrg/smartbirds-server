@@ -24,7 +24,7 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
         title: 'Home',
         resolve: {
           user: /*@ngInject*/function($rootScope, user) {
-            return user.resolve().then(function(identity) {
+            return user.resolve(true).then(function(identity) {
               return $rootScope.$user = user;
             }, function() {
               return undefined;
