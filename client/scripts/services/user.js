@@ -72,10 +72,8 @@ require('../app')
       service.setIdentity(null);
     };
 
-    service.resolve = function (force) {
+    service.resolve = function (silent) {
       var deferred = $q.defer();
-
-      if (force === true) _identity = undefined;
 
       if (angular.isDefined(_identity)) {
         deferred.resolve(_identity);
@@ -83,7 +81,9 @@ require('../app')
         return deferred.promise;
       }
 
-      api.session.restore($cookies.get(_sessionKey)).then(function (response) {
+      api.session.restore($cookies.get(_sessionKey), {
+        skipSessionExpiredInterceptor: silent
+      }).then(function (response) {
         if (response.data.success) {
           $cookies.put(_sessionKey, response.data.csrfToken);
           service.setIdentity(response.data.user);
