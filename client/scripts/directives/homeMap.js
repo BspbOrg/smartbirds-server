@@ -5,79 +5,39 @@
 var angular = require('angular');
 var extend = require('angular').extend;
 
-require('../app').directive('homeMap', /*@ngInject*/function() {
+require('../app').directive('homeMap', /*@ngInject*/function () {
+  var lastModel = undefined;
   return {
     restrict: 'AE',
     templateUrl: '/views/directives/homemap.html',
-    controller: /*@ngInject*/function($q, db) {
+    controller: /*@ngInject*/function ($scope, $q, api, Zone) {
       var vc = extend(this, {
         center: {latitude: 42.744820608, longitude: 25.2151370694},
         zoom: 8,
-        zones: {
-          all: [],
-          free: [],
-          requested: [],
-          owned: []
-        },
+        zones: [],
         options: {
-          maxZoom: 15
+          maxZoom: 15,
+          scrollwheel: false
         },
-        controls: {
-          free: {},
-          owned: {}
-        },
-        events: {
-          cluster: {
-            clusteringend: function (markerClusterer) {
-              Object.keys(vc.zones).forEach(function(status){
-                if (status === 'all') return;
-                vc.zones[status].length = 0;
-              });
-              markerClusterer.getClusters().forEach(function (cluster) {
-                var visible = cluster.getSize() == 1;
-                cluster.getMarkers().each(function (marker) {
-                  marker.model.visible = visible;
-                  if (visible && !marker.model.selected) {
-                    vc.zones[marker.model.getStatus()].push(marker.model);
-                  }
-                });
-              });
-              //vc.zones.forEach(function(status){
-              //  if (angular.isFunction($rootScope.zonesControl[status].updateModels))
-              //    $rootScope.zonesControl[status].updateModels($rootScope.visibleZones[status]);
-              //});
-            }
-          },
-          free: {
-            click: function (poly, event, model, args) {
-              var idx = vc.zones.free.indexOf(model);
-              if (idx !== -1) {
-                vc.zones.free.splice(idx, 1);
-              }
-              if ($scope.selectedZone) {
-                vc.zones.free.push($scope.selectedZone);
-              }
-              vc.controls.free.updateModels(vc.zones.free);
-              $scope.selectedZone = model;
-            }
-          },
-          selected: {
-            click: function (poly, event, model, args) {
-              vc.zones.free.push($scope.selectedZone);
-              $scope.selectedZone = null;
-              vc.controls.free.updateModels(vc.zones.free);
-            }
+        marker: {
+          click: function(marker, eventName, model) {
+            if (lastModel && lastModel !== model) lastModel.show = false;
+            model.show = !model.show;
+            lastModel = model;
           }
         }
       });
 
-      $q.resolve(db.zones.$promise || db.zones).then(function(zones) {
-        angular.forEach(zones, function(zone) {
-          if (zone.getStatus() === 'free') return;
-          zone.coordinates = zone.coordinates || zone.path;
-          zone.center = zone.center || zone.getCenter();
-          vc.zones.all.push(zone);
-          vc.zones[zone.getStatus()].push(zone);
+      api.stats.homepage().then(function (zones) {
+        angular.forEach(zones, function (zone) {
+          zone.coordinates = [
+            {latitude: zone.lat1, longitude: zone.lon1},
+            {latitude: zone.lat2, longitude: zone.lon2},
+            {latitude: zone.lat3, longitude: zone.lon3},
+            {latitude: zone.lat4, longitude: zone.lon4}
+          ];
+          zone.center = Zone.prototype.getCenter.apply(zone);
+          vc.zones.push(zone);
         });
       });
     },

@@ -43,6 +43,11 @@
   width:100%;
   padding-top: 60%;
   position: relative;
+
+  [home-map] & {
+    height: 45vh;
+    padding-top: 0;
+  }
 }
 
 .ellipsis {
@@ -75,6 +80,13 @@
   }
   tbody button {
     padding: 6px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .jumbotron h1,
+  .jumbotron .h1 {
+    font-size: 48px;
   }
 }
 
@@ -125,18 +137,17 @@
   }
 }
 
-header.jumbotron {
+header.heroimage {
   background-image: url('/img/background.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  background-blend-mode: overlay;
-  background-color: fadeout(#fff, 40%);
+  height: auto;
+  padding-top: 25%;
+  position: relative;
 
-  .site-heading {
-    background-color: fadeout(#000, 50%);
-    padding: 0 10px 10px;
-    color: #fff;
+  @media (max-width: @grid-float-breakpoint-max) {
+    margin-top: 50px;
   }
 }
 
@@ -144,7 +155,6 @@ footer.home {
   background: #fff;
   border-top: 1px solid #eee;
   padding-top: 20px;
-  margin-top: 20px;
 
   .copyright {
     position: relative;
@@ -154,6 +164,6 @@ footer.home {
 
 @media (min-width: @grid-float-breakpoint) {
   .navbar-transparent {
-    background-color: fadeout(@navbar-default-bg, 40%);
+    background-color: fadeout(@navbar-default-bg, 20%);
   }
 }

@@ -48,5 +48,17 @@ require('../app').service('api', function ($log, $http, $resource, $q, ENDPOINT_
     }
   };
 
+  api.stats = {
+    homepage: function() {
+      return $http({
+        method: 'GET',
+        url: '/stats.json'
+      }).then(function(response){
+        return response.data;
+      });
+    }
+  };
+
+
 
 });
