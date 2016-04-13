@@ -3,7 +3,7 @@
  */
 
 var angular = require('angular');
-require('../app').service('api', function ($log, $http, $resource, $q, ENDPOINT_URL, User) {
+require('../app').service('api', function ($log, $http, $resource, $q, $window, ENDPOINT_URL, User) {
 
   var api = this;
 
@@ -44,6 +44,16 @@ require('../app').service('api', function ($log, $http, $resource, $q, ENDPOINT_
       return $http({
         method: 'DELETE',
         url: ENDPOINT_URL + '/session'
+      });
+    },
+    changePassword: function(userId, oldPassword, newPassword) {
+      return $http({
+        method: 'PATCH',
+        url: ENDPOINT_URL + '/user/' + $window.encodeURIComponent(userId),
+        data: {
+          oldPassword: oldPassword,
+          newPassword: newPassword
+        }
       });
     }
   };

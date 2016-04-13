@@ -158,6 +158,21 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
 
 
       ///////////
+      // User Change Password //
+      ///////////
+      .state('auth.users.changepw', {
+        url: '/password',
+        views: {
+          'content@auth': {
+            templateUrl: '/views/users/changepw.html',
+            controller: 'UserController',
+            controllerAs: 'user'
+          }
+        }
+      })
+
+
+      ///////////
       // Monitorings //
       ///////////
       .state('auth.monitoring', {

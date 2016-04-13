@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var Promise = require('bluebird');
 
 exports.userCreate = {
   name: 'user:create',
@@ -267,8 +268,8 @@ exports.userList = {
                 ]
               }
             }).concat([
-              {firstName: {$ilike: data.params.q+'%'}},
-              {lastName: {$ilike: data.params.q+'%'}}
+              {firstName: {$ilike: data.params.q + '%'}},
+              {lastName: {$ilike: data.params.q + '%'}}
             ])
           });
           break;
@@ -284,5 +285,57 @@ exports.userList = {
         data.connection.rawConnection.responseHttpCode = 206;
       next();
     }).catch(next);
+  }
+};
+
+exports.userChangePassword = {
+  name: 'user:changepw',
+  description: 'Change password of user',
+  middleware: ['auth', 'owner'],
+  inputs: {
+    id: {required: true},
+    oldPassword: {required: true},
+    newPassword: {required: true}
+  },
+
+  run: function (api, data, next) {
+    Promise.resolve(data)
+      .then(function (data) {
+        return api.models.user.findOne({where: {id: data.params.id}});
+      })
+      .then(function (user) {
+        if (!user) {
+          data.connection.rawConnection.responseHttpCode = 404;
+          return Promise.reject(new Error('Няма такъв потребител'));
+        }
+        return Promise.fromCallback(function (callback) {
+            return user.checkPassword(data.params.oldPassword, callback);
+          })
+          .then(function (match) {
+            if (!match) return Promise.reject(new Error('Грешна парола'));
+            return user;
+          });
+      })
+      .then(function (user) {
+        return Promise.fromCallback(function (callback) {
+          return user.updatePassword(data.params.newPassword, callback);
+        });
+      })
+      .then(function (user) {
+        return user.save();
+      })
+      .then(function (user) {
+        return true;
+      })
+      .then(function (res) {
+        return data.response.data = res;
+      })
+      .then(function () {
+        next();
+      })
+      .catch(function (error) {
+        api.logger.error(error);
+        next(error);
+      });
   }
 };

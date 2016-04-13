@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1 class="page-header">
+      Смяна на парола
+    </h1>
+  </div>
+
+  <div class="col-md-12">
+    <form name="user.form"
+          role="form"
+          autocomplete="off">
+
+      <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
+      <input ng-if="!user.hideFake" type="text" name="fakeusernameremembered1"/>
+      <input ng-if="!user.hideFake" type="password" name="fakepasswordremembered1"/>
+
+      <field name="oldPassword" type="password" required="true"
+             label="Стара парола"
+             autocomplete="off"
+             model="user.data.oldPassword"
+      ></field>
+
+      <field name="newPassword" type="password" required="true"
+             label="Нова парола"
+             autocomplete="off"
+             model="user.data.newPassword"
+      ></field>
+
+      <field name="confirmPassword" type="password2" required="true"
+             match="user.data.newPassword"
+             label="Повторение на паролата"
+             autocomplete="off"
+             model="user.data.confirmPassword"
+      ></field>
+
+      <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
+      <input ng-if="!user.hideFake"  type="text" name="fakeusernameremembered2"/>
+      <input ng-if="!user.hideFake" type="password" name="fakepasswordremembered2"/>
+
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary"
+                ng-disabled="user.form.$pristine || user.form.$invalid"
+                ng-click="user.changePassword()">
+          Смяна на парола
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
