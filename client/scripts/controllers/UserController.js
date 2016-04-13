@@ -4,7 +4,7 @@
 
 var angular = require('angular');
 
-require('../app').controller('UserController', /*@ngInject*/function ($state, $stateParams, $q, $timeout, ngToast, User, Raven) {
+require('../app').controller('UserController', /*@ngInject*/function ($scope, $state, $stateParams, $q, $timeout, ngToast, User, Raven) {
   var controller = this;
 
   var id = $stateParams.id || $stateParams.fromId;
