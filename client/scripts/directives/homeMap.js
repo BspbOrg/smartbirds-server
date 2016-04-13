@@ -17,7 +17,7 @@ require('../app').directive('homeMap', /*@ngInject*/function () {
         zones: [],
         options: {
           maxZoom: 15,
-          scrollwheel: false
+          streetViewControl: false
         },
         marker: {
           click: function(marker, eventName, model) {
