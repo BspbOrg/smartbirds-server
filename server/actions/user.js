@@ -40,7 +40,7 @@ exports.userCreate = {
         })
         .catch(function (error) {
           console.error('userCreate error:', error);
-          next(error && error.error && Array.isArray(error.error) && error.error[0].message || error);
+          next(new Error('Вече съществува потребител с тази е-поща'));
         });
     });
   }
@@ -56,7 +56,7 @@ exports.userLost = {
     api.models.user.findOne({where: {email: data.params.email}}).then(function (user) {
         if (!user) {
           data.connection.rawConnection.responseHttpCode = 404;
-          return next(new Error('user not found'));
+          return next(new Error('Няма такъв потребител'));
         }
 
         user.genPasswordToken(function (error, passwordToken) {
@@ -65,7 +65,7 @@ exports.userLost = {
           user.save().then(function (userObj) {
 
             api.tasks.enqueue("mail:send", {
-              mail: {to: userObj.email, subject: "Password recovery"},
+              mail: {to: userObj.email, subject: "Възстановяване на парола"},
               template: "lost_password",
               locals: {
                 passwordToken: passwordToken,
@@ -98,19 +98,19 @@ exports.userReset = {
     api.models.user.findOne({where: {email: data.params.email}}).then(function (user) {
         if (!user) {
           data.connection.rawConnection.responseHttpCode = 404;
-          return next(new Error('user not found'));
+          return next(new Error('Няма такъв потребител'));
         }
 
         if (!user.forgotPasswordTimestamp || Date.now() - user.forgotPasswordTimestamp.getTime() > 1000 * 60 * 60) {
           data.connection.rawConnection.responseHttpCode = 400;
-          return next(new Error('invalid token'));
+          return next(new Error('Невалиден код'));
         }
 
         return user.checkPasswordToken(data.params.token, function (error, matched) {
           if (error) return next(error);
           if (!matched) {
             data.connection.rawConnection.responseHttpCode = 400;
-            return next(new Error('invalid token'));
+            return next(new Error('Невалиден код'));
           }
 
           return user.updatePassword(data.params.password, function (error) {
@@ -144,7 +144,7 @@ exports.userView = {
     api.models.user.findOne({where: {id: data.params.id}}).then(function (user) {
         if (!user) {
           data.connection.rawConnection.responseHttpCode = 404;
-          return next(new Error('user not found'));
+          return next(new Error('Няма такъв потребител'));
         }
 
         data.response.data = user.apiData(api);
@@ -185,7 +185,7 @@ exports.userEdit = {
     api.models.user.findOne({where: {id: data.params.id}}).then(function (user) {
         if (!user) {
           data.connection.rawConnection.responseHttpCode = 404;
-          return next(new Error('user not found'));
+          return next(new Error('Няма такъв потребител'));
         }
         //if (data.params.password) {
         //  user.updatePassword(data.params.password, function (error) {

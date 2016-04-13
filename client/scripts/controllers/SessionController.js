@@ -45,11 +45,11 @@ require('../app').controller('SessionController', function ($log,
     $scope.form.$setPristine();
     User.save(user).$promise.then(function (response) {
       $log.debug('user created', response);
-      flashService.success("Account created successfully", true);
+      flashService.success("Успешно създадохте профил", true);
       $state.go('login', {email: response.user.email});
     }, function (response) {
       $log.debug('error creating user', response);
-      flashService.error(response.data.error || 'Could not create account');
+      flashService.error(response.data.error || 'Не може да създаде профил');
     }).finally(function () {
       ctrl.loading = false;
     });
@@ -65,11 +65,11 @@ require('../app').controller('SessionController', function ($log,
     $scope.form.$setPristine();
     api.session.forgotPassword(user).then(function(response){
       $log.debug('reset password sent', response);
-      flashService.success("Email sent", true);
+      flashService.success("Изпратено е писмо с инструкции", true);
       $state.go('login', {email: user.email});
     }, function (response) {
       $log.debug('error requesting password reset', response);
-      flashService.error(response.data.error || 'Could not reset password');
+      flashService.error(response.data.error || 'Не може да се смени паролата');
     }).finally(function () {
       ctrl.loading = false;
     });
@@ -81,11 +81,11 @@ require('../app').controller('SessionController', function ($log,
     $scope.form.$setPristine();
     api.session.resetPassword(user).then(function(response){
       $log.debug('password reset', response);
-      flashService.success("Password reset", true);
+      flashService.success("Паролата е сменена успешно", true);
       $state.go('login', {email: user.email});
     }, function(response){
       $log.debug('error resetting password', response);
-      flashService.error(response.data.error || 'Could not reset password');
+      flashService.error(response.data.error || 'Не може да се смени паролата');
     }).finally(function(){
       ctrl.loading = true;
     });

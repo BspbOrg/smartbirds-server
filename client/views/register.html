@@ -3,7 +3,7 @@
         <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
             <div class="login-panel panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Register new account</h3>
+                    <h3 class="panel-title">Създаване на нов профил</h3>
                 </div>
                 <div class="panel-body">
                     <div
@@ -13,39 +13,39 @@
                     <form name="form" role="form" class="form form-signup">
                         <fieldset>
                             <div class="form-group" ng-class="{'has-error': form.firstName.$dirty && form.firstName.$invalid }">
-                                <input class="form-control" placeholder="First name" name="firstName" type="text" required
+                                <input class="form-control" placeholder="Име" name="firstName" type="text" required
                                        autofocus ng-model="user.firstName"
                                        ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }">
-                                <span ng-show="form.firstName.$dirty && form.firstName.$error.required" class="help-block">First name is required</span>
+                                <span ng-show="form.firstName.$dirty && form.firstName.$error.required" class="help-block">Полето е задължително</span>
                             </div>
                             <div class="form-group" ng-class="{'has-error': form.lastName.$dirty && form.lastName.$invalid }">
-                                <input class="form-control" placeholder="Last name" name="lastName" type="text" required
+                                <input class="form-control" placeholder="Фамилия" name="lastName" type="text" required
                                        ng-model="user.lastName"
                                        ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }">
-                                <span ng-show="form.lastName.$dirty && form.lastName.$error.required" class="help-block">Last name is required</span>
+                                <span ng-show="form.lastName.$dirty && form.lastName.$error.required" class="help-block">Полето е задължително</span>
                             </div>
                             <div class="form-group" ng-class="{'has-error': form.email.$dirty && form.email.$invalid }">
-                                <input class="form-control" placeholder="E-mail" name="email" type="email" required
+                                <input class="form-control" placeholder="Е-поща" name="email" type="email" required
                                        ng-model="user.email"
                                        ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }">
-                                <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">E-mail is required</span>
-                                <span ng-show="form.email.$dirty && form.email.$error.email" class="help-block">Invalid e-mail</span>
+                                <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Полето е задължително</span>
+                                <span ng-show="form.email.$dirty && form.email.$error.email" class="help-block">Невалидна електронна поща</span>
                             </div>
                             <div class="form-group"
                                  ng-class="{'has-error': form.password.$dirty && form.password.$invalid }">
-                                <input class="form-control" placeholder="Password" name="password" type="password"
+                                <input class="form-control" placeholder="Парола" name="password" type="password"
                                        value="" ng-model="user.password" required>
                                 <span ng-show="form.password.$dirty && form.password.$error.required"
-                                      class="help-block">Password is required</span>
+                                      class="help-block">Полето е задължително</span>
                             </div>
                             <div class="form-group"
                                  ng-class="{'has-error': form.password_confirm.$dirty && form.password_confirm.$invalid }">
-                                <input class="form-control" placeholder="Confirm password" name="password_confirm" type="password"
+                                <input class="form-control" placeholder="Повторение на паролата" name="password_confirm" type="password"
                                        value="" ng-model="user.password_confirm" required sb-validation-match="user.password">
                                 <span ng-show="form.password_confirm.$dirty && form.password_confirm.$error.required"
-                                      class="help-block">Confirm password is required</span>
-                                <span ng-show="form.password_confirm.$dirty && form.password_confirm.$error.match"
-                                      class="help-block">Passwords don't match</span>
+                                      class="help-block">Полето е задължително</span>
+                                <span ng-show="form.password_confirm.$dirty && form.password_confirm.$error.match && !form.password_confirm.$error.required"
+                                      class="help-block">Паролите не съвпадат</span>
                             </div>
                         </fieldset>
                     </form>
@@ -54,9 +54,9 @@
                     <div class="form-actions">
                         <button type="submit" ng-disabled="form.$invalid || sessionController.loading"
                                 ng-click="sessionController.register(user)"
-                                class="btn btn-lg btn-primary">Register
+                                class="btn btn-lg btn-primary">Регистриране
                         </button>
-                        <a href ui-sref="login({ email: user.email })" class="btn btn-lg btn-default btn-link">Login</a>
+                        <a href ui-sref="login({ email: user.email })" class="btn btn-lg btn-default btn-link">Вход</a>
                     </div>
                 </div>
             </div>
