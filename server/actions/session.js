@@ -14,15 +14,14 @@ exports.sessionCreate = {
     console.log('searching user');
     api.models.user.findOne({where: {email: data.params.email}}).then(function (user) {
         if (!user) {
-          return next(new Error('user not found'));
+          return next(new Error('Няма такъв потребител'));
         }
-        console.log('checking password');
         user.checkPassword(data.params.password, function (error, match) {
           if (error) {
             return next(error);
           }
           else if (!match) {
-            return next(new Error('password does not match'));
+            return next(new Error('Невалидна парола'));
           }
           else {
             api.session.create(data.connection, user, function (error, sessionData) {
@@ -76,12 +75,12 @@ exports.sessionCheck = {
       }
       else if (!sessionData) {
         data.connection.rawConnection.responseHttpCode = 401;
-        return next(new Error('Please log in to continue'));
+        return next(new Error('Необходимо е да се оторизирате'));
       } else {
         api.models.user.findOne({where: {id: sessionData.userId}}).then(function (user) {
           if (!user) {
             data.connection.rawConnection.responseHttpCode = 404;
-            return next(new Error('user not found'));
+            return next(new Error('Няма такъв потребител'));
           }
           data.response.user = user.apiData(api);
           data.response.csrfToken = sessionData.csrfToken;
@@ -107,7 +106,8 @@ exports.sessionWSAuthenticate = {
         return next(error);
       }
       else if (!sessionData) {
-        return next(new Error('Please log in to continue'));
+        data.connection.rawConnection.responseHttpCode = 401;
+        return next(new Error('Необходимо е да се оторизирате'));
       } else {
         data.connection.authorized = true;
         data.response.authorized = true;
