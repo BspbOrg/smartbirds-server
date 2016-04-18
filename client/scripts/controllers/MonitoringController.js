@@ -19,6 +19,14 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
     controller.species = species;
   });
   controller.visits = {};
+  controller.map = {
+    center: {latitude: 42.744820608, longitude: 25.2151370694},
+    zoom: 8,
+    options: {
+    },
+    zones: []
+  };
+  controller.tab = 'list';
   $q.resolve(db.nomenclatures.$promise || db.nomenclatures).then(function (nomenclatures) {
     return nomenclatures.cbm_visit_number.$promise || nomenclatures.cbm_visit_number;
   }).then(function (visits) {
@@ -97,7 +105,16 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
       .then(function (rows) {
         controller.count = rows.$$response.data.$$response.count;
         controller.rows.push.apply(controller.rows, rows);
+        controller.map.rows.push.apply(controller.map.rows, rows);
+        controller.map.rows.length = Math.min(controller.map.rows.length, 1000);
         controller.endOfPages = !rows.length;
+        rows.forEach(function(row) {
+          var key = '$'+row.zone;
+          if (!(key in controller.map.zones)) {
+            controller.map.zones[key] = true;
+            controller.map.zones.push(db.zones[row.zone]);
+          }
+        });
         return rows;
       })
       .finally(function () {
@@ -108,14 +125,17 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
   controller.requestRows = function () {
     controller.rows = [];
     controller.endOfPages = false;
+    controller.map.zones = [];
+    controller.map.rows = [];
+    controller.filter.limit = controller.tab == 'list' ? 50 : 1000;
     fetch(controller.filter);
   };
   controller.requestRows();
 
-  controller.nextPage = function () {
+  controller.nextPage = function (count) {
     fetch(angular.extend({}, controller.filter, {
       offset: controller.rows.length,
-      limit: 20
+      limit: count || (controller.tab == 'list' ? 50 : 1000)
     }));
   };
 
