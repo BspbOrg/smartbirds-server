@@ -81,7 +81,7 @@ exports.production = {
   general: function(api){
     return {
       developmentMode: false,
-      filteredParams: ['password'],
+      filteredParams: ['password', 'oldPassword', 'newPassword'],
     }
   }
 }

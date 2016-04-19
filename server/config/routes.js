@@ -46,6 +46,10 @@ exports.default = {
         { path: '/zone/:id/owner', action: 'zone:setOwner' },
       ],
 
+      patch: [
+        { path: '/user/:id', action: 'user:changepw'},
+      ],
+
       delete: [
         { path: '/session',  action: 'session:destroy' },
         { path: '/zone/:id/owner', action: 'zone:clearOwner' },

@@ -4,7 +4,7 @@
 
 var angular = require('angular');
 
-require('../app').controller('UserController', /*@ngInject*/function ($scope, $state, $stateParams, $q, $timeout, ngToast, User, Raven) {
+require('../app').controller('UserController', /*@ngInject*/function ($scope, $state, $stateParams, $q, $timeout, api, ngToast, user, User, Raven) {
   var controller = this;
 
   var id = $stateParams.id || $stateParams.fromId;
@@ -24,19 +24,41 @@ require('../app').controller('UserController', /*@ngInject*/function ($scope, $s
       .then(function (res) {
         ngToast.create({
           className: 'success',
-          content: "Save success."
+          content: "Промените са записани успешно"
         });
         return res;
       }, function (error) {
         Raven.captureMessage(JSON.stringify(error));
         ngToast.create({
           className: 'danger',
-          content: '<p>Could not save!</p><pre>' + (error && error.data && error.data.error || JSON.stringify(error, null, 2)) + '</pre>'
+          content: '<p>Не може да запише промените!</p><pre>' + (error && error.data && error.data.error || JSON.stringify(error, null, 2)) + '</pre>'
         });
         return $q.reject(error);
       })
       .then(function (res) {
         $state.go('^.detail', {id: res.id}, {location: 'replace'});
+      });
+  };
+
+  controller.changePassword = function () {
+    $q.resolve(controller.data)
+      .then(function(data) {
+        return api.session.changePassword(user.getIdentity().id, data.oldPassword, data.newPassword);
+      })
+      .then(function(response) {
+        controller.data = {};
+        controller.form.$setPristine();
+        ngToast.create({
+          className: 'success',
+          content: "Паролата е сменена успешно"
+        });
+      }, function (error) {
+        Raven.captureMessage(JSON.stringify(error));
+        ngToast.create({
+          className: 'danger',
+          content: '<p>Не може да смени паролата</p><pre>' + (error && error.data && error.data.error || JSON.stringify(error, null, 2)) + '</pre>'
+        });
+        return $q.reject(error);
       });
   };
 
