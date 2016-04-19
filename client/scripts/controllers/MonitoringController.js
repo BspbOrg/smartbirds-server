@@ -23,14 +23,25 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
   controller.map = {
     center: {latitude: 42.744820608, longitude: 25.2151370694},
     zoom: 8,
-    options: {
-    },
+    options: {},
     zones: [],
+    selected: {},
+    polygon: {
+      click: function (polygon, eventName, model) {
+        if (controller.map.selected && controller.map.selected.zone === model) {
+          controller.map.selected = {};
+        } else {
+          controller.map.selected = {zone: model};
+        }
+      }
+    },
     marker: {
-      click: function(marker, eventName, model) {
-        if (lastModel && lastModel !== model) lastModel.show = false;
-        model.show = !model.show;
-        lastModel = model;
+      click: function (marker, eventName, model) {
+        if (controller.map.selected && controller.map.selected.pin === model) {
+          controller.map.selected = {};
+        } else {
+          controller.map.selected = {pin: model};
+        }
       }
     }
   };
@@ -104,7 +115,7 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
 
   function fetch(query) {
     controller.loading = true;
-    controller.downloadLink = ENDPOINT_URL + '/cbm.csv?'+$httpParamSerializer(angular.extend({}, query, {
+    controller.downloadLink = ENDPOINT_URL + '/cbm.csv?' + $httpParamSerializer(angular.extend({}, query, {
         limit: -1,
         offset: 0,
         csrfToken: $cookies.get('sb-csrf-token')
@@ -116,8 +127,8 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
         controller.map.rows.push.apply(controller.map.rows, rows);
         controller.map.rows.length = Math.min(controller.map.rows.length, 1000);
         controller.endOfPages = !rows.length;
-        rows.forEach(function(row) {
-          var key = '$'+row.zone;
+        rows.forEach(function (row) {
+          var key = '$' + row.zone;
           if (!(key in controller.map.zones)) {
             controller.map.zones[key] = true;
             controller.map.zones.push(db.zones[row.zone]);
@@ -147,4 +158,5 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
     }));
   };
 
-});
+})
+;
