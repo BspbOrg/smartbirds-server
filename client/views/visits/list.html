@@ -1,0 +1,91 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header">
+      <div class="pull-right">
+        <div class="btn-group">
+          <button type="button"
+                  class="btn btn-primary"
+          >
+            <i class="fa fa-calendar-plus-o fa-fw"></i>
+            Ново посещение
+          </button>
+        </div>
+      </div>
+      Дати на посещения
+    </h1>
+
+    <form class="form-inline">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Година</th>
+          <th>Ранно</th>
+          <th>Късно</th>
+          <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="info" temp>
+          <td>
+            <field type="int" model="row.year" name="year"></field>
+          </td>
+          <td>
+            <field type="date" model="row.early.from" name="early_from" format="::{display: 'd MMM'}"></field>
+            <field type="date" model="row.early.to" name="early_to" format="::{display: 'd MMM'}"></field>
+          </td>
+          <td>
+            <field type="date" model="row.late.from" name="late_from" format="::{display: 'd MMM'}"></field>
+            <field type="date" model="row.late.to" name="late_to" format="::{display: 'd MMM'}"></field>
+          </td>
+          <td>
+            <p class="btn-group pull-right">
+              <button type="submit" class="btn btn-success">
+                <i class="fa fa-save fa-fw"></i>
+              </button>
+              <button type="reset" class="btn btn-danger">
+                <i class="fa fa-remove fa-fw"></i>
+              </button>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>2015</td>
+          <td>15 май - 15 юни</td>
+          <td>15 юни - 15 юли</td>
+          <td>
+            <p class="btn-group pull-right">
+              <button type="button" class="btn btn-default">
+                <i class="fa fa-edit"></i>
+              </button>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>2014</td>
+          <td>15 май - 15 юни</td>
+          <td>15 юни - 15 юли</td>
+          <td>
+            <p class="btn-group pull-right">
+              <button type="button" class="btn btn-default">
+                <i class="fa fa-edit"></i>
+              </button>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>2013</td>
+          <td>15 май - 15 юни</td>
+          <td>15 юни - 15 юли</td>
+          <td>
+            <p class="btn-group pull-right">
+              <button type="button" class="btn btn-default">
+                <i class="fa fa-edit"></i>
+              </button>
+            </p>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div>

@@ -76,6 +76,12 @@
               Наблюдатели
             </a>
           </li>
+          <li ng-if="$user.isAdmin()">
+            <a ui-sref="auth.visits">
+              <i class="fa fa-calendar fa-fw"></i>
+              Посещения
+            </a>
+          </li>
         </ul>
       </div>
       <!-- /.sidebar-collapse -->
