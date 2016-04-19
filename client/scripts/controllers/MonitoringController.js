@@ -6,6 +6,7 @@ var angular = require('angular');
 require('../app').controller('MonitoringController', /*@ngInject*/function ($state, $stateParams, $q, FormCBM, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, $cookies) {
 
   var controller = this;
+  var lastModel = false;
 
   controller.db = db;
   controller.filter = angular.copy($stateParams);
@@ -24,7 +25,14 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
     zoom: 8,
     options: {
     },
-    zones: []
+    zones: [],
+    marker: {
+      click: function(marker, eventName, model) {
+        if (lastModel && lastModel !== model) lastModel.show = false;
+        model.show = !model.show;
+        lastModel = model;
+      }
+    }
   };
   controller.tab = 'list';
   $q.resolve(db.nomenclatures.$promise || db.nomenclatures).then(function (nomenclatures) {

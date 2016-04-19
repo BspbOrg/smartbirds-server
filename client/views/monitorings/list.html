@@ -183,8 +183,9 @@
                        coords="'self'"
                        type="'spider'"
                        modelsbyref="true"
-                       fit="true">
-        <ui-gmap-windows show="show">
+                       fit="true"
+                       click="monitoringController.map.marker.click">
+        <ui-gmap-windows show="'show'">
           <div ng-non-bindable>
             {{::count}}&times;{{::species}}<br/>
             {{::visit.label.bg}} <span class="text-muted">{{::startDateTime|date:'d.MM.yyyy'}} {{::startDateTime|date:'H:mm'}}</span>
