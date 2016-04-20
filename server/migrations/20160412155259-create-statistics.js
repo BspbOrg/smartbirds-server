@@ -19,19 +19,3 @@ module.exports = {
     return queryInterface.sequelize.query('DROP VIEW IF EXISTS cbm_stats');
   }
 };
-
-
-/*
-
- select zone.*, (SELECT COUNT(*) FROM (SELECT DISTINCT species from "FormCBM" as cbm where cbm."zoneId" = zone.id) as temp) as species_count
-
- FROM "Zones" as zone
-
- where
-
- status = 'owned'
-
-
-
-
- */

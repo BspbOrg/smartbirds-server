@@ -10,9 +10,10 @@
   >
     <ui-gmap-windows show="'show'">
       <div ng-non-bindable>
-        <h6 class="text-muted text-uppercase">отбелязани</h6>
-        <h5 class="text-uppercase">{{::species_count}} <small>вида</small></h5>
-        <h5 class="text-uppercase">{{::units_count}} <small>индивида</small></h5>
+        <h6 class="text-uppercase text-justify"><small>площадка</small> {{::id}}</h6>
+        <h6 class="text-uppercase text-justify"><small>наблюдател</small> {{first_name}} {{last_name}}</h6>
+        <h5 class="text-uppercase text-justify"><small>видове</small> {{::species_count}}</h5>
+        <h5 class="text-uppercase text-justify"><small>индивиди</small> {{::units_count}}</h5>
       </div>
     </ui-gmap-windows>
   </ui-gmap-markers>
