@@ -122,7 +122,7 @@ exports.formCBMList = {
                     windSpeed: cbm.windSpeedBg,
                     endTime: moment(cbm.endDateTime).format("H:mm"),
                     visibility: cbm.visibility,
-                    notes: cbm.notes,
+                    notes: (''+cbm.notes||'').replace(/[\n\r]+/g, ' '),
                     endDate: moment(cbm.endDateTime).format("D.M.YYYY"),
                     windDirection: cbm.windDirectionBg,
                     longitude: cbm.longitude,
