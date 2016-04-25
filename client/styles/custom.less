@@ -43,6 +43,11 @@
   width:100%;
   padding-top: 60%;
   position: relative;
+
+  [home-map] & {
+    height: 60vh;
+    padding-top: 0;
+  }
 }
 
 .ellipsis {
@@ -75,6 +80,13 @@
   }
   tbody button {
     padding: 6px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .jumbotron h1,
+  .jumbotron .h1 {
+    font-size: 48px;
   }
 }
 
@@ -123,4 +135,39 @@
     width: 180px;
     background-image: url('/img/logo-eea.jpg');
   }
+}
+
+header.heroimage {
+  background-image: url('/img/background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: auto;
+  padding-top: 25%;
+  position: relative;
+
+  @media (max-width: @grid-float-breakpoint-max) {
+    margin-top: 50px;
+  }
+}
+
+footer.home {
+  background: #fff;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+
+  .copyright {
+    position: relative;
+    bottom: 0;
+  }
+}
+
+@media (min-width: @grid-float-breakpoint) {
+  .navbar-transparent {
+    background-color: fadeout(@navbar-default-bg, 20%);
+  }
+}
+
+.text-1justify {
+  text-align-last: justify;
 }
