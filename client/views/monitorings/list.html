@@ -50,7 +50,7 @@
         <form role="form" class="form form-filter">
 
           <div ng-if="$user.isAdmin()" class="form-group">
-            <label for="owner">Потребител</label>
+            <label for="owner">Наблюдател</label>
 
             <user-selector model-id="monitoringController.filter.user" name="user"
                            placeholder="- всички -" on-select="monitoringController.updateFilter()"></user-selector>
@@ -240,24 +240,24 @@
     <table class="table table-striped table-hover" sb-table="monitoringController.order">
       <thead>
       <tr>
-        <th ng-click="monitoringController.toggleSelected()">
+        <th ng-if="$user.isAdmin()" ng-click="monitoringController.toggleSelected()">
           <input type="checkbox" ng-checked="monitoringController.allSelected">
         </th>
         <th sb-sorting="id">#</th>
         <th ng-if="$user.isAdmin()"
             sb-sorting="getUser().getName()">
-          Потребител
+          Наблюдател
         </th>
         <th
-          sb-sorting="visit.label.bg">
-          Преброяване
+          sb-sorting="getZone().location.id">
+          Локация
         </th>
         <th sb-sorting="zone.id">
           Площадка
         </th>
         <th
-          sb-sorting="getZone().location.id">
-          Локация
+          sb-sorting="visit.label.bg">
+          Посещение
         </th>
         <th
           sb-sorting="date|date:'yyyyMMddHHmmss'">
@@ -274,6 +274,9 @@
           sb-sorting="plot.label.bg">
           № Участък
         </th>
+        <th sb-sorting="distance.label.bg">
+          Разстояние
+        </th>
         <th
           sb-sorting="count">
           Брой
@@ -284,14 +287,14 @@
       <tr
         ng-repeat="row in monitoringController.rows | orderBy:monitoringController.order.key:monitoringController.order.reverse"
         ng-click="$state.go('.detail', {id: row.id})" ng-class="{info: row.$selected}">
-        <td ng-click="$event.stopPropagation(); monitoringController.toggleSelected(row)"><input type="checkbox"
+        <td ng-if="$user.isAdmin()" ng-click="$event.stopPropagation(); monitoringController.toggleSelected(row)"><input type="checkbox"
                                                                                                  ng-checked="row.$selected">
         </td>
         <td><a href ui-sref=".detail({id: row.id})">{{::row.id}}</a></td>
         <td ng-if="::$user.isAdmin()">{{row.getUser().getName()}}</td>
-        <td>{{::row.visit.label.bg}}</td>
-        <td>{{::row.zone}}</td>
         <td>{{row.getZone().location | locationLabel}}</td>
+        <td>{{::row.zone}}</td>
+        <td>{{::row.visit.label.bg}}</td>
         <td>{{::row.startDateTime|date:'d.MM.yyyy'}} {{row.startDateTime|date:'H:mm'}} -
           {{row.endDateTime|date:'H:mm'}}
         </td>
@@ -301,6 +304,7 @@
           <strong>{{row.getSpecies().label.la}}</strong>
         </td>
         <td>{{::row.plot.label.bg}}</td>
+        <td>{{::row.distance.label.bg}}</td>
         <td>{{::row.count}}</td>
       </tr>
       </tbody>
