@@ -218,7 +218,7 @@ exports.userList = {
     data: [{id: 1, email: 'user@example.com', firstName: 'John', lastName: 'Doe', isAdmin: false}],
     count: 123
   },
-  middleware: ['admin'],
+  middleware: ['auth'],
 
   inputs: {
     limit: {required: false, default: 20},
@@ -233,6 +233,12 @@ exports.userList = {
     var q = {
       offset: offset
     };
+
+    if (!data.session.user.isAdmin) {
+      q.where = {
+        id: data.session.userId
+      }
+    }
 
     if (limit !== -1)
       q.limit = limit;
