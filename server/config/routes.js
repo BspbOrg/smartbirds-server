@@ -11,6 +11,8 @@ exports.default = {
         { path: '/locations/:id', action: 'location:get' },
         { path: '/locations/:id/zones', action: 'location:listZones' },
         { path: '/locations/:id/zones/:filter', action: 'location:listZones' },
+        { path: '/area/:area/zones', action: 'area:listZones' },
+        { path: '/area/:area/zones/:filter', action: 'area:listZones' },
 
         { path: '/docs',     action: 'showDocumentation' },
         { path: '/status',   action: 'status' },

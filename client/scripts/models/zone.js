@@ -20,6 +20,15 @@ require('../app').factory('Zone', function ($resource, ENDPOINT_URL, Location) {
       url: ENDPOINT_URL + '/locations/:locationId/zones/:filter',
       isArray: true
     },
+    listByArea: {
+      method: 'GET',
+      params: {
+        area: '@area',
+        filter: '@filter'
+      },
+      url: ENDPOINT_URL + '/area/:area/zones/:filter',
+      isArray: true
+    },
     request: {
       method: 'POST',
       params: {
