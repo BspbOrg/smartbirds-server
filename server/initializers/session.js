@@ -73,12 +73,12 @@ module.exports = {
                 var key = api.session.prefix + data.connection.fingerprint;
                 api.redis.client.expire(key, api.session.ttl, function (error) {
                   if (error)
-                    console.error('redis error', error);
+                    api.log('redis error', 'error', error);
                   next(error);
                 });
               } else {
                 if (error)
-                  console.error('redis error', error);
+                  api.log('redis error', 'error', error);
                 // no session - moving on
                 return next();
               }
