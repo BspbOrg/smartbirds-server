@@ -15,6 +15,7 @@ exports.zoneList = {
     owner: {},
     limit: {required: false, default: 20},
     offset: {required: false, default: 0},
+    nomenclature: {}
   },
 
   run: function (api, data, next) {
@@ -28,16 +29,18 @@ exports.zoneList = {
       //limit: limit,
       //offset: offset
     };
-    if (!data.session.user.isAdmin) {
-      q.where = _.extend(q.where || {}, {
-        ownerId: data.session.userId
-      });
-    } else {
-      (q.include = q.include || []).push({model: api.models.user, as: 'owner'});
-      if (data.params.owner) {
+    if (!data.params.nomenclature) {
+      if (!data.session.user.isAdmin) {
         q.where = _.extend(q.where || {}, {
-          ownerId: data.params.owner
+          ownerId: data.session.userId
         });
+      } else {
+        (q.include = q.include || []).push({model: api.models.user, as: 'owner'});
+        if (data.params.owner) {
+          q.where = _.extend(q.where || {}, {
+            ownerId: data.params.owner
+          });
+        }
       }
     }
     if (data.params.status) {

@@ -60,7 +60,7 @@ require('../app').service('db', /*@ngInject*/function ($q, Location, Nomenclatur
     delete db.users.$promise;
   });
 
-  db.zones.$promise = Zone.query({limit: -1}).$promise.then(function (zones) {
+  db.zones.$promise = Zone.query({limit: -1, nomenclature: true}).$promise.then(function (zones) {
     var res = db.zones;
     zones.forEach(function (zone) {
       res[zone.id] = zone;
