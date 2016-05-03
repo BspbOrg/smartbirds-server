@@ -28,6 +28,24 @@
               </div>
 
               <div class="form-group">
+                <label>Площадка</label>
+                <ui-select ng-model="zonesController.filter.zone" name="zone"
+                           on-remove="zonesController.updateSearch()"
+                           on-select="zonesController.updateSearch()">
+                  <ui-select-match allow-clear="true" placeholder="- всички -">
+                    {{$select.ngModel.$modelValue}}
+                  </ui-select-match>
+                  <ui-select-choices
+                    repeat="zone.id as zone in rows | filter:{
+                  id: $select.search,
+                  location: {id: zonesController.filter.location }
+                } | limitTo:30">
+                    <div ng-bind-html="zone.toString() | uibTypeaheadHighlight:$select.search"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+
+              <div class="form-group">
                 <label>Площадки</label>
                 <ui-select multiple ng-model="zonesController.filter.status" name="status" on-remove="zonesController.updateSearch()" on-select="zonesController.updateSearch()">
                   <ui-select-match placeholder="- всички -">{{$item.value}}</ui-select-match>
@@ -57,17 +75,18 @@
           'panel-default': zone.status=='free'
           }">
       <div class="panel-heading ellipsis"
-           title="{{zone.location.type.bg}} {{zone.location.name.bg}}, {{zone.location.area.bg}}">
+           title="{{::zone.id}} - {{::zone.location.type.bg}} {{::zone.location.name.bg}}, {{::zone.location.area.bg}}">
         <i class="fa fa-map-marker fa-fw"></i>
         <span class="hidden">{{zone.id}}</span>
-        {{zone.location.type.bg}} {{zone.location.name.bg}}, {{zone.location.area.bg}}
-        <span class="hidden">({{zone.status}})</span>
+        <strong>{{::zone.id}}</strong>
+        {{::zone.location.type.bg}} {{::zone.location.name.bg}}, {{::zone.location.area.bg}}
+        <span class="hidden">({zone.status})</span>
         <span class="hidden">{{($user.isAdmin()?'admin':'user')+'_'+zone.status}}</span>
       </div>
       <!-- /.panel-heading -->
       <div>
-        <a href ui-sref="auth.zones.view({id: zone.id})" class="thumbnail">
-          <img ng-src="{{zonesController.getStaticMap(zone)}}" width="100%" class="userMap">
+        <a href ui-sref="::auth.zones.view({id: zone.id})" class="thumbnail">
+          <img ng-src="{{::zonesController.getStaticMap(zone)}}" width="100%" class="userMap">
         </a>
       </div>
 

@@ -232,7 +232,7 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
       // Zones //
       ///////////
       .state('auth.zones', {
-        url: '/zones?status&{location:int}&{owner:int}',
+        url: '/zones?status&{location:int}&{owner:int}&zone',
         views: {
           'content': {
             templateUrl: '/views/zones/list.html',

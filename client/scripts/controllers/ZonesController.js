@@ -95,6 +95,10 @@ require('../app').controller('ZonesController', function ($scope, $state, $state
 
   controller.filterZones = function (filter) {
     return function (zone) {
+      if (filter && filter.zone) {
+        if (filter.zone !== zone.id) return false;
+      }
+
       if (filter && filter.status && filter.status.length) {
         if (filter.status.indexOf(zone.status) == -1) return false;
       }
