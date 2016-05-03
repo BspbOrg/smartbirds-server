@@ -10,9 +10,9 @@ function prepareQuery(api, data) {
   return Promise.resolve({})
     .then(function (q) {
       var limit = parseInt(data.params.limit) || 20;
-      if (!data.session.user.isAdmin) {
-        limit = Math.max(1, Math.min(1000, limit));
-      }
+      // if (!data.session.user.isAdmin) {
+      //   limit = Math.max(1, Math.min(1000, limit));
+      // }
       var offset = data.params.offset || 0;
 
       q = {
