@@ -6,6 +6,7 @@ var angular = require('angular');
 require('../app').controller('MonitoringController', /*@ngInject*/function ($state, $stateParams, $q, FormCBM, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, $cookies) {
 
   var controller = this;
+  var lastModel = false;
 
   controller.db = db;
   controller.filter = angular.copy($stateParams);
@@ -19,6 +20,32 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
     controller.species = species;
   });
   controller.visits = {};
+  controller.map = {
+    center: {latitude: 42.744820608, longitude: 25.2151370694},
+    zoom: 8,
+    options: {},
+    zones: [],
+    selected: {},
+    polygon: {
+      click: function (polygon, eventName, model) {
+        if (controller.map.selected && controller.map.selected.zone === model) {
+          controller.map.selected = {};
+        } else {
+          controller.map.selected = {zone: model};
+        }
+      }
+    },
+    marker: {
+      click: function (marker, eventName, model) {
+        if (controller.map.selected && controller.map.selected.pin === model) {
+          controller.map.selected = {};
+        } else {
+          controller.map.selected = {pin: model};
+        }
+      }
+    }
+  };
+  controller.tab = 'list';
   $q.resolve(db.nomenclatures.$promise || db.nomenclatures).then(function (nomenclatures) {
     return nomenclatures.cbm_visit_number.$promise || nomenclatures.cbm_visit_number;
   }).then(function (visits) {
@@ -88,7 +115,7 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
 
   function fetch(query) {
     controller.loading = true;
-    controller.downloadLink = ENDPOINT_URL + '/cbm.csv?'+$httpParamSerializer(angular.extend({}, query, {
+    controller.downloadLink = ENDPOINT_URL + '/cbm.csv?' + $httpParamSerializer(angular.extend({}, query, {
         limit: -1,
         offset: 0,
         csrfToken: $cookies.get('sb-csrf-token')
@@ -97,7 +124,16 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
       .then(function (rows) {
         controller.count = rows.$$response.data.$$response.count;
         controller.rows.push.apply(controller.rows, rows);
+        controller.map.rows.push.apply(controller.map.rows, rows);
+        controller.map.rows.length = Math.min(controller.map.rows.length, 1000);
         controller.endOfPages = !rows.length;
+        rows.forEach(function (row) {
+          var key = '$' + row.zone;
+          if (!(key in controller.map.zones)) {
+            controller.map.zones[key] = true;
+            controller.map.zones.push(db.zones[row.zone]);
+          }
+        });
         return rows;
       })
       .finally(function () {
@@ -108,15 +144,19 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
   controller.requestRows = function () {
     controller.rows = [];
     controller.endOfPages = false;
+    controller.map.zones = [];
+    controller.map.rows = [];
+    controller.filter.limit = controller.tab == 'list' ? 50 : 1000;
     fetch(controller.filter);
   };
   controller.requestRows();
 
-  controller.nextPage = function () {
+  controller.nextPage = function (count) {
     fetch(angular.extend({}, controller.filter, {
       offset: controller.rows.length,
-      limit: 20
+      limit: count || (controller.tab == 'list' ? 50 : 1000)
     }));
   };
 
-});
+})
+;
