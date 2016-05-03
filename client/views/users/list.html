@@ -8,11 +8,11 @@
              ui-sref=".new"
           >
             <i class="fa fa-file-o fa-fw"></i>
-            Нов потребител
+            Нов наблюдател
           </a>
         </div>
       </div>
-      Users
+      Наблюдатели
     </h1>
   </div>
 </div>
@@ -37,7 +37,7 @@
                     ng-model="data.filter.role"
             >
               <option value="">Всички</option>
-              <option value="user">Потребител</option>
+              <option value="user">Наблюдател</option>
               <option value="admin">Администратор</option>
             </select>
           </div>
@@ -76,7 +76,7 @@
                   ng-class="{'btn-warning': row.isAdmin, 'btn-default': !row.isAdmin}"
                   ng-click="usersController.toggleAdmin(row)">
             <span ng-if="row.isAdmin">Администратор</span>
-            <span ng-if="!row.isAdmin">Потребител</span>
+            <span ng-if="!row.isAdmin">Наблюдател</span>
           </button>
         </td>
       </tr>
