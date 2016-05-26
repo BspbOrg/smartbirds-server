@@ -40,6 +40,16 @@ function prepareQuery(api, data) {
         q.where = _.extend(q.where || {}, {
           zoneId: data.params.zone
         });
+      } else if (data.params.location) {
+        q.include = [].concat(q.include || [], [
+          {
+            model: api.models.zone,
+            as: 'zone',
+            where: {
+              locationId: data.params.location
+            }
+          }
+        ]);
       }
       if (data.params.visit) {
         q.where = _.extend(q.where || {}, {
