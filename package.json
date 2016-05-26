@@ -21,7 +21,7 @@
   "scripts": {
     "help": "npm run ah -- help",
     "start": "npm run ah -- start",
-    "ah": "/usr/bin/env PROJECT_ROOT=`pwd`/server node --max_old_space_size=4096 node_modules/.bin/actionhero",
+    "ah": "/usr/bin/env PROJECT_ROOT=`pwd`/server node --max_old_space_size=2048 node_modules/.bin/actionhero",
     "sq": "sequelize",
     "mocha": "NODE_ENV=test PROJECT_ROOT=`pwd`/server mocha --globals config",
     "less": "lessc",
