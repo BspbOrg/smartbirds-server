@@ -23,6 +23,7 @@ require('ngToast');
 require('ngInfiniteScroll');
 require('angular-loading-bar');
 require('raven-js');
+require('angular-filter');
 
 var dependencies = [
   'ngLocale',
@@ -47,7 +48,9 @@ var dependencies = [
 
   'angular-loading-bar',
 
-  'ngRaven'
+  'ngRaven',
+
+  'angular.filter'
 ];
 
 Raven.config('https://b17f1c87d9e346a8bd82335294450e57@app.getsentry.com/71564').addPlugin(require('raven-js-angular'), angular).install();

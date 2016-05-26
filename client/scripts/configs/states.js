@@ -304,7 +304,8 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
         url: '/visits',
         views: {
           'content@auth': {
-            templateUrl: '/views/visits/list.html'
+            templateUrl: '/views/visits/list.html',
+            controller: 'VisitsController as visits'
           }
         }
       })

@@ -5,6 +5,7 @@
         <div class="btn-group">
           <button type="button"
                   class="btn btn-primary"
+                  ng-click="visits.new()"
           >
             <i class="fa fa-calendar-plus-o fa-fw"></i>
             Ново посещение
@@ -25,60 +26,39 @@
         </tr>
         </thead>
         <tbody>
-        <tr class="info" temp>
-          <td>
-            <field type="int" model="row.year" name="year"></field>
+
+        <tr ng-if="visits.editing" class="info">
+          <td ng-if="visits.editing.$exists">{{visits.editing.year}}</td>
+          <td ng-if="!visits.editing.$exists">
+            <field type="int" model="visits.editing.year" name="year"></field>
+          </td>
+          <td style="width: 0">
+            <field type="date" model="visits.editing.early.start" name="early_start" format="::{display: visits.dateFormat}"></field>
+            <field type="date" model="visits.editing.early.end" name="early_end" format="::{display: visits.dateFormat}"></field>
           </td>
           <td>
-            <field type="date" model="row.early.from" name="early_from" format="::{display: 'd MMM'}"></field>
-            <field type="date" model="row.early.to" name="early_to" format="::{display: 'd MMM'}"></field>
+            <field type="date" model="visits.editing.late.start" name="late_start" format="::{display: visits.dateFormat}"></field>
+            <field type="date" model="visits.editing.late.end" name="late_end" format="::{display: visits.dateFormat}"></field>
           </td>
-          <td>
-            <field type="date" model="row.late.from" name="late_from" format="::{display: 'd MMM'}"></field>
-            <field type="date" model="row.late.to" name="late_to" format="::{display: 'd MMM'}"></field>
-          </td>
-          <td>
-            <p class="btn-group pull-right">
-              <button type="submit" class="btn btn-success">
+          <td class="actions actions-2">
+            <p class="btn-group text-right">
+              <button type="submit" class="btn btn-success" ng-click="visits.save()">
                 <i class="fa fa-save fa-fw"></i>
               </button>
-              <button type="reset" class="btn btn-danger">
+              <button type="reset" class="btn btn-danger" ng-click="visits.cancel()">
                 <i class="fa fa-remove fa-fw"></i>
               </button>
             </p>
           </td>
         </tr>
-        <tr>
-          <td>2015</td>
-          <td>15 май - 15 юни</td>
-          <td>15 юни - 15 юли</td>
+
+        <tr ng-repeat="row in visits.rows | toArray | reverse" ng-class="{warning: row.$dirty}">
+          <td>{{::row.year}}</td>
+          <td>{{::row.early.start | date:visits.dateFormat}} - {{::row.early.end | date:visits.dateFormat}}</td>
+            <td>{{::row.late.start | date:visits.dateFormat}} - {{::row.late.end | date:visits.dateFormat}}</td>
           <td>
             <p class="btn-group pull-right">
-              <button type="button" class="btn btn-default">
-                <i class="fa fa-edit"></i>
-              </button>
-            </p>
-          </td>
-        </tr>
-        <tr>
-          <td>2014</td>
-          <td>15 май - 15 юни</td>
-          <td>15 юни - 15 юли</td>
-          <td>
-            <p class="btn-group pull-right">
-              <button type="button" class="btn btn-default">
-                <i class="fa fa-edit"></i>
-              </button>
-            </p>
-          </td>
-        </tr>
-        <tr>
-          <td>2013</td>
-          <td>15 май - 15 юни</td>
-          <td>15 юни - 15 юли</td>
-          <td>
-            <p class="btn-group pull-right">
-              <button type="button" class="btn btn-default">
+              <button type="button" class="btn btn-default" ng-click="visits.edit(row)">
                 <i class="fa fa-edit"></i>
               </button>
             </p>
