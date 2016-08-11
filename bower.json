@@ -31,7 +31,7 @@
     "angular-cookies": "~1.4.8",
     "bootstrap": "~3.3.5",
     "font-awesome": "fontawesome#~4.5.0",
-    "startbootstrap-sb-admin-2": "~1.0.7",
+    "startbootstrap-sb-admin-2": "BlackrockDigital/startbootstrap-sb-admin-2#~1.0.8",
     "angular-strap": "~2.3.6",
     "nya-bootstrap-select": "~2.1.2",
     "ngToast": "ngtoast#~1.5.6",
