@@ -1,10 +1,12 @@
 'use strict';
 
+var commonForm = require('../migrations/commonFormFields');
+
 var tableName = 'FormBirds';
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    return queryInterface.createTable(tableName, {
+    return queryInterface.createTable(tableName, commonForm.addCommonFormFieldsToObject({
       //id, longitude, latitude, startDateTime,endDateTime, monitoringCode? species, 
       // confidential?, countUnit, typeUnit, typeNesting, count, countMin, countMax,
       // sex, age, marking, speciesType, behaviour, deadIndividualCauses,
@@ -18,10 +20,12 @@ module.exports = {
         autoIncrement: true
       },
       latitude: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT,
+        allowNull: false
       },
       longitude: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT,
+        allowNull: false
       },
       observationDateTime: {
         type: Sequelize.DATE,
@@ -60,12 +64,10 @@ module.exports = {
         allowNull: false
       },
       typeNestingEn: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       typeNestingBg: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       count: {
         type: Sequelize.INTEGER,
@@ -80,243 +82,140 @@ module.exports = {
         allowNull: false
       },
       sexEn: { 
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       sexBg: { 
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       ageEn: { 
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       ageBg: { 
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       markingEn: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       markingBg: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       speciesTypeEn: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       speciesTypeBg: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       behaviourEn: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       behaviourBg: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       deadIndividualCausesEn: { 
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       deadIndividualCausesBg: { 
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       substrateEn: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       substrateBg: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       tree: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       treeHeight: {
-        type: Sequelize.FLOAT,
-        allowNull: false
+        type: Sequelize.FLOAT
       },
       treeLocationEn: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       treeLocationBg: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       nestHeightEn: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       nestHeightBg: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       nestLocationEn: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       nestLocationBg: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       brooding: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false
+        type: Sequelize.BOOLEAN
       },
       eggsCount: { //I don't see the point of float type here. Probably something specific..
-        type: Sequelize.FLOAT,
-        allowNull: false
+        type: Sequelize.FLOAT
       },
       countNestling: {
-        type: Sequelize.FLOAT,
-        allowNull: false
+        type: Sequelize.FLOAT
       },
       countFledgling: {
-        type: Sequelize.FLOAT,
-        allowNull: false
+        type: Sequelize.FLOAT
       },
       countSuccessfullyLeftNest: {
-        type: Sequelize.FLOAT,
-        allowNull: false
+        type: Sequelize.FLOAT
       },
       nestProtected: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false
+        type: Sequelize.BOOLEAN
       },
       ageFemaleEn: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       ageFemaleBg: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       ageMaleEn: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       ageMaleBg: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       nestingSuccessEn: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       nestingSuccessBg: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       landuse300mRadius: {
-        type: Sequelize.TEXT,
-        allowNull: false
-      },
-
-      //Common fields
-      endDateTime: {
-        type: Sequelize.DATE,
-        allowNull: false
-      },
-      startDateTime: {
-        type: Sequelize.DATE,
-        allowNull: false
-      },
-      location: {
-        type: Sequelize.TEXT,
-        allowNull: false
-      },
-      observers: {
-        type: Sequelize.TEXT,
-        allowNull: false
-      },
-      rainBg: {
         type: Sequelize.TEXT
-      },
-      rainEn: {
-        type: Sequelize.TEXT
-      },
-      temperature: {
-        type: Sequelize.FLOAT
-      },
-      windDirectionBg: {
-        type: Sequelize.TEXT
-      },
-      windDirectionEn: {
-        type: Sequelize.TEXT
-      },
-      windSpeedBg: {
-        type: Sequelize.TEXT
-      },
-      windSpeedEn: {
-        type: Sequelize.TEXT
-      },
-      cloudinessBg: {
-        type: Sequelize.TEXT
-      },
-      cloudinessEn: {
-        type: Sequelize.TEXT
-      },
-      cloudsType: {
-        type: Sequelize.TEXT
-      },
-      visibility: {
-        type: Sequelize.FLOAT
-      },
-      mto: {
-        type: Sequelize.TEXT
-      },
-      notes: {
-        type: Sequelize.TEXT
-      },
-      threatsBg: {
-        type: Sequelize.TEXT
-      },
-      threatsEn: {
-        type: Sequelize.TEXT
-      },
-      
-      //Internal
-      userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      imported: {
-        type: Sequelize.INTEGER
       }
-    }).then(function () {
+
+    })
+    ).then(function () {
       return queryInterface.addIndex(tableName, {
           fields: ['userId']
         })
         .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['startDateTime']
-          });
-        })
+          })
+        })      
         .then(function(){
           return queryInterface.addIndex(tableName, {
             fields: ['observationDateTime']
-          });
+          })
         })
         .then(function () {
           return queryInterface.addIndex(tableName, {
-            fields: ['species']
-          });
+            fields: ['speciesEn']
+          })
+        })
+        .then(function () {
+          return queryInterface.addIndex(tableName, {
+            fields: ['speciesBg']
+          })
+        })
+        .then(function () {
+          return queryInterface.addIndex(tableName, {
+            fields: ['monitoringCode']
+          })        
         })
         .catch(function () {
         })
