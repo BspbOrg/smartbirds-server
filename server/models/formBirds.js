@@ -2,7 +2,7 @@
 
 var _ = require('lodash');
 var Promise = require('bluebird');
-var commonFormFields = require('./commonFormFields');
+var commonFormFields = require('../helpers/commonFormFields');
 var Sequelize = require('sequelize');
 
 var fields = {
@@ -185,9 +185,8 @@ module.exports = function (sequelize, DataTypes) {
     ],
     classMethods: {
       associate: function (models) {
-        models.formCBM.belongsTo(models.species, { as: 'speciesInfo', foreignKey: 'species', targetKey: 'labelLa' });
-        models.formCBM.belongsTo(models.zone, { as: 'zone' });
-        models.formCBM.belongsTo(models.user, { as: 'user' });
+        models.formBirds.belongsTo(models.species, { as: 'speciesInfo', foreignKey: 'species', targetKey: 'labelLa' });        
+        models.formBirds.belongsTo(models.user, { as: 'user' });
       }
     },
     instanceMethods: {
@@ -238,8 +237,7 @@ module.exports = function (sequelize, DataTypes) {
                   case 'species':
                     {
                       return self[name];
-                    }
-                  case 'zone':
+                    }        
                   case 'user':
                     {
                       return self[name + 'Id'];
