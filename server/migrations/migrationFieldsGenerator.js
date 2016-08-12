@@ -1,5 +1,6 @@
 'use strict'
 var Sequelize = require('sequelize');
+var _ = require('lodash'); 
 
 var commonFields = {
     //Common fields
@@ -58,10 +59,7 @@ var commonFields = {
       notes: {
         type: Sequelize.TEXT
       },
-      threatsBg: {
-        type: Sequelize.TEXT
-      },
-      threatsEn: {
+      threats: {
         type: Sequelize.TEXT
       },
 
@@ -84,10 +82,13 @@ var commonFields = {
 };
 
 module.exports = {
-    addCommonFormFieldsToObject: function (obj) {
-        for(var prop in commonFields) {
-            obj[prop] = commonFields[prop];
-        }      
-        return obj; 
+    generateModelSchema: function (modelFieldsObj) {                 
+        return _.extend({
+          id: {
+            type: Sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+          }
+        }, modelFieldsObj);  
     }
 };
