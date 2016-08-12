@@ -1,15 +1,19 @@
 'use strict';
 
-var fieldsGenerator = require('./migrationFieldsGenerator');
 var birdsModel = require('../models/formBirds');
-
-console.log(birdsModel);
+var _ = require('lodash');
 
 var tableName = 'FormBirds';
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    return queryInterface.createTable(tableName, fieldsGenerator.generateModelSchema(birdsModel.sequelizeFieldDefinitions)
+    return queryInterface.createTable(tableName, _.extend({
+          id: {
+            type: Sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+          }
+        }, birdsModel.sequelizeFieldDefinitions)
     ).then(function () {
       return queryInterface.addIndex(tableName, {
           fields: ['userId']
