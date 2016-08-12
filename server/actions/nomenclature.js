@@ -1,5 +1,10 @@
 var _ = require('lodash');
 var Promise = require('bluebird');
+var inputs = require('../helpers/inputs');
+var paging = require('../helpers/paging');
+var incremental = require('../helpers/incremental');
+var links = require('../helpers/links');
+var url = require('url');
 
 _.forOwn({
   nomenclature: {
@@ -13,17 +18,29 @@ _.forOwn({
   }
 }, function (definition, model) {
 
-  exports[model+'Types'] = {
-    name: model+':types',
-    description: model+':types',
+  exports[model + 'Types'] = {
+    name: model + ':types',
+    description: model + ':types',
     middleware: ['auth'],
+    inputs: paging.declareInputs(incremental.declareInputs()),
 
-    run: function(api, data, next) {
+    run: function (api, data, next) {
       return Promise.resolve()
-        .then(function() {
-          return api.models[model].findAndCountAll();
+        .then(function () {
+          links.fixParsedURL(api, data);
         })
-        .then(function(result) {
+        .then(function () {
+          var q = {};
+
+          q = paging.prepareQuery(q, data.params);
+          q = incremental.prepareQuery(q, data.params);
+
+          return q;
+        })
+        .then(function (q) {
+          return api.models[model].findAndCountAll(q);
+        })
+        .then(function (result) {
           return Promise.map(result.rows, function (nomenclature) {
               return nomenclature.apiData(api);
             })
@@ -37,6 +54,27 @@ _.forOwn({
         .then(function (result) {
           data.response.count = result.count;
           data.response.data = result.rows;
+          data.response.meta = {};
+          data.response.meta.update = url.format(_.extend({}, data.connection.rawConnection.parsedURL, {
+            search: undefined,
+            query: {
+              limit: data.params.limit,
+              since: data.params.until.getTime()
+            }
+          }));
+          if (data.params.limit > 0) {
+            if (data.params.limit + data.params.offset < result.count) {
+              data.response.meta.nextPage = url.format(_.extend({}, data.connection.rawConnection.parsedURL, {
+                search: undefined,
+                query: {
+                  limit: data.params.limit,
+                  offset: data.params.limit + data.params.offset,
+                  since: data.params.since.getTime(),
+                  until: data.params.until.getTime()
+                }
+              }));
+            }
+          }
           return data;
         })
         .then(function () {

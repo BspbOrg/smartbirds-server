@@ -58,6 +58,39 @@ describe('Nomenclatures:', function () {
                 response.should.have.property('count').and.be.greaterThan(0);
               });
             });
+
+            it('can limit', function () {
+              return runAction(key + ':types', {limit: 1}).then(function(response) {
+                response.should.have.property('data').with.lengthOf(1);
+              });
+            });
+            it('can page', function () {
+              return runAction(key + ':types', {limit: 1, offset: 0}).then(function(response0) {
+                return runAction(key + ':types', {limit: 1, offset: 1}).then(function (response1) {
+                  response0.data[0].should.not.deepEqual(response1.data[0]);
+                });
+              });
+            });
+            it('get total count', function () {
+              return runAction(key + ':types', {limit: 1}).then(function(response) {
+                response.should.have.property('count').greaterThan(1);
+              });
+            });
+            it('get link to next page', function () {
+              return runAction(key + ':types', {limit: 1}).then(function(response) {
+                response.should.have.property('meta').with.property('nextPage').type('string').not.empty();
+              });
+            });
+            it('no link on last page', function () {
+              return runAction(key + ':types', {limit: 1, offset: 1000000}).then(function(response) {
+                response.should.have.property('meta').not.with.property('nextPage');
+              });
+            });
+            it('get update link', function () {
+              return runAction(key + ':types', {limit: 1}).then(function(response) {
+                response.should.have.property('meta').with.property('update').type('string').not.empty();
+              });
+            });
           }); // as user
         }); // describe as
 
