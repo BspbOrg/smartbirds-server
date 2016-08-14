@@ -179,7 +179,7 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
         url: '/monitoring?{location:int}&zone&{user:int}&visit&{year:int}&species',
         views: {
           'content': {
-            templateUrl: '/views/monitorings/list.html',
+            templateUrl: '/views/monitorings/list_cbm.html',
             controller: 'MonitoringController',
             controllerAs: 'monitoringController'
           }

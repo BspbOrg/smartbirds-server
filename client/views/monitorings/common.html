@@ -1,0 +1,132 @@
+<div class="row">
+  <div class="col-md-4">
+    <field name="zone" type="zone" required="true"
+            label="Място"
+            on-select="monitoringDetailController.onZoneSelected"
+            model="monitoringDetailController.data.zone"></field>
+
+    <ui-gmap-google-map ng-if="monitoringDetailController.map.poi.latitude && monitoringDetailController.map.poi.longitude"
+                        center="monitoringDetailController.map.center"
+                        zoom="monitoringDetailController.map.zoom"
+                        options="{mapTypeId: 'hybrid'}">
+      <ui-gmap-marker coords="monitoringDetailController.map.poi"
+                      idKey="'coords'"
+      ></ui-gmap-marker>
+      <ui-gmap-polygon ng-if="monitoringDetailController.data.getZone().coordinates.length"
+                        path="monitoringDetailController.data.getZone().coordinates"
+                        static="true"
+                        fill="{color: '#00f', opacitiy: 0.7}"
+                        stroke="{color: '#00f', opacity: 1, weight: 3}"
+                        geodesic="true"
+                        fit="false"
+                        events="{click: monitoringDetailController.map.click}"
+      ></ui-gmap-polygon>
+    </ui-gmap-google-map>
+  </div>
+
+  <div class="col-md-4">
+    <field name="startDate" type="date" required="true"
+            label="Начална дата"
+            model="monitoringDetailController.data.startDateTime"></field>
+  </div>
+
+  <div class="col-md-4">
+    <field name="startTime" type="time" required="true"
+            label="Начален час"
+            model="monitoringDetailController.data.startDateTime"></field>
+  </div>
+
+  <div class="col-md-4">
+    <field name="endDate" type="date" required="true"
+            label="Крайна дата"
+            model="monitoringDetailController.data.endDateTime"></field>
+  </div>
+
+  <div class="col-md-4">
+    <field name="endTime" type="time" required="true"
+            label="Краен час"
+            model="monitoringDetailController.data.endDateTime"></field>
+  </div>
+
+  <div ng-if="$user.isAdmin()" class="col-md-8">
+    <field name="user" type="user" required="true"
+            label="Наблюдател"
+            model="monitoringDetailController.data.user"></field>
+  </div>
+
+  <div class="col-md-8">
+    <field name="observers" type="text" required="true"
+            label="Други наблюдатели"
+            model="monitoringDetailController.data.observers"></field>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-md-3">
+    <field name="cloudiness" type="single-choice" nomenclature="main_cloud_level"
+            label="Облачност"
+            model="monitoringDetailController.data.cloudiness"></field>
+  </div>
+  <div class="col-md-3">
+    <field name="rain" type="single-choice" nomenclature="main_rain"
+            label="Дъжд"
+            model="monitoringDetailController.data.rain"></field>
+  </div>
+  <div class="col-md-3">
+    <field name="windSpeed" type="single-choice" nomenclature="main_wind_force"
+            label="Сила на вятъра"
+            model="monitoringDetailController.data.windSpeed"></field>
+  </div>
+  <div class="col-md-3">
+    <field name="visibility" type="float"
+            label="Видимост"
+            model="monitoringDetailController.data.visibility"></field>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-3">
+    <field name="windDirection" type="single-choice" nomenclature="main_wind_direction"
+            label="Посока на вятъра"
+            model="monitoringDetailController.data.windDirection"></field>
+  </div>
+  <div class="col-md-3">
+    <field name="temperature" type="float"
+            label="Температура &deg;C"
+            model="monitoringDetailController.data.temperature"></field>
+  </div>
+  <div class="col-md-3">
+    <field name="cloudsType" type="text"
+            label="Вид облаци"
+            model="monitoringDetailController.data.cloudsType"></field>
+  </div>
+  <div class="col-md-3">
+    <field name="mto" type="text"
+            label="МТО Други"
+            model="monitoringDetailController.data.mto"></field>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-md-12">
+    <field name="threats" type="multiple-choice" nomenclature="main_threats"
+            label="Заплахи"
+            model="monitoringDetailController.data.threats"></field>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-md-12">
+    <field name="notes" type="memo"
+            label="Бележки"
+            model="monitoringDetailController.data.notes"></field>
+  </div>
+</div>
+
+<hr>
