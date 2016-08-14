@@ -14,53 +14,62 @@ describe('Action formCBM:', function () {
     plot: {
       type: 'cbm_sector',
       slug: '1',
-      labelBg: '1',
-      labelEn: '1'
+      label: {
+        bg: '1',
+        en: '1'
+      }
     },
     visit: {
       type: 'cbm_visit_number',
       slug: 'e-early-visit',
-      labelBg: 'E - първо посещение',
-      labelEn: 'E - early visit'
+      label: {
+        bg: 'E - първо посещение',
+        en: 'E - early visit'
+      }
     },
     secondaryHabitat: {
       type: 'cbm_habitat',
       slug: 'a-1-broadleaved-woodland',
-      labelBg: 'A.1 - Широколистни гори',
-      labelEn: 'A.1 Broadleaved woodland'
+      label: {
+        bg: 'A.1 - Широколистни гори',
+        en: 'A.1 Broadleaved woodland'
+      }
     },
     primaryHabitat: {
       type: 'cbm_habitat',
       slug: 'a-2-coniferous-woodland',
-      labelBg: 'A.2 - Иглолистни гори',
-      labelEn: 'A.2 Coniferous woodland'
+      label: {
+        bg: 'A.2 - Иглолистни гори',
+        en: 'A.2 Coniferous woodland'
+      }
     },
     count: 10,
     distance: {
       type: 'cbm_distance',
       slug: '3-over-100-m',
-      labelBg: '3 - (над 100 m)',
-      labelEn: '3 - (over 100 m)'
+      label: {
+        bg: '3 - (над 100 m)',
+        en: '3 - (over 100 m)'
+      }
     },
-    species: {
-      type: 'birds_name',
-      slug: 'accipiter-nisus',
-      labelBg: 'Accipiter nisus | Малък ястреб',
-      labelEn: 'Accipiter nisus  | Eurasian Sparrowhawk'
-    },
+    species: 'Accipiter nisus',
     notes: 'Some test notes',
     threats: [
       {
         type: 'main_threats',
         slug: 'cultivation',
-        labelBg: 'Култивация',
-        labelEn: 'Cultivation'
+        label: {
+          bg: 'Култивация',
+          en: 'Cultivation'
+        }
       },
       {
         type: 'main_threats',
         slug: 'mulching',
-        labelBg: 'Наторяване',
-        labelEn: 'Mulching'
+        label: {
+          bg: 'Наторяване',
+          en: 'Mulching'
+        }
       }
     ],
     visibility: 5.5,
@@ -68,41 +77,41 @@ describe('Action formCBM:', function () {
     cloudiness: {
       type: 'main_cloud_level',
       slug: '33-66',
-      labelBg: '33-66%',
-      labelEn: '33-66%'
+      label: {
+        bg: '33-66%',
+        en: '33-66%'
+      }
     },
     cloudsType: 'Light grey clouds',
     windDirection: {
       type: 'main_wind_direction',
       slug: 'ene',
-      labelBg: 'ENE',
-      labelEn: 'ENE'
+      label: {
+        bg: 'ENE',
+        en: 'ENE'
+      }
     },
     windSpeed: {
       type: 'main_wind_force',
       slug: '2-light-breeze',
-      labelBg: '2 - Лек бриз',
-      labelEn: '2 - Light breeze'
+      label: {
+        bg: '2 - Лек бриз',
+        en: '2 - Light breeze'
+      }
     },
     temperature: 24.3,
     rain: {
       type: 'main_rain',
       slug: 'drizzle',
-      labelBg: 'Ръми',
-      labelEn: 'Drizzle'
+      label: {
+        bg: 'Ръми',
+        en: 'Drizzle'
+      }
     },
     observers: 'Some test observers',
     endDateTime: '10/12/2015 10:15',
     startDateTime: '09/12/2015 08:10',
-    zone: {
-      id: 'userZonePlovdiv'
-    },
-    source: {
-      type: 'main_source',
-      slug: 'common-bird-monitoring',
-      labelBg: 'МОВП',
-      labelEn: 'Common Bird Monitoring'
-    },
+    zone: 'userZonePlovdiv',
     latitude: 42.1463749,
     longitude: 24.7492006
   };
@@ -188,12 +197,6 @@ describe('Action formCBM:', function () {
         });
       });
 
-      it('source', function () {
-        return runAction('formCBM:create', _.omit(cbmRecord, 'source')).then(function (response) {
-          response.error.should.be.equal('Error: source is a required parameter for this action');
-        });
-      });
-
     }); // fails to create without
 
     describe('CREATE', function () {
@@ -207,7 +210,7 @@ describe('Action formCBM:', function () {
       it('attaches the user created the record', function () {
         return runAction('formCBM:create', cbmRecord).then(function (response) {
           should.not.exist(response.error);
-          response.data.user.id.should.be.equal(response.requesterUser.id);
+          response.data.user.should.be.equal(response.requesterUser.id);
         });
       });
     });
@@ -266,15 +269,16 @@ describe('Action formCBM:', function () {
 
   describe('given some cbm rows:', function () {
     setup.describeAsUser(function (runAction) {
-      it('user is allowed to list only his records', function () {
+      it('is allowed to list only his records', function () {
         return runAction('formCBM:list', {}).then(function (response) {
           response.should.not.have.property('error');
           response.should.have.property('data').not.empty().instanceOf(Array);
           response.should.have.property('count').and.be.greaterThan(0);
 
           for (var i = 0; i < response.data.length; i++) {
-            response.data[i].should.have.property('user').not.empty();
-            response.data[i].user.should.have.property('id').and.be.equal(1);
+            response.data[i].should.have.property('user');
+            response.data[i].should.not.be.empty();
+            response.data[i].user.should.be.equal(1);
           }
         });
       });

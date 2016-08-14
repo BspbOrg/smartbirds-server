@@ -110,7 +110,7 @@ describe('Action user:', function () {
     setup.describeAllRoles(function (runAction) {
       it('fails for duplicated email', function () {
         return runAction('user:create', user).then(function (response) {
-          response.should.have.property('error').and.be.equal('Error: Validation error');
+          response.should.have.property('error');
         });
       });
 
@@ -235,13 +235,27 @@ describe('Action user:', function () {
           response.should.have.property('error').and.not.be.empty();
         });
       });
+    }); // describeAs Guest, User
 
+    setup.describeAsGuest(function (runAction) {
       it('cannot list users', function () {
         return runAction('user:list', {}).then(function (response) {
           response.should.have.property('error').and.not.be.empty();
         });
       });
-    }); // describeAs Guest, User
+    });
+
+    setup.describeAsUser(function (runAction) {
+      it('can list only self', function () {
+        return runAction('user:list', {}).then(function (response) {
+          response.should.not.have.property('error');
+          response.should.have.property('data');
+          response.data.should.have.length(1);
+          response.data[0].should.have.property('id');
+          response.data[0].id.should.be.equal(1);
+        });
+      });
+    });
 
     setup.describeAsAdmin(function (runAction) {
       it('can view user', function () {

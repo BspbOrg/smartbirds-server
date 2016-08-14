@@ -1,7 +1,3 @@
-/**
- * Created by dani on 08.01.16.
- */
-
 var _ = require('lodash');
 var should = require('should');
 var sinon = require('sinon');
@@ -15,32 +11,33 @@ describe('Action formBirds:', function () {
     longitude: 24.7492006,
     observationDateTime: '10/12/2015 10:15',
     monitoringCode: 'random_123',
-    species: {
-      type: 'birds_name',
-      slug: 'accipiter-nisus',
-      labelBg: 'Accipiter nisus | Малък ястреб',
-      labelEn: 'Accipiter nisus  | Eurasian Sparrowhawk'
-    },
+    species: 'Accipiter nisus',
     confidential: true,
     countUnit: {
       type: 'birds_count_units',
       slug: '1',
       id: 8,
-      labelBg: 'Гнездо(а)',
-      labelEn: 'Nests'
+      label: {
+        bg: 'Гнездо(а)',
+        en: 'Nests'
+      }
     },
     typeUnit: {
       type: 'birds_count_type',
       slug: 'e-early-visit',
       id: 102,
-      labelBg: 'Диапазон',
-      labelEn: 'Range'
+      label: {
+        bg: 'Диапазон',
+        en: 'Range'
+      }
     },
     typeNesting: {
       type: 'birds_nesting',      
       id: 32,
-      labelBg: 'Гнездо',
-      labelEn: 'Nests'
+      label: {
+        bg: 'Гнездо',
+        en: 'Nests'
+      }
     },
     count: 10,
     countMin: 2,
@@ -48,64 +45,85 @@ describe('Action formBirds:', function () {
     sex: {
       type: 'birds_sex',
       id:33,
-      labelBg: 'Женски',
-      labelEn: 'Female'
+      label: {
+        bg: 'Женски',
+        en: 'Female'
+      }
+      
     },    
     age: {
       type: 'birds_age',
       id: 11,
-      labelBg: 'Imm.',
-      labelEn: 'Imm.'
+      label: {
+        bg: 'Imm.',
+        en: 'Imm.'
+      }
     },
     marking: {
       type: 'birds_marking',
       id: 12,
-      labelBg: 'Крилометка',
-      labelEn: 'Wing tag'
+      label: {
+        bg: 'Крилометка',
+        en: 'Wing tag'
+      }
     },
     speciesStatus: {
       type: 'birds_status',
       id: 13,
-      labelBg: 'Вид в гнездови хабитат',
-      labelEn: 'Species in nesting habitat'
+      label: {
+        bg: 'Вид в гнездови хабитат',
+        en: 'Species in nesting habitat'
+      }
     },
     behaviour: {
       type: 'birds_behaviour',
       id:14,
-      labelBg: 'Строеж на гнездо / гнездова камера',
-      labelEn: 'Building of a nest / nest chamber'
+      label: {
+        bg: 'Строеж на гнездо / гнездова камера',
+        en: 'Building of a nest / nest chamber'
+      }
     },
     deadIndividualCauses: {
       type: 'birds_death',
       id:15,
-      labelBg: 'Лов',
-      labelEn: 'Hunting'
+      label: {
+        bg: 'Лов',
+        en: 'Hunting'
+      }
     },
     substrate: {
       type: 'birds_nest_substrate',
       id: 16,
-      labelBg: 'На скали',
-      labelEn: 'On cliffs / rocks'
+      label: {
+        bg: 'На скали',
+        en: 'On cliffs / rocks'
+      }
     },
     tree: 'free tree text ftt',
     treeHeight: 12,
     treeLocation: {
       type: 'birds_nest_location',
       id: 17,
-      labelBg: 'Окрайнина на гора',
-      labelEn: 'Forest edge'
+      label: {
+        bg: 'Окрайнина на гора',
+        en: 'Forest edge'
+      }
     },
     nestHeight: {
       type: 'birds_nest_height',
       id: 18,
-      labelBg: '5-10 м.',
-      labelEn: '5-10 m.'
+      label: {
+        bg: '5-10 м.',
+        en: '5-10 m.'
+      }
     },
     nestLocation: {
       type: 'birds_nest_position',
       id: 19,
-      labelBg: 'На върха',
-      labelEn: 'On top'
+      label: {
+        bg: 'На върха',
+        en: 'On top'
+      }
     },
     brooding: true,
     eggsCount:1,
@@ -116,20 +134,26 @@ describe('Action formBirds:', function () {
     ageFemale: {
       type: 'birds_age_individual',
       id: 20,
-      labelBg: 'Imm.',
-      labelEn: 'Imm.'
+      label: {
+        bg: 'Imm.',
+        en: 'Imm.'
+      }
     },
     ageMale: {
       type: 'birds_age_individual',
       id: 20,
-      labelBg: 'Imm.',
-      labelEn: 'Imm.'
+      label: {
+        bg: 'Imm.',
+        en: 'Imm.'
+      }
     },
     nestingSuccess: {
       type: 'birds_nest_success',
       id: 21,
-      labelBg: 'Pull.',
-      labelEn: 'Pull.'
+      label: {
+        bg: 'Pull.',
+        en: 'Pull.'
+      }
     },
     landuse300mRadius: 'using 30-300 square meters land',
     
@@ -140,27 +164,35 @@ describe('Action formBirds:', function () {
     rain: {
       type: 'main_rain',
       slug: 'drizzle',
-      labelBg: 'Ръми',
-      labelEn: 'Drizzle'
+      label: {
+        bg: 'Ръми',
+        en: 'Drizzle'
+      }
     },
     temperature: 24.3,
     windDirection: {
       type: 'main_wind_direction',
       slug: 'ene',
-      labelBg: 'ENE',
-      labelEn: 'ENE'
+      label: {
+        bg: 'ENE',
+        en: 'ENE'
+      }
     },
     windSpeed: {
       type: 'main_wind_force',
       slug: '2-light-breeze',
-      labelBg: '2 - Лек бриз',
-      labelEn: '2 - Light breeze'
+      label: {
+        bg: '2 - Лек бриз',
+        en: '2 - Light breeze'
+      }
     },
     cloudiness: {
       type: 'main_cloud_level',
       slug: '33-66',
-      labelBg: '33-66%',
-      labelEn: '33-66%'
+      label: {
+        bg: '33-66%',
+        en: '33-66%'
+      }
     },
     cloudsType: 'Light grey clouds',
     visibility: 5.5,
@@ -169,14 +201,18 @@ describe('Action formBirds:', function () {
       {
         type: 'main_threats',
         slug: 'cultivation',
-        labelBg: 'Култивация',
-        labelEn: 'Cultivation'
+        label: {
+          bg: 'Култивация',
+          en: 'Cultivation'
+        }
       },
       {
         type: 'main_threats',
         slug: 'mulching',
-        labelBg: 'Наторяване',
-        labelEn: 'Mulching'
+        label: {
+          bg: 'Наторяване',
+          en: 'Mulching'
+        }
       }
     ],
     notes: 'some notes'
@@ -202,33 +238,27 @@ describe('Action formBirds:', function () {
 
   setup.describeAsAuth(function (runAction) {
     describe('fails to create without', function () {
-      it('plot', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'plot')).then(function (response) {
-          response.error.should.be.equal('Error: plot is a required parameter for this action');
+      it('latitude', function () {
+        return runAction('formBirds:create', _.omit(birdsRecord, 'latitude')).then(function (response) {
+          response.error.should.be.equal('Error: latitude is a required parameter for this action');
         });
       });
 
-      it('visit', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'visit')).then(function (response) {
-          response.error.should.be.equal('Error: visit is a required parameter for this action');
+      it('longitude', function () {
+        return runAction('formBirds:create', _.omit(birdsRecord, 'longitude')).then(function (response) {
+          response.error.should.be.equal('Error: longitude is a required parameter for this action');
         });
       });
 
-      it('primaryHabitat', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'primaryHabitat')).then(function (response) {
-          response.error.should.be.equal('Error: primaryHabitat is a required parameter for this action');
+      it('observationDateTime', function () {
+        return runAction('formBirds:create', _.omit(birdsRecord, 'observationDateTime')).then(function (response) {
+          response.error.should.be.equal('Error: observationDateTime is a required parameter for this action');
         });
       });
 
-      it('count', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'count')).then(function (response) {
-          response.error.should.be.equal('Error: count is a required parameter for this action');
-        });
-      });
-
-      it('distance', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'distance')).then(function (response) {
-          response.error.should.be.equal('Error: distance is a required parameter for this action');
+      it('monitoringCode', function () {
+        return runAction('formBirds:create', _.omit(birdsRecord, 'monitoringCode')).then(function (response) {
+          response.error.should.be.equal('Error: monitoringCode is a required parameter for this action');
         });
       });
 
@@ -238,9 +268,35 @@ describe('Action formBirds:', function () {
         });
       });
 
-      it('observers', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'observers')).then(function (response) {
-          response.error.should.be.equal('Error: observers is a required parameter for this action');
+      it('countUnit', function () {
+        return runAction('formBirds:create', _.omit(birdsRecord, 'countUnit')).then(function (response) {
+          response.error.should.be.equal('Error: countUnit is a required parameter for this action');
+        });
+      });
+
+      it('typeUnit', function () {
+        return runAction('formBirds:create', _.omit(birdsRecord, 'typeUnit')).then(function (response) {
+          response.error.should.be.equal('Error: typeUnit is a required parameter for this action');
+        });
+      });
+
+
+
+      it('count', function () {
+        return runAction('formBirds:create', _.omit(birdsRecord, 'count')).then(function (response) {
+          response.error.should.be.equal('Error: count is a required parameter for this action');
+        });
+      });
+
+      it('countMin', function () {
+        return runAction('formBirds:create', _.omit(birdsRecord, 'countMin')).then(function (response) {
+          response.error.should.be.equal('Error: countMin is a required parameter for this action');
+        });
+      });
+
+      it('countMax', function () {
+        return runAction('formBirds:create', _.omit(birdsRecord, 'countMax')).then(function (response) {
+          response.error.should.be.equal('Error: countMax is a required parameter for this action');
         });
       });
 
@@ -257,22 +313,22 @@ describe('Action formBirds:', function () {
         });
       });
 
-      it('zone', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'zone')).then(function (response) {
-          response.error.should.be.equal('Error: zone is a required parameter for this action');
+      it('location', function () {
+        return runAction('formBirds:create', _.omit(birdsRecord, 'location')).then(function (response) {
+          response.error.should.be.equal('Error: location is a required parameter for this action');
         });
       });
 
-      it('source', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'source')).then(function (response) {
-          response.error.should.be.equal('Error: source is a required parameter for this action');
+      it('observers', function () {
+        return runAction('formBirds:create', _.omit(birdsRecord, 'observers')).then(function (response) {
+          response.error.should.be.equal('Error: observers is a required parameter for this action');
         });
       });
 
     }); // fails to create without
 
     describe('CREATE', function () {
-      it('creates cbm record', function () {
+      it('creates birds record', function () {
         return runAction('formBirds:create', birdsRecord).then(function (response) {
           should.not.exist(response.error);
           response.data.id.should.be.greaterThan(0);
@@ -281,40 +337,40 @@ describe('Action formBirds:', function () {
 
       it('attaches the user created the record', function () {
         return runAction('formBirds:create', birdsRecord).then(function (response) {
-          should.not.exist(response.error);
-          response.data.user.id.should.be.equal(response.requesterUser.id);
+          should.not.exist(response.error);          
+          response.data.user.should.be.equal(response.requesterUser.id);
         });
       });
     });
 
   }); // describeAsAuth
 
-  describe('Get CBM record by id', function () {
-    var cbmId;
+  describe('Get BIRDS record by id', function () {
+    var birdId;
 
     before(function () {
       return setup.runActionAsUser2('formBirds:create', birdsRecord).then(function (response) {
-        cbmId = response.data.id;
+        birdId = response.data.id;
       });
     });
 
     it('is allowed if the requester user is the submitter', function () {
-      return setup.runActionAsUser2('formBirds:view', {id: cbmId}).then(function (response) {
+      return setup.runActionAsUser2('formBirds:view', {id: birdId}).then(function (response) {
         response.should.not.have.property('error');
         response.should.have.property('data');
       });
     });
 
     it('should return the correct row', function () {
-      return setup.runActionAsUser2('formBirds:view', {id: cbmId}).then(function (response) {
+      return setup.runActionAsUser2('formBirds:view', {id: birdId}).then(function (response) {
         response.should.not.have.property('error');
-        response.data.id.should.be.equal(cbmId);
+        response.data.id.should.be.equal(birdId);
       });
     });
 
     setup.describeAsAdmin(function (runAction) {
       it('is allowed if the requester user is admin', function () {
-        return runAction('formBirds:view', {id: cbmId}).then(function (response) {
+        return runAction('formBirds:view', {id: birdId}).then(function (response) {
           response.should.not.have.property('error');
           response.should.have.property('data');
         });
@@ -323,7 +379,7 @@ describe('Action formBirds:', function () {
 
     setup.describeAsUser(function (runAction) {
       it('is not allowed if the requester user is not the submitter', function () {
-        return runAction('formBirds:view', {id: cbmId}).then(function (response) {
+        return runAction('formBirds:view', {id: birdId}).then(function (response) {
           response.should.have.property('error').and.not.empty();
         });
       });
@@ -331,15 +387,15 @@ describe('Action formBirds:', function () {
 
     setup.describeAsGuest(function (runAction) {
       it('is not allowed if the requester is guest  user', function () {
-        return runAction('formBirds:view', {id: cbmId}).then(function (response) {
+        return runAction('formBirds:view', {id: birdId}).then(function (response) {
           response.should.have.property('error').and.not.empty();
         });
       });
     });
 
-  }); // Get CBM record by id
+  }); // Get BIRDS record by id
 
-  describe('given some cbm rows:', function () {
+  describe('given some birds rows:', function () {
     setup.describeAsUser(function (runAction) {
       it('user is allowed to list only his records', function () {
         return runAction('formBirds:list', {}).then(function (response) {
@@ -374,22 +430,22 @@ describe('Action formBirds:', function () {
         });
       });
     });
-  }); // given some cbm rows
+  }); // given some birds rows
 
-  describe('Edit cbm row', function () {
-    var cbmId;
+  describe('Edit birds row', function () {
+    var birdsId;
 
     before(function () {
       return setup.runActionAsUser2('formBirds:create', birdsRecord).then(function (response) {
-        cbmId = response.data.id;
+        birdsId = response.data.id;
       });
     });
 
     it('is allowed if the requester is the submitter', function () {
-      return setup.runActionAsUser2('formBirds:edit', {id: cbmId, notes: 'some new notes'}).then(function (response) {
+      return setup.runActionAsUser2('formBirds:edit', {id: birdsId, notes: 'some new notes'}).then(function (response) {
         response.should.not.have.property('error');
-        return setup.api.models.formBirds.findOne({where: {id: cbmId}}).then(function (cbm) {
-          cbm.notes.should.be.equal('some new notes');
+        return setup.api.models.formBirds.findOne({where: {id: birdsId}}).then(function (bird) {
+          bird.notes.should.be.equal('some new notes');
         });
 
       });
@@ -397,7 +453,7 @@ describe('Action formBirds:', function () {
 
     setup.describeAsGuest(function (runAction) {
       it('is not allowed if the requester is guest  user', function () {
-        return runAction('formBirds:edit', {id: cbmId}).then(function (response) {
+        return runAction('formBirds:edit', {id: birdsId}).then(function (response) {
           response.should.have.property('error').and.not.empty();
         });
       });
@@ -405,7 +461,7 @@ describe('Action formBirds:', function () {
 
     setup.describeAsUser(function (runAction) {
       it('is not allowed if the requester user is not the submitter', function () {
-        return runAction('formBirds:edit', {id: cbmId}).then(function (response) {
+        return runAction('formBirds:edit', {id: birdsId}).then(function (response) {
           response.should.have.property('error').and.not.empty();
         });
       });
@@ -413,16 +469,16 @@ describe('Action formBirds:', function () {
 
     setup.describeAsAdmin(function (runAction) {
       it('is allowed if the requester user is admin', function () {
-        return runAction('formBirds:edit', {id: cbmId, notes: 'some new notes'}).then(function (response) {
+        return runAction('formBirds:edit', {id: birdsId, notes: 'some new notes'}).then(function (response) {
           response.should.not.have.property('error');
-          return setup.api.models.formBirds.findOne({where: {id: cbmId}}).then(function (cbm) {
-            cbm.notes.should.be.equal('some new notes');
+          return setup.api.models.formBirds.findOne({where: {id: birdsId}}).then(function (bird) {
+            bird.notes.should.be.equal('some new notes');
           });
         });
       });
     });
 
 
-  }); // Edit cbm row
+  }); // Edit bird row
 
 });

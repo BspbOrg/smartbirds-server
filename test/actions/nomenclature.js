@@ -17,96 +17,122 @@ describe('Nomenclatures:', function () {
     return setup.finish();
   });
 
-  var testNomenclatureTypes = ['birds_name', 'birds_nest_success'];
-  var testNomenclatureSlugs = ['acrocephalus-agricola', 'fledglings'];
+  var testData = {
+    species: {
+      birds: 'Alle alle'
+    },
+    nomenclature: {
+      main_wind_force: {
+        bg: '2 - Лек бриз',
+        en: '2 - Light breeze'
+      },
+      main_rain: {
+        bg: 'Ръми',
+        en: 'Drizzle'
+      }
+    }
+  };
 
-  describe('given some types', function () {
+  describe('given', function () {
 
-    // Guest
-    setup.describeAsGuest(function (runAction) {
+    _.forEach(testData, function (model, key) {
+      describe(key, function () {
 
-      it('cannot list nomenclatures', function () {
-        return runAction('nomenclature:typeList', {}).then(function (response) {
-          response.should.have.property('error').and.not.empty();
-        });
-      });
+        describe('as', function () {
+          // Guest
+          setup.describeAsGuest(function (runAction) {
 
-      testNomenclatureTypes.forEach(function(type) {
-        it('cannot view nomenclatures of type ' + type, function () {
-          return runAction('nomenclature:typeList', {"type": type}).then(function (response) {
-            response.should.have.property('error').and.not.empty();
-          });
-        });
-      });
-
-    }); // end Guest
-
-
-    // Logged User or Admin
-    setup.describeAsAuth(function (runAction) {
-
-      testNomenclatureTypes.forEach(function(type) {
-        it('can list nomenclatures of type ' + type, function () {
-          return runAction('nomenclature:typeList', {"type": type}).then(function (response) {
-
-            response.should.not.have.property('error');
-            response.should.have.property('data').not.empty().instanceOf(Array);
-            response.should.have.property('count').and.be.greaterThan(0);
-
-            for (var i=0; i<response.data.length; i++) {
-              //response.data[i].should.have.property('ownerId').and.be.equal(1);
-              //response.data[i].should.have.property('location').not.empty();
-            }
-
-          });
-        });
-      });
-
-    }); // end Logged User or Admin
-
-  }); // given some types
-
-  describe('given some types and slugs', function () {
-
-    // Guest
-    setup.describeAsGuest(function (runAction) {
-
-      it('cannot list nomenclatures', function () {
-        return runAction('nomenclature:view', {}).then(function (response) {
-          response.should.have.property('error').and.not.empty();
-        });
-      });
-
-      testNomenclatureTypes.forEach(function(type) {
-        testNomenclatureSlugs.forEach(function(slug) {
-          it('cannot view nomenclatures of type ' + type + ' and slug ' + slug, function () {
-            return runAction('nomenclature:view', {"type": type}).then(function (response) {
-              response.should.have.property('error').and.not.empty();
+            it('cannot query types', function () {
+              return runAction(key + ':types', {}).then(function (response) {
+                response.should.have.property('error').and.not.empty();
+              });
             });
-          });
-        });
-      });
 
-    }); // end Guest
+          }); // end Guest
+          // Logged User or Admin
+          setup.describeAsAuth(function (runAction) {
+            it('can query types', function () {
+              return runAction(key + ':types', {}).then(function (response) {
+                response.should.not.have.property('error');
+                response.should.have.property('data').not.empty().instanceOf(Array);
+                response.should.have.property('count').and.be.greaterThan(0);
+              });
+            });
+          }); // as user
+        }); // describe as
 
+        describe('and type', function () {
+          _.forEach(model, function (values, type) {
+            describe(type, function () {
+              describe('as', function () {
+                // Guest
+                setup.describeAsGuest(function (runAction) {
 
-    // Logged User or Admin
-    setup.describeAsAuth(function (runAction) {
+                  it('cannot list', function () {
+                    return runAction(key + ':typeList', {"type": type}).then(function (response) {
+                      response.should.have.property('error').and.not.empty();
+                    });
+                  });
+                }); // end Guest
+                // Logged User or Admin
+                setup.describeAsAuth(function (runAction) {
 
-      var type = testNomenclatureTypes[0];
-      var slug = testNomenclatureSlugs[0];
+                  it('can list', function () {
+                    return runAction(key + ':typeList', {"type": type}).then(function (response) {
+                      response.should.not.have.property('error');
+                      response.should.have.property('data').not.empty().instanceOf(Array);
+                      response.should.have.property('count').and.be.greaterThan(0);
+                    });
+                  });
+                }); // as user
+              }); // describe as
 
-      it('can list nomenclatures of type ' + type + ' and slug ' + slug, function () {
-        return runAction('nomenclature:view', {"type": type, "slug": slug}).then(function (response) {
+              function testValues(action, value) {
+                // Guest
+                setup.describeAsGuest(function (runAction) {
+                  it('cannot get', function () {
+                    return runAction(action, {
+                      type: type,
+                      value: value
+                    }).then(function (response) {
+                      response.should.have.property('error').and.not.empty();
+                    });
+                  });
+                }); // end Guest
+                // Logged User or Admin
+                setup.describeAsAuth(function (runAction) {
 
-          response.should.not.have.property('error');
-          response.should.have.property('data').instanceOf(Object);
-          response.data.should.have.property('slug').equal(slug);
-        });
-      });
+                  it('can list', function () {
+                    return runAction(action, {
+                      type: type,
+                      value: value
+                    }).then(function (response) {
+                      response.should.not.have.property('error');
+                      response.should.have.property('data').instanceOf(Object);
+                      response.data.should.have.property('label').instanceOf(Object);
+                    });
+                  });
+                }); // as user
+              }
 
-    }); // end Logged User or Admin
+              if (key !== 'species') {
+                describe('and value', function () {
+                  _.forEach(values, function (value, index) {
+                    describe(index, function () {
+                      testValues(key+':'+index+':'+'view', value);
+                    }); // describe key
+                  }); // foreach values
+                }); // describe and value
+              } else {
+                testValues(key+':'+'view', values);
+              } //
+            }); // describe type
+          }); // foreach type
+        }); // describe and type
 
-  }); // given some types
+      }); // describe model
+    }); // foreach model
+
+  }); // describe given
 
 });

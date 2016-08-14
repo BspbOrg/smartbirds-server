@@ -5,17 +5,16 @@
 var lodash = require('lodash');
 
 var baseModel = {
-  plotBg: '1',
-  plotEn: '1',
-  visitBg: 'e-early-visit',
-  visitEn: 'e-early-visit',
-  secondaryHabitatBg: 'a-1-broadleaved-woodland',
-  secondaryHabitatEn: 'a-1-broadleaved-woodland',
-  primaryHabitatBg: 'a-2-coniferous-woodland',
-  primaryHabitatEn: 'a-2-coniferous-woodland',
-  count: 10,
-  distanceBg: '3-over-100-m',
-  distanceEn: '3-over-100-m',
+  observationDateTime: '10/12/2015 10:15',
+  monitoringCode: 'random_354',
+  countUnitBg: 'Гнездо(а)',
+  countUnitEn: 'Nests',
+  typeUnitBg: 'Диапазон',
+  typeUnitEn: 'Range',
+  countMin: 2,
+  countMax: 10,
+  location: 'some location',
+  count: 10, 
   species: 'Accipiter nisus',
   notes: 'Some test notes',
   visibility: 5.5,
@@ -39,30 +38,30 @@ var baseModel = {
 
 module.exports = [
   {
-    model: 'formCBM',
+    model: 'formBirds',
     data: lodash.extend({}, baseModel, {
-      zone: {id: 'freeZonePlovdiv'},
+      species: 'Accipiter nisus',
       user: {email: 'user@smartbirds.com'},
     })
   },
   {
-    model: 'formCBM',
+    model: 'formBirds',
     data: lodash.extend({}, baseModel, {
-      zone: {id: 'freeZonePlovdiv'},
+      species: 'Alle alle',
       user: {email: 'admin@smartbirds.com'},
     })
   },
   {
-    model: 'formCBM',
+    model: 'formBirds',
     data: lodash.extend({}, baseModel, {
-      zone: {id: 'freeZonePlovdiv'},
+      species: 'Aix sponsa',
       user: {email: 'admin@smartbirds.com'},
     })
   },
   {
-    model: 'formCBM',
+    model: 'formBirds',
     data: lodash.extend({}, baseModel, {
-      zone: {id: 'freeZoneSofia'},
+      species: 'Acrocephalus agricola',
       user: {email: 'admin@smartbirds.com'},
     })
   },

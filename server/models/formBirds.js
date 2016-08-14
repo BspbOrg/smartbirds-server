@@ -27,7 +27,7 @@ var fields = {
     required: true,
     relation: {
       model: 'species',
-      filter: { type: 'form_birds_name' }
+      filter: { type: 'birds' }
     }
   },
   confidential: {
@@ -38,7 +38,7 @@ var fields = {
     required: true,
     relation: {
       model: 'nomenclature',
-      filter: { type: 'form_birds_count_units' }
+      filter: { type: 'birds_count_units' }
     }
   },
   typeUnit: {
@@ -46,14 +46,14 @@ var fields = {
     required: true,
     relation: {
       model: 'nomenclature',
-      filter: { type: 'form_birds_count_type' }
+      filter: { type: 'birds_count_type' }
     }
   },
   typeNesting: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'form_birds_nesting' }
+      filter: { type: 'birds_nesting' }
     }
   },
   count: {
@@ -72,49 +72,49 @@ var fields = {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'form_birds_sex' }
+      filter: { type: 'birds_sex' }
     }
   },
   age: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'form_birds_age' }
+      filter: { type: 'birds_age' }
     }
   },
   marking: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'form_birds_marking' }
+      filter: { type: 'birds_marking' }
     }
   },
   speciesStatus: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'form_birds_status' }
+      filter: { type: 'birds_status' }
     }
   },
   behaviour: {
     type: 'multi',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'form_birds_behaviour' }
+      filter: { type: 'birds_behaviour' }
     }
   },
   deadIndividualCauses: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'form_birds_death' }
+      filter: { type: 'birds_death' }
     }
   },
   substrate: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'form_birds_nest_substrate' }
+      filter: { type: 'birds_nest_substrate' }
     }
   },
   tree: 'text',
@@ -123,21 +123,21 @@ var fields = {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'form_birds_nest_location' }
+      filter: { type: 'birds_nest_location' }
     }
   },
   nestHeight: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'form_birds_nest_height' }
+      filter: { type: 'birds_nest_height' }
     }
   },
   nestLocation: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'form_birds_nest_position' }
+      filter: { type: 'birds_nest_position' }
     }
   },
   brooding: 'boolean',
@@ -150,21 +150,21 @@ var fields = {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'form_birds_age_individual' }
+      filter: { type: 'birds_age_individual' }
     }
   },
   ageMale: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'form_birds_age_individual' }
+      filter: { type: 'birds_age_individual' }
     }
   },
   nestingSuccess: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'form_birds_nest_success' }
+      filter: { type: 'birds_nest_success' }
     }
   },
   landuse300mRadius: 'text'
@@ -175,9 +175,12 @@ var fields = _.extend(fields, commonFormFields.commonFields);
 var fieldsDef = commonFormFields.generateFieldDef(fields);
 
 
-
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define('FormBirds', fieldsDef, {
+  var modelFieldDef = _.extend({}, fieldsDef);
+  delete modelFieldDef.createdAt;
+  delete modelFieldDef.updatedAt;
+
+  return sequelize.define('FormBirds', modelFieldDef, {
     freezeTableName: true,
     indexes: [
       { fields: ['species'] },
@@ -185,7 +188,8 @@ module.exports = function (sequelize, DataTypes) {
     ],
     classMethods: {
       associate: function (models) {
-        models.formBirds.belongsTo(models.species, { as: 'speciesInfo', foreignKey: 'species', targetKey: 'labelLa' });        
+        models.formBirds.belongsTo(models.species, { as: 'speciesInfo', foreignKey: 'species', targetKey: 'labelLa' });
+        //models.formCBM.belongsTo(models.species, {as: 'speciesInfo', foreignKey: 'species', targetKey: 'labelLa'});        
         models.formBirds.belongsTo(models.user, { as: 'user' });
       }
     },
@@ -235,7 +239,7 @@ module.exports = function (sequelize, DataTypes) {
                       } || null;
                     }
                   case 'species':
-                    {
+                    {                    
                       return self[name];
                     }        
                   case 'user':
@@ -303,22 +307,23 @@ module.exports = function (sequelize, DataTypes) {
                       break;
                     }
                   case 'species':
-                    {
+                    {                    
                       if (!_.has(data, name)) return;
-
+                      
                       self[name] = data[name];
                       break;
                     }
-                  case 'user':
-                  case 'zone':
+                  case 'user':                 
                     {
                       if (!_.has(data, name)) return;
 
                       self[name + 'Id'] = data[name];
                       break;
                     }
-                  default:
+                  default: {
+                    console.log('WHYWWW');
                     throw new Error('[' + name + '] Unsupported relation model ' + field.relation.model);
+                  }
                 }
                 break;
               }
