@@ -397,15 +397,16 @@ describe('Action formBirds:', function () {
 
   describe('given some birds rows:', function () {
     setup.describeAsUser(function (runAction) {
-      it('user is allowed to list only his records', function () {
+      it('is allowed to list only his records', function () {
         return runAction('formBirds:list', {}).then(function (response) {
           response.should.not.have.property('error');
           response.should.have.property('data').not.empty().instanceOf(Array);
           response.should.have.property('count').and.be.greaterThan(0);
 
           for (var i = 0; i < response.data.length; i++) {
-            response.data[i].should.have.property('user').not.empty();
-            response.data[i].user.should.have.property('id').and.be.equal(1);
+            response.data[i].should.have.property('user');
+            response.data[i].should.not.be.empty();
+            response.data[i].user.should.be.equal(1);
           }
         });
       });
@@ -430,6 +431,57 @@ describe('Action formBirds:', function () {
         });
       });
     });
+
+    setup.describeAsAdmin(function (runAction) {
+      it('filter user', function () {
+        return runAction('formBirds:create', _.assign(birdsRecord, {user: 1})).then(function (response) {
+          return runAction('formBirds:list', {user: 1}).then(function (response){
+            response.should.not.have.property('error');
+            for (var i = 0; i < response.data.length; i++) {              
+              response.data[i].user.should.be.equal(1);
+            }
+          });          
+        });
+      });
+    });
+
+    setup.describeAsUser(function (runAction) {
+      it('filter species', function () {
+        return runAction('formBirds:create', _.assign(birdsRecord, {species: 'Anas acuta'})).then(function (response) {
+          return runAction('formBirds:list', {species: 'Anas acuta'}).then(function (response){
+            response.should.not.have.property('error');
+            for (var i = 0; i < response.data.length; i++) {              
+              response.data[i].species.should.be.equal('Anas acuta');
+            }
+          });          
+        });
+      });
+    });
+
+    setup.describeAsUser(function (runAction) {
+      it('filter year', function () {
+        return runAction('formBirds:create', _.assign(birdsRecord, {startDateTime: '09/12/1999 08:10'})).then(function (response) {
+          return runAction('formBirds:list', {year: 1999}).then(function (response){
+            response.should.not.have.property('error');
+            response.data.length.should.be.equal(1);
+            
+          });          
+        });
+      });
+    });
+
+    setup.describeAsUser(function (runAction) {
+      it('filter month', function () {
+        return runAction('formBirds:create', _.assign(birdsRecord, {startDateTime: '11/11/1998 08:10'})).then(function (response) {
+          return runAction('formBirds:list', {month: 11, year:1998}).then(function (response){
+            response.should.not.have.property('error');
+            response.data.length.should.be.equal(1);
+            
+          });          
+        });
+      });
+    });
+
   }); // given some birds rows
 
   describe('Edit birds row', function () {
