@@ -28,5 +28,15 @@ module.exports = [
       labelBg: 'Малка гагарка',
       labelEn: 'Little auk'
     }
+  },
+  {
+    model: "species",
+    data: {
+      id: 4,
+      type: 'birds',
+      labelLa: 'Acrocephalus agricola',
+      labelBg: 'Индийско шаварче',
+      labelEn: 'Paddyfield Warbler'
+    }
   }
 ];
