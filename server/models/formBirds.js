@@ -4,6 +4,7 @@ var _ = require('lodash');
 var Promise = require('bluebird');
 var commonFormFields = require('../helpers/commonFormFields');
 var Sequelize = require('sequelize');
+var baseModel = require('../helpers/baseModel');
 
 var fields = {
   latitude: {
@@ -170,176 +171,20 @@ var fields = {
   landuse300mRadius: 'text'
 };
 
-var fields = _.extend(fields, commonFormFields.commonFields);
-
-var fieldsDef = commonFormFields.generateFieldDef(fields);
 
 
-module.exports = function (sequelize, DataTypes) {
-  var modelFieldDef = _.cloneDeep(fieldsDef);
-  delete modelFieldDef.createdAt;
-  delete modelFieldDef.updatedAt;
+//var fields = _.extend(fields, commonFormFields.commonFields);
+//var fieldsDef = commonFormFields.generateFieldDef(fields);
 
-  return sequelize.define('FormBirds', modelFieldDef, {
-    freezeTableName: true,
-    indexes: [
-      { fields: ['species'] },
-      { fields: ['userId'] }
-    ],
-    classMethods: {
-      associate: function (models) {
-        models.formBirds.belongsTo(models.species, { as: 'speciesInfo', foreignKey: 'species', targetKey: 'labelLa' });
-        //models.formCBM.belongsTo(models.species, {as: 'speciesInfo', foreignKey: 'species', targetKey: 'labelLa'});        
-        models.formBirds.belongsTo(models.user, { as: 'user' });
-      }
-    },
-    instanceMethods: {
-      apiData: function (api) {
-        var data = {};
-        var self = this;
-        return Promise.props(_.mapValues(fields, function (field, name) {
-          if (_.isString(field)) field = { type: field };
-          switch (field.type) {
-            case 'multi':
-              {
-                switch (field.relation.model) {
-                  case 'nomenclature':
-                    {
-                      var res = [];
-                      var bg = self[name + 'Bg'] && self[name + 'Bg'].split('|').map(function (val) {
-                        return val.trim();
-                      }) || [];
-                      var en = self[name + 'En'] && self[name + 'En'].split('|').map(function (val) {
-                        return val.trim();
-                      }) || [];
-                      while (bg.length && en.length) {
-                        res.push({
-                          label: {
-                            bg: bg.shift(),
-                            en: en.shift()
-                          }
-                        });
-                      }
-                      return res;
-                    }
-                  default:
-                    return Promise.reject(new Error('[' + name + '] Unhandled relation model ' + field.relation.model));
-                }
-              }
-            case 'choice':
-              {
-                switch (field.relation.model) {
-                  case 'nomenclature':
-                    {
-                      return (self[name + 'Bg'] || self[name + 'En']) && {
-                        label: {
-                          bg: self[name + 'Bg'],
-                          en: self[name + 'En']
-                        }
-                      } || null;
-                    }
-                  case 'species':
-                    {                    
-                      return self[name];
-                    }        
-                  case 'user':
-                    {
-                      return self[name + 'Id'];
-                    }
-                  default:
-                    return Promise.reject(new Error('[' + name + '] Unhandled relation model ' + field.relation.model));
-                }
-              }
-            default:
-              return self[name];
-          }
-        })).then(function (data) {
-          data.id = self.id;
-          data.createdAt = self.createdAt;
-          data.updatedAt = self.updatedAt;
-          return data;
-        });
-      },
+// models[_.lowerFirst(modelName)].belongsTo(models.species, { as: 'speciesInfo', foreignKey: 'species', targetKey: 'labelLa' });        
+// models[_.lowerFirst(modelName)].belongsTo(models.user, { as: 'user' });
 
-      apiUpdate: function (data) {
-        var self = this;
+var model = baseModel.CreateModel('formBirds', fields, [
+  {targetModelName: 'species', as: 'speciesInfo', foreignKey: 'species', targetKey: 'labelLa'},
+  {targetModelName: 'user', as: 'user'},
+]);
 
-        _.forEach(fields, function (field, name) {
-          switch (field.type) {
-            case 'multi':
-              {
-                switch (field.relation.model) {
-                  case 'nomenclature':
-                    {
-                      if (!_.has(data, name)) return;
+module.exports = model.getModelDefinition;
 
-                      var val = data[name];
-
-                      if (!val) {
-                        self[name + 'Bg'] = null;
-                        self[name + 'En'] = null;
-                      }
-                      if (!_.isArray(val)) val = [val];
-                      self[name + 'Bg'] = _.reduce(val, function (sum, v) {
-                        return sum + (sum && ' | ' || '') + v.label.bg;
-                      }, '');
-                      self[name + 'En'] = _.reduce(val, function (sum, v) {
-                        return sum + (sum && ' | ' || '') + v.label.en;
-                      }, '');
-
-                      break;
-                    }
-                  default:
-                    throw new Error('[' + name + '] Unsupported relation model ' + field.relation.model);
-                }
-                break;
-              }
-            case 'choice':
-              {
-                switch (field.relation.model) {
-                  case 'nomenclature':
-                    {
-                      if (!_.has(data, name) || !data[name]) return;
-
-                      console.log('saving nomenclature ' + name);
-                      self[name + 'Bg'] = data[name].label.bg;
-                      self[name + 'En'] = data[name].label.en;
-                      break;
-                    }
-                  case 'species':
-                    {                    
-                      if (!_.has(data, name)) return;
-                      
-                      self[name] = data[name];
-                      break;
-                    }
-                  case 'user':                 
-                    {
-                      if (!_.has(data, name)) return;
-
-                      self[name + 'Id'] = data[name];
-                      break;
-                    }
-                  default: {
-                    console.log('WHYWWW');
-                    throw new Error('[' + name + '] Unsupported relation model ' + field.relation.model);
-                  }
-                }
-                break;
-              }
-            default:
-              if (!_.has(data, name)) return;
-
-              self[name] = data[name];
-              break;
-          }
-        });
-
-        return this;
-      }
-    }
-  });
-};
-
-module.exports.fields = fields;
-module.exports.sequelizeFieldDefinitions = fieldsDef;
+module.exports.fields = model.getFields();
+module.exports.sequelizeFieldDefinitions = model.getFieldsDef();

@@ -65,4 +65,11 @@ module.exports = [
       user: {email: 'admin@smartbirds.com'},
     })
   },
+  {
+    model: 'formBirds',
+    data: lodash.extend({}, baseModel, {
+      species: 'Acrocephalus agricola',
+      user: {email: 'user2@smartbirds.com'},
+    })
+  }
 ];

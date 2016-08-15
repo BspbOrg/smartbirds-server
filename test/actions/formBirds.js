@@ -5,7 +5,7 @@ var setup = require('../_setup');
 var Promise = require('bluebird');
 require('should-sinon');
 
-describe('Action formBirds:', function () {
+describe.only('Action formBirds:', function () {
   var birdsRecord = {
     latitude: 42.1463749,
     longitude: 24.7492006,
@@ -434,11 +434,12 @@ describe('Action formBirds:', function () {
 
     setup.describeAsAdmin(function (runAction) {
       it('filter user', function () {
-        return runAction('formBirds:create', _.assign(birdsRecord, {user: 1})).then(function (response) {
-          return runAction('formBirds:list', {user: 1}).then(function (response){
+        //Depends on users fixture third record AND formBirds fixture
+        return runAction('formBirds:create', _.assign(birdsRecord, {user: 3})).then(function (response) {
+          return runAction('formBirds:list', {user: 3}).then(function (response){
             response.should.not.have.property('error');
             for (var i = 0; i < response.data.length; i++) {              
-              response.data[i].user.should.be.equal(1);
+              response.data[i].user.should.be.equal(3);
             }
           });          
         });
@@ -470,18 +471,30 @@ describe('Action formBirds:', function () {
       });
     });
 
+    //TODO 
+    // setup.describeAsUser(function (runAction) {
+    //   it('filter month', function () {
+    //     return runAction('formBirds:create', _.assign(birdsRecord, {startDateTime: '11/11/1998 08:10'})).then(function (response) {
+    //       return runAction('formBirds:list', {month: 11, year:1998}).then(function (response){
+    //         response.should.not.have.property('error');
+    //         response.data.length.should.be.equal(1);
+            
+    //       });          
+    //     });
+    //   });
+    // });
+
     setup.describeAsUser(function (runAction) {
-      it('filter month', function () {
-        return runAction('formBirds:create', _.assign(birdsRecord, {startDateTime: '11/11/1998 08:10'})).then(function (response) {
-          return runAction('formBirds:list', {month: 11, year:1998}).then(function (response){
+      it('filter year', function () {
+        return runAction('formBirds:create', _.assign(birdsRecord, {location: 'some_unq_location'})).then(function (response) {
+          return runAction('formBirds:list', {location: 'some_unq_location'}).then(function (response){
             response.should.not.have.property('error');
             response.data.length.should.be.equal(1);
-            
+            response.data[0].location.should.be.equal('some_unq_location');            
           });          
         });
       });
     });
-
   }); // given some birds rows
 
   describe('Edit birds row', function () {

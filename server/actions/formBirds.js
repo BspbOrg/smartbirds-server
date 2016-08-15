@@ -293,15 +293,9 @@ function prepareQuery(api, data) {
         }
       }
       if (data.params.location) {
-        q.include = [].concat(q.include || [], [
-          {
-            model: api.models.zone,
-            as: 'zone',
-            where: {
-              locationId: data.params.location
-            }
-          }
-        ]);
+        q.where = _.extend(q.where || {}, {
+          location: data.params.location
+        });
       }
       if (data.params.year) {
         q.where = _.extend(q.where || {}, {
