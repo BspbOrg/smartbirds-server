@@ -3,9 +3,10 @@ var should = require('should');
 var sinon = require('sinon');
 var setup = require('../_setup');
 var Promise = require('bluebird');
+var moment = require('moment');
 require('should-sinon');
 
-describe.only('Action formBirds:', function () {
+describe('Action formBirds:', function () {
   var birdsRecord = {
     latitude: 42.1463749,
     longitude: 24.7492006,
@@ -14,8 +15,7 @@ describe.only('Action formBirds:', function () {
     species: 'Accipiter nisus',
     confidential: true,
     countUnit: {
-      type: 'birds_count_units',
-      slug: '1',
+      type: 'birds_count_units',      
       id: 8,
       label: {
         bg: 'Гнездо(а)',
@@ -23,8 +23,7 @@ describe.only('Action formBirds:', function () {
       }
     },
     typeUnit: {
-      type: 'birds_count_type',
-      slug: 'e-early-visit',
+      type: 'birds_count_type',      
       id: 102,
       label: {
         bg: 'Диапазон',
@@ -162,8 +161,7 @@ describe.only('Action formBirds:', function () {
     location: 'some free location text',
     observers: 'Some test observers',
     rain: {
-      type: 'main_rain',
-      slug: 'drizzle',
+      type: 'main_rain',      
       label: {
         bg: 'Ръми',
         en: 'Drizzle'
@@ -172,15 +170,13 @@ describe.only('Action formBirds:', function () {
     temperature: 24.3,
     windDirection: {
       type: 'main_wind_direction',
-      slug: 'ene',
       label: {
         bg: 'ENE',
         en: 'ENE'
       }
     },
     windSpeed: {
-      type: 'main_wind_force',
-      slug: '2-light-breeze',
+      type: 'main_wind_force',      
       label: {
         bg: '2 - Лек бриз',
         en: '2 - Light breeze'
@@ -188,7 +184,6 @@ describe.only('Action formBirds:', function () {
     },
     cloudiness: {
       type: 'main_cloud_level',
-      slug: '33-66',
       label: {
         bg: '33-66%',
         en: '33-66%'
@@ -200,7 +195,6 @@ describe.only('Action formBirds:', function () {
     threats: [
       {
         type: 'main_threats',
-        slug: 'cultivation',
         label: {
           bg: 'Култивация',
           en: 'Cultivation'
@@ -208,7 +202,6 @@ describe.only('Action formBirds:', function () {
       },
       {
         type: 'main_threats',
-        slug: 'mulching',
         label: {
           bg: 'Наторяване',
           en: 'Mulching'
@@ -485,7 +478,7 @@ describe.only('Action formBirds:', function () {
     // });
 
     setup.describeAsUser(function (runAction) {
-      it('filter year', function () {
+      it('filter location', function () {
         return runAction('formBirds:create', _.assign(birdsRecord, {location: 'some_unq_location'})).then(function (response) {
           return runAction('formBirds:list', {location: 'some_unq_location'}).then(function (response){
             response.should.not.have.property('error');
@@ -495,6 +488,31 @@ describe.only('Action formBirds:', function () {
         });
       });
     });
+
+    setup.describeAsUser(function (runAction) {
+      it('filter from_date', function () {
+        return runAction('formBirds:create', _.assign(birdsRecord, {startDateTime: '11/11/2021 08:10'})).then(function (response) {
+          return runAction('formBirds:list', {from_date: '11/11/2021 08:10'}).then(function (response){
+            response.should.not.have.property('error');            
+            response.data.length.should.be.equal(1);
+            response.data[0].startDateTime.toString().should.be.equal(moment('11/11/2021 08:10').toDate().toString());            
+          });          
+        });
+      });
+    });
+
+    setup.describeAsUser(function (runAction) {
+      it('filter to_date', function () {
+        return runAction('formBirds:create', _.assign(birdsRecord, {startDateTime: '11/11/1901 08:10'})).then(function (response) {
+          return runAction('formBirds:list', {to_date: '11/11/1901 08:10'}).then(function (response){
+            response.should.not.have.property('error');            
+            response.data.length.should.be.equal(1);
+            response.data[0].startDateTime.toString().should.be.equal(moment('11/11/1901 08:10').toDate().toString());            
+          });          
+        });
+      });
+    });
+
   }); // given some birds rows
 
   describe('Edit birds row', function () {

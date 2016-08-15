@@ -14,7 +14,7 @@ module.exports = {
             primaryKey: true,
             autoIncrement: true
           }
-        }, birdsModel.sequelizeFieldDefinitions)
+        }, birdsModel.schema)
     ).then(function () {
       return queryInterface.addIndex(tableName, {
           fields: ['userId']
@@ -37,6 +37,11 @@ module.exports = {
         .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['monitoringCode']
+          })        
+        })
+        .then(function () {
+          return queryInterface.addIndex(tableName, {
+            fields: ['location']
           })        
         })
         .catch(function () {

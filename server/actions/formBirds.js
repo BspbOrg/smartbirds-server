@@ -317,6 +317,20 @@ function prepareQuery(api, data) {
         q.where = _.extend(q.where || {}, {
           species: data.params.species
         });
+      }      
+      if (data.params.from_date) {
+        q.where = _.extend(q.where || {}, {
+          startDateTime: {            
+            $gte: moment(data.params.from_date).toDate()
+          }
+        });
+      }
+      if (data.params.to_date) {
+        q.where = _.extend(q.where || {}, {
+          startDateTime: {
+            $lte: moment(data.params.to_date).toDate()
+          }
+        });
       }
       return q;
     })
@@ -333,6 +347,8 @@ exports.formBirdsList = {
     year: {},
     month: {}, //TODO
     species: {},
+    from_date: {},
+    to_date: {},
     limit: {required: false, default: 20},
     offset: {required: false, default: 0}    
   },
