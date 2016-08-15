@@ -1,6 +1,5 @@
 var _ = require('lodash');
 var Promise = require('bluebird');
-var inputs = require('../helpers/inputs');
 var paging = require('../helpers/paging');
 var incremental = require('../helpers/incremental');
 var links = require('../helpers/links');
@@ -54,27 +53,7 @@ _.forOwn({
         .then(function (result) {
           data.response.count = result.count;
           data.response.data = result.rows;
-          data.response.meta = {};
-          data.response.meta.update = url.format(_.extend({}, data.connection.rawConnection.parsedURL, {
-            search: undefined,
-            query: {
-              limit: data.params.limit,
-              since: data.params.until.getTime()
-            }
-          }));
-          if (data.params.limit > 0) {
-            if (data.params.limit + data.params.offset < result.count) {
-              data.response.meta.nextPage = url.format(_.extend({}, data.connection.rawConnection.parsedURL, {
-                search: undefined,
-                query: {
-                  limit: data.params.limit,
-                  offset: data.params.limit + data.params.offset,
-                  since: data.params.since.getTime(),
-                  until: data.params.until.getTime()
-                }
-              }));
-            }
-          }
+          data.response.meta = incremental.generateMeta(data, paging.generateMeta(result.count, data));
           return data;
         })
         .then(function () {
@@ -91,9 +70,9 @@ _.forOwn({
     description: model + ':typeList',
     middleware: ['auth'],
 
-    inputs: {
+    inputs: paging.declareInputs(incremental.declareInputs({
       type: {required: true}
-    },
+    })),
 
     run: function (api, data, next) {
       return Promise.resolve(data.params)
@@ -103,6 +82,12 @@ _.forOwn({
           };
 
           return q;
+        })
+        .then(function(q) {
+          return paging.prepareQuery(q, data.params);
+        })
+        .then(function(q) {
+          return incremental.prepareQuery(q, data.params);
         })
         .then(function (q) {
           return api.models[model].findAndCountAll(q);
@@ -121,6 +106,7 @@ _.forOwn({
         .then(function (result) {
           data.response.count = result.count;
           data.response.data = result.rows;
+          data.response.meta = paging.generateMeta(result.count, data, incremental.generateMeta(data));
           return data;
         })
         .then(function () {

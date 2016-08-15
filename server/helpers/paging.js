@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var inputHelpers = require('./inputs');
+var links = require('./links');
 
 module.exports = {
   /**
@@ -7,7 +8,8 @@ module.exports = {
    */
   defaultLimit: 20,
   declareInputs: declareInputs,
-  prepareQuery: prepareQuery
+  prepareQuery: prepareQuery,
+  generateMeta: generateMeta
 };
 
 /**
@@ -56,4 +58,21 @@ function prepareQuery(query, params) {
   }, params.limit > -1 ? {
     limit: params.limit
   } : {});
+}
+
+function generateMeta(count, data, meta) {
+  meta = meta || {};
+
+  if (data.params.limit > 0) {
+    if (data.params.limit + data.params.offset < count) {
+      meta.nextPage = links.generateSelfUrl(data, {
+        limit: data.params.limit,
+        offset: data.params.limit + data.params.offset,
+        since: data.params.since.getTime(),
+        until: data.params.until.getTime()
+      });
+    }
+  }
+
+  return meta;
 }

@@ -1,9 +1,11 @@
 var _ = require('lodash');
 var inputHelpers = require('./inputs');
+var links = require('./links');
 
 module.exports = {
   declareInputs: declareInputs,
-  prepareQuery: prepareQuery
+  prepareQuery: prepareQuery,
+  generateMeta: generateMeta
 };
 
 /**
@@ -47,4 +49,13 @@ function prepareQuery(query, params) {
     $gt: params.since
   };
   return query;
+}
+
+function generateMeta(data, meta) {
+  meta = meta || {};
+  meta.update = links.generateSelfUrl(data, {
+    limit: data.params.limit,
+    since: data.params.until.getTime()
+  });
+  return meta;
 }
