@@ -176,10 +176,25 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
       // Monitorings //
       ///////////
       .state('auth.monitoring', {
-        url: '/monitoring?{location:int}&zone&{user:int}&visit&{year:int}&species',
+        url: '/monitoring'
+      })
+
+      .state('auth.monitoring.cbm', {
+        url: '/cbm?{location:int}&zone&{user:int}&visit&{year:int}&species',
         views: {
-          'content': {
+          'content@auth': {
             templateUrl: '/views/monitorings/list_cbm.html',
+            controller: 'MonitoringController',
+            controllerAs: 'monitoringController'
+          }
+        }
+      })
+
+      .state('auth.monitoring.birds', {
+        url: '/birds?{location:int}&{user:int}&{year:int}&species',
+        views: {
+          'content@auth': {
+            templateUrl: '/views/monitorings/list_birds.html',
             controller: 'MonitoringController',
             controllerAs: 'monitoringController'
           }
@@ -189,11 +204,21 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
       ///////////
       // Monitoring Detail //
       ///////////
-      .state('auth.monitoring.detail', {
+      .state('auth.monitoring.cbm.detail', {
         url: '/{id:int}',
         views: {
           'content@auth': {
-            templateUrl: '/views/monitorings/detail.html',
+            templateUrl: '/views/monitorings/cbm.html',
+            controller: 'MonitoringDetailController',
+            controllerAs: 'monitoringDetailController'
+          }
+        }
+      })
+      .state('auth.monitoring.birds.detail', {
+        url: '/{id:int}',
+        views: {
+          'content@auth': {
+            templateUrl: '/views/monitorings/birds.html',
             controller: 'MonitoringDetailController',
             controllerAs: 'monitoringDetailController'
           }
@@ -203,7 +228,7 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
       ///////////
       // Monitoring New //
       ///////////
-      .state('auth.monitoring.new', {
+      .state('auth.monitoring.cbm.new', {
         url: '/new',
         views: {
           'content@auth': {
@@ -217,7 +242,7 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
       ///////////
       // Monitoring Detail //
       ///////////
-      .state('auth.monitoring.copy', {
+      .state('auth.monitoring.cbm.copy', {
         url: '/copy?{fromId:int}',
         views: {
           'content@auth': {
