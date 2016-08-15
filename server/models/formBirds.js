@@ -168,7 +168,11 @@ var fields = {
       filter: { type: 'birds_nest_success' }
     }
   },
-  landuse300mRadius: 'text'
+  landuse300mRadius: 'text',
+  location: {
+    type: 'text',
+    required: true
+  }
 };
 
 

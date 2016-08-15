@@ -13,11 +13,7 @@ module.exports.commonFields = {
   startDateTime: {
     type: 'timestamp',
     required: true
-  },
-  location: {
-    type: 'text',
-    required: true
-  },
+  },  
   observers: {
     type: 'text',
     required: true
