@@ -3,10 +3,11 @@
 var _ = require('lodash');
 var Promise = require('bluebird');
 var commonFormFields = require('../helpers/commonFormFields');
-var Sequelize = require('sequelize');
 
+module.exports = Model;
 
-module.exports.CreateModel = function(modelName_, fields_, foreignKeyDefs) {
+function Model(modelName_, fields_, foreignKeyDefs) {
+  if (!(this instanceof Model)) return new Model(modelName_, fields_, foreignKeyDefs);
   var fields = _.extend(fields_, commonFormFields.commonFields);
   var fieldsDef = commonFormFields.generateFieldDef(fields);
   var modelName = modelName_;
@@ -19,7 +20,7 @@ module.exports.CreateModel = function(modelName_, fields_, foreignKeyDefs) {
 
   this.getFieldsDef = function () {
     return fieldsDef;
-  }
+  };
 
   this.getModelDefinition = function (sequelize, DataTypes) {
     var modelFieldDef = _.cloneDeep(fieldsDef);
@@ -42,7 +43,7 @@ module.exports.CreateModel = function(modelName_, fields_, foreignKeyDefs) {
               as: foreignKey.as,
               foreignKey: foreignKey.foreignKey,
               targetKey: foreignKey.targetKey
-            });   
+            });
           }
         }
       },
@@ -92,9 +93,9 @@ module.exports.CreateModel = function(modelName_, fields_, foreignKeyDefs) {
                         } || null;
                       }
                     case 'species':
-                      {                    
+                      {
                         return self[name];
-                      }        
+                      }
                     case 'user':
                       {
                         return self[name + 'Id'];
@@ -160,20 +161,20 @@ module.exports.CreateModel = function(modelName_, fields_, foreignKeyDefs) {
                         break;
                       }
                     case 'species':
-                      {                    
+                      {
                         if (!_.has(data, name)) return;
-                        
+
                         self[name] = data[name];
                         break;
                       }
-                    case 'user':                 
+                    case 'user':
                       {
                         if (!_.has(data, name)) return;
 
                         self[name + 'Id'] = data[name];
                         break;
                       }
-                    default: {                    
+                    default: {
                       throw new Error('[' + name + '] Unsupported relation model ' + field.relation.model);
                     }
                   }
@@ -193,5 +194,5 @@ module.exports.CreateModel = function(modelName_, fields_, foreignKeyDefs) {
     });
   };
 
-  return this; 
-};
+  return this;
+}

@@ -4,7 +4,7 @@ var _ = require('lodash');
 var Promise = require('bluebird');
 var commonFormFields = require('../helpers/commonFormFields');
 var Sequelize = require('sequelize');
-var baseModel = require('../helpers/baseModel');
+var Model = require('../helpers/Model');
 
 var fields = {
   latitude: {
@@ -180,10 +180,10 @@ var fields = {
 //var fields = _.extend(fields, commonFormFields.commonFields);
 //var fieldsDef = commonFormFields.generateFieldDef(fields);
 
-// models[_.lowerFirst(modelName)].belongsTo(models.species, { as: 'speciesInfo', foreignKey: 'species', targetKey: 'labelLa' });        
+// models[_.lowerFirst(modelName)].belongsTo(models.species, { as: 'speciesInfo', foreignKey: 'species', targetKey: 'labelLa' });
 // models[_.lowerFirst(modelName)].belongsTo(models.user, { as: 'user' });
 
-var model = baseModel.CreateModel('formBirds', fields, [
+var model = Model('formBirds', fields, [
   {targetModelName: 'species', as: 'speciesInfo', foreignKey: 'species', targetKey: 'labelLa'},
   {targetModelName: 'user', as: 'user'},
 ]);
