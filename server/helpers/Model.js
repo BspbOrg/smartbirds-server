@@ -97,6 +97,28 @@ function Model(modelName_, fields_, foreignKeyDefs) {
     return schema;
   };
 
+  this.getEditInputs = function () {    
+    var editInputs = {id: {required: true}};
+    for (var prop in fields) {    
+      if (prop == 'createdAt' || prop == 'updatedAt' || prop == 'imported')
+        continue;
+      editInputs[prop] = {};    
+    }
+
+    return editInputs;
+  };
+
+  this.getInsertInputs = function () {
+    var insertInputs = {};
+    for (var prop in fields) {    
+      if (prop == 'createdAt' || prop == 'updatedAt' || prop == 'imported')
+        continue;
+      insertInputs[prop] = { required: fields[prop].required && prop != 'user' };    
+    }
+
+    return insertInputs;
+  };
+
   this.getModelDefinition = function (sequelize, DataTypes) {
     var modelFieldDef = _.cloneDeep(schema);
     delete modelFieldDef.createdAt;

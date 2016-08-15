@@ -182,3 +182,7 @@ module.exports = model.getModelDefinition;
 
 module.exports.fields = model.getFields();
 module.exports.schema = model.getSchema();
+
+module.exports.editInputs = model.getEditInputs();
+
+module.exports.insertInputs = model.getInsertInputs();
