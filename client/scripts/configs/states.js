@@ -1,3 +1,5 @@
+var angular = require('angular');
+var forms = require('./forms');
 var module = require('../app');
 
 module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
@@ -177,48 +179,39 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
       ///////////
       .state('auth.monitoring', {
         url: '/monitoring'
-      })
+      });
 
-      .state('auth.monitoring.cbm', {
-        url: '/cbm?{location:int}&zone&{user:int}&visit&{year:int}&species',
+  angular.forEach(forms, function(formDef, formName) {
+
+    $stateProvider
+
+    ///////////
+    // Monitoring List //
+    ///////////
+      .state('auth.monitoring.'+formName, {
+        url: '/'+formName+'?'+(formDef||[]).filters.join('&'),
         views: {
           'content@auth': {
-            templateUrl: '/views/monitorings/list_cbm.html',
+            templateUrl: '/views/monitorings/list_'+formName+'.html',
             controller: 'MonitoringController',
             controllerAs: 'monitoringController'
           }
-        }
-      })
-
-      .state('auth.monitoring.birds', {
-        url: '/birds?{location:int}&{user:int}&{year:int}&species',
-        views: {
-          'content@auth': {
-            templateUrl: '/views/monitorings/list_birds.html',
-            controller: 'MonitoringController',
-            controllerAs: 'monitoringController'
-          }
+        },
+        resolve: {
+          model: [formDef.model, function(model) {
+            return model;
+          }]
         }
       })
 
       ///////////
       // Monitoring Detail //
       ///////////
-      .state('auth.monitoring.cbm.detail', {
+      .state('auth.monitoring.'+formName+'.detail', {
         url: '/{id:int}',
         views: {
           'content@auth': {
-            templateUrl: '/views/monitorings/cbm.html',
-            controller: 'MonitoringDetailController',
-            controllerAs: 'monitoringDetailController'
-          }
-        }
-      })
-      .state('auth.monitoring.birds.detail', {
-        url: '/{id:int}',
-        views: {
-          'content@auth': {
-            templateUrl: '/views/monitorings/birds.html',
+            templateUrl: '/views/monitorings/'+formName+'.html',
             controller: 'MonitoringDetailController',
             controllerAs: 'monitoringDetailController'
           }
@@ -228,11 +221,11 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
       ///////////
       // Monitoring New //
       ///////////
-      .state('auth.monitoring.cbm.new', {
+      .state('auth.monitoring.'+formName+'.new', {
         url: '/new',
         views: {
           'content@auth': {
-            templateUrl: '/views/monitorings/detail.html',
+            templateUrl: '/views/monitorings/'+formName+'.html',
             controller: 'MonitoringDetailController',
             controllerAs: 'monitoringDetailController'
           }
@@ -240,18 +233,22 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
       })
 
       ///////////
-      // Monitoring Detail //
+      // Monitoring Copy //
       ///////////
-      .state('auth.monitoring.cbm.copy', {
+      .state('auth.monitoring.'+formName+'.copy', {
         url: '/copy?{fromId:int}',
         views: {
           'content@auth': {
-            templateUrl: '/views/monitorings/detail.html',
+            templateUrl: '/views/monitorings/'+formName+'.html',
             controller: 'MonitoringDetailController',
             controllerAs: 'monitoringDetailController'
           }
         }
       })
+
+  });
+    $stateProvider
+
 
       ///////////
       // Zones //

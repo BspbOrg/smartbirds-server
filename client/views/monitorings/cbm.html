@@ -1,6 +1,6 @@
-<form name="cbmform"
+<form name="smartform"
       role="form"
-      confirm-on-exit="cbmform.$dirty"
+      confirm-on-exit="smartform.$dirty"
       confirm-message-window="Имате незаписани промени!"
       confirm-message-route="Имате незаписани промени. Сигурни ли сте че искате да продължите?">
   <div class="row">
@@ -10,7 +10,7 @@
           <div class="btn-group">
             <button type="button"
                     class="btn btn-primary"
-                    ng-disabled="cbmform.$invalid || cbmform.$pristine"
+                    ng-disabled="smartform.$invalid || smartform.$pristine"
                     ng-click="monitoringDetailController.save()"
             >
               Запис
@@ -84,7 +84,7 @@
         <div class="btn-group">
           <button type="button"
                   class="btn btn-primary"
-                  ng-disabled="cbmform.$invalid || cbmform.$pristine"
+                  ng-disabled="smartform.$invalid || smartform.$pristine"
                   ng-click="monitoringDetailController.save()"
           >
             Запис

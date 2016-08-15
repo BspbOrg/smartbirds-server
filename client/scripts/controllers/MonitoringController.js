@@ -3,7 +3,7 @@
  */
 
 var angular = require('angular');
-require('../app').controller('MonitoringController', /*@ngInject*/function ($state, $stateParams, $q, FormCBM, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, $cookies) {
+require('../app').controller('MonitoringController', /*@ngInject*/function ($state, $stateParams, $q, model, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, $cookies) {
 
   var controller = this;
   var lastModel = false;
@@ -120,7 +120,7 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
         offset: 0,
         csrfToken: $cookies.get('sb-csrf-token')
       }));
-    return FormCBM.query(query).$promise
+    return model.query(query).$promise
       .then(function (rows) {
         controller.count = rows.$$response.data.$$response.count;
         controller.rows.push.apply(controller.rows, rows);

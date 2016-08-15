@@ -2,19 +2,20 @@
  * Created by groupsky on 11.01.16.
  */
 
-require('../app').controller('MonitoringDetailController', /*@ngInject*/function ($scope, $state, $stateParams, $q, $timeout, FormCBM, ngToast, db, Raven) {
+require('../app').controller('MonitoringDetailController', /*@ngInject*/function ($scope, $state, $stateParams, $q, $timeout, model, ngToast, db, Raven) {
 
   var controller = this;
 
   var id = $stateParams.id || $stateParams.fromId;
 
   controller.db = db;
-  controller.data = id ? FormCBM.get({id: id}) : new FormCBM();
+  controller.data = id ? model.get({id: id}) : new model();
   if (!$stateParams.id && $stateParams.fromId) {
     controller.data.$promise.then(function () {
       controller.clearForCopy();
     });
   }
+  controller.hasZone = !!controller.data.getZone;
   controller.map = {
     poi: {
       latitude: undefined,
@@ -30,8 +31,8 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
       controller.data.longitude = args[0].latLng.lng();
       controller.map.poi.latitude = controller.data.latitude;
       controller.map.poi.longitude = controller.data.longitude;
-      controller.map.center = controller.data.getZone() && angular.copy(controller.data.getZone().getCenter() || controller.map.poi);
-      $scope.cbmform.$setDirty();
+      controller.map.center = controller.data.getZone && controller.data.getZone() && angular.copy(controller.data.getZone().getCenter() || controller.map.poi);
+      $scope.smartform.$setDirty();
       // trigger a digest cycle to update the ui
       $timeout(angular.noop);
     }
@@ -41,7 +42,7 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
   if (controller.data.$promise) {
     controller.data.$promise.then(function (data) {
       if (data.zone) {
-        controller.map.center = data.getZone() && angular.copy(data.getZone().getCenter() || controller.map.poi);
+        controller.map.center = data.getZone && data.getZone() && angular.copy(data.getZone().getCenter() || controller.map.poi);
         controller.map.zoom = 14;
       }
     });
@@ -52,13 +53,13 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
     $timeout(function () {
       controller.map.poi.latitude = data.latitude;
       controller.map.poi.longitude = data.longitude;
-      controller.map.center = data.getZone() && angular.copy(data.getZone().getCenter() || controller.map.poi);
+      controller.map.center = data.getZone && data.getZone() && angular.copy(data.getZone().getCenter() || controller.map.poi);
     }, 500);
   });
 
   // when zone is changed recenter the poi
   controller.onZoneSelected = function () {
-    if (!controller.data.getZone()) return;
+    if (!controller.data.getZone || !controller.data.getZone()) return;
     controller.map.center = angular.copy(controller.data.getZone().getCenter());
     controller.map.refresh = true;
     controller.map.zoom = 14;
@@ -66,7 +67,7 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
     controller.data.longitude = controller.map.center.longitude;
     controller.map.poi.latitude = controller.data.latitude;
     controller.map.poi.longitude = controller.data.longitude;
-    $scope.cbmform.$setDirty();
+    $scope.smartform.$setDirty();
   };
 
   controller.clearForCopy = function () {
@@ -75,7 +76,7 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
     delete controller.data.distance;
     delete controller.data.count;
     delete controller.data.plot;
-    $scope.cbmform.$setPristine();
+    $scope.smartform.$setPristine();
   };
 
   controller.copy = function () {
@@ -85,7 +86,7 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
 
   controller.save = function () {
     controller.data.$save().then(function (res) {
-      $scope.cbmform.$setPristine();
+      $scope.smartform.$setPristine();
       return res;
     }).then(function (res) {
       ngToast.create({
