@@ -176,7 +176,7 @@ var fieldsDef = commonFormFields.generateFieldDef(fields);
 
 
 module.exports = function (sequelize, DataTypes) {
-  var modelFieldDef = _.extend({}, fieldsDef);
+  var modelFieldDef = _.cloneDeep(fieldsDef);
   delete modelFieldDef.createdAt;
   delete modelFieldDef.updatedAt;
 
