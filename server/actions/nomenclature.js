@@ -75,13 +75,14 @@ _.forOwn({
     })),
 
     run: function (api, data, next) {
-      return Promise.resolve(data.params)
-        .then(function (params) {
-          var q = {
+      return Promise.resolve()
+        .then(function () {
+          links.fixParsedURL(api, data);
+        })
+        .then(function () {
+          return {
             "where": {type: data.params.type}
           };
-
-          return q;
         })
         .then(function(q) {
           return paging.prepareQuery(q, data.params);
