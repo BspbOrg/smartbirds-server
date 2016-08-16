@@ -81,41 +81,34 @@ function prepareQuery(api, data) {
         q.where = _.extend(q.where || {}, {
           location: data.params.location
         });
-      }
-      if (data.params.year) {
-        q.where = _.extend(q.where || {}, {
-          startDateTime: {
-            $gte: moment().year(data.params.year).startOf('year').toDate(),
-            $lte: moment().year(data.params.year).endOf('year').toDate()
-          }
-        });
-      }
-      if (data.params.month) {
-        q.where = _.extend(q.where || {}, {
-          startDateTime: {
-            $gte: moment().month(data.params.month).startOf('month').toDate(),
-            $lte: moment().month(data.params.month).endOf('month').toDate()
-          }
-        });
-      }
+      }      
       if (data.params.species) {
         q.where = _.extend(q.where || {}, {
           species: data.params.species
         });
       }      
-      if (data.params.from_date) {
+      if (data.params.from_date && data.params.to_date) {
         q.where = _.extend(q.where || {}, {
           startDateTime: {            
-            $gte: moment(data.params.from_date).toDate()
-          }
-        });
-      }
-      if (data.params.to_date) {
-        q.where = _.extend(q.where || {}, {
-          startDateTime: {
+            $gte: moment(data.params.from_date).toDate(),
             $lte: moment(data.params.to_date).toDate()
           }
         });
+      } else {
+        if (data.params.from_date) {
+          q.where = _.extend(q.where || {}, {
+            startDateTime: {            
+              $gte: moment(data.params.from_date).toDate()
+            }
+          });
+        }
+        if (data.params.to_date) {
+          q.where = _.extend(q.where || {}, {
+            startDateTime: {
+              $lte: moment(data.params.to_date).toDate()
+            }
+          });
+        }
       }
       return q;
     })
@@ -128,9 +121,7 @@ exports.formBirdsList = {
   //location&user&year&month&species&limit&offset
   inputs: {
     location: {},
-    user: {},        
-    year: {},
-    month: {}, //TODO
+    user: {},
     species: {},
     from_date: {},
     to_date: {},

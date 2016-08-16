@@ -231,92 +231,21 @@ describe('Action formBirds:', function () {
 
   setup.describeAsAuth(function (runAction) {
     describe('fails to create without', function () {
-      it('latitude', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'latitude')).then(function (response) {
-          response.error.should.be.equal('Error: latitude is a required parameter for this action');
-        });
-      });
+      var required = ['latitude', 'longitude', 'observationDateTime', 'monitoringCode',
+        'species', 'countUnit', 'typeUnit', 'count', 'countMin', 'countMax', 
+        'endDateTime', 'startDateTime', 'location', 'observers'];
 
-      it('longitude', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'longitude')).then(function (response) {
-          response.error.should.be.equal('Error: longitude is a required parameter for this action');
-        });
-      });
-
-      it('observationDateTime', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'observationDateTime')).then(function (response) {
-          response.error.should.be.equal('Error: observationDateTime is a required parameter for this action');
-        });
-      });
-
-      it('monitoringCode', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'monitoringCode')).then(function (response) {
-          response.error.should.be.equal('Error: monitoringCode is a required parameter for this action');
-        });
-      });
-
-      it('species', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'species')).then(function (response) {
-          response.error.should.be.equal('Error: species is a required parameter for this action');
-        });
-      });
-
-      it('countUnit', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'countUnit')).then(function (response) {
-          response.error.should.be.equal('Error: countUnit is a required parameter for this action');
-        });
-      });
-
-      it('typeUnit', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'typeUnit')).then(function (response) {
-          response.error.should.be.equal('Error: typeUnit is a required parameter for this action');
-        });
-      });
-
-
-
-      it('count', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'count')).then(function (response) {
-          response.error.should.be.equal('Error: count is a required parameter for this action');
-        });
-      });
-
-      it('countMin', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'countMin')).then(function (response) {
-          response.error.should.be.equal('Error: countMin is a required parameter for this action');
-        });
-      });
-
-      it('countMax', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'countMax')).then(function (response) {
-          response.error.should.be.equal('Error: countMax is a required parameter for this action');
-        });
-      });
-
-      it('endDateTime', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'endDateTime')).then(function (response) {
-          response.error.should.be.equal('Error: endDateTime is a required parameter for this action');
-        });
-      });
-
-
-      it('startDateTime', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'startDateTime')).then(function (response) {
-          response.error.should.be.equal('Error: startDateTime is a required parameter for this action');
-        });
-      });
-
-      it('location', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'location')).then(function (response) {
-          response.error.should.be.equal('Error: location is a required parameter for this action');
-        });
-      });
-
-      it('observers', function () {
-        return runAction('formBirds:create', _.omit(birdsRecord, 'observers')).then(function (response) {
-          response.error.should.be.equal('Error: observers is a required parameter for this action');
-        });
-      });
+      for (var i =0; i< required.length; i+=1) {        
+        function wrap (property) {
+          it(property, function () {
+            var reqBirdObj = _.cloneDeep(birdsRecord);
+            delete reqBirdObj[property];
+            return runAction('formBirds:create', reqBirdObj).then(function (response) {
+              response.error.should.be.equal('Error: ' + property + ' is a required parameter for this action');
+            });
+          });
+        } (required[i]);
+      }
 
     }); // fails to create without
 
@@ -453,31 +382,6 @@ describe('Action formBirds:', function () {
     });
 
     setup.describeAsUser(function (runAction) {
-      it('filter year', function () {
-        return runAction('formBirds:create', _.assign(birdsRecord, {startDateTime: '09/12/1999 08:10'})).then(function (response) {
-          return runAction('formBirds:list', {year: 1999}).then(function (response){
-            response.should.not.have.property('error');
-            response.data.length.should.be.equal(1);
-            
-          });          
-        });
-      });
-    });
-
-    //TODO 
-    // setup.describeAsUser(function (runAction) {
-    //   it('filter month', function () {
-    //     return runAction('formBirds:create', _.assign(birdsRecord, {startDateTime: '11/11/1998 08:10'})).then(function (response) {
-    //       return runAction('formBirds:list', {month: 11, year:1998}).then(function (response){
-    //         response.should.not.have.property('error');
-    //         response.data.length.should.be.equal(1);
-            
-    //       });          
-    //     });
-    //   });
-    // });
-
-    setup.describeAsUser(function (runAction) {
       it('filter location', function () {
         return runAction('formBirds:create', _.assign(birdsRecord, {location: 'some_unq_location'})).then(function (response) {
           return runAction('formBirds:list', {location: 'some_unq_location'}).then(function (response){
@@ -508,6 +412,18 @@ describe('Action formBirds:', function () {
             response.should.not.have.property('error');            
             response.data.length.should.be.equal(1);
             response.data[0].startDateTime.toString().should.be.equal(moment('11/11/1901 08:10').toDate().toString());            
+          });          
+        });
+      });
+    });
+
+    setup.describeAsUser(function (runAction) {
+      it('filter from_date and to_date', function () {
+        return runAction('formBirds:create', _.assign(birdsRecord, {startDateTime: '11/11/1902 09:10'})).then(function (response) {
+          return runAction('formBirds:list', {from_date: '11/11/1902 08:10', to_date: '11/11/1902 10:10'}).then(function (response){
+            response.should.not.have.property('error');
+            response.data.length.should.be.equal(1);
+            response.data[0].startDateTime.toString().should.be.equal(moment('11/11/1902 09:10').toDate().toString());            
           });          
         });
       });
