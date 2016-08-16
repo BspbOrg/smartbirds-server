@@ -46,6 +46,8 @@ exports.default = {
         'plugin':      [ __dirname + '/../../node_modules' ] ,
         'model':       [ __dirname + '/../models'       ] ,
         'view':        [ __dirname + '/../views' ] ,
+        'fileupload':  [ __dirname + '/../../uploads/tmp' ] ,
+        'monitoring':  [ __dirname + '/../../uploads/files' ] ,
       },
       // hash containing chat rooms you wish to be created at server boot
       startingChatRooms: {

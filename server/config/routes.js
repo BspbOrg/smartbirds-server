@@ -28,7 +28,9 @@ exports.default = {
 
         { path: '/cbm', action: 'formCBM:list' },
         { path: '/cbm.csv', action: 'formCBM:list' },
-        { path: '/cbm/:id', action: 'formCBM:view' }
+        { path: '/cbm/:id', action: 'formCBM:view' },
+
+        { path: '/storage/:id', action: 'downloader' },
       ],
 
       post: [
@@ -41,6 +43,8 @@ exports.default = {
         { path: '/zone/:id/owner/response', action: 'zone:respondOwnershipRequest' },
         { path: '/cbm',      action: 'formCBM:create' },
         { path: '/cbm/:id',  action: 'formCBM:edit' },
+
+        { path: '/storage', action: 'uploader' },
       ],
 
       put: [

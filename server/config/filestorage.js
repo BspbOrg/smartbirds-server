@@ -1,0 +1,4 @@
+
+exports.default = {
+  filestorage: {}
+};
