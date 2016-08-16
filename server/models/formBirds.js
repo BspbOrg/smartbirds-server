@@ -173,7 +173,7 @@ var fields = {
   }
 };
 
-var model = Model('formBirds', fields, [
+var model = Model('FormBirds', fields, [
   {targetModelName: 'species', as: 'speciesInfo', foreignKey: 'species', targetKey: 'labelLa'},
   {targetModelName: 'user', as: 'user'},
 ]);
