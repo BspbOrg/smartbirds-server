@@ -170,7 +170,8 @@ var fields = {
   location: {
     type: 'text',
     required: true
-  }
+  },
+  speciesNotes: 'text'
 };
 
 var model = Model('FormBirds', fields, [
