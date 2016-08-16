@@ -6,3 +6,4 @@ npm-debug.log
 log/
 pids/
 public/css/main.css*
+uploads/
