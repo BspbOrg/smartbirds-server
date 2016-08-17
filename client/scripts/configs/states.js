@@ -200,7 +200,13 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
         resolve: {
           model: [formDef.model, function(model) {
             return model;
-          }]
+          }],
+          formName: function() {
+            return formName;
+          },
+          formDef: function() {
+            return formDef;
+          }
         }
       })
 
