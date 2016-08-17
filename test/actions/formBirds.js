@@ -15,7 +15,7 @@ describe('Action formBirds:', function () {
     species: 'Accipiter nisus',
     confidential: true,
     countUnit: {
-      type: 'birds_count_units',      
+      type: 'birds_count_units',
       id: 8,
       label: {
         bg: 'Гнездо(а)',
@@ -23,7 +23,7 @@ describe('Action formBirds:', function () {
       }
     },
     typeUnit: {
-      type: 'birds_count_type',      
+      type: 'birds_count_type',
       id: 102,
       label: {
         bg: 'Диапазон',
@@ -31,7 +31,7 @@ describe('Action formBirds:', function () {
       }
     },
     typeNesting: {
-      type: 'birds_nesting',      
+      type: 'birds_nesting',
       id: 32,
       label: {
         bg: 'Гнездо',
@@ -48,8 +48,8 @@ describe('Action formBirds:', function () {
         bg: 'Женски',
         en: 'Female'
       }
-      
-    },    
+
+    },
     age: {
       type: 'birds_age',
       id: 11,
@@ -155,13 +155,13 @@ describe('Action formBirds:', function () {
       }
     },
     landuse300mRadius: 'using 30-300 square meters land',
-    
+
     endDateTime: '10/12/2015 10:15',
     startDateTime: '09/12/2015 08:10',
     location: 'some free location text',
     observers: 'Some test observers',
     rain: {
-      type: 'main_rain',      
+      type: 'main_rain',
       label: {
         bg: 'Ръми',
         en: 'Drizzle'
@@ -176,7 +176,7 @@ describe('Action formBirds:', function () {
       }
     },
     windSpeed: {
-      type: 'main_wind_force',      
+      type: 'main_wind_force',
       label: {
         bg: '2 - Лек бриз',
         en: '2 - Light breeze'
@@ -232,10 +232,10 @@ describe('Action formBirds:', function () {
   setup.describeAsAuth(function (runAction) {
     describe('fails to create without', function () {
       var required = ['latitude', 'longitude', 'observationDateTime', 'monitoringCode',
-        'species', 'countUnit', 'typeUnit', 'count', 'countMin', 'countMax', 
+        'species', 'countUnit', 'typeUnit', 'count', 'countMin', 'countMax',
         'endDateTime', 'startDateTime', 'location', 'observers'];
 
-      for (var i =0; i< required.length; i+=1) {        
+      for (var i =0; i< required.length; i+=1) {
         function wrap (property) {
           it(property, function () {
             var reqBirdObj = _.cloneDeep(birdsRecord);
@@ -259,7 +259,7 @@ describe('Action formBirds:', function () {
 
       it('attaches the user created the record', function () {
         return runAction('formBirds:create', birdsRecord).then(function (response) {
-          should.not.exist(response.error);          
+          should.not.exist(response.error);
           response.data.user.should.be.equal(response.requesterUser.id);
         });
       });
@@ -360,10 +360,10 @@ describe('Action formBirds:', function () {
         return runAction('formBirds:create', _.assign(birdsRecord, {user: 3})).then(function (response) {
           return runAction('formBirds:list', {user: 3}).then(function (response){
             response.should.not.have.property('error');
-            for (var i = 0; i < response.data.length; i++) {              
+            for (var i = 0; i < response.data.length; i++) {
               response.data[i].user.should.be.equal(3);
             }
-          });          
+          });
         });
       });
     });
@@ -373,10 +373,10 @@ describe('Action formBirds:', function () {
         return runAction('formBirds:create', _.assign(birdsRecord, {species: 'Anas acuta'})).then(function (response) {
           return runAction('formBirds:list', {species: 'Anas acuta'}).then(function (response){
             response.should.not.have.property('error');
-            for (var i = 0; i < response.data.length; i++) {              
+            for (var i = 0; i < response.data.length; i++) {
               response.data[i].species.should.be.equal('Anas acuta');
             }
-          });          
+          });
         });
       });
     });
@@ -387,45 +387,30 @@ describe('Action formBirds:', function () {
           return runAction('formBirds:list', {location: 'some_unq_location'}).then(function (response){
             response.should.not.have.property('error');
             response.data.length.should.be.equal(1);
-            response.data[0].location.should.be.equal('some_unq_location');            
-          });          
+            response.data[0].location.should.be.equal('some_unq_location');
+          });
         });
       });
     });
 
     setup.describeAsUser(function (runAction) {
       it('filter from_date', function () {
-        return runAction('formBirds:create', _.assign(birdsRecord, {startDateTime: '11/11/2021 08:10'})).then(function (response) {
-          return runAction('formBirds:list', {from_date: '11/11/2021 08:10'}).then(function (response){
-            response.should.not.have.property('error');            
-            response.data.length.should.be.equal(1);
-            response.data[0].startDateTime.toString().should.be.equal(moment('11/11/2021 08:10').toDate().toString());            
-          });          
+        return runAction('formBirds:list', {from_date: '2016-12-20T10:15Z'}).then(function (response){
+          response.should.not.have.property('error');
+          response.data.length.should.be.equal(2);
         });
       });
-    });
-
-    setup.describeAsUser(function (runAction) {
       it('filter to_date', function () {
-        return runAction('formBirds:create', _.assign(birdsRecord, {startDateTime: '11/11/1901 08:10'})).then(function (response) {
-          return runAction('formBirds:list', {to_date: '11/11/1901 08:10'}).then(function (response){
-            response.should.not.have.property('error');            
-            response.data.length.should.be.equal(1);
-            response.data[0].startDateTime.toString().should.be.equal(moment('11/11/1901 08:10').toDate().toString());            
-          });          
-        });
+          return runAction('formBirds:list', {to_date: '2016-12-20T10:15Z'}).then(function (response){
+            response.should.not.have.property('error');
+            response.data.length.should.be.equal(2);
+          });
       });
-    });
-
-    setup.describeAsUser(function (runAction) {
-      it('filter from_date and to_date', function () {
-        return runAction('formBirds:create', _.assign(birdsRecord, {startDateTime: '11/11/1902 09:10'})).then(function (response) {
-          return runAction('formBirds:list', {from_date: '11/11/1902 08:10', to_date: '11/11/1902 10:10'}).then(function (response){
+      it.only('filter from_date and to_date', function () {
+          return runAction('formBirds:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:15Z'}).then(function (response){
             response.should.not.have.property('error');
             response.data.length.should.be.equal(1);
-            response.data[0].startDateTime.toString().should.be.equal(moment('11/11/1902 09:10').toDate().toString());            
-          });          
-        });
+          });
       });
     });
 

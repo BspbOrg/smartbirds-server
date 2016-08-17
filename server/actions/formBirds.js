@@ -14,7 +14,7 @@ exports.formBirdsAdd = {
   inputs: model.insertInputs,
 
   run: actions.getInsert('formBirds')
-}; 
+};
 
 exports.formBirdsEdit = {
   name: 'formBirds:edit',
@@ -44,7 +44,6 @@ exports.formBirdsDelete = {
 
   run: actions.getDelete('formBirds')
 };
-
 
 
 function prepareQuery(api, data) {
@@ -81,34 +80,23 @@ function prepareQuery(api, data) {
         q.where = _.extend(q.where || {}, {
           location: data.params.location
         });
-      }      
+      }
       if (data.params.species) {
         q.where = _.extend(q.where || {}, {
           species: data.params.species
         });
-      }      
-      if (data.params.from_date && data.params.to_date) {
-        q.where = _.extend(q.where || {}, {
-          startDateTime: {            
-            $gte: moment(data.params.from_date).toDate(),
-            $lte: moment(data.params.to_date).toDate()
-          }
+      }
+      if (data.params.from_date) {
+        q.where = q.where || {};
+        q.where.observationDateTime = _.extend(q.where.observationDateTime || {}, {
+          $gte: moment(data.params.from_date).toDate()
         });
-      } else {
-        if (data.params.from_date) {
-          q.where = _.extend(q.where || {}, {
-            startDateTime: {            
-              $gte: moment(data.params.from_date).toDate()
-            }
-          });
-        }
-        if (data.params.to_date) {
-          q.where = _.extend(q.where || {}, {
-            startDateTime: {
-              $lte: moment(data.params.to_date).toDate()
-            }
-          });
-        }
+      }
+      if (data.params.to_date) {
+        q.where = q.where || {};
+        q.where.observationDateTime = _.extend(q.where.observationDateTime || {}, {
+          $lte: moment(data.params.to_date).toDate()
+        });
       }
       return q;
     })
@@ -126,8 +114,8 @@ exports.formBirdsList = {
     from_date: {},
     to_date: {},
     limit: {required: false, default: 20},
-    offset: {required: false, default: 0}    
+    offset: {required: false, default: 0}
   },
 
-  run: actions.getSelect('formBirds', prepareQuery) 
+  run: actions.getSelect('formBirds', prepareQuery)
 };
