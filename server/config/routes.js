@@ -31,6 +31,7 @@ exports.default = {
         { path: '/cbm/:id', action: 'formCBM:view' },
 
         { path: '/birds', action: 'formBirds:list' },
+        { path: '/birds.csv', action: 'formBirds:list' },
         { path: '/birds/:id', action: 'formBirds:view'}
       ],
 
