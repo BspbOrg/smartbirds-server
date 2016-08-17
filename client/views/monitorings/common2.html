@@ -9,12 +9,28 @@
       <div class="col-md-6">
         <field name="latitude" type="float" required="true"
                label="Географска ширина"
+               on-select="monitoringDetailController.updateFromModel()"
                model="monitoringDetailController.data.latitude"></field>
       </div>
       <div class="col-md-6">
         <field name="longitude" type="float" required="true"
                label="Географска дължина"
+               on-select="monitoringDetailController.updateFromModel()"
                model="monitoringDetailController.data.longitude"></field>
+      </div>
+      <div class="col-md-12">
+        <ui-gmap-google-map
+          center="monitoringDetailController.map.center"
+          pan="true"
+          zoom="monitoringDetailController.map.zoom"
+          events="{click: monitoringDetailController.map.click}"
+          options="{mapTypeId: 'hybrid', clickableIcons: false}">
+          <ui-gmap-marker
+            ng-if="monitoringDetailController.map.poi.latitude && monitoringDetailController.map.poi.longitude"
+            coords="monitoringDetailController.map.poi"
+            idKey="'coords'"
+          ></ui-gmap-marker>
+        </ui-gmap-google-map>
       </div>
     </div>
   </div>

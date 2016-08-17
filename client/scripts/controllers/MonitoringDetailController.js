@@ -38,51 +38,55 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
       longitude: undefined
     },
     center: {
-      latitude: 43,
-      longitude: 23
+      latitude: 42.765833,
+      longitude: 25.238611
     },
-    zoom: 14,
+    zoom: 8,
     click: function (maps, event, scope, args) {
+      if (typeof args === 'undefined') {
+        args = scope;
+        scope = undefined;
+      }
       controller.data.latitude = args[0].latLng.lat();
       controller.data.longitude = args[0].latLng.lng();
-      controller.map.poi.latitude = controller.data.latitude;
-      controller.map.poi.longitude = controller.data.longitude;
-      controller.map.center = controller.data.getZone && controller.data.getZone() && angular.copy(controller.data.getZone().getCenter() || controller.map.poi);
+      controller.updateFromModel();
       $scope.smartform.$setDirty();
-      // trigger a digest cycle to update the ui
-      $timeout(angular.noop);
     }
   };
 
-  // wait to receive the data and populate the map
-  if (controller.data.$promise) {
-    controller.data.$promise.then(function (data) {
-      if (data.zone) {
-        controller.map.center = data.getZone && data.getZone() && angular.copy(data.getZone().getCenter() || controller.map.poi);
-        controller.map.zoom = 14;
-      }
-    });
-  }
+  controller.updateFromModel = function(data) {
+    data = data || controller.data;
+    controller.map.poi.latitude = data.latitude;
+    controller.map.poi.longitude = data.longitude;
+    if (data.getZone) {
+      controller.map.center = data.getZone() && angular.copy(data.getZone().getCenter() || controller.map.poi);
+      controller.map.zoom = 14;
+    } else if (controller.map.poi.latitude && controller.map.poi.longitude) {
+      controller.map.center = angular.copy(controller.map.poi);
+      controller.map.zoom = 14;
+    }
+    // trigger a digest cycle to update the ui
+    $timeout(angular.noop);
+  };
 
-  // update the map poi with data coords
+  // update the map poi with data coords and zoom
   $q.resolve(controller.data.$promise || controller.data).then(function (data) {
-    $timeout(function () {
-      controller.map.poi.latitude = data.latitude;
-      controller.map.poi.longitude = data.longitude;
-      controller.map.center = data.getZone && data.getZone() && angular.copy(data.getZone().getCenter() || controller.map.poi);
-    }, 500);
+    $timeout(controller.updateFromModel, 500);
   });
+
 
   // when zone is changed recenter the poi
   controller.onZoneSelected = function () {
     if (!controller.data.getZone || !controller.data.getZone()) return;
-    controller.map.center = angular.copy(controller.data.getZone().getCenter());
-    controller.map.refresh = true;
-    controller.map.zoom = 14;
-    controller.data.latitude = controller.map.center.latitude;
-    controller.data.longitude = controller.map.center.longitude;
-    controller.map.poi.latitude = controller.data.latitude;
-    controller.map.poi.longitude = controller.data.longitude;
+    var zoneCenter = controller.data.getZone().getCenter();
+    controller.data.latitude = zoneCenter.latitude;
+    controller.data.longitude = zoneCenter.longitude;
+    controller.updateFromModel();
+    // controller.map.center = angular.copy(controller.data.getZone().getCenter());
+    // controller.map.refresh = true;
+    // controller.map.zoom = 14;
+    // controller.map.poi.latitude = controller.data.latitude;
+    // controller.map.poi.longitude = controller.data.longitude;
     $scope.smartform.$setDirty();
   };
 

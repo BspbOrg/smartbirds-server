@@ -36,14 +36,14 @@
     <div class="col-md-4">
       <field name="zone" type="zone" required="true"
              label="Място"
-             on-select="monitoringDetailController.onZoneSelected"
+             on-select="monitoringDetailController.onZoneSelected()"
              model="monitoringDetailController.data.zone"></field>
 
       <ui-gmap-google-map
         ng-if="monitoringDetailController.map.poi.latitude && monitoringDetailController.map.poi.longitude"
         center="monitoringDetailController.map.center"
         zoom="monitoringDetailController.map.zoom"
-        options="{mapTypeId: 'hybrid'}">
+        options="{mapTypeId: 'hybrid', clickableIcons: false}">
         <ui-gmap-marker coords="monitoringDetailController.map.poi"
                         idKey="'coords'"
         ></ui-gmap-marker>

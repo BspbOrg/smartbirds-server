@@ -7,5 +7,6 @@
          aria-describedby="{{::field.name}}HelpBlock"
          placeholder="{{::field.placeholder}}"
          ng-model="field.model"
+         ng-change="field.onSelect()"
          ng-required="::field.required">
 </sb-include>
