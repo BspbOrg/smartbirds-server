@@ -45,7 +45,7 @@ require('../app').directive('field', /*@ngInject*/function ($q) {
       field.onSelect = function () {
         $timeout(function () {
           if (angular.isFunction(field.select)) {
-            field.select()({model: field.model});
+            field.select({model: field.model});
           }
         });
       };

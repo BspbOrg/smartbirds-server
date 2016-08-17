@@ -1,5 +1,5 @@
 <div class="row">
-  <div ng-if="monitoringDetailController.hasZone" class="col-md-4">
+  <div ng-if="monitoringDetailController.hasZone" class="col-md-6">
     <field name="zone" type="zone" required="true"
            label="Място"
            on-select="monitoringDetailController.onZoneSelected"
@@ -26,7 +26,7 @@
     </ui-gmap-google-map>
   </div>
 
-  <div ng-if="!monitoringDetailController.hasZone" class="col-md-4">
+  <div ng-if="!monitoringDetailController.hasZone" class="col-md-6">
     <div class="row">
       <div class="col-md-12">
         <field name="location" type="text" required="true"
@@ -49,12 +49,36 @@
   </div>
 
   <div class="col-md-4">
+    <field name="observationDate" type="date" required="true"
+           label="Наблюдение дата"
+           on-select="monitoringDetailController.observationDateChange()"
+           model="monitoringDetailController.data.observationDateTime"></field>
+  </div>
+
+  <div class="col-md-2">
+    <field name="observationTime" type="time" required="true"
+           label="Наблюдение час"
+           on-select="monitoringDetailController.observationDateChange()"
+           model="monitoringDetailController.data.observationDateTime"></field>
+  </div>
+
+  <div class="col-md-6">
+    <field name="monitoringCode" type="text"
+           label="Код наблюдение"
+           model="monitoringDetailController.data.monitoringCode"></field>
+  </div>
+
+</div>
+
+<div class="row" ng-if="monitoringDetailController.data.monitoringCode">
+
+  <div class="col-md-4">
     <field name="startDate" type="date" required="true"
            label="Начална дата"
            model="monitoringDetailController.data.startDateTime"></field>
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-2">
     <field name="startTime" type="time" required="true"
            label="Начален час"
            model="monitoringDetailController.data.startDateTime"></field>
@@ -66,29 +90,16 @@
            model="monitoringDetailController.data.endDateTime"></field>
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-2">
     <field name="endTime" type="time" required="true"
            label="Краен час"
            model="monitoringDetailController.data.endDateTime"></field>
   </div>
 
-  <div class="col-md-4">
-    <field name="monitoringCode" type="text" required="true"
-           label="Код наблюдение"
-           model="monitoringDetailController.data.monitoringCode"></field>
-  </div>
+</div>
 
-  <div class="col-md-4">
-    <field name="observationDate" type="date" required="true"
-           label="Наблюдение дата"
-           model="monitoringDetailController.data.observationDateTime"></field>
-  </div>
+<div class="row">
 
-  <div class="col-md-4">
-    <field name="observationTime" type="time" required="true"
-           label="Наблюдение час"
-           model="monitoringDetailController.data.observationDateTime"></field>
-  </div>
 
   <div ng-if="$user.isAdmin()" class="col-md-4">
     <field name="user" type="user" required="true"

@@ -7,6 +7,7 @@
          placeholder="{{::field.placeholder}}"
          ng-model="field.model"
          ng-required="::field.required"
+         ng-change="field.onSelect()"
          bs-timepicker
          data-time-format="HH:mm"
   >

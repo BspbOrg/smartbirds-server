@@ -1,6 +1,4 @@
-/**
- * Created by groupsky on 11.01.16.
- */
+var moment = require('moment');
 
 require('../app').controller('MonitoringDetailController', /*@ngInject*/function ($scope, $state, $stateParams, $q, $timeout, model, ngToast, db, Raven) {
 
@@ -8,11 +6,29 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
 
   var id = $stateParams.id || $stateParams.fromId;
 
+  function genSingleObservationCode() {
+    var date = controller.data.observationDateTime;
+    if (date && date.toJSON)
+      date = date.toJSON();
+    return '!SINGLE-' + date;
+  }
+
+  function clearGeneratedSingleObservationCode() {
+    if (controller.data.monitoringCode == genSingleObservationCode()) {
+      controller.data.monitoringCode = null;
+    }
+  }
+
   controller.db = db;
   controller.data = id ? model.get({id: id}) : new model();
   if (!$stateParams.id && $stateParams.fromId) {
     controller.data.$promise.then(function () {
       controller.clearForCopy();
+    });
+  }
+  if (controller.data.$promise) {
+    controller.data.$promise.then(function () {
+      clearGeneratedSingleObservationCode();
     });
   }
   controller.hasZone = !!controller.data.getZone;
@@ -85,9 +101,17 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
   };
 
   controller.save = function () {
-    controller.data.$save().then(function (res) {
+    var data = new model(controller.data);
+    if (!data.monitoringCode) {
+      data.monitoringCode = genSingleObservationCode();
+    }
+    data.$save().then(function (res) {
       $scope.smartform.$setPristine();
       return res;
+    }).then(function(res) {
+      controller.data = res;
+      clearGeneratedSingleObservationCode();
+      return controller.data;
     }).then(function (res) {
       ngToast.create({
         className: 'success',
@@ -104,5 +128,15 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
     }).then(function (res) {
       $state.go('^.detail', {id: res.id}, {location: 'replace'});
     });
+  };
+
+  controller.observationDateChange = function () {
+    var change = controller.data.startDateTime == controller.data.endDateTime || !controller.data.monitoringCode;
+    if (change || !controller.data.startDateTime) {
+      controller.data.startDateTime = controller.data.observationDateTime;
+    }
+    if (change || !controller.data.endDateTime) {
+      controller.data.endDateTime = controller.data.observationDateTime;
+    }
   };
 });
