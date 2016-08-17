@@ -3,7 +3,7 @@
  */
 
 var angular = require('angular');
-require('../app').controller('MonitoringController', /*@ngInject*/function ($state, $stateParams, $q, model, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, $cookies) {
+require('../app').controller('MonitoringController', /*@ngInject*/function ($state, $stateParams, $q, model, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, $cookies, formName) {
 
   var controller = this;
   var lastModel = false;
@@ -46,20 +46,22 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
     }
   };
   controller.tab = 'list';
-  $q.resolve(db.nomenclatures.$promise || db.nomenclatures).then(function (nomenclatures) {
-    return nomenclatures.cbm_visit_number.$promise || nomenclatures.cbm_visit_number;
-  }).then(function (visits) {
-    controller.visits = visits;
-  });
-  $q.resolve(db.zones.$promise || db.zones).then(function (zones) {
-    controller.zones = [];
-    angular.forEach(db.zones, function (zone, key) {
-      controller.zones.push(zone);
+  if (formName == 'cbm') {
+    $q.resolve(db.nomenclatures.$promise || db.nomenclatures).then(function (nomenclatures) {
+      return nomenclatures.cbm_visit_number.$promise || nomenclatures.cbm_visit_number;
+    }).then(function (visits) {
+      controller.visits = visits;
     });
-    controller.zones.sort(function (a, b) {
-      return a.id < b.id ? -1 : a.id > b.id ? +1 : 0;
-    })
-  });
+    $q.resolve(db.zones.$promise || db.zones).then(function (zones) {
+      controller.zones = [];
+      angular.forEach(db.zones, function (zone, key) {
+        controller.zones.push(zone);
+      });
+      controller.zones.sort(function (a, b) {
+        return a.id < b.id ? -1 : a.id > b.id ? +1 : 0;
+      })
+    });
+  }
 
   controller.updateFilter = function () {
     console.log($stateParams, '->', controller.filter);
@@ -115,7 +117,7 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
 
   function fetch(query) {
     controller.loading = true;
-    controller.downloadLink = ENDPOINT_URL + '/cbm.csv?' + $httpParamSerializer(angular.extend({}, query, {
+    controller.downloadLink = ENDPOINT_URL + '/'+formName+'.csv?' + $httpParamSerializer(angular.extend({}, query, {
         limit: -1,
         offset: 0,
         csrfToken: $cookies.get('sb-csrf-token')
