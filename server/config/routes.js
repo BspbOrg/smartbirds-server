@@ -35,6 +35,10 @@ exports.default = {
         { path: '/birds/:id', action: 'formBirds:view'},
 
         { path: '/storage/:id', action: 'downloader' },
+
+        { path: '/herp', action: 'formHerps:list' },
+        { path: '/herp.csv', action: 'formHerps:list' },
+        { path: '/herp/:id', action: 'formHerps:view'}
       ],
 
       post: [
@@ -52,6 +56,9 @@ exports.default = {
         { path: '/birds/:id',action: 'formBirds:edit'},
 
         { path: '/storage', action: 'uploader' },
+
+        { path: '/herp',    action: 'formHerps:create'},
+        { path: '/herp/:id',action: 'formHerps:edit'}
       ],
 
       put: [

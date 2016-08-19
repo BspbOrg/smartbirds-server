@@ -58,14 +58,15 @@ module.exports = [
     data: lodash.extend({}, baseModel, {
       species: 'Accipiter nisus',
       user: {email: 'user@smartbirds.com'},
-      observationDateTime: '2016-12-30T10:15Z',
+      observationDateTime: '2016-12-30T10:15Z',      
+      location: 'some_unq_location'
     })
   },
   {
     model: 'formBirds',
     data: lodash.extend({}, baseModel, {
       species: 'Alle alle',
-      user: {email: 'admin@smartbirds.com'},
+      user: {email: 'admin@smartbirds.com'}
     })
   },
   {
@@ -79,7 +80,7 @@ module.exports = [
     model: 'formBirds',
     data: lodash.extend({}, baseModel, {
       species: 'Acrocephalus agricola',
-      user: {email: 'admin@smartbirds.com'},
+      user: {email: 'admin@smartbirds.com'}
     })
   },
   {
