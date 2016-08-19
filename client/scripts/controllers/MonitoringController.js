@@ -2,6 +2,7 @@
  * Created by groupsky on 08.01.16.
  */
 
+var _ = require('lodash');
 var angular = require('angular');
 require('../app').controller('MonitoringController', /*@ngInject*/function ($state, $stateParams, $q, model, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, $cookies, formName) {
 
@@ -64,13 +65,16 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
   }
 
   controller.updateFilter = function () {
-    console.log($stateParams, '->', controller.filter);
-    if (angular.equals(controller.filter, $stateParams))
+    var filter = _.mapValues(controller.filter, function(value) {
+      return value && angular.isFunction(value.toJSON) && value.toJSON() || value;
+    });
+    console.log($stateParams, '->', filter);
+    if (angular.equals(filter, $stateParams))
       return;
-    $state.go('.', controller.filter, {
+    $state.go('.', filter, {
       notify: false
     });
-    angular.extend($stateParams, controller.filter);
+    angular.extend($stateParams, filter);
     controller.requestRows();
   };
 

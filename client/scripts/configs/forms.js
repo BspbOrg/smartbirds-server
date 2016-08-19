@@ -19,8 +19,9 @@ module.exports = {
     filters: [
       '{location:int}',
       '{user:int}',
-      '{year:int}',
-      'species'
+      'species',
+      'from_date',
+      'to_date'
     ]
   }
 };
