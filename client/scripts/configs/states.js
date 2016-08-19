@@ -1,3 +1,5 @@
+var angular = require('angular');
+var forms = require('./forms');
 var module = require('../app');
 
 module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
@@ -176,12 +178,34 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
       // Monitorings //
       ///////////
       .state('auth.monitoring', {
-        url: '/monitoring?{location:int}&zone&{user:int}&visit&{year:int}&species',
+        url: '/monitoring'
+      });
+
+  angular.forEach(forms, function(formDef, formName) {
+
+    $stateProvider
+
+    ///////////
+    // Monitoring List //
+    ///////////
+      .state('auth.monitoring.'+formName, {
+        url: '/'+formName+'?'+(formDef||[]).filters.join('&'),
         views: {
-          'content': {
-            templateUrl: '/views/monitorings/list.html',
+          'content@auth': {
+            templateUrl: '/views/monitorings/list_'+formName+'.html',
             controller: 'MonitoringController',
             controllerAs: 'monitoringController'
+          }
+        },
+        resolve: {
+          model: [formDef.model, function(model) {
+            return model;
+          }],
+          formName: function() {
+            return formName;
+          },
+          formDef: function() {
+            return formDef;
           }
         }
       })
@@ -189,11 +213,11 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
       ///////////
       // Monitoring Detail //
       ///////////
-      .state('auth.monitoring.detail', {
+      .state('auth.monitoring.'+formName+'.detail', {
         url: '/{id:int}',
         views: {
           'content@auth': {
-            templateUrl: '/views/monitorings/detail.html',
+            templateUrl: '/views/monitorings/'+formName+'.html',
             controller: 'MonitoringDetailController',
             controllerAs: 'monitoringDetailController'
           }
@@ -203,11 +227,11 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
       ///////////
       // Monitoring New //
       ///////////
-      .state('auth.monitoring.new', {
+      .state('auth.monitoring.'+formName+'.new', {
         url: '/new',
         views: {
           'content@auth': {
-            templateUrl: '/views/monitorings/detail.html',
+            templateUrl: '/views/monitorings/'+formName+'.html',
             controller: 'MonitoringDetailController',
             controllerAs: 'monitoringDetailController'
           }
@@ -215,18 +239,22 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
       })
 
       ///////////
-      // Monitoring Detail //
+      // Monitoring Copy //
       ///////////
-      .state('auth.monitoring.copy', {
+      .state('auth.monitoring.'+formName+'.copy', {
         url: '/copy?{fromId:int}',
         views: {
           'content@auth': {
-            templateUrl: '/views/monitorings/detail.html',
+            templateUrl: '/views/monitorings/'+formName+'.html',
             controller: 'MonitoringDetailController',
             controllerAs: 'monitoringDetailController'
           }
         }
       })
+
+  });
+    $stateProvider
+
 
       ///////////
       // Zones //

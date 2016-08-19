@@ -10,6 +10,7 @@
            ng-model="field.model"
            is-open="field.opened"
            ng-required="::field.required"
+           ng-change="field.onSelect()"
            current-text="Днес"
            close-text="OK"
            clear-text="Изчистване"

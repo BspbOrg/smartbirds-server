@@ -1,19 +1,25 @@
-<div ng-class="{
-            'has-error': field.name && form[field.name].$invalid,
-            'has-success': field.name && form[field.name].$dirty && form[field.name].$valid,
-            'has-warning': false,
-            'has-feedback': false
-          }">
-  <div class="checkbox">
-    <label>
-      <input type="checkbox"
-             id="{{::field.name}}"
-             name="{{::field.name}}"
+<sb-include src="/views/fields/container.html">
+  <div>
+    <div class="btn-group">
+      <label type="button"
+             class="btn"
+             ng-class="field.model?'btn-primary':'btn-default'"
              aria-describedby="{{::field.name}}HelpBlock"
-             ng-readonly="::field.readonly"
-             ng-model="field.model">
-      {{::field.label}}
-    </label>
+             ng-disabled="::field.readonly"
+             ng-model="field.model"
+             uib-btn-radio="true">
+        Да
+      </label>
+      <label type="button"
+             class="btn"
+             ng-class="!field.model?'btn-primary':'btn-default'"
+             aria-describedby="{{::field.name}}HelpBlock"
+             ng-disabled="::field.readonly"
+             ng-model="field.model"
+             uib-btn-radio="false">
+        Не
+      </label>
+    </div>
   </div>
   <span ng-if="::field.help" id="{{::field.name}}HelpBlock" class="help-block">{{::field.help}}</span>
-</div>
+</sb-include>

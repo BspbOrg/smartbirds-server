@@ -1,0 +1,251 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header">
+      <div class="pull-right">
+        <div class="btn-group">
+          <button type="button"
+                  class="btn btn-danger"
+                  ng-if="$user.isAdmin()"
+                  ng-disabled="!monitoringController.selectedRows.length"
+                  ng-click="monitoringController.deleteRows(monitoringController.selectedRows)">
+            <i class="fa fa-trash fa-fw"></i>
+            Изтриване
+            <span ng-if="monitoringController.selectedRows.length>1" class="badge">{{monitoringController.selectedRows.length}}</span>
+          </button>
+        </div>
+        <div class="btn-group">
+          <a role="button"
+             class="btn btn-primary"
+             ui-sref=".new"
+          >
+            <i class="fa fa-file-o fa-fw"></i>
+            Ново наблюдение
+          </a>
+        </div>
+      </div>
+      Наблюдения птици
+    </h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <div class="pull-right">
+          <div class="btn-group">
+            <button type="button" class="btn btn-default" disabled
+                    title="Намерени записи отговарящи на избраните филтри">
+              {{monitoringController.count || 0}}
+            </button>
+            <a role="button" class="btn btn-default" ng-href="{{monitoringController.downloadLink}}" target="_blank"
+               title="Генериране на csv файл с всички намерени записи">
+              <i class="fa fa-download fa-fw"></i> csv
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+
+        <form role="form" class="form form-filter">
+
+          <div ng-if="$user.isAdmin()" class="form-group">
+            <label for="owner">Наблюдател</label>
+
+            <user-selector model-id="monitoringController.filter.user" name="user"
+                           placeholder="- всички -" on-select="monitoringController.updateFilter()"></user-selector>
+          </div>
+
+          <div class="form-group">
+            <label for="location">Локация</label>
+            <location-selector name="location" model-id="monitoringController.filter.location"
+                               on-select="monitoringController.updateFilter()"
+                               placeholder="- всички -"></location-selector>
+          </div>
+
+          <field name="fromDate" type="date"
+                 label="От"
+                 on-select="monitoringController.updateFilter()"
+                 model="monitoringController.filter.from_date"></field>
+
+          <field name="toDate" type="date"
+                 label="До"
+                 on-select="monitoringController.updateFilter()"
+                 model="monitoringController.filter.to_date"></field>
+
+          <div class="form-group">
+            <label>Вид</label>
+            <ui-select ng-model="monitoringController.filter.species" name="species"
+                       on-remove="monitoringController.updateFilter()"
+                       on-select="monitoringController.updateFilter()">
+              <ui-select-match allow-clear="true" placeholder="- всички -">
+                {{$select.selected.value.toString()}}
+              </ui-select-match>
+              <ui-select-choices
+                repeat="species.key as (key, species) in monitoringController.species | filter:$select.search | orderBy:'toString()' | limitTo:30">
+                <div ng-bind-html="species.value.toString() | uibTypeaheadHighlight:$select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <ul class="nav nav-tabs">
+      <li role="presentation" ng-class="{active: monitoringController.tab == 'list'}">
+        <a href ng-click="monitoringController.tab = 'list'">
+          Списък
+        </a>
+      </li>
+      <li role="presentation" ng-class="{active: monitoringController.tab == 'map'}">
+        <a href ng-click="monitoringController.tab = 'map'; monitoringController.nextPage(1000)">
+          Карта
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<div ng-if="monitoringController.tab == 'map'"
+     class="row">
+  <div class="col-md-12">
+    <p ng-if="monitoringController.rows.length > monitoringController.map.rows.length" class="text-warning">
+      Показани са само първите 1000 записа!
+    </p>
+    <ui-gmap-google-map center='monitoringController.map.center' zoom='monitoringController.map.zoom'
+                        options="monitoringController.map.options">
+
+      <ui-gmap-polygons ng-if="monitoringController.map.zones.length"
+                        models="monitoringController.map.zones"
+                        static="true"
+                        path="'coordinates'"
+                        fill="{color: '#c33', opacity: 0.4}"
+                        stroke="{color: '#c33', opacity: 0.7, weight: 0.5}"
+                        geodesic="true"
+                        clickable="true"
+                        events="{click: monitoringController.map.polygon.click}"
+      >
+      </ui-gmap-polygons>
+
+      <ui-gmap-markers ng-if="monitoringController.map.rows.length"
+                       models="monitoringController.map.rows"
+                       static="true"
+                       coords="'self'"
+                       type="'spider'"
+                       modelsbyref="true"
+                       fit="true"
+                       click="monitoringController.map.marker.click">
+      </ui-gmap-markers>
+
+      <ui-gmap-window ng-if="monitoringController.map.selected.pin"
+                      coords="monitoringController.map.selected.pin"
+                      show="true"
+                      options="{pixelOffset: {width: 0, height: -32}}"
+                      closeClick="monitoringController.map.selected = {}"
+      >
+        <div>
+          <ul class="list-unstyled">
+            <li><strong>{{monitoringController.map.selected.pin.species}}</strong></li>
+            <li>{{monitoringController.map.selected.pin.species|species:'label.bg'}}</li>
+            <li class="text-1justify">
+              <span class="text-muted">индивиди:</span>
+              <span class="text-nowrap">{{monitoringController.map.selected.pin.count}}</span>
+            </li>
+            <li class="text-1justify">
+              <span class="text-muted">дата:</span>
+              <span class="text-nowrap">{{monitoringController.map.selected.pin.startDateTime|date:'d.MM.yyyy'}}</span>
+            </li>
+          </ul>
+        </div>
+      </ui-gmap-window>
+
+      <ui-gmap-window ng-if="monitoringController.map.selected.zone"
+                      coords="monitoringController.map.selected.zone.getCenter()"
+                      show="true"
+                      templateParameter="monitoringController.map.selected.zone"
+                      closeClick="monitoringController.map.selected = {}"
+      >
+        <div>
+          <ul class="list-unstyled">
+            <li><strong>{{monitoringController.map.selected.zone.owner|userName}}</strong></li>
+            <li>{{monitoringController.map.selected.zone.id}}</li>
+          </ul>
+        </div>
+      </ui-gmap-window>
+    </ui-gmap-google-map>
+  </div>
+</div>
+<div ng-if="monitoringController.tab == 'list'"
+     class="row"
+     infinite-scroll="monitoringController.nextPage()"
+     infinite-scroll-distance="10"
+     infinite-scroll-disabled="monitoringController.loading || monitoringController.endOfPages"
+     infinite-scroll-listen-for-event="list:filtered">
+  <div class="col-lg-12">
+    <table class="table table-striped table-hover" sb-table="monitoringController.order">
+      <thead>
+      <tr>
+        <th ng-if="$user.isAdmin()" ng-click="monitoringController.toggleSelected()">
+          <input type="checkbox" ng-checked="monitoringController.allSelected">
+        </th>
+        <th sb-sorting="id">#</th>
+        <th ng-if="$user.isAdmin()"
+            sb-sorting="getUser().getName()">
+          Наблюдател
+        </th>
+        <th
+          sb-sorting="date|date:'yyyyMMddHHmmss'">
+          Дата/час
+        </th>
+        <th
+          sb-sorting="updatedAt|date:'yyyyMMddHHmmss'">
+          Променен
+        </th>
+        <th sb-sorting="species.label.bg">
+          Вид
+        </th>
+        <th sb-sorting="distance.label.bg">
+          Разстояние
+        </th>
+        <th
+          sb-sorting="count">
+          Брой
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr
+        ng-repeat="row in monitoringController.rows | orderBy:monitoringController.order.key:monitoringController.order.reverse"
+        ng-click="$state.go('.detail', {id: row.id})" ng-class="{info: row.$selected}">
+        <td ng-if="$user.isAdmin()" ng-click="$event.stopPropagation(); monitoringController.toggleSelected(row)"><input type="checkbox"
+                                                                                                                         ng-checked="row.$selected">
+        </td>
+        <td><a href ui-sref=".detail({id: row.id})">{{::row.id}}</a></td>
+        <td ng-if="::$user.isAdmin()">{{row.getUser().getName()}}</td>
+        <td>{{::row.startDateTime|date:'d.MM.yyyy'}} {{row.startDateTime|date:'H:mm'}} -
+          {{row.endDateTime|date:'H:mm'}}
+        </td>
+        <td>{{::row.updatedAt|date:'d.MM.yyyy'}} {{row.updatedAt|date:'H:mm'}}</td>
+        <td>
+          {{row.getSpecies().label.bg}}<br/>
+          <strong>{{row.getSpecies().label.la}}</strong>
+        </td>
+        <td>{{::row.distance.label.bg}}</td>
+        <td>{{::row.count}}</td>
+      </tr>
+      </tbody>
+      <tfoot ng-if="monitoringController.loading">
+      <tr>
+        <th colspan="{{::$user.isAdmin()?10:9}}" class="text-center">
+          <i class="fa fa-spinner fa-2x fa-spin"></i>
+        </th>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

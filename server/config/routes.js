@@ -30,6 +30,10 @@ exports.default = {
         { path: '/cbm.csv', action: 'formCBM:list' },
         { path: '/cbm/:id', action: 'formCBM:view' },
 
+        { path: '/birds', action: 'formBirds:list' },
+        { path: '/birds.csv', action: 'formBirds:list' },
+        { path: '/birds/:id', action: 'formBirds:view'},
+
         { path: '/storage/:id', action: 'downloader' },
       ],
 
@@ -43,6 +47,9 @@ exports.default = {
         { path: '/zone/:id/owner/response', action: 'zone:respondOwnershipRequest' },
         { path: '/cbm',      action: 'formCBM:create' },
         { path: '/cbm/:id',  action: 'formCBM:edit' },
+
+        { path: '/birds',    action: 'formBirds:create'},
+        { path: '/birds/:id',action: 'formBirds:edit'},
 
         { path: '/storage', action: 'uploader' },
       ],
