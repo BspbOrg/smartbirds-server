@@ -63,51 +63,6 @@
                                placeholder="- всички -"></location-selector>
           </div>
 
-          <!--<div class="form-group">-->
-          <!--<label>Преброяване</label>-->
-          <!--<ui-select ng-model="monitoringController.filter.monitoring" name="monitoring">-->
-          <!--<ui-select-match allow-clear="true" placeholder="- всички -">{{$select.selected}}-->
-          <!--</ui-select-match>-->
-          <!--<ui-select-choices-->
-          <!--repeat="monitoring in monitorings | filter:$select.search | limitTo:10">-->
-          <!--<div ng-bind-html="monitoring | uibTypeaheadHighlight:$select.search"></div>-->
-          <!--</ui-select-choices>-->
-          <!--</ui-select>-->
-          <!--</div>-->
-
-          <div class="form-group">
-            <label>Площадка</label>
-            <ui-select ng-model="monitoringController.filter.zone" name="zone"
-                       on-remove="monitoringController.updateFilter()"
-                       on-select="monitoringController.updateFilter()">
-              <ui-select-match allow-clear="true" placeholder="- всички -">
-                {{$select.ngModel.$modelValue}}
-              </ui-select-match>
-              <ui-select-choices
-                repeat="zone.id as zone in monitoringController.zones | filter:{
-                  id: $select.search,
-                  location: {id: monitoringController.filter.location }
-                } | limitTo:30">
-                <div ng-bind-html="zone.toString() | uibTypeaheadHighlight:$select.search"></div>
-              </ui-select-choices>
-            </ui-select>
-          </div>
-
-          <div class="form-group">
-            <label>Посещение</label>
-            <ui-select ng-model="monitoringController.filter.visit" name="visit"
-                       on-remove="monitoringController.updateFilter()"
-                       on-select="monitoringController.updateFilter()">
-              <ui-select-match allow-clear="true" placeholder="- всички -">
-                {{$select.selected.value.toString()}}
-              </ui-select-match>
-              <ui-select-choices
-                repeat="visit.key as (key, visit) in monitoringController.visits | filter:$select.search | orderBy:'toString()' | limitTo:30">
-                <div ng-bind-html="visit.value.toString() | uibTypeaheadHighlight:$select.search"></div>
-              </ui-select-choices>
-            </ui-select>
-          </div>
-
           <div class="form-group">
             <label>От</label>
             <p class="input-group">
@@ -131,7 +86,7 @@
               </span>
             </p>
           </div>
-          
+
           <div class="form-group">
             <label>До</label>
             <p class="input-group">
