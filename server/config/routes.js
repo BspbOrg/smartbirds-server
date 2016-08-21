@@ -41,7 +41,11 @@ exports.default = {
 
         { path: '/herp', action: 'formHerps:list' },
         { path: '/herp.csv', action: 'formHerps:list' },
-        { path: '/herp/:id', action: 'formHerps:view'}
+        { path: '/herp/:id', action: 'formHerps:view'},
+
+        { path: '/ciconia', action: 'formCiconia:list' },
+        { path: '/ciconia.csv', action: 'formCiconia:list' },
+        { path: '/ciconia/:id', action: 'formCiconia:view'}
       ],
 
       post: [
@@ -62,7 +66,10 @@ exports.default = {
         { path: '/storage', action: 'uploader' },
 
         { path: '/herp',    action: 'formHerps:create'},
-        { path: '/herp/:id',action: 'formHerps:edit'}
+        { path: '/herp/:id',action: 'formHerps:edit'},
+
+        { path: '/ciconia',    action: 'formCiconia:create'},
+        { path: '/ciconia/:id',action: 'formCiconia:edit'}
       ],
 
       put: [
