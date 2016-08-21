@@ -3,7 +3,7 @@ var lodash = require('lodash');
 var baseModel = {
     latitude: 42.1463749,
     longitude: 24.7492006,
-    observationDateTime: '2015-12-10T12:15Z',
+    observationDateTime: '2016-12-20T10:15Z',
     monitoringCode: 'random_herp_1234',
     species: 'Accipiter nisus',
     count: 10,

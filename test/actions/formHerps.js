@@ -143,9 +143,9 @@ describe('Action formHerps:', function () {
       for (var i =0; i< required.length; i+=1) {        
         function wrap (property) {
           it(property, function () {
-            var reqBirdObj = _.cloneDeep(herpsRecord);
-            delete reqBirdObj[property];
-            return runAction('formHerps:create', reqBirdObj).then(function (response) {
+            var reqHerpObj = _.cloneDeep(herpsRecord);
+            delete reqHerpObj[property];
+            return runAction('formHerps:create', reqHerpObj).then(function (response) {
               response.error.should.be.equal('Error: ' + property + ' is a required parameter for this action');
             });
           });
@@ -172,32 +172,32 @@ describe('Action formHerps:', function () {
 
   }); // describeAsAuth
 
-  describe('Get BIRDS record by id', function () {
-    var birdId;
+  describe('Get herps record by id', function () {
+    var herpId;
 
     before(function () {
       return setup.runActionAsUser2('formHerps:create', herpsRecord).then(function (response) {
-        birdId = response.data.id;
+        herpId = response.data.id;
       });
     });
 
     it('is allowed if the requester user is the submitter', function () {
-      return setup.runActionAsUser2('formHerps:view', {id: birdId}).then(function (response) {
+      return setup.runActionAsUser2('formHerps:view', {id: herpId}).then(function (response) {
         response.should.not.have.property('error');
         response.should.have.property('data');
       });
     });
 
     it('should return the correct row', function () {
-      return setup.runActionAsUser2('formHerps:view', {id: birdId}).then(function (response) {
+      return setup.runActionAsUser2('formHerps:view', {id: herpId}).then(function (response) {
         response.should.not.have.property('error');
-        response.data.id.should.be.equal(birdId);
+        response.data.id.should.be.equal(herpId);
       });
     });
 
     setup.describeAsAdmin(function (runAction) {
       it('is allowed if the requester user is admin', function () {
-        return runAction('formHerps:view', {id: birdId}).then(function (response) {
+        return runAction('formHerps:view', {id: herpId}).then(function (response) {
           response.should.not.have.property('error');
           response.should.have.property('data');
         });
@@ -206,7 +206,7 @@ describe('Action formHerps:', function () {
 
     setup.describeAsUser(function (runAction) {
       it('is not allowed if the requester user is not the submitter', function () {
-        return runAction('formHerps:view', {id: birdId}).then(function (response) {
+        return runAction('formHerps:view', {id: herpId}).then(function (response) {
           response.should.have.property('error').and.not.empty();
         });
       });
@@ -214,13 +214,13 @@ describe('Action formHerps:', function () {
 
     setup.describeAsGuest(function (runAction) {
       it('is not allowed if the requester is guest  user', function () {
-        return runAction('formHerps:view', {id: birdId}).then(function (response) {
+        return runAction('formHerps:view', {id: herpId}).then(function (response) {
           response.should.have.property('error').and.not.empty();
         });
       });
     });
 
-  }); // Get BIRDS record by id
+  }); // Get herp record by id
 
   describe('given some herps rows:', function () {
     setup.describeAsUser(function (runAction) {
@@ -300,19 +300,19 @@ describe('Action formHerps:', function () {
 
     setup.describeAsUser(function (runAction) {
       it('filter from_date', function () {
-        return runAction('formBirds:list', {from_date: '2016-12-20T10:15Z'}).then(function (response){
+        return runAction('formHerps:list', {from_date: '2016-12-20T10:15Z'}).then(function (response){
           response.should.not.have.property('error');
           response.data.length.should.be.equal(2);
         });
       });
       it('filter to_date', function () {
-          return runAction('formBirds:list', {to_date: '2016-12-20T10:15Z'}).then(function (response){
+          return runAction('formHerps:list', {to_date: '2016-12-20T10:15Z'}).then(function (response){
             response.should.not.have.property('error');
-            response.data.length.should.be.equal(2);
+            response.data.length.should.be.equal(6);//6 records from fixtures
           });
       });
       it('filter from_date and to_date', function () {
-          return runAction('formBirds:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:15Z'}).then(function (response){
+          return runAction('formHerps:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:15Z'}).then(function (response){
             response.should.not.have.property('error');
             response.data.length.should.be.equal(1);
           });
@@ -333,8 +333,8 @@ describe('Action formHerps:', function () {
     it('is allowed if the requester is the submitter', function () {
       return setup.runActionAsUser2('formHerps:edit', {id: herpsId, notes: 'some new notes'}).then(function (response) {
         response.should.not.have.property('error');
-        return setup.api.models.formHerps.findOne({where: {id: herpsId}}).then(function (bird) {
-          bird.notes.should.be.equal('some new notes');
+        return setup.api.models.formHerps.findOne({where: {id: herpsId}}).then(function (herp) {
+          herp.notes.should.be.equal('some new notes');
         });
 
       });
@@ -360,14 +360,14 @@ describe('Action formHerps:', function () {
       it('is allowed if the requester user is admin', function () {
         return runAction('formHerps:edit', {id: herpsId, notes: 'some new notes'}).then(function (response) {
           response.should.not.have.property('error');
-          return setup.api.models.formHerps.findOne({where: {id: herpsId}}).then(function (bird) {
-            bird.notes.should.be.equal('some new notes');
+          return setup.api.models.formHerps.findOne({where: {id: herpsId}}).then(function (herp) {
+            herp.notes.should.be.equal('some new notes');
           });
         });
       });
     });
 
 
-  }); // Edit bird row
+  }); // Edit herp row
 
 });
