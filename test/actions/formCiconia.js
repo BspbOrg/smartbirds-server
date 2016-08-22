@@ -6,61 +6,52 @@ var Promise = require('bluebird');
 var moment = require('moment');
 require('should-sinon');
 
-describe.only('Action formCiconia:', function () {
+describe('Action formCiconia:', function () {
   var ciconiaRecord = {
     latitude: 42.1463749,
     longitude: 24.7492006,
-    observationDateTime: '10/12/2015 10:15',
-    monitoringCode: 'random_ciconia_1234',
-    species: 'Accipiter nisus',
-    sex: {
-      type: 'herp_gender',
-      id:33,
+    observationDateTime: '2016-12-20T12:15Z',
+    monitoringCode: 'random_ciconia_1234',    
+    primarySubstrateType: {
+      type: 'ciconia_substratum',      
       label: {
-        bg: 'Женски',
-        en: 'Female'
+        bg: 'ciconia_substratum',
+        en: 'ciconia_substratum'
       }
       
     },    
-    age: {
-      type: 'herp_age',
-      id: 11,
+    electricityPole: {
+      type: 'ciconia_column',
       label: {
         bg: 'Imm.',
         en: 'Imm.'
       }
     },
-    habitat: {
-      type: 'herp_habitat',      
-      id: 102,
+    typeElectricityPole: {
+      type: 'ciconia_column_type',
       label: {
-        bg: 'Диапазон',
-        en: 'Range'
+        bg: 'ciconia_column_type',
+        en: 'ciconia_column_type'
       }
     },
-    threatsCiconia: {
-      type: 'herp_danger_observation',      
-      id: 32,
+    nestOnArtificialHumanMadePlatform: true,
+    nestIsOnAnotherTypeOfSubstrate: 'blah blah',
+    nestThisYearNotUtilizedByWhiteStorks: {
+      type: 'ciconia_not_occupied',
       label: {
-        bg: 'herp_danger_observation',
-        en: 'herp_danger_observation'
+        bg: 'ciconia_not_occupied',
+        en: 'ciconia_not_occupied'
       }
     },
-    count: 10,
-    marking: 'some marking',
-    axisDistance: 1.23,
-    weight: 102,
-    sCLL: 2.3,
-    mPLLcdC: 1.2,
-    mCWA: 3.4,
-    hLcapPl: 4.5,
-    tempSubstrat: 5.4,
-    tempAir: 6.5,
-    tempCloaca: 3.3,
-    sqVentr: 0.13,
-    sqCaud: 0.34,
-    sqDors: 23,  
-    speciesNotes: 'some notes text',  
+    approximateDateStorksAppeared: '2015-03-10T12:15Z',
+    approximateDateDisappearanceWhiteStorks: '2015-08-10T12:15Z',
+    countJuvenilesInNest: 3,
+    nestNotUsedForOverOneYear: 1,
+    dataOnJuvenileMortalityFromElectrocutions: 1,
+    dataOnJuvenilesExpelledFromParents: 1,
+    diedOtherReasons: 23,  
+    reason: 'some reason',
+    noteSpecies: 'some notes text',  
     location: 'location somewhere',
     
     endDateTime: '10/12/2015 10:15',
@@ -289,7 +280,7 @@ describe.only('Action formCiconia:', function () {
       it('filter from_date', function () {
         return runAction('formCiconia:list', {from_date: '2016-12-20T10:15Z'}).then(function (response){
           response.should.not.have.property('error');
-          response.data.length.should.be.equal(2);
+          response.data.length.should.be.equal(5);
         });
       });
       it('filter to_date', function () {
