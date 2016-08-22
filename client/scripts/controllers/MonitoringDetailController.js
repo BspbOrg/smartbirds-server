@@ -1,3 +1,4 @@
+var angular = require('angular');
 var moment = require('moment');
 
 require('../app').controller('MonitoringDetailController', /*@ngInject*/function ($scope, $state, $stateParams, $q, $timeout, model, ngToast, db, Raven) {
@@ -143,4 +144,25 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
       controller.data.endDateTime = controller.data.observationDateTime;
     }
   };
+
+  if (controller.hasVisit = model.prototype.hasVisit) {
+    $scope.$watch(function () {
+      return controller.data.startDateTime;
+    }, function (date) {
+      controller.visit = null;
+      if (!date || angular.isString(date)) return;
+      var year = date.getUTCFullYear();
+      var visit = controller.visit = db.visits[year];
+      controller.isEarly = false;
+      controller.isLate = false;
+      if (visit) {
+        if (new Date(visit.early.start) <= date && date <= new Date(visit.early.end)) {
+          controller.isEarly = true;
+        }
+        if (new Date(visit.late.start) <= date && date <= new Date(visit.late.end)) {
+          controller.isLate = true;
+        }
+      }
+    });
+  }
 });

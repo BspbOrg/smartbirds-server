@@ -1,0 +1,71 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header">
+      <div class="pull-right">
+        <div class="btn-group">
+          <button type="button"
+                  class="btn btn-primary"
+                  ng-click="visits.new()"
+          >
+            <i class="fa fa-calendar-plus-o fa-fw"></i>
+            Ново посещение
+          </button>
+        </div>
+      </div>
+      Дати на посещения
+    </h1>
+
+    <form class="form-inline">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Година</th>
+          <th>Ранно</th>
+          <th>Късно</th>
+          <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-if="visits.editing" class="info">
+          <td ng-if="visits.editing.$exists">{{visits.editing.year}}</td>
+          <td ng-if="!visits.editing.$exists">
+            <field type="int" model="visits.editing.year" name="year"></field>
+          </td>
+          <td style="width: 0">
+            <field type="date" model="visits.editing.early.start" name="early_start" format="::{display: visits.dateFormat}"></field>
+            <field type="date" model="visits.editing.early.end" name="early_end" format="::{display: visits.dateFormat}"></field>
+          </td>
+          <td>
+            <field type="date" model="visits.editing.late.start" name="late_start" format="::{display: visits.dateFormat}"></field>
+            <field type="date" model="visits.editing.late.end" name="late_end" format="::{display: visits.dateFormat}"></field>
+          </td>
+          <td class="actions actions-2">
+            <p class="btn-group text-right">
+              <button type="submit" class="btn btn-success" ng-click="visits.save()">
+                <i class="fa fa-save fa-fw"></i>
+              </button>
+              <button type="reset" class="btn btn-danger" ng-click="visits.cancel()">
+                <i class="fa fa-remove fa-fw"></i>
+              </button>
+            </p>
+          </td>
+        </tr>
+
+        <tr ng-repeat="row in visits.rows | toArray | reverse" ng-class="{warning: row.$dirty}">
+          <td>{{::row.year}}</td>
+          <td>{{::row.early.start | date:visits.dateFormat}} - {{::row.early.end | date:visits.dateFormat}}</td>
+            <td>{{::row.late.start | date:visits.dateFormat}} - {{::row.late.end | date:visits.dateFormat}}</td>
+          <td>
+            <p class="btn-group pull-right">
+              <button type="button" class="btn btn-default" ng-click="visits.edit(row)">
+                <i class="fa fa-edit"></i>
+              </button>
+            </p>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div>

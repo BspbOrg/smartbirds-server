@@ -6,7 +6,7 @@
            name="{{::field.name}}"
            aria-describedby="{{::field.name}}HelpBlock"
            placeholder="{{::field.placeholder}}"
-           uib-datepicker-popup
+           uib-datepicker-popup="{{::field.format.display}}"
            ng-model="field.model"
            is-open="field.opened"
            ng-required="::field.required"

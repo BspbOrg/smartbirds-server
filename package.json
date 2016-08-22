@@ -94,7 +94,8 @@
     "debug": "./node_modules/debug/browser.js",
     "angular-loading-bar": "./bower_components/angular-loading-bar/build/loading-bar.js",
     "raven-js": "./bower_components/raven-js/dist/raven.js",
-    "raven-js-angular": "./bower_components/raven-js/dist/plugins/angular.js"
+    "raven-js-angular": "./bower_components/raven-js/dist/plugins/angular.js",
+    "angular-filter": "./bower_components/angular-filter/dist/angular-filter.js"
   },
   "browserify-shim": {
     "angular": "angular",
@@ -179,6 +180,11 @@
       ]
     },
     "angular-loading-bar": {
+      "depends": [
+        "angular:angular"
+      ]
+    },
+    "angular-filter": {
       "depends": [
         "angular:angular"
       ]

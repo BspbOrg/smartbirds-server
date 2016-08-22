@@ -3,13 +3,14 @@
  */
 
 var angular = require('angular');
-require('../app').service('db', /*@ngInject*/function ($q, Location, Nomenclature, Species, User, Zone) {
+require('../app').service('db', /*@ngInject*/function ($q, Location, Nomenclature, Species, User, Visit, Zone) {
   var db = {
     locations: {},
     nomenclatures: {},
     species: {},
     users: {},
-    zones: {}
+    zones: {},
+    visits: {}
   };
 
   db.locations.$promise = Location.query({limit: -1}).$promise.then(function (locations) {
@@ -51,7 +52,7 @@ require('../app').service('db', /*@ngInject*/function ($q, Location, Nomenclatur
       res[user.id] = user;
     });
     return res;
-  }).catch(function(response) {
+  }).catch(function (response) {
     if (response.status == 403) {
       return [];
     }
@@ -68,6 +69,16 @@ require('../app').service('db', /*@ngInject*/function ($q, Location, Nomenclatur
     return res;
   }).finally(function () {
     delete db.zones.$promise;
+  });
+
+  db.visits.$promise = Visit.query({limit: -1, nomenclature: true}).$promise.then(function (visits) {
+    var res = db.visits;
+    visits.forEach(function (visit) {
+      res[visit.year] = visit;
+    });
+    return res;
+  }).finally(function () {
+    delete db.visits.$promise;
   });
 
   var promises = [];

@@ -15,7 +15,8 @@ require('../app').directive('field', /*@ngInject*/function ($q) {
       model: '=',
       nomenclature: '@?',
       select: '&?onSelect',
-      match: '=?'
+      match: '=?',
+      format: '=?',
     },
     bindToController: true,
     require: '^form',

@@ -26,6 +26,9 @@ exports.default = {
         { path: '/species/:type', action: 'species:typeList' },
         { path: '/species/:type/:value', action: 'species:view' },
 
+        { path: '/visit', action: 'visit:list' },
+        { path: '/visit/:year', action: 'visit:view' },
+
         { path: '/cbm', action: 'formCBM:list' },
         { path: '/cbm.csv', action: 'formCBM:list' },
         { path: '/cbm/:id', action: 'formCBM:view' },
@@ -45,6 +48,7 @@ exports.default = {
         { path: '/session/:email/resetpw2', action: 'user:reset' },
         { path: '/zone/:id/owner', action: 'zone:requestOwnership' },
         { path: '/zone/:id/owner/response', action: 'zone:respondOwnershipRequest' },
+        { path: '/visit/:year',  action: 'visit:edit' },
         { path: '/cbm',      action: 'formCBM:create' },
         { path: '/cbm/:id',  action: 'formCBM:edit' },
 
@@ -67,6 +71,7 @@ exports.default = {
         { path: '/session',  action: 'session:destroy' },
         { path: '/zone/:id/owner', action: 'zone:clearOwner' },
         { path: '/cbm/:id', action: 'formCBM:delete' },
+        { path: '/visit/:year',  action: 'visit:delete' },
       ],
     }
   }

@@ -296,6 +296,20 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
           }
         }
       })
+
+      ///////////
+      // Visits //
+      ///////////
+      .state('auth.visits', {
+        url: '/visits',
+        views: {
+          'content@auth': {
+            templateUrl: '/views/visits/list.html',
+            controller: 'VisitsController as visits'
+          }
+        }
+      })
+
   })
   .run(/*@ngInject*/function ($rootScope, $state, $stateParams, authorization, user) {
     $rootScope.$state = $state;
