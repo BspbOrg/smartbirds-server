@@ -45,30 +45,8 @@
              label="Вид научно име"
              model="monitoringDetailController.data.species"></field>-->
     </div>
-    <!--<div class="col-md-3">
-      <field name="confidential" type="bool"
-             label="Поверително"
-             model="monitoringDetailController.data.confidential"></field>
-    </div>-->
   </div>
 
-  <!--<div class="row">
-    <div class="col-md-4">
-      <field name="count" type="single-choice" nomenclature="birds_count_units" required="true"
-             label="Единица на броя"
-             model="monitoringDetailController.data.countUnit"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="count" type="single-choice" nomenclature="birds_count_type" required="true"
-             label="Тип на броя"
-             model="monitoringDetailController.data.typeUnit"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="count" type="single-choice" nomenclature="birds_nesting"
-             label="Тип гнездене"
-             model="monitoringDetailController.data.typeNesting"></field>
-    </div>
-  </div>-->
   <div class="row">
     <div class="col-md-4">
       <field name="count" type="int" min="1" required="true" 
@@ -86,25 +64,7 @@
              label="Възраст"
              model="monitoringDetailController.data.age"></field>
     </div>
-    <!--<div class="col-md-4">
-      <field name="countMin" type="int" min="1" required="true"
-             label="Мин."
-             model="monitoringDetailController.data.countMin"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="countMax" type="int" min="1" required="true"
-             label="Макс."
-             model="monitoringDetailController.data.countMax"></field>
-    </div>-->
   </div>
-
-  <!--<div class="row">
-    <div class="col-md-4">
-      <field name="marking" type="single-choice" nomenclature="birds_marking"
-             label="Маркировка"
-             model="monitoringDetailController.data.marking"></field>
-    </div>
-  </div>-->
 
   <div class="row">
     <div class="col-md-6">
@@ -198,123 +158,6 @@
              model="monitoringDetailController.data.sqDors"></field>
     </div>
   </div>
-
-  <!--<div class="row">
-    <div class="col-md-4">
-      <field name="sex" type="single-choice" nomenclature="birds_sex"
-             label="Пол"
-             model="monitoringDetailController.data.sex"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="age" type="single-choice" nomenclature="birds_age"
-             label="Възраст"
-             model="monitoringDetailController.data.age"></field>
-    </div>
-  </div>-->
-
-  <!--<div class="row">
-    <div class="col-md-6">
-      <field name="speciesStatus" type="single-choice" nomenclature="birds_status"
-             label="Статус на вида"
-             model="monitoringDetailController.data.speciesStatus"></field>
-    </div>
-    <div class="col-md-6">
-      <field name="behaviour" type="multiple-choice" nomenclature="birds_behaviour"
-             label="Поведение"
-             model="monitoringDetailController.data.behaviour"></field>
-    </div>
-  </div>-->
-
-  <!--<div class="row">
-    <div class="col-md-12">
-      <field name="deadIndividualCauses" type="single-choice" nomenclature="birds_death"
-             label="Мъртъв индивид (причини)"
-             model="monitoringDetailController.data.deadIndividualCauses"></field>
-    </div>
-  </div>-->
-
-  <!--<div class="row">
-    <div class="col-md-4">
-      <field name="substrate" type="single-choice" nomenclature="birds_nest_substrate"
-             label="Субстрат"
-             model="monitoringDetailController.data.substrate"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="tree" type="text"
-             label="Дърво"
-             model="monitoringDetailController.data.tree"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="treeHeight" type="float"
-             label="Височина на дървото"
-             model="monitoringDetailController.data.treeHeight"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="treeLocation" type="single-choice" nomenclature="birds_nest_location"
-             label="Местоположение на дървото"
-             model="monitoringDetailController.data.treeLocation"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="nestHeight" type="single-choice" nomenclature="birds_nest_height"
-             label="Височина на гнездото"
-             model="monitoringDetailController.data.nestHeight"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="nestLocation" type="single-choice" nomenclature="birds_nest_position"
-             label="Местоположение на гнездото"
-             model="monitoringDetailController.data.nestLocation"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="brooding" type="bool"
-             label="Мътене"
-             model="monitoringDetailController.data.brooding"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="eggsCount" type="int"
-             label="Брой яйца"
-             model="monitoringDetailController.data.eggsCount"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="countNestling" type="int"
-             label="Брой пухови малки"
-             model="monitoringDetailController.data.countNestling"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="countFledgling" type="int"
-             label="Брой оперени малки в гнездото"
-             model="monitoringDetailController.data.countFledgling"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="countSuccessfullyLeftNest" type="int"
-             label="Брой излетели малки"
-             model="monitoringDetailController.data.countSuccessfullyLeftNest"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="nestProtected" type="bool"
-             label="Охрана на гнездото"
-             model="monitoringDetailController.data.nestProtected"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="ageFemale" type="single-choice" nomenclature="birds_age_individual"
-             label="Възраст, женска"
-             model="monitoringDetailController.data.ageFemale"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="ageMale" type="single-choice" nomenclature="birds_age_individual"
-             label="Възраст, мъжка"
-             model="monitoringDetailController.data.ageMale"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="nestingSuccess" type="single-choice" nomenclature="birds_nest_success"
-             label="Гнездови успех"
-             model="monitoringDetailController.data.nestingSuccess"></field>
-    </div>
-    <div class="col-md-12">
-      <field name="landuse300mRadius" type="text"
-             label="Земеползване, радиус от 300 m"
-             model="monitoringDetailController.data.landuse300mRadius"></field>
-    </div>
-  </div>-->
 
   <div class="row">
     <div class="col-md-12">
