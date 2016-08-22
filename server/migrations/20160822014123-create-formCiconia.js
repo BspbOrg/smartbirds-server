@@ -95,7 +95,7 @@ var schema = {
   reason: {
     type: Sequelize.TEXT
   },
-  noteSpecies: {
+  speciesNotes: {
     type: Sequelize.TEXT
   },
   

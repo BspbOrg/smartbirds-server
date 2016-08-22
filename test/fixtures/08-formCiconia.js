@@ -32,7 +32,7 @@ var baseModel = {
     dataOnJuvenilesExpelledFromParents: 1,
     diedOtherReasons: 23,  
     reason: 'some reason',
-    noteSpecies: 'some notes text',  
+    speciesNotes: 'some notes text',  
     location: 'location somewhere',
     
     endDateTime: '2015-12-10T11:15Z',

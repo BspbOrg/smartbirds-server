@@ -51,7 +51,7 @@ describe('Action formCiconia:', function () {
     dataOnJuvenilesExpelledFromParents: 1,
     diedOtherReasons: 23,  
     reason: 'some reason',
-    noteSpecies: 'some notes text',  
+    speciesNotes: 'some notes text',  
     location: 'location somewhere',
     
     endDateTime: '10/12/2015 10:15',

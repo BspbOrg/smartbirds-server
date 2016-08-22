@@ -72,7 +72,7 @@ var fields = {
   dataOnJuvenilesExpelledFromParents: '+int',
   diedOtherReasons: '+int',
   reason: 'text',    
-  noteSpecies: 'text',  
+  speciesNotes: 'text',  
   location: {
     type: 'text',
     required: true
