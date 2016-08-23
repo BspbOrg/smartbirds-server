@@ -20,8 +20,6 @@ module.exports = {
       if (!force && Date.now() - lastNotice < 5000) return;
       lastNotice = Date.now();
       console.log('waiting ' + (inserts.length - (inserted + updated)) + "/" + inserts.length);
-      console.log('inserts ' + (inserted) + "/" + inserts.length);
-      console.log('updates ' + (updated) + "/" + inserts.length);
     }
 
     var stream = fs.createReadStream(__dirname + '/../../data/locations-ver2.csv')
@@ -47,40 +45,37 @@ module.exports = {
           };
           (function (fields) {
             inserts.push(Promise.resolve(fields)
+              // search for existing location
               .then(function (fields) {
                 return queryInterface.rawSelect('Locations', {
                   attributes: ['id'],
-                  where: _.pick(fields,
-                    ['nameBg', 'nameEn', 'areaBg', 'areaEn', 'typeBg', 'typeEn'])
-                }, 'id')
-
-                  .then(function (id, areaEn) {
-                    if (id !== null)
-                      return id;
-                    var record = _.extend({
-                      createdAt: new Date(),
-                      updatedAt: new Date(),
-                      imported: 2
-                    }, fields);
-                    return queryInterface.bulkInsert('Locations', [record])
-                      .then(function () {
-                        return queryInterface.rawSelect('Locations', {
-                          attributes: ['id'],
-                          where: fields
-                        }, 'id').then(function () {
-                          inserted++;
-                          notify();
-                        });
-                      });
-                  });
+                  where: _.pick(fields, ['nameBg', 'nameEn', 'areaBg', 'areaEn'])
+                }, 'id');
               })
-              .then(function (locationId) {
-                var record = _.pick(fields, ['areaCode', 'regionCode', 'regionBg', 'regionEn', 'latitude', 'longitude']);
-                record.updatedAt = new Date();
-                return queryInterface.bulkUpdate('Locations', record, { id: locationId });
+              // update or insert
+              .then(function (id) {
+                var record = _.extend({
+                  updatedAt: new Date(),
+                }, fields);
+                if (id) {
+                  // update
+                  return queryInterface.bulkUpdate('Locations', record, {id: id})
+                    .then(function () {
+                      updated++;
+                    });
+                } else {
+                  // insert
+                  record = _.extend(record, {
+                    createdAt: new Date(),
+                    imported: 2,
+                  });
+                  return queryInterface.bulkInsert('Locations', [record])
+                    .then(function () {
+                      inserted++;
+                    });
+                }
               })
               .then(function () {
-                updated++;
                 notify();
               })
             );
@@ -98,9 +93,15 @@ module.exports = {
         .on('end', function () {
           notify(true);
           Promise.all(inserts).catch(function (e) {
-            console.error('error', e);
-            return Promise.reject(e);
-          }).then(resolve, reject);
+              console.error('error', e);
+              return Promise.reject(e);
+            }).then(function () {
+              console.log('--------------------');
+              console.log('inserts ' + inserted);
+              console.log('updates ' + updated);
+              console.log('total ' + inserts.length);
+              console.log('--------------------');
+            }).then(resolve, reject);
         });
     });
   },
