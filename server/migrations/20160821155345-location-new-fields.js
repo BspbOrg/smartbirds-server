@@ -8,8 +8,9 @@ var getColumns = function (Sequelize) {
     regionEn: Sequelize.TEXT,
     regionBg: Sequelize.TEXT,
     regionCode: Sequelize.TEXT,
-    pointLongitude: Sequelize.FLOAT,
-    pointLatitude: Sequelize.FLOAT
+    longitude: Sequelize.FLOAT,
+    latitude: Sequelize.FLOAT,
+    imported: Sequelize.INTEGER
   };
 };
 
