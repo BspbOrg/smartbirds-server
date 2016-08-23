@@ -179,7 +179,9 @@ module.exports = {
                       SpeciesCode: record['speciesInfo.code'],
                       'ЕлПоща': record['user.email'],
                       'Име': record['user.firstName'],
-                      'Фамилия': record['user.lastName']
+                      'Фамилия': record['user.lastName'],                      
+                      observationDate: moment(record.observationDateTime).format("D.M.YYYY"),
+                      observationTime: moment(record.observationDateTime).format("H:mm")
                     }, record);
                   }
                   require('csv-stringify')(result.rows, {
