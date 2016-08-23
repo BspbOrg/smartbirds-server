@@ -7,8 +7,8 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
 
   var id = $stateParams.id || $stateParams.fromId;
 
-  function genSingleObservationCode() {
-    var date = controller.data.observationDateTime;
+  function genSingleObservationCode() {    
+    var date = controller.data.observationDateTime || controller.data.startDateTime;
     if (date && date.toJSON)
       date = date.toJSON();
     return '!SINGLE-' + date;
@@ -109,6 +109,9 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
     var data = new model(controller.data);
     if (!data.monitoringCode) {
       data.monitoringCode = genSingleObservationCode();
+    }
+    if (!data.observationDateTime) {
+      data.observationDateTime = data.startDateTime;
     }
     data.$save().then(function (res) {
       $scope.smartform.$setPristine();
