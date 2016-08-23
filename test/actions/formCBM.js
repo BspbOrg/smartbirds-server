@@ -113,7 +113,9 @@ describe('Action formCBM:', function () {
     startDateTime: '09/12/2015 08:10',
     zone: 'userZonePlovdiv',
     latitude: 42.1463749,
-    longitude: 24.7492006
+    longitude: 24.7492006,
+    monitoringCode: 'formCBM_mon_code',
+    observationDateTime: '2016-12-30T10:15Z'
   };
 
   before(function () {

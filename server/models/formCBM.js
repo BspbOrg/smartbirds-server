@@ -104,6 +104,15 @@ var fields = {
   latitude: 'num',
   longitude: 'num',
 
+  observationDateTime: {
+    type: 'timestamp',
+    required: true
+  },  
+  monitoringCode: {
+    type: 'text',
+    required: true
+  },
+
   zone: {
     type: 'choice',
     required: true,

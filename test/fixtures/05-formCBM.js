@@ -33,6 +33,8 @@ var baseModel = {
   observers: 'Some test observers',
   endDateTime: '10/12/2015 10:15',
   startDateTime: '09/12/2015 08:10',
+  monitoringCode: 'formCBM_mon_code',
+  observationDateTime: '2016-12-30T10:15Z',
   latitude: 42.1463749,
   longitude: 24.7492006
 };
