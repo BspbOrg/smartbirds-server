@@ -20,8 +20,8 @@ describe('Action formHerps:', function () {
         bg: 'Женски',
         en: 'Female'
       }
-      
-    },    
+
+    },
     age: {
       type: 'herp_age',
       id: 11,
@@ -31,7 +31,7 @@ describe('Action formHerps:', function () {
       }
     },
     habitat: {
-      type: 'herp_habitat',      
+      type: 'herp_habitat',
       id: 102,
       label: {
         bg: 'Диапазон',
@@ -39,7 +39,7 @@ describe('Action formHerps:', function () {
       }
     },
     threatsHerps: {
-      type: 'herp_danger_observation',      
+      type: 'herp_danger_observation',
       id: 32,
       label: {
         bg: 'herp_danger_observation',
@@ -59,15 +59,15 @@ describe('Action formHerps:', function () {
     tempCloaca: 3.3,
     sqVentr: 0.13,
     sqCaud: 0.34,
-    sqDors: 23,  
-    speciesNotes: 'some notes text',  
+    sqDors: 23,
+    speciesNotes: 'some notes text',
     location: 'location somewhere',
-    
+
     endDateTime: '10/12/2015 10:15',
     startDateTime: '09/12/2015 08:10',
     observers: 'Some test observers',
     rain: {
-      type: 'main_rain',      
+      type: 'main_rain',
       label: {
         bg: 'Ръми',
         en: 'Drizzle'
@@ -82,7 +82,7 @@ describe('Action formHerps:', function () {
       }
     },
     windSpeed: {
-      type: 'main_wind_force',      
+      type: 'main_wind_force',
       label: {
         bg: '2 - Лек бриз',
         en: '2 - Light breeze'
@@ -138,20 +138,17 @@ describe('Action formHerps:', function () {
   setup.describeAsAuth(function (runAction) {
     describe('fails to create without', function () {
       var required = ['latitude', 'longitude', 'observationDateTime', 'monitoringCode',
-        'species', 'count', 'endDateTime', 'startDateTime', 'location', 'observers', 'user'];
+      'species', 'count', 'endDateTime', 'startDateTime', 'location', 'user'];
 
-      for (var i =0; i< required.length; i+=1) {        
-        function wrap (property) {
-          it(property, function () {
-            var reqHerpObj = _.cloneDeep(herpsRecord);
-            delete reqHerpObj[property];
-            return runAction('formHerps:create', reqHerpObj).then(function (response) {
-              response.error.should.be.equal('Error: ' + property + ' is a required parameter for this action');
-            });
+      required.forEach(function (property) {
+        it(property, function () {
+          var reqBirdObj = _.cloneDeep(herpsRecord);
+          delete reqBirdObj[property];
+          return runAction('formHerps:create', reqBirdObj).then(function (response) {
+            response.error.should.be.equal('Error: ' + property + ' is a required parameter for this action');
           });
-        } (required[i]);
-      }
-
+        });
+      });
     }); // fails to create without
 
     describe('CREATE', function () {
@@ -164,7 +161,7 @@ describe('Action formHerps:', function () {
 
       it('attaches the user created the record', function () {
         return runAction('formHerps:create', herpsRecord).then(function (response) {
-          should.not.exist(response.error);          
+          should.not.exist(response.error);
           response.data.user.should.be.equal(response.requesterUser.id);
         });
       });
@@ -265,10 +262,10 @@ describe('Action formHerps:', function () {
         return runAction('formHerps:create', _.assign(herpsRecord, {user: 3})).then(function (response) {
           return runAction('formHerps:list', {user: 3}).then(function (response){
             response.should.not.have.property('error');
-            for (var i = 0; i < response.data.length; i++) {              
+            for (var i = 0; i < response.data.length; i++) {
               response.data[i].user.should.be.equal(3);
             }
-          });          
+          });
         });
       });
     });
@@ -278,10 +275,10 @@ describe('Action formHerps:', function () {
         return runAction('formHerps:create', _.assign(herpsRecord, {species: 'Anas acuta'})).then(function (response) {
           return runAction('formHerps:list', {species: 'Anas acuta'}).then(function (response){
             response.should.not.have.property('error');
-            for (var i = 0; i < response.data.length; i++) {              
+            for (var i = 0; i < response.data.length; i++) {
               response.data[i].species.should.be.equal('Anas acuta');
             }
-          });          
+          });
         });
       });
     });
@@ -292,8 +289,8 @@ describe('Action formHerps:', function () {
           return runAction('formHerps:list', {location: 'some_unq_location'}).then(function (response){
             response.should.not.have.property('error');
             response.data.length.should.be.equal(1);
-            response.data[0].location.should.be.equal('some_unq_location');            
-          });          
+            response.data[0].location.should.be.equal('some_unq_location');
+          });
         });
       });
     });
