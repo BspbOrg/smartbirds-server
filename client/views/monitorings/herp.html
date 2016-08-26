@@ -37,19 +37,10 @@
   <div ng-include="'/views/monitorings/common.html'"></div>
 
   <div class="row">
-    <div class="col-md-9">
-      <field name="species" type="species" nomenclature="herp_name" required="true"
+    <div class="col-md-4">
+      <field name="species" type="species" nomenclature="herp" required="true"
              label="Вид научно име"
              model="monitoringDetailController.data.species"></field>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-4">
-      <field name="count" type="int" min="1" required="true" 
-             ng-init="monitoringDetailController.data.count=1"
-             label="Брой"
-             model="monitoringDetailController.data.count"></field>
     </div>
     <div class="col-md-4">
       <field name="sex" type="single-choice" nomenclature="herp_gender"
@@ -64,15 +55,21 @@
   </div>
 
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
       <field name="habitat" type="single-choice" nomenclature="herp_habitat"
              label="Местообитание"
              model="monitoringDetailController.data.habitat"></field>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
       <field name="threatsHerps" type="multiple-choice" nomenclature="herp_danger_observation"
              label="Заплахи, констатации"
              model="monitoringDetailController.data.threatsHerps"></field>
+    </div>
+    <div class="col-md-4">
+      <field name="count" type="int" min="1" required="true"
+             ng-init="monitoringDetailController.data.count=1"
+             label="Брой"
+             model="monitoringDetailController.data.count"></field>
     </div>
   </div>
 
@@ -151,7 +148,7 @@
     </div>
     <div class="col-md-4">
       <field name="sqDors" type="float"
-             label="Sq dorss"
+             label="Sq dors"
              model="monitoringDetailController.data.sqDors"></field>
     </div>
   </div>
@@ -159,7 +156,7 @@
   <div class="row">
     <div class="col-md-12">
       <field name="speciesNotes" type="memo"
-             label="Бележки"
+             label="Бележки вид"
              model="monitoringDetailController.data.speciesNotes"></field>
     </div>
   </div>
