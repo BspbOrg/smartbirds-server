@@ -3,14 +3,13 @@
 var Promise = require('bluebird');
 
 var getColumns = function (Sequelize) {
-  return {    
-    areaCode: Sequelize.TEXT,
+  return {
     regionEn: Sequelize.TEXT,
     regionBg: Sequelize.TEXT,
-    regionCode: Sequelize.TEXT,
     longitude: Sequelize.FLOAT,
     latitude: Sequelize.FLOAT,
-    imported: Sequelize.INTEGER
+    imported: Sequelize.INTEGER,
+    ekatte: Sequelize.TEXT,
   };
 };
 
