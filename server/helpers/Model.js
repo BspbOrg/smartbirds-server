@@ -5,7 +5,23 @@ var Promise = require('bluebird');
 var Sequelize = require('sequelize');
 
 var commonFields = {
-  //Common form fields    
+  //Common form fields
+  latitude: {
+    type: 'num',
+    required: true
+  },
+  longitude: {
+    type: 'num',
+    required: true
+  },
+  observationDateTime: {
+    type: 'timestamp',
+    required: true
+  },  
+  monitoringCode: {
+    type: 'text',
+    required: true
+  },    
   endDateTime: {
     type: 'timestamp',
     required: true

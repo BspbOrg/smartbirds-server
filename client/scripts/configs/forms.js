@@ -23,5 +23,15 @@ module.exports = {
       'from_date',
       'to_date'
     ]
+  },
+  herp: {
+    model: 'FormHerp',
+    filters: [
+      '{location:int}',
+      '{user:int}',
+      'species',
+      'from_date',
+      'to_date'
+    ]
   }
 };

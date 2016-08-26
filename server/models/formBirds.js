@@ -4,23 +4,7 @@ var _ = require('lodash');
 var Promise = require('bluebird');
 var Model = require('../helpers/Model');
 
-var fields = {
-  latitude: {
-    type: 'num',
-    required: true
-  },
-  longitude: {
-    type: 'num',
-    required: true
-  },
-  observationDateTime: {
-    type: 'timestamp',
-    required: true
-  },
-  monitoringCode: {
-    type: 'text',
-    required: true
-  },
+var fields = {    
   species: {
     type: 'choice',
     required: true,
