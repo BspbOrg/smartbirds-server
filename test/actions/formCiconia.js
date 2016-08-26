@@ -11,15 +11,15 @@ describe('Action formCiconia:', function () {
     latitude: 42.1463749,
     longitude: 24.7492006,
     observationDateTime: '2016-12-20T12:15Z',
-    monitoringCode: 'random_ciconia_1234',    
+    monitoringCode: 'random_ciconia_1234',
     primarySubstrateType: {
-      type: 'ciconia_substratum',      
+      type: 'ciconia_substratum',
       label: {
         bg: 'ciconia_substratum',
         en: 'ciconia_substratum'
       }
-      
-    },    
+
+    },
     electricityPole: {
       type: 'ciconia_column',
       label: {
@@ -49,16 +49,16 @@ describe('Action formCiconia:', function () {
     nestNotUsedForOverOneYear: 1,
     dataOnJuvenileMortalityFromElectrocutions: 1,
     dataOnJuvenilesExpelledFromParents: 1,
-    diedOtherReasons: 23,  
+    diedOtherReasons: 23,
     reason: 'some reason',
-    speciesNotes: 'some notes text',  
+    speciesNotes: 'some notes text',
     location: 'location somewhere',
-    
+
     endDateTime: '10/12/2015 10:15',
     startDateTime: '09/12/2015 08:10',
     observers: 'Some test observers',
     rain: {
-      type: 'main_rain',      
+      type: 'main_rain',
       label: {
         bg: 'Ръми',
         en: 'Drizzle'
@@ -73,7 +73,7 @@ describe('Action formCiconia:', function () {
       }
     },
     windSpeed: {
-      type: 'main_wind_force',      
+      type: 'main_wind_force',
       label: {
         bg: '2 - Лек бриз',
         en: '2 - Light breeze'
@@ -129,19 +129,17 @@ describe('Action formCiconia:', function () {
   setup.describeAsAuth(function (runAction) {
     describe('fails to create without', function () {
       var required = ['latitude', 'longitude', 'observationDateTime', 'monitoringCode',
-        'endDateTime', 'startDateTime', 'location', 'observers', 'user'];
+        'endDateTime', 'startDateTime', 'location', 'user'];
 
-      for (var i =0; i< required.length; i+=1) {        
-        function wrap (property) {
-          it(property, function () {
-            var reqCiconiaObj = _.cloneDeep(ciconiaRecord);
-            delete reqCiconiaObj[property];
-            return runAction('formCiconia:create', reqCiconiaObj).then(function (response) {
-              response.error.should.be.equal('Error: ' + property + ' is a required parameter for this action');
-            });
+      required.forEach(function (property) {
+        it(property, function () {
+          var reqCiconiaObj = _.cloneDeep(ciconiaRecord);
+          delete reqCiconiaObj[property];
+          return runAction('formCiconia:create', reqCiconiaObj).then(function (response) {
+            response.error.should.be.equal('Error: ' + property + ' is a required parameter for this action');
           });
-        } (required[i]);
-      }
+        });
+      });
 
     }); // fails to create without
 
@@ -155,7 +153,7 @@ describe('Action formCiconia:', function () {
 
       it('attaches the user created the record', function () {
         return runAction('formCiconia:create', ciconiaRecord).then(function (response) {
-          should.not.exist(response.error);          
+          should.not.exist(response.error);
           response.data.user.should.be.equal(response.requesterUser.id);
         });
       });
@@ -256,10 +254,10 @@ describe('Action formCiconia:', function () {
         return runAction('formCiconia:create', _.assign(ciconiaRecord, {user: 3})).then(function (response) {
           return runAction('formCiconia:list', {user: 3}).then(function (response){
             response.should.not.have.property('error');
-            for (var i = 0; i < response.data.length; i++) {              
+            for (var i = 0; i < response.data.length; i++) {
               response.data[i].user.should.be.equal(3);
             }
-          });          
+          });
         });
       });
     });
@@ -270,8 +268,8 @@ describe('Action formCiconia:', function () {
           return runAction('formCiconia:list', {location: 'some_unq_location'}).then(function (response){
             response.should.not.have.property('error');
             response.data.length.should.be.equal(1);
-            response.data[0].location.should.be.equal('some_unq_location');            
-          });          
+            response.data[0].location.should.be.equal('some_unq_location');
+          });
         });
       });
     });
