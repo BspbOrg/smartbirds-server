@@ -10,6 +10,10 @@ require('../app').directive('field', /*@ngInject*/function ($q) {
     scope: {
       name: '@',
       label: '@?',
+      labelXs: '@?',
+      labelSm: '@?',
+      labelMd: '@?',
+      labelLg: '@?',
       placeholder: '@?',
       help: '@?',
       model: '=',

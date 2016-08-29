@@ -5,7 +5,19 @@
             'has-warning': false,
             'has-feedback': false
           }">
-  <label ng-if="::field.label" class="control-label" for="{{::field.name}}">{{::field.label}}</label>
+  <label ng-if="::field.label"
+         class="control-label"
+         for="{{::field.name}}"
+         ng-class="{
+         'hidden-xs': field.labelXs,
+         'hidden-sm': field.labelSm,
+         'hidden-md': field.labelMd,
+         'hidden-lg': field.labelLg
+         }">{{::field.label}}</label>
+  <label ng-if="::field.labelXs" class="control-label visible-xs" for="{{::field.name}}">{{::field.labelXs}}</label>
+  <label ng-if="::field.labelSm" class="control-label visible-sm" for="{{::field.name}}">{{::field.labelSm}}</label>
+  <label ng-if="::field.labelMd" class="control-label visible-md" for="{{::field.name}}">{{::field.labelMd}}</label>
+  <label ng-if="::field.labelLg" class="control-label visible-lg" for="{{::field.name}}">{{::field.labelLg}}</label>
   <ng-transclude></ng-transclude>
   <span ng-if="::field.help" id="{{::field.name}}HelpBlock" class="help-block">{{::field.help}}</span>
 </div>
