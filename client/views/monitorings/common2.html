@@ -1,105 +1,71 @@
 <div class="row">
-  <div class="col-md-6">
-    <div class="row">
-      <div class="col-md-12">
-        <field name="location" type="text" required="true"
-               label="Място"
-               model="monitoringDetailController.data.location"></field>
-      </div>
-      <div class="col-md-6">
-        <field name="latitude" type="float" required="true"
-               label="Географска ширина"
-               on-select="monitoringDetailController.updateFromModel()"
-               model="monitoringDetailController.data.latitude"></field>
-      </div>
-      <div class="col-md-6">
-        <field name="longitude" type="float" required="true"
-               label="Географска дължина"
-               on-select="monitoringDetailController.updateFromModel()"
-               model="monitoringDetailController.data.longitude"></field>
-      </div>
-      <div class="col-md-12">
-        <ui-gmap-google-map
-          center="monitoringDetailController.map.center"
-          pan="true"
-          zoom="monitoringDetailController.map.zoom"
-          events="{click: monitoringDetailController.map.click}"
-          options="{mapTypeId: 'hybrid', clickableIcons: false}">
-          <ui-gmap-marker
-            ng-if="monitoringDetailController.map.poi.latitude && monitoringDetailController.map.poi.longitude"
-            coords="monitoringDetailController.map.poi"
-            idKey="'coords'"
-          ></ui-gmap-marker>
-        </ui-gmap-google-map>
-      </div>
-    </div>
+  <div class="col-md-3 col-lg-3">
+    <field name="location" type="text" required="true"
+           label="Място"
+           model="monitoringDetailController.data.location"></field>
+  </div>
+  <div class="col-md-4 col-lg-3">
+    <field name="monitoringCode" type="text"
+           label="Код наблюдение"
+           model="monitoringDetailController.data.monitoringCode"></field>
+  </div>
+  <div class="col-md-3 col-lg-3">
+    <field name="observationDate" type="date" required="true"
+           label="Наблюдение дата"
+           on-select="monitoringDetailController.observationDateChange()"
+           model="monitoringDetailController.data.observationDateTime"></field>
   </div>
 
-  <div class="col-md-6">
-    <div class="row">
-      <div class="col-md-8">
-        <field name="observationDate" type="date" required="true"
-               label="Наблюдение дата"
-               on-select="monitoringDetailController.observationDateChange()"
-               model="monitoringDetailController.data.observationDateTime"></field>
-      </div>
+  <div class="col-md-2 col-lg-3">
+    <field name="observationTime" type="time" required="true"
+           label="Наблюдение час"
+           label-md="Час"
+           on-select="monitoringDetailController.observationDateChange()"
+           model="monitoringDetailController.data.observationDateTime"></field>
+  </div>
+</div>
 
-      <div class="col-md-4">
-        <field name="observationTime" type="time" required="true"
-               label="Наблюдение час"
-               on-select="monitoringDetailController.observationDateChange()"
-               model="monitoringDetailController.data.observationDateTime"></field>
-      </div>
+<div class="row" ng-if="monitoringDetailController.data.monitoringCode">
 
-      <div class="col-md-12">
-        <field name="monitoringCode" type="text"
-               label="Код наблюдение"
-               model="monitoringDetailController.data.monitoringCode"></field>
-      </div>
-    </div>
-
-    <div class="row" ng-if="monitoringDetailController.data.monitoringCode">
-
-      <div class="col-md-8">
-        <field name="startDate" type="date" required="true"
-               label="Начална дата"
-               model="monitoringDetailController.data.startDateTime"></field>
-      </div>
-
-      <div class="col-md-4">
-        <field name="startTime" type="time" required="true"
-               label="Начален час"
-               model="monitoringDetailController.data.startDateTime"></field>
-      </div>
-
-      <div class="col-md-8">
-        <field name="endDate" type="date" required="true"
-               label="Крайна дата"
-               model="monitoringDetailController.data.endDateTime"></field>
-      </div>
-
-      <div class="col-md-4">
-        <field name="endTime" type="time" required="true"
-               label="Краен час"
-               model="monitoringDetailController.data.endDateTime"></field>
-      </div>
-
-    </div>
-
-    <div class="row">
-      <div ng-if="$user.isAdmin()" class="col-md-4">
-        <field name="user" type="user" required="true"
-               label="Наблюдател"
-               model="monitoringDetailController.data.user"></field>
-      </div>
-
-
-      <div class="col-md-8">
-        <field name="observers" type="text"
-               label="Други наблюдатели"
-               model="monitoringDetailController.data.observers"></field>
-      </div>
-    </div>
+  <div class="col-md-4 col-lg-3">
+    <field name="startDate" type="date" required="true"
+           label="Начална дата"
+           model="monitoringDetailController.data.startDateTime"></field>
   </div>
 
+  <div class="col-md-2 col-lg-3">
+    <field name="startTime" type="time" required="true"
+           label="Начален час"
+           label-md="Час"
+           model="monitoringDetailController.data.startDateTime"></field>
+  </div>
+
+  <div class="col-md-4 col-lg-3">
+    <field name="endDate" type="date" required="true"
+           label="Крайна дата"
+           model="monitoringDetailController.data.endDateTime"></field>
+  </div>
+
+  <div class="col-md-2 col-lg-3">
+    <field name="endTime" type="time" required="true"
+           label="Краен час"
+           label-md="Час"
+           model="monitoringDetailController.data.endDateTime"></field>
+  </div>
+
+</div>
+
+<div class="row">
+  <div ng-if="$user.isAdmin()" class="col-md-4">
+    <field name="user" type="user" required="true"
+           label="Наблюдател"
+           model="monitoringDetailController.data.user"></field>
+  </div>
+
+
+  <div class="col-md-8">
+    <field name="observers" type="text"
+           label="Други наблюдатели"
+           model="monitoringDetailController.data.observers"></field>
+  </div>
 </div>
