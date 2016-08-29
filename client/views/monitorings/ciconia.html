@@ -1,0 +1,186 @@
+<form name="smartform"
+      role="form"
+      confirm-on-exit="smartform.$dirty"
+      confirm-message-window="Имате незаписани промени!"
+      confirm-message-route="Имате незаписани промени. Сигурни ли сте че искате да продължите?">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">
+        <div class="pull-right">
+          <div class="btn-group">
+            <button type="button"
+                    class="btn btn-primary"
+                    ng-disabled="smartform.$invalid || smartform.$pristine"
+                    ng-click="monitoringDetailController.save()"
+            >
+              Запис
+              <i class="fa fa-save fa-fw"></i>
+            </button>
+            <button type="button"
+                    class="btn btn-default"
+                    ng-disabled="!monitoringDetailController.data.id"
+                    ng-click="monitoringDetailController.copy()"
+            >
+              Копие
+              <i class="fa fa-copy fa-fw"></i>
+            </button>
+          </div>
+        </div>
+        <span ng-if="monitoringDetailController.data.id">Редакция на запис</span>
+        <span ng-if="!monitoringDetailController.data.id">Нов запис</span>
+      </h1>
+    </div>
+  </div>
+
+  <div ng-include="'/views/monitorings/common2.html'"></div>
+
+  <div ng-include="'/views/monitorings/common.html'"></div>
+
+  <h5>1. Гнездото на БЕЛИТЕ щъркели е върху:</h5>
+  <div class="row">
+    <div class="col-md-6">
+      <field name="primarySubstrateType" type="single-choice" nomenclature="ciconia_substratum"
+             label="Основен тип на субстрата"
+             model="monitoringDetailController.data.primarySubstrateType"></field>
+    </div>
+    <div class="col-md-6">
+      <field name="electricityPole" type="single-choice" nomenclature="ciconia_column"
+             label="Стълб"
+             model="monitoringDetailController.data.electricityPole"></field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <field name="nestIsOnArtificialPlatform" type="bool"
+             label="Гнездо на изкуствена платформа"
+             model="monitoringDetailController.data.nestIsOnArtificialPlatform"></field>
+    </div>
+    <div class="col-md-6">
+      <field name="typeElectricityPole" type="single-choice" nomenclature="ciconia_column_type"
+             label="Вид стълб"
+             model="monitoringDetailController.data.typeElectricityPole"></field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <field name="nestOnArtificialHumanMadePlatform" type="bool"
+             label="Гнездо на изкуствена поставка направена от човек"
+             model="monitoringDetailController.data.nestOnArtificialHumanMadePlatform"></field>
+    </div>
+    <div class="col-md-6">
+      <field name="nestIsOnAnotherTypeOfSubstrate" type="text"
+             label="Гнездо на друг вид субстрат"
+             model="monitoringDetailController.data.nestIsOnAnotherTypeOfSubstrate"></field>
+    </div>
+  </div>
+
+  <h5>2.</h5>
+  <div class="row">
+    <div class="col-md-6">
+      <field name="nestThisYearNotUtilizedByWhiteStorks" type="single-choice" nomenclature="ciconia_not_occupied"
+             label="Гнездото тази година НЕ се обитава от БЕЛИТЕ щъркели"
+             model="monitoringDetailController.data.nestThisYearNotUtilizedByWhiteStorks"></field>
+    </div>
+    <div class="col-md-6">
+      <field name="thisYearOneTwoBirdsAppearedInNest" type="single-choice" nomenclature="ciconia_new_birds"
+             label="Тази година в гнездото са се появили една/две птици"
+             model="monitoringDetailController.data.thisYearOneTwoBirdsAppearedInNest"></field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <field name="approximateDateStorksAppeared" type="date"
+             label="Приблизителна дата на появяване на щъркелите"
+             model="monitoringDetailController.data.approximateDateStorksAppeared"></field>
+    </div>
+    <div class="col-md-6">
+      <field name="approximateDateDisappearanceWhiteStorks" type="date"
+             label="Приблизителна дата на изчезване на щъркелите"
+             model="monitoringDetailController.data.approximateDateDisappearanceWhiteStorks"></field>
+    </div>
+  </div>
+
+  <h5>3. В гнездото не се виждат малки</h5>
+  <div class="row">
+    <div class="col-md-6">
+      <field name="thisYearInTheNestAppeared" type="single-choice" nomenclature="ciconia_new_birds"
+             label="Тази година в гнездото са се появили"
+             model="monitoringDetailController.data.thisYearInTheNestAppeared"></field>
+    </div>
+  </div>
+
+  <h5>4. В гнездото има:</h5>
+  <div class="row">
+    <div class="col-md-6">
+      <field name="countJuvenilesInNest" type="int"
+             label="Брой малки в гнездото"
+             model="monitoringDetailController.data.countJuvenilesInNest"></field>
+    </div>
+  </div>
+
+  <h5>5.</h5>
+  <div class="row">
+    <div class="col-md-6">
+      <field name="nestNotUsedForOverOneYear" type="int"
+             label="Гнездото НЕ се обитава от ПОВЕЧЕ от една година"
+             model="monitoringDetailController.data.nestNotUsedForOverOneYear"></field>
+    </div>
+  </div>
+
+  <h5>6. Данни за загинали малки</h5>
+  <div class="row">
+    <div class="col-md-6">
+      <field name="dataOnJuvenileMortalityFromElectrocutions" type="int"
+             label="Данни за загинали малки от ел. ток"
+             model="monitoringDetailController.data.dataOnJuvenileMortalityFromElectrocutions"></field>
+    </div>
+    <div class="col-md-6">
+      <field name="dataOnJuvenileExpelledFromParents" type="int"
+             label="Данни за загинали малки изхвърлени от родителите"
+             model="monitoringDetailController.data.dataOnJuvenilesExpelledFromParents"></field>
+    </div>
+    <div class="col-md-6">
+      <field name="diedOtherReasons" type="int"
+             label="Загинали по други причини"
+             model="monitoringDetailController.data.diedOtherReasons"></field>
+    </div>
+    <div class="col-md-6">
+      <field name="reason" type="text"
+             label="Причина"
+             model="monitoringDetailController.data.reason"></field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <field name="speciesNotes" type="memo"
+             label="Бележки вид"
+             model="monitoringDetailController.data.speciesNotes"></field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="pull-right">
+        <div class="btn-group">
+          <button type="button"
+                  class="btn btn-primary"
+                  ng-disabled="smartform.$invalid || smartform.$pristine"
+                  ng-click="monitoringDetailController.save()"
+          >
+            Запис
+            <i class="fa fa-save fa-fw"></i>
+          </button>
+          <button type="button"
+                  class="btn btn-default"
+                  ng-disabled="!monitoringDetailController.data.id"
+                  ng-click="monitoringDetailController.copy()"
+          >
+            Копие
+            <i class="fa fa-copy fa-fw"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

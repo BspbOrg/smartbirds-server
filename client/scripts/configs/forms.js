@@ -33,5 +33,14 @@ module.exports = {
       'from_date',
       'to_date'
     ]
-  }
+  },
+  ciconia: {
+    model: 'FormCiconia',
+    filters: [
+      '{location:int}',
+      '{user:int}',
+      'from_date',
+      'to_date'
+    ]
+  },
 };
