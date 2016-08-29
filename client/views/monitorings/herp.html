@@ -37,43 +37,67 @@
   <div ng-include="'/views/monitorings/common.html'"></div>
 
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6 col-lg-4">
+      <div class="row">
+        <div class="col-md-6">
+          <field name="latitude" type="float" required="true"
+                 label="Географска ширина"
+                 on-select="monitoringDetailController.updateFromModel()"
+                 model="monitoringDetailController.data.latitude"></field>
+        </div>
+        <div class="col-md-6">
+          <field name="longitude" type="float" required="true"
+                 label="Географска дължина"
+                 on-select="monitoringDetailController.updateFromModel()"
+                 model="monitoringDetailController.data.longitude"></field>
+        </div>
+        <div class="col-md-12">
+          <ui-gmap-google-map
+            center="monitoringDetailController.map.center"
+            pan="true"
+            zoom="monitoringDetailController.map.zoom"
+            events="{click: monitoringDetailController.map.click}"
+            options="{mapTypeId: 'hybrid', clickableIcons: false}">
+            <ui-gmap-marker
+              ng-if="monitoringDetailController.map.poi.latitude && monitoringDetailController.map.poi.longitude"
+              coords="monitoringDetailController.map.poi"
+              idKey="'coords'"
+            ></ui-gmap-marker>
+          </ui-gmap-google-map>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
       <field name="species" type="species" nomenclature="herp" required="true"
              label="Вид научно име"
              model="monitoringDetailController.data.species"></field>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3 col-lg-4">
       <field name="sex" type="single-choice" nomenclature="herp_gender"
              label="Пол"
              model="monitoringDetailController.data.sex"></field>
     </div>
-    <div class="col-md-4">
-      <field name="age" type="single-choice" nomenclature="herp_age"
-             label="Възраст"
-             model="monitoringDetailController.data.age"></field>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-4">
-      <field name="habitat" type="single-choice" nomenclature="herp_habitat"
-             label="Местообитание"
-             model="monitoringDetailController.data.habitat"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="threatsHerps" type="multiple-choice" nomenclature="herp_danger_observation"
-             label="Заплахи, констатации"
-             model="monitoringDetailController.data.threatsHerps"></field>
-    </div>
-    <div class="col-md-4">
+    <div class="col-md-3 col-lg-2">
       <field name="count" type="int" min="1" required="true"
              ng-init="monitoringDetailController.data.count=1"
              label="Брой"
              model="monitoringDetailController.data.count"></field>
     </div>
-  </div>
-
-  <div class="row">
+    <div class="col-md-6">
+      <field name="habitat" type="single-choice" nomenclature="herp_habitat"
+             label="Местообитание"
+             model="monitoringDetailController.data.habitat"></field>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <field name="age" type="single-choice" nomenclature="herp_age"
+             label="Възраст"
+             model="monitoringDetailController.data.age"></field>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <field name="threatsHerps" type="multiple-choice" nomenclature="herp_danger_observation"
+             label="Заплахи, констатации"
+             model="monitoringDetailController.data.threatsHerps"></field>
+    </div>
     <div class="col-md-4">
       <field name="marking" type="text"
              label="Маркировка"
