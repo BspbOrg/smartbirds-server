@@ -138,7 +138,7 @@ describe('Action formHerps:', function () {
   setup.describeAsAuth(function (runAction) {
     describe('fails to create without', function () {
       var required = ['latitude', 'longitude', 'observationDateTime', 'monitoringCode',
-      'species', 'count', 'endDateTime', 'startDateTime', 'location', 'user'];
+      'species', 'count', 'endDateTime', 'startDateTime', 'location'];
 
       required.forEach(function (property) {
         it(property, function () {
