@@ -31,8 +31,7 @@ var commonFields = {
     required: true
   },  
   observers: {
-    type: 'text',
-    required: true
+    type: 'text'
   },
   rain: {
     type: 'choice',

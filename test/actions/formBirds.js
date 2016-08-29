@@ -233,20 +233,17 @@ describe('Action formBirds:', function () {
     describe('fails to create without', function () {
       var required = ['latitude', 'longitude', 'observationDateTime', 'monitoringCode',
         'species', 'countUnit', 'typeUnit', 'count', 'countMin', 'countMax',
-        'endDateTime', 'startDateTime', 'location', 'observers'];
+        'endDateTime', 'startDateTime', 'location'];
 
-      for (var i =0; i< required.length; i+=1) {
-        function wrap (property) {
-          it(property, function () {
-            var reqBirdObj = _.cloneDeep(birdsRecord);
-            delete reqBirdObj[property];
-            return runAction('formBirds:create', reqBirdObj).then(function (response) {
-              response.error.should.be.equal('Error: ' + property + ' is a required parameter for this action');
-            });
+      required.forEach(function (property) {
+        it(property, function () {
+          var reqBirdObj = _.cloneDeep(birdsRecord);
+          delete reqBirdObj[property];
+          return runAction('formBirds:create', reqBirdObj).then(function (response) {
+            response.error.should.be.equal('Error: ' + property + ' is a required parameter for this action');
           });
-        } (required[i]);
-      }
-
+        });
+      });
     }); // fails to create without
 
     describe('CREATE', function () {
