@@ -1,24 +1,22 @@
 <sb-include src="/views/fields/container.html">
   <div>
     <div class="btn-group">
-      <label type="button"
-             class="btn"
-             ng-class="field.model?'btn-primary':'btn-default'"
+      <button type="button"
+             class="btn btn-default"
              aria-describedby="{{::field.name}}HelpBlock"
              ng-disabled="::field.readonly"
              ng-model="field.model"
              uib-btn-radio="true">
         Да
-      </label>
-      <label type="button"
-             class="btn"
-             ng-class="!field.model?'btn-primary':'btn-default'"
+      </button>
+      <button type="button"
+             class="btn btn-default"
              aria-describedby="{{::field.name}}HelpBlock"
              ng-disabled="::field.readonly"
              ng-model="field.model"
              uib-btn-radio="false">
         Не
-      </label>
+      </button>
     </div>
   </div>
   <span ng-if="::field.help" id="{{::field.name}}HelpBlock" class="help-block">{{::field.help}}</span>
