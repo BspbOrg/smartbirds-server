@@ -129,7 +129,7 @@ describe('Action formCiconia:', function () {
   setup.describeAsAuth(function (runAction) {
     describe('fails to create without', function () {
       var required = ['latitude', 'longitude', 'observationDateTime', 'monitoringCode',
-        'endDateTime', 'startDateTime', 'location', 'user'];
+        'endDateTime', 'startDateTime', 'location'];
 
       required.forEach(function (property) {
         it(property, function () {
