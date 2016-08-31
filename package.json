@@ -95,7 +95,9 @@
     "angular-loading-bar": "./bower_components/angular-loading-bar/build/loading-bar.js",
     "raven-js": "./bower_components/raven-js/dist/raven.js",
     "raven-js-angular": "./bower_components/raven-js/dist/plugins/angular.js",
-    "angular-filter": "./bower_components/angular-filter/dist/angular-filter.js"
+    "angular-filter": "./bower_components/angular-filter/dist/angular-filter.js",
+    "angulartics": "./bower_components/angulartics/src/angulartics.js",
+    "angulartics-ga": "./bower_components/angulartics-google-analytics/lib/angulartics-ga.js"
   },
   "browserify-shim": {
     "angular": "angular",
@@ -187,6 +189,16 @@
     "angular-filter": {
       "depends": [
         "angular:angular"
+      ]
+    },
+    "angulartics": {
+      "depends": [
+        "angular:angular"
+      ]
+    },
+    "angulartics-ga": {
+      "depends": [
+        "angulartics:angulartics"
       ]
     }
   },
