@@ -205,3 +205,58 @@ td.actions {
     width: 110px;
   }
 }
+
+
+.thumbnail {
+  position: relative;
+
+  .fake-image-container {
+    display: block;
+    width: 100%;
+    position: relative;
+    padding-bottom: 100%;
+
+    .fake-image {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .thumbnail-overlay {
+    position: absolute;
+
+    &.hover {
+      display: none;
+    }
+
+    &.top {
+      top: 0;
+    }
+    &.right {
+      right: 0;
+    }
+    &.left {
+      left: 0;
+    }
+    &.bottom {
+      bottom: 0;
+    }
+  }
+
+  &:hover {
+    .thumbnail-overlay.hover {
+      display: block;
+    }
+  }
+}
+
+input[type=file] {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}

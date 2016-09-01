@@ -43,7 +43,8 @@
     "raven-js": "~2.3.0",
     "angular-filter": "~0.5.8",
     "angulartics": "~1.1.3",
-    "angulartics-google-analytics": "~0.2.1"
+    "angulartics-google-analytics": "~0.2.1",
+    "angular-file-upload": "~2.3.4"
   },
   "resolutions": {
     "font-awesome": "~4.5.0"
