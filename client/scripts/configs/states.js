@@ -35,6 +35,30 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
         }
       })
 
+      .state("cbm", {
+        url: "/cbm",
+        templateUrl: '/views/home-cbm.html',
+        title: 'МОВП',
+      })
+
+      .state("birds", {
+        url: "/birds",
+        templateUrl: '/views/home-birds.html',
+        title: 'СФП',
+      })
+
+      .state("herp", {
+        url: "/herp",
+        templateUrl: '/views/home-herp.html',
+        title: 'ЗВБ',
+      })
+
+      .state("ciconia", {
+        url: "/ciconia",
+        templateUrl: '/views/home-ciconia.html',
+        title: 'ЗВБ',
+      })
+
       ///////////
       // Login //
       ///////////

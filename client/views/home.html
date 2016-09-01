@@ -1,82 +1,64 @@
-<!-- Navigation -->
-<nav class="navbar navbar-default navbar-transparent navbar-custom navbar-fixed-top" ng-init="navbar.collapsed = true">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" ng-click="navbar.collapsed = !navbar.collapsed">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" ui-sref="home">SmartBirds</a>
-    </div>
+<ng-include src="'/views/layout/navbar.html'"></ng-include>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="navbar-collapse" uib-collapse="navbar.collapsed">
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-          <a ng-if="!$user.isAuthenticated()" ui-sref="login">Вход</a>
-          <a ng-if="$user.isAuthenticated()" ui-sref="auth.dashboard">Начало</a>
-        </li>
-      </ul>
-    </div>
-    <!-- /.navbar-collapse -->
-  </div>
-  <!-- /.container -->
-</nav>
-
-<!-- Page Header -->
-<!-- Set your background image for this header on the line below. -->
-<header class="heroimage">
-  <!--<div class="container">-->
-  <!--<div class="row">-->
-  <!--<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">-->
-  <!--<div class="site-heading">-->
-  <!--<h1>SmartBirds</h1>-->
-  <!--</div>-->
-  <!--</div>-->
-  <!--</div>-->
-  <!--</div>-->
-</header>
-
-<!-- Main Content -->
-<header class="jumbotron">
+<!-- Header -->
+<a name="forms"></a>
+<div class="intro-header">
   <div class="container">
+
     <div class="row">
-      <div class="col-lg-10 col-lg-offset-1 col-md-12">
-        <div class="site-heading">
+      <div class="col-lg-12">
+        <div class="intro-message">
           <h1>SmartBirds</h1>
-          <h2>Площадки за мониторинг на широкоразпространените видове птици</h2>
-          <hr class="small">
-          <div home-map></div>
+          <h3>Информационна система с биологична информация към БДЗП</h3>
+          <hr class="intro-divider">
+          <ul class="list-inline intro-social-buttons">
+            <li>
+              <a ui-sref="cbm" class="btn btn-default btn-lg" title="Мониторинг на обикновенните видове птици">
+                <!--<i class="fa fa-twitter fa-fw"></i>-->
+                <span class="network-name">МОВП</span>
+              </a>
+            </li>
+            <li>
+              <a ui-sref="birds" class="btn btn-default btn-lg" title="Стандартна форма птици">
+                <!--<i class="fa fa-twitter fa-fw"></i>-->
+                <span class="network-name">СФП</span>
+              </a>
+            </li>
+            <li>
+              <a ui-sref="herp" class="btn btn-default btn-lg" title="Земноводни, влечуги и бозайници">
+                <!--<i class="fa fa-twitter fa-fw"></i>-->
+                <span class="network-name">ЗВБ</span>
+              </a>
+            </li>
+            <li>
+              <a ui-sref="ciconia" class="btn btn-default btn-lg">
+                <!--<i class="fa fa-twitter fa-fw"></i>-->
+                <span class="network-name">Бял щъркел</span>
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
-  </div>
-</header>
 
-<div class="container">
-  <div class="row">
-    <div class="col-lg-10 col-lg-offset-1 col-md-12">
-      <!--<h1>Площадки за мониторинг на широкоразпространените видове птици</h1>-->
-      <!--<hr class="small">-->
-      <!--<div home-map></div>-->
-    </div>
   </div>
+  <!-- /.container -->
+
 </div>
+<!-- /.intro-header -->
 
-<div class="container-fluid">
-  <div class="row">
-    <!--<div home-map></div>-->
-  </div>
-</div>
 
-<div class="container">
-  <div class="row">
-    <div class="col-lg-10 col-lg-offset-1 col-md-12">
-      <div class="site-heading">
-        <h1>За проекта</h1>
+<!-- Page Content -->
+
+<a name="about"></a>
+<div class="content-section-a">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 col-sm-6">
+        <hr class="section-heading-spacer">
+        <div class="clearfix"></div>
+        <h2 class="section-heading">За проекта</h2>
         <p class="lead">
           SmartBirds.org e електронна база данни разработена от
           Българско дружество за защита на птиците. Целта и е да служи като
@@ -84,36 +66,177 @@
           бозайници, земноводни и влечуги. Записването на всяко едно наблюдение,
           подпомага природозащитните дейности в България. Затова записвайте
           наблюденията си директно тук в страницата или чрез мобилното приложение
-          SmartBirds Pro. Ако обичате природата и желаете да се включите в инициативата за преброяване на птиците
-          около
-          нас, вижте повече за условията и нивата на участие тук. Регистрирайте се в SmartBirds тук и изберете своето
+          <a href="https://play.google.com/store/apps/details?id=org.bspb.smartbirds.pro">SmartBirds Pro</a>.
+          Ако обичате природата и желаете да се включите в инициативата за преброяване на птиците
+          около нас, вижте повече за условията и нивата на участие тук.
+          Регистрирайте се в SmartBirds тук и изберете своето
           лично място за броене на птици.
         </p>
       </div>
+      <div class="col-lg-3 col-lg-offset-4 col-sm-4 col-sm-offset-1 col-xs-6 col-xs-offset-3">
+        <img class="img-responsive" src="img/logo-sb.png" alt="">
+      </div>
     </div>
-  </div>
-</div>
 
-<!-- Footer -->
-<footer class="home">
+  </div>
+  <!-- /.container -->
+
+</div>
+<!-- /.content-section-b -->
+
+<a name="funding"></a>
+<div class="content-section-b">
+
   <div class="container">
+
     <div class="row">
-      <div class="col-lg-10 col-lg-offset-1 col-md-12">
-        <p class="text-muted">
-          SmartBirds онлайн модулът е изработен в рамките на проект “Птиците за Хората и Хората за Птиците: с добра воля
-          за активно опазване на природата”.
-        </p>
-        <p class="text-muted">
-          Финансиран в рамките на <a href="http://bg03.moew.government.bg/" target="_blank">Програми BG03 в България</a>
+      <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+        <hr class="section-heading-spacer">
+        <div class="clearfix"></div>
+        <h2 class="section-heading">Финансиране</h2>
+        <p class="lead text-justify">
+          Финансиран по проект “Птиците за Хората и Хората за Птиците: с добра воля за активно опазване на природата”
+          в рамките на <a href="http://bg03.moew.government.bg/" target="_blank">Програми BG03 в България</a>
           по Финансовия механизъм на Европейското икономическо пространство 2009-2014 г.
         </p>
-      </div>
-      <div class="col-lg-10 col-lg-offset-1 col-md-12">
-        <p class="pull-right">
-          <a class="logo bspb" href="http://bspb.org" target="_blank"></a>
-          <a class="logo eea" href="http://eeagrants.org" target="_blank"></a>
+        <p class="lead text-justify">
+          Финансиран по програма LIFE+ в рамките на проект
+          <a href="http://www.eagleforests.org" target="_blank">„Опазване на ключови горски хабитати на малкия креслив
+            орел в България”</a> (LIFE12 NAT/BG/001218).
         </p>
-        <p class="copyright text-muted">Copyright &copy; БДЗП 2015-2016</p>
+      </div>
+      <div class="col-lg-5 col-sm-pull-6  col-sm-6">
+        <div class="container-fluid">
+          <div class="row" style="margin-top: 100px">
+            <div class="col-md-4 col-sm-6 col-xs-8 col-xs-offset-2 col-sm-offset-0">
+              <a href="http://bspb.org" target="_blank">
+                <img class="img-responsive" src="img/logo-bspb.jpg" alt="БДЗП">
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-8 col-xs-offset-2 col-sm-offset-0">
+              <a href="http://eeagrants.org" target="_blank">
+                <img class="img-responsive" src="img/logo-eea.jpg" alt="EEA">
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-8 col-xs-offset-2 col-sm-offset-0">
+              <a href="http://ec.europa.eu/environment/life/funding/lifeplus.htm" target="_blank">
+                <img class="img-responsive" src="img/logo-life.jpg" alt="LIFE">
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-8 col-xs-offset-2 col-sm-offset-0">
+              <a href="http://ec.europa.eu/environment/nature" target="_blank">
+                <img class="img-responsive" src="img/logo-natura2000.jpg" alt="Натура 2000">
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-8 col-xs-offset-2 col-sm-offset-0">
+              <a href="" target="_blank">
+                <img class="img-responsive" src="img/logo-nfb.png" alt="NFB">
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-8 col-xs-offset-2 col-sm-offset-0">
+              <a href="http://www.eagleforests.org" target="_blank">
+                <img class="img-responsive" src="img/logo-eagle.jpg" alt="Горите на орела">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- /.container -->
+
+</div>
+<!-- /.content-section-b -->
+
+<a name="mobile"></a>
+<div class="content-section-a">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 col-sm-6">
+        <hr class="section-heading-spacer">
+        <div class="clearfix"></div>
+        <h2 class="section-heading">Включи се в наблюденията</h2>
+        <p class="lead">
+          Инсталирайте мобилното приложение
+          <a target="_blank" href="https://play.google.com/store/apps/details?id=org.bspb.smartbirds.pro">SmartBirds
+            Pro</a>
+          и помогни за опазване на биологичното разнообразия в България.
+        </p>
+        <h5>Файлове:</h5>
+        <ul>
+          <li>
+            <a href="/files/help_draft_ver_2_5_6_2015_final.pdf" target="_blank">Инструкции за работа с SmartBirds
+              Pro</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+        <img class="img-responsive" src="img/smartbirds-scr.png" alt="">
+      </div>
+    </div>
+
+  </div>
+  <!-- /.container -->
+
+</div>
+<!-- /.content-section-a -->
+
+<!--<a  name="contact"></a>-->
+<!--<div class="banner">-->
+
+<!--<div class="container">-->
+
+<!--<div class="row">-->
+<!--<div class="col-lg-6">-->
+<!--<h2>Connect to Start Bootstrap:</h2>-->
+<!--</div>-->
+<!--<div class="col-lg-6">-->
+<!--<ul class="list-inline banner-social-buttons">-->
+<!--<li>-->
+<!--<a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>-->
+<!--</li>-->
+<!--<li>-->
+<!--<a href="https://github.com/IronSummitMedia/startbootstrap" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>-->
+<!--</li>-->
+<!--<li>-->
+<!--<a href="#" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>-->
+<!--</li>-->
+<!--</ul>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--</div>-->
+<!--&lt;!&ndash; /.container &ndash;&gt;-->
+
+<!--</div>-->
+<!--&lt;!&ndash; /.banner &ndash;&gt;-->
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <ul class="list-inline">
+          <li>
+            <a href="#">Home</a>
+          </li>
+          <li class="footer-menu-divider">&sdot;</li>
+          <li>
+            <a href="#about">About</a>
+          </li>
+          <li class="footer-menu-divider">&sdot;</li>
+          <li>
+            <a href="#services">Services</a>
+          </li>
+          <li class="footer-menu-divider">&sdot;</li>
+          <li>
+            <a href="#contact">Contact</a>
+          </li>
+        </ul>
+        <p class="copyright text-muted small">Copyright &copy; <a href="http://bspb.org" target="_blank">БДЗП</a>
+          2015-2016.</p>
       </div>
     </div>
   </div>
