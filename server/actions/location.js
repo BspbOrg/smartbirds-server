@@ -2,15 +2,23 @@
  * Created by groupsky on 04.12.15.
  */
 
+var paging = require('../helpers/paging');
+var incremental = require('../helpers/incremental');
+
 exports.locationList = {
   name: 'location:list',
   description: 'location:list',
   middleware: ['auth'],
+  inputs: paging.declareInputs(incremental.declareInputs()),
 
   run: function (api, data, next) {
     try {
-      return api.models.location.findAndCountAll({}).then(function (result) {
+      var q = {};
+      q = paging.prepareQuery(q, data.params);
+      q = incremental.prepareQuery(q, data.params);
+      return api.models.location.findAndCountAll(q).then(function (result) {
         data.response.count = result.count;
+        data.response.meta = incremental.generateMeta(data, paging.generateMeta(result.count, data));
         data.response.data = result.rows.map(function (location) {
           return location.apiData(api);
         });
@@ -59,10 +67,10 @@ exports.locationListZones = {
   name: 'location:listZones',
   description: 'location:listZones',
   middleware: ['auth'],
-  inputs: {
+  inputs: paging.declareInputs(incremental.declareInputs({
     id: {required: true},
     filter: {}
-  },
+  })),
 
   run: function (api, data, next) {
     try {
@@ -72,6 +80,10 @@ exports.locationListZones = {
         },
         include: [{model: api.models.location, as: 'location'}]
       };
+
+      q = paging.prepareQuery(q, data.params);
+      q = incremental.prepareQuery(q, data.params);
+
       if (data.session.user.isAdmin) {
         q.include.push({model: api.models.user, as: 'owner'});
       }
@@ -88,6 +100,7 @@ exports.locationListZones = {
       }
       return api.models.zone.findAndCountAll(q).then(function (result) {
         data.response.count = result.count;
+        data.response.meta = incremental.generateMeta(data, paging.generateMeta(result.count, data));
         data.response.data = result.rows.map(function (zone) {
           return zone.apiData(api);
         });
@@ -126,6 +139,7 @@ exports.areaListZones = {
           }
         }]
       };
+
       if (data.session.user.isAdmin) {
         q.include.push({model: api.models.user, as: 'owner'});
       }
