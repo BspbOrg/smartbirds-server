@@ -1,7 +1,11 @@
 <div class="row">
   <div class="col-md-3 col-lg-3">
-    <field name="location" type="text" required="true"
+    <!--<field name="location" type="text" required="true"
            label="Място"
+           model="monitoringDetailController.data.location"></field>-->
+    <field name="location" type="locations" required="true"
+           label="Място"
+           on-select="monitoringDetailController.updateFromModel()"
            model="monitoringDetailController.data.location"></field>
   </div>
   <div class="col-md-4 col-lg-3">

@@ -99,6 +99,14 @@ require('../app').directive('field', /*@ngInject*/function ($q) {
           });
           break;
         }
+        case 'locations':
+        {
+          field.values = [];
+          angular.forEach(db.locations, function (item) {
+            field.values.push(item);
+          });
+          break;
+        }
         case 'single-choice':
         case 'multiple-choice':
         {
