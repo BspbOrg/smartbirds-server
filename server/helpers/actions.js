@@ -169,19 +169,19 @@ module.exports = {
                   for (i = 0, l = result.rows.length; i < l; ++i) {
                     record = result.rows[i];
                     result.rows[i] = _.assign({
-                      startTime: moment(record.startDateTime).format(api.config.smartbirds.time),
-                      startDate: moment(record.startDateTime).format(api.config.smartbirds.date),
-                      endTime: moment(record.endDateTime).format(api.config.smartbirds.time),
+                      startTime: moment(record.startDateTime).format(api.config.formats.time),
+                      startDate: moment(record.startDateTime).format(api.config.formats.date),
+                      endTime: moment(record.endDateTime).format(api.config.formats.time),
                       notes: (record.notes||'').replace(/[\n\r]+/g, ' '),
-                      endDate: moment(record.endDateTime).format(api.config.smartbirds.date),
+                      endDate: moment(record.endDateTime).format(api.config.formats.date),
                       species: record['speciesInfo.labelLa'] + ' | ' + record['speciesInfo.labelBg'],
                       species_EURING_Code: record['speciesInfo.euring'],
                       SpeciesCode: record['speciesInfo.code'],
                       'ЕлПоща': record['user.email'],
                       'Име': record['user.firstName'],
                       'Фамилия': record['user.lastName'],
-                      observationDate: moment(record.observationDateTime).format(api.config.smartbirds.date),
-                      observationTime: moment(record.observationDateTime).format(api.config.smartbirds.time)
+                      observationDate: moment(record.observationDateTime).format(api.config.formats.date),
+                      observationTime: moment(record.observationDateTime).format(api.config.formats.time)
                     }, record);
                   }
                   require('csv-stringify')(result.rows, {

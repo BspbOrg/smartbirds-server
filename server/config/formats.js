@@ -1,5 +1,5 @@
 exports.default = {
-  smartbirds: function (api) {
+  formats: function (api) {
     return {
       date: 'DD.MM.YYYY',
       time: 'HH:mm'
