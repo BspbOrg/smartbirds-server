@@ -86,6 +86,9 @@ exports.default = {
         { path: '/zone/:id/owner', action: 'zone:clearOwner' },
         { path: '/cbm/:id', action: 'formCBM:delete' },
         { path: '/visit/:year',  action: 'visit:delete' },
+        { path: '/birds/:id', action: 'formBirds:delete' },
+        { path: '/herp/:id', action: 'formHerps:delete' },
+        { path: '/ciconia/:id', action: 'formCiconia:delete' },
       ],
     }
   }
