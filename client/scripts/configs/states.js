@@ -14,6 +14,16 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
     // State Configurations //
     //////////////////////////
 
+  var resolveUser = {
+    user: /*@ngInject*/function($rootScope, user) {
+      return user.resolve(true).then(function(identity) {
+        return $rootScope.$user = user;
+      }, function() {
+        return undefined;
+      })
+    }
+  };
+
     // Use $stateProvider to configure your states.
     $stateProvider
 
@@ -24,39 +34,35 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
         url: "/",
         templateUrl: '/views/home.html',
         title: 'Home',
-        resolve: {
-          user: /*@ngInject*/function($rootScope, user) {
-            return user.resolve(true).then(function(identity) {
-              return $rootScope.$user = user;
-            }, function() {
-              return undefined;
-            })
-          }
-        }
+        resolve: resolveUser,
       })
 
       .state("cbm", {
         url: "/cbm",
         templateUrl: '/views/home-cbm.html',
         title: 'МОВП',
+        resolve: resolveUser,
       })
 
       .state("birds", {
         url: "/birds",
         templateUrl: '/views/home-birds.html',
         title: 'СФП',
+        resolve: resolveUser,
       })
 
       .state("herp", {
         url: "/herp",
         templateUrl: '/views/home-herp.html',
         title: 'ЗВБ',
+        resolve: resolveUser,
       })
 
       .state("ciconia", {
         url: "/ciconia",
         templateUrl: '/views/home-ciconia.html',
         title: 'ЗВБ',
+        resolve: resolveUser,
       })
 
       ///////////
