@@ -1,6 +1,6 @@
 'use strict';
 module.exports = function (sequelize, DataTypes) {
-  var Statistics = sequelize.define('Statistics', {
+  var CBM_Stats = sequelize.define('cbm_stats', {
     id: {
       type: DataTypes.STRING(10),
       primaryKey: true
@@ -16,5 +16,5 @@ module.exports = function (sequelize, DataTypes) {
     timestamps: false,
     tableName: 'cbm_stats'
   });
-  return Statistics;
+  return CBM_Stats;
 };
