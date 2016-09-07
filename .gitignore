@@ -7,3 +7,4 @@ log/
 pids/
 public/css/main.css*
 uploads/
+public/*_stats.json
