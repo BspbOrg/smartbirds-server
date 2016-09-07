@@ -1,0 +1,52 @@
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+  <div class="container topnav">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" ng-click="navbar.collapsed = !navbar.collapsed">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand topnav" ui-sref="home">
+        SmartBirds
+      </a>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li ng-if="'home' | isState">
+          <a href ui-sref="home" sb-scroll-to="[name=forms]">Форми</a>
+        </li>
+        <li ng-if="$state.current.name!=='home'" class="dropdown" uib-dropdown>
+          <a href role="button" id="forms-dropdown" type="button" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false" uib-dropdown-toggle>
+            Форми
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="forms-dropdown">
+            <li title="Мониторинг на обикновенните видове птици"><a href ui-sref="cbm">МОВП</a></li>
+            <li title="Стандартна форма птици"><a href ui-sref="birds">СФП</a></li>
+            <li title="Земноводни, влечуги и бозайници"><a href ui-sref="herp">ЗВБ</a></li>
+            <li title="Бял щъркел"><a href ui-sref="ciconia">Бял щъркел</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href ui-sref="home" sb-scroll-to="[name=about]">За проекта</a>
+        </li>
+        <li>
+          <a href ui-sref="home" sb-scroll-to="[name=funding]">Финансиране</a>
+        </li>
+        <li>
+          <a href ui-sref="home" sb-scroll-to="[name=mobile]">Мобилно приложение</a>
+        </li>
+        <li>
+          <a ng-if="!$user.isAuthenticated()" ui-sref="login">Вход</a>
+          <a ng-if="$user.isAuthenticated()" ui-sref="auth.dashboard">Начало</a>
+        </li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container -->
+</nav>

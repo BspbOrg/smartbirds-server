@@ -16,7 +16,7 @@ require('../app').service('api', function ($log, $http, $resource, $q, $window, 
         withCredentials: true
       });
     },
-    restore: function(xsrf, opts) {
+    restore: function (xsrf, opts) {
       return $http(angular.extend({
         method: 'PUT',
         url: ENDPOINT_URL + '/session',
@@ -26,27 +26,27 @@ require('../app').service('api', function ($log, $http, $resource, $q, $window, 
         withCredentials: true
       }, opts));
     },
-    forgotPassword: function(auth) {
+    forgotPassword: function (auth) {
       return $http({
         method: 'POST',
         url: ENDPOINT_URL + '/session/' + auth.email + '/resetpw',
         data: auth
       });
     },
-    resetPassword: function(auth) {
+    resetPassword: function (auth) {
       return $http({
         method: 'POST',
         url: ENDPOINT_URL + '/session/' + auth.email + '/resetpw2',
         data: auth
       });
     },
-    logout: function() {
+    logout: function () {
       return $http({
         method: 'DELETE',
         url: ENDPOINT_URL + '/session'
       });
     },
-    changePassword: function(userId, oldPassword, newPassword) {
+    changePassword: function (userId, oldPassword, newPassword) {
       return $http({
         method: 'PATCH',
         url: ENDPOINT_URL + '/user/' + $window.encodeURIComponent(userId),
@@ -58,17 +58,17 @@ require('../app').service('api', function ($log, $http, $resource, $q, $window, 
     }
   };
 
-  api.stats = {
-    homepage: function() {
+  api.stats = {};
+
+  ['birds', 'cbm', 'ciconia', 'herps'].forEach(function (form) {
+    api.stats[form + '_stats'] = function () {
       return $http({
         method: 'GET',
-        url: '/stats.json'
-      }).then(function(response){
+        url: '/' + form + '_stats.json'
+      }).then(function (response) {
         return response.data;
       });
-    }
-  };
-
-
+    };
+  });
 
 });

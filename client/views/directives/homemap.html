@@ -10,12 +10,13 @@
   >
     <ui-gmap-windows show="'show'">
       <div ng-non-bindable>
-        <h6 class="text-uppercase text-justify"><small>площадка</small> {{::id}}</h6>
-        <h6 class="text-uppercase text-justify"><small>наблюдател</small> {{first_name}} {{last_name}}</h6>
-        <h5 class="text-uppercase text-justify"><small>видове</small> {{::species_count}}</h5>
-        <h5 class="text-uppercase text-justify"><small>индивиди</small> {{::units_count}}</h5>
+        <h6 ng-if="form==='cbm'" class="text-uppercase text-justify"><small>площадка</small> {{::id}}</h6>
+        <h6 ng-if="form==='cbm'" class="text-uppercase text-justify"><small>наблюдател</small> {{::first_name}} {{::last_name}}</h6>
+        <h5 ng-if="species_count !== undefined" class="text-uppercase text-justify"><small>видове</small> {{::species_count}}</h5>
+        <h5 ng-if="units_count !== undefined" class="text-uppercase text-justify"><small>индивиди</small> {{::units_count}}</h5>
+        <h5 ng-if="records_count !== undefined" class="text-uppercase text-justify"><small>гнезда</small> {{::records_count}}</h5>
+        <p>{{::units_count|json}}</p>
       </div>
     </ui-gmap-windows>
   </ui-gmap-markers>
 </ui-gmap-google-map>
-<!--+species_count+'<br>Индивиди: '+units_count-->

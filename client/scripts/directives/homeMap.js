@@ -9,18 +9,23 @@ require('../app').directive('homeMap', /*@ngInject*/function () {
   var lastModel = undefined;
   return {
     restrict: 'AE',
-    templateUrl: '/views/directives/homemap.html',
-    controller: /*@ngInject*/function ($scope, $q, api, Zone) {
+    templateUrl: function (elem, attr) {
+      return '/views/directives/homemap/' + attr.form + '.html';
+    },
+    scope: {
+      form: '@',
+    },
+    controller: /*@ngInject*/function ($scope, $q, api) {
       var vc = extend(this, {
         center: {latitude: 42.744820608, longitude: 25.2151370694},
         zoom: 8,
-        zones: [],
+        records: [],
         options: {
           maxZoom: 15,
           streetViewControl: false
         },
         marker: {
-          click: function(marker, eventName, model) {
+          click: function (marker, eventName, model) {
             if (lastModel && lastModel !== model) lastModel.show = false;
             model.show = !model.show;
             lastModel = model;
@@ -28,10 +33,10 @@ require('../app').directive('homeMap', /*@ngInject*/function () {
         }
       });
 
-      api.stats.homepage().then(function (zones) {
-        vc.zones = zones;
-        angular.forEach(zones, function(zone) {
-          zone.id = zone.id || (''+zone.latitude+zone.longitude);
+      api.stats[$scope.form + '_stats']().then(function (records) {
+        vc.records = records;
+        angular.forEach(records, function (record) {
+          record.id = record.id || ('' + record.latitude + record.longitude);
         });
       });
     },
