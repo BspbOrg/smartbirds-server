@@ -10,7 +10,12 @@ module.exports = function (sequelize, DataTypes) {
     areaBg: DataTypes.TEXT,
     areaEn: DataTypes.TEXT,
     typeBg: DataTypes.TEXT,
-    typeEn: DataTypes.TEXT
+    typeEn: DataTypes.TEXT,
+    regionEn: DataTypes.TEXT,
+    regionBg: DataTypes.TEXT,
+    longitude: DataTypes.FLOAT,
+    latitude: DataTypes.FLOAT,
+    ekatte: DataTypes.TEXT,
   }, {
     indexes: [
       {fields: ['nameBg']},
@@ -38,7 +43,14 @@ module.exports = function (sequelize, DataTypes) {
           type: {
             bg: this.typeBg,
             en: this.typeEn
-          }
+          },
+          region: {
+            bg: this.regionBg,
+            en: this.regionEn
+          },
+          longitude: this.longitude,
+          latitude: this.latitude,
+          ekatte: this.ekatte
         };
       }
     }
