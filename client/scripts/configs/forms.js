@@ -17,7 +17,7 @@ module.exports = {
   birds: {
     model: 'FormBirds',
     filters: [
-      '{location:int}',
+      'location',
       '{user:int}',
       'species',
       'from_date',
@@ -27,7 +27,7 @@ module.exports = {
   herp: {
     model: 'FormHerp',
     filters: [
-      '{location:int}',
+      'location',
       '{user:int}',
       'species',
       'from_date',
@@ -37,7 +37,7 @@ module.exports = {
   ciconia: {
     model: 'FormCiconia',
     filters: [
-      '{location:int}',
+      'location',
       '{user:int}',
       'from_date',
       'to_date'

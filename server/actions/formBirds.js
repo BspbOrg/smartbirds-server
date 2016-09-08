@@ -78,7 +78,7 @@ function prepareQuery(api, data) {
       }
       if (data.params.location) {
         q.where = _.extend(q.where || {}, {
-          location: data.params.location
+          location: api.sequelize.sequelize.options.dialect === 'postgres'?{ilike: data.params.location}:data.params.location
         });
       }
       if (data.params.species) {
