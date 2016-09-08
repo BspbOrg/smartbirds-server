@@ -168,20 +168,20 @@ module.exports = {
                   var i, l, record;
                   for (i = 0, l = result.rows.length; i < l; ++i) {
                     record = result.rows[i];
-                    result.rows[i] = _.assign({                                  
-                      startTime: moment(record.startDateTime).format("H:mm"),                    
-                      startDate: moment(record.startDateTime).format("D.M.YYYY"),
-                      endTime: moment(record.endDateTime).format("H:mm"),
+                    result.rows[i] = _.assign({
+                      startTime: moment(record.startDateTime).format(api.config.formats.time),
+                      startDate: moment(record.startDateTime).format(api.config.formats.date),
+                      endTime: moment(record.endDateTime).format(api.config.formats.time),
                       notes: (record.notes||'').replace(/[\n\r]+/g, ' '),
-                      endDate: moment(record.endDateTime).format("D.M.YYYY"),
+                      endDate: moment(record.endDateTime).format(api.config.formats.date),
                       species: record['speciesInfo.labelLa'] + ' | ' + record['speciesInfo.labelBg'],
                       species_EURING_Code: record['speciesInfo.euring'],
                       SpeciesCode: record['speciesInfo.code'],
                       'ЕлПоща': record['user.email'],
                       'Име': record['user.firstName'],
-                      'Фамилия': record['user.lastName'],                      
-                      observationDate: moment(record.observationDateTime).format("D.M.YYYY"),
-                      observationTime: moment(record.observationDateTime).format("H:mm")
+                      'Фамилия': record['user.lastName'],
+                      observationDate: moment(record.observationDateTime).format(api.config.formats.date),
+                      observationTime: moment(record.observationDateTime).format(api.config.formats.time)
                     }, record);
                   }
                   require('csv-stringify')(result.rows, {
@@ -193,7 +193,7 @@ module.exports = {
                     }
                     return resolve(data);
                   });
-                });                
+                });
               default:
                 return Promise.map(result.rows, function (model) {
                     return model.apiData(api);
@@ -203,7 +203,7 @@ module.exports = {
                       count: result.count,
                       data: data
                     };
-                  });                
+                  });
             }
           })
           .then(function (response) {
@@ -215,7 +215,7 @@ module.exports = {
                 data.toRender = false;
                 break;
               default:
-                return data.response = response;                
+                return data.response = response;
             }
           }).then(function () {
             next();
