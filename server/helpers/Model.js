@@ -418,7 +418,7 @@ function generateSchema (fields, resultObj) {
       case 'json':
       {
         fieldsDef[name] = _.extend({
-          type: Sequelize.BLOB
+          type: Sequelize.TEXT
         }, fd);
         break;
       }

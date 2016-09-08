@@ -8,7 +8,7 @@ require('../app')
  * @author: nerv
  * @version: 0.1.2, 2014-01-09
  */
-  .directive('nvThumb', /*@ngInject*/function ($window) {
+  .directive('nvThumb', /*@ngInject*/function ($log, $window) {
     var helper = {
       support: !!($window.FileReader && $window.CanvasRenderingContext2D),
       isFile: function (item) {
@@ -23,23 +23,28 @@ require('../app')
     return {
       restrict: 'A',
       link: function (scope, element, attributes) {
-        if (!helper.support) return;
+        if (!helper.support) {
+          $log.warn('no support for thumb preview :(');
+          return;
+        }
 
-        var params = scope.$eval(attributes.ngThumb);
+        var file = scope.$eval(attributes.nvThumb);
 
-        if (!helper.isFile(params.file)) return;
-        if (!helper.isImage(params.file)) return;
+        if (!helper.isFile(file)) {
+          $log.warn('not a file');
+          return;
+        }
+        if (!helper.isImage(file)) {
+          $log.warn('not a picture');
+          return;
+        }
 
         var reader = new FileReader();
 
-        reader.onload = onLoadFile;
-        reader.readAsDataURL(params.file);
-
-        function onLoadFile(event) {
-          var img = new Image();
-          img.src = event.target.result;
-          element.addChild(img);
-        }
+        reader.onload = function onLoadFile(event) {
+          element.prop('src', event.target.result);
+        };
+        reader.readAsDataURL(file);
       }
     };
   });

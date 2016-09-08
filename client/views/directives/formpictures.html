@@ -2,17 +2,20 @@
   <h3>Снимки</h3>
   <div class="row">
 
-    <div ng-repeat="picture in pictures" class="col-sm-6 col-md-4 col-lg-3">
+    <div ng-repeat="picture in $ctrl.pictures" class="col-sm-6 col-md-4 col-lg-3">
       <div class="thumbnail">
         <a href>
-          <img ng-if="picture.url" ng-src="{{picture.url}}">
-          <div ng-if="picture.fileItem" ng-thumb="{ file: picture.fileItem._file, height: 100 }"></div>
+          <img ng-if="picture.url" ng-src="{{picture.url}}" sb-src>
+          <img ng-if="picture.fileItem" nv-thumb="picture.fileItem._file">
         </a>
         <div class="thumbnail-overlay top right hover">
           <button type="button" class="btn btn-danger btn-xs" ng-click="$ctrl.delete(picture)">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             <span class="sr-only">Delete</span>
           </button>
+        </div>
+        <div ng-if="picture.fileItem && !picture.fileItem.isUploaded" class="thumbnail-overlay bottom left right">
+          <uib-progressbar value="picture.fileItem.progress"></uib-progressbar>
         </div>
       </div>
     </div>
@@ -22,7 +25,7 @@
         <div class="fake-image-container">
           <div class="fake-image">
             <label for="image-upload" class="btn btn-primary btn-lg ">Добави снимка</label>
-            <input type="file" id="image-upload" nv-file-select uploader="$ctrl.uploader">
+            <input type="file" id="image-upload" nv-file-select uploader="$ctrl.uploader" accept="image/*">
           </div>
         </div>
       </div>
