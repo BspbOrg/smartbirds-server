@@ -10,6 +10,7 @@
 
            ng-model="field.model"
            ng-required="::field.required"
+           ng-blur="field.onSelect()"
 
            uib-typeahead="item.name.bg for item in field.values | filter:$viewValue | orderBy:field.order | limitTo:30"
            typeahead-append-to-body="false"

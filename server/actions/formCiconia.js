@@ -79,7 +79,7 @@ function prepareQuery(api, data) {
       }
       if (data.params.location) {
         q.where = _.extend(q.where || {}, {
-          location: data.params.location
+          location: api.sequelize.sequelize.options.dialect === 'postgres'?{ilike: data.params.location}:data.params.location
         });
       }
       if (data.params.from_date) {
@@ -102,7 +102,7 @@ exports.formCiconiaList = {
   name: 'formCiconia:list',
   description: 'formCiconia:list',
   middleware: ['auth'],
-  //?location&user&year&month&limit&offset 
+  //?location&user&year&month&limit&offset
   inputs: {
     location: {},
     user: {},

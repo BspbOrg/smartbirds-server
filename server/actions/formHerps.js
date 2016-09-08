@@ -14,7 +14,7 @@ exports.formHerpsAdd = {
   inputs: model.insertInputs,
 
   run: actions.getInsert('formHerps')
-}; 
+};
 
 exports.formHerpsEdit = {
   name: 'formHerps:edit',
@@ -79,14 +79,14 @@ function prepareQuery(api, data) {
       }
       if (data.params.location) {
         q.where = _.extend(q.where || {}, {
-          location: data.params.location
+          location: api.sequelize.sequelize.options.dialect === 'postgres'?{ilike: data.params.location}:data.params.location
         });
-      }      
+      }
       if (data.params.species) {
         q.where = _.extend(q.where || {}, {
           species: data.params.species
         });
-      }      
+      }
       if (data.params.from_date) {
         q.where = q.where || {};
         q.where.observationDateTime = _.extend(q.where.observationDateTime || {}, {
@@ -115,8 +115,8 @@ exports.formHerpsList = {
     from_date: {},
     to_date: {},
     limit: {required: false, default: 20},
-    offset: {required: false, default: 0}    
+    offset: {required: false, default: 0}
   },
 
-  run: actions.getSelect('formHerps', prepareQuery) 
+  run: actions.getSelect('formHerps', prepareQuery)
 };
