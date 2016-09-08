@@ -1,0 +1,23 @@
+<sb-include src="/views/fields/container.html">
+  <div uib-dropdown dropdown-append-to-body="true">
+    <input type="text"
+           class="form-control"
+           id="{{::field.name}}"
+           name="{{::field.name}}"
+           aria-describedby="{{::field.name}}HelpBlock"
+           placeholder="{{::field.placeholder}}"
+           autocomplete="off"
+
+           ng-model="field.model"
+           ng-required="::field.required"
+
+           uib-typeahead="item.name.bg for item in field.values | filter:$viewValue | orderBy:field.order | limitTo:30"
+           typeahead-append-to-body="false"
+           typeahead-editable="true"
+           typeahead-focus-first="::field.required"
+           typeahead-min-length="1"
+           typeahead-on-select="field.onSelect({$item: $item, $model: $model, $label: $label})"
+           typeahead-template-url="/views/system/typeahead-locations.html"
+    >
+  </div>
+</sb-include>

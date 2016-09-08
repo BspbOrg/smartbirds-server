@@ -47,10 +47,15 @@ require('../app').directive('field', /*@ngInject*/function ($q) {
           });
       };
 
-      field.onSelect = function () {
+      field.onSelect = function (args) {
+        if (!args) {
+          args = {};
+        } else if (!angular.isObject(args)) {
+          args = {$arg: args};
+        }
         $timeout(function () {
           if (angular.isFunction(field.select)) {
-            field.select({model: field.model});
+            field.select(angular.extend({}, args, {model: field.model}));
           }
         });
       };
@@ -95,6 +100,14 @@ require('../app').directive('field', /*@ngInject*/function ($q) {
         {
           field.values = [];
           angular.forEach(db.users, function (item) {
+            field.values.push(item);
+          });
+          break;
+        }
+        case 'location':
+        {
+          field.values = [];
+          angular.forEach(db.locations, function (item) {
             field.values.push(item);
           });
           break;
