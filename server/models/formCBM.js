@@ -107,7 +107,7 @@ var fields = {
   observationDateTime: {
     type: 'timestamp',
     required: true
-  },  
+  },
   monitoringCode: {
     type: 'text',
     required: true
@@ -319,6 +319,7 @@ module.exports = function (sequelize, DataTypes) {
         var self = this;
 
         _.forEach(fields, function (field, name) {
+          if (_.isString(field)) field = {type: field};
           switch (field.type) {
             case 'multi':
             {

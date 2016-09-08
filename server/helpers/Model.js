@@ -17,11 +17,11 @@ var commonFields = {
   observationDateTime: {
     type: 'timestamp',
     required: true
-  },  
+  },
   monitoringCode: {
     type: 'text',
     required: true
-  },    
+  },
   endDateTime: {
     type: 'timestamp',
     required: true
@@ -29,7 +29,7 @@ var commonFields = {
   startDateTime: {
     type: 'timestamp',
     required: true
-  },  
+  },
   observers: {
     type: 'text'
   },
@@ -112,12 +112,12 @@ function Model(modelName_, fields_, foreignKeyDefs) {
     return schema;
   };
 
-  this.getEditInputs = function () {    
+  this.getEditInputs = function () {
     var editInputs = {id: {required: true}};
-    for (var prop in fields) {    
+    for (var prop in fields) {
       if (prop == 'createdAt' || prop == 'updatedAt' || prop == 'imported')
         continue;
-      editInputs[prop] = {};    
+      editInputs[prop] = {};
     }
 
     return editInputs;
@@ -125,10 +125,10 @@ function Model(modelName_, fields_, foreignKeyDefs) {
 
   this.getInsertInputs = function () {
     var insertInputs = {};
-    for (var prop in fields) {    
+    for (var prop in fields) {
       if (prop == 'createdAt' || prop == 'updatedAt' || prop == 'imported')
         continue;
-      insertInputs[prop] = { required: fields[prop].required && prop != 'user' };    
+      insertInputs[prop] = { required: fields[prop].required && prop != 'user' };
     }
 
     return insertInputs;
@@ -231,6 +231,7 @@ function Model(modelName_, fields_, foreignKeyDefs) {
           var self = this;
 
           _.forEach(fields, function (field, name) {
+            if (_.isString(field)) field = {type: field};
             switch (field.type) {
               case 'multi':
                 {
