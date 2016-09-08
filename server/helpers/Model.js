@@ -73,6 +73,7 @@ var commonFields = {
       filter: { type: 'main_threats' }
     }
   },
+  pictures: 'json',
 
   //Internal fields
   user: {
@@ -216,6 +217,10 @@ function Model(modelName_, fields_, foreignKeyDefs) {
                       return Promise.reject(new Error('[' + name + '] Unhandled relation model ' + field.relation.model));
                   }
                 }
+              case 'json':
+                {
+                  return self[name] && JSON.parse(self[name]);
+                }
               default:
                 return self[name];
             }
@@ -293,6 +298,11 @@ function Model(modelName_, fields_, foreignKeyDefs) {
                   }
                   break;
                 }
+              case 'json':
+                if (!_.has(data, name)) return;
+
+                self[name] = JSON.stringify(data[name]);
+                break;
               default:
                 if (!_.has(data, name)) return;
 
@@ -405,6 +415,13 @@ function generateSchema (fields, resultObj) {
           }, fd);
           break;
         }
+      case 'json':
+      {
+        fieldsDef[name] = _.extend({
+          type: Sequelize.TEXT
+        }, fd);
+        break;
+      }
       default:
         throw new Error('[' + name + '] Unknown field type ' + field.type);
 

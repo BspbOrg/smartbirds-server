@@ -26,6 +26,7 @@ require('raven-js');
 require('angular-filter');
 require('angulartics');
 require('angulartics-ga');
+require('angular-file-upload');
 
 var dependencies = [
   'ngLocale',
@@ -57,6 +58,8 @@ var dependencies = [
   'angulartics',
 
   'angulartics.google.analytics',
+
+  'angularFileUpload',
 ];
 
 Raven.config('https://b17f1c87d9e346a8bd82335294450e57@app.getsentry.com/71564').addPlugin(require('raven-js-angular'), angular).install();

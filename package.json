@@ -65,6 +65,7 @@
     "nodemailer-mailgun-transport": "^1.0.1",
     "pg": "~4.4.3",
     "pg-hstore": "~2.3.2",
+    "querystring": "^0.2.0",
     "raven": "^0.10.0",
     "sequelize": "~3.13.0",
     "sequelize-cli": "~2.1.0",
@@ -97,7 +98,8 @@
     "raven-js-angular": "./bower_components/raven-js/dist/plugins/angular.js",
     "angular-filter": "./bower_components/angular-filter/dist/angular-filter.js",
     "angulartics": "./bower_components/angulartics/src/angulartics.js",
-    "angulartics-ga": "./bower_components/angulartics-google-analytics/lib/angulartics-ga.js"
+    "angulartics-ga": "./bower_components/angulartics-google-analytics/lib/angulartics-ga.js",
+    "angular-file-upload": "./bower_components/angular-file-upload/dist/angular-file-upload.js"
   },
   "browserify-shim": {
     "angular": "angular",
@@ -199,6 +201,11 @@
     "angulartics-ga": {
       "depends": [
         "angulartics:angulartics"
+      ]
+    },
+    "angular-file-upload": {
+      "depends": [
+        "angular:angular"
       ]
     }
   },
