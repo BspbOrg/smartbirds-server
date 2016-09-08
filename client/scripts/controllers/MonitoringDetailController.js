@@ -55,7 +55,16 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
     }
   };
 
-  controller.updateFromModel = function (data) {
+  controller.locationUpdated = function() {
+    var coordinates = {
+      longitude: controller.data.location.longitude,
+      latitude: controller.data.location.latitude
+    };
+    controller.data.location = controller.data.location.name.bg;
+    controller.updateFromModel(coordinates);
+  };
+
+  controller.updateFromModel = function(data) {
     data = data || controller.data;
     controller.map.poi.latitude = data.latitude;
     controller.map.poi.longitude = data.longitude;
