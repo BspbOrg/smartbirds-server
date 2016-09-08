@@ -356,6 +356,7 @@ exports.formCBMAdd = {
     //source: {required: true},
     latitude: {required: false},
     longitude: {required: false},
+    pictures: {required: false},
   },
   run: function (api, data, next) {
     Promise.resolve(data)
@@ -425,6 +426,7 @@ exports.formCBMEdit = {
     //source: {},
     latitude: {},
     longitude: {},
+    pictures: {required: false},
   },
 
   run: function (api, data, next) {

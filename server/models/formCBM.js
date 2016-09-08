@@ -135,7 +135,9 @@ var fields = {
     relation: {
       model: 'user'
     }
-  }
+  },
+
+  pictures: 'json',
 };
 
 module.exports = function (sequelize, DataTypes) {
@@ -226,6 +228,13 @@ module.exports = function (sequelize, DataTypes) {
         }, fd);
         break;
       }
+      case 'json':
+      {
+        fieldsDef[name] = _.extend({
+          type: DataTypes.TEXT
+        }, fd);
+        break;
+      }
       default:
         throw new Error('[' + name + '] Unknown field type ' + field.type);
 
@@ -304,6 +313,10 @@ module.exports = function (sequelize, DataTypes) {
                   return Promise.reject(new Error('[' + name + '] Unhandled relation model ' + field.relation.model));
               }
             }
+            case 'json':
+            {
+              return self[name] && JSON.parse(self[name]);
+            }
             default:
               return self[name];
           }
@@ -381,6 +394,11 @@ module.exports = function (sequelize, DataTypes) {
               }
               break;
             }
+            case 'json':
+              if (!_.has(data, name)) return;
+
+              self[name] = JSON.stringify(data[name]);
+              break;
             default:
               if (!_.has(data, name)) return;
 
