@@ -7,7 +7,7 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
 
   var id = $stateParams.id || $stateParams.fromId;
 
-  function genSingleObservationCode() {    
+  function genSingleObservationCode() {
     var date = controller.data.observationDateTime || controller.data.startDateTime;
     if (date && date.toJSON)
       date = date.toJSON();
@@ -55,7 +55,7 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
     }
   };
 
-  controller.updateFromModel = function(data) {
+  controller.updateFromModel = function (data) {
     data = data || controller.data;
     controller.map.poi.latitude = data.latitude;
     controller.map.poi.longitude = data.longitude;
@@ -113,10 +113,11 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
     if (!data.observationDateTime) {
       data.observationDateTime = data.startDateTime;
     }
+    if (angular.isFunction(data.preSave)) data.preSave();
     data.$save().then(function (res) {
       $scope.smartform.$setPristine();
       return res;
-    }).then(function(res) {
+    }).then(function (res) {
       controller.data = res;
       clearGeneratedSingleObservationCode();
       return controller.data;
