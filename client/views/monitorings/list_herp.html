@@ -119,18 +119,6 @@
     <ui-gmap-google-map center='monitoringController.map.center' zoom='monitoringController.map.zoom'
                         options="monitoringController.map.options">
 
-      <ui-gmap-polygons ng-if="monitoringController.map.zones.length"
-                        models="monitoringController.map.zones"
-                        static="true"
-                        path="'coordinates'"
-                        fill="{color: '#c33', opacity: 0.4}"
-                        stroke="{color: '#c33', opacity: 0.7, weight: 0.5}"
-                        geodesic="true"
-                        clickable="true"
-                        events="{click: monitoringController.map.polygon.click}"
-      >
-      </ui-gmap-polygons>
-
       <ui-gmap-markers ng-if="monitoringController.map.rows.length"
                        models="monitoringController.map.rows"
                        static="true"
@@ -163,19 +151,6 @@
         </div>
       </ui-gmap-window>
 
-      <ui-gmap-window ng-if="monitoringController.map.selected.zone"
-                      coords="monitoringController.map.selected.zone.getCenter()"
-                      show="true"
-                      templateParameter="monitoringController.map.selected.zone"
-                      closeClick="monitoringController.map.selected = {}"
-      >
-        <div>
-          <ul class="list-unstyled">
-            <li><strong>{{monitoringController.map.selected.zone.owner|userName}}</strong></li>
-            <li>{{monitoringController.map.selected.zone.id}}</li>
-          </ul>
-        </div>
-      </ui-gmap-window>
     </ui-gmap-google-map>
   </div>
 </div>
@@ -198,6 +173,10 @@
           Наблюдател
         </th>
         <th
+          sb-sorting="location">
+          Локация
+        </th>
+        <th
           sb-sorting="date|date:'yyyyMMddHHmmss'">
           Дата/час
         </th>
@@ -207,9 +186,6 @@
         </th>
         <th sb-sorting="species.label.bg">
           Вид
-        </th>
-        <th sb-sorting="distance.label.bg">
-          Разстояние
         </th>
         <th
           sb-sorting="count">
@@ -226,6 +202,7 @@
         </td>
         <td><a href ui-sref=".detail({id: row.id})">{{::row.id}}</a></td>
         <td ng-if="::$user.isAdmin()">{{row.getUser().getName()}}</td>
+        <td>{{::row.location}}</td>
         <td>{{::row.startDateTime|date:'d.MM.yyyy'}} {{row.startDateTime|date:'H:mm'}} -
           {{row.endDateTime|date:'H:mm'}}
         </td>
@@ -234,7 +211,6 @@
           {{row.getSpecies().label.bg}}<br/>
           <strong>{{row.getSpecies().label.la}}</strong>
         </td>
-        <td>{{::row.distance.label.bg}}</td>
         <td>{{::row.count}}</td>
       </tr>
       </tbody>
