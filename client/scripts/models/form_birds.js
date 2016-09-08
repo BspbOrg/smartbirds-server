@@ -19,12 +19,17 @@ require('../app').factory('FormBirds', function ($resource, ENDPOINT_URL, db) {
     },
     getSpecies: function() {
       return db.species.birds && db.species.birds[this.species];
-    }
+    },
+    preSave: function() {
+      this.count = parseInt(this.count) || 0;
+      this.countMin = parseInt(this.countMin) || 0;
+      this.countMax = parseInt(this.countMax) || 0;
+    },
   });
 
   // class methods
   angular.extend(FormBirds, {
-    
+
   });
 
   return FormBirds;
