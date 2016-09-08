@@ -6,6 +6,7 @@ module.exports = {
     api.config.filestorage.path = api.config.filestorage.path || api.config.general.paths.monitoring[0];
 
     api.filestorage = {
+      storage: Storage.create(api.config.filestorage.path),
       /**
        * @name FileStat
        * @propery {String} stat.name
