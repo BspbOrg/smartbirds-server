@@ -23,6 +23,9 @@ require('../app').factory('FormCBM', function ($resource, ENDPOINT_URL, db) {
     getSpecies: function() {
       return db.species.birds && db.species.birds[this.species];
     },
+    getPosition: function() {
+      return new google.maps.LatLng(this.latitude, this.longitude);
+    },
     hasVisit: true
   });
 

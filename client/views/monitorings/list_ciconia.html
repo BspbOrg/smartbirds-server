@@ -98,8 +98,9 @@
 <div ng-if="monitoringController.tab == 'map'"
      class="row">
   <div class="col-md-12">
-    <p ng-if="monitoringController.rows.length > monitoringController.map.rows.length" class="text-warning">
-      Показани са само първите 1000 записа!
+    <p ng-if="monitoringController.count > monitoringController.map.rows.length" class="text-warning">
+      Показани са само първите {{monitoringController.map.rows.length}} записа!
+      <button ng-if="$user.isAdmin() && !monitoringController.loading" type="button" class="btn btn-default btn-xs" ng-click="monitoringController.nextPage(-1)">Покажи всички</button>
     </p>
     <ui-gmap-google-map center='monitoringController.map.center' zoom='monitoringController.map.zoom'
                         options="monitoringController.map.options">
