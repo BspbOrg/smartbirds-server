@@ -129,9 +129,8 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
     return model.query(query).$promise
       .then(function (rows) {
         controller.count = rows.$$response.data.$$response.count;
-        controller.rows.push.apply(controller.rows, rows);
-        controller.map.rows.push.apply(controller.map.rows, rows);
-        controller.map.rows.length = Math.min(controller.map.rows.length, 1000);
+        controller.rows.extend(rows);
+        controller.map.rows.extend(rows);
         controller.endOfPages = !rows.length;
         rows.forEach(function (row) {
           var key = '$' + row.zone;
