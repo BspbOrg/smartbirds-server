@@ -56,6 +56,7 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
   };
 
   controller.locationUpdated = function(location) {
+    if (controller.data.latitude && controller.data.longitude) return;
     controller.updateFromModel(location);
   };
 
