@@ -97,11 +97,14 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
   };
 
   controller.clearForCopy = function () {
+    if (angular.isFunction(model.prototype.preCopy)) {
+      model.prototype.preCopy.apply(controller.data);
+    }
     delete controller.data.id;
-    delete controller.data.species;
-    delete controller.data.distance;
-    delete controller.data.count;
-    delete controller.data.plot;
+    delete controller.data.pictures;
+    if (angular.isFunction(model.prototype.postCopy)) {
+      model.prototype.postCopy.apply(controller.data);
+    }
     $scope.smartform.$setPristine();
   };
 

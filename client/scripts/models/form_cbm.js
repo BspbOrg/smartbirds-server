@@ -26,7 +26,13 @@ require('../app').factory('FormCBM', function ($resource, ENDPOINT_URL, db) {
     getPosition: function() {
       return new google.maps.LatLng(this.latitude, this.longitude);
     },
-    hasVisit: true
+    preCopy: function() {
+      delete this.species;
+      delete this.distance;
+      delete this.count;
+      delete this.plot;
+    },
+    hasVisit: true,
   });
 
   // class methods
