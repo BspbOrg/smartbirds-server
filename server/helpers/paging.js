@@ -65,12 +65,16 @@ function generateMeta(count, data, meta) {
 
   if (data.params.limit > 0) {
     if (data.params.limit + data.params.offset < count) {
-      meta.nextPage = links.generateSelfUrl(data, {
+      var incrementalParams = {};
+      if (data.params.since)
+        incrementalParams.since = data.params.since.getTime();
+      if (data.params.until)
+        incrementalParams.until = data.params.until.getTime();
+
+      meta.nextPage = links.generateSelfUrl(data, _.extend({
         limit: data.params.limit,
-        offset: data.params.limit + data.params.offset,
-        since: data.params.since.getTime(),
-        until: data.params.until.getTime()
-      });
+        offset: data.params.limit + data.params.offset
+      }, incrementalParams));
     }
   }
 
