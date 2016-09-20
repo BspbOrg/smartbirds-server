@@ -50,42 +50,46 @@
 
         <form role="form" class="form form-filter">
 
-          <div ng-if="$user.isAdmin()" class="form-group">
-            <label for="owner">Наблюдател</label>
+          <div class="row">
 
-            <user-selector model-id="monitoringController.filter.user" name="user"
-                           placeholder="- всички -" on-select="monitoringController.updateFilter()"></user-selector>
-          </div>
+            <div ng-if="$user.isAdmin()" class="col-md-4 col-lg-3">
+              <field name="user" type="user"
+                     label="Наблюдател"
+                     placeholder="- всички -"
+                     on-select="monitoringController.updateFilter()"
+                     model="monitoringController.filter.user"></field>
+            </div>
 
-          <field name="location" type="location"
-                 label="Място"
-                 placeholder="- всички -"
-                 on-select="monitoringController.updateFilter()"
-                 model="monitoringController.filter.location"></field>
+            <div class="col-md-4 col-lg-3">
+              <field name="location" type="location"
+                     label="Място"
+                     placeholder="- всички -"
+                     on-select="monitoringController.updateFilter()"
+                     model="monitoringController.filter.location"></field>
+            </div>
 
-          <field name="fromDate" type="date"
-                 label="От"
-                 on-select="monitoringController.updateFilter()"
-                 model="monitoringController.filter.from_date"></field>
+            <div class="col-md-4 col-lg-3">
+              <field name="fromDate" type="date"
+                     label="От"
+                     on-select="monitoringController.updateFilter()"
+                     model="monitoringController.filter.from_date"></field>
+            </div>
 
-          <field name="toDate" type="date"
-                 label="До"
-                 on-select="monitoringController.updateFilter()"
-                 model="monitoringController.filter.to_date"></field>
+            <div class="col-md-4 col-lg-3">
+              <field name="toDate" type="date"
+                     label="До"
+                     on-select="monitoringController.updateFilter()"
+                     model="monitoringController.filter.to_date"></field>
+            </div>
 
-          <div class="form-group">
-            <label>Вид</label>
-            <ui-select ng-model="monitoringController.filter.species" name="species"
-                       on-remove="monitoringController.updateFilter()"
-                       on-select="monitoringController.updateFilter()">
-              <ui-select-match allow-clear="true" placeholder="- всички -">
-                {{$select.selected.value.toString()}}
-              </ui-select-match>
-              <ui-select-choices
-                repeat="species.key as (key, species) in monitoringController.species | filter:$select.search | orderBy:'toString()' | limitTo:30">
-                <div ng-bind-html="species.value.toString() | uibTypeaheadHighlight:$select.search"></div>
-              </ui-select-choices>
-            </ui-select>
+            <div class="col-md-4 col-lg-3">
+              <field name="species" type="species" nomenclature="herp"
+                     label="Вид"
+                     placeholder="- всички -"
+                     on-select="monitoringController.updateFilter()"
+                     model="monitoringController.filter.species"></field>
+            </div>
+
           </div>
 
         </form>
@@ -116,7 +120,9 @@
   <div class="col-md-12">
     <p ng-if="monitoringController.count > monitoringController.map.rows.length" class="text-warning">
       Показани са само първите {{monitoringController.map.rows.length}} записа!
-      <button ng-if="$user.isAdmin() && !monitoringController.loading" type="button" class="btn btn-default btn-xs" ng-click="monitoringController.nextPage(-1)">Покажи всички</button>
+      <button ng-if="$user.isAdmin() && !monitoringController.loading" type="button" class="btn btn-default btn-xs"
+              ng-click="monitoringController.nextPage(-1)">Покажи всички
+      </button>
     </p>
     <list-map rows="monitoringController.rows" ctrl="monitoringController.map"></list-map>
   </div>
@@ -164,8 +170,9 @@
       <tr
         ng-repeat="row in monitoringController.rows | orderBy:monitoringController.order.key:monitoringController.order.reverse"
         ng-click="$state.go('.detail', {id: row.id})" ng-class="{info: row.$selected}">
-        <td ng-if="$user.isAdmin()" ng-click="$event.stopPropagation(); monitoringController.toggleSelected(row)"><input type="checkbox"
-                                                                                                                         ng-checked="row.$selected">
+        <td ng-if="$user.isAdmin()" ng-click="$event.stopPropagation(); monitoringController.toggleSelected(row)"><input
+          type="checkbox"
+          ng-checked="row.$selected">
         </td>
         <td><a href ui-sref=".detail({id: row.id})">{{::row.id}}</a></td>
         <td ng-if="::$user.isAdmin()">{{row.getUser().getName()}}</td>

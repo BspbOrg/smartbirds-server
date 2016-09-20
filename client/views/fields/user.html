@@ -1,7 +1,8 @@
 <sb-include src="/views/fields/container.html">
   <user-selector model-id="field.model"
                  name="{{::field.name}}"
+                 on-select="field.onSelect()"
                  placeholder="{{::field.placeholder}}"
-                 required="field.required"
+                 required="::field.required"
                  ></user-selector>
 </sb-include>

@@ -2,6 +2,7 @@
   <div class="input-group" uib-dropdown dropdown-append-to-body="true">
     <input type="text"
            class="form-control"
+           autocomplete="off"
            id="{{::field.name}}"
            name="{{::field.name}}"
            aria-describedby="{{::field.name}}HelpBlock"
@@ -9,15 +10,14 @@
            ng-blur="field.onSelect()"
            ng-model="field.model"
            ng-required="::field.required"
-           autocomplete="off"
            typeahead-append-to-body="false"
            typeahead-editable="false"
-           typeahead-focus-first="true"
+           typeahead-focus-first="::field.required"
            typeahead-min-length="0"
            uib-typeahead="item as item for item in field.values | filter:$viewValue | orderBy:field.order"
     >
     <span class="input-group-btn">
-      <button ng-if="field.model && !field.required" type="button" class="btn btn-default" ng-click="field.model = null">
+      <button ng-if="field.model && !field.required" type="button" class="btn btn-default" ng-click="field.model = null; field.onSelect()">
         <i class="glyphicon glyphicon-remove-circle text-danger"></i>
       </button>
       <button type="button" class="btn btn-default" uib-dropdown-toggle>
@@ -27,7 +27,7 @@
     <ul uib-dropdown-menu aria-labelledby="{{::name}}">
       <li ng-repeat="value in field.values | orderBy:field.order"
           ng-class="{active: field.model == value }">
-        <a href ng-click="field.model = value; field.form[field.name].$setDirty()">{{::value.toString()}}</a>
+        <a href ng-click="field.model = value; field.form[field.name].$setDirty(); field.onSelect()">{{::value.toString()}}</a>
       </li>
     </ul>
   </div>
