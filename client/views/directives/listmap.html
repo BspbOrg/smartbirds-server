@@ -1,0 +1,62 @@
+<ui-gmap-google-map center='$ctrl.center' zoom='$ctrl.zoom'
+                    options="$ctrl.options">
+
+  <ui-gmap-polygons ng-if="$ctrl.zones.length"
+                    models="$ctrl.zones"
+                    static="true"
+                    path="'coordinates'"
+                    fill="{color: '#c33', opacity: 0.4}"
+                    stroke="{color: '#c33', opacity: 0.7, weight: 0.5}"
+                    geodesic="true"
+                    clickable="true"
+                    events="{click: $ctrl.polygon.click}"
+  >
+  </ui-gmap-polygons>
+
+  <ui-gmap-markers ng-if="$ctrl.rows.length"
+                   models="$ctrl.rows"
+                   static="true"
+                   coords="'self'"
+                   type="'spider'"
+                   modelsbyref="true"
+                   fit="true"
+                   control="$ctrl.marker.control"
+                   click="$ctrl.marker.click">
+  </ui-gmap-markers>
+
+  <ui-gmap-window ng-if="$ctrl.selected.pin"
+                  coords="$ctrl.selected.pin"
+                  show="true"
+                  options="{pixelOffset: {width: 0, height: -32}}"
+                  closeClick="$ctrl.selected = {}"
+  >
+    <div>
+      <ul class="list-unstyled">
+        <li><strong>{{$ctrl.selected.pin.species}}</strong></li>
+        <li>{{$ctrl.selected.pin.species|species:'label.bg'}}</li>
+        <li class="text-1justify">
+          <span class="text-muted">индивиди:</span>
+          <span class="text-nowrap">{{$ctrl.selected.pin.count}}</span>
+        </li>
+        <li class="text-1justify">
+          <span class="text-muted">дата:</span>
+          <span class="text-nowrap">{{$ctrl.selected.pin.startDateTime|date:'d.MM.yyyy'}}</span>
+        </li>
+      </ul>
+    </div>
+  </ui-gmap-window>
+
+  <ui-gmap-window ng-if="$ctrl.selected.zone"
+                  coords="$ctrl.selected.zone.getCenter()"
+                  show="true"
+                  templateParameter="$ctrl.selected.zone"
+                  closeClick="$ctrl.selected = {}"
+  >
+    <div>
+      <ul class="list-unstyled">
+        <li><strong>{{$ctrl.selected.zone.owner|userName}}</strong></li>
+        <li>{{$ctrl.selected.zone.id}}</li>
+      </ul>
+    </div>
+  </ui-gmap-window>
+</ui-gmap-google-map>

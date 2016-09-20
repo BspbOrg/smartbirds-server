@@ -165,71 +165,11 @@
 <div ng-if="monitoringController.tab == 'map'"
      class="row">
   <div class="col-md-12">
-    <p ng-if="monitoringController.count > monitoringController.map.rows.length" class="text-warning">
-      Показани са само първите {{monitoringController.map.rows.length}} записа!
+    <p ng-if="monitoringController.count > monitoringController.rows.length" class="text-warning">
+      Показани са само първите {{monitoringController.rows.length}} записа!
       <button ng-if="$user.isAdmin() && !monitoringController.loading" type="button" class="btn btn-default btn-xs" ng-click="monitoringController.nextPage(-1)">Покажи всички</button>
     </p>
-    <ui-gmap-google-map center='monitoringController.map.center' zoom='monitoringController.map.zoom'
-                        options="monitoringController.map.options">
-
-      <ui-gmap-polygons ng-if="monitoringController.map.zones.length"
-                        models="monitoringController.map.zones"
-                        static="true"
-                        path="'coordinates'"
-                        fill="{color: '#c33', opacity: 0.4}"
-                        stroke="{color: '#c33', opacity: 0.7, weight: 0.5}"
-                        geodesic="true"
-                        clickable="true"
-                        events="{click: monitoringController.map.polygon.click}"
-      >
-      </ui-gmap-polygons>
-
-      <ui-gmap-markers ng-if="monitoringController.map.rows.length"
-                       models="monitoringController.map.rows"
-                       static="true"
-                       coords="'self'"
-                       type="'spider'"
-                       modelsbyref="true"
-                       fit="true"
-                       click="monitoringController.map.marker.click">
-      </ui-gmap-markers>
-
-      <ui-gmap-window ng-if="monitoringController.map.selected.pin"
-                      coords="monitoringController.map.selected.pin"
-                      show="true"
-                      options="{pixelOffset: {width: 0, height: -32}}"
-                      closeClick="monitoringController.map.selected = {}"
-      >
-      <div>
-        <ul class="list-unstyled">
-          <li><strong>{{monitoringController.map.selected.pin.species}}</strong></li>
-          <li>{{monitoringController.map.selected.pin.species|species:'label.bg'}}</li>
-          <li class="text-1justify">
-            <span class="text-muted">индивиди:</span>
-            <span class="text-nowrap">{{monitoringController.map.selected.pin.count}}</span>
-          </li>
-          <li class="text-1justify">
-            <span class="text-muted">дата:</span>
-            <span class="text-nowrap">{{monitoringController.map.selected.pin.startDateTime|date:'d.MM.yyyy'}}</span>
-          </li>
-        </ul>
-      </div>
-      </ui-gmap-window>
-
-      <ui-gmap-window ng-if="monitoringController.map.selected.zone"
-                      coords="monitoringController.map.selected.zone.getCenter()"
-                      show="true"
-                      templateParameter="monitoringController.map.selected.zone"
-                      closeClick="monitoringController.map.selected = {}"
-      >
-        <div>
-          <ul class="list-unstyled">
-            <li><strong>{{monitoringController.map.selected.zone.owner|userName}}</strong></li>
-            <li>{{monitoringController.map.selected.zone.id}}</li>
-          </ul>
-        </div>
-      </ui-gmap-window>
-    </ui-gmap-google-map>
+    <list-map rows="monitoringController.rows" ctrl="monitoringController.map"></list-map>
   </div>
 </div>
 <div ng-if="monitoringController.tab == 'list'"

@@ -103,35 +103,7 @@
       Показани са само първите {{monitoringController.map.rows.length}} записа!
       <button ng-if="$user.isAdmin() && !monitoringController.loading" type="button" class="btn btn-default btn-xs" ng-click="monitoringController.nextPage(-1)">Покажи всички</button>
     </p>
-    <ui-gmap-google-map center='monitoringController.map.center' zoom='monitoringController.map.zoom'
-                        options="monitoringController.map.options">
-
-      <ui-gmap-markers ng-if="monitoringController.map.rows.length"
-                       models="monitoringController.map.rows"
-                       static="true"
-                       coords="'self'"
-                       type="'spider'"
-                       modelsbyref="true"
-                       fit="true"
-                       click="monitoringController.map.marker.click">
-      </ui-gmap-markers>
-
-      <ui-gmap-window ng-if="monitoringController.map.selected.pin"
-                      coords="monitoringController.map.selected.pin"
-                      show="true"
-                      options="{pixelOffset: {width: 0, height: -32}}"
-                      closeClick="monitoringController.map.selected = {}"
-      >
-        <div>
-          <ul class="list-unstyled">
-            <li class="text-1justify">
-              <span class="text-muted">дата:</span>
-              <span class="text-nowrap">{{monitoringController.map.selected.pin.startDateTime|date:'d.MM.yyyy'}}</span>
-            </li>
-          </ul>
-        </div>
-      </ui-gmap-window>
-
+    <list-map rows="monitoringController.rows" ctrl="monitoringController.map"></list-map>
   </div>
 </div>
 <div ng-if="monitoringController.tab == 'list'"

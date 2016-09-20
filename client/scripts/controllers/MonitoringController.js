@@ -21,31 +21,7 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
     controller.species = species;
   });
   controller.visits = {};
-  controller.map = {
-    center: {latitude: 42.744820608, longitude: 25.2151370694},
-    zoom: 8,
-    options: {},
-    zones: [],
-    selected: {},
-    polygon: {
-      click: function (polygon, eventName, model) {
-        if (controller.map.selected && controller.map.selected.zone === model) {
-          controller.map.selected = {};
-        } else {
-          controller.map.selected = {zone: model};
-        }
-      }
-    },
-    marker: {
-      click: function (marker, eventName, model) {
-        if (controller.map.selected && controller.map.selected.pin === model) {
-          controller.map.selected = {};
-        } else {
-          controller.map.selected = {pin: model};
-        }
-      }
-    }
-  };
+  controller.map = {};
   controller.tab = 'list';
   if (formName == 'cbm') {
     $q.resolve(db.nomenclatures.$promise || db.nomenclatures).then(function (nomenclatures) {
@@ -130,16 +106,13 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
       .then(function (rows) {
         controller.count = rows.$$response.data.$$response.count;
         controller.rows.extend(rows);
-        controller.map.rows.extend(rows);
         controller.endOfPages = !rows.length;
-        rows.forEach(function (row) {
-          var key = '$' + row.zone;
-          if (!(key in controller.map.zones)) {
-            controller.map.zones[key] = true;
-            controller.map.zones.push(db.zones[row.zone]);
-          }
-        });
         return rows;
+      })
+      .then(function (rows) {
+        if (angular.isFunction(controller.map.refresh)) {
+          controller.map.refresh(rows);
+        }
       })
       .finally(function () {
         controller.loading = false;
@@ -149,8 +122,9 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
   controller.requestRows = function () {
     controller.rows = [];
     controller.endOfPages = false;
-    controller.map.zones = [];
-    controller.map.rows = [];
+    if (angular.isFunction(controller.map.clear)) {
+      controller.map.clear();
+    }
     controller.filter.limit = controller.tab == 'list' ? 50 : 1000;
     fetch(controller.filter);
   };
