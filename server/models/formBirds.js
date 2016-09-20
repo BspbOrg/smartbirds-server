@@ -4,7 +4,14 @@ var _ = require('lodash');
 var Promise = require('bluebird');
 var Model = require('../helpers/Model');
 
-var fields = {    
+var fields = {
+  source: {
+    type: 'choice',
+    relation: {
+      model: 'nomenclature',
+      filter: { type: 'main_source' }
+    }
+  },
   species: {
     type: 'choice',
     required: true,

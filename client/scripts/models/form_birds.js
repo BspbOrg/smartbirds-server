@@ -20,6 +20,7 @@ require('../app').factory('FormBirds', function ($resource, ENDPOINT_URL, db) {
     getSpecies: function() {
       return db.species.birds && db.species.birds[this.species];
     },
+    hasSource: true,
     preSave: function() {
       this.count = parseInt(this.count) || 0;
       this.countMin = parseInt(this.countMin) || 0;

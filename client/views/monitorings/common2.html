@@ -68,10 +68,15 @@
            model="monitoringDetailController.data.user"></field>
   </div>
 
-
-  <div class="col-md-8">
+  <div class="col-md-4">
     <field name="observers" type="text"
            label="Други наблюдатели"
            model="monitoringDetailController.data.observers"></field>
+  </div>
+
+  <div ng-if="monitoringDetailController.data.hasSource" class="col-md-4">
+    <field name="source" type="single-choice" nomenclature="main_source"
+           label="Източник"
+           model="monitoringDetailController.data.source"></field>
   </div>
 </div>
