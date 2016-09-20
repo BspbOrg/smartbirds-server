@@ -47,7 +47,7 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
       .state("birds", {
         url: "/birds",
         templateUrl: '/views/home-birds.html',
-        title: 'СФП',
+        title: 'Птици',
         resolve: resolveUser,
       })
 
