@@ -99,7 +99,8 @@
     "angular-filter": "./bower_components/angular-filter/dist/angular-filter.js",
     "angulartics": "./bower_components/angulartics/src/angulartics.js",
     "angulartics-ga": "./bower_components/angulartics-google-analytics/lib/angulartics-ga.js",
-    "angular-file-upload": "./bower_components/angular-file-upload/dist/angular-file-upload.js"
+    "angular-file-upload": "./bower_components/angular-file-upload/dist/angular-file-upload.js",
+    "ngstorage": "./bower_components/ngstorage/ngStorage.js"
   },
   "browserify-shim": {
     "angular": "angular",
@@ -204,6 +205,11 @@
       ]
     },
     "angular-file-upload": {
+      "depends": [
+        "angular:angular"
+      ]
+    },
+    "ngstorage": {
       "depends": [
         "angular:angular"
       ]

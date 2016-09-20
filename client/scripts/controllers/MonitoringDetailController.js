@@ -21,7 +21,13 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
   }
 
   controller.db = db;
-  controller.data = id ? model.get({id: id}) : new model();
+  if (id) {
+    controller.data = model.get({id: id});
+  } else {
+    controller.data = new model();
+    if (angular.isFunction(model.prototype.afterCreate))
+      model.prototype.afterCreate.apply(controller.data);
+  }
   if (!$stateParams.id && $stateParams.fromId) {
     controller.data.$promise.then(function () {
       controller.clearForCopy();

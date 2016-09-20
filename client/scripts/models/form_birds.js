@@ -4,7 +4,7 @@
 
 var angular = require('angular');
 
-require('../app').factory('FormBirds', function ($resource, ENDPOINT_URL, db) {
+require('../app').factory('FormBirds', function ($localStorage, $resource, ENDPOINT_URL, db) {
 
   var FormBirds = $resource(ENDPOINT_URL + '/birds/:id', {
     id: '@id'
@@ -14,6 +14,9 @@ require('../app').factory('FormBirds', function ($resource, ENDPOINT_URL, db) {
 
   // instance methods
   angular.extend(FormBirds.prototype, {
+    afterCreate: function() {
+      this.initDefaults();
+    },
     getUser: function() {
       return db.users[this.user];
     },
@@ -25,6 +28,10 @@ require('../app').factory('FormBirds', function ($resource, ENDPOINT_URL, db) {
       this.count = parseInt(this.count) || 0;
       this.countMin = parseInt(this.countMin) || 0;
       this.countMax = parseInt(this.countMax) || 0;
+      $localStorage.defaults = $localStorage.defaults || {};
+      $localStorage.defaults.birds = $localStorage.defaults.birds || {};
+      $localStorage.defaults.birds.countUnit = this.countUnit;
+      $localStorage.defaults.birds.typeUnit = this.typeUnit;
     },
     preCopy: function() {
       delete this.species;
@@ -58,6 +65,13 @@ require('../app').factory('FormBirds', function ($resource, ENDPOINT_URL, db) {
       delete this.nestingSuccess;
       delete this.landuse300mRadius;
       delete this.speciesNotes;
+    },
+    postCopy: function() {
+      this.initDefaults();
+    },
+    initDefaults: function() {
+      this.countUnit = (($localStorage.defaults || {}).birds || {}).countUnit;
+      this.typeUnit = (($localStorage.defaults || {}).birds || {}).typeUnit;
     },
   });
 
