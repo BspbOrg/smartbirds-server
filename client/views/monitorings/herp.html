@@ -37,7 +37,7 @@
   <div ng-include="'/views/monitorings/common.html'"></div>
 
   <div class="row">
-    <div class="col-md-6 col-lg-4">
+    <div class="col-md-6 col-lg-5">
       <div class="row">
         <div class="col-md-6">
           <field name="latitude" type="float" required="true"
@@ -67,15 +67,10 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6 col-lg-4">
+    <div class="col-md-6 col-lg-5">
       <field name="species" type="species" nomenclature="herp" required="true"
              label="Вид научно име"
              model="monitoringDetailController.data.species"></field>
-    </div>
-    <div class="col-md-3 col-lg-4">
-      <field name="sex" type="single-choice" nomenclature="herp_gender"
-             label="Пол"
-             model="monitoringDetailController.data.sex"></field>
     </div>
     <div class="col-md-3 col-lg-2">
       <field name="count" type="int" min="1" required="true"
@@ -83,21 +78,28 @@
              label="Брой"
              model="monitoringDetailController.data.count"></field>
     </div>
-    <div class="col-md-6">
-      <field name="habitat" type="single-choice" nomenclature="herp_habitat"
-             label="Местообитание"
-             model="monitoringDetailController.data.habitat"></field>
-    </div>
-    <div class="col-md-6 col-lg-4">
+    <div class="col-md-3 col-lg-4">
       <field name="age" type="single-choice" nomenclature="herp_age"
              label="Възраст"
              model="monitoringDetailController.data.age"></field>
     </div>
-    <div class="col-md-6 col-lg-4">
+    <div class="col-md-3 col-lg-3">
+      <field name="sex" type="single-choice" nomenclature="herp_gender"
+             label="Пол"
+             model="monitoringDetailController.data.sex"></field>
+    </div>
+    <div class="col-md-6 col-lg-7">
+      <field name="habitat" type="single-choice" nomenclature="herp_habitat"
+             label="Местообитание"
+             model="monitoringDetailController.data.habitat"></field>
+    </div>
+    <div class="col-md-6 col-lg-7">
       <field name="threatsHerps" type="multiple-choice" nomenclature="herp_danger_observation"
              label="Заплахи, констатации"
              model="monitoringDetailController.data.threatsHerps"></field>
     </div>
+  </div>
+  <div class="row">
     <div class="col-md-4">
       <field name="marking" type="text"
              label="Маркировка"
@@ -116,46 +118,25 @@
   </div>
 
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
       <field name="sCLL" type="float"
              label="SCL/L (mm)"
              model="monitoringDetailController.data.sCLL"></field>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <field name="mPLLcdC" type="float"
              label="MPL/Lcd/C (mm)"
              model="monitoringDetailController.data.mPLLcdC"></field>
     </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
       <field name="mCWA" type="float"
              label="MCW/A (mm)"
              model="monitoringDetailController.data.mCWA"></field>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <field name="hLcapPl" type="float"
              label="H /Lcap/Pl (mm)"
              model="monitoringDetailController.data.hLcapPl"></field>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-4">
-      <field name="tempSubstrat" type="float"
-             label="T на субстрата"
-             model="monitoringDetailController.data.tempSubstrat"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="tempAir" type="float"
-             label="T на в-ха"
-             model="monitoringDetailController.data.tempAir"></field>
-    </div>
-    <div class="col-md-4">
-      <field name="tempCloaca" type="float"
-             label="T на клоака"
-             model="monitoringDetailController.data.tempCloaca"></field>
     </div>
   </div>
 
@@ -174,6 +155,24 @@
       <field name="sqDors" type="float"
              label="Sq dors"
              model="monitoringDetailController.data.sqDors"></field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <field name="tempSubstrat" type="float"
+             label="T&deg; на субстрата"
+             model="monitoringDetailController.data.tempSubstrat"></field>
+    </div>
+    <div class="col-md-4">
+      <field name="tempAir" type="float"
+             label="T&deg; на в-ха"
+             model="monitoringDetailController.data.tempAir"></field>
+    </div>
+    <div class="col-md-4">
+      <field name="tempCloaca" type="float"
+             label="T&deg; на клоака"
+             model="monitoringDetailController.data.tempCloaca"></field>
     </div>
   </div>
 

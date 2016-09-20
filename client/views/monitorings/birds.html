@@ -50,7 +50,7 @@
   </div>
 
   <div class="row">
-    <div class="col-md-6 col-lg-4">
+    <div class="col-md-6 col-lg-5">
       <div class="row">
         <div class="col-md-6">
           <field name="latitude" type="float" required="true"
@@ -80,52 +80,63 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6 col-lg-4">
-      <field name="count" type="single-choice" nomenclature="birds_count_units" required="true"
-             label="Единица на броя"
-             model="monitoringDetailController.data.countUnit"></field>
+    <div class="col-md-6 col-lg-7">
+      <div class="row">
+        <div class="col-md-6">
+          <field name="count" type="single-choice" nomenclature="birds_count_units" required="true"
+                 label="Единица на броя"
+                 model="monitoringDetailController.data.countUnit"></field>
+        </div>
+        <div class="col-md-6">
+          <field name="count" type="single-choice" nomenclature="birds_count_type" required="true"
+                 label="Тип на броя"
+                 model="monitoringDetailController.data.typeUnit"></field>
+        </div>
+      </div>
+      <div class="row">
+        <div
+          ng-if="!['Min.', 'Max.', 'Range', 'Unspecified number'].includes(monitoringDetailController.data.typeUnit.label.en)"
+          class="col-md-6">
+          <field name="count" type="int" min="1" required="true"
+                 label="Брой"
+                 model="monitoringDetailController.data.count"></field>
+        </div>
+        <div ng-if="['Min.', 'Range'].includes(monitoringDetailController.data.typeUnit.label.en)" class="col-md-6">
+          <field name="countMin" type="int" min="1" required="true"
+                 label="Мин."
+                 model="monitoringDetailController.data.countMin"></field>
+        </div>
+        <div ng-if="['Max.', 'Range'].includes(monitoringDetailController.data.typeUnit.label.en)" class="col-md-6">
+          <field name="countMax" type="int" min="1" required="true"
+                 label="Макс."
+                 model="monitoringDetailController.data.countMax"></field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <field name="sex" type="single-choice" nomenclature="birds_sex"
+                 label="Пол"
+                 model="monitoringDetailController.data.sex"></field>
+        </div>
+        <div class="col-md-6">
+          <field name="age" type="single-choice" nomenclature="birds_age"
+                 label="Възраст"
+                 model="monitoringDetailController.data.age"></field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <field name="speciesStatus" type="single-choice" nomenclature="birds_status"
+                 label="Статус на вида"
+                 model="monitoringDetailController.data.speciesStatus"></field>
+        </div>
+        <div class="col-md-6">
+          <field name="behaviour" type="multiple-choice" nomenclature="birds_behaviour"
+                 label="Поведение"
+                 model="monitoringDetailController.data.behaviour"></field>
+        </div>
+      </div>
     </div>
-    <div class="col-md-6 col-lg-4">
-      <field name="count" type="single-choice" nomenclature="birds_count_type" required="true"
-             label="Тип на броя"
-             model="monitoringDetailController.data.typeUnit"></field>
-    </div>
-    <div ng-if="!['Min.', 'Max.', 'Range', 'Unspecified number'].includes(monitoringDetailController.data.typeUnit.label.en)"  class="col-md-6 col-lg-4">
-      <field name="count" type="int" min="1" required="true"
-             label="Брой"
-             model="monitoringDetailController.data.count"></field>
-    </div>
-    <div ng-if="['Min.', 'Range'].includes(monitoringDetailController.data.typeUnit.label.en)" class="col-md-6 col-lg-4">
-      <field name="countMin" type="int" min="1" required="true"
-             label="Мин."
-             model="monitoringDetailController.data.countMin"></field>
-    </div>
-    <div ng-if="['Max.', 'Range'].includes(monitoringDetailController.data.typeUnit.label.en)" class="col-md-6 col-lg-4">
-      <field name="countMax" type="int" min="1" required="true"
-             label="Макс."
-             model="monitoringDetailController.data.countMax"></field>
-    </div>
-    <div class="col-md-6 col-lg-4">
-      <field name="sex" type="single-choice" nomenclature="birds_sex"
-             label="Пол"
-             model="monitoringDetailController.data.sex"></field>
-    </div>
-    <div class="col-md-6 col-lg-4">
-      <field name="age" type="single-choice" nomenclature="birds_age"
-             label="Възраст"
-             model="monitoringDetailController.data.age"></field>
-    </div>
-    <div class="col-md-6 col-lg-4">
-      <field name="speciesStatus" type="single-choice" nomenclature="birds_status"
-             label="Статус на вида"
-             model="monitoringDetailController.data.speciesStatus"></field>
-    </div>
-    <div class="col-md-6 col-lg-4">
-      <field name="behaviour" type="multiple-choice" nomenclature="birds_behaviour"
-             label="Поведение"
-             model="monitoringDetailController.data.behaviour"></field>
-    </div>
-
   </div>
 
   <h3>Допълнителни полета</h3>

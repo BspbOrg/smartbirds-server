@@ -38,7 +38,7 @@
 
   <h5>1. Гнездото на БЕЛИТЕ щъркели е върху:</h5>
   <div class="row">
-    <div class="col-md-6 col-lg-4">
+    <div class="col-md-6 col-lg-5">
       <div class="row">
         <div class="col-md-6">
           <field name="latitude" type="float" required="true"
@@ -68,35 +68,43 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6 col-lg-4">
-      <field name="primarySubstrateType" type="single-choice" nomenclature="ciconia_substratum"
-             label="Основен тип на субстрата"
-             model="monitoringDetailController.data.primarySubstrateType"></field>
-    </div>
-    <div class="col-md-6 col-lg-4">
-      <field name="electricityPole" type="single-choice" nomenclature="ciconia_column"
-             label="Стълб"
-             model="monitoringDetailController.data.electricityPole"></field>
-    </div>
-    <div class="col-md-6 col-lg-4">
-      <field name="nestIsOnArtificialPlatform" type="bool"
-             label="Гнездо на изкуствена платформа"
-             model="monitoringDetailController.data.nestIsOnArtificialPlatform"></field>
-    </div>
-    <div class="col-md-6 col-lg-4">
-      <field name="typeElectricityPole" type="single-choice" nomenclature="ciconia_column_type"
-             label="Вид стълб"
-             model="monitoringDetailController.data.typeElectricityPole"></field>
-    </div>
-    <div class="col-md-6 col-lg-4">
-      <field name="nestOnArtificialHumanMadePlatform" type="bool"
-             label="Гнездо на изкуствена поставка направена от човек"
-             model="monitoringDetailController.data.nestOnArtificialHumanMadePlatform"></field>
-    </div>
-    <div class="col-md-6 col-lg-4">
-      <field name="nestIsOnAnotherTypeOfSubstrate" type="text"
-             label="Гнездо на друг вид субстрат"
-             model="monitoringDetailController.data.nestIsOnAnotherTypeOfSubstrate"></field>
+    <div class="col-md-6 col-lg-7">
+      <div class="row">
+        <div class="col-md-6">
+          <field name="primarySubstrateType" type="single-choice" nomenclature="ciconia_substratum"
+                 label="Основен тип на субстрата"
+                 model="monitoringDetailController.data.primarySubstrateType"></field>
+        </div>
+        <div class="col-md-6">
+          <field name="electricityPole" type="single-choice" nomenclature="ciconia_column"
+                 label="Стълб"
+                 model="monitoringDetailController.data.electricityPole"></field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <field name="nestIsOnArtificialPlatform" type="bool"
+                 label="Гнездо на изкуствена платформа"
+                 model="monitoringDetailController.data.nestIsOnArtificialPlatform"></field>
+        </div>
+        <div class="col-md-6">
+          <field name="typeElectricityPole" type="single-choice" nomenclature="ciconia_column_type"
+                 label="Вид стълб"
+                 model="monitoringDetailController.data.typeElectricityPole"></field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <field name="nestOnArtificialHumanMadePlatform" type="bool"
+                 label="Гнездо на изкуствена поставка направена от човек"
+                 model="monitoringDetailController.data.nestOnArtificialHumanMadePlatform"></field>
+        </div>
+        <div class="col-md-6">
+          <field name="nestIsOnAnotherTypeOfSubstrate" type="text"
+                 label="Гнездо на друг вид субстрат"
+                 model="monitoringDetailController.data.nestIsOnAnotherTypeOfSubstrate"></field>
+        </div>
+      </div>
     </div>
   </div>
 
