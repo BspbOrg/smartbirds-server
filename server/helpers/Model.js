@@ -74,6 +74,7 @@ var commonFields = {
     }
   },
   pictures: 'json',
+  track: 'text',
 
   //Internal fields
   user: {

@@ -138,6 +138,7 @@ var fields = {
   },
 
   pictures: 'json',
+  track: 'text',
 };
 
 module.exports = function (sequelize, DataTypes) {
