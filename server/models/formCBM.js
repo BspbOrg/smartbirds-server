@@ -6,6 +6,7 @@
 
 var _ = require('lodash');
 var Promise = require('bluebird');
+var crypto = require('crypto');
 
 var fields = {
   plot: {
@@ -142,7 +143,9 @@ var fields = {
 };
 
 module.exports = function (sequelize, DataTypes) {
-  var fieldsDef = {};
+  var fieldsDef = {
+    hash: DataTypes.STRING(64)
+  };
 
   _.forEach(fields, function (field, name) {
     if (_.isString(field)) {
@@ -242,7 +245,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   });
 
-  return sequelize.define('FormCBM', fieldsDef, {
+  var model = sequelize.define('FormCBM', fieldsDef, {
     freezeTableName: true,
     indexes: [
       {fields: ['species']},
@@ -257,6 +260,16 @@ module.exports = function (sequelize, DataTypes) {
       }
     },
     instanceMethods: {
+      calculateHash: function () {
+        var hash = crypto.createHash('sha256');
+        hash.update(JSON.stringify({
+          latitude: this.latitude,
+          longitude: this.longitude,
+          species: this.species,
+          observationDateTime: this.observationDateTime,
+        }));
+        return hash.digest('hex');
+      },
       apiData: function (api) {
         var data = {};
         var self = this;
@@ -370,7 +383,7 @@ module.exports = function (sequelize, DataTypes) {
                 {
                   if (!_.has(data, name) || !data[name]) return;
 
-                  console.log('saving nomenclature '+name);
+                  console.log('saving nomenclature ' + name);
                   self[name + 'Bg'] = data[name].label.bg;
                   self[name + 'En'] = data[name].label.en;
                   break;
@@ -412,6 +425,19 @@ module.exports = function (sequelize, DataTypes) {
       }
     }
   });
+
+  ['beforeCreate', 'beforeUpdate', 'beforeSync', 'beforeSave'].forEach(function(hook){
+    model.hook(hook, function(instance) {
+      console.log('hook', hook, typeof this, typeof instance);
+    });
+    model.hook(hook, updateHash);
+  });
+
+  return model;
+
+  function updateHash(instance) {
+    instance.hash = instance.calculateHash();
+  }
 };
 
 module.exports.fields = fields;

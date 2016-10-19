@@ -5,7 +5,7 @@ var Promise = require('bluebird');
 var moment = require('moment');
 
 module.exports = {
-  
+
   getEdit: function (modelName) {
     return function (api, data, next) {
       Promise.resolve(data)
@@ -69,7 +69,18 @@ module.exports = {
           return record.apiUpdate(data.params);
         })
         .then(function (record) {
-          return record.save();
+          var hash = record.calculateHash();
+          api.log('looking for %s with hash %s', 'info', modelName, hash);
+          return api.models[modelName].findOne({where: {hash: hash}})
+            .then(function(existing) {
+              if (existing) {
+                api.log('found %s with hash %s, reusing', 'info', modelName, hash);
+                return existing;
+              } else {
+                api.log('not found %s with hash %s, creating', 'info', modelName, hash);
+                return record.save();
+              }
+            });
         })
         .then(function (record) {
           return record.apiData(api);
@@ -141,7 +152,7 @@ module.exports = {
     }
   },
 
-  getSelect: function (modelName, prepareQuery) { 
+  getSelect: function (modelName, prepareQuery) {
     return function (api, data, next) {
       try {
         return Promise.resolve(prepareQuery(api, data))
