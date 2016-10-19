@@ -25,7 +25,7 @@ exports.download = {
   description: 'downloader',
   middleware: ['auth'],
   inputs: {
-    id: {required: true, formatter: inputs.formatter.integer, validator: inputs.validator.positive}
+    id: {required: true}
   },
   run: function (api, data, next) {
     api.log('serving', 'info', data.params.id);
