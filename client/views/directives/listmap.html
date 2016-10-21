@@ -13,6 +13,18 @@
   >
   </ui-gmap-polygons>
 
+  <ui-gmap-polylines ng-if="$ctrl.tracks.length && !$ctrl.tracksWaiting"
+                     models="$ctrl.tracks"
+                     static="true"
+                     path="'path'"
+                     stroke="{color: '#36c', weight: 3}"
+                     editable="false"
+                     draggable="false"
+                     geodesic="true"
+                     visible="true"
+                     static="true"
+  ></ui-gmap-polylines>
+
   <ui-gmap-markers ng-if="$ctrl.rows.length"
                    models="$ctrl.rows"
                    static="true"
