@@ -28,6 +28,8 @@ require('angulartics');
 require('angulartics-ga');
 require('angular-file-upload');
 require('ngstorage');
+require('x2js');
+require('angular-xml');
 
 var dependencies = [
   'ngLocale',
@@ -63,6 +65,8 @@ var dependencies = [
   'angularFileUpload',
 
   'ngStorage',
+  
+  'xml',
 ];
 
 Raven.config('https://b17f1c87d9e346a8bd82335294450e57@app.getsentry.com/71564').addPlugin(require('raven-js-angular'), angular).install();

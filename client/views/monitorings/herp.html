@@ -58,6 +58,17 @@
             zoom="monitoringDetailController.map.zoom"
             events="{click: monitoringDetailController.map.click}"
             options="{mapTypeId: 'hybrid', clickableIcons: false}">
+            <ui-gmap-polyline
+              ng-if="monitoringDetailController.track.length"
+              path="monitoringDetailController.track"
+              stroke="{color: '#36c', weight: 3}"
+              editable="false"
+              draggable="false"
+              geodesic="true"
+              visible="true"
+              fit="true"
+              static="true"
+            ></ui-gmap-polyline>
             <ui-gmap-marker
               ng-if="monitoringDetailController.map.poi.latitude && monitoringDetailController.map.poi.longitude"
               coords="monitoringDetailController.map.poi"
