@@ -107,7 +107,7 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
         controller.count = rows.$$response.data.$$response.count;
         controller.rows.extend(rows);
         controller.endOfPages = !rows.length;
-        return rows;
+        return controller.rows;
       })
       .then(function (rows) {
         if (angular.isFunction(controller.map.refresh)) {
