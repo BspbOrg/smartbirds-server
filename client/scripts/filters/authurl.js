@@ -17,7 +17,7 @@ require("../app").filter('authurl', /*@ngInject*/function ($cookies) {
 
     var token = $cookies.get('sb-csrf-token');
 
-    if (query.csrfToken === token) return;
+    if (query.csrfToken === token) return value;
 
     query.csrfToken = token;
     url.search = querystring.stringify(query);

@@ -6,7 +6,11 @@ require("../app").directive('sbSrc', /*@ngInject*/function ($filter) {
       attr.$observe('src', function(value) {
         if (!value) return;
 
-        attr.$set('src', authurl(value));
+        var newValue = authurl(value);
+
+        if (newValue === value) return;
+
+        attr.$set('src', newValue);
       });
     }
   };
