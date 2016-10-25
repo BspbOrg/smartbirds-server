@@ -105,7 +105,8 @@
     "angular-file-upload": "./bower_components/angular-file-upload/dist/angular-file-upload.js",
     "ngstorage": "./bower_components/ngstorage/ngStorage.js",
     "x2js": "./bower_components/x2js/xml2json.js",
-    "angular-xml": "./bower_components/angular-xml/angular-xml.js"
+    "angular-xml": "./bower_components/angular-xml/angular-xml.js",
+    "angular-bootstrap-lightbox": "./bower_components/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.js"
   },
   "browserify-shim": {
     "angular": "angular",
@@ -224,6 +225,11 @@
       "depends": [
         "angular:angular",
         "x2js:X2JS"
+      ]
+    },
+    "angular-bootstrap-lightbox": {
+      "depends": [
+        "angular:angular"
       ]
     }
   },

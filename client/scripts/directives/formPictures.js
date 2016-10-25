@@ -10,9 +10,10 @@ require('../app').directive('formPictures', /*@ngInject*/function ($cookies, $lo
     link: function ($scope, $elem, $attr, $ctrls) {
       $ctrls[0].init($ctrls[1]);
     },
-    controller: /*@ngInject*/function () {
+    controller: /*@ngInject*/function ($filter, Lightbox) {
       var ctrl = this;
       var ngModel;
+      var authurl = $filter('authurl');
 
       var uploader = ctrl.uploader = new FileUploader({
         url: ENDPOINT_URL + '/storage',
@@ -73,6 +74,13 @@ require('../app').directive('formPictures', /*@ngInject*/function ($cookies, $lo
           $log.warn('cannot delete picture', picture);
         }
         if (picture.fileItem) picture.fileItem.cancel();
+      };
+
+      ctrl.openLightboxModal = function (index) {
+        Lightbox.openModal(ctrl.pictures.map(function(picture) {
+          picture.url = authurl(picture.url);
+          return picture;
+        }), index);
       };
     },
     controllerAs: "$ctrl"
