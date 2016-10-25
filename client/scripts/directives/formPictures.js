@@ -10,10 +10,12 @@ require('../app').directive('formPictures', /*@ngInject*/function ($cookies, $lo
     link: function ($scope, $elem, $attr, $ctrls) {
       $ctrls[0].init($ctrls[1]);
     },
-    controller: /*@ngInject*/function ($filter, Lightbox) {
+    controller: /*@ngInject*/function ($filter, Lightbox, MAX_IMAGE_SIZE) {
       var ctrl = this;
       var ngModel;
       var authurl = $filter('authurl');
+
+      ctrl.maxImageSize = MAX_IMAGE_SIZE;
 
       var uploader = ctrl.uploader = new FileUploader({
         url: ENDPOINT_URL + '/storage',
@@ -28,6 +30,13 @@ require('../app').directive('formPictures', /*@ngInject*/function ($cookies, $lo
           ctrl.pictures = ngModel.$viewValue;
         };
       };
+
+      ctrl.uploader.filters.push({
+        name: 'sizeFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+          return MAX_IMAGE_SIZE === -1 || item.size <= MAX_IMAGE_SIZE;
+        }
+      });
 
       ctrl.uploader.filters.push({
         name: 'imageFilter',
