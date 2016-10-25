@@ -256,3 +256,21 @@ input[type=file] {
   position: absolute;
   z-index: -1;
 }
+
+[ng-click] {
+  cursor: pointer;
+}
+
+.hover {
+  .visible-hover {
+    display: none;
+  }
+  &:hover {
+    .visible-hover {
+      display: inline-block;
+    }
+    .hidden-hover {
+      display: none;
+    }
+  }
+}

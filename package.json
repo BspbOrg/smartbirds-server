@@ -75,6 +75,7 @@
     "speakingurl": "^7.0.0",
     "stringify": "^3.2.0",
     "umzug": "~1.6.0",
+    "underscore.string": "^3.3.4",
     "validator": "~4.2.1"
   },
   "browser": {

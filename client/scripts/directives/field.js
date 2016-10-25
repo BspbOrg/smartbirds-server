@@ -5,10 +5,11 @@ var angular = require('angular');
 var moment = require('moment');
 
 require('../app').directive('field', /*@ngInject*/function ($q) {
+  var cnt=0;
   return {
     restrict: 'AE',
     scope: {
-      name: '@',
+      name: '@?',
       label: '@?',
       labelXs: '@?',
       labelSm: '@?',
@@ -31,8 +32,12 @@ require('../app').directive('field', /*@ngInject*/function ($q) {
       $scope.form = formCtrl;
     },
     controllerAs: 'field',
-    controller: /*@ngInject*/function ($scope, $attrs, $filter, $parse, $timeout, Nomenclature, Species, db) {
+    controller: /*@ngInject*/function ($scope, $attrs, $filter, $parse, $rootElement, $timeout, Nomenclature, Species, db) {
       var field = this;
+
+      while (!field.name || $rootElement.querySelectorAll('#'+field.name).length) {
+        field.name = 'field'+($attrs.type?'_'+$attrs.type:'')+(cnt++);
+      }
 
       $scope.$watch('form', function (form) {
         field.form = form;

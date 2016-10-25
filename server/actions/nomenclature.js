@@ -17,6 +17,71 @@ _.forOwn({
   }
 }, function (definition, model) {
 
+  exports[model + 'UpdateType'] = {
+    name: model + ':updateType',
+    description: model + ':updateType',
+    middleware: ['admin'],
+    inputs: {
+      type: {required: true},
+      items: {required: true},
+    },
+
+    run: function (api, data, next) {
+      Promise.resolve()
+        .then(function () {
+          if (!(data.params.items instanceof Array)) {
+            data.connection.rawConnection.responseHttpCode = 400;
+            throw new Error("items is not array");
+          }
+          if (data.params.items.length <= 0) {
+            data.connection.rawConnection.responseHttpCode = 400;
+            throw new Error("cannot update with empty items");
+          }
+          return data.params.items.map(function (item) {
+            var m = api.models[model].build({});
+            if (item.type && item.type != data.params.type) {
+              data.connection.rawConnection.responseHttpCode = 400;
+              throw new Error("cannot submit mixed nomenclature types!");
+            }
+            item.type = data.params.type;
+            m.apiUpdate(item);
+            return m;
+          });
+        })
+        .then(function (models) {
+          return api.sequelize.sequelize.transaction(function (t) {
+
+            return api.models[model].destroy({
+                where: {
+                  type: data.params.type
+                },
+                transaction: t
+              })
+              .then(function (deleted) {
+                api.log('replacing %s %s %d with %d', 'info', model, data.params.type, deleted, models.length);
+                data.response.oldCount = deleted;
+              })
+              .then(function () {
+                return Promise.map(models, function (item) {
+                  return item.save({transaction: t});
+                });
+              });
+
+          });
+        })
+        .then(function (result) {
+          data.response.count = result.length;
+          data.response.data = result;
+        })
+        .then(function () {
+          return next();
+        }, function (e) {
+          api.log('Failure to update %s: %s', 'error', model, data.params.type, e);
+          return next(e);
+        });
+    }
+  };
+
   exports[model + 'Types'] = {
     name: model + ':types',
     description: model + ':types',
@@ -84,10 +149,10 @@ _.forOwn({
             "where": {type: data.params.type}
           };
         })
-        .then(function(q) {
+        .then(function (q) {
           return paging.prepareQuery(q, data.params);
         })
-        .then(function(q) {
+        .then(function (q) {
           return incremental.prepareQuery(q, data.params);
         })
         .then(function (q) {

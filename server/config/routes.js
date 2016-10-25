@@ -75,6 +75,8 @@ exports.default = {
       put: [
         { path: '/session',  action: 'session:check' },
         { path: '/zone/:id/owner', action: 'zone:setOwner' },
+        { path: '/nomenclature/:type', action: 'nomenclature:updateType' },
+        { path: '/species/:type', action: 'species:updateType' },
       ],
 
       patch: [

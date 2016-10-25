@@ -6,6 +6,8 @@ require('../app').service('Species', /*@ngInject*/function($resource, ENDPOINT_U
   var Species = $resource(ENDPOINT_URL+'/species/:type/:la', {
     type: '@type',
     la: '@la'
+  }, {
+    updateGroup: {method: 'PUT', url: ENDPOINT_URL + '/species/:type', isArray: true}
   });
 
   // instance methods

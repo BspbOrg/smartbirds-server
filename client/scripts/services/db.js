@@ -24,27 +24,33 @@ require('../app').service('db', /*@ngInject*/function ($q, Location, Nomenclatur
   });
 
 
-  db.nomenclatures.$promise = Nomenclature.query({limit: -1}).$promise.then(function (items) {
-    var res = db.nomenclatures;
-    items.forEach(function (item) {
-      res[item.type] = res[item.type] || {};
-      res[item.type][item.label.bg] = item;
+  (db.$updateNomenclatures = function () {
+    db.nomenclatures = {};
+    db.nomenclatures.$promise = Nomenclature.query({limit: -1}).$promise.then(function (items) {
+      var res = db.nomenclatures;
+      items.forEach(function (item) {
+        res[item.type] = res[item.type] || {};
+        res[item.type][item.label.bg] = item;
+      });
+      return res;
+    }).finally(function () {
+      delete db.nomenclatures.$promise;
     });
-    return res;
-  }).finally(function () {
-    delete db.nomenclatures.$promise;
-  });
+  })();
 
-  db.species.$promise = Species.query({limit: -1}).$promise.then(function (items) {
-    var res = db.species;
-    items.forEach(function (item) {
-      res[item.type] = res[item.type] || {};
-      res[item.type][item.label.la] = item;
+  (db.$updateSpecies = function () {
+    db.species = {};
+    db.species.$promise = Species.query({limit: -1}).$promise.then(function (items) {
+      var res = db.species;
+      items.forEach(function (item) {
+        res[item.type] = res[item.type] || {};
+        res[item.type][item.label.la] = item;
+      });
+      return res;
+    }).finally(function () {
+      delete db.species.$promise;
     });
-    return res;
-  }).finally(function () {
-    delete db.species.$promise;
-  });
+  })();
 
   db.users.$promise = User.query({limit: -1}).$promise.then(function (users) {
     var res = db.users;

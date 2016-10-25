@@ -340,6 +340,33 @@ module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
         }
       })
 
+      ///////////
+      // Nomenclatures //
+      ///////////
+      .state('auth.nomenclatures', {
+        url: '/nomenclatures?group&nomenclature',
+        views: {
+          'content@auth': {
+            templateUrl: '/views/nomenclatures/list.html',
+            controller: 'NomenclaturesController as $ctrl'
+          }
+        }
+      })
+
+      ///////////
+      // Species //
+      ///////////
+      .state('auth.species', {
+        url: '/species?type',
+        views: {
+          'content@auth': {
+            templateUrl: '/views/species/list.html',
+            controller: 'SpeciesController as $ctrl'
+          }
+        }
+      })
+
+
   })
   .run(/*@ngInject*/function ($rootScope, $state, $stateParams, authorization, user) {
     $rootScope.$state = $state;

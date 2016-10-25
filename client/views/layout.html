@@ -88,6 +88,18 @@
               Посещения
             </a>
           </li>
+          <li ng-if="$user.isAdmin()">
+            <a ui-sref="auth.nomenclatures">
+              <i class="fa fa-database fa-fw"></i>
+              Номенклатури
+            </a>
+          </li>
+          <li ng-if="$user.isAdmin()">
+            <a ui-sref="auth.species">
+              <i class="fa fa-database fa-fw"></i>
+              Видове
+            </a>
+          </li>
         </ul>
       </div>
       <!-- /.sidebar-collapse -->
