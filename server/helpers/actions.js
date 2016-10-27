@@ -72,7 +72,7 @@ module.exports = {
           var hash = record.calculateHash();
           api.log('looking for %s with hash %s', 'info', modelName, hash);
           return api.models[modelName].findOne({where: {hash: hash}})
-            .then(function(existing) {
+            .then(function (existing) {
               if (existing) {
                 api.log('found %s with hash %s, reusing', 'info', modelName, hash);
                 return existing;
@@ -152,16 +152,17 @@ module.exports = {
     }
   },
 
-  getSelect: function (modelName, prepareQuery) {
+  getSelect: function (modelName, prepareQuery, prepareCsv) {
     return function (api, data, next) {
       try {
         return Promise.resolve(prepareQuery(api, data))
           .then(function (q) {
             switch (data.connection.extension) {
+              case 'zip':
               case 'csv':
                 q.include = (q.include || []).concat([
                   {model: api.models.species, as: 'speciesInfo'},
-                  {model: api.models.user, as: 'user'},
+                  // {model: api.models.user, as: 'user'},
                 ]);
                 q.raw = true;
                 break;
@@ -173,6 +174,7 @@ module.exports = {
           })
           .then(function (result) {
             switch (data.connection.extension) {
+              case 'zip':
               case 'csv':
                 return new Promise(function (resolve, reject) {
                   var moment = require('moment');
@@ -183,26 +185,44 @@ module.exports = {
                       startTime: moment(record.startDateTime).format(api.config.formats.time),
                       startDate: moment(record.startDateTime).format(api.config.formats.date),
                       endTime: moment(record.endDateTime).format(api.config.formats.time),
-                      notes: (record.notes||'').replace(/[\n\r]+/g, ' '),
                       endDate: moment(record.endDateTime).format(api.config.formats.date),
-                      species: record['speciesInfo.labelLa'] + ' | ' + record['speciesInfo.labelBg'],
-                      species_EURING_Code: record['speciesInfo.euring'],
-                      SpeciesCode: record['speciesInfo.code'],
                       'ЕлПоща': record['user.email'],
                       'Име': record['user.firstName'],
                       'Фамилия': record['user.lastName'],
                       observationDate: moment(record.observationDateTime).format(api.config.formats.date),
-                      observationTime: moment(record.observationDateTime).format(api.config.formats.time)
-                    }, record);
+                      observationTime: moment(record.observationDateTime).format(api.config.formats.time),
+                    }, prepareCsv && prepareCsv(api, record) || record, {
+                      notes: (record.notes || '').replace(/[\n\r]+/g, ' '),
+                      speciesNotes: (record.speciesNotes || '').replace(/[\n\r]+/g, ' '),
+                      species: record['speciesInfo.labelLa'] + ' | ' + record['speciesInfo.labelBg'],
+                      species_EURING_Code: record['speciesInfo.euring'],
+                      SpeciesCode: record['speciesInfo.code'],
+                      pictures: record.pictures && JSON.parse(record.pictures).map(function (pic) {
+                        return pic.url && pic.url.split('/').slice(-1)[0] + '.jpg';
+                      }).filter(function (val) {
+                        return val
+                      }).join(', ') || '',
+                      track: record.track && record.monitoringCode + '.gpx',
+                      trackId: record.track && record.track.split('/').slice(-1)[0],
+                    });
                   }
                   require('csv-stringify')(result.rows, {
                     delimiter: ';',
                     header: true
-                  }, function (err, data) {
+                  }, function (err, csv) {
                     if (err) {
                       return reject(err);
                     }
-                    return resolve(data);
+                    switch (data.connection.extension) {
+                      case 'zip':
+                        return resolve({
+                          csv: csv,
+                          data: result.rows,
+                        });
+                      case 'csv':
+                      default:
+                        return resolve(csv);
+                    }
                   });
                 });
               default:
@@ -219,10 +239,89 @@ module.exports = {
           })
           .then(function (response) {
             switch (data.connection.extension) {
+              case 'zip':
+                return new Promise(function (resolve, reject) {
+                  var archiver = require('archiver');
+                  var archive = archiver.create('zip', {});
+                  archive.on('error', function (err) {
+                    api.log('archive error: %s', 'error', err);
+                    reject(err);
+                  });
+
+                  var fs = require('fs');
+                  var uuid = require('uuid');
+                  var path = require('path');
+                  var outputFilename = path.join(api.config.general.paths.fileupload[0], uuid.v4() + '.zip');
+                  var output = fs.createWriteStream(outputFilename);
+                  output.on('error', function (err) {
+                    api.log('output error: %s', 'error', err);
+                    reject(err);
+                  });
+                  output.on('finish', function () {
+                    api.log('tempfile %s', 'info', outputFilename);
+                    resolve(outputFilename);
+                  });
+                  archive.pipe(output);
+
+                  archive.append(response.csv, {name: modelName + '.csv'});
+                  var fileCnt = 0;
+                  var fileMap = {};
+                  var i, l, record;
+
+                  function appendFile(filename, id) {
+                    if (!filename || filename in fileMap || id in fileMap) return;
+                    var idx = filename.lastIndexOf('.');
+                    if (idx === -1) idx = filename.length;
+                    id = id || filename.substring(0, idx);
+                    fileMap[filename] = id;
+                    fileMap[id] = filename;
+                    api.log('adding %s as %s', 'debug', id, filename);
+
+                    return new Promise(function (resolve, reject) {
+                      api.filestorage.get(id, function (err, stream, stat) {
+                        if (err) {
+                          api.log('storage error:', 'error', err);
+                          return reject(err);
+                        }
+
+                        resolve(archive.append(stream, {name: filename}));
+                      });
+                    });
+                  }
+
+                  Promise.map(response.data, function (record) {
+                      return Promise.all([
+                        Promise.map(record.pictures && record.pictures.split(', ') || [], function (picture) {
+                          return Promise.resolve(appendFile(picture)).catch(function () {
+                          });
+                        }),
+                        record.trackId && appendFile(record.track, record.trackId),
+                      ]);
+                    })
+                    .then(function () {
+                      archive.finalize();
+                    }, reject);
+                });
+                break;
+              default:
+                return response;
+            }
+          })
+          .then(function (response) {
+            switch (data.connection.extension) {
               case 'csv':
                 data.connection.rawConnection.responseHeaders.push(['Content-Type', 'text/csv']);
                 data.connection.rawConnection.responseHeaders.push(['Content-Disposition', 'attachment; filename="' + modelName + '.csv"']);
                 data.connection.sendMessage(response);
+                data.toRender = false;
+                break;
+              case 'zip':
+                data.connection.rawConnection.responseHeaders.push(['Content-Type', 'application/zip']);
+                data.connection.rawConnection.responseHeaders.push(['Content-Disposition', 'attachment; filename="' + modelName + '.zip"']);
+                var fs = require('fs');
+                var stats = fs.statSync(response);
+                var fileSize = stats["size"];
+                api.servers.servers.web.sendFile(data.connection, null, fs.createReadStream(response), 'application/zip', fileSize);
                 data.toRender = false;
                 break;
               default:

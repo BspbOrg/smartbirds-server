@@ -4,10 +4,11 @@
 
 var _ = require('lodash');
 var angular = require('angular');
-require('../app').controller('MonitoringController', /*@ngInject*/function ($state, $stateParams, $q, model, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, $cookies, formName) {
+require('../app').controller('MonitoringController', /*@ngInject*/function ($filter, $state, $stateParams, $q, model, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, formName) {
 
   var controller = this;
   var lastModel = false;
+  var authurl = $filter('authurl');
 
   controller.db = db;
   controller.filter = angular.copy($stateParams);
@@ -97,11 +98,14 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($sta
 
   function fetch(query) {
     controller.loading = true;
-    controller.downloadLink = ENDPOINT_URL + '/'+formName+'.csv?' + $httpParamSerializer(angular.extend({}, query, {
+    controller.downloadLink = authurl(ENDPOINT_URL + '/'+formName+'.csv?' + $httpParamSerializer(angular.extend({}, query, {
         limit: -1,
         offset: 0,
-        csrfToken: $cookies.get('sb-csrf-token')
-      }));
+      })));
+    controller.exportLink = authurl(ENDPOINT_URL + '/'+formName+'.zip?' + $httpParamSerializer(angular.extend({}, query, {
+        limit: -1,
+        offset: 0,
+      })));
     return model.query(query).$promise
       .then(function (rows) {
         controller.count = rows.$$response.data.$$response.count;

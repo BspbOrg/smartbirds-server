@@ -31,20 +31,24 @@ exports.default = {
 
         { path: '/cbm', action: 'formCBM:list' },
         { path: '/cbm.csv', action: 'formCBM:list' },
+        { path: '/cbm.zip', action: 'formCBM:list' },
         { path: '/cbm/:id', action: 'formCBM:view' },
 
         { path: '/birds', action: 'formBirds:list' },
         { path: '/birds.csv', action: 'formBirds:list' },
+        { path: '/birds.zip', action: 'formBirds:list' },
         { path: '/birds/:id', action: 'formBirds:view'},
 
         { path: '/storage/:id', action: 'downloader' },
 
         { path: '/herp', action: 'formHerps:list' },
         { path: '/herp.csv', action: 'formHerps:list' },
+        { path: '/herp.zip', action: 'formHerps:list' },
         { path: '/herp/:id', action: 'formHerps:view'},
 
         { path: '/ciconia', action: 'formCiconia:list' },
         { path: '/ciconia.csv', action: 'formCiconia:list' },
+        { path: '/ciconia.zip', action: 'formCiconia:list' },
         { path: '/ciconia/:id', action: 'formCiconia:view'}
       ],
 
