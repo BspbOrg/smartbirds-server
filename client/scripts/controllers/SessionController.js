@@ -7,6 +7,7 @@ require('../app').controller('SessionController', function ($log,
                                                             $scope,
                                                             $state,
                                                             $stateParams,
+                                                            $uibModal,
                                                             api,
                                                             flashService,
                                                             user,
@@ -63,7 +64,7 @@ require('../app').controller('SessionController', function ($log,
   ctrl.forgot = function (user) {
     ctrl.loading = true;
     $scope.form.$setPristine();
-    api.session.forgotPassword(user).then(function(response){
+    api.session.forgotPassword(user).then(function (response) {
       $log.debug('reset password sent', response);
       flashService.success("Изпратено е писмо с инструкции", true);
       $state.go('login', {email: user.email});
@@ -75,18 +76,18 @@ require('../app').controller('SessionController', function ($log,
     });
   };
 
-  ctrl.reset = function(user) {
+  ctrl.reset = function (user) {
     user.token = user.token || $scope.auth.token;
     ctrl.loading = true;
     $scope.form.$setPristine();
-    api.session.resetPassword(user).then(function(response){
+    api.session.resetPassword(user).then(function (response) {
       $log.debug('password reset', response);
       flashService.success("Паролата е сменена успешно", true);
       $state.go('login', {email: user.email});
-    }, function(response){
+    }, function (response) {
       $log.debug('error resetting password', response);
       flashService.error(response.data.error || 'Не може да се смени паролата');
-    }).finally(function(){
+    }).finally(function () {
       ctrl.loading = true;
     });
   };
