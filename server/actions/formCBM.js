@@ -94,26 +94,18 @@ exports.formCBMList = {
   },
 
   run: actions.getSelect('formCBM', prepareQuery, function (api, cbm) {
-    var moment = require('moment');
     return {
       temperature: cbm.temperature,
       cloudiness: cbm.cloudinessBg,
-      startTime: moment(cbm.startDateTime).format(api.config.formats.time),
       cloudsType: cbm.cloudsType,
       threats: cbm.threatsBg,
       observers: cbm.observers,
       mto: cbm.mto,
-      startDate: moment(cbm.startDateTime).format(api.config.formats.date),
-      observationDate: moment(cbm.observationDateTime).format(api.config.formats.date),
-      observationTime: moment(cbm.observationDateTime).format(api.config.formats.time),
       monitoringCode: cbm.monitoringCode,
       zone: cbm.zoneId,
       rain: cbm.rainBg,
       windSpeed: cbm.windSpeedBg,
-      endTime: moment(cbm.endDateTime).format(api.config.formats.time),
       visibility: cbm.visibility,
-      notes: (cbm.notes || '').replace(/[\n\r]+/g, ' '),
-      endDate: moment(cbm.endDateTime).format(api.config.formats.date),
       windDirection: cbm.windDirectionBg,
       longitude: cbm.longitude,
       distance: cbm.distanceBg,
@@ -126,9 +118,6 @@ exports.formCBMList = {
       primaryHabitat: cbm.primaryHabitatBg,
       species_EURING_Code: cbm['speciesInfo.euring'],
       SpeciesCode: cbm['speciesInfo.code'],
-      'ЕлПоща': cbm['user.email'],
-      'Име': cbm['user.firstName'],
-      'Фамилия': cbm['user.lastName']
     }
   })
 };

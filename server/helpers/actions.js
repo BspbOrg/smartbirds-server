@@ -2,7 +2,7 @@
 
 var _ = require('lodash');
 var Promise = require('bluebird');
-var moment = require('moment');
+var moment = require('moment-timezone');
 
 module.exports = {
 
@@ -177,26 +177,23 @@ module.exports = {
               case 'zip':
               case 'csv':
                 return new Promise(function (resolve, reject) {
-                  var moment = require('moment');
                   var i, l, record;
                   for (i = 0, l = result.rows.length; i < l; ++i) {
                     record = result.rows[i];
                     result.rows[i] = _.assign({
-                      startTime: moment(record.startDateTime).format(api.config.formats.time),
-                      startDate: moment(record.startDateTime).format(api.config.formats.date),
-                      endTime: moment(record.endDateTime).format(api.config.formats.time),
-                      endDate: moment(record.endDateTime).format(api.config.formats.date),
+                      startTime: moment.tz(record.startDateTime, api.config.formats.tz).format(api.config.formats.time),
+                      startDate: moment.tz(record.startDateTime, api.config.formats.tz).format(api.config.formats.date),
+                      endTime: moment.tz(record.endDateTime, api.config.formats.tz).format(api.config.formats.time),
+                      endDate: moment.tz(record.endDateTime, api.config.formats.tz).format(api.config.formats.date),
                       'ЕлПоща': record['user.email'],
                       'Име': record['user.firstName'],
                       'Фамилия': record['user.lastName'],
-                      observationDate: moment(record.observationDateTime).format(api.config.formats.date),
-                      observationTime: moment(record.observationDateTime).format(api.config.formats.time),
+                      observationDate: moment.tz(record.observationDateTime, api.config.formats.tz).format(api.config.formats.date),
+                      observationTime: moment.tz(record.observationDateTime, api.config.formats.tz).format(api.config.formats.time),
                     }, prepareCsv && prepareCsv(api, record) || record, {
                       notes: (record.notes || '').replace(/[\n\r]+/g, ' '),
                       speciesNotes: (record.speciesNotes || '').replace(/[\n\r]+/g, ' '),
                       species: record['speciesInfo.labelLa'] + ' | ' + record['speciesInfo.labelBg'],
-                      species_EURING_Code: record['speciesInfo.euring'],
-                      SpeciesCode: record['speciesInfo.code'],
                       pictures: record.pictures && JSON.parse(record.pictures).map(function (pic) {
                         return pic.url && pic.url.split('/').slice(-1)[0] + '.jpg';
                       }).filter(function (val) {
