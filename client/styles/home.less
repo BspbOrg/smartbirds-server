@@ -21,8 +21,49 @@
     padding-bottom: 50px;
     text-align: center;
     color: #f8f8f8;
-    background: url(/img/background.jpg) no-repeat right center;
+    background: url(/img/background-xs.jpg) no-repeat center center;
     background-size: cover;
+    position: relative;
+
+    @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+      background-image: url(/img/background-sm.jpg);
+    }
+    @media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+      background-image: url(/img/background-md.jpg);
+    }
+    @media (min-width: @screen-lg-min) {
+      background-image: url(/img/background-lg.jpg);
+    }
+    @media (min-width: 2500px) {
+      background-position-y: 40%;
+    }
+    @media (min-width: 3500px) {
+      background-position-y: 35%;
+    }
+    @media (min-width: 4000px) {
+      background-position-y: 32.5%;
+    }
+
+    &:before, &:after {
+      display: inline-block;
+      position: absolute;
+      pointer-events: none;
+    }
+
+    &:before {
+      bottom: 1.35em;
+      right: 1em;
+      content: "\0000a9  Svetoslav Spasov";
+      font-size: 0.75em;
+    }
+
+    &:after {
+      bottom: 0.5em;
+      right: 1.115em;
+      content: "www.NatureImages.eu";
+      font-size: 0.6687em;
+    }
+
   }
 
   .intro-message {
