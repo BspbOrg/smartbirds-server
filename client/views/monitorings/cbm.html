@@ -86,37 +86,37 @@
 
     <div class="col-md-8">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <field name="startDate" type="date" required="true"
                  label="Начална дата"
                  model="monitoringDetailController.data.startDateTime"></field>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-6">
           <field name="startTime" type="time" required="true"
                  label="Начален час"
                  model="monitoringDetailController.data.startDateTime"></field>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-6">
           <field name="endDate" type="date" required="true"
                  label="Крайна дата"
                  model="monitoringDetailController.data.endDateTime"></field>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-6">
           <field name="endTime" type="time" required="true"
                  label="Краен час"
                  model="monitoringDetailController.data.endDateTime"></field>
         </div>
 
-        <div ng-if="$user.isAdmin()" class="col-md-8">
+        <div ng-if="$user.isAdmin()" class="col-md-12">
           <field name="user" type="user" required="true"
                  label="Наблюдател"
                  model="monitoringDetailController.data.user"></field>
         </div>
 
-        <div class="col-md-8">
+        <div class="col-md-12">
           <field name="observers" type="text"
                  label="Други наблюдатели"
                  model="monitoringDetailController.data.observers"></field>
