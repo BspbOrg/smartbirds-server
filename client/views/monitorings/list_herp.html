@@ -5,7 +5,6 @@
         <div class="btn-group">
           <button type="button"
                   class="btn btn-danger"
-                  ng-if="$user.isAdmin()"
                   ng-disabled="!monitoringController.selectedRows.length"
                   ng-click="monitoringController.deleteRows(monitoringController.selectedRows)">
             <i class="fa fa-trash fa-fw"></i>

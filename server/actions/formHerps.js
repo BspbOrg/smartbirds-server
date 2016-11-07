@@ -39,7 +39,7 @@ exports.formHerpsView = {
 exports.formHerpsDelete = {
   name: 'formHerps:delete',
   description: 'formHerps:delete',
-  middleware: ['admin'],
+  middleware: ['auth'],
   inputs: {id: {required: true}},
 
   run: actions.getDelete('formHerps')

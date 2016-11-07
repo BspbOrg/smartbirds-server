@@ -39,7 +39,7 @@ exports.formBirdsView = {
 exports.formBirdsDelete = {
   name: 'formBirds:delete',
   description: 'formBirds:delete',
-  middleware: ['admin'],
+  middleware: ['auth'],
   inputs: {id: {required: true}},
 
   run: actions.getDelete('formBirds')

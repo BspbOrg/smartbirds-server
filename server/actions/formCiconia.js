@@ -39,7 +39,7 @@ exports.formCiconiaView = {
 exports.formCiconiaDelete = {
   name: 'formCiconia:delete',
   description: 'formCiconia:delete',
-  middleware: ['admin'],
+  middleware: ['auth'],
   inputs: { id: { required: true } },
 
   run: actions.getDelete('formCiconia')

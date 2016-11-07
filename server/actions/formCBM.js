@@ -322,7 +322,7 @@ exports.formCBMView = {
 exports.formCBMDelete = {
   name: 'formCBM:delete',
   description: 'formCBM:delete',
-  middleware: ['admin'],
+  middleware: ['auth'],
   inputs: {id: {required: true}},
 
   run: function (api, data, next) {
