@@ -144,7 +144,7 @@ exports.formCBMAdd = {
     windSpeed: {required: false},
     temperature: {required: false},
     rain: {required: false},
-    observers: {required: true},
+    observers: {required: false},
     endDateTime: {required: true},
     startDateTime: {required: true},
     observationDateTime: {required: true},
