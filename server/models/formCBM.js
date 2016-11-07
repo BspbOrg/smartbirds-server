@@ -267,8 +267,10 @@ module.exports = function (sequelize, DataTypes) {
           longitude: this.longitude,
           species: this.species,
           observationDateTime: this.observationDateTime,
-          plot: this.plot,
-          distance: this.distance,
+          plotBg: this.plotBg,
+          plotEn: this.plotEn,
+          distanceBg: this.distanceBg,
+          distanceEn: this.distanceEn,
         }));
         return hash.digest('hex');
       },
