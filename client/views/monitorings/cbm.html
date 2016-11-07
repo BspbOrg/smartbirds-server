@@ -39,7 +39,7 @@
         <strong>Липсват периоди!</strong> Няма въведени периоди за наблюдение за избраната година.
       </div>
       <div ng-if="monitoringDetailController.visit && !monitoringDetailController.isEarly && !monitoringDetailController.isLate"
-           class="alert alert-danger" role="alert">
+        class="alert alert-danger" role="alert">
         <strong>Извън период!</strong> Избраната дата на наблюдение е извън периодите за наблюдение.
       </div>
     </div>
@@ -84,40 +84,44 @@
       </ui-gmap-google-map>
     </div>
 
-    <div class="col-md-4">
-      <field name="startDate" type="date" required="true"
-             label="Начална дата"
-             model="monitoringDetailController.data.startDateTime"></field>
-    </div>
-
-    <div class="col-md-4">
-      <field name="startTime" type="time" required="true"
-             label="Начален час"
-             model="monitoringDetailController.data.startDateTime"></field>
-    </div>
-
-    <div class="col-md-4">
-      <field name="endDate" type="date" required="true"
-             label="Крайна дата"
-             model="monitoringDetailController.data.endDateTime"></field>
-    </div>
-
-    <div class="col-md-4">
-      <field name="endTime" type="time" required="true"
-             label="Краен час"
-             model="monitoringDetailController.data.endDateTime"></field>
-    </div>
-
-    <div ng-if="$user.isAdmin()" class="col-md-8">
-      <field name="user" type="user" required="true"
-             label="Наблюдател"
-             model="monitoringDetailController.data.user"></field>
-    </div>
-
     <div class="col-md-8">
-      <field name="observers" type="text"
-             label="Други наблюдатели"
-             model="monitoringDetailController.data.observers"></field>
+      <div class="row">
+        <div class="col-md-4">
+          <field name="startDate" type="date" required="true"
+                 label="Начална дата"
+                 model="monitoringDetailController.data.startDateTime"></field>
+        </div>
+
+        <div class="col-md-4">
+          <field name="startTime" type="time" required="true"
+                 label="Начален час"
+                 model="monitoringDetailController.data.startDateTime"></field>
+        </div>
+
+        <div class="col-md-4">
+          <field name="endDate" type="date" required="true"
+                 label="Крайна дата"
+                 model="monitoringDetailController.data.endDateTime"></field>
+        </div>
+
+        <div class="col-md-4">
+          <field name="endTime" type="time" required="true"
+                 label="Краен час"
+                 model="monitoringDetailController.data.endDateTime"></field>
+        </div>
+
+        <div ng-if="$user.isAdmin()" class="col-md-8">
+          <field name="user" type="user" required="true"
+                 label="Наблюдател"
+                 model="monitoringDetailController.data.user"></field>
+        </div>
+
+        <div class="col-md-8">
+          <field name="observers" type="text"
+                 label="Други наблюдатели"
+                 model="monitoringDetailController.data.observers"></field>
+        </div>
+      </div>
     </div>
   </div>
 
