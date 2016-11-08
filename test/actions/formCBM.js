@@ -174,9 +174,9 @@ describe('Action formCBM:', function () {
         });
       });
 
-      it('observers', function () {
+      it('observers - NEGATIVE', function () {
         return runAction('formCBM:create', _.omit(cbmRecord, 'observers')).then(function (response) {
-          response.error.should.be.equal('Error: observers is a required parameter for this action');
+          response.should.not.have.property('error');
         });
       });
 
@@ -344,7 +344,7 @@ describe('Action formCBM:', function () {
 
     setup.describeAsAdmin(function (runAction) {
       it('is allowed if the requester user is admin', function () {
-        return runAction('formCBM:edit', {id: cbmId, notes: 'some new notes'}).then(function (response) {
+        return runAction('formCBM:edit', {id: cbmId, notes: 'some new notes', user: 3}).then(function (response) {
           response.should.not.have.property('error');
           return setup.api.models.formCBM.findOne({where: {id: cbmId}}).then(function (cbm) {
             cbm.notes.should.be.equal('some new notes');

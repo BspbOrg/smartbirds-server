@@ -3,7 +3,6 @@ var lodash = require('lodash');
 var baseModel = {
     latitude: 42.1463749,
     longitude: 24.7492006,
-    observationDateTime: '2016-12-10T12:15Z',
     monitoringCode: 'random_ciconia_1234',
     primarySubstrateTypeEn: 'Accipiter nisus',
     primarySubstrateTypeBg: 'Accipiter nisus',
@@ -30,11 +29,11 @@ var baseModel = {
     nestNotUsedForOverOneYear: 1,
     dataOnJuvenileMortalityFromElectrocutions: 1,
     dataOnJuvenilesExpelledFromParents: 1,
-    diedOtherReasons: 23,  
+    diedOtherReasons: 23,
     reason: 'some reason',
-    speciesNotes: 'some notes text',  
+    speciesNotes: 'some notes text',
     location: 'location somewhere',
-    
+
     endDateTime: '2015-12-10T11:15Z',
     startDateTime: '2015-12-10T15:15Z',
     observers: 'Some test observers',
@@ -47,45 +46,49 @@ module.exports = [
     model: 'formCiconia',
     data: lodash.extend({}, baseModel, {
       user: {email: 'user@smartbirds.com'},
-      observationDateTime: '2016-12-10T10:15Z',
+      observationDateTime: '2016-12-10T10:15:01Z',
     })
   },
   {
     model: 'formCiconia',
-    data: lodash.extend({}, baseModel, {      
+    data: lodash.extend({}, baseModel, {
       user: {email: 'user@smartbirds.com'},
-      observationDateTime: '2016-12-20T10:15Z',
+      observationDateTime: '2016-12-20T10:15:02Z',
     })
   },
   {
     model: 'formCiconia',
-    data: lodash.extend({}, baseModel, {      
+    data: lodash.extend({}, baseModel, {
       user: {email: 'user@smartbirds.com'},
-      observationDateTime: '2016-12-30T10:15Z',
+      observationDateTime: '2016-12-30T10:15:03Z',
     })
   },
   {
     model: 'formCiconia',
-    data: lodash.extend({}, baseModel, {      
+    data: lodash.extend({}, baseModel, {
       user: {email: 'admin@smartbirds.com'},
+      observationDateTime: '2016-12-10T12:15:04Z',
     })
   },
   {
     model: 'formCiconia',
-    data: lodash.extend({}, baseModel, {      
+    data: lodash.extend({}, baseModel, {
       user: {email: 'admin@smartbirds.com'},
+      observationDateTime: '2016-12-10T12:15:05Z',
     })
   },
   {
     model: 'formCiconia',
-    data: lodash.extend({}, baseModel, {      
+    data: lodash.extend({}, baseModel, {
       user: {email: 'admin@smartbirds.com'},
+      observationDateTime: '2016-12-10T12:15:06Z',
     })
   },
   {
     model: 'formCiconia',
-    data: lodash.extend({}, baseModel, {      
+    data: lodash.extend({}, baseModel, {
       user: {email: 'user2@smartbirds.com'},
+      observationDateTime: '2016-12-10T12:15:07Z',
     })
   }
 ];

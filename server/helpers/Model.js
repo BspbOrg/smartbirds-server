@@ -9,15 +9,18 @@ var commonFields = {
   //Common form fields
   latitude: {
     type: 'num',
-    required: true
+    required: true,
+    uniqueHash: true,
   },
   longitude: {
     type: 'num',
-    required: true
+    required: true,
+    uniqueHash: true,
   },
   observationDateTime: {
     type: 'timestamp',
-    required: true
+    required: true,
+    uniqueHash: true,
   },
   monitoringCode: {
     type: 'text',
@@ -81,6 +84,7 @@ var commonFields = {
   user: {
     type: 'choice',
     required: true,
+    uniqueHash: true,
     relation: {
       model: 'user'
     }
@@ -163,16 +167,7 @@ function Model(modelName_, fields_, foreignKeyDefs) {
         }
       },
       instanceMethods: {
-        calculateHash: function () {
-          var hash = crypto.createHash('sha256');
-          hash.update(JSON.stringify({
-            latitude: this.latitude,
-            longitude: this.longitude,
-            species: this.species,
-            observationDateTime: this.observationDateTime,
-          }));
-          return hash.digest('hex');
-        },
+        calculateHash: Model.generateCalcHash(fields),
         apiData: function (api) {
           var data = {};
           var self = this;
@@ -458,4 +453,26 @@ function generateSchema(fields, resultObj) {
     }
   });
   return fieldsDef;
-};
+}
+
+function generateCalcHash(fields) {
+  var hashFields = [];
+
+  var schemaFields = Model.generateSchema(_.pick(fields, function(field){
+    return field.uniqueHash;
+  }));
+  _.forOwn(schemaFields, function(def, key) {
+    if (key !== 'hash') hashFields.push(key);
+  });
+  schemaFields = null;
+
+  return function() {
+    var hash = crypto.createHash('sha256');
+    hash.update(JSON.stringify(_.pick(this, hashFields)));
+    return hash.digest('hex');
+  }
+
+}
+
+Model.generateSchema = generateSchema;
+Model.generateCalcHash = generateCalcHash;

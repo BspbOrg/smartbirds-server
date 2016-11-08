@@ -303,13 +303,13 @@ describe('Action formHerps:', function () {
         });
       });
       it('filter to_date', function () {
-          return runAction('formHerps:list', {to_date: '2016-12-20T10:15Z'}).then(function (response){
+          return runAction('formHerps:list', {to_date: '2016-12-20T10:16Z'}).then(function (response){
             response.should.not.have.property('error');
-            response.data.length.should.be.equal(6);//6 records from fixtures
+            response.data.length.should.be.within(2, 4);//3 records from fixtures
           });
       });
       it('filter from_date and to_date', function () {
-          return runAction('formHerps:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:15Z'}).then(function (response){
+          return runAction('formHerps:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:16Z'}).then(function (response){
             response.should.not.have.property('error');
             response.data.length.should.be.equal(1);
           });

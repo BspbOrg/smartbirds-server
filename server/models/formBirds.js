@@ -15,6 +15,7 @@ var fields = {
   species: {
     type: 'choice',
     required: true,
+    uniqueHash: true,
     relation: {
       model: 'species',
       filter: { type: 'birds' }
@@ -26,6 +27,7 @@ var fields = {
   countUnit: {
     type: 'choice',
     required: true,
+    uniqueHash: true,
     relation: {
       model: 'nomenclature',
       filter: { type: 'birds_count_units' }
@@ -60,6 +62,7 @@ var fields = {
   },
   sex: {
     type: 'choice',
+    uniqueHash: true,
     relation: {
       model: 'nomenclature',
       filter: { type: 'birds_sex' }
@@ -67,6 +70,7 @@ var fields = {
   },
   age: {
     type: 'choice',
+    uniqueHash: true,
     relation: {
       model: 'nomenclature',
       filter: { type: 'birds_age' }

@@ -8,6 +8,7 @@ var fields = {
   species: {
     type: 'choice',
     required: true,
+    uniqueHash: true,
     relation: {
       model: 'species',
       filter: { type: 'herp_name' }
@@ -15,6 +16,7 @@ var fields = {
   },  
   sex: {
     type: 'choice',
+    uniqueHash: true,
     relation: {
       model: 'nomenclature',
       filter: { type: 'herp_gender' }
@@ -22,6 +24,7 @@ var fields = {
   },
   age: {
     type: 'choice',
+    uniqueHash: true,
     relation: {
       model: 'nomenclature',
       filter: { type: 'herp_age' }

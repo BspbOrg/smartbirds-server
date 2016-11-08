@@ -278,17 +278,17 @@ describe('Action formCiconia:', function () {
       it('filter from_date', function () {
         return runAction('formCiconia:list', {from_date: '2016-12-20T10:15Z'}).then(function (response){
           response.should.not.have.property('error');
-          response.data.length.should.be.equal(5);
+          response.data.length.should.be.within(3, 5);
         });
       });
       it('filter to_date', function () {
-          return runAction('formCiconia:list', {to_date: '2016-12-20T10:15Z'}).then(function (response){
+          return runAction('formCiconia:list', {to_date: '2016-12-20T10:16Z'}).then(function (response){
             response.should.not.have.property('error');
             response.data.length.should.be.equal(2);
           });
       });
       it('filter from_date and to_date', function () {
-          return runAction('formCiconia:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:15Z'}).then(function (response){
+          return runAction('formCiconia:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:16Z'}).then(function (response){
             response.should.not.have.property('error');
             response.data.length.should.be.equal(1);
           });
@@ -334,7 +334,7 @@ describe('Action formCiconia:', function () {
 
     setup.describeAsAdmin(function (runAction) {
       it('is allowed if the requester user is admin', function () {
-        return runAction('formCiconia:edit', {id: ciconiaId, notes: 'some new notes'}).then(function (response) {
+        return runAction('formCiconia:edit', {id: ciconiaId, notes: 'some new notes', user: 3}).then(function (response) {
           response.should.not.have.property('error');
           return setup.api.models.formCiconia.findOne({where: {id: ciconiaId}}).then(function (ciconia) {
             ciconia.notes.should.be.equal('some new notes');

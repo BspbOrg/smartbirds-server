@@ -5,7 +5,6 @@
 var lodash = require('lodash');
 
 var baseModel = {
-  observationDateTime: '2015-12-10T10:15Z',
   monitoringCode: 'random_354',
   countUnitBg: 'Гнездо(а)',
   countUnitEn: 'Nests',
@@ -42,7 +41,7 @@ module.exports = [
     data: lodash.extend({}, baseModel, {
       species: 'Accipiter nisus',
       user: {email: 'user@smartbirds.com'},
-      observationDateTime: '2016-12-10T10:15Z',
+      observationDateTime: '2016-12-10T10:15:01Z',
     })
   },
   {
@@ -50,7 +49,7 @@ module.exports = [
     data: lodash.extend({}, baseModel, {
       species: 'Accipiter nisus',
       user: {email: 'user@smartbirds.com'},
-      observationDateTime: '2016-12-20T10:15Z',
+      observationDateTime: '2016-12-20T10:15:02Z',
     })
   },
   {
@@ -58,15 +57,16 @@ module.exports = [
     data: lodash.extend({}, baseModel, {
       species: 'Accipiter nisus',
       user: {email: 'user@smartbirds.com'},
-      observationDateTime: '2016-12-30T10:15Z',      
-      location: 'some_unq_location'
+      observationDateTime: '2016-12-30T10:15:03Z',
+      location: 'some_unq_location',
     })
   },
   {
     model: 'formBirds',
     data: lodash.extend({}, baseModel, {
       species: 'Alle alle',
-      user: {email: 'admin@smartbirds.com'}
+      user: {email: 'admin@smartbirds.com'},
+      observationDateTime: '2015-12-10T10:15:04Z',
     })
   },
   {
@@ -74,13 +74,15 @@ module.exports = [
     data: lodash.extend({}, baseModel, {
       species: 'Aix sponsa',
       user: {email: 'admin@smartbirds.com'},
+      observationDateTime: '2015-12-10T10:15:05Z',
     })
   },
   {
     model: 'formBirds',
     data: lodash.extend({}, baseModel, {
       species: 'Acrocephalus agricola',
-      user: {email: 'admin@smartbirds.com'}
+      user: {email: 'admin@smartbirds.com'},
+      observationDateTime: '2015-12-10T10:15:06Z',
     })
   },
   {
@@ -88,6 +90,7 @@ module.exports = [
     data: lodash.extend({}, baseModel, {
       species: 'Acrocephalus agricola',
       user: {email: 'user2@smartbirds.com'},
+      observationDateTime: '2015-12-10T10:15:07Z',
     })
   }
 ];

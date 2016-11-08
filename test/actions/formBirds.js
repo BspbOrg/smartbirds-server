@@ -388,17 +388,17 @@ describe('Action formBirds:', function () {
       it('filter from_date', function () {
         return runAction('formBirds:list', {from_date: '2016-12-20T10:15Z'}).then(function (response){
           response.should.not.have.property('error');
-          response.data.length.should.be.equal(4);
+          response.data.length.should.be.equal(3);
         });
       });
       it('filter to_date', function () {
-          return runAction('formBirds:list', {to_date: '2016-12-20T10:15Z'}).then(function (response){
+          return runAction('formBirds:list', {to_date: '2016-12-20T10:16Z'}).then(function (response){
             response.should.not.have.property('error');
             response.data.length.should.be.equal(2);
           });
       });
       it('filter from_date and to_date', function () {
-          return runAction('formBirds:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:15Z'}).then(function (response){
+          return runAction('formBirds:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:16Z'}).then(function (response){
             response.should.not.have.property('error');
             response.data.length.should.be.equal(1);
           });
@@ -444,7 +444,7 @@ describe('Action formBirds:', function () {
 
     setup.describeAsAdmin(function (runAction) {
       it('is allowed if the requester user is admin', function () {
-        return runAction('formBirds:edit', {id: birdsId, notes: 'some new notes'}).then(function (response) {
+        return runAction('formBirds:edit', {id: birdsId, notes: 'some new notes', user: 3}).then(function (response) {
           response.should.not.have.property('error');
           return setup.api.models.formBirds.findOne({where: {id: birdsId}}).then(function (bird) {
             bird.notes.should.be.equal('some new notes');

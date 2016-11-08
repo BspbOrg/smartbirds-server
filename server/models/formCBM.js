@@ -7,11 +7,13 @@
 var _ = require('lodash');
 var Promise = require('bluebird');
 var crypto = require('crypto');
+var Model = require('../helpers/Model');
 
 var fields = {
   plot: {
     type: 'choice',
     required: true,
+    uniqueHash: true,
     relation: {
       model: 'nomenclature',
       filter: {type: 'cbm_sector'}
@@ -42,6 +44,7 @@ var fields = {
   distance: {
     type: 'choice',
     required: true,
+    uniqueHash: true,
     relation: {
       model: 'nomenclature',
       filter: {type: 'cbm_distance'}
@@ -50,6 +53,7 @@ var fields = {
   species: {
     type: 'choice',
     required: true,
+    uniqueHash: true,
     relation: {
       model: 'species',
       filter: {type: 'birds'}
@@ -102,12 +106,21 @@ var fields = {
   cloudsType: 'text',
   temperature: 'num',
   observers: 'text',
-  latitude: 'num',
-  longitude: 'num',
+  latitude: {
+    type: 'num',
+    required: true,
+    uniqueHash: true,
+  },
+  longitude: {
+    type: 'num',
+    required: true,
+    uniqueHash: true,
+  },
 
   observationDateTime: {
     type: 'timestamp',
-    required: true
+    required: true,
+    uniqueHash: true,
   },
   monitoringCode: {
     type: 'text',
@@ -133,6 +146,8 @@ var fields = {
   user: {
     type: 'choice',
     required: true,
+    uniqueHash: true,
+    observationDateTime: '2015-12-10T12:15:04Z',
     relation: {
       model: 'user'
     }
@@ -260,20 +275,7 @@ module.exports = function (sequelize, DataTypes) {
       }
     },
     instanceMethods: {
-      calculateHash: function () {
-        var hash = crypto.createHash('sha256');
-        hash.update(JSON.stringify({
-          latitude: this.latitude,
-          longitude: this.longitude,
-          species: this.species,
-          observationDateTime: this.observationDateTime,
-          plotBg: this.plotBg,
-          plotEn: this.plotEn,
-          distanceBg: this.distanceBg,
-          distanceEn: this.distanceEn,
-        }));
-        return hash.digest('hex');
-      },
+      calculateHash: Model.generateCalcHash(fields),
       apiData: function (api) {
         var data = {};
         var self = this;

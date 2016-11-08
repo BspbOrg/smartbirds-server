@@ -47,7 +47,7 @@ module.exports = {
           next();
         })
         .catch(function (error) {
-          api.logger.error(error);
+          api.log(error, 'error');
           next(error);
         });
     }
@@ -74,8 +74,16 @@ module.exports = {
           return api.models[modelName].findOne({where: {hash: hash}})
             .then(function (existing) {
               if (existing) {
-                api.log('found %s with hash %s, reusing', 'info', modelName, hash);
-                return existing;
+                api.log('found %s with hash %s, updating', 'info', modelName, hash);
+                data.response.existing = true;
+                return Promise.resolve()
+                  .then(function() {
+                    return existing.apiUpdate(data.params);
+                  })
+                  .then(function() {
+                    return existing.save();
+                  })
+                ;
               } else {
                 api.log('not found %s with hash %s, creating', 'info', modelName, hash);
                 return record.save();

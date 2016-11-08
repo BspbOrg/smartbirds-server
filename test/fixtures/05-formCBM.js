@@ -34,7 +34,6 @@ var baseModel = {
   endDateTime: '10/12/2015 10:15',
   startDateTime: '09/12/2015 08:10',
   monitoringCode: 'formCBM_mon_code',
-  observationDateTime: '2016-12-30T10:15Z',
   latitude: 42.1463749,
   longitude: 24.7492006
 };
@@ -43,6 +42,7 @@ module.exports = [
   {
     model: 'formCBM',
     data: lodash.extend({}, baseModel, {
+      observationDateTime: '2016-12-30T10:15:01Z',
       zone: {id: 'freeZonePlovdiv'},
       user: {email: 'user@smartbirds.com'},
     })
@@ -50,6 +50,7 @@ module.exports = [
   {
     model: 'formCBM',
     data: lodash.extend({}, baseModel, {
+      observationDateTime: '2016-12-30T10:15:02Z',
       zone: {id: 'freeZonePlovdiv'},
       user: {email: 'admin@smartbirds.com'},
     })
@@ -57,6 +58,7 @@ module.exports = [
   {
     model: 'formCBM',
     data: lodash.extend({}, baseModel, {
+      observationDateTime: '2016-12-30T10:15:03Z',
       zone: {id: 'freeZonePlovdiv'},
       user: {email: 'admin@smartbirds.com'},
     })
@@ -64,6 +66,7 @@ module.exports = [
   {
     model: 'formCBM',
     data: lodash.extend({}, baseModel, {
+      observationDateTime: '2016-12-30T10:15:04Z',
       zone: {id: 'freeZoneSofia'},
       user: {email: 'admin@smartbirds.com'},
     })
