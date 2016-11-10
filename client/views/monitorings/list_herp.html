@@ -6,6 +6,7 @@
           <button type="button"
                   class="btn btn-danger"
                   ng-disabled="!monitoringController.selectedRows.length"
+                  confirm="Потвърдете изтриването на {{monitoringController.selectedRows.length}} записа"
                   ng-click="monitoringController.deleteRows(monitoringController.selectedRows)">
             <i class="fa fa-trash fa-fw"></i>
             Изтриване
