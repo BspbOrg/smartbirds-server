@@ -1,7 +1,7 @@
 var angular = require('angular');
 var moment = require('moment');
 
-require('../app').controller('MonitoringDetailController', /*@ngInject*/function ($filter, $http, $scope, $state, $stateParams, $q, $timeout, model, ngToast, db, Raven, x2js) {
+require('../app').controller('MonitoringDetailController', /*@ngInject*/function ($filter, $http, $scope, $state, $stateParams, $q, $timeout, model, ngToast, db, Raven, Track) {
 
   var controller = this;
   var authurl = $filter('authurl');
@@ -37,18 +37,9 @@ require('../app').controller('MonitoringDetailController', /*@ngInject*/function
   $scope.$watch(function() {
     return controller.data && controller.data.track;
   }, function(track) {
+    controller.track = null;
     if (!track) return;
-    $http({url: authurl(track)}).then(function(response) {
-      var xml = x2js.json2xml(response.data);
-      var points = [];
-      angular.forEach(xml.getElementsByTagName('trkpt'), function(point){
-        var p = x2js.xml2json(point);
-        if (!p) return;
-        if (p.time) p.time = new Date(p.time);
-        if (p._lat) p.latitude = parseFloat(p._lat);
-        if (p._lon) p.longitude = parseFloat(p._lon);
-        points.push(p);
-      });
+    Track.get(track).then(function(points) {
       controller.track = points;
     });
   });

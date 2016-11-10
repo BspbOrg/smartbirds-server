@@ -1,3 +1,9 @@
+<div>
+  <label>
+    <input type="checkbox" ng-model="$ctrl.showTracks">
+    показване на първите 3 gpx следи
+  </label>
+</div>
 <ui-gmap-google-map center='$ctrl.center' zoom='$ctrl.zoom'
                     options="$ctrl.options">
 
@@ -13,7 +19,7 @@
   >
   </ui-gmap-polygons>
 
-  <ui-gmap-polylines ng-if="$ctrl.tracks.length && !$ctrl.tracksWaiting"
+  <ui-gmap-polylines ng-if="$ctrl.tracks.length && !$ctrl.tracksWaiting && $ctrl.showTracks"
                      models="$ctrl.tracks"
                      static="true"
                      path="'path'"
