@@ -1,0 +1,13 @@
+<div class="btn-group-sm">
+  <label ng-if="!$ctrl.trackUrl" class="btn btn-primary btn-sm" role="menuitem">
+    <input type="file" id="track-upload" nv-file-select uploader="$ctrl.uploader" accept=".gpx">
+    <i class="fa fa-upload fa-fw"></i> gpx
+  </label>
+  <button type="button"
+          role="menuitem"
+          ng-if="$ctrl.trackUrl"
+          class="btn btn-danger btn-sm"
+          ng-click="$ctrl.delete()">
+    <i class="fa fa-remove fa-fw"></i> gpx
+  </button>
+</div>

@@ -53,6 +53,9 @@
                  model="monitoringDetailController.data.longitude"></field>
         </div>
         <div class="col-md-12">
+          <div class="text-right">
+            <track-edit ng-model="monitoringDetailController.data.track"></track-edit>
+          </div>
           <ui-gmap-google-map
             center="monitoringDetailController.map.center"
             pan="true"

@@ -52,6 +52,9 @@
              on-select="monitoringDetailController.onZoneSelected()"
              model="monitoringDetailController.data.zone"></field>
 
+      <div class="text-right">
+        <track-edit ng-model="monitoringDetailController.data.track"></track-edit>
+      </div>
       <ui-gmap-google-map
         ng-if="monitoringDetailController.map.poi.latitude && monitoringDetailController.map.poi.longitude"
         center="monitoringDetailController.map.center"
