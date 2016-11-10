@@ -1,7 +1,7 @@
 <div id="wrapper">
 
   <!-- Navigation -->
-  <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0" ng-init="navbar.collapsed = true">
+  <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" ng-click="navbar.collapsed = !navbar.collapsed">
         <span class="sr-only">Toggle navigation</span>
@@ -16,14 +16,14 @@
     </div>
     <!-- /.navbar-header -->
 
-    <div class="navbar-collapse" uib-collapse="navbar.collapsed">
+    <nav class="navbar-collapse" uib-collapse="!navbar.collapsed">
       <ul class="nav navbar-top-links navbar-right">
         <li class="dropdown" uib-dropdown>
-          <a href uib-dropdown-toggle>
+          <a href role="button" id="user-dropdown" type="button" class="dropdown-toggle" uib-dropdown-toggle>
             Здравей, {{$user.getIdentity().firstName}}
             <span class="caret"></span>
           </a>
-          <ul uib-dropdown-menu>
+          <ul uib-dropdown-menu aria-labelledby="user-dropdown">
             <li>
               <a href ui-sref="auth.users.detail({id: $user.getIdentity().id})">Профил</a>
               <a href ui-sref="auth.users.changepw">Смяна на парола</a>
@@ -38,61 +38,61 @@
           </ul>
         </li>
       </ul>
-    <!-- /.navbar-top-links -->
+      <!-- /.navbar-top-links -->
 
-    <div class="navbar-default sidebar" role="navigation">
-      <div class="sidebar-nav navbar-collapse">
-        <ul class="nav" id="side-menu">
-          <li class="sidebar-search hidden">
-            <div class="input-group custom-search-form">
-              <input type="text" class="form-control" placeholder="Search...">
+      <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+          <ul class="nav" id="side-menu">
+            <li class="sidebar-search hidden">
+              <div class="input-group custom-search-form">
+                <input type="text" class="form-control" placeholder="Search...">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button">
                                       <i class="fa fa-search"></i>
                                     </button>
                                 </span>
-            </div>
-            <!-- /input-group -->
-          </li>
-          <li>
-            <a ui-sref="auth.dashboard"><i class="fa fa-dashboard fa-fw"></i> Начало</a>
-          </li>
-          <li title="Mониторинг на обикновените видове птици">
-            <a ui-sref="auth.monitoring.cbm"><i class="icon icon-cbm icon-fw"></i> МОВП</a>
-          </li>
-          <li title="Наблюдения от стандартна форма птици">
-            <a ui-sref="auth.monitoring.birds"><i class="icon icon-birds icon-fw"></i> Птици</a>
-          </li>
-          <li title="Наблюдения на земноводни, влечуги и бозайници">
-            <a ui-sref="auth.monitoring.herp"><i class="icon icon-herp icon-fw"></i> ЗВБ</a>
-          </li>
-          <li title="Наблюдения на бял щъркел">
-            <a ui-sref="auth.monitoring.ciconia"><i class="icon icon-ciconia icon-fw"></i> Бял щъркел</a>
-          </li>
-          <li>
-            <a ui-sref="auth.zones({status:['requested','owned'], location: undefined, owner: undefined})">
-              <i class="fa fa-map-o fa-fw"></i>
-              Площадки
-              <span ng-if="main.zonesIndicator" class="badge" title="Заявени зони">{{main.zonesIndicator}}</span>
-            </a>
-          </li>
-          <li ng-if="$user.isAdmin()">
-            <a ui-sref="auth.users">
-              <i class="fa fa-users fa-fw"></i>
-              Наблюдатели
-            </a>
-          </li>
-          <li ng-if="$user.isAdmin()">
-            <a ui-sref="auth.visits">
-              <i class="fa fa-calendar fa-fw"></i>
-              Посещения
-            </a>
-          </li>
-        </ul>
+              </div>
+              <!-- /input-group -->
+            </li>
+            <li>
+              <a ui-sref="auth.dashboard"><i class="fa fa-dashboard fa-fw"></i> Начало</a>
+            </li>
+            <li title="Mониторинг на обикновените видове птици">
+              <a ui-sref="auth.monitoring.cbm"><i class="icon icon-cbm icon-fw"></i> МОВП</a>
+            </li>
+            <li title="Наблюдения от стандартна форма птици">
+              <a ui-sref="auth.monitoring.birds"><i class="icon icon-birds icon-fw"></i> Птици</a>
+            </li>
+            <li title="Наблюдения на земноводни, влечуги и бозайници">
+              <a ui-sref="auth.monitoring.herp"><i class="icon icon-herp icon-fw"></i> ЗВБ</a>
+            </li>
+            <li title="Наблюдения на бял щъркел">
+              <a ui-sref="auth.monitoring.ciconia"><i class="icon icon-ciconia icon-fw"></i> Бял щъркел</a>
+            </li>
+            <li>
+              <a ui-sref="auth.zones({status:['requested','owned'], location: undefined, owner: undefined})">
+                <i class="fa fa-map-o fa-fw"></i>
+                Площадки
+                <span ng-if="main.zonesIndicator" class="badge" title="Заявени зони">{{main.zonesIndicator}}</span>
+              </a>
+            </li>
+            <li ng-if="$user.isAdmin()">
+              <a ui-sref="auth.users">
+                <i class="fa fa-users fa-fw"></i>
+                Наблюдатели
+              </a>
+            </li>
+            <li ng-if="$user.isAdmin()">
+              <a ui-sref="auth.visits">
+                <i class="fa fa-calendar fa-fw"></i>
+                Посещения
+              </a>
+            </li>
+          </ul>
+        </div>
+        <!-- /.sidebar-collapse -->
       </div>
-      <!-- /.sidebar-collapse -->
-    </div>
-      </div>
+    </nav>
     <!-- /.navbar-static-side -->
   </nav>
 

@@ -13,14 +13,14 @@
         SmartBirds
       </a>
     </div>
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+    <nav class="navbar-collapse" uib-collapse="!navbar.collapsed">
       <ul class="nav navbar-nav navbar-right">
         <li ng-if="'home' | isState">
           <a href ui-sref="home" sb-scroll-to="[name=forms]">Форми</a>
         </li>
         <li ng-if="$state.current.name!=='home'" class="dropdown" uib-dropdown>
-          <a href role="button" id="forms-dropdown" type="button" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false" uib-dropdown-toggle>
+          <a href role="button" id="forms-dropdown" type="button" class="dropdown-toggle" uib-dropdown-toggle>
             Форми
             <span class="caret"></span>
           </a>
@@ -57,8 +57,7 @@
           <a ng-if="$user.isAuthenticated()" ui-sref="auth.dashboard">Начало</a>
         </li>
       </ul>
-    </div>
-    <!-- /.navbar-collapse -->
+    </nav>
   </div>
   <!-- /.container -->
 </nav>
