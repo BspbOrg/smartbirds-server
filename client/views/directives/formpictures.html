@@ -9,7 +9,10 @@
           <img ng-if="picture.fileItem" nv-thumb="picture.fileItem._file">
         </a>
         <div class="thumbnail-overlay top right hover">
-          <button type="button" class="btn btn-danger btn-xs" ng-click="$ctrl.delete(picture)">
+          <button type="button"
+                  class="btn btn-danger btn-xs"
+                  confirm="Потвърдете изтриването на снимката"
+                  ng-click="$ctrl.delete(picture)">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             <span class="sr-only">Delete</span>
           </button>
