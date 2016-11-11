@@ -170,7 +170,7 @@ module.exports = {
               case 'csv':
                 q.include = (q.include || []).concat([
                   {model: api.models.species, as: 'speciesInfo'},
-                  // {model: api.models.user, as: 'user'},
+                  {model: api.models.user, as: 'user'},
                 ]);
                 q.raw = true;
                 break;
