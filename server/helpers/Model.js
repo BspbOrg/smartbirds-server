@@ -458,13 +458,14 @@ function generateSchema(fields, resultObj) {
 function generateCalcHash(fields) {
   var hashFields = [];
 
-  var schemaFields = Model.generateSchema(_.pick(fields, function(field){
+  var schemaFields = Model.generateSchema(_.pickBy(fields, function(field){
     return field.uniqueHash;
   }));
   _.forOwn(schemaFields, function(def, key) {
     if (key !== 'hash') hashFields.push(key);
   });
   schemaFields = null;
+  if (!hashFields.length) throw new Error('no hash fields defined!');
 
   return function() {
     var hash = crypto.createHash('sha256');
