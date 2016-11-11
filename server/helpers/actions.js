@@ -10,7 +10,7 @@ module.exports = {
     return function (api, data, next) {
       Promise.resolve(data)
         .then(function (data) {
-          return api.models[modelName].findOne({where: {id: data.params.id}})
+          return api.models[ modelName ].findOne({ where: { id: data.params.id } })
         })
         .then(function (record) {
           if (!record) {
@@ -57,7 +57,7 @@ module.exports = {
     return function (api, data, next) {
       Promise.resolve(data)
         .then(function (data) {
-          return api.models[modelName].build({});
+          return api.models[ modelName ].build({});
         })
         .then(function (record) {
           if (!data.session.user.isAdmin || !data.params.user) {
@@ -71,19 +71,19 @@ module.exports = {
         .then(function (record) {
           var hash = record.calculateHash();
           api.log('looking for %s with hash %s', 'info', modelName, hash);
-          return api.models[modelName].findOne({where: {hash: hash}})
+          return api.models[ modelName ].findOne({ where: { hash: hash } })
             .then(function (existing) {
               if (existing) {
                 api.log('found %s with hash %s, updating', 'info', modelName, hash);
                 data.response.existing = true;
                 return Promise.resolve()
-                  .then(function() {
+                  .then(function () {
                     return existing.apiUpdate(data.params);
                   })
-                  .then(function() {
+                  .then(function () {
                     return existing.save();
                   })
-                ;
+                  ;
               } else {
                 api.log('not found %s with hash %s, creating', 'info', modelName, hash);
                 return record.save();
@@ -109,10 +109,10 @@ module.exports = {
   getView: function (modelName) {
     return function (api, data, next) {
       var q = {
-        where: {id: data.params.id},
+        where: { id: data.params.id },
       };
 
-      api.models[modelName].findOne(q).then(function (record) {
+      api.models[ modelName ].findOne(q).then(function (record) {
           if (!record) {
             data.connection.rawConnection.responseHttpCode = 404;
             return next(new Error('record not found'));
@@ -136,7 +136,7 @@ module.exports = {
   getDelete: function (modelName) {
     return function (api, data, next) {
       Promise.resolve(data).then(function (data) {
-        return api.models[modelName].findOne({where: {id: data.params.id}})
+        return api.models[ modelName ].findOne({ where: { id: data.params.id } })
       }).then(function (record) {
         if (!record) {
           data.connection.rawConnection.responseHttpCode = 404;
@@ -161,6 +161,22 @@ module.exports = {
   },
 
   getSelect: function (modelName, prepareQuery, prepareCsv) {
+    if (!prepareCsv) prepareCsv = function (api, record) {
+      return _.omitBy(record, function (value, key) {
+        return [
+          'observers',
+          'hash',
+          'user',
+          'speciesInfo',
+          'observationDateTime',
+          'endDateTime',
+          'startDateTime',
+          'imported',
+          'createdAt',
+          'updatedAt',
+        ].indexOf(key.split('.')[ 0 ]) !== -1;
+      });
+    };
     return function (api, data, next) {
       try {
         return Promise.resolve(prepareQuery(api, data))
@@ -169,8 +185,8 @@ module.exports = {
               case 'zip':
               case 'csv':
                 q.include = (q.include || []).concat([
-                  {model: api.models.species, as: 'speciesInfo'},
-                  {model: api.models.user, as: 'user'},
+                  { model: api.models.species, as: 'speciesInfo' },
+                  { model: api.models.user, as: 'user' },
                 ]);
                 q.raw = true;
                 break;
@@ -178,7 +194,7 @@ module.exports = {
             return q;
           })
           .then(function (q) {
-            return api.models[modelName].findAndCountAll(q);
+            return api.models[ modelName ].findAndCountAll(q);
           })
           .then(function (result) {
             switch (data.connection.extension) {
@@ -187,29 +203,34 @@ module.exports = {
                 return new Promise(function (resolve, reject) {
                   var i, l, record;
                   for (i = 0, l = result.rows.length; i < l; ++i) {
-                    record = result.rows[i];
-                    result.rows[i] = _.assign({
+                    record = result.rows[ i ];
+                    var pre = {
                       startTime: moment.tz(record.startDateTime, api.config.formats.tz).format(api.config.formats.time),
                       startDate: moment.tz(record.startDateTime, api.config.formats.tz).format(api.config.formats.date),
                       endTime: moment.tz(record.endDateTime, api.config.formats.tz).format(api.config.formats.time),
                       endDate: moment.tz(record.endDateTime, api.config.formats.tz).format(api.config.formats.date),
-                      'ЕлПоща': record['user.email'],
-                      'Име': record['user.firstName'],
-                      'Фамилия': record['user.lastName'],
+                      email: record[ 'user.email' ],
+                      firstName: record[ 'user.firstName' ],
+                      lastName: record[ 'user.lastName' ],
                       observationDate: moment.tz(record.observationDateTime, api.config.formats.tz).format(api.config.formats.date),
                       observationTime: moment.tz(record.observationDateTime, api.config.formats.tz).format(api.config.formats.time),
-                    }, prepareCsv && prepareCsv(api, record) || record, {
+                      otherObservers: record.observers,
+                    };
+                    var mid = prepareCsv(api, record);
+                    var post = {
                       notes: (record.notes || '').replace(/[\n\r]+/g, ' '),
                       speciesNotes: (record.speciesNotes || '').replace(/[\n\r]+/g, ' '),
-                      species: record['speciesInfo.labelLa'] + ' | ' + record['speciesInfo.labelBg'],
+                      species: record[ 'speciesInfo.labelLa' ] + ' | ' + record[ 'speciesInfo.labelBg' ],
                       pictures: (record.pictures && JSON.parse(record.pictures) || []).map(function (pic) {
-                        return pic.url && pic.url.split('/').slice(-1)[0] + '.jpg';
+                        return pic.url && pic.url.split('/').slice(-1)[ 0 ] + '.jpg';
                       }).filter(function (val) {
                         return val
                       }).join(', ') || '',
                       track: record.track && record.monitoringCode + '.gpx',
-                      trackId: record.track && record.track.split('/').slice(-1)[0],
-                    });
+                      trackId: record.track && record.track.split('/').slice(-1)[ 0 ],
+                    };
+
+                    result.rows[ i ] = _.assign(pre, mid, post);
                   }
                   require('csv-stringify')(result.rows, {
                     delimiter: ';',
@@ -256,7 +277,7 @@ module.exports = {
                   var fs = require('fs');
                   var uuid = require('uuid');
                   var path = require('path');
-                  var outputFilename = path.join(api.config.general.paths.fileupload[0], uuid.v4() + '.zip');
+                  var outputFilename = path.join(api.config.general.paths.fileupload[ 0 ], uuid.v4() + '.zip');
                   var output = fs.createWriteStream(outputFilename);
                   output.on('error', function (err) {
                     api.log('output error: %s', 'error', err);
@@ -268,18 +289,18 @@ module.exports = {
                   });
                   archive.pipe(output);
 
-                  archive.append(response.csv, {name: modelName + '.csv'});
+                  archive.append(response.csv, { name: modelName + '.csv' });
                   var fileCnt = 0;
                   var fileMap = {};
                   var i, l, record;
 
-                  function appendFile(filename, id) {
+                  function appendFile (filename, id) {
                     if (!filename || filename in fileMap || id in fileMap) return;
                     var idx = filename.lastIndexOf('.');
                     if (idx === -1) idx = filename.length;
                     id = id || filename.substring(0, idx);
-                    fileMap[filename] = id;
-                    fileMap[id] = filename;
+                    fileMap[ filename ] = id;
+                    fileMap[ id ] = filename;
                     api.log('adding %s as %s', 'debug', id, filename);
 
                     return new Promise(function (resolve, reject) {
@@ -289,7 +310,7 @@ module.exports = {
                           return reject(err);
                         }
 
-                        resolve(archive.append(stream, {name: filename}));
+                        resolve(archive.append(stream, { name: filename }));
                       });
                     });
                   }
@@ -315,17 +336,17 @@ module.exports = {
           .then(function (response) {
             switch (data.connection.extension) {
               case 'csv':
-                data.connection.rawConnection.responseHeaders.push(['Content-Type', 'text/csv']);
-                data.connection.rawConnection.responseHeaders.push(['Content-Disposition', 'attachment; filename="' + modelName + '.csv"']);
+                data.connection.rawConnection.responseHeaders.push([ 'Content-Type', 'text/csv' ]);
+                data.connection.rawConnection.responseHeaders.push([ 'Content-Disposition', 'attachment; filename="' + modelName + '.csv"' ]);
                 data.connection.sendMessage(response);
                 data.toRender = false;
                 break;
               case 'zip':
-                data.connection.rawConnection.responseHeaders.push(['Content-Type', 'application/zip']);
-                data.connection.rawConnection.responseHeaders.push(['Content-Disposition', 'attachment; filename="' + modelName + '.zip"']);
+                data.connection.rawConnection.responseHeaders.push([ 'Content-Type', 'application/zip' ]);
+                data.connection.rawConnection.responseHeaders.push([ 'Content-Disposition', 'attachment; filename="' + modelName + '.zip"' ]);
                 var fs = require('fs');
                 var stats = fs.statSync(response);
-                var fileSize = stats["size"];
+                var fileSize = stats[ "size" ];
                 api.servers.servers.web.sendFile(data.connection, null, fs.createReadStream(response), 'application/zip', fileSize);
                 data.toRender = false;
                 break;
