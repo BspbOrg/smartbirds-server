@@ -22,6 +22,7 @@ var fields = {
   visit: {
     type: 'choice',
     required: true,
+    uniqueHash: true,
     relation: {
       model: 'nomenclature',
       filter: {type: 'cbm_visit_number'}
@@ -90,15 +91,18 @@ var fields = {
 
   count: {
     type: '+int',
-    required: true
+    required: true,
+    uniqueHash: true,
   },
   endDateTime: {
     type: 'timestamp',
-    required: true
+    required: true,
+    uniqueHash: true,
   },
   startDateTime: {
     type: 'timestamp',
-    required: true
+    required: true,
+    uniqueHash: true,
   },
   notes: 'text',
   visibility: '+num',
@@ -130,6 +134,7 @@ var fields = {
   zone: {
     type: 'choice',
     required: true,
+    uniqueHash: true,
     relation: {
       model: 'zone'
     }
