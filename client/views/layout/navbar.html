@@ -53,8 +53,8 @@
           <a href ui-sref="home" sb-scroll-to="[name=mobile]">Мобилно приложение</a>
         </li>
         <li>
-          <a ng-if="!$user.isAuthenticated()" ui-sref="login">Вход</a>
-          <a ng-if="$user.isAuthenticated()" ui-sref="auth.dashboard">Начало</a>
+          <a href ng-if="!$user.isAuthenticated()" ui-sref="login">Вход</a>
+          <a href ng-if="$user.isAuthenticated()" ui-sref="auth.dashboard">Начало</a>
         </li>
       </ul>
     </nav>
