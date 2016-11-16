@@ -131,7 +131,7 @@
     <table class="table table-striped table-hover" sb-table="monitoringController.order">
       <thead>
       <tr>
-        <th ng-if="$user.isAdmin()" ng-click="monitoringController.toggleSelected()">
+        <th ng-click="monitoringController.toggleSelected()">
           <input type="checkbox" ng-checked="monitoringController.allSelected">
         </th>
         <th sb-sorting="id">#</th>
@@ -157,7 +157,7 @@
       <tr
         ng-repeat="row in monitoringController.rows | orderBy:monitoringController.order.key:monitoringController.order.reverse"
         ng-click="$state.go('.detail', {id: row.id})" ng-class="{info: row.$selected}">
-        <td ng-if="$user.isAdmin()" ng-click="$event.stopPropagation(); monitoringController.toggleSelected(row)"><input
+        <td ng-click="$event.stopPropagation(); monitoringController.toggleSelected(row)"><input
           type="checkbox"
           ng-checked="row.$selected">
         </td>
