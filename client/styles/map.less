@@ -1,0 +1,27 @@
+.aspect-map {
+  width: 100%;
+  padding-bottom: 80%;
+  margin-bottom: @line-height-computed;
+  position: relative;
+
+  & > * {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+.angular-google-map-container{
+  height: auto;
+  width:100%;
+  padding-bottom: 60%;
+  margin-bottom: @line-height-computed;
+  position: relative;
+
+  [home-map] & {
+    height: 60vh;
+    padding-top: 0;
+  }
+}
