@@ -22,3 +22,9 @@ Code is in [client/scripts](client/scripts) split by types. To build in dev use 
 
 ### Backend
 Code is in [server](server). To run server in dev use `npm run ah` - to use the docker db use `docker-compose start db dbadmin`
+
+# License
+
+[AGPL-v3.0](LICENSE)
+
+Copyright (c) 2015-2016 [Bulgarian Society for the Protection of Birds](http://bspb.org)
