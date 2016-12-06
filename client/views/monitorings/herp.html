@@ -120,12 +120,12 @@
              model="monitoringDetailController.data.marking"></field>
     </div>
     <div class="col-md-4">
-      <field name="axisDistance" type="float"
+      <field name="axisDistance" type="float" min="0"
              label="Разстояние от оста"
              model="monitoringDetailController.data.axisDistance"></field>
     </div>
     <div class="col-md-4">
-      <field name="weight" type="float"
+      <field name="weight" type="float" min="0"
              label="Тегло (g)"
              model="monitoringDetailController.data.weight"></field>
     </div>
@@ -133,22 +133,22 @@
 
   <div class="row">
     <div class="col-md-3">
-      <field name="sCLL" type="float"
+      <field name="sCLL" type="float" min="0"
              label="SCL/L (mm)"
              model="monitoringDetailController.data.sCLL"></field>
     </div>
     <div class="col-md-3">
-      <field name="mPLLcdC" type="float"
+      <field name="mPLLcdC" type="float" min="0"
              label="MPL/Lcd/C (mm)"
              model="monitoringDetailController.data.mPLLcdC"></field>
     </div>
     <div class="col-md-3">
-      <field name="mCWA" type="float"
+      <field name="mCWA" type="float" min="0"
              label="MCW/A (mm)"
              model="monitoringDetailController.data.mCWA"></field>
     </div>
     <div class="col-md-3">
-      <field name="hLcapPl" type="float"
+      <field name="hLcapPl" type="float" min="0"
              label="H /Lcap/Pl (mm)"
              model="monitoringDetailController.data.hLcapPl"></field>
     </div>
@@ -156,17 +156,17 @@
 
   <div class="row">
     <div class="col-md-4">
-      <field name="sqVentr" type="float"
+      <field name="sqVentr" type="float" min="0"
              label="Sq ventr"
              model="monitoringDetailController.data.sqVentr"></field>
     </div>
     <div class="col-md-4">
-      <field name="sqCaud" type="float"
+      <field name="sqCaud" type="float" min="0"
              label="Sq caud"
              model="monitoringDetailController.data.sqCaud"></field>
     </div>
     <div class="col-md-4">
-      <field name="sqDors" type="float"
+      <field name="sqDors" type="float" min="0"
              label="Sq dors"
              model="monitoringDetailController.data.sqDors"></field>
     </div>
@@ -174,17 +174,17 @@
 
   <div class="row">
     <div class="col-md-4">
-      <field name="tempSubstrat" type="float"
+      <field name="tempSubstrat" type="float" min="-273.15"
              label="T&deg; на субстрата"
              model="monitoringDetailController.data.tempSubstrat"></field>
     </div>
     <div class="col-md-4">
-      <field name="tempAir" type="float"
+      <field name="tempAir" type="float" min="-273.15"
              label="T&deg; на в-ха"
              model="monitoringDetailController.data.tempAir"></field>
     </div>
     <div class="col-md-4">
-      <field name="tempCloaca" type="float"
+      <field name="tempCloaca" type="float" min="-273.15"
              label="T&deg; на клоака"
              model="monitoringDetailController.data.tempCloaca"></field>
     </div>

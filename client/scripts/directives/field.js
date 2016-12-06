@@ -42,6 +42,7 @@ require('../app').directive('field', /*@ngInject*/function ($q) {
       $scope.$watch('form', function (form) {
         field.form = form;
       });
+      field.$attrs = $attrs;
       field.type = $attrs.type;
       field.required = angular.isDefined($attrs.required);
       field.readonly = 'readonly' in $attrs ? (angular.isDefined($attrs.readonly) ? $parse($attrs.readonly)($scope.$parent) : true) : false;

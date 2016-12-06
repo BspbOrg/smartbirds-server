@@ -160,7 +160,7 @@
   <h5>4. В гнездото има:</h5>
   <div class="row">
     <div class="col-md-6">
-      <field name="countJuvenilesInNest" type="int"
+      <field name="countJuvenilesInNest" type="int" min="1"
              label="Брой малки в гнездото"
              model="monitoringDetailController.data.countJuvenilesInNest"></field>
     </div>
@@ -169,7 +169,7 @@
   <h5>5.</h5>
   <div class="row">
     <div class="col-md-6">
-      <field name="nestNotUsedForOverOneYear" type="int"
+      <field name="nestNotUsedForOverOneYear" type="int" min="0"
              label="Гнездото НЕ се обитава от ПОВЕЧЕ от една година"
              model="monitoringDetailController.data.nestNotUsedForOverOneYear"></field>
     </div>
@@ -178,17 +178,17 @@
   <h5>6. Данни за загинали малки</h5>
   <div class="row">
     <div class="col-md-6">
-      <field name="dataOnJuvenileMortalityFromElectrocutions" type="int"
+      <field name="dataOnJuvenileMortalityFromElectrocutions" type="int" min="0"
              label="Данни за загинали малки от ел. ток"
              model="monitoringDetailController.data.dataOnJuvenileMortalityFromElectrocutions"></field>
     </div>
     <div class="col-md-6">
-      <field name="dataOnJuvenileExpelledFromParents" type="int"
+      <field name="dataOnJuvenileExpelledFromParents" type="int" min="0"
              label="Данни за загинали малки изхвърлени от родителите"
              model="monitoringDetailController.data.dataOnJuvenilesExpelledFromParents"></field>
     </div>
     <div class="col-md-6">
-      <field name="diedOtherReasons" type="int"
+      <field name="diedOtherReasons" type="int" min="0"
              label="Загинали по други причини"
              model="monitoringDetailController.data.diedOtherReasons"></field>
     </div>

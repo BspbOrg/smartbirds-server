@@ -1,7 +1,9 @@
 <sb-include src="/views/fields/container.html">
   <input type="number"
-         min="1"
-         pattern="\d+"
+         step="{{::field.$attrs.step || '1'}}"
+         min="{{::field.$attrs.min}}"
+         max="{{::field.$attrs.max}}"
+         pattern="{{::field.$attrs.pattern || '[+-]?\\d+'}}"
          class="form-control"
          id="{{::field.name}}"
          name="{{::field.name}}"

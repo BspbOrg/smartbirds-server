@@ -17,7 +17,7 @@
            model="monitoringDetailController.data.windSpeed"></field>
   </div>
   <div class="col-md-3">
-    <field name="visibility" type="float"
+    <field name="visibility" type="float" min="0"
            label="Видимост (km)"
            model="monitoringDetailController.data.visibility"></field>
   </div>
@@ -30,7 +30,7 @@
            model="monitoringDetailController.data.windDirection"></field>
   </div>
   <div class="col-md-3">
-    <field name="temperature" type="float"
+    <field name="temperature" type="float" min="-273.15"
            label="Температура &deg;C"
            model="monitoringDetailController.data.temperature"></field>
   </div>
