@@ -150,7 +150,7 @@
      class="row">
   <div class="col-md-12">
     <p ng-if="monitoringController.count > monitoringController.rows.length" class="text-warning">
-      Показани са само първите {{monitoringController.rows.length}} записа!
+      Показани са само последните {{monitoringController.rows.length}} записа!
       <button ng-if="$user.isAdmin() && !monitoringController.loading" type="button" class="btn btn-default btn-xs"
               ng-click="monitoringController.nextPage(-1)">Покажи всички
       </button>
