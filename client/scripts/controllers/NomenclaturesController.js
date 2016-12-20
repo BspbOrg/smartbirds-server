@@ -5,8 +5,9 @@ require('../app').controller('NomenclaturesController', /*@ngInject*/function ($
   $ctrl.nomenclatures = db.nomenclatures;
   $ctrl.groups = {};
   angular.forEach(db.nomenclatures, function (nomenclature, key) {
-    var group = key.split('_', 2)[0];
-    var name = key.split('_', 2)[1];
+    var parts = key.split('_');
+    var group = parts.shift();
+    var name = parts.join('_');
     $ctrl.groups[group] = $ctrl.groups[group] || {};
     $ctrl.groups[group][name] = nomenclature;
 
