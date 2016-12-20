@@ -4,6 +4,9 @@
   "description": "SmartBirds Server",
   "author": "Geno Roupsky",
   "private": true,
+  "engines": {
+    "node": "4.x"
+  },
   "devDependencies": {
     "budo": "latest",
     "escape-string-regexp": "^1.0.3",
