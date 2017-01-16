@@ -12,7 +12,7 @@ require('../app').controller('ZoneController', function ($scope, $stateParams, $
   };
 
   controller.download = function (type) {
-    $http.get($scope.zone.linkUrl() + '.' + type).then(function (res) {
+    $http.get($scope.zone.linkUrl() + '.' + type, {responseType: 'text'}).then(function (res) {
       var contentType = res.headers('Content-Type');
       var content = res.data;
       console.log(contentType);
