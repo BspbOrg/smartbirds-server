@@ -9,8 +9,8 @@ exports.default = {
         type: 'nodemailer-mailgun-transport',
         config: {
           auth: {
-            api_key: 'key-4d3ba486161252e5ab6849854cbd1c40',
-            domain: 'sandbox9a921dbff8494e8ebb953d1b24c7771c.mailgun.org'
+            api_key: process.env.MAILGUN_API || 'key-4d3ba486161252e5ab6849854cbd1c40',
+            domain: process.env.MAILGUN_DOMAIN || 'sandbox9a921dbff8494e8ebb953d1b24c7771c.mailgun.org'
           }
         }
       },
