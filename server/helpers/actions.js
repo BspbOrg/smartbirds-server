@@ -221,6 +221,7 @@ module.exports = {
                       notes: (record.notes || '').replace(/[\n\r]+/g, ' '),
                       speciesNotes: (record.speciesNotes || '').replace(/[\n\r]+/g, ' '),
                       species: record[ 'speciesInfo.labelLa' ] + ' | ' + record[ 'speciesInfo.labelBg' ],
+                      speciesEn: record[ 'speciesInfo.labelLa' ] + ' | ' + record[ 'speciesInfo.labelEn' ],
                       pictures: (record.pictures && JSON.parse(record.pictures) || []).map(function (pic) {
                         return pic.url && pic.url.split('/').slice(-1)[ 0 ] + '.jpg';
                       }).filter(function (val) {
