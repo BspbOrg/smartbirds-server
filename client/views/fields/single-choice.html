@@ -17,7 +17,7 @@
            uib-typeahead="item as item for item in field.values | filter:$viewValue | orderBy:field.order"
     >
     <span class="input-group-btn">
-      <button ng-if="field.model && !field.required" type="button" class="btn btn-default" ng-click="field.model = null; field.onSelect()">
+      <button ng-if="field.model && !field.required" type="button" class="btn btn-default" ng-click="field.model = null; field.form[field.name].$setDirty(); field.onSelect()">
         <i class="glyphicon glyphicon-remove-circle text-danger"></i>
       </button>
       <button type="button" class="btn btn-default" uib-dropdown-toggle>
