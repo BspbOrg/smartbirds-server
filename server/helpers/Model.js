@@ -278,11 +278,11 @@ function Model(modelName_, fields_, foreignKeyDefs) {
                 switch (field.relation.model) {
                   case 'nomenclature':
                   {
-                    if (!_.has(data, name) || !data[name]) return;
+                    if (!_.has(data, name)) return;
 
                     console.log('saving nomenclature ' + name);
-                    self[name + 'Bg'] = data[name].label.bg;
-                    self[name + 'En'] = data[name].label.en;
+                    self[name + 'Bg'] = data[name] && data[name].label.bg;
+                    self[name + 'En'] = data[name] && data[name].label.en;
                     break;
                   }
                   case 'species':
