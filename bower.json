@@ -47,7 +47,7 @@
     "angular-file-upload": "~2.3.4",
     "ngstorage": "~0.3.11",
     "angular-xml": "~2.2.1",
-    "x2js": "~1.1.7",
+    "x2js": "~1.2.0",
     "angular-bootstrap-lightbox": "~0.12.0"
   },
   "resolutions": {
