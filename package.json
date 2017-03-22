@@ -91,7 +91,7 @@
     "ui.bootstrap": "./bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
     "uiGmapgoogle-maps": "./bower_components/angular-google-maps/dist/angular-google-maps.js",
     "ngSanitize": "./bower_components/angular-sanitize/angular-sanitize.js",
-    "angular-simple-logger": "./bower_components/angular-simple-logger/dist/index.js",
+    "angular-simple-logger": "./bower_components/angular-simple-logger/dist/index.light.js",
     "ui.router": "./bower_components/angular-ui-router/release/angular-ui-router.js",
     "ui.select": "./bower_components/ui-select/dist/select.js",
     "chance": "./bower_components/chance/chance.js",
@@ -103,7 +103,6 @@
     "ngToast": "./bower_components/ngToast/dist/ngToast.js",
     "ngAnimate": "./bower_components/angular-animate/angular-animate.js",
     "ngInfiniteScroll": "./bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js",
-    "debug": "./node_modules/debug/browser.js",
     "angular-loading-bar": "./bower_components/angular-loading-bar/build/loading-bar.js",
     "raven-js": "./bower_components/raven-js/dist/raven.js",
     "raven-js-angular": "./bower_components/raven-js/dist/plugins/angular.js",
@@ -239,11 +238,6 @@
     "angular-bootstrap-lightbox": {
       "depends": [
         "angular:angular"
-      ]
-    },
-    "angular-simple-logger": {
-      "depends": [
-        "debug:debug"
       ]
     }
   },
