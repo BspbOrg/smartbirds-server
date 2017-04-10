@@ -24,22 +24,31 @@ module.exports.mailchimp = {
           var u = users.splice(0, 250)
           var p = api.mailchimp.client.post('/lists/'+api.config.mailchimp.list_id, {
             members: u.map(function (user) {
+              var fields = {
+                FNAME: user.firstName,
+                LNAME: user.lastName,
+                ADDRESS: user.address,
+                BIRDSKNOW: user.birdsKnowledge,
+                CITY: user.city,
+                CBMLEVEL: user.level,
+                MOBILE: user.mobile,
+                NOTES: user.notes,
+                PHONE: user.phone,
+                POSTCODE: user.postcode,
+                PROFILE: user.profile,
+              }
+
+              for (var key in fields) {
+                if (!fields.hasOwnProperty(key)) continue
+                if (!fields[key]) delete fields[key]
+              }
+
+              api.log('update '+user.email, 'info', fields)
+
               return {
                 email_address: user.email,
                 status: 'subscribed',
-                merge_fields: {
-                  FNAME: user.firstName,
-                  LNAME: user.lastName,
-                  ADDRESS: user.address,
-                  BIRDSKNOW: user.birdsKnowledge,
-                  CITY: user.city,
-                  CBMLEVEL: user.level,
-                  MOBILE: user.mobile,
-                  NOTES: user.notes,
-                  PHONE: user.phone,
-                  POSTCODE: user.postcode,
-                  PROFILE: user.profile,
-                },
+                merge_fields: fields,
               }
             }),
             update_existing: true,
