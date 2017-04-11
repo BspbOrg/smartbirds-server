@@ -3,8 +3,9 @@
  */
 
 var angular = require('angular');
+var md5 = require('blueimp-md5');
 
-require('../app').factory('User', function ($resource, ENDPOINT_URL) {
+require('../app').factory('User', function ($resource, BANNER_BASE_URL, ENDPOINT_URL) {
   var ROLE_ADMIN = 'admin';
 
   var User = $resource(ENDPOINT_URL+'/user/:id', {
@@ -24,7 +25,10 @@ require('../app').factory('User', function ($resource, ENDPOINT_URL) {
     },
     toString: function () {
       return this.getName();
-    }
+    },
+    getBannerUrl: function () {
+      return this.bannerUrl = this.bannerUrl || BANNER_BASE_URL + md5(this.id)+ '.png'
+    },
   });
 
   return User;

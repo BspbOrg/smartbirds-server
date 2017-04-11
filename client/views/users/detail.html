@@ -99,6 +99,40 @@
       <field name="notes" type="memo"
              label="Бележки"
              model="user.data.notes"></field>
+
+      <hr>
+
+      <h3>Подпис</h3>
+
+      <img ng-src="{{user.data.getBannerUrl()}}">
+
+      <div class="form-group">
+        <label class="control-label"
+               for="banner1">Вграждане в BB forum</label>
+        <input type="text"
+               id="banner1"
+               class="form-control"
+               value="[URL=https://smartbirds.org/][IMG]{{user.data.getBannerUrl()}}[/IMG][/URL]"
+               readonly>
+      </div>
+      <div class="form-group">
+        <label class="control-label"
+               for="banner3">Алтернативно вграждане в BB forum</label>
+        <input type="text"
+               id="banner3"
+               class="form-control"
+               value="[URL=https://smartbirds.org/][IMG={{user.data.getBannerUrl()}}][/IMG][/URL]"
+               readonly>
+      </div>
+      <div class="form-group">
+        <label class="control-label"
+               for="banner2">Вграждане в HTML</label>
+        <input type="text"
+               id="banner2"
+               class="form-control"
+               value='<a href="https://smartbirds.org/"><img src="{{user.data.getBannerUrl()}}" border="0"></a>'
+               readonly>
+      </div>
     </form>
   </div>
 </div>
