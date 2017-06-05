@@ -4,7 +4,7 @@
 
 var angular = require('angular');
 
-require('../app').factory('FormCiconia', function ($resource, ENDPOINT_URL, db) {
+require('../app').factory('FormCiconia', /*@ngInject*/function ($resource, ENDPOINT_URL, db) {
 
   var FormCiconia = $resource(ENDPOINT_URL + '/ciconia/:id', {
     id: '@id'

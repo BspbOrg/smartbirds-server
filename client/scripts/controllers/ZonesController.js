@@ -3,7 +3,7 @@
  */
 
 var angular = require('angular');
-require('../app').controller('ZonesController', function ($scope, $state, $stateParams, Zone, GMAP_KEY, user, User) {
+require('../app').controller('ZonesController', /*@ngInject*/function ($scope, $state, $stateParams, Zone, GMAP_KEY, user, User) {
   var controller = this;
 
   $scope.zoneStatuses = Zone.statuses();

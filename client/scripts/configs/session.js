@@ -3,7 +3,7 @@
  */
 
 require('../app')
-  .config(function ($httpProvider) {
+  .config(/*@ngInject*/function ($httpProvider) {
     $httpProvider.defaults.xsrfHeaderName = 'x-sb-csrf-token';
     $httpProvider.defaults.xsrfCookieName = 'sb-csrf-token';
     $httpProvider.interceptors.push('csrfInterceptor');

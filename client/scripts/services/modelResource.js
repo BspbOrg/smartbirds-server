@@ -32,7 +32,7 @@ function modify(Model, original) {
   }
 }
 
-require('../app').factory('modelResource', function($resource, ENDPOINT_URL){
+require('../app').factory('modelResource', /*@ngInject*/function($resource, ENDPOINT_URL){
   return function(Model, url, paramDefaults, actions, options) {
     var resource = $resource(ENDPOINT_URL+url, paramDefaults, actions, options);
 

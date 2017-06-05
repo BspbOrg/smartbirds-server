@@ -4,7 +4,7 @@
 
 var angular = require('angular');
 
-require('../app').factory('Visit', function ($resource, ENDPOINT_URL, Location) {
+require('../app').factory('Visit', /*@ngInject*/function ($resource, ENDPOINT_URL, Location) {
 
   var Visit = $resource(ENDPOINT_URL + '/visit/:year', {
     year: '@year'

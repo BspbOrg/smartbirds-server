@@ -2,7 +2,7 @@ var angular = require('angular');
 var forms = require('./forms');
 var module = require('../app');
 
-module.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
+module.config(/*@ngInject*/function ($locationProvider, $stateProvider, $urlRouterProvider) {
 
     $locationProvider.html5Mode(true);
 

@@ -2,7 +2,7 @@
  * Created by groupsky on 20.11.15.
  */
 
-require('../app').controller('ZoneController', function ($scope, $stateParams, $window, $http, Zone) {
+require('../app').controller('ZoneController', /*@ngInject*/function ($scope, $stateParams, $window, $http, Zone) {
   var controller = this;
 
   $scope.zone = Zone.get({id: $stateParams.id});

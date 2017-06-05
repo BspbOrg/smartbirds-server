@@ -4,7 +4,7 @@
 
 var angular = require('angular');
 
-require('../app').factory('FormCBM', function ($resource, ENDPOINT_URL, db) {
+require('../app').factory('FormCBM', /*@ngInject*/function ($resource, ENDPOINT_URL, db) {
 
   var FormCBM = $resource(ENDPOINT_URL + '/cbm/:id', {
     id: '@id'

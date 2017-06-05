@@ -6,7 +6,7 @@ var angular = require('angular'),
   isDefined = angular.isDefined,
   isUndefined = angular.isUndefined;
 
-require('../app').factory('Zone', function ($resource, ENDPOINT_URL, Location) {
+require('../app').factory('Zone', /*@ngInject*/function ($resource, ENDPOINT_URL, Location) {
 
   var Zone = $resource(ENDPOINT_URL + '/zone/:id', {
     id: '@id'

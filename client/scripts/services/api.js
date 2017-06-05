@@ -3,7 +3,7 @@
  */
 
 var angular = require('angular');
-require('../app').service('api', function ($log, $http, $resource, $q, $window, ENDPOINT_URL, User) {
+require('../app').service('api', /*@ngInject*/function ($log, $http, $resource, $q, $window, ENDPOINT_URL, User) {
 
   var api = this;
 

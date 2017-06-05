@@ -2,7 +2,7 @@
  * Created by groupsky on 18.11.15.
  */
 
-require('../app').directive('sortableColumn', function ($timeout) {
+require('../app').directive('sortableColumn', /*@ngInject*/function ($timeout) {
     return {
       restrict: 'A',
       link: function (scope, element, attr) {

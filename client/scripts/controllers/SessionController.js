@@ -2,7 +2,7 @@
  * Created by groupsky on 10.11.15.
  */
 
-require('../app').controller('SessionController', function ($log,
+require('../app').controller('SessionController', /*@ngInject*/function ($log,
                                                             $rootScope,
                                                             $scope,
                                                             $state,

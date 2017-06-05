@@ -2,7 +2,7 @@
  * Created by groupsky on 11.11.15.
  */
 
-require('../app').service('authorization', function ($log, $q, $rootScope, $state, $timeout, User, user) {
+require('../app').service('authorization', /*@ngInject*/function ($log, $q, $rootScope, $state, $timeout, User, user) {
   var service = this;
 
   function check() {

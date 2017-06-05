@@ -2,7 +2,7 @@
  * Created by groupsky on 18.11.15.
  */
 
-require('../app').controller('UsersController', function($filter, $scope, User){
+require('../app').controller('UsersController', /*@ngInject*/function($filter, $scope, User){
 
   var controller = this;
   var filter = $filter('filter');

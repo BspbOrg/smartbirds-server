@@ -4,7 +4,7 @@
 
 var angular = require('angular');
 
-require('../app').factory('FormBirds', function ($localStorage, $resource, ENDPOINT_URL, db) {
+require('../app').factory('FormBirds', /*@ngInject*/function ($localStorage, $resource, ENDPOINT_URL, db) {
 
   var FormBirds = $resource(ENDPOINT_URL + '/birds/:id', {
     id: '@id'

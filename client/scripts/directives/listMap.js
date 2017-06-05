@@ -9,7 +9,7 @@ require("../app").directive('listMap', /*@ngInject*/function ($filter, $http, db
       ctrl: '=?',
     },
     bindToController: true,
-    controller: function ($scope) {
+    controller: /*@ngInject*/function ($scope) {
       var $ctrl = this;
 
       angular.extend($ctrl, {

@@ -2,7 +2,7 @@
  * Created by groupsky on 10.11.15.
  */
 
-require('../app').service('flashService', function($rootScope) {
+require('../app').service('flashService', /*@ngInject*/function($rootScope) {
   var service = this;
 
   service.flash = function(type, message, keep) {

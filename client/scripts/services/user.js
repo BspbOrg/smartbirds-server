@@ -3,7 +3,7 @@
  */
 
 require('../app')
-  .service('user', function ($q, $cookies, api) {
+  .service('user', /*@ngInject*/function ($q, $cookies, api) {
 
     var service = this;
 
