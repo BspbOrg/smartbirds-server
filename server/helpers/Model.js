@@ -41,7 +41,7 @@ var commonFields = {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: {type: 'main_rain'}
+      filter: { type: 'main_rain' }
     }
   },
   temperature: 'num',
@@ -49,21 +49,21 @@ var commonFields = {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: {type: 'main_wind_direction'}
+      filter: { type: 'main_wind_direction' }
     }
   },
   windSpeed: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: {type: 'main_wind_force'}
+      filter: { type: 'main_wind_force' }
     }
   },
   cloudiness: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: {type: 'main_cloud_level'}
+      filter: { type: 'main_cloud_level' }
     }
   },
   cloudsType: 'text',
@@ -74,7 +74,7 @@ var commonFields = {
     type: 'multi',
     relation: {
       model: 'nomenclature',
-      filter: {type: 'main_threats'}
+      filter: { type: 'main_threats' }
     }
   },
   pictures: 'json',
@@ -103,7 +103,7 @@ var commonFields = {
 
 module.exports = Model;
 
-function Model(modelName_, fields_, foreignKeyDefs) {
+function Model (modelName_, fields_, foreignKeyDefs) {
   if (!(this instanceof Model)) return new Model(modelName_, fields_, foreignKeyDefs);
   var fields = _.extend(fields_, commonFields);
   var schema = generateSchema(fields);
@@ -120,11 +120,11 @@ function Model(modelName_, fields_, foreignKeyDefs) {
   };
 
   this.getEditInputs = function () {
-    var editInputs = {id: {required: true}};
+    var editInputs = { id: { required: true } };
     for (var prop in fields) {
       if (prop == 'createdAt' || prop == 'updatedAt' || prop == 'imported')
         continue;
-      editInputs[prop] = {};
+      editInputs[ prop ] = {};
     }
 
     return editInputs;
@@ -135,7 +135,7 @@ function Model(modelName_, fields_, foreignKeyDefs) {
     for (var prop in fields) {
       if (prop == 'createdAt' || prop == 'updatedAt' || prop == 'imported')
         continue;
-      insertInputs[prop] = {required: fields[prop].required && prop != 'user'};
+      insertInputs[ prop ] = { required: fields[ prop ].required && prop != 'user' };
     }
 
     return insertInputs;
@@ -149,16 +149,16 @@ function Model(modelName_, fields_, foreignKeyDefs) {
     var model = sequelize.define(modelName, modelFieldDef, {
       freezeTableName: true,
       indexes: [
-        {fields: ['species']},
-        {fields: ['userId']}
+        { fields: [ 'species' ] },
+        { fields: [ 'userId' ] }
       ],
       classMethods: {
         associate: function (models) {
           if (!foreignKeys || foreignKeys.length <= 0)
             return;
           for (var i = 0; i < foreignKeys.length; i += 1) {
-            var foreignKey = foreignKeys[i];
-            models[modelLoweredName].belongsTo(models[foreignKey.targetModelName], {
+            var foreignKey = foreignKeys[ i ];
+            models[ modelLoweredName ].belongsTo(models[ foreignKey.targetModelName ], {
               as: foreignKey.as,
               foreignKey: foreignKey.foreignKey,
               targetKey: foreignKey.targetKey
@@ -172,7 +172,7 @@ function Model(modelName_, fields_, foreignKeyDefs) {
           var data = {};
           var self = this;
           return Promise.props(_.mapValues(fields, function (field, name) {
-            if (_.isString(field)) field = {type: field};
+            if (_.isString(field)) field = { type: field };
             switch (field.type) {
               case 'multi':
               {
@@ -180,10 +180,10 @@ function Model(modelName_, fields_, foreignKeyDefs) {
                   case 'nomenclature':
                   {
                     var res = [];
-                    var bg = self[name + 'Bg'] && self[name + 'Bg'].split('|').map(function (val) {
+                    var bg = self[ name + 'Bg' ] && self[ name + 'Bg' ].split('|').map(function (val) {
                         return val.trim();
                       }) || [];
-                    var en = self[name + 'En'] && self[name + 'En'].split('|').map(function (val) {
+                    var en = self[ name + 'En' ] && self[ name + 'En' ].split('|').map(function (val) {
                         return val.trim();
                       }) || [];
                     while (bg.length && en.length) {
@@ -205,20 +205,20 @@ function Model(modelName_, fields_, foreignKeyDefs) {
                 switch (field.relation.model) {
                   case 'nomenclature':
                   {
-                    return (self[name + 'Bg'] || self[name + 'En']) && {
+                    return (self[ name + 'Bg' ] || self[ name + 'En' ]) && {
                         label: {
-                          bg: self[name + 'Bg'],
-                          en: self[name + 'En']
+                          bg: self[ name + 'Bg' ],
+                          en: self[ name + 'En' ]
                         }
                       } || null;
                   }
                   case 'species':
                   {
-                    return self[name];
+                    return self[ name ];
                   }
                   case 'user':
                   {
-                    return self[name + 'Id'];
+                    return self[ name + 'Id' ];
                   }
                   default:
                     return Promise.reject(new Error('[' + name + '] Unhandled relation model ' + field.relation.model));
@@ -226,10 +226,10 @@ function Model(modelName_, fields_, foreignKeyDefs) {
               }
               case 'json':
               {
-                return self[name] && JSON.parse(self[name]);
+                return self[ name ] && JSON.parse(self[ name ]);
               }
               default:
-                return self[name];
+                return self[ name ];
             }
           })).then(function (data) {
             data.id = self.id;
@@ -243,7 +243,7 @@ function Model(modelName_, fields_, foreignKeyDefs) {
           var self = this;
 
           _.forEach(fields, function (field, name) {
-            if (_.isString(field)) field = {type: field};
+            if (_.isString(field)) field = { type: field };
             switch (field.type) {
               case 'multi':
               {
@@ -252,17 +252,17 @@ function Model(modelName_, fields_, foreignKeyDefs) {
                   {
                     if (!_.has(data, name)) return;
 
-                    var val = data[name];
+                    var val = data[ name ];
 
                     if (!val) {
-                      self[name + 'Bg'] = null;
-                      self[name + 'En'] = null;
+                      self[ name + 'Bg' ] = null;
+                      self[ name + 'En' ] = null;
                     }
-                    if (!_.isArray(val)) val = [val];
-                    self[name + 'Bg'] = _.reduce(val, function (sum, v) {
+                    if (!_.isArray(val)) val = [ val ];
+                    self[ name + 'Bg' ] = _.reduce(val, function (sum, v) {
                       return sum + (sum && ' | ' || '') + v.label.bg;
                     }, '');
-                    self[name + 'En'] = _.reduce(val, function (sum, v) {
+                    self[ name + 'En' ] = _.reduce(val, function (sum, v) {
                       return sum + (sum && ' | ' || '') + v.label.en;
                     }, '');
 
@@ -281,22 +281,22 @@ function Model(modelName_, fields_, foreignKeyDefs) {
                     if (!_.has(data, name)) return;
 
                     console.log('saving nomenclature ' + name);
-                    self[name + 'Bg'] = data[name] && data[name].label.bg;
-                    self[name + 'En'] = data[name] && data[name].label.en;
+                    self[ name + 'Bg' ] = data[ name ] && data[ name ].label.bg;
+                    self[ name + 'En' ] = data[ name ] && data[ name ].label.en;
                     break;
                   }
                   case 'species':
                   {
                     if (!_.has(data, name)) return;
 
-                    self[name] = data[name];
+                    self[ name ] = data[ name ];
                     break;
                   }
                   case 'user':
                   {
                     if (!_.has(data, name)) return;
 
-                    self[name + 'Id'] = data[name];
+                    self[ name + 'Id' ] = data[ name ];
                     break;
                   }
                   default:
@@ -309,12 +309,12 @@ function Model(modelName_, fields_, foreignKeyDefs) {
               case 'json':
                 if (!_.has(data, name)) return;
 
-                self[name] = JSON.stringify(data[name]);
+                self[ name ] = JSON.stringify(data[ name ]);
                 break;
               default:
                 if (!_.has(data, name)) return;
 
-                self[name] = data[name];
+                self[ name ] = data[ name ];
                 break;
             }
           });
@@ -324,8 +324,8 @@ function Model(modelName_, fields_, foreignKeyDefs) {
       }
     });
 
-    ['beforeCreate', 'beforeUpdate', 'beforeSync', 'beforeSave'].forEach(function(hook){
-      model.hook(hook, function(instance) {
+    [ 'beforeCreate', 'beforeUpdate', 'beforeSync', 'beforeSave' ].forEach(function (hook) {
+      model.hook(hook, function (instance) {
         console.log('hook', hook, typeof this, typeof instance);
       });
       model.hook(hook, updateHash);
@@ -333,7 +333,7 @@ function Model(modelName_, fields_, foreignKeyDefs) {
 
     return model;
 
-    function updateHash(instance) {
+    function updateHash (instance) {
       instance.hash = instance.calculateHash();
     }
   };
@@ -341,7 +341,7 @@ function Model(modelName_, fields_, foreignKeyDefs) {
   return this;
 }
 
-function generateSchema(fields, resultObj) {
+function generateSchema (fields, resultObj) {
   var fieldsDef = resultObj || {};
 
   if (!('hash' in fieldsDef)) {
@@ -350,7 +350,7 @@ function generateSchema(fields, resultObj) {
 
   _.forEach(fields, function (field, name) {
     if (_.isString(field)) {
-      field = {type: field};
+      field = { type: field };
     }
 
     var fd = {
@@ -364,24 +364,24 @@ function generateSchema(fields, resultObj) {
         switch (field.relation.model) {
           case 'nomenclature':
           {
-            fieldsDef[name + 'Bg'] = _.extend({
+            fieldsDef[ name + 'Bg' ] = _.extend({
               type: Sequelize.TEXT
             }, fd);
-            fieldsDef[name + 'En'] = _.extend({
+            fieldsDef[ name + 'En' ] = _.extend({
               type: Sequelize.TEXT
             }, fd);
             break;
           }
           case 'species':
           {
-            fieldsDef[name] = _.extend({
+            fieldsDef[ name ] = _.extend({
               type: Sequelize.TEXT
             }, fd);
             break;
           }
           case 'zone':
           {
-            fieldsDef[name + 'Id'] = _.extend({
+            fieldsDef[ name + 'Id' ] = _.extend({
               type: field.type === 'multi'
                 ? Sequelize.TEXT
                 : Sequelize.STRING(10)
@@ -390,7 +390,7 @@ function generateSchema(fields, resultObj) {
           }
           case 'user':
           {
-            fieldsDef[name + 'Id'] = _.extend({
+            fieldsDef[ name + 'Id' ] = _.extend({
               type: field.type === 'multi'
                 ? Sequelize.TEXT
                 : Sequelize.INTEGER
@@ -404,7 +404,7 @@ function generateSchema(fields, resultObj) {
       }
       case 'timestamp':
       {
-        fieldsDef[name] = _.extend({
+        fieldsDef[ name ] = _.extend({
           type: Sequelize.DATE
         }, fd);
         break;
@@ -413,7 +413,7 @@ function generateSchema(fields, resultObj) {
       case '+num':
       case 'num':
       {
-        fieldsDef[name] = _.extend({
+        fieldsDef[ name ] = _.extend({
           type: Sequelize.FLOAT
         }, fd);
         break;
@@ -421,28 +421,28 @@ function generateSchema(fields, resultObj) {
       case '+int':
       case 'int':
       {
-        fieldsDef[name] = _.extend({
+        fieldsDef[ name ] = _.extend({
           type: Sequelize.INTEGER
         }, fd);
         break;
       }
       case 'text':
       {
-        fieldsDef[name] = _.extend({
+        fieldsDef[ name ] = _.extend({
           type: Sequelize.TEXT
         }, fd);
         break;
       }
       case 'boolean':
       {
-        fieldsDef[name] = _.extend({
+        fieldsDef[ name ] = _.extend({
           type: Sequelize.BOOLEAN
         }, fd);
         break;
       }
       case 'json':
       {
-        fieldsDef[name] = _.extend({
+        fieldsDef[ name ] = _.extend({
           type: Sequelize.TEXT
         }, fd);
         break;
@@ -455,21 +455,39 @@ function generateSchema(fields, resultObj) {
   return fieldsDef;
 }
 
-function generateCalcHash(fields) {
+function serialize (obj) {
+  if (Array.isArray(obj)) {
+    return JSON.stringify(obj.map(function (item) { return serialize(item) }))
+  }
+  if (typeof obj !== 'object' || obj === null) return obj
+  return '{' + Object.keys(obj)
+      .sort()
+      .map(function (key) {
+        return '"' + key + '":' + serialize(obj[ key ])
+      })
+      .join(',') + '}'
+}
+
+function generateCalcHash (fields) {
   var hashFields = [];
 
-  var schemaFields = Model.generateSchema(_.pickBy(fields, function(field){
+  var schemaFields = Model.generateSchema(_.pickBy(fields, function (field) {
     return field.uniqueHash;
   }));
-  _.forOwn(schemaFields, function(def, key) {
+  _.forOwn(schemaFields, function (def, key) {
     if (key !== 'hash') hashFields.push(key);
   });
   schemaFields = null;
   if (!hashFields.length) throw new Error('no hash fields defined!');
+  hashFields.sort()
 
-  return function() {
+  return function () {
+    var serialized = '{' + hashFields
+        .filter(function (key) { return key in this }, this)
+        .map(function (key) { return '"' + key + '":' + serialize(this[ key ]) }, this)
+        .join(',') + '}'
     var hash = crypto.createHash('sha256');
-    hash.update(JSON.stringify(_.pick(this, hashFields)));
+    hash.update(serialized);
     return hash.digest('hex');
   }
 
