@@ -459,7 +459,9 @@ function serialize (obj) {
   if (Array.isArray(obj)) {
     return JSON.stringify(obj.map(function (item) { return serialize(item) }))
   }
-  if (typeof obj !== 'object' || obj === null) return obj
+  if (obj === undefined) return JSON.stringify(null)
+  if (typeof obj !== 'object' || obj === null) return JSON.stringify(obj)
+  if (obj instanceof Date) return JSON.stringify(obj)
   return '{' + Object.keys(obj)
       .sort()
       .map(function (key) {
@@ -488,9 +490,9 @@ function generateCalcHash (fields) {
         .join(',') + '}'
     var hash = crypto.createHash('sha256');
     hash.update(serialized);
-    return hash.digest('hex');
+    var dig = hash.digest('hex');
+    return dig
   }
-
 }
 
 Model.generateSchema = generateSchema;
