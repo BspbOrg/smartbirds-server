@@ -2,11 +2,14 @@ var blobs = require('content-addressable-blob-store');
 var concat = require('concat-stream');
 var fs = require('fs');
 var lookup = require('mime-types').lookup;
+var zlib = require('zlib');
+var sharp = require('sharp');
+var stream = require('stream');
 
 module.exports = {
   initialize: function (api, next) {
-    api.config.servers.web.formOptions.uploadDir = api.config.servers.web.formOptions.uploadDir || api.config.general.paths.fileupload[0];
-    api.config.filestorage.path = api.config.filestorage.path || api.config.general.paths.monitoring[0];
+    api.config.servers.web.formOptions.uploadDir = api.config.servers.web.formOptions.uploadDir || api.config.general.paths.fileupload[ 0 ];
+    api.config.filestorage.path = api.config.filestorage.path || api.config.general.paths.monitoring[ 0 ];
 
     api.log('initializing filestorage at %s', 'info', api.config.filestorage.path);
     api.filestorage = {
@@ -28,8 +31,10 @@ module.exports = {
           extra = undefined;
         }
         var self = this;
-        var r = fs.createReadStream(file.path);
-        r.on('error', function(err) {
+        var filters = {};
+        var mime = lookup(file.name) || 'application/octet-stream';
+        var r = fs.createReadStream(file.path).pipe(api.filestorage.deflator(mime, filters));
+        r.on('error', function (err) {
           api.log('read stream error', 'error', err);
           next(err);
         });
@@ -52,7 +57,8 @@ module.exports = {
             blob: wb.key,
             length: wb.size,
             custom: extra,
-            type: lookup(file.name) || 'application/octet-stream',
+            type: mime,
+            filters: filters,
           };
           wm.write(JSON.stringify(meta));
           wm.end(function () {
@@ -80,12 +86,31 @@ module.exports = {
           try {
             var meta = JSON.parse(data);
             api.log('blob %s => %s', 'debug', id, meta);
-            next(null, self.storage.createReadStream(meta.blob), meta);
+            next(null, self.storage.createReadStream(meta.blob).pipe(api.filestorage.inflator(meta.type || 'application/octet-stream', meta.filters || {})), meta);
           } catch (e) {
             return next(e);
           }
         }));
-      }
+      },
+
+      inflator: function (mime, filters) {
+        if (filters.gzip) {
+          return zlib.createGzip();
+        }
+        return new stream.PassThrough();
+      },
+
+      deflator: function (mime, filters) {
+        if (mime.startsWith('image/')) {
+          api.log('detected image, will downsample to 1024');
+          filters.downsample = 1024;
+          return sharp().resize(1024, 1024).max().withoutEnlargement().jpeg({ force: false });
+        } else if ('application/gpx+xml' === mime) {
+          filters.gzip = true;
+          return zlib.createGzip();
+        }
+        return new stream.PassThrough();
+      },
     };
     next();
   }
