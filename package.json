@@ -123,7 +123,8 @@
     "x2js": "./bower_components/x2js/xml2json.js",
     "angular-xml": "./bower_components/angular-xml/angular-xml.js",
     "angular-bootstrap-lightbox": "./bower_components/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.js",
-    "debug": "./node_modules/debug/src/debug.js"
+    "debug": "./node_modules/debug/src/debug.js",
+    "angular-translate": "./bower_components/angular-translate/angular-translate.js"
   },
   "browserify-shim": {
     "angular": "angular",
@@ -245,6 +246,11 @@
       ]
     },
     "angular-bootstrap-lightbox": {
+      "depends": [
+        "angular:angular"
+      ]
+    },
+    "angular-translate": {
       "depends": [
         "angular:angular"
       ]

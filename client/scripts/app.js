@@ -31,6 +31,7 @@ require('ngstorage');
 require('x2js');
 require('angular-xml');
 require('angular-bootstrap-lightbox');
+require('angular-translate');
 
 var dependencies = [
   'ngLocale',
@@ -70,6 +71,8 @@ var dependencies = [
   'xml',
 
   'bootstrapLightbox',
+
+  'pascalprecht.translate',
 ];
 
 Raven.config('https://b17f1c87d9e346a8bd82335294450e57@app.getsentry.com/71564').addPlugin(require('raven-js-angular'), angular).install();

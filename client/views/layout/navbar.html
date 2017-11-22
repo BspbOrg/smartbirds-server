@@ -4,57 +4,55 @@
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" ng-click="navbar.collapsed = !navbar.collapsed">
-        <span class="sr-only">Toggle navigation</span>
+        <span class="sr-only" translate>TOGGLE_NAVIGATION</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand topnav" ui-sref="home">
-        SmartBirds
-      </a>
+      <a class="navbar-brand topnav" ui-sref="home" translate>SITE_NAME</a>
     </div>
 
     <nav class="navbar-collapse" uib-collapse="!navbar.collapsed">
       <ul class="nav navbar-nav navbar-right">
         <li ng-if="'home' | isState">
-          <a href ui-sref="home" sb-scroll-to="[name=forms]">Форми</a>
+          <a href ui-sref="home" sb-scroll-to="[name=forms]" translate>NAV_FORMS</a>
         </li>
         <li ng-if="$state.current.name!=='home'" class="dropdown" uib-dropdown>
           <a href role="button" id="forms-dropdown" type="button" class="dropdown-toggle" uib-dropdown-toggle>
-            Форми
+            <span translate>NAV_FORMS</span>
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="forms-dropdown">
-            <li title="Мониторинг на обикновенните видове птици"><a href ui-sref="cbm">
+            <li translate-attr="{title: 'FORM_CBM_LONG'}"><a href ui-sref="cbm">
               <i class="icon icon-cbm icon-fw"></i>
-              МОВП
+              <span translate>FORM_CBM_SHORT</span>
             </a></li>
-            <li title="Стандартна форма птици"><a href ui-sref="birds">
+            <li translate-attr="{title: 'FORM_BIRDS_LONG'}"><a href ui-sref="birds">
               <i class="icon icon-birds icon-fw"></i>
-              Птици
+              <span translate>FORM_BIRDS_SHORT</span>
             </a></li>
-            <li title="Земноводни, влечуги и бозайници"><a href ui-sref="herp">
+            <li translate-attr="{title: 'FORM_HERP_LONG'}"><a href ui-sref="herp">
               <i class="icon icon-herp icon-fw"></i>
-              ЗВБ
+              <span translate>FORM_HERP_SHORT</span>
             </a></li>
-            <li title="Бял щъркел"><a href ui-sref="ciconia">
+            <li translate-attr="{title: 'FORM_CICONIA_LONG'}"><a href ui-sref="ciconia">
               <i class="icon icon-ciconia icon-fw"></i>
-              Бял щъркел
+              <span translate>FORM_CICONIA_SHORT</span>
             </a></li>
           </ul>
         </li>
         <li>
-          <a href ui-sref="home" sb-scroll-to="[name=about]">За проекта</a>
+          <a href ui-sref="home" sb-scroll-to="[name=about]" translate>NAV_ABOUT</a>
         </li>
         <li>
-          <a href ui-sref="home" sb-scroll-to="[name=funding]">Финансиране</a>
+          <a href ui-sref="home" sb-scroll-to="[name=funding]" translate>NAV_FUNDING</a>
         </li>
         <li>
-          <a href ui-sref="home" sb-scroll-to="[name=mobile]">Мобилно приложение</a>
+          <a href ui-sref="home" sb-scroll-to="[name=mobile]" translate>NAV_MOBILE</a>
         </li>
         <li>
-          <a href ng-if="!$user.isAuthenticated()" ui-sref="login">Вход</a>
-          <a href ng-if="$user.isAuthenticated()" ui-sref="auth.dashboard">Начало</a>
+          <a href ng-if="!$user.isAuthenticated()" ui-sref="login" translate>NAV_LOGIN</a>
+          <a href ng-if="$user.isAuthenticated()" ui-sref="auth.dashboard" translate>NAV_DASHBOARD</a>
         </li>
       </ul>
     </nav>

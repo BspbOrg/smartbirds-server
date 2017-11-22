@@ -48,7 +48,8 @@
     "ngstorage": "~0.3.11",
     "angular-xml": "~2.2.1",
     "x2js": "~1.2.0",
-    "angular-bootstrap-lightbox": "~0.12.0"
+    "angular-bootstrap-lightbox": "~0.12.0",
+    "angular-translate": "^2.16.0"
   },
   "resolutions": {
     "font-awesome": "~4.5.0"
