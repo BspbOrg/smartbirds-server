@@ -8,32 +8,32 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="intro-message">
-          <h1>SmartBirds</h1>
-          <h3>Информационна система с биологична информация към БДЗП</h3>
+          <h1 translate>HOME_INTRO_HEAD</h1>
+          <h3>HOME_INTRO_SUBHEAD</h3>
           <hr class="intro-divider">
           <ul class="list-inline intro-social-buttons">
             <li>
-              <a ui-sref="cbm" class="btn btn-default btn-lg" title="Мониторинг на обикновенните видове птици">
+              <a ui-sref="cbm" class="btn btn-default btn-lg" translate-attr="{title: 'FORM_CBM_LONG'}">
                 <i class="icon icon-cbm"></i>
-                <span class="network-name">МОВП</span>
+                <span class="network-name" translate>FORM_CBM_SHORT</span>
               </a>
             </li>
             <li>
-              <a ui-sref="birds" class="btn btn-default btn-lg" title="Стандартна форма птици">
+              <a ui-sref="birds" class="btn btn-default btn-lg" translate-attr="{title: 'FORM_BIRDS_LONG'}">
                 <i class="icon icon-birds"></i>
-                <span class="network-name">Птици</span>
+                <span class="network-name" translate>FORM_BIRDS_SHORT</span>
               </a>
             </li>
             <li>
-              <a ui-sref="herp" class="btn btn-default btn-lg" title="Земноводни, влечуги и бозайници">
+              <a ui-sref="herp" class="btn btn-default btn-lg" translate-attr="{title: 'FORM_HERP_LONG'}">
                 <i class="icon icon-herp"></i>
-                <span class="network-name">ЗВБ</span>
+                <span class="network-name" translate>FORM_HERP_SHORT</span>
               </a>
             </li>
             <li>
-              <a ui-sref="ciconia" class="btn btn-default btn-lg">
+              <a ui-sref="ciconia" class="btn btn-default btn-lg" translate-attr="{title: 'FORM_CICONIA_LONG'}">
                 <i class="icon icon-ciconia"></i>
-                <span class="network-name">Бял щъркел</span>
+                <span class="network-name" translate>FORM_CICONIA_SHORT</span>
               </a>
             </li>
           </ul>
@@ -58,30 +58,18 @@
       <div class="col-lg-5 col-sm-6">
         <hr class="section-heading-spacer">
         <div class="clearfix"></div>
-        <h2 class="section-heading">Включи се в наблюденията</h2>
-        <p class="lead text-justify">
-          Съвременните познания за разпространението и числеността на дивите животни са задължително условие
-          за тяхното ефективно опазване. Чрез мобилното приложение 
-          <a target="_blank" href="https://play.google.com/store/apps/details?id=org.bspb.smartbirds.pro">SmartBirds&nbsp;Pro</a>
-          всеки от нас може да допринесе за проследяване на промените в българските популации на дивите птици,
-          бозайници, земноводни и влечуги. Достатъчно е да инсталирате приложението на вашето мобилно устройство
-          под Android и да записвате всяко наблюдавано от Вас диво животно.
-          <a target="_blank" href="https://play.google.com/store/apps/details?id=org.bspb.smartbirds.pro">SmartBirds&nbsp;Pro</a>
-          е удобно за използване както за професионални цели при провеждането на специализиран мониторинг,
-          така и за единични наблюдения на запалени природолюбители. Подробни <strong>инструкции за работа с приложението
-          можете да намерите <a href="/files/smartbirds-help-2.5.6-2015.pdf" target="_blank">тук</a></strong>.
-        </p>
+        <h2 class="section-heading" translate>MOBILE_HEAD</h2>
+        <p class="lead text-justify" translate translate-values="{
+          mobileLinkStart: '<a href=\'https://play.google.com/store/apps/details?id=org.bspb.smartbirds.pro\' target=\'_blank\'>',
+          mobileLinkEnd: '</a>',
+          instructionLinkStart: '<a href=\'/files/smartbirds-help-2.5.6-2015.pdf\' target=\'_blank\'>',
+          instructionLinkEnd: '</a>'
+          }">MOBILE_BODY1</p>
 
-        <p class="lead text-justify">
-          За хората, прекарващи много време сред природата препоръчваме и любителското приложение
-          <a target="_blank" href="https://play.google.com/store/apps/details?id=zz.android.smartbirds">SmartBirds</a>
-          -  определител на гнездящите в България птици (общо 269 вида) и електронен дневник за наблюдения.
-          Съдържа снимки на птиците, карти с разпространението им в България и информация за това как изглеждат,
-          с какво се хранят, какви местообитания предпочитат, и къде в България могат да бъдат наблюдавани.
-          Включена е също кратка информация за тяхното размножаване, периодите на миграция, природозащитния им
-          статус и заплахите, които ги грозят. Описанието и координатите на зоните за птиците от мрежата
-          Натура 2000 ще ви помогнат да намерите най-близките до вас места за наблюдение на птици.
-        </p>
+        <p class="lead text-justify" translate translate-values="{
+          linkStart: '<a href=\'https://play.google.com/store/apps/details?id=zz.android.smartbirds\' target=\'_blank\'>',
+          linkEnd: '</a>'
+          }">MOBILE_BODY2</p>
       </div>
       <div class="col-lg-5 col-lg-offset-2 col-sm-6">
         <img class="img-responsive" src="img/smartbirds-scr.png" alt="">
@@ -105,19 +93,15 @@
       <div class="col-lg-7 col-sm-6 col-sm-offset-2">
         <hr class="section-heading-spacer">
         <div class="clearfix"></div>
-        <h2 class="section-heading">За проекта</h2>
-        <p class="lead text-justify">
-          SmartBirds.org e електронна база данни разработена от
-          <a target="_blank" href="http://www.bspb.org/">Българско дружество за защита на птиците</a>.
-          Целта и е да служи като електронен бележник за съхранение на записи от наблюдения на птици,
-          бозайници, земноводни и влечуги. Записването на всяко едно наблюдение, подпомага
-          природозащитните дейности в България. Затова записвайте наблюденията си директно тук в
-          страницата или чрез мобилното приложение 
-          <a target="_blank" href="https://play.google.com/store/apps/details?id=org.bspb.smartbirds.pro">SmartBirds&nbsp;Pro</a>.
-          Ако обичате природата и желаете да се включите в инициативата за преброяване на птиците около нас,
-          регистрирайте се в SmartBirds <a href ui-sref="register">тук</a>
-          и изберете своето лично място за броене на птици.
-        </p>
+        <h2 class="section-heading" translate>ABOUT_HEAD</h2>
+        <p class="lead text-justify" translate translate-values="{
+          bspbLinkStart: '<a href=\'http://www.bspb.org/\' target=\'_blank\'>',
+          bspbLinkEnd: '</a>',
+          mobileLinkStart: '<a href=\'https://play.google.com/store/apps/details?id=org.bspb.smartbirds.pro\' target=\'_blank\'>',
+          mobileLinkEnd: '</a>',
+          registerLinkStart: '<a href=\'/register\' target=\'_blank\'>',
+          registerLinkEnd: '</a>'
+          }">ABOUT_BODY</p>
       </div>
     </div>
 
@@ -138,41 +122,39 @@
           <div class="row" style="margin-top: 100px">
             <div class="col-md-4 col-xs-6">
               <a href="http://bspb.org" target="_blank">
-                <img class="img-responsive" src="img/logo-bspb.jpg" alt="БДЗП">
+                <img class="img-responsive" src="img/logo-bspb.jpg" translate-attr="{alt: 'LOGO_BSPB_ALT'}">
               </a>
             </div>
             <div class="col-md-4 col-xs-6">
               <a href="http://eeagrants.org" target="_blank">
-                <img class="img-responsive" src="img/logo-eea.jpg" alt="EEA">
+                <img class="img-responsive" src="img/logo-eea.jpg" translate-attr="{alt: 'LOGO_EEA_ALT'}">
               </a>
             </div>
             <div class="col-md-4 col-xs-6">
               <a href="http://ec.europa.eu/environment/life/funding/lifeplus.htm" target="_blank">
-                <img class="img-responsive" src="img/logo-life.jpg" alt="LIFE">
+                <img class="img-responsive" src="img/logo-life.jpg" translate-attr="{alt: 'LOGO_LIFE_ALT'}">
               </a>
             </div>
             <div class="col-md-4 col-xs-6">
               <a href="http://ec.europa.eu/environment/nature" target="_blank">
-                <img class="img-responsive" src="img/logo-natura2000.jpg" alt="Натура 2000">
+                <img class="img-responsive" src="img/logo-natura2000.jpg" translate-attr="{alt: 'LOGO_NATURA2000_ALT'}">
               </a>
             </div>
             <div class="col-md-4 col-xs-6">
               <a href="http://www.iag.bg/" target="_blank">
-                <img class="img-responsive" src="img/logo-nfb.png" alt="NFB">
+                <img class="img-responsive" src="img/logo-nfb.png" translate-attr="{alt: 'LOGO_NFB_ALT'}">
               </a>
             </div>
             <div class="col-md-4 col-xs-6">
               <a href="http://www.eagleforests.org" target="_blank">
-                <img class="img-responsive" src="img/logo-eagle.jpg" alt="Горите на орела">
+                <img class="img-responsive" src="img/logo-eagle.jpg" translate-attr="{alt: 'LOGO_EAGLE_ALT'}">
               </a>
             </div>
             <div class="col-md-4 col-xs-6">
               <a href="http://www.eurobirdportal.org/ebp/" target="_blank">
-                <img alt="EBP demo viewer" src="img/ebp123.gif"
-                     style="width: 100%; height: auto;" title="EBP demo viewer">
+                <img translate-attr="{alt: 'LOGO_EBP_ALT'}" src="img/ebp123.gif" style="width: 100%; height: auto;">
                 <br>
-                <img alt="EBP demo viewer" src="img/ebp2b.png"
-                     style="width: 100%; height: auto;" title="EBP demo viewer">
+                <img translate-attr="{alt: 'LOGO_EBP_ALT'}" src="img/ebp2b.png" style="width: 100%; height: auto;">
               </a>
             </div>
           </div>
@@ -182,19 +164,9 @@
       <div class="col-lg-5 col-sm-pull-6  col-sm-6">
         <hr class="section-heading-spacer">
         <div class="clearfix"></div>
-        <h2 class="section-heading">Финансиране</h2>
-        <p class="lead text-justify">
-          Модулът за Мониторинг на обикновените видове птици (МОВП) към портала SmartBirds.org
-          е финансиран по проект „Птиците за хората и хората за птиците:
-          с добра воля за активно опазване на природата” в рамките на
-          <a href="http://bg03.moew.government.bg/" target="_blank">Програми BG03 в България</a>
-          по Финансовия механизъм на Европейското икономическо пространство 2009–2014 г.
-        </p>
-        <p class="lead text-justify">
-          Останалите модули на SmartBirds.org са осъществени в рамките на проект
-          <a href="http://www.eagleforests.org" target="_blank">„Опазване на ключови горски хабитати на малкия креслив
-            орел в България”</a> (LIFE12&nbsp;NAT/BG/001218), финансиран от програма LIFE+ на Европейския съюз.
-        </p>
+        <h2 class="section-heading" translate>FUNDING_HEAD</h2>
+        <p class="lead text-justify" translate translate-values="{linkStart: '<a href=\'http://bg03.moew.government.bg/\' target=\'_blank\'>', linkEnd: '</a>'}">FUNDING_BODY1</p>
+        <p class="lead text-justify" translate translate-values="{linkStart: '<a href=\'http://www.eagleforests.org\' target=\'_blank\'>', linkEnd: '</a>'}">FUNDING_BODY2</p>
       </div>
     </div>
 
