@@ -4,13 +4,13 @@
   <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" ng-click="navbar.collapsed = !navbar.collapsed">
-        <span class="sr-only">Toggle navigation</span>
+        <span class="sr-only" translate>TOGGLE_NAVIGATION</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" ui-sref="auth.dashboard">
-        SmartBirds
+        <translate>SITE_NAME</translate>
         <span ng-if="$user.isAdmin()" class="text-danger">ADMIN</span>
       </a>
     </div>
@@ -20,19 +20,19 @@
       <ul class="nav navbar-top-links navbar-right">
         <li class="dropdown" uib-dropdown>
           <a href role="button" id="user-dropdown" type="button" class="dropdown-toggle" uib-dropdown-toggle>
-            Здравей, {{$user.getIdentity().firstName}}
+            <translate translate-values="{userName: $user.getIdentity().firstName}">NAV_HELLO</translate>
             <span class="caret"></span>
           </a>
           <ul uib-dropdown-menu aria-labelledby="user-dropdown">
             <li>
-              <a href ui-sref="auth.users.detail({id: $user.getIdentity().id})">Профил</a>
-              <a href ui-sref="auth.users.changepw">Смяна на парола</a>
+              <a href ui-sref="auth.users.detail({id: $user.getIdentity().id})" translate>NAV_PROFILE</a>
+              <a href ui-sref="auth.users.changepw" translate>NAV_CHANGE_PASSWORD</a>
             </li>
             <li class="divider"></li>
             <li ng-controller="SessionController as sessionController">
               <a href ng-click="sessionController.logout()">
                 <i class="fa fa-sign-out fa-fw"></i>
-                Изход
+                <translate>NAV_LOGOUT</translate>
               </a>
             </li>
           </ul>
@@ -45,7 +45,7 @@
           <ul class="nav" id="side-menu">
             <li class="sidebar-search hidden">
               <div class="input-group custom-search-form">
-                <input type="text" class="form-control" placeholder="Search...">
+                <input type="text" class="form-control" translate-attr="{placeholder: 'SEARCH_PLACEHOLDER'}">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button">
                                       <i class="fa fa-search"></i>
@@ -55,37 +55,37 @@
               <!-- /input-group -->
             </li>
             <li>
-              <a ui-sref="auth.dashboard"><i class="fa fa-dashboard fa-fw"></i> Начало</a>
+              <a ui-sref="auth.dashboard"><i class="fa fa-dashboard fa-fw"></i> <translate>NAV_DASHBOARD</translate></a>
             </li>
-            <li title="Mониторинг на обикновените видове птици">
-              <a ui-sref="auth.monitoring.cbm"><i class="icon icon-cbm icon-fw"></i> МОВП</a>
+            <li translate-attr="{title: 'FORM_CBM_LONG'}">
+              <a ui-sref="auth.monitoring.cbm"><i class="icon icon-cbm icon-fw"></i> <translate>FORM_CBM_SHORT</translate></a>
             </li>
-            <li title="Наблюдения от стандартна форма птици">
-              <a ui-sref="auth.monitoring.birds"><i class="icon icon-birds icon-fw"></i> Птици</a>
+            <li translate-attr="{title: 'FORM_BIRDS_LONG'}">
+              <a ui-sref="auth.monitoring.birds"><i class="icon icon-birds icon-fw"></i> <translate>FORM_BIRDS_SHORT</translate></a>
             </li>
-            <li title="Наблюдения на земноводни, влечуги и бозайници">
-              <a ui-sref="auth.monitoring.herp"><i class="icon icon-herp icon-fw"></i> ЗВБ</a>
+            <li translate-attr="{title: 'FORM_HERP_LONG'}">
+              <a ui-sref="auth.monitoring.herp"><i class="icon icon-herp icon-fw"></i> <translate>FORM_HERP_SHORT</translate></a>
             </li>
-            <li title="Наблюдения на бял щъркел">
-              <a ui-sref="auth.monitoring.ciconia"><i class="icon icon-ciconia icon-fw"></i> Бял щъркел</a>
+            <li translate-attr="{title: 'FORM_CICONIA_LONG'}">
+              <a ui-sref="auth.monitoring.ciconia"><i class="icon icon-ciconia icon-fw"></i> <translate>FORM_CICONIA_LONG</translate></a>
             </li>
             <li>
               <a ui-sref="auth.zones({status:['requested','owned'], location: undefined, owner: undefined})">
                 <i class="fa fa-map-o fa-fw"></i>
-                Площадки
-                <span ng-if="main.zonesIndicator" class="badge" title="Заявени зони">{{main.zonesIndicator}}</span>
+                <translate>NAV_ZONES</translate>
+                <span ng-if="main.zonesIndicator" class="badge" translate-attr="{title: 'NAV_ZONES_REQUESTED'}">{{main.zonesIndicator}}</span>
               </a>
             </li>
             <li ng-if="$user.isAdmin()">
               <a ui-sref="auth.users">
                 <i class="fa fa-users fa-fw"></i>
-                Наблюдатели
+                <translate>NAV_USERS</translate>
               </a>
             </li>
             <li ng-if="$user.isAdmin()">
               <a ui-sref="auth.visits">
                 <i class="fa fa-calendar fa-fw"></i>
-                Посещения
+                <translate>NAV_VISITS</translate>
               </a>
             </li>
           </ul>
@@ -111,7 +111,7 @@
   <footer class="footer">
     <div class="container-fluid">
       <p class="copyright">
-        &copy; 2016 <a href="http://bspb.org">БДЗП</a> | <a href ng-click="showTos()">Условия за ползване</a>
+        &copy; 2016 <a href="http://bspb.org" translate>COPYRIGHT_OWNER</a> | <a href ng-click="showTos()" translate>TOS_LABEL</a>
       </p>
       <p class="revision">
         {{$system.name}} {{$system.version}}
