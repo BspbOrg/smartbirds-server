@@ -9,8 +9,8 @@
     <div class="row">
       <div class="col-lg-10 col-lg-offset-1 col-md-12">
         <div class="site-heading">
-          <h1>Форма Птици</h1>
-          <h2>Наблюдения от стандартна форма птици</h2>
+          <h1 translate>PUBLIC_BIRDS_TITLE</h1>
+          <h2 translate>PUBLIC_BIRDS_SUBTITLE</h2>
           <hr class="small">
           <div home-map form="birds"></div>
         </div>
@@ -24,12 +24,10 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-10 col-lg-offset-1 col-md-12">
-        <p class="text-muted">
-          Тази част от SmartBirds.org е осъществена в рамките на проект
-          <a href="http://www.eagleforests.org" target="_blank">„Опазване на ключови горски хабитати
-            на малкия креслив орел в България”</a> (LIFE12 NAT/BG/001218),
-          финансиран от програма LIFE+ на Европейския съюз.
-        </p>
+        <p class="text-muted" translate translate-values="{
+          linkStart: '<a href=\'http://www.eagleforests.org\' target=\'_blank\'>',
+          linkEnd: '</a>'
+          }">PUBLIC_BIRDS_TEXT</p>
       </div>
       <div class="col-lg-10 col-lg-offset-1 col-md-12">
         <p class="pull-right">
@@ -39,7 +37,7 @@
           <a class="logo natura2000" href="http://ec.europa.eu/environment/nature" target="_blank"></a>
           <a class="logo eagle" href="http://www.eagleforests.org" target="_blank"></a>
         </p>
-        <p class="copyright text-muted">Copyright &copy; БДЗП 2015-2016 | <a href ng-click="showTos()">Условия за ползване</a></p>
+        <p class="copyright text-muted">Copyright &copy; <translate>COPYRIGHT_OWNER</translate> 2015-2017 | <a href ng-click="showTos()" translate>TOS_LABEL</a></p>
       </div>
     </div>
   </div>
