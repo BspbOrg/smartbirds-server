@@ -4,5 +4,6 @@
   "NAV_FORMS": "Forms",
   "FORM_CBM_SHORT": "CBM",
   "FORM_CBM_LONG": "Common birds monitoring",
-  "FORM_BIRDS_LONG": "Standard birds form"
+  "FORM_BIRDS_LONG": "Standard birds form",
+  "SEARCH_PLACEHOLDER": "Search..."
 }
