@@ -1,5 +1,9 @@
 # smartbirds-server
 
+## How to help
+
+You can [help translate](https://poeditor.com/join/project/9RT5wSkZCP) the project.
+
 ## Dev setup
 
 Initialize the containers
