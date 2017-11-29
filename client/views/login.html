@@ -22,13 +22,13 @@
                    ng-class="{'has-error': form.password.$dirty && form.password.$invalid }">
                 <input class="form-control" placeholder="Парола" name="password" type="password"
                        value="" ng-model="auth.password" required>
-                                <span ng-show="form.password.$dirty && form.password.$error.required"
-                                      class="help-block">Паролата е задължително поле</span>
+                <span ng-show="form.password.$dirty && form.password.$error.required"
+                      class="help-block">Паролата е задължително поле</span>
               </div>
               <!--<div class="checkbox">-->
-                <!--<label>-->
-                  <!--<input name="remember" type="checkbox" value="Remember Me">Remember Me-->
-                <!--</label>-->
+              <!--<label>-->
+              <!--<input name="remember" type="checkbox" value="Remember Me">Remember Me-->
+              <!--</label>-->
               <!--</div>-->
               <div class="form-actions">
                 <button type="submit" ng-disabled="form.$invalid || sessionController.loading"
@@ -41,9 +41,12 @@
           </form>
         </div>
         <div class="panel-footer">
-          <p><a ui-sref="forgot" href>забравена парола</a></p>
-
-          <!--<p><a ui-sref="register" href>регистрация</a></p>-->
+          <p>
+            <a language-switcher class="language" ng-click="$ctrl.changeLanguage('en')">EN</a>
+            <a language-switcher class="language" ng-click="$ctrl.changeLanguage('bg')">BG</a>
+            <a ui-sref="forgot" href translate>LOGIN_FORGOT_PASSWORD</a></p>
+          <p>
+            <!--<p><a ui-sref="register" href>регистрация</a></p>-->
         </div>
       </div>
     </div>
