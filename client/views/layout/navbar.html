@@ -14,6 +14,12 @@
 
     <nav class="navbar-collapse" uib-collapse="!navbar.collapsed">
       <ul class="nav navbar-nav navbar-right">
+        <li language-switcher class="language">
+          <a ng-click="$ctrl.changeLanguage('bg')">BG</a>
+        </li>
+        <li language-switcher class="language">
+          <a ng-click="$ctrl.changeLanguage('en')">EN</a>
+        </li>
         <li ng-if="'home' | isState">
           <a href ui-sref="home" sb-scroll-to="[name=forms]" translate>NAV_FORMS</a>
         </li>
