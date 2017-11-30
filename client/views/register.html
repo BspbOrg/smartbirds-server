@@ -36,18 +36,18 @@
                    ng-class="{'has-error': form.password.$dirty && form.password.$invalid }">
                 <input class="form-control" placeholder="Парола" name="password" type="password"
                        value="" ng-model="user.password" required>
-                                <span ng-show="form.password.$dirty && form.password.$error.required"
-                                      class="help-block">Полето е задължително</span>
+                <span ng-show="form.password.$dirty && form.password.$error.required"
+                      class="help-block">Полето е задължително</span>
               </div>
               <div class="form-group"
                    ng-class="{'has-error': form.password_confirm.$dirty && form.password_confirm.$invalid }">
                 <input class="form-control" placeholder="Повторение на паролата" name="password_confirm" type="password"
                        value="" ng-model="user.password_confirm" required sb-validation-match="user.password">
-                                <span ng-show="form.password_confirm.$dirty && form.password_confirm.$error.required"
-                                      class="help-block">Полето е задължително</span>
-                                <span
-                                  ng-show="form.password_confirm.$dirty && form.password_confirm.$error.match && !form.password_confirm.$error.required"
-                                  class="help-block">Паролите не съвпадат</span>
+                <span ng-show="form.password_confirm.$dirty && form.password_confirm.$error.required"
+                      class="help-block">Полето е задължително</span>
+                <span
+                  ng-show="form.password_confirm.$dirty && form.password_confirm.$error.match && !form.password_confirm.$error.required"
+                  class="help-block">Паролите не съвпадат</span>
               </div>
               <div class="checkbox">
                 <label>
@@ -60,11 +60,17 @@
         </div>
         <div class="panel-footer">
           <div class="form-actions">
-            <button type="submit" ng-disabled="form.$invalid || sessionController.loading || !sessionController.tos_accepted"
+            <div class="btn-group pull-right btn-group-lg" >
+            <a language-switcher class="language" ng-click="$ctrl.changeLanguage('en')">EN</a>
+            <a language-switcher class="language" ng-click="$ctrl.changeLanguage('bg')">BG</a>
+            </div>
+            <button type="submit"
+                    ng-disabled="form.$invalid || sessionController.loading || !sessionController.tos_accepted"
                     ng-click="sessionController.register(user)"
                     class="btn btn-lg btn-primary">Регистриране
             </button>
             <a href ui-sref="login({ email: user.email })" class="btn btn-lg btn-default btn-link">Вход</a>
+
           </div>
         </div>
       </div>
