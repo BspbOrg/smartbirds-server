@@ -3,7 +3,7 @@
     <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
       <div class="login-panel panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">Създаване на нов профил</h3>
+          <h3 class="panel-title" translate>REGISTER_TITLE</h3>
         </div>
         <div class="panel-body">
           <div
@@ -13,46 +13,46 @@
           <form name="form" role="form" class="form form-signup">
             <fieldset>
               <div class="form-group" ng-class="{'has-error': form.firstName.$dirty && form.firstName.$invalid }">
-                <input class="form-control" placeholder="Име" name="firstName" type="text" required
+                <input class="form-control" translate-attr="{placeholder: 'PROFILE_FIELD_FIRSTNAME_HINT'}" name="firstName" type="text" required
                        autofocus ng-model="user.firstName"
                        ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }">
-                <span ng-show="form.firstName.$dirty && form.firstName.$error.required" class="help-block">Полето е задължително</span>
+                <span ng-show="form.firstName.$dirty && form.firstName.$error.required" class="help-block" translate>PROFILE_ERROR_FIELD_REQUIRED</span>
               </div>
               <div class="form-group" ng-class="{'has-error': form.lastName.$dirty && form.lastName.$invalid }">
-                <input class="form-control" placeholder="Фамилия" name="lastName" type="text" required
+                <input class="form-control" translate-attr="{placeholder: 'PROFILE_FIELD_LASTNAME_HINT'}" name="lastName" type="text" required
                        ng-model="user.lastName"
                        ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }">
-                <span ng-show="form.lastName.$dirty && form.lastName.$error.required" class="help-block">Полето е задължително</span>
+                <span ng-show="form.lastName.$dirty && form.lastName.$error.required" class="help-block" translate>PROFILE_ERROR_FIELD_REQUIRED</span>
               </div>
               <div class="form-group" ng-class="{'has-error': form.email.$dirty && form.email.$invalid }">
-                <input class="form-control" placeholder="Е-поща" name="email" type="email" required
+                <input class="form-control" translate-attr="{placeholder: 'PROFILE_FIELD_EMAIL_HINT'}" name="email" type="email" required
                        ng-model="user.email"
                        ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }">
                 <span ng-show="form.email.$dirty && form.email.$error.required"
-                      class="help-block">Полето е задължително</span>
-                <span ng-show="form.email.$dirty && form.email.$error.email" class="help-block">Невалидна електронна поща</span>
+                      class="help-block" translate>PROFILE_ERROR_EMAIL_REQUIRED</span>
+                <span ng-show="form.email.$dirty && form.email.$error.email" class="help-block" translate>PROFILE_ERROR_EMAIL_INVALID</span>
               </div>
               <div class="form-group"
                    ng-class="{'has-error': form.password.$dirty && form.password.$invalid }">
-                <input class="form-control" placeholder="Парола" name="password" type="password"
+                <input class="form-control" translate-attr="{placeholder: 'PROFILE_FIELD_PASSWORD_HINT'}" name="password" type="password"
                        value="" ng-model="user.password" required>
                 <span ng-show="form.password.$dirty && form.password.$error.required"
-                      class="help-block">Полето е задължително</span>
+                      class="help-block" translate>PROFILE_ERROR_FIELD_REQUIRED</span>
               </div>
               <div class="form-group"
                    ng-class="{'has-error': form.password_confirm.$dirty && form.password_confirm.$invalid }">
-                <input class="form-control" placeholder="Повторение на паролата" name="password_confirm" type="password"
+                <input class="form-control" translate-attr="{placeholder: 'PROFILE_FIELD_PASSWORD2_HINT'}" name="password_confirm" type="password"
                        value="" ng-model="user.password_confirm" required sb-validation-match="user.password">
                 <span ng-show="form.password_confirm.$dirty && form.password_confirm.$error.required"
-                      class="help-block">Полето е задължително</span>
+                      class="help-block" translate>PROFILE_ERROR_FIELD_REQUIRED</span>
                 <span
                   ng-show="form.password_confirm.$dirty && form.password_confirm.$error.match && !form.password_confirm.$error.required"
-                  class="help-block">Паролите не съвпадат</span>
+                  class="help-block" translate>PROFILE_ERROR_PASSWORDS_NO_MATCH</span>
               </div>
               <div class="checkbox">
                 <label>
                   <input name="accept_tos" type="checkbox" value="accept_tos" ng-model="sessionController.tos_accepted">
-                  Приемам <a href role="button" ng-click="showTos()">условията за ползване</a>
+                  <a href role="button" ng-click="showTos()" translate>PROFILE_ACCEPT_TOS</a>
                 </label>
               </div>
             </fieldset>
@@ -67,9 +67,9 @@
             <button type="submit"
                     ng-disabled="form.$invalid || sessionController.loading || !sessionController.tos_accepted"
                     ng-click="sessionController.register(user)"
-                    class="btn btn-lg btn-primary">Регистриране
+                    class="btn btn-lg btn-primary" translate>PROFILE_BTN_REGISTER
             </button>
-            <a href ui-sref="login({ email: user.email })" class="btn btn-lg btn-default btn-link">Вход</a>
+            <a href ui-sref="login({ email: user.email })" class="btn btn-lg btn-default btn-link" translate>NAV_LOGIN</a>
 
           </div>
         </div>

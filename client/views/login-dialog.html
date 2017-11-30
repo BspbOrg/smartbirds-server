@@ -8,18 +8,18 @@
   <form name="form" role="form" class="form form-signin">
     <fieldset>
       <div class="form-group" ng-class="{'has-error': form.email.$dirty && form.email.$invalid }">
-        <input class="form-control" placeholder="Е-поща" name="email" type="email" required
+        <input class="form-control" translate-attr="{placeholder: 'PROFILE_FIELD_EMAIL_HINT'}" name="email" type="email" required
                autofocus ng-model="auth.email"
                ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }">
-        <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Електронната поща е задължително поле</span>
-        <span ng-show="form.email.$dirty && form.email.$error.email" class="help-block">Невалидна електронна поща</span>
+        <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block" translate>PROFILE_ERROR_EMAIL_REQUIRED</span>
+        <span ng-show="form.email.$dirty && form.email.$error.email" class="help-block" translate>PROFILE_ERROR_EMAIL_INVALID</span>
       </div>
       <div class="form-group"
            ng-class="{'has-error': form.password.$dirty && form.password.$invalid }">
-        <input class="form-control" placeholder="Парола" name="password" type="password"
+        <input class="form-control" translate-attr="{placeholder: 'PROFILE_FIELD_PASSWORD_HINT'}" name="password" type="password"
                value="" ng-model="auth.password" required>
                                 <span ng-show="form.password.$dirty && form.password.$error.required"
-                                      class="help-block">Паролата е задължително поле</span>
+                                      class="help-block" translate>PROFILE_ERROR_PASSWORD_REQUIRED</span>
       </div>
       <!--<div class="checkbox">-->
         <!--<label>-->
@@ -37,7 +37,7 @@
   </form>
 </div>
 <div class="modal-footer">
-  <p><a ui-sref="forgot" href>забравена парола</a></p>
+  <p><a ui-sref="forgot" href translate>LOGIN_FORGOT_PASSWORD</a></p>
 
-  <p><a ui-sref="register" href>регистрация</a></p>
+  <p><a ui-sref="register" href translate>LOGIN_REGISTER</a></p>
 </div>
