@@ -3,7 +3,7 @@
         <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
             <div class="login-panel panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Смяна на парола</h3>
+                    <h3 class="panel-title" translate>RESET_TITLE</h3>
                 </div>
                 <div class="panel-body">
                     <div
@@ -12,26 +12,31 @@
 
                     <form name="form" role="form" class="form form-signup">
                         <fieldset>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Е-поща" name="email" type="email" required
+                            <div class="form-group"
+                                 ng-class="{'has-error': form.email.$dirty && form.email.$invalid }">
+                                <input class="form-control" translate-attr="{placeholder: 'PROFILE_FIELD_EMAIL_HINT'}" name="email" type="email" required
                                        disabled
                                        ng-model="user.email">
+                                <span ng-show="form.email.$dirty && form.email.$error.required"
+                                      class="help-block" translate>PROFILE_ERROR_EMAIL_REQUIRED</span>
+                                <span ng-show="form.email.$dirty && form.email.$error.email"
+                                      class="help-block" translate>PROFILE_ERROR_EMAIL_INVALID</span>
                             </div>
                             <div class="form-group"
                                  ng-class="{'has-error': form.password.$dirty && form.password.$invalid }">
-                                <input class="form-control" placeholder="Парола" name="password" type="password"
+                                <input class="form-control" translate-attr="{placeholder: 'PROFILE_FIELD_PASSWORD_HINT'}" name="password" type="password"
                                        value="" ng-model="user.password" required>
                                 <span ng-show="form.password.$dirty && form.password.$error.required"
-                                      class="help-block">Паролата е задължително поле</span>
+                                      class="help-block" translate>PROFILE_ERROR_PASSWORD_REQUIRED</span>
                             </div>
                             <div class="form-group"
                                  ng-class="{'has-error': form.password_confirm.$dirty && form.password_confirm.$invalid }">
-                                <input class="form-control" placeholder="Повторение на парола" name="password_confirm" type="password"
+                                <input class="form-control" translate-attr="{placeholder: 'PROFILE_FIELD_PASSWORD2_HINT'}" name="password_confirm" type="password"
                                        value="" ng-model="user.password_confirm" required sb-validation-match="user.password">
                                 <span ng-show="form.password_confirm.$dirty && form.password_confirm.$error.required"
-                                      class="help-block">Полето е задължително</span>
+                                      class="help-block" translate>PROFILE_ERROR_FIELD_REQUIRED</span>
                                 <span ng-show="form.password_confirm.$dirty && form.password_confirm.$error.match"
-                                      class="help-block">Паролите не съвпадат</span>
+                                      class="help-block" translate>PROFILE_ERROR_PASSWORDS_NO_MATCH</span>
                             </div>
                         </fieldset>
                     </form>
@@ -40,9 +45,10 @@
                     <div class="form-actions">
                         <button type="submit" ng-disabled="form.$invalid || sessionController.loading"
                                 ng-click="sessionController.reset(user)"
-                                class="btn btn-lg btn-primary">Смяна на парола
+                                class="btn btn-lg btn-primary" translate>
+                          PROFILE_BTN_RESET_PASSWORD
                         </button>
-                        <a href ui-sref="login({ email: user.email })" class="btn btn-lg btn-default btn-link">Вход</a>
+                        <a href ui-sref="login({ email: user.email })" class="btn btn-lg btn-default btn-link" translate>NAV_LOGIN</a>
                     </div>
                 </div>
             </div>
