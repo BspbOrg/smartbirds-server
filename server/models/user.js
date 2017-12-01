@@ -36,6 +36,10 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       defaultValue: false
     },
+    language: {
+      type: DataTypes.STRING,
+      defaultValue: 'bg'
+    },
     forgotPasswordHash: DataTypes.TEXT,
     forgotPasswordTimestamp: DataTypes.DATE,
     address: DataTypes.TEXT,
@@ -127,13 +131,14 @@ module.exports = function (sequelize, DataTypes) {
           notes: this.notes,
           phone: this.phone,
           postcode: this.postcode,
-          profile: this.profile
+          profile: this.profile,
+          language: this.language
         };
       },
 
       apiUpdate: function (data) {
         _.assign(this, _.pick(data, 'firstName', 'lastName', 'address', 'birdsKnowledge',
-          'city', 'level', 'mobile', 'notes', 'phone', 'postcode', 'profile'));
+          'city', 'level', 'mobile', 'notes', 'phone', 'postcode', 'profile', 'language'));
       }
     }
   });
