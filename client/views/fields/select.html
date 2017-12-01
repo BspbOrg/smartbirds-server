@@ -6,6 +6,7 @@
     aria-describedby="{{::field.name}}HelpBlock"
     ng-model="field.model"
     ng-required="::field.required"
+    ng-change="field.onSelect()"
     ng-options="item.id as item.label for item in ::field.values">
     <option ng-if="::field.placeholder" value="">{{::field.placeholder}}</option>
   </select>

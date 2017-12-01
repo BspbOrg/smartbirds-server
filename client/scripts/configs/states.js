@@ -122,7 +122,7 @@ module.config(/*@ngInject*/function ($locationProvider, $stateProvider, $urlRout
           roles: ['user']
         },
         resolve: {
-          authorize: /*@ngInject*/function (authorization) {
+          authorize: /*@ngInject*/function (authorization, localization) {
             return authorization.authorize();
           },
           db: /*@ngInject*/function (db) {
