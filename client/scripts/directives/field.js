@@ -159,7 +159,15 @@ require('../app').directive('field', /*@ngInject*/function ($q) {
 
         case 'select':
         {
-          field.values = $parse($attrs.choices)($scope.$parent);
+          field.values = $parse($attrs.choices)($scope.$parent).map(function(el) {
+            if(typeof el !== 'object') {
+              return {
+                id: el,
+                label: el
+              }
+            }
+            return el;
+          });
         }
 
       }
