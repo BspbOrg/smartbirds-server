@@ -21,7 +21,8 @@ exports.userCreate = {
     notes: {required: false},
     phone: {required: false},
     postcode: {required: false},
-    profile: {required: false}
+    profile: {required: false},
+    language: {required: false}
   },
 
   run: function (api, data, next) {
@@ -178,8 +179,8 @@ exports.userEdit = {
     notes: {required: false},
     phone: {required: false},
     postcode: {required: false},
-    profile: {required: false}
-
+    profile: {required: false},
+    language: {required: false}
   },
 
   run: function (api, data, next) {
