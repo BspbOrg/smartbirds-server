@@ -16,6 +16,7 @@ exports.default = {
 
         { path: '/docs',     action: 'showDocumentation' },
         { path: '/status',   action: 'status' },
+        { path: '/i18n',     action: 'i18n' },
 
         { path: '/nomenclature', action: 'nomenclature:types' },
         { path: '/nomenclature/:type', action: 'nomenclature:typeList' },
