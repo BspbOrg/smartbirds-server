@@ -109,5 +109,13 @@
   "PROFILE_BTN_REGISTER": "Регистриране",
   "PROFILE_BTN_LOGIN": "Вход",
   "LOGIN_REGISTER": "регистрация",
-  "PROFILE_BTN_FORGOT": "Изпращане"
+  "PROFILE_BTN_FORGOT": "Изпращане",
+  "DASHBOARD_TITLE": "Начало",
+  "DASHBOARD_CARD_REQUESTS": "Заявки",
+  "DASHBOARD_CARD_REQUESTS_REVIEW": "Преглед",
+  "DASHBOARD_CARD_CBM": "МОВП",
+  "DASHBOARD_CARD_NEW_ENTRY": "Нов запис",
+  "DASHBOARD_CARD_BIRDS": "Птици",
+  "DASHBOARD_CARD_HERP": "ЗВБ",
+  "DASHBOARD_CARD_CICONIA": "Бял щъркел",
 }
