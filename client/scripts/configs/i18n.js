@@ -1,7 +1,6 @@
-require('../app').config(/*@ngInject*/function($translateProvider) {
+require('../app').config(/*@ngInject*/function ($translateProvider, ENDPOINT_URL) {
   $translateProvider
-    .translations('bg', require('../../../i18n/bg.json'))
-    .translations('en', require('../../../i18n/en.json'))
+    .useUrlLoader(ENDPOINT_URL + '/i18n')
     .registerAvailableLanguageKeys(['en', 'bg'], {
       'en_*': 'en',
       'bg_*': 'bg',
