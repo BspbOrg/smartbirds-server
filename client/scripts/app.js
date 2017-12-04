@@ -32,6 +32,7 @@ require('x2js');
 require('angular-xml');
 require('angular-bootstrap-lightbox');
 require('angular-translate');
+require('angular-translate-loader-url')
 
 var dependencies = [
   'ngLocale',
