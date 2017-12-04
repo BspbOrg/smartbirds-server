@@ -10,10 +10,10 @@
   >
     <ui-gmap-windows show="'show'">
       <div ng-non-bindable>
-        <h6 class="text-uppercase text-justify"><small>площадка</small> {{::id}}</h6>
-        <h6 class="text-uppercase text-justify"><small>наблюдател</small> {{::first_name}} {{::last_name}}</h6>
-        <h5 class="text-uppercase text-justify"><small>видове</small> {{::species_count}}</h5>
-        <h5 class="text-uppercase text-justify"><small>индивиди</small> {{::units_count}}</h5>
+        <h6 class="text-uppercase text-justify"><small translate>PUBLIC_CBM_MAP_ZONE</small> {{::id}}</h6>
+        <h6 class="text-uppercase text-justify"><small translate>PUBLIC_CBM_MAP_USER</small> {{first_name}} {{::last_name}}</h6>
+        <h5 class="text-uppercase text-justify"><small translate>PUBLIC_CBM_MAP_SPECIES</small> {{::species_count}}</h5>
+        <h5 class="text-uppercase text-justify"><small translate>PUBLIC_CBM_MAP_INDIVIDUALS</small> {{::units_count}}</h5>
       </div>
     </ui-gmap-windows>
   </ui-gmap-markers>
