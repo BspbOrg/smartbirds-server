@@ -18,8 +18,8 @@ db:
     - "5432:5432"
 
 dbadmin:
-  image: maxexcloo/phppgadmin
+  image: adminer
   links:
-    - "db:postgresql"
+    - db
   ports:
-    - "8080:80"
+    - "8080:8080"
