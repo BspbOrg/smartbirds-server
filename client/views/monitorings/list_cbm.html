@@ -6,10 +6,10 @@
           <button type="button"
                   class="btn btn-danger"
                   ng-disabled="!monitoringController.selectedRows.length"
-                  confirm="Потвърдете изтриването на {{monitoringController.selectedRows.length}} записа"
+                  confirm="{{'CBM_LIST_BUTTON_DELETE_CONFIRM_MESSAGE' | translate:monitoringController.deleteSelecterRowsTranslationValues()}}"
                   ng-click="monitoringController.deleteRows(monitoringController.selectedRows)">
             <i class="fa fa-trash fa-fw"></i>
-            Изтриване
+            {{'CBM_LIST_BUTTON_DELETE' | translate}}
             <span ng-if="monitoringController.selectedRows.length>1" class="badge">{{monitoringController.selectedRows.length}}</span>
           </button>
         </div>
@@ -19,12 +19,12 @@
              ui-sref=".new"
           >
             <i class="fa fa-file-o fa-fw"></i>
-            Ново наблюдение
+            {{'CBM_LIST_BUTTON_NEW_ENTRY' | translate}}
           </a>
         </div>
       </div>
-      МОВП
-      <small>Mониторинг на обикновенните видове птици</small>
+      {{'CBM_LIST_TITLE_MAIN' | translate}}
+      <small translate>CBM_LIST_TITLE_SECONDARY</small>
     </h1>
   </div>
 </div>
@@ -36,15 +36,15 @@
         <div class="pull-right">
           <div class="btn-group">
             <button type="button" class="btn btn-default" disabled
-                    title="Намерени записи отговарящи на избраните филтри">
+                    title="{{'CBM_LIST_FOUND_RECORDS_COUNT_TOOLTIP' | translate}}">
               {{monitoringController.count || 0}}
             </button>
             <a role="button" class="btn btn-default" ng-href="{{monitoringController.downloadLink}}" target="_blank"
-               title="Генериране на csv файл с всички намерени записи">
+               title="{{'CBM_LIST_BUTTON_CSV_EXPORT_TOOLTIP' | translate}}">
               <i class="fa fa-download fa-fw"></i> csv
             </a>
             <a role="button" class="btn btn-default" ng-href="{{monitoringController.exportLink}}" target="_blank"
-               title="Генериране на zip файл с всички намерени записи, техните снимки и gpx файлове">
+               title="{{'CBM_LIST_BUTTON_ZIP_EXPORT_TOOLTIP' | translate}}">
               <i class="fa fa-download fa-fw"></i> zip
             </a>
           </div>
@@ -58,35 +58,35 @@
 
             <div ng-if="$user.isAdmin()" class="col-md-4 col-lg-3">
               <field name="user" type="user"
-                     label="Наблюдател"
-                     placeholder="- всички -"
+                     label="{{'CBM_LIST_FILTER_USER' | translate}}"
+                     placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
                      on-select="monitoringController.updateFilter()"
                      model="monitoringController.filter.user"></field>
             </div>
 
             <div class="col-md-4 col-lg-3">
               <field name="location" type="location"
-                     label="Място"
-                     placeholder="- всички -"
+                     label="{{'CBM_LIST_FILTER_LOCATION' | translate}}"
+                     placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
                      on-select="monitoringController.updateFilter()"
                      model="monitoringController.filter.location"></field>
             </div>
 
             <div class="col-md-4 col-lg-3">
               <field name="zone2" type="zone"
-                     label="Площадка"
-                     placeholder="- всички -"
+                     label="{{'CBM_LIST_FILTER_ZONE' | translate}}"
+                     placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
                      on-select="monitoringController.updateFilter()"
                      model="monitoringController.filter.zone"></field>
             </div>
 
             <div class="col-md-4 col-lg-3">
               <div class="form-group">
-                <label>Посещение</label>
+                <label translate>CBM_LIST_FILTER_VISIT</label>
                 <ui-select ng-model="monitoringController.filter.visit" name="visit"
                            on-remove="monitoringController.updateFilter()"
                            on-select="monitoringController.updateFilter()">
-                  <ui-select-match allow-clear="true" placeholder="- всички -">
+                  <ui-select-match allow-clear="true" placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -">
                     {{$select.selected.value.toString()}}
                   </ui-select-match>
                   <ui-select-choices
@@ -99,11 +99,11 @@
 
             <div class="col-md-4 col-lg-3">
               <div class="form-group">
-                <label>Година</label>
+                <label translate>CBM_LIST_FILTER_YEAR</label>
                 <ui-select ng-model="monitoringController.filter.year" name="year"
                            on-remove="monitoringController.updateFilter()"
                            on-select="monitoringController.updateFilter()">
-                  <ui-select-match allow-clear="true" placeholder="- всички -">
+                  <ui-select-match allow-clear="true" placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -">
                     {{$select.selected.toString()}}
                   </ui-select-match>
                   <ui-select-choices
@@ -116,8 +116,8 @@
 
             <div class="col-md-4 col-lg-3">
               <field name="species" type="species" nomenclature="birds"
-                     label="Вид"
-                     placeholder="- всички -"
+                     label="{{'CBM_LIST_FILTER_SPECIES' | translate}}"
+                     placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
                      on-select="monitoringController.updateFilter()"
                      model="monitoringController.filter.species"></field>
             </div>
@@ -134,13 +134,13 @@
   <div class="col-lg-12">
     <ul class="nav nav-tabs">
       <li role="presentation" ng-class="{active: monitoringController.tab == 'list'}">
-        <a href ng-click="monitoringController.tab = 'list'">
-          Списък
+        <a href ng-click="monitoringController.tab = 'list'" translate>
+          CBM_LIST_TAB_LIST_TITLE
         </a>
       </li>
       <li role="presentation" ng-class="{active: monitoringController.tab == 'map'}">
-        <a href ng-click="monitoringController.tab = 'map'; monitoringController.nextPage(1000)">
-          Карта
+        <a href ng-click="monitoringController.tab = 'map'; monitoringController.nextPage(1000)" translate>
+          CBM_LIST_TAB_MAP_TITLE
         </a>
       </li>
     </ul>
@@ -150,9 +150,9 @@
      class="row">
   <div class="col-md-12">
     <p ng-if="monitoringController.count > monitoringController.rows.length" class="text-warning">
-      Показани са само последните {{monitoringController.rows.length}} записа!
+      {{'CBM_LIST_MAP_SHOWN_RECORDS_WARNING' | translate: monitoringController.resultRowsTranslationValues()}}
       <button ng-if="$user.isAdmin() && !monitoringController.loading" type="button" class="btn btn-default btn-xs"
-              ng-click="monitoringController.nextPage(-1)">Покажи всички
+              ng-click="monitoringController.nextPage(-1)" translate>CBM_LIST_MAP_BUTTON_SHOW_ALL
       </button>
     </p>
     <list-map rows="monitoringController.rows" ctrl="monitoringController.map"></list-map>
@@ -173,41 +173,41 @@
         </th>
         <th sb-sorting="id">#</th>
         <th ng-if="$user.isAdmin()"
-            sb-sorting="getUser().getName()">
-          Наблюдател
+            sb-sorting="getUser().getName()" translate>
+          CBM_LIST_TABLE_USER
         </th>
         <th
-          sb-sorting="getZone().location.id">
-          Локация
+          sb-sorting="getZone().location.id" translate>
+          CBM_LIST_TABLE_LOCATION
         </th>
-        <th sb-sorting="zone.id">
-          Площадка
-        </th>
-        <th
-          sb-sorting="visit.label.bg">
-          Посещение
+        <th sb-sorting="zone.id" translate>
+          CBM_LIST_TABLE_ZONE
         </th>
         <th
-          sb-sorting="date|date:'yyyyMMddHHmmss'">
-          Дата/час
+          sb-sorting="visit.label.bg" translate>
+          CBM_LIST_TABLE_VISIT
         </th>
         <th
-          sb-sorting="updatedAt|date:'yyyyMMddHHmmss'">
-          Променен
-        </th>
-        <th sb-sorting="species.label.bg">
-          Вид
+          sb-sorting="date|date:'yyyyMMddHHmmss'" translate>
+          CBM_LIST_TABLE_DATE
         </th>
         <th
-          sb-sorting="plot.label.bg">
-          № Участък
+          sb-sorting="updatedAt|date:'yyyyMMddHHmmss'" translate>
+          CBM_LIST_TABLE_UPDATED
         </th>
-        <th sb-sorting="distance.label.bg">
-          Разстояние
+        <th sb-sorting="species.label.bg" translate>
+          CBM_LIST_TABLE_SPECIES
         </th>
         <th
-          sb-sorting="count">
-          Брой
+          sb-sorting="plot.label.bg" translate>
+          CBM_LIST_TABLE_PLOT
+        </th>
+        <th sb-sorting="distance.label.bg" translate>
+          CBM_LIST_TABLE_DISTANCE
+        </th>
+        <th
+          sb-sorting="count" translate>
+          CBM_LIST_TABLE_COUNT
         </th>
       </tr>
       </thead>

@@ -141,5 +141,17 @@ require('../app').controller('MonitoringController', /*@ngInject*/function ($fil
     }));
   };
 
+  controller.deleteSelecterRowsTranslationValues = function() {
+    return {
+      count: controller.selectedRows && controller.selectedRows.length
+    }
+  };
+
+  controller.resultRowsTranslationValues = function() {
+    return {
+      count: controller.rows && controller.rows.length
+    }
+  };
+
 })
 ;
