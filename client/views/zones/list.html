@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-lg-12">
-    <h1 class="page-header">
-      Площадки
+    <h1 class="page-header" translate>
+      ZONES_TITLE
     </h1>
   </div>
 </div>
@@ -15,24 +15,24 @@
             <div class="col-lg-12">
 
               <div ng-if="$user.isAdmin()" class="form-group">
-                <label for="owner">Наблюдател</label>
+                <label for="owner" translate>ZONES_FILTERS_OWNER</label>
 
                 <user-selector model-id="zonesController.filter.owner" name="owner"
-                               placeholder="- всички -" on-select="zonesController.updateSearch()"></user-selector>
+                               placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -" on-select="zonesController.updateSearch()"></user-selector>
               </div>
 
               <div class="form-group">
-                <label for="location">Локация</label>
+                <label for="location" translate>ZONES_FILTERS_LOCATION</label>
                 <location-selector name="location" model-id="zonesController.filter.location"
-                                   placeholder="- всички -" on-select="zonesController.updateSearch()"></location-selector>
+                                   placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -" on-select="zonesController.updateSearch()"></location-selector>
               </div>
 
               <div class="form-group">
-                <label>Площадка</label>
+                <label translate>ZONES_FILTERS_ZONE</label>
                 <ui-select ng-model="zonesController.filter.zone" name="zone"
                            on-remove="zonesController.updateSearch()"
                            on-select="zonesController.updateSearch()">
-                  <ui-select-match allow-clear="true" placeholder="- всички -">
+                  <ui-select-match allow-clear="true" placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -">
                     {{$select.ngModel.$modelValue}}
                   </ui-select-match>
                   <ui-select-choices
@@ -46,9 +46,9 @@
               </div>
 
               <div class="form-group">
-                <label>Площадки</label>
+                <label translate>ZONES_FILTERS_ZONES</label>
                 <ui-select multiple ng-model="zonesController.filter.status" name="status" on-remove="zonesController.updateSearch()" on-select="zonesController.updateSearch()">
-                  <ui-select-match placeholder="- всички -">{{$item.value}}</ui-select-match>
+                  <ui-select-match placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -">{{$item.value}}</ui-select-match>
                   <ui-select-choices repeat="name.id as (id, name) in zoneStatuses | filter:$select.search">
                     <div ng-bind-html="name.value | uibTypeaheadHighlight:$select.search"></div>
                   </ui-select-choices>
@@ -104,12 +104,12 @@
                 <i class="fa fa-check fa-fw"></i>
               </button>
               <button ng-if="zone.status=='owned'" type="button"
-                      class="btn btn-danger btn-xs" title="Премахване на наблюдател"
+                      class="btn btn-danger btn-xs" title="{{'ZONES_CARD_TOOLTIP_REMOVE_OWNER' | translate}}"
                       ng-click="zonesController.removeOwner(zone)">
                 <i class="fa fa-remove"></i>
               </button>
               <button ng-if="zone.status=='free' && !$state.chooseOwner" type="button"
-                      class="btn btn-primary btn-xs" title="Добавяне на наблюдател"
+                      class="btn btn-primary btn-xs" title="{{'ZONES_CARD_TOOLTIP_ADD_OWNER' | translate}}"
                       ng-click="$state.chooseOwner=true">
                 <i class="fa fa-edit"></i>
               </button>
@@ -120,7 +120,7 @@
                          model-id="zone.ownerId"
                          model="zone.owner"
                          name="zone{{zone.id}}-owner"
-                         placeholder="изберете потребител" input-class="input-sm"
+                         placeholder="{{'ZONES_CARD_SET_OWNER_PLACEHOLDER' | translate}}" input-class="input-sm"
                          btn-class="btn-sm"
                          confirm="true"
                          on-select="zonesController.setOwner(zone, zone.owner); $state.chooseOwner=false"
@@ -131,7 +131,7 @@
                ng-class="{'input-group': zonesController.loadingUsers || zonesController.noUsers || zone.owner.id}">
             <input type="text"
                    ng-model="zone.owner" name="owner"
-                   placeholder="- всички -" class="form-control input-sm"
+                   placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -" class="form-control input-sm"
                    uib-typeahead="user as user.getName() for user in zonesController.getUsers($viewValue)"
                    typeahead-loading="zonesController.loadingUsers"
                    typeahead-no-results="zonesController.noUsers"
@@ -141,7 +141,7 @@
 
             <div ng-if="zonesController.loadingUsers || zonesController.noUsers" class="input-group-addon">
               <i ng-if="zonesController.loadingUsers" class="glyphicon glyphicon-refresh"></i>
-              <i ng-if="zonesController.noUsers" title="Няма намерени потребители"
+              <i ng-if="zonesController.noUsers" title="{{'ZONES_CARD_TOOLTIP_NO_USERS_FOUND' | translate}}"
                  class="glyphicon glyphicon-remove"></i>
             </div>
             <div ng-if="zone.owner.id" class="input-group-btn">
@@ -160,7 +160,7 @@
             <a ng-if="zone.ownerId" href ui-sref="auth.users.view({id: zone.ownerId})">
               {{zone.owner.firstName}} {{zone.owner.lastName}}
             </a>
-            <span ng-if="!zone.ownerId">свободна площадка</span>
+            <span ng-if="!zone.ownerId" translate>ZONES_CARD_AVAILABLE_ZONE</span>
           </p>
 
         </li>
@@ -173,7 +173,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <i class="fa fa-map-o fa-fw"></i>
-        Заяви нова площадка
+        {{'ZONES_CARD_REQUEST_NEW_ZONE' | translate}}
       </div>
       <!-- /.panel-heading -->
       <div>
