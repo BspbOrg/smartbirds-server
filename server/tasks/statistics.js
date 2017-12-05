@@ -22,6 +22,8 @@ module.exports.generateStatistics = {
           cbm: api.models.cbm_stats.findAll(),
           ciconia: api.models.ciconia_stats.findAll(),
           herps: api.models.herps_stats.findAll(),
+          herptials: api.models.herptials_stats.findAll(),
+          mammals: api.models.mammals_stats.findAll(),
 
         });
       })
