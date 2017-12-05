@@ -17,7 +17,7 @@ require('../app').directive('homeMap', /*@ngInject*/function () {
     },
     controller: /*@ngInject*/function ($scope, $q, api) {
       var vc = extend(this, {
-        center: {latitude: 42.744820608, longitude: 25.2151370694},
+        center: { latitude: 42.744820608, longitude: 25.2151370694 },
         zoom: 8,
         records: [],
         options: {
@@ -26,14 +26,17 @@ require('../app').directive('homeMap', /*@ngInject*/function () {
         },
         marker: {
           click: function (marker, eventName, model) {
-            if (lastModel && lastModel !== model) lastModel.show = false;
+            if (lastModel && lastModel !== model) lastModel.show = !lastModel.show;
             model.show = !model.show;
-            lastModel = model;
+            vc.activeModel = lastModel = model;
           }
+        },
+        windowOptions: {
+          pixelOffset: { width: 0, height: -25 },
         }
       });
 
-      api.stats[$scope.form + '_stats']().then(function (records) {
+      api.stats[ $scope.form + '_stats' ]().then(function (records) {
         vc.records = records;
         angular.forEach(records, function (record) {
           record.id = record.id || ('' + record.latitude + record.longitude);
