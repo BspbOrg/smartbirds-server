@@ -1,8 +1,8 @@
 <form name="smartform"
       role="form"
       confirm-on-exit="smartform.$dirty"
-      confirm-message-window="Имате незаписани промени!"
-      confirm-message-route="Имате незаписани промени. Сигурни ли сте че искате да продължите?">
+      confirm-message-window="{{'CBM_DETAIL_UNSAVED_DATA_ALERT_TITLE' | translate"}}"
+      confirm-message-route="{{'CBM_DETAIL_UNSAVED_DATA_ALERT_MESSAGE' | translate}}">
   <div class="row">
     <div class="col-md-12">
       <h1 class="page-header">
@@ -13,7 +13,7 @@
                     ng-disabled="smartform.$invalid || smartform.$pristine"
                     ng-click="monitoringDetailController.save()"
             >
-              Запис
+              {{'CBM_DETAIL_BUTTON_SAVE' | translate}}
               <i class="fa fa-save fa-fw"></i>
             </button>
             <button type="button"
@@ -21,13 +21,13 @@
                     ng-disabled="!monitoringDetailController.data.id"
                     ng-click="monitoringDetailController.copy()"
             >
-              Копие
+              {{'CBM_DETAIL_BUTTON_COPY' | translate}}
               <i class="fa fa-copy fa-fw"></i>
             </button>
           </div>
         </div>
-        <span ng-if="monitoringDetailController.data.id">Редакция на запис</span>
-        <span ng-if="!monitoringDetailController.data.id">Нов запис</span>
+        <span ng-if="monitoringDetailController.data.id" translate>CBM_DETAIL_TITLE_EDIT</span>
+        <span ng-if="!monitoringDetailController.data.id" translate>CBM_DETAIL_TITLE_NEW</span>
       </h1>
     </div>
   </div>
@@ -35,12 +35,12 @@
   <div class="row" ng-if="monitoringDetailController.hasVisit">
     <div class="col-md-12">
       <div ng-if="!monitoringDetailController.visit"
-           class="alert alert-warning" role="alert">
-        <strong>Липсват периоди!</strong> Няма въведени периоди за наблюдение за избраната година.
+           class="alert alert-warning" role="alert" translate translate-values="{strongStart: '<strong>', strongEnd: '</strong>'}">
+        CBM_DETAIL_MISSING_INTERVALS_MESSAGE
       </div>
       <div ng-if="monitoringDetailController.visit && !monitoringDetailController.isEarly && !monitoringDetailController.isLate"
-        class="alert alert-danger" role="alert">
-        <strong>Извън период!</strong> Избраната дата на наблюдение е извън периодите за наблюдение.
+        class="alert alert-danger" role="alert" translate translate-values="{strongStart: '<strong>', strongEnd: '</strong>'}">
+        CBM_DETAIL_DATE_NOT_IN_INTERVAL_MESSAGE
       </div>
     </div>
   </div>
@@ -48,7 +48,7 @@
   <div class="row">
     <div class="col-md-4">
       <field name="zone" type="zone" required="true"
-             label="Място"
+             label="{{'CBM_DETAIL_PLACE' | translate}}"
              on-select="monitoringDetailController.onZoneSelected()"
              model="monitoringDetailController.data.zone"></field>
 
@@ -91,37 +91,37 @@
       <div class="row">
         <div class="col-md-6">
           <field name="startDate" type="date" required="true"
-                 label="Начална дата"
+                 label="{{'CBM_DETAIL_START_DATE' | translate}}"
                  model="monitoringDetailController.data.startDateTime"></field>
         </div>
 
         <div class="col-md-6">
           <field name="startTime" type="time" required="true"
-                 label="Начален час"
+                 label="{{'CBM_DETAIL_START_TIME' | translate}}"
                  model="monitoringDetailController.data.startDateTime"></field>
         </div>
 
         <div class="col-md-6">
           <field name="endDate" type="date" required="true"
-                 label="Крайна дата"
+                 label="{{'CBM_DETAIL_END_DATE' | translate}}"
                  model="monitoringDetailController.data.endDateTime"></field>
         </div>
 
         <div class="col-md-6">
           <field name="endTime" type="time" required="true"
-                 label="Краен час"
+                 label="{{'CBM_DETAIL_END_TIME' | translate}}"
                  model="monitoringDetailController.data.endDateTime"></field>
         </div>
 
         <div ng-if="$user.isAdmin()" class="col-md-12">
           <field name="user" type="user" required="true"
-                 label="Наблюдател"
+                 label="{{'CBM_DETAIL_OBSERVER' | translate}}"
                  model="monitoringDetailController.data.user"></field>
         </div>
 
         <div class="col-md-12">
           <field name="observers" type="text"
-                 label="Други наблюдатели"
+                 label="{{'CBM_DETAIL_OTHER_OBSERVERS' | translate}}"
                  model="monitoringDetailController.data.observers"></field>
         </div>
       </div>
@@ -133,12 +133,12 @@
   <div class="row">
     <div class="col-md-6">
       <field name="primaryHabitat" type="single-choice" nomenclature="cbm_habitat" required="true"
-             label="Първостепенно местообитание"
+             label="{{'CBM_DETAIL_PRIMARY_HABITAT' | translate}}"
              model="monitoringDetailController.data.primaryHabitat"></field>
     </div>
     <div class="col-md-6">
       <field name="secondaryHabitat" type="single-choice" nomenclature="cbm_habitat"
-             label="Второстепенно местообитание"
+             label="{{'CBM_DETAIL_SECONDARY_HABITAT' | translate}}"
              model="monitoringDetailController.data.secondaryHabitat"></field>
     </div>
   </div>
@@ -146,12 +146,12 @@
   <div class="row">
     <div class="col-md-6">
       <field name="visit" type="single-choice" nomenclature="cbm_visit_number" required="true"
-             label="Посещение номер"
+             label="{{'CBM_DETAIL_VISIT_NUMBER' | translate}}"
              model="monitoringDetailController.data.visit"></field>
     </div>
     <div class="col-md-6">
       <field name="plot" type="single-choice" nomenclature="cbm_sector" required="true"
-             label="Номер на участък"
+             label="{{'CBM_DETAIL_PLOT' | translate}}"
              model="monitoringDetailController.data.plot"></field>
     </div>
   </div>
@@ -159,17 +159,17 @@
   <div class="row">
     <div class="col-md-4">
       <field name="species" type="species" nomenclature="birds" required="true"
-             label="Вид научно име"
+             label="{{'CBM_DETAIL_SPECIES' | translate}}"
              model="monitoringDetailController.data.species"></field>
     </div>
     <div class="col-md-4">
       <field name="distance" type="single-choice" nomenclature="cbm_distance" required="true"
-             label="Разстояние"
+             label="{{'CBM_DETAIL_DISTANCE' | translate}}"
              model="monitoringDetailController.data.distance"></field>
     </div>
     <div class="col-md-4">
       <field name="count" type="int" min="1" required="true"
-             label="Брой индивиди"
+             label="{{'CBM_DETAIL_COUNT' | translate}}"
              model="monitoringDetailController.data.count"></field>
     </div>
   </div>
@@ -187,7 +187,7 @@
                   ng-disabled="smartform.$invalid || smartform.$pristine"
                   ng-click="monitoringDetailController.save()"
           >
-            Запис
+            {{'CBM_DETAIL_BUTTON_SAVE' | translate}}
             <i class="fa fa-save fa-fw"></i>
           </button>
           <button type="button"
@@ -195,7 +195,7 @@
                   ng-disabled="!monitoringDetailController.data.id"
                   ng-click="monitoringDetailController.copy()"
           >
-            Копие
+            {{'CBM_DETAIL_BUTTON_COPY' | translate}}
             <i class="fa fa-copy fa-fw"></i>
           </button>
         </div>
