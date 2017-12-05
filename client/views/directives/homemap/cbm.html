@@ -7,16 +7,15 @@
                    modelsbyref="true"
                    fit="true"
                    click="map.marker.click"
-  >
-    <ui-gmap-windows show="'show'">
-      <div ng-non-bindable>
-        <h6 class="text-uppercase text-justify"><small translate>PUBLIC_CBM_MAP_ZONE</small> {{::id}}</h6>
-        <h6 class="text-uppercase text-justify"><small translate>PUBLIC_CBM_MAP_USER</small> {{first_name}} {{::last_name}}</h6>
-        <h5 class="text-uppercase text-justify"><small translate>PUBLIC_CBM_MAP_SPECIES</small> {{::species_count}}</h5>
-        <h5 class="text-uppercase text-justify"><small translate>PUBLIC_CBM_MAP_INDIVIDUALS</small> {{::units_count}}</h5>
-      </div>
-    </ui-gmap-windows>
-  </ui-gmap-markers>
+  ></ui-gmap-markers>
+  <ui-gmap-window show="map.activeModel.show" coords="map.activeModel" options="map.windowOptions">
+    <div>
+      <h6 class="text-uppercase text-justify"><small translate>PUBLIC_CBM_MAP_ZONE</small> {{map.activeModel.id}}</h6>
+      <h6 class="text-uppercase text-justify"><small translate>PUBLIC_CBM_MAP_USER</small> {{map.activeModel.first_name}} {{map.activeModel.last_name}}</h6>
+      <h5 class="text-uppercase text-justify"><small translate>PUBLIC_CBM_MAP_SPECIES</small> {{map.activeModel.species_count}}</h5>
+      <h5 class="text-uppercase text-justify"><small translate>PUBLIC_CBM_MAP_INDIVIDUALS</small> {{map.activeModel.units_count}}</h5>
+    </div>
+  </ui-gmap-window>
 </ui-gmap-google-map>
 
 <ng-include src="'/views/directives/homemap/helptext.html'"></ng-include>
