@@ -117,5 +117,9 @@ exports.formBirdsList = {
     offset: {required: false, default: 0}
   },
 
-  run: actions.getSelect('formBirds', prepareQuery)
+  run: actions.getSelect('formBirds', prepareQuery, function (api, record) {
+    return {
+      speciesEuringCode: record['speciesInfo.euring'],
+    }
+  })
 };
