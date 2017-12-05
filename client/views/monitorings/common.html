@@ -3,22 +3,22 @@
 <div class="row">
   <div class="col-md-3">
     <field name="cloudiness" type="single-choice" nomenclature="main_cloud_level"
-           label="Облачност"
+           label="{{'COMMON_FORM_CLOUDINESS'| translate}}"
            model="monitoringDetailController.data.cloudiness"></field>
   </div>
   <div class="col-md-3">
     <field name="rain" type="single-choice" nomenclature="main_rain"
-           label="Дъжд"
+           label="{{'COMMON_FORM_RAIN' | translate}}"
            model="monitoringDetailController.data.rain"></field>
   </div>
   <div class="col-md-3">
     <field name="windSpeed" type="single-choice" nomenclature="main_wind_force"
-           label="Сила на вятъра"
+           label="{{'COMMON_FORM_WIND_SPEED' | translate}}"
            model="monitoringDetailController.data.windSpeed"></field>
   </div>
   <div class="col-md-3">
     <field name="visibility" type="float" min="0"
-           label="Видимост (km)"
+           label="{{'COMMON_FORM_VISIBILITY' | translate}}"
            model="monitoringDetailController.data.visibility"></field>
   </div>
 </div>
@@ -26,22 +26,22 @@
 <div class="row">
   <div class="col-md-3">
     <field name="windDirection" type="single-choice" nomenclature="main_wind_direction"
-           label="Посока на вятъра"
+           label="{{'COMMON_FORM_WIND_DIRECTION' | translate}}"
            model="monitoringDetailController.data.windDirection"></field>
   </div>
   <div class="col-md-3">
     <field name="temperature" type="float" min="-273.15"
-           label="Температура &deg;C"
+           label="{{'COMMON_FORM_TEMPERATURE' | translate}}"
            model="monitoringDetailController.data.temperature"></field>
   </div>
   <div class="col-md-3">
     <field name="cloudsType" type="text"
-           label="Вид облаци"
+           label="{{'COMMON_FORM_CLOUDS_TYPE' | translate}}"
            model="monitoringDetailController.data.cloudsType"></field>
   </div>
   <div class="col-md-3">
     <field name="mto" type="text"
-           label="МТО Други"
+           label="{{'COMMON_FORM_MTO' | translate}}"
            model="monitoringDetailController.data.mto"></field>
   </div>
 </div>
@@ -51,7 +51,7 @@
 <div class="row">
   <div class="col-md-12">
     <field name="threats" type="multiple-choice" nomenclature="main_threats"
-           label="Заплахи"
+           label="{{'COMMON_FORM_THREATS' | translate}}"
            model="monitoringDetailController.data.threats"></field>
   </div>
 </div>
@@ -61,7 +61,7 @@
 <div class="row">
   <div class="col-md-12">
     <field name="notes" type="memo"
-           label="Общи бележки"
+           label="{{'COMMON_FORM_NOTES' | translate}}"
            model="monitoringDetailController.data.notes"></field>
   </div>
 </div>
