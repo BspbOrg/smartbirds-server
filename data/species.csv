@@ -1,0 +1,629 @@
+OBJECTID *;species;bg;en;EURING;Code
+1;Accipiter brevipes;Късопръст ястреб;Levant Sparrowhawk;2730;
+2;Accipiter gentilis;Голям ястреб;Goshawk;2670;ГЯ
+3;Accipiter nisus;Малък ястреб;Eurasian Sparrowhawk;2690;МЯ
+4;Acrocephalus agricola;Индийско шаварче;Paddyfield Warbler;12470;
+5;Acrocephalus arundinaceus;Тръстиково шаварче;Great Reed Warbler;12530;ТШ
+6;Acrocephalus dumetorum;Градинско шаварче;Blyth’s Reed Warbler;12480;
+7;Acrocephalus melanopogon;Мустакато шаварче;Moustached Warbler;12410;
+8;Acrocephalus paludicola;Водно шаварче;Aquatic Warbler;12420;
+9;Acrocephalus palustris;Мочурно шаварче;Marsh Warbler;12500;
+10;Acrocephalus schoenobaenus;Крайбрежно шаварче;Sedge Warbler;12430;
+11;Acrocephalus scirpaceus;Блатно шаварче;Eurasian Reed Warbler;12510;
+12;Actitis hypoleucos;Късокрил кюкавец;Common Sandpiper;5560;
+13;Actitis macularia;Петнист кюкавец;Spotted Sandpiper;5570;
+14;Aegithalos caudatus;Дългоопашат синигер;Long-tailed Tit;14370;ДС
+15;Aegolius funereus;Пернатонога кукумявка;Tengmalm's Owl;7700;
+16;Aegypius monachus;Черен лешояд;Cinereous Vulture;2550;
+17;Aix galericulata;Мандаринка;Mandarin Duck;1780;
+18;Aix sponsa;Каролинка;Wood Duck;1770;
+19;Alauda arvensis;Полска чучулига;Skylark;9760;ПЧ
+20;Alca torda;Дебелоклюна гагарка;Razorbill;6360;
+21;Alcedo atthis;Земеродно рибарче;Kingfisher;8310;ЗР
+22;Alectoris barbara;Берберски кеклик;Barbary partridge;3590;
+23;Alectoris chukar;Тракийски кеклик;Chukar;3550;ТК
+24;Alectoris graeca;Планински кеклик;Rock Partridge;3570;ПЛК
+25;Alectoris rufa;Червен кеклик;Red-legged Partridge;3580;
+26;Alle alle;Малка гагарка;Little auk;6470;
+27;Alopochen aegyptiacus;Египетска гъска;Egyptian goose;1700;
+28;Amandava amandava;;;20250;
+29;Ammomanes deserti;Пустинна чучулига;Desert Lark;9570;
+30;Ammoperdix griseogularis;Персийска пустинна яребица;See-see Partridge;3620;
+31;Anas acuta;Шилоопшата патица;Pintail;1890;
+32;Anas clypeata;Клопач;Shoveler;1940;
+33;Anas crecca;Зимно бърне;Teal;1840;
+34;Anas discors;Синьокрило бърне;Blue-winged teal;1920;
+35;Anas falcata;Сърпокрила патица;Falcated Duck;1810;
+36;Anas penelope;Фиш;Wigeon;1790;
+37;Anas platyrhynchos;Зеленоглава патица;Mallard;1860;ЗП
+38;Anas querquedula;Лятно бърне;Garganey;1910;
+39;Anas strepera;Сива патица;Gadwall;1820;
+40;Anser albifrons;Голяма белочела гъска;Greater White-fronted Goose;1590;
+41;Anser anser;Сива гъска;Greylag Goose;1610;
+42;Anser brachyrhynchus;Късоклюна гъска;Pink-footed goose;1580;
+43;Anser caerulescens;Снежна гъска;Snow Goose;1630;
+44;Anser erythropus;Малка белочела гъска;Lesser White-fronted Goose;1600;
+45;Anser fabalis;Посевна гъска;Bean Goose;1570;
+46;Anser spp.;Неопределени гъски;Unidentified gooses;1659;
+47;Anthropoides virgo;Момин жерав;Demoiselle Crane;4410;
+48;Anthus berthelotii;Канарска бъбрица;Berthelot's pipit;10060;
+49;Anthus campestris;Полска бъбрица;Tawny Pipit;10050;
+50;Anthus cervinus;Червеногуша бъбрица;Red-throated Pipit;10120;
+51;Anthus gustavi;Сибирска бъбрица;Pechora Pipit;10100;
+52;Anthus hodgsoni;Зелена бъбрица;Olive-backed pipit;10080;
+53;Anthus pratensis;Ливадна бъбрица;Meadow Pipit ;10110;
+54;Anthus richardi;Степна бъбрица;Richard’s Pipit;10020;
+55;Anthus spinoletta;Водна бъбрица;Water Pipit;10140;
+56;Anthus trivialis;Горска бъбрица;Tree Pipit;10090;ГБ
+57;Apus affinis;Малък бързолет;Little Swift;8000;
+58;Apus apus;Черен бързолет;Swift;7950;ЧБ
+59;Apus caffer;Белокръст бързолет;White-rumped swift ;7990;
+60;Apus melba;Алпийски бързолет;Alpine Swift;7980;
+61;Apus pallidus;Блед бързолет;Pallid Swift;7960;
+62;Apus unicolor;Едноцветен бързолет;Plain Swift;7940;
+63;Aquila chrysaetos;Скален орел;Golden Eagle;2960;СКО
+64;Aquila clanga;Голям креслив орел;Greater Spotted Eagle;2930;
+65;Aquila heliaca;Царски орел;Imperial Eagle;2950;
+66;Aquila nipalensis;Степен орел;Steppe Eagle;30530;
+67;Aquila pomarina;Малък креслив орел;Lesser Spotted Eagle;2920;
+68;Aquila rapax;Африкански степен орел;Tawny Eagle;2940;
+69;Ardea cinerea;Сива чапла;Grey Heron;1220;СЧ
+70;Ardea purpurea;Ръждива чапла;Purple Heron;1240;
+71;Ardeola ralloides;Гривеста чапла;Squacco Heron;1080;
+72;Arenaria interpres;Камъкообръщач;Turnstone ;5610;
+73;Asio flammeus;Блатна сова;Short-eared Owl;7680;
+74;Asio otus;Горска ушата сова;Long-eared Owl;7670;
+75;Athene noctua;Домашна кукумявка;Little Owl;7570;ДК
+76;Aythya collaris;Пръстенчатоклюна потапница;Ring-necked Duck;2000;
+77;Aythya ferina;Кафявоглава потапница;Common Pochard;1980;
+78;Aythya fuligula;Качулата потапница;Tufted Duck;2030;
+79;Aythya marila;Планинска потапница;Greater Scaup;2040;
+80;Aythya nyroca;Белоока потапница;Ferruginous Duck;2020;
+81;Bombycilla garrulus;Копринарка;Bohemian Waxwing ;10480;
+82;Bonasa bonasia;Лещарка;Hazel Grouse;3260;
+83;Botaurus lentiginosus;;;960;
+84;Botaurus stellaris;Голям воден бик;Bittern ;950;
+85;Branta bernicla;Черна гъска;Brent Goose;1680;
+86;Branta canadensis;Канадска гъска;Canadian Goose;1660;
+87;Branta leucopsis;Белобуза гъска;Barnacle Goose;1670;
+88;Branta ruficollis;Червеногуша гъска;Red-breasted Goose;1690;
+89;Bubo bubo;Бухал;Eagle Owl;7440;
+90;Bubulcus ibis;Биволска чапла;Cattle Egret;1110;
+91;Bucanetes githagineus;;Trumpeter finch;16760;
+92;Bucanetes mongolicus;;Mongolian finch;16750;
+93;Bucephala clangula;Звънарка;Goldeneye ;2180;
+94;Bucephala islandica;;;2170;
+95;Bulweria bulwerii;;;340;
+96;Burhinus oedicnemus;Турилик;Stone Curlew;4590;
+97;Buteo buteo;Обикновен мишелов;Common Buzzard;2870;М
+98;Buteo lagopus;Северен мишелов;Rough-legged Buzzard ;2900;
+99;Buteo rufinus;Белоопашат мишелов;Long-legged Buzzard;2880;
+100;Calandrella brachydactyla;Късопръста чучулига;Short-toed Lark;9680;
+101;Calandrella rufescens;Сива чучулига;Lesser Short-toed Lark;9700;
+102;Calcarius lapponicus;Лапландска овесарка;Lapland Bunting;18470;
+103;Calidris alba;Трипръст брегобегач;Sanderling;4970;
+104;Calidris alpina;Тъмногръд брегобегач;Dunlin;5120;
+105;Calidris canutus;Голям брегобегач;Red Knot;4960;
+106;Calidris ferruginea;Кривоклюн брегобегач;Curlew Sandpiper;5090;
+107;Calidris fuscicollis;Белокръст брегобегач;White-rumped sandpiper;5050;
+108;Calidris maritima;Морски брегобегач;Purple sandpiper;5100;
+109;Calidris mauri;Западен брегобегач;Western sandpiper ;4990;
+110;Calidris melanotos;Цветногръд брегобегач;Pectoral Sandpiper;5070;
+111;Calidris minuta;Малък брегобегач;Little Stint;5010;
+112;Calidris pusilla;Ципестопръст брегобегач;Semipalmated Sandpiper;4980;
+113;Calidris temminckii;Сив брегобегач;Temminck's Sandpiper;5020;
+114;Calonectris diomedea;Жълтоклюн буревестник;Cory's Shearwater;360;
+115;Caprimulgus europaeus;Козодой;Nightjar;7780;
+116;Caprimulgus ruficollis;;;7790;
+117;Carduelis cannabina;Обикновено конопарче;Linnet;16600;КО
+118;Carduelis carduelis;Щиглец;Goldfinch;16530;Щ
+119;Carduelis chloris;Зеленика;Greenfinch;16490;З
+120;Carduelis flammea;Брезова скатия;Common Redpoll;16630;
+121;Carduelis flavirostris;Жълтоклюно конопарче;Twite;16620;
+122;Carduelis hornemanni;Полярна скатия;Arctic Redpoll;16640;
+123;Carduelis spinus;Елшова скатия;Siskin;16540;
+124;Carpodacus erythrinus;Червена чинка;Common Rosefi nch;16790;
+125;Carpodacus rubicilla;;;16960;
+126;Cepphus grylle;Обикновен чистик;Black Guillemot;6380;
+127;Cercotrichas galactotes;Трънковче;Rufous-tailed scrub robin;10950;
+128;Certhia brachydactyla;Градинска дърволазка;Short-toed Treecreeper;14870;
+129;Certhia familiaris;Горска дърволазка;Treecreeper;14860;
+130;Ceryle rudis;;;8330;
+131;Cettia cetti;Свилено шаварче;Cetti's Warbler;12200;
+132;Charadrius alexandrinus;Морски дъждосвирец;Kentish Plover;4770;
+133;Charadrius asiaticus;Каспийски дъждосвирец;Caspian Plover;4800;
+134;Charadrius dubius;Речен дъждосвирец;Little Ringed Plover;4690;РД
+135;Charadrius hiaticula;Пясъчен дъждосвирец;Common Ringed Plover;4700;
+136;Charadrius leschenaultii;Дебелоклюн дъждосвирец;Greater Sand Plover;4790;
+137;Charadrius morinellus;Планински дъждосвирец;Eurasian Dotterel;4820;
+138;Chersophilus duponti;Кривоклюна чучулига;Dupont's lark;9590;
+139;Chettusia gregaria;Степна калугерица;Sociable lapwing;4910;
+140;Chettusia leucura;Белоопашата калугерица;White-tailed Lapwing;4920;
+141;Chlamydotis undulata;;Houbara Burstard;4440;
+142;Chlidonias hybridus;Белобуза рибарка;Whiskered Tern;6260;
+143;Chlidonias leucopterus;Белокрила рибарка;White-winged Tern;6280;
+144;Chlidonias niger;Черна рибарка;Black Tern;6270;
+145;Chrysolophus pictus;;Golden Pheasant;3960;
+146;Ciconia ciconia;Бял щъркел;White Stork;1340;БЩ
+147;Ciconia nigra;Черен щъркел;Black Stork;1310;ЧЩ
+148;Cinclus cinclus;Воден кос;Dipper;10500;ВК
+149;Circaetus gallicus;Орел змияр;Short-toed Eagle;2560;ОЗ
+150;Circus aeruginosus;Тръстиков блатар;Marsh Harrier;2600;ТБ
+151;Circus cyaneus;Полски блатар;Hen Harrier;2610;
+152;Circus macrourus;Степен блатар;Pallid Harrier;2620;
+153;Circus pygargus;Ливаден блатар;Montagu's Harrier;2630;
+154;Cisticola juncidis;Пъстроопашато шаварче;Zitting Cisticola;12260;
+155;Clamator glandarius;Качулата кукувица;Spotted Cuckoo;7160;
+156;Clangula hyemalis;Ледена потапница;Long-tailed Duck;2120;
+157;Coccothraustes coccothraustes;Черешарка;Hawfinch;17170;ЧЕ
+158;Coccyzus americanus;;Yellow-billed cuckoo;7280;
+159;Columba bollii;;Bolle's pigeon;6720;
+160;Columba junoniae;;Laurel pigeon;6730;
+161;Columba livia;Полудив гълъб;Feral Pigeon;6650;
+162;Columba oenas;Гълъб хралупар;Stock Pigeon;6680;
+163;Columba palumbus;Гривяк;Woodpigeon;6700;ГР
+164;Columba trocaz;;Trocaz pigeon;6710;
+165;Coracias garrulus;Синявица;European Roller;8410;СИ
+166;Corvus corax;Гарван гробар;Raven;15720;ГА
+167;Corvus corone;Сива врана;Hooded Crow;15670;СВ
+168;Corvus frugilegus;Посевна врана;Rook;15630;ПВ
+169;Corvus monedula;Чавка;Jackdaw;15600;ЧА
+170;Coturnix coturnix;Пъдпъдък;Quail;3700;ПК
+171;Crex crex;Ливаден дърдавец;Corncrake;4210;
+172;Cuculus canorus;Обикновена кукувица;Cuckoo;7240;КУ
+173;Cuculus saturatus;;Himalayan cuckoo ;7250;
+174;Cursorius cursor;;Cream coloured Cursor;4640;
+175;Cyanopica cyana;;Azure Magpie;15470;
+176;Cygnus cygnus;Поен лебед;Whooper Swan;1540;
+177;Cygnus olor;Ням лебед;Mute Swan;1520;
+178;Delichon urbica;Градска лястовица;House Martin;10010;
+179;Dendrocopos leucotos;Белогърб кълвач;White-backed Woodpecker;8840;
+180;Dendrocopos major;Голям пъстър кълвач;Great Spotted Woodpecker;8760;ГПК
+181;Dendrocopos medius;Среден пъстър кълвач;Middle Spotted Woodpecker;8830;
+182;Dendrocopos minor;Малък пъстър кълвач;Lesser Spotted Woodpecker;8870;
+183;Dendrocopos syriacus;Сирийски пъстър кълвач;Syrian Woodpecker;8780;СИК
+184;Dryocopus martius;Черен кълвач;Black Woodpecker;8630;
+185;Egretta alba;Голяма бяла чапла;Great White Egret;1210;
+186;Egretta garzetta;Малка бяла чапла;Little Egret;1190;
+187;Egretta gularis;Рифова чапла;Western Reef Heron;1180;
+188;Elanus caeruleus;Пепелява каничка;Black-winged Kite;2350;
+189;Emberiza aureola;;Yellow breasted Bunting;18760;
+190;Emberiza bruniceps;;Red-headed bunting;18800;
+191;Emberiza buchanani;;Grey-necked bunting;18670;
+192;Emberiza caesia;Пепелява овесарка;Cretzschmar's Bunting;18680;
+193;Emberiza cia;Сивоглава овесарка;Rock Bunting;18600;СОВ
+194;Emberiza cineracea;;Cinereous bunting ;18650;
+195;Emberiza cirlus;Зеленогуша овесарка;Cirl Bunting;18580;ЗО
+196;Emberiza citrinella;Жълта овесарка;Yellowhammer;18570;ЖО
+197;Emberiza hortulana;Градинска овесарка;Ortolan Bunting;18660;ГРО
+198;Emberiza leucocephalos;Белоглава овесарка;Pine Bunting;18560;
+199;Emberiza melanocephala;Черноглава овесарка;Black-headed Bunting;18810;ЧО
+200;Emberiza pusilla;Малка овесарка;Little Bunting;18740;
+201;Emberiza rustica;Белогуша овесарка;Rustic Bunting;18730;
+202;Emberiza schoeniclus;Тръстикова овесарка;Reed Bunting;18770;ТО
+203;Eremophila alpestris;Ушата чучулига;Shore Lark;9780;
+204;Erithacus rubecula;Червеногръдка;Robin;10990;Ч
+205;Estrilda astrild;;Common waxbill ;16150;
+206;Falco biarmicus;Далматински сокол;Lanner Falcon;3140;
+207;Falco cherrug;Ловен сокол;Saker Falcon;3160;
+208;Falco columbarius;Малък сокол;Merlin ;3090;
+209;Falco eleonorae;Средиземноморски сокол;Eleonora's Falcon;3110;
+210;Falco naumanni;Белошипа ветрушка;Lesser Kestrel;3030;
+211;Falco pelegrinoides;Ръждивоглав сокол;Barbary Falcon;3210;
+212;Falco peregrinus;Сокол скитник;Peregrine;3200;
+213;Falco rusticolus;Северен сокол;;3180;
+214;Falco subbuteo;Орко;Hobby;3100;СОР
+215;Falco tinnunculus;Черношипа ветрушка;Common Kestrel;3040;ОВ
+216;Falco vespertinus;Вечерна ветрушка;Red-footed Falcon;3070;
+217;Ficedula albicollis;Беловрата мухоловка;Collared Flycatcher;13480;
+218;Ficedula hypoleuca;Жалобна мухоловка;Pied Flycatcher;13490;
+219;Ficedula parva;Червеногуша мухоловка;Red-breasted Flycatcher;13430;
+220;Ficedula semitorquata;Полубеловрата мухоловка;Semi-collared Flycatcher;13470;ПБМ
+221;Francolinus francolinus;;;3640;
+222;Fratercula arctica;Тъпоклюна кайра;Atlantic Puffin;6540;
+223;Fringilla coelebs;Обикновена чинка;Chaffinch;16360;ОЧ
+224;Fringilla montifringilla;Планинска чинка;Brambling;16380;
+225;Fringilla teydea;;;16370;
+226;Fulica atra;Лиска;Common Coot;4290;Л
+227;Fulica cristata;;;4310;
+228;Fulmarus glacialis;Фулмар;Fulmar;220;
+229;Galerida cristata;Качулата чучулига;Crested Lark;9720;КЧ
+230;Galerida theklae;Текла;Thekla Lark;9730;
+231;Gallinago gallinago;Средна бекасина;Common Snipe;5190;
+232;Gallinago media;Голяма бекасина;Great Snipe;5200;
+233;Gallinago stenura;;;5210;
+234;Gallinula chloropus;Зеленоножка;Common Moorhen;4240;ЗН
+235;Garrulus glandarius;Сойка;Jay;15390;СА
+236;Gavia adamsii;Жълтоклюн гмуркач;White-billed Diver;50;
+237;Gavia arctica;Черногуш гмуркач;Black-throated Diver;30;
+238;Gavia immer;Черноклюн гмуркач;Great Northern Diver;40;
+239;Gavia stellata;Червеногуш гмуркач;Red-throated Diver;20;
+240;Gelochelidon nilotica;Дебелоклюна рибарка;Gull-billed Tern;6050;
+241;Geronticus eremita;Плешив ибис;Bald Ibis;1400;
+242;Glareola nordmanni;Чернокрил огърличник;Black-winged Pratincole;4670;
+243;Glareola pratincola;Кафявокрил огърличник;Collared Pratincole;4650;
+244;Glaucidium passerinum;Врабчова кукумявка;Pygmy Owl;7510;
+245;Grus grus;Сив жерав;Common Crane;4330;
+246;Gypaetus barbatus;Брадат лешояд;Lammergeier;2460;
+247;Gyps fulvus;Белоглав лешояд;Griffon Vulture;2510;
+248;Haematopus moquini;;;4530;
+249;Haematopus ostralegus;Стридояд;Eurasian Oystercatcher;4500;
+250;Halcyon smyrnensis;Белогърдо земеродно рибарче;White-breasted kingfisher;8270;
+251;Haliaeetus albicilla;Морски орел;White-tailed Eagle;2430;
+252;Hieraaetus fasciatus;Ястребов орел;Bonelli’s Eagle;2990;
+253;Hieraaetus pennatus;Малък орел;Booted Eagle;2980;
+254;Himantopus himantopus;Кокилобегач;Black-winged Stilt;4550;
+255;Hippolais icterina;Градински присмехулник;Icterine Warbler;12590;
+256;Hippolais languida;Пустинен присмехулник;Upcher's Warbler ;12570;
+257;Hippolais olivetorum;Голям маслинов присмехулник;Olive-tree Warbler;12580;
+258;Hippolais pallida;Малък маслинов присмехулник;Olivaceous Warbler;12550;ММП
+259;Hippolais polyglotta;Бъбрив присмехулник;Melodious Warbler;12600;
+260;Hirundo daurica;Червенокръста лястовица;Red-rumped Swallow;9950;ЧЛ
+261;Hirundo rustica;Селска лястовица;Swallow;9920;СЛ
+262;Histrionicus histrionicus;;;2110;
+263;Hoplopterus indicus;;;4900;
+264;Hoplopterus spinosus;Шипокрила калугерица;Spur-winged Lapwing;4870;
+265;Hydrobates pelagicus;Европейска вълнолюбка;European Storm Petrel;520;
+266;Irania gutturalis;;;11170;
+267;Ixobrychus minutus;Малък воден бик;Little Bittern;980;MВБ
+268;Jynx torquilla;Въртошийка;Wryneck;8480;
+269;Ketupa zeylonensis;;;7470;
+270;Lagopus lagopus;;;3290;
+271;Lagopus mutus;;;3300;
+272;Lanius collurio;Червеногърба сврачка;Red-backed Shrike;15150;ЧС
+273;Lanius excubitor;Сива сврачка;Great Grey Shrike;15200;
+274;Lanius minor;Черночела сврачка;Lesser Grey Shrike;15190;ЧСВ
+275;Lanius nubicus;Белочела сврачка;Masked Shrike;15240;
+276;Lanius senator;Червеноглава сврачка;Woodchat Shrike;15230;ЧГС
+277;Larus argentatus;Сребриста чайка;European Herring Gull;5920;
+278;Larus audouinii;Средиземноморската чайка;Audouin's Gull ;5880;
+279;Larus canus;Чайка буревестница;Common Gull ;5900;
+280;Larus delawarensis;Пръстенчатоклюна чайка;Ring-billed Gull;5890;
+281;Larus fuscus;Малката черногърба чайка;Lesser Black-backed Gull ;5910;
+282;Larus genei;Дългоклюна чайка;Slender-billed Gull;5850;
+283;Larus glaucoides;Малка белокрила чайка;Iceland Gull;5980;
+284;Larus hyperboreus;Голяма белокрила чайка;Glaucous Gull ;5990;
+285;Larus ichthyaetus;Голяма черноглава чайка;Great Black-headed Gull;5730;
+286;Larus marinus;Голяма черногърба чайка;Great Black-backed Gull ;6000;
+287;Larus melanocephalus;Малката черноглава чайка;Mediterranean Gull;5750;
+288;Larus minutus;Малка чайка;Little Gull;5780;
+289;Larus relictus;Реликтна чайка;Relict Gull;5740;
+290;Larus ridibundus;Речна чайка;Black-headed Gull;5820;РЧ
+291;Larus sabini;Вилоопашата чайка;Sabine's Gull;5790;
+292;Limicola falcinellus;Блатобегач;Broad-billed Sandpiper;5140;
+293;Limnodromus scolopaceus;Берингов вретенач;;5270;
+294;Limosa lapponica;Пъстроопашат крайбрежен бекас;Bar-tailed Godwit;5340;
+295;Limosa limosa;Черноопашат крайбрежен бекас;Black-tailed Godwit;5320;
+296;Locustella fluviatilis;Речен цвъркач;River Warbler;12370;
+297;Locustella lanceolata;;;12350;
+298;Locustella luscinioides;Тръстиков цвъркач;Savi's Warbler;12380;
+299;Locustella naevia;Полски цвъркач;Common Grasshopper Warbler;12360;
+300;Loxia curvirostra;Обикновена кръсточовка;Crossbill;16660;
+301;Loxia leucoptera;Белокрила кръсточовка;Two-barred Crossbill;16650;
+302;Loxia pytyopsittacus;Дебелоклюна кръсточовка;Parrot Crossbill;16680;
+303;Loxia scotica;;;16670;
+304;Lullula arborea;Горска чучулига;Woodlark;9740;ГЧ
+305;Luscinia calliope;;;11050;
+306;Luscinia luscinia;Северен славей;Thrush Nightingale;11030;
+307;Luscinia megarhynchos;Южен славей;Nightingale;11040;С
+308;Luscinia svecica;Синьогушка;Bluethroat;11060;
+309;Lymnocryptes minimus;Малка бикасина;Jack Snipe;5180;
+310;Marmaronetta angustirostris;Мраморна патица;Marbled Duck;1950;
+311;Melanitta fusca;Кадифена потапница;Velvet Scoter;2150;
+312;Melanitta nigra;Траурна потапница;Common Scoter;2130;
+313;Melanocorypha bimaculata;;;9620;
+314;Melanocorypha calandra;Дебелоклюна чучулига;Calandra Lark;9610;ДЕЧ
+315;Melanocorypha leucoptera;Белокрила чучулига;White-winged Lark;9650;
+316;Melanocorypha yeltoniensis;Черна чучулига;Black Lark;9660;
+317;Meleagris gallopavo;;;3990;
+318;Mergus albellus;Малък нирец;Smew ;2200;
+319;Mergus cucullatus;;;2190;
+320;Mergus merganser;Голям нирец;Common Merganser;2230;
+321;Mergus serrator;Среден нирец;Red-breasted Merganser;2210;
+322;Merops apiaster;Обикновен пчелояд;Bee-eater;8400;П
+323;Merops superciliosus;Зелен пчелояд;;8390;
+324;Miliaria calandra;Сива овесарка;Corn Bunting;18820;СО
+325;Milvus migrans;Черна каня;Black Kite;2380;
+326;Milvus milvus;Червена каня;Red Kite;2390;
+327;Monticola saxatilis;Пъстър скален дрозд;Rock Thrush;11620;
+328;Monticola solitarius;Син скален дрозд;Blue Rock Thrush;11660;
+329;Montifringilla nivalis;Снежно врабче;White-winged Snowfi nch;16110;
+330;Motacilla alba;Бяла стърчиопашка;Pied Wagtail;10200;БС
+331;Motacilla cinerea;Планинска стърчиопашка;Grey Wagtail;10190;ПС
+332;Motacilla citreola;Жълтоглава стърчиопашка;Citrine Wagtail;10180;
+333;Motacilla flava;Жълта стърчиопашка;Yellow Wagtail;10170;ЖС
+334;Muscicapa striata;Сива мухоловка;Spotted Flycatcher;13350;СМ
+335;Myiopsitta monachus;;;20390;
+336;Neophron percnopterus;Египетски лешояд;Egyptian Vulture;2470;
+337;Netta rufina;Червеноклюна потапница;Red-crested Pochard;1960;
+338;Nucifraga caryocatactes;Сокерица;Nutcracker;15570;
+339;Numenius arquata;Голям свирец;Eurasian Curlew;5410;
+340;Numenius phaeopus;Малък свирец;Whimbrel;5380;
+341;Numenius tenuirostris;Тънкоклюн свирец;;5400;
+342;Nyctea scandiaca;;;7490;
+343;Nycticorax nycticorax;Нощна чапла;Night Heron;1040;
+344;Oceanodroma castro;;;580;
+345;Oceanodroma leucorhoa;;;550;
+346;Oenanthe deserti;;;11490;
+347;Oenanthe finschii;;;11500;
+348;Oenanthe hispanica;Испанско каменарче;Black-eared Wheatear;11480;ИКА
+349;Oenanthe isabellina;Ориенталско каменарче;Isabelline Wheatear;11440;ИЗК
+350;Oenanthe leucopyga;;;11570;
+351;Oenanthe leucura;;;11580;
+352;Oenanthe oenanthe;Сиво каменарче;Wheatear;11460;СКА
+353;Oenanthe pleschanka;Черногърбо каменарче;Pied Wheatear;11470;ЧЕК
+354;Oenanthe xanthoprymna;;;11520;
+355;Oriolus oriolus;Авлига;Golden Oriole;15080;А
+356;Otis tarda;Голяма дропла;Great Bustard;4460;
+357;Otus brucei;;;7380;
+358;Otus scops;Чухал;Scops Owl;7390;ЧУ
+359;Oxyura jamaicensis;;;2250;
+360;Oxyura leucocephala;Тръноопашата потапница;White-headed Duck;2260;
+361;Pagophila eburnea;;;6040;
+362;Pandion haliaetus;Орел рибар;Osprey;3010;
+363;Panurus biarmicus;Мустакато тръстикарче;Bearded Reedling;13640;
+364;Parus ater;Черен синигер;Coal Tit;14610;
+365;Parus caeruleus;Син синигер;Blue Tit;14620;СС
+366;Parus cinctus;;;14480;
+367;Parus cristatus;Качулат синигер;Crested Tit;14540;
+368;Parus cyanus;;;14630;
+369;Parus lugubris;Жалобен синигер;Sombre Tit;14410;ЖСИ
+370;Parus major;Голям синигер;Great Tit;14640;ГС
+371;Parus montanus;Матовоглав синигер;Willow Tit;14420;МС
+372;Parus palustris;Лъскавоглав синигер;Marsh Tit;14400;ЛС
+373;Passer domesticus;Домашно врабче;House Sparrow;15910;ДВ
+374;Passer hispaniolensis;Испанско врабче;Spanish Sparrow;15920;ИВ
+375;Passer moabiticus;;;15950;
+376;Passer montanus;Полско врабче;Tree Sparrow;15980;ПВР
+377;Pelagodroma marina;;;510;
+378;Pelecanus crispus;Къдроглав пеликан;Dalmatian Pelican;890;
+379;Pelecanus onocrotalus;Розов пеликан;White Pelican;880;
+380;Perdix hodgsoniae;;;3690;
+381;Perdix perdix;Яребица;Partridge;3670;Я
+382;Perisoreus infaustus;;;15430;
+383;Pernis apivorus;Осояд;Honey Buzzard;2310;О
+384;Petronia petronia;Скално врабче;Rock Sparrow;16040;
+385;Petronia xanthocollis;;;16020;
+386;Phalacrocorax aristotelis;Качулат корморан;European Shag;800;
+387;Phalacrocorax carbo;Голям корморан;Great Cormorant;720;ГК
+388;Phalaropus lobatus;Тънкоклюн листоног;Red-necked Phalarope;5640;
+389;Phalaropus tricolor;;;5630;
+390;Phasianus colchicus;Фазан;Pheasant;3940;Ф
+391;Philomachus pugnax;Бойник;Ruff;5170;
+392;Phoenicopterus ruber;Розово фламинго;Greater Flamingo;1470;
+393;Phoenicurus erythrogaster;;;11280;
+394;Phoenicurus ochruros;Домашна червеноопашка;Black Redstart;11210;ДЧ
+395;Phoenicurus phoenicurus;Градинска червеноопашка;Redstart;11220;
+396;Phylloscopus borealis;Северен певец;Arctic Warbler;12950;
+397;Phylloscopus collybita;Елов певец;Chiffchaff;13110;ЕП
+398;Phylloscopus inornatus;Жълтовежд певец;Yellow-browed Warbler;13000;
+399;Phylloscopus neglectus;;;13090;
+400;Phylloscopus nitidus;;;12910;
+401;Phylloscopus proregulus;Кралчев певец;Pallas’s Leaf Warbler;12980;
+402;Phylloscopus sibilatrix;Буков певец;Wood Warbler;13080;
+403;Phylloscopus sindianus;;;13100;
+404;Phylloscopus trochiloides;Зеленикав певец;Greenish Warbler;12930;
+405;Phylloscopus trochilus;Брезов певец;Willow warbler;13120;
+406;Pica pica;Сврака;Magpie;15490;СВР
+407;Picus canus;Сив кълвач;Grey-headed Woodpecker;8550;СК
+408;Picus viridis;Зелен кълвач;Green Woodpecker;8560;ЗК
+409;Pinicola enucleator;;;16990;
+410;Platalea leucorodia;Бяла лопатарка;Spoonbill;1440;
+411;Plectrophenax nivalis;Сежна овесарка;Snow Bunting;18500;
+412;Plegadis falcinellus;Блестящ ибис;Glossy Ibis ;1360;
+413;Pluvialis apricaria;Златиста булка;European Golden Plover;4850;
+414;Pluvialis squatarola;Сребриста булка;Grey Plover;4860;
+415;Podiceps auritus;Ушат гмурец;Horned Grebe;110;
+416;Podiceps cristatus;Голям гмурец;Great Crested Grebe;90;ГГЦ
+417;Podiceps grisegena;Червеноврат гмурец;Red-necked Grebe;100;
+418;Podiceps nigricollis;Черноврат гмурец;Black-necked Grebe;120;
+419;Polysticta stelleri;;;2090;
+420;Porphyrio porphyrio;;;4270;
+421;Porzana parva;Средна пъструшка;Little Crake;4100;
+422;Porzana porzana;Голяма пъструшка;Spotted Crake;4080;
+423;Porzana pusilla;Малка пъструшка;Baillon’s Crake;4110;
+424;Prinia gracilis;;;12270;
+425;Prunella atrogularis;;;10900;
+426;Prunella collaris;Пъстрогуша завирушка;Alpine Accentor;10940;
+427;Prunella modularis;Сивогуша завирушка;Dunnock;10840;
+428;Prunella montanella;;;10860;
+429;Prunella ocularis;;;10880;
+430;Pterocles alchata;;;6620;
+431;Pterocles orientalis;;;6610;
+432;Pterodroma feae;;;262;
+433;Pterodroma madeira;;;263;
+434;Pterodroma mollis;;;261;
+435;Ptyonoprogne rupestris;Скална лястовица;Crag Martin;9910;
+436;Puffinus assimilis;;;480;
+437;Puffinus gravis;;;400;
+438;Puffinus griseus;;;430;
+439;Puffinus puffinus;Обикновен буревестник;;460;
+440;Pycnonotus barbatus;;;10370;
+441;Pycnonotus xanthopygos;;;10360;
+442;Pyrrhocorax graculus;Жълтоклюна гарга;Yellow-billed Chough;15580;
+443;Pyrrhocorax pyrrhocorax;Червеноклюна гарга;Alpine Chough;15590;
+444;Pyrrhula pyrrhula;Червенушка;Bullfinch;17100;
+445;Rallus aquaticus;Воден дърдавец;Water Rail;4070;КЩ
+446;Recurvirostra avosetta;Саблеклюн;Avocet;4560;
+447;Regulus ignicapillus;Червеноглаво кралче;Firecrest;13150;
+448;Regulus regulus;Жълтоглаво кралче;Goldcrest;13140;
+449;Remiz pendulinus;Торбогнезден синигер;Penduline Tit;14900;
+450;Rhodopechys sanguinea;;;16730;
+451;Rhodospiza obsoleta;;;16740;
+452;Rhodostethia rosea;;;6010;
+453;Riparia riparia;Брегова лястовица;Sand Martin;9810;БЛ
+454;Rissa tridactyla;Трипръста чайка;Kittiwake;6020;
+455;Saxicola dacotiae;;;11380;
+456;Saxicola rubetra;Ръждивогушо ливадарче;Whinchat;11370;РЛИ
+457;Saxicola torquata;Черногушо ливадарче;Stonechat;11390;ЧЛИ
+458;Scolopax rusticola;Горски бекас;Woodcock;5290;
+459;Serinus canaria;;;16420;
+460;Serinus citrinella;;;16440;
+461;Serinus pusillus;;;16390;
+462;Serinus serinus;Диво канарче;Serin;16400;
+463;Sitta europaea;Горска зидарка;Wood Nuthatch;14790;ГЗ
+464;Sitta krueperi;;;14690;
+465;Sitta neumayer;Скална зидарка;Rock Nuthatch;14810;
+466;Sitta tephronota;;;14800;
+467;Sitta whiteheadi;;;14700;
+468;Somateria mollissima;Обикновена гага;Common Eider;2060;
+469;Somateria spectabilis;;;2070;
+470;Stercorarius longicaudus;Дългоопашат морелетник;Long-tailed Jaeger;5680;
+471;Stercorarius parasiticus;Остроопашат морелетник;Parasitic Jaeger;5670;
+472;Stercorarius pomarinus;Тъпоопашат морелетник;Pomarine Skua;5660;
+473;Stercorarius skua;Голям морелетник;Great Skua;5690;
+474;Sterna albifrons;Белочела рибарка;Little Tern;6240;
+475;Sterna bengalensis;;;6090;
+476;Sterna caspia;Каспийска рибарка;Caspian Tern;6060;
+477;Sterna dougallii;;Roseate Tern;6140;
+478;Sterna fuscata;;;6230;
+479;Sterna hirundo;Речна рибарка;Common Tern;6150;
+480;Sterna paradisaea;;;6160;
+481;Sterna sandvicensis;Гривеста рибарка;Sandwich Tern;6110;
+482;Streptopelia decaocto;Гугутка;Eurasian Collared-dove;6840;ГУ
+483;Streptopelia orientalis;;;6890;
+484;Streptopelia roseogrisea;;;6830;
+485;Streptopelia senegalensis;;;6900;
+486;Streptopelia turtur;Гургулица;European Turtle-dove;6870;ГГ
+487;Strix aluco;Горска улулица;Tawny Owl;7610;
+488;Strix nebulosa;;;7660;
+489;Strix uralensis;Уралска улулица;Ural Owl;7650;
+490;Sturnus roseus;Розов скорец;Rose-coloured Starling;15840;
+491;Sturnus unicolor;;;15830;
+492;Sturnus vulgaris;Обикновен скорец;Starling;15820;ОС
+493;Surnia ulula;;;7500;
+494;Sylvia atricapilla;Голямо черноглаво коприварче;Blackcap;12770;ГЧК
+495;Sylvia borin;Градинско коприварче;Garden Warbler;12760;
+496;Sylvia cantillans;Червеногушо коприварче;Subalpine Warbler;12650;
+497;Sylvia communis;Голямо белогушо коприварче;Whitethroat;12750;ГБК
+498;Sylvia conspicillata;;;12640;
+499;Sylvia curruca;Малко белогушо коприварче;Lesser Whitethroat;12740;МБК
+500;Sylvia hortensis;Орфеево коприварче;Orphean Warbler;12720;ОКО
+501;Sylvia melanocephala;Черноглаво коприварче;Sardinian Warbler;12670;
+502;Sylvia melanothorax;;;12680;
+503;Sylvia mystacea;;;12660;
+504;Sylvia nana;Азиатско пустинно коприварче;Asian Desert Warbler;12700;
+505;Sylvia nisoria;Ястребогушо коприварче;Barred Warbler;12730;ЯК
+506;Sylvia rueppelli;Черногушо коприварче;R?ppell’s Warbler;12690;
+507;Sylvia sarda;;;12610;
+508;Sylvia undata;;;12620;
+509;Syrmaticus reevesii;Царски фазан;Reeves’s Pheasant;3930;
+510;Syrrhaptes paradoxus;;;6630;
+511;Tachybaptus ruficollis;Малък гмурец;Little Grebe;70;МГ
+512;Tadorna ferruginea;Червен ангъч;Ruddy Shelduck;1710;
+513;Tadorna tadorna;Бял ангъч;Shelduck;1730;
+514;Tarsiger cyanurus;Синьоопашка;Red-fl anked Bluetail;11130;
+515;Tetrao mlokosiewiczi;;;3330;
+516;Tetrao tetrix;Тетрев;Black Grouse;3320;
+517;Tetrao urogallus;Глухар;Western Capercaillie;3350;
+518;Tetraogallus caspius;;;3510;
+519;Tetraogallus caucasicus;;;3500;
+520;Tetrax tetrax;Стрепет;Little Bustard;4420;
+521;Tichodroma muraria;Скалолазка;Wallcreeper;14820;
+522;Tringa erythropus;Голям червенокрак водобегач;Spotted Redshank;5450;
+523;Tringa flavipes;;;5510;
+524;Tringa glareola;Малък горски водобегач;Wood Sandpiper;5540;МГВ
+525;Tringa nebularia;Голям зеленокрак водобегач;Greenshank ;5480;
+526;Tringa ochropus;Голям горски водобегач;Green Sandpiper;5530;
+527;Tringa stagnatilis;Малък зеленоног водобегач;Marsh Sandpiper;5470;
+528;Tringa totanus;Малък червенокрак водобегач;Common Redshank;5460;
+529;Troglodytes troglodytes;Орехче;Wren;10660;ОР
+530;Tryngites subruficollis;Ръждивогръд брегобегач;Buff-breasted Sandpiper;5160;
+531;Turdus iliacus;Беловежд дрозд;Redwing;12010;
+532;Turdus merula;Кос;Blackbird;11870;К
+533;Turdus philomelos;Поен дрозд;Song Thrush;12000;ПД
+534;Turdus pilaris;Хвойнов дрозд;Fieldfare;11980;
+535;Turdus ruficollis;;;11970;
+536;Turdus torquatus;Белогуш дрозд;Ring Ouzel;11860;
+537;Turdus viscivorus;Имелов дрозд;Mistle Thrush;12020;ИД
+538;Turnix sylvatica;;;4000;
+539;Tyto alba;Забулена сова;Barn Owl;7350;
+540;Upupa epops;Папуняк;Hoopoe;8460;ПА
+541;Uria aalge;Тънкоклюна кайра;Common Murre;6340;
+542;Uria lomvia;;;6350;
+543;Vanellus vanellus;Обикновена калугерица;Lapwing;4930;ОК
+544;Xenus cinereus;Пепеляв брегобегач;Terek Sandpiper;5550;
+545;Zoothera dauma;;;11700;
+546;Zoothera sibirica;;;11710;
+547;Aythya sp.;Неопределена потапница;Unidentified diving duck;2059;
+548;Cygnus sp.;Неопределен лебед;Unidentified Swan;1559;
+549;Larus sp.;Неопределена чайка;Unidentified Gull;6009;
+550;Mergus sp.;Неопределен нирец;Unidentified Merganser;2239;
+551;Phalacrocorax sp.;Неопределен корморан;Unidentified Cormorant;849;
+552;Podiceps sp.;Неопределен гмурец;Unidentified Grebe;129;
+553;Acrocephalus sp.;Неопределено шаварче;Unidentified Acrocephalus;12549;
+554;Anas sp.;Неопределена патица;Unidentified Duck;1949;
+555;Circus sp.;Неопределен блатар;Unidentified Harrier;2649;
+556;Falco sp.;Неопределен сокол;Unidentified Falcon;3219;
+557;Gavia sp.;Неопределен гмуркач;Unidentified Diver;59;
+558;Sterna sp.;Неопределена рибарка;Unidentified Tern;6259;
+559;Motacilla sp.;Неопределена стърчиопашка;Unidentified Wagtail;10239;
+560;Pelecanus sp.;Неопределен пеликан;Unidentified Pelican;919;
+561;Phylloscopus sp.;Неопределен певец;Unidentified Warbler;13129;
+562;Dendrocopos sp.;Неопределен кълвач;Unidentified Woodpecker;8979;
+563;Turdus sp.;Неопределен дрозд;Unidentified trush;12069;
+564;Accipiter sp.;Неопределен ястреб;Unidentified Hawk;2749;
+565;Aquila sp.;Неопределен орел;Unidentified Eagle;2979;
+566;Ciconia sp.;Неопределен щъркел;Unidentified Stork;1349;
+567;Corvus sp.;Неопределен гарван;Unidentified Corvid;15749;
+568;Milvus sp.;Неопределена каня;Unidentified Kite;2399;
+569;Larus cachinnans;Каспийска чайка;Caspian gull;;
+570;Alectoris sp.;Неопределен кеклик;Chukar/Rock Partridge;;
+571;Anas carolinensis;Каролинско зимно бърне;Green-winged teal;;
+572;Anser serrirostis;Тундрова посевна гъска; Tundra Bean Goose;;
+573;Anthus novaeseelandiae;Дългоопашата бъбрица;Australasian Pipit ;;
+574;Anthus petrosus;Скална бъбрица;Rock Pipit;;
+575;Aquila adalberti;Испански орел;Spanish Imperial Eagle;;
+576;Butorides virescens;;;;
+577;Carpospiza brachydactyla;;;;
+578;Cygnus bewickii;Тундров лебед;Tundra Swan;;
+579;Galerida malabarica;;;;
+580;Iduna caligata;Малък присмехулник;Booted warbler;;
+581;Larus armenicus;Арменска чайка;Armenian Gull ;;
+582;Larus michahellis;Жълтокрака чайка;Yellow-legged Gull;;
+583;Morus bassanus;Бял рибояд;Northern Gannet;;
+584;Motacilla finere;;;;
+585;Muscicapa daurrica;;;;
+586;Oenanthe cypriaca;;;;
+587;Phalacrocorax pygmaeus;Малък корморан;Pygmy Cormorant;;
+588;Phalaropus fulicarius;Плоскоклюн листоног;Red Phalarope;;
+589;Phoenicurus torquata;;;;
+590;Phylloscopus orientalis;Източен планински певец;Eastern Bonelli’s Warbler;;
+591;Phylloscopus lorenzii;;;;
+592;Phylloscopus spp.;Неопределени певци;Unidentified phylloscopus;;
+593;Picoides tridactylus;Трипръст кълвач;Three-toed Woodpecker;;
+594;Porzana spp.;Неопределена пъструшка;Unidentified Crake;;
+595;Puffinus mauretanicus;;;;
+596;Puffinus yelkouan;Средиземноморски буревестник;Yelkouan Shearwater;;
+597;Pyrrhula murina;;;;
+598;Regulus teneriffae;;;;
+599;Saxicola maurus;Сибирско ливадарче;Siberian Stonechat;;
+600;Anatinae;Патицоподобни;Ducks;;
+601;Calidris sp.;Неопределен брегобегач;;;
+602;Charadrii sp.;Неопределен дъждосвирец;;;
+603;Galinago sp.;;;;
+604;Gallinago sp.;Неопределена бекасина;Unidentified Snipe;;
+605;L.mich./cach.;Жълтокрака/Каспийска чайка;Yellow legged/Caspian Gull;;
+606;Tringa sp.;Неопределен водобегач;Unidentified Shank;;
+607;Anser sp.;Неопределена гъска;Unidentified goose;;
+608;Anthus sp.;Неопределена бъбрица;Unidentified Pipit;;
+609;Apus sp.;Неопределен бързолет;Unidentified Swift;;
+610;Buteo sp.;Неопределен мишелов;Unidentified Buzzard;;
+611;Falconidae sp.;;;;
+612;Anas spp.;Неопределени патици;;;
+613;Columba spp.;Неопределен гълъб;Unidentified pigeon;;
+614;Cygnus spp.;;;;
+615;Dendrocopos spp.;;;;
+616;Emberiza spp.;Неопределена овесарка;Unidentified Bunting;;
+617;Motacilla spp.;;;;
+618;Numenius spp.;Неопределен свирец;Unidentified Curlew;;
+619;Pelecanus spp.;;;;
+620;Sterna spp.;;;;
+621;Tringa spp.;;;;
+622;Accipitriformes/Falconiformes;Неопределена граблива птица (НГП);Unidentified raptor (UnR);;
+623;Anseriformes/Podicipediformes etc.;Неопределена водолюбива птица (НВП);Unidentified water birds (UnWB);;
+624;Charadriiformes;Неопределен дъждосвирец (НД);Unidentified wader (UnW);;
+625;Columbiformes;Неопределен гълъб (НГБ);Unidentified pigeon (UnP);;
+626;Passeriformes;Неопределена пойна птица (НПП);Unidentified passerine (UnP);;
+627;Ciconiiformes;Неопределена щъркелоподобна птица (НЩП);Unidentified storks and herons (UnSH);;
+628;Pelecaniformes;Неопределени пеликани и корморани (НПК);Unidentified pelicans and cormorants (UnPE);;
