@@ -1,8 +1,8 @@
 <form name="smartform"
       role="form"
       confirm-on-exit="smartform.$dirty"
-      confirm-message-window="Имате незаписани промени!"
-      confirm-message-route="Имате незаписани промени. Сигурни ли сте че искате да продължите?">
+      confirm-message-window="{{'BIRDS_DETAIL_UNSAVED_DATA_ALERT_TITLE' | translate}}"
+      confirm-message-route="{{'BIRDS_DETAIL_UNSAVED_DATA_ALERT_MESSAGE' | translate}}">
   <div class="row">
     <div class="col-lg-12">
       <h1 class="page-header">
@@ -13,7 +13,7 @@
                     ng-disabled="smartform.$invalid || smartform.$pristine"
                     ng-click="monitoringDetailController.save()"
             >
-              Запис
+              {{'BIRDS_DETAIL_BUTTON_SAVE' | translate}}
               <i class="fa fa-save fa-fw"></i>
             </button>
             <button type="button"
@@ -21,13 +21,13 @@
                     ng-disabled="!monitoringDetailController.data.id"
                     ng-click="monitoringDetailController.copy()"
             >
-              Копие
+              {{'BIRDS_DETAIL_BUTTON_COPY' | translate}}
               <i class="fa fa-copy fa-fw"></i>
             </button>
           </div>
         </div>
-        <span ng-if="monitoringDetailController.data.id">Редакция на запис</span>
-        <span ng-if="!monitoringDetailController.data.id">Нов запис</span>
+        <span ng-if="monitoringDetailController.data.id" translate>BIRDS_DETAIL_TITLE_EDIT</span>
+        <span ng-if="!monitoringDetailController.data.id" translate>BIRDS_DETAIL_TITLE_NEW</span>
       </h1>
     </div>
   </div>
@@ -39,12 +39,12 @@
   <div class="row">
     <div class="col-md-9">
       <field name="species" type="species" nomenclature="birds" required="true"
-             label="Вид научно име"
+             label="{{'BIRDS_DETAIL_SPECIES' | translate}}"
              model="monitoringDetailController.data.species"></field>
     </div>
     <div class="col-md-3">
       <field name="confidential" type="bool"
-             label="Поверително"
+             label="{{'BIRDS_DETAIL_CONFIDENTIAL' | translate}}"
              model="monitoringDetailController.data.confidential"></field>
     </div>
   </div>
@@ -54,13 +54,13 @@
       <div class="row">
         <div class="col-md-6">
           <field name="latitude" type="float" required="true"
-                 label="Географска ширина"
+                 label="{{'BIRDS_DETAIL_LATITUDE' | translate}}"
                  on-select="monitoringDetailController.updateFromModel()"
                  model="monitoringDetailController.data.latitude"></field>
         </div>
         <div class="col-md-6">
           <field name="longitude" type="float" required="true"
-                 label="Географска дължина"
+                 label="{{'BIRDS_DETAIL_LONGITUDE' | translate}}"
                  on-select="monitoringDetailController.updateFromModel()"
                  model="monitoringDetailController.data.longitude"></field>
         </div>
@@ -98,12 +98,12 @@
       <div class="row">
         <div class="col-md-6">
           <field name="count" type="single-choice" nomenclature="birds_count_units" required="true"
-                 label="Единица на броя"
+                 label="{{'BIRDS_DETAIL_COUNT_UNIT' | translate}}"
                  model="monitoringDetailController.data.countUnit"></field>
         </div>
         <div class="col-md-6">
           <field name="count" type="single-choice" nomenclature="birds_count_type" required="true"
-                 label="Тип на броя"
+                 label="{{'BIRDS_DETAIL_COUNT_TYPE' | translate}}"
                  model="monitoringDetailController.data.typeUnit"></field>
         </div>
       </div>
@@ -112,41 +112,41 @@
           ng-if="!['Min.', 'Max.', 'Range', 'Unspecified number'].includes(monitoringDetailController.data.typeUnit.label.en)"
           class="col-md-6">
           <field name="count" type="int" min="1" required="true"
-                 label="Брой"
+                 label="{{'BIRDS_DETAIL_COUNT' | translate}}"
                  model="monitoringDetailController.data.count"></field>
         </div>
         <div ng-if="['Min.', 'Range'].includes(monitoringDetailController.data.typeUnit.label.en)" class="col-md-6">
           <field name="countMin" type="int" min="1" required="true"
-                 label="Мин."
+                 label="{{'BIRDS_DETAIL_MIN' | translate}}"
                  model="monitoringDetailController.data.countMin"></field>
         </div>
         <div ng-if="['Max.', 'Range'].includes(monitoringDetailController.data.typeUnit.label.en)" class="col-md-6">
           <field name="countMax" type="int" min="1" required="true"
-                 label="Макс."
+                 label="{{'BIRDS_DETAIL_MAX' | translate}}"
                  model="monitoringDetailController.data.countMax"></field>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
           <field name="sex" type="single-choice" nomenclature="birds_sex"
-                 label="Пол"
+                 label="{{'BIRDS_DETAIL_SEX' | translate}}"
                  model="monitoringDetailController.data.sex"></field>
         </div>
         <div class="col-md-6">
           <field name="age" type="single-choice" nomenclature="birds_age"
-                 label="Възраст"
+                 label="{{'BIRDS_DETAIL_AGE' | translate}}"
                  model="monitoringDetailController.data.age"></field>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
           <field name="speciesStatus" type="single-choice" nomenclature="birds_status"
-                 label="Статус на вида"
+                 label="{{'BIRDS_DETAIL_SPECIES_STATUS' | translate}}"
                  model="monitoringDetailController.data.speciesStatus"></field>
         </div>
         <div class="col-md-6">
           <field name="behaviour" type="multiple-choice" nomenclature="birds_behaviour"
-                 label="Поведение"
+                 label="{{'BIRDS_DETAIL_BEHAVIOUR' | translate}}"
                  model="monitoringDetailController.data.behaviour"></field>
         </div>
       </div>
@@ -156,7 +156,7 @@
   <h3>
     <button type="button" class="btn btn-default btn-lg"
             ng-click="monitoringDetailController.opened = !monitoringDetailController.opened">
-      Допълнителни полета
+      {{'BIRDS_DETAIL_BUTTON_ADDITIONAL_FIELDS' | translate}}
       <i class="glyphicon"
          ng-class="{'glyphicon-chevron-up': monitoringDetailController.opened,
                     'glyphicon-chevron-down': !monitoringDetailController.opened}"></i>
@@ -166,100 +166,100 @@
   <div class="row" uib-collapse="!monitoringDetailController.opened">
     <div class="col-md-8 col-lg-6">
       <field name="deadIndividualCauses" type="single-choice" nomenclature="birds_death"
-             label="Мъртъв индивид (причини)"
+             label="{{'BIRDS_DETAIL_DEAD_INDIVIDUAL_CAUSES' | translate}}"
              model="monitoringDetailController.data.deadIndividualCauses"></field>
     </div>
 
     <div class="col-md-4">
       <field name="marking" type="single-choice" nomenclature="birds_marking"
-             label="Маркировка"
+             label="{{'BIRDS_DETAIL_MARKING' | translate}}"
              model="monitoringDetailController.data.marking"></field>
     </div>
 
     <div class="col-md-4">
       <field name="count" type="single-choice" nomenclature="birds_nesting"
-             label="Тип гнездене"
+             label="{{'BIRDS_DETAIL_NESTING' | translate}}"
              model="monitoringDetailController.data.typeNesting"></field>
     </div>
 
     <div class="col-md-4">
       <field name="substrate" type="single-choice" nomenclature="birds_nest_substrate"
-             label="Субстрат"
+             label="{{'BIRDS_DETAIL_SUBSTRATE' | translate}}"
              model="monitoringDetailController.data.substrate"></field>
     </div>
     <div class="col-md-4">
       <field name="tree" type="text"
-             label="Дърво"
+             label="{{'BIRDS_DETAIL_TREE' | translate}}"
              model="monitoringDetailController.data.tree"></field>
     </div>
     <div class="col-md-4">
       <field name="treeHeight" type="float" min="0"
-             label="Височина на дървото"
+             label="{{'BIRDS_DETAIL_TREE_HEIGHT' | translate}}"
              model="monitoringDetailController.data.treeHeight"></field>
     </div>
     <div class="col-md-4">
       <field name="treeLocation" type="single-choice" nomenclature="birds_nest_location"
-             label="Местоположение на дървото"
+             label="{{'BIRDS_DETAIL_TREE_LOCATION' | translate}}"
              model="monitoringDetailController.data.treeLocation"></field>
     </div>
     <div class="col-md-4">
       <field name="nestHeight" type="single-choice" nomenclature="birds_nest_height"
-             label="Височина на гнездото"
+             label="{{'BIRDS_DETAIL_NEST_HEIGHT' | translate}}"
              model="monitoringDetailController.data.nestHeight"></field>
     </div>
     <div class="col-md-4">
       <field name="nestLocation" type="single-choice" nomenclature="birds_nest_position"
-             label="Местоположение на гнездото"
+             label="{{'BIRDS_DETAIL_NEST_LOCATION' | translate}}"
              model="monitoringDetailController.data.nestLocation"></field>
     </div>
     <div class="col-md-4">
       <field name="brooding" type="bool"
-             label="Мътене"
+             label="{{'BIRDS_DETAIL_BROODING' | translate}}"
              model="monitoringDetailController.data.brooding"></field>
     </div>
     <div class="col-md-4">
       <field name="eggsCount" type="int" min="0"
-             label="Брой яйца"
+             label="{{'BIRDS_DETAIL_EGGS_COUNT' | translate}}"
              model="monitoringDetailController.data.eggsCount"></field>
     </div>
     <div class="col-md-4">
       <field name="countNestling" type="int" min="0"
-             label="Брой пухови малки"
+             label="{{'BIRDS_DETAIL_COUNT_NESTLING' | translate}}"
              model="monitoringDetailController.data.countNestling"></field>
     </div>
     <div class="col-md-4">
       <field name="countFledgling" type="int" min="0"
-             label="Брой оперени малки в гнездото"
+             label="{{'BIRDS_DETAIL_COUNT_FLEDGLING' | translate}}"
              model="monitoringDetailController.data.countFledgling"></field>
     </div>
     <div class="col-md-4">
       <field name="countSuccessfullyLeftNest" type="int" min="0"
-             label="Брой излетели малки"
+             label="{{'BIRDS_DETAIL_COUNT_SUCCESSFULLY_LEFT_NEST' | translate}}"
              model="monitoringDetailController.data.countSuccessfullyLeftNest"></field>
     </div>
     <div class="col-md-4">
       <field name="nestProtected" type="bool"
-             label="Охрана на гнездото"
+             label="{{'BIRDS_DETAIL_NEST_PROTECTION' | translate}}"
              model="monitoringDetailController.data.nestProtected"></field>
     </div>
     <div class="col-md-4">
       <field name="ageFemale" type="single-choice" nomenclature="birds_age_individual"
-             label="Възраст, женска"
+             label="{{'BIRDS_DETAIL_AGE_FEMALE' | translate}}"
              model="monitoringDetailController.data.ageFemale"></field>
     </div>
     <div class="col-md-4">
       <field name="ageMale" type="single-choice" nomenclature="birds_age_individual"
-             label="Възраст, мъжка"
+             label="{{'BIRDS_DETAIL_AGE_MALE' | translate}}"
              model="monitoringDetailController.data.ageMale"></field>
     </div>
     <div class="col-md-4">
       <field name="nestingSuccess" type="single-choice" nomenclature="birds_nest_success"
-             label="Гнездови успех"
+             label="{{'BIRDS_DETAIL_NESTING_SUCCESS' | translate}}"
              model="monitoringDetailController.data.nestingSuccess"></field>
     </div>
     <div class="col-md-12">
       <field name="landuse300mRadius" type="text"
-             label="Земеползване, радиус от 300 m"
+             label="{{'BIRDS_DETAIL_LANDUSE_300M_USE' | translate}}"
              model="monitoringDetailController.data.landuse300mRadius"></field>
     </div>
   </div>
@@ -267,7 +267,7 @@
   <div class="row">
     <div class="col-md-12">
       <field name="speciesNotes" type="memo"
-             label="Бележки вид"
+             label="{{'BIRDS_DETAIL_SPECIES_NOTES' | translate}}"
              model="monitoringDetailController.data.speciesNotes"></field>
     </div>
   </div>
@@ -285,7 +285,7 @@
                   ng-disabled="smartform.$invalid || smartform.$pristine"
                   ng-click="monitoringDetailController.save()"
           >
-            Запис
+            {{'BIRDS_DETAIL_BUTTON_SAVE' | translate}}
             <i class="fa fa-save fa-fw"></i>
           </button>
           <button type="button"
@@ -293,7 +293,7 @@
                   ng-disabled="!monitoringDetailController.data.id"
                   ng-click="monitoringDetailController.copy()"
           >
-            Копие
+            {{'BIRDS_DETAIL_BUTTON_COPY' | translate}}
             <i class="fa fa-copy fa-fw"></i>
           </button>
         </div>
