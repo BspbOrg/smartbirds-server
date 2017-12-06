@@ -5,7 +5,7 @@
   "author": "Geno Roupsky",
   "private": true,
   "engines": {
-    "node": "4.x"
+    "node": ">=4.0.0 <9"
   },
   "devDependencies": {
     "budo": "latest",
@@ -18,7 +18,7 @@
     "should": "latest",
     "should-sinon": "0.0.3",
     "sinon": "^1.17.2",
-    "sqlite3": "latest",
+    "sqlite3": "^3.1.13",
     "watch": "latest",
     "watchify": "latest"
   },
@@ -46,7 +46,7 @@
     "budo": "budo ./client/scripts/app.js --serve js/scripts.js  -d public/ --live --pushstate"
   },
   "dependencies": {
-    "actionhero": "~14.0.12",
+    "actionhero": "~15.3.0",
     "archiver": "^1.1.0",
     "bcrypt": "~0.8.5",
     "bluebird": "~3.0.5",
@@ -83,7 +83,7 @@
     "node-fetch": "^1.7.3",
     "nodemailer": "^1.10.0",
     "nodemailer-mailgun-transport": "^1.0.1",
-    "pg": "~4.4.3",
+    "pg": "^5.0.0",
     "pg-hstore": "~2.3.2",
     "querystring": "^0.2.0",
     "raven": "^0.10.0",
