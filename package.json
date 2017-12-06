@@ -19,6 +19,7 @@
     "should-sinon": "latest",
     "sinon": "latest",
     "sqlite3": "latest",
+    "standard": "^10.0.3",
     "watch": "latest",
     "watchify": "latest"
   },
@@ -46,12 +47,12 @@
     "budo": "budo ./client/scripts/app.js --serve js/scripts.js  -d public/ --live --pushstate"
   },
   "dependencies": {
-    "actionhero": "^16.0.5",
+    "actionhero": "^17.1.1",
     "archiver": "^1.1.0",
     "bcrypt": "~0.8.5",
     "bluebird": "~3.0.5",
     "blueimp-md5": "^2.10.0",
-    "bower": "^1.7.10",
+    "bower": "^1.8.2",
     "browserify": "~12.0.1",
     "browserify-ngannotate": "^2.0.0",
     "browserify-shim": "~3.8.0",

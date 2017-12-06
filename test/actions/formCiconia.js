@@ -1,10 +1,10 @@
-var _ = require('lodash');
-var should = require('should');
-var sinon = require('sinon');
-var setup = require('../_setup');
-var Promise = require('bluebird');
-var moment = require('moment');
-require('should-sinon');
+var _ = require('lodash')
+var should = require('should')
+var sinon = require('sinon')
+var setup = require('../_setup')
+var Promise = require('bluebird')
+var moment = require('moment')
+require('should-sinon')
 
 describe('Action formCiconia:', function () {
   var ciconiaRecord = {
@@ -106,108 +106,108 @@ describe('Action formCiconia:', function () {
       }
     ],
     notes: 'some notes'
-  };
+  }
 
   before(function () {
-    return setup.init();
-  });
+    return setup.init()
+  })
 
   after(function () {
-    return setup.finish();
-  });
+    return setup.finish()
+  })
 
   describe('Guest user', function () {
     setup.describeAsGuest(function (runAction) {
       it('fails to create Ciconia record', function () {
         return runAction('formCiconia:create', ciconiaRecord).then(function (response) {
-          response.error.should.be.equal('Error: Please log in to continue');
-        });
-      });
-    });
+          response.error.should.be.equal('Error: Please log in to continue')
+        })
+      })
+    })
   }); // Guest user
 
   setup.describeAsAuth(function (runAction) {
     describe('fails to create without', function () {
       var required = ['latitude', 'longitude', 'observationDateTime', 'monitoringCode',
-        'endDateTime', 'startDateTime', 'location'];
+        'endDateTime', 'startDateTime', 'location']
 
       required.forEach(function (property) {
         it(property, function () {
-          var reqCiconiaObj = _.cloneDeep(ciconiaRecord);
-          delete reqCiconiaObj[property];
+          var reqCiconiaObj = _.cloneDeep(ciconiaRecord)
+          delete reqCiconiaObj[property]
           return runAction('formCiconia:create', reqCiconiaObj).then(function (response) {
-            response.error.should.be.equal('Error: ' + property + ' is a required parameter for this action');
-          });
-        });
-      });
+            response.error.should.be.equal('Error: actionhero.errors.missingParams')
+          })
+        })
+      })
 
     }); // fails to create without
 
     describe('CREATE', function () {
       it('creates Ciconia record', function () {
         return runAction('formCiconia:create', ciconiaRecord).then(function (response) {
-          should.not.exist(response.error);
-          response.data.id.should.be.greaterThan(0);
-        });
-      });
+          should.not.exist(response.error)
+          response.data.id.should.be.greaterThan(0)
+        })
+      })
 
       it('attaches the user created the record', function () {
         return runAction('formCiconia:create', ciconiaRecord).then(function (response) {
-          should.not.exist(response.error);
-          response.data.user.should.be.equal(response.requesterUser.id);
-        });
-      });
-    });
+          should.not.exist(response.error)
+          response.data.user.should.be.equal(response.requesterUser.id)
+        })
+      })
+    })
 
   }); // describeAsAuth
 
   describe('Get Ciconia record by id', function () {
-    var ciconiaId;
+    var ciconiaId
 
     before(function () {
       return setup.runActionAsUser2('formCiconia:create', ciconiaRecord).then(function (response) {
-        ciconiaId = response.data.id;
-      });
-    });
+        ciconiaId = response.data.id
+      })
+    })
 
     it('is allowed if the requester user is the submitter', function () {
       return setup.runActionAsUser2('formCiconia:view', {id: ciconiaId}).then(function (response) {
-        response.should.not.have.property('error');
-        response.should.have.property('data');
-      });
-    });
+        response.should.not.have.property('error')
+        response.should.have.property('data')
+      })
+    })
 
     it('should return the correct row', function () {
       return setup.runActionAsUser2('formCiconia:view', {id: ciconiaId}).then(function (response) {
-        response.should.not.have.property('error');
-        response.data.id.should.be.equal(ciconiaId);
-      });
-    });
+        response.should.not.have.property('error')
+        response.data.id.should.be.equal(ciconiaId)
+      })
+    })
 
     setup.describeAsAdmin(function (runAction) {
       it('is allowed if the requester user is admin', function () {
         return runAction('formCiconia:view', {id: ciconiaId}).then(function (response) {
-          response.should.not.have.property('error');
-          response.should.have.property('data');
-        });
-      });
-    });
+          response.should.not.have.property('error')
+          response.should.have.property('data')
+        })
+      })
+    })
 
     setup.describeAsUser(function (runAction) {
       it('is not allowed if the requester user is not the submitter', function () {
         return runAction('formCiconia:view', {id: ciconiaId}).then(function (response) {
-          response.should.have.property('error').and.not.empty();
-        });
-      });
-    });
+          response.should.have.property('error').and.not.empty()
+        })
+      })
+    })
 
     setup.describeAsGuest(function (runAction) {
       it('is not allowed if the requester is guest  user', function () {
         return runAction('formCiconia:view', {id: ciconiaId}).then(function (response) {
-          response.should.have.property('error').and.not.empty();
-        });
-      });
-    });
+          response.should.have.property('error').and.not.empty()
+        })
+      })
+    })
 
   }); // Get ciconia record by id
 
@@ -215,135 +215,135 @@ describe('Action formCiconia:', function () {
     setup.describeAsUser(function (runAction) {
       it('is allowed to list only his records', function () {
         return runAction('formCiconia:list', {}).then(function (response) {
-          response.should.not.have.property('error');
-          response.should.have.property('data').not.empty().instanceOf(Array);
-          response.should.have.property('count').and.be.greaterThan(0);
+          response.should.not.have.property('error')
+          response.should.have.property('data').not.empty().instanceOf(Array)
+          response.should.have.property('count').and.be.greaterThan(0)
 
           for (var i = 0; i < response.data.length; i++) {
-            response.data[i].should.have.property('user');
-            response.data[i].should.not.be.empty();
-            response.data[i].user.should.be.equal(1);
+            response.data[i].should.have.property('user')
+            response.data[i].should.not.be.empty()
+            response.data[i].user.should.be.equal(1)
           }
-        });
-      });
-    });
+        })
+      })
+    })
 
     setup.describeAsAdmin(function (runAction) {
       it('admin is allowed to list all records', function () {
         return runAction('formCiconia:list', {}).then(function (response) {
-          response.should.not.have.property('error');
-          response.should.have.property('data').not.empty().instanceOf(Array);
-          response.should.have.property('count').and.be.greaterThan(3);
-        });
-      });
-    });
+          response.should.not.have.property('error')
+          response.should.have.property('data').not.empty().instanceOf(Array)
+          response.should.have.property('count').and.be.greaterThan(3)
+        })
+      })
+    })
 
     setup.describeAsGuest(function (runAction) {
       it('guest is not allowed to list any records', function () {
         return runAction('formCiconia:list', {}).then(function (response) {
-          response.should.have.property('error').not.empty();
-          response.should.not.have.property('data');
-          response.should.not.have.property('count');
-        });
-      });
-    });
+          response.should.have.property('error').not.empty()
+          response.should.not.have.property('data')
+          response.should.not.have.property('count')
+        })
+      })
+    })
 
     setup.describeAsAdmin(function (runAction) {
       it('filter user', function () {
         //Depends on users fixture third record AND formCiconia fixture
         return runAction('formCiconia:create', _.assign(ciconiaRecord, {user: 3})).then(function (response) {
           return runAction('formCiconia:list', {user: 3}).then(function (response){
-            response.should.not.have.property('error');
+            response.should.not.have.property('error')
             for (var i = 0; i < response.data.length; i++) {
-              response.data[i].user.should.be.equal(3);
+              response.data[i].user.should.be.equal(3)
             }
-          });
-        });
-      });
-    });
+          })
+        })
+      })
+    })
 
     setup.describeAsUser(function (runAction) {
       it('filter location', function () {
         return runAction('formCiconia:create', _.assign(ciconiaRecord, {location: 'some_unq_location'})).then(function (response) {
           return runAction('formCiconia:list', {location: 'some_unq_location'}).then(function (response){
-            response.should.not.have.property('error');
-            response.data.length.should.be.equal(1);
-            response.data[0].location.should.be.equal('some_unq_location');
-          });
-        });
-      });
-    });
+            response.should.not.have.property('error')
+            response.data.length.should.be.equal(1)
+            response.data[0].location.should.be.equal('some_unq_location')
+          })
+        })
+      })
+    })
 
     setup.describeAsUser(function (runAction) {
       it('filter from_date', function () {
         return runAction('formCiconia:list', {from_date: '2016-12-20T10:15Z'}).then(function (response){
-          response.should.not.have.property('error');
-          response.data.length.should.be.within(3, 5);
-        });
-      });
+          response.should.not.have.property('error')
+          response.data.length.should.be.within(3, 5)
+        })
+      })
       it('filter to_date', function () {
           return runAction('formCiconia:list', {to_date: '2016-12-20T10:16Z'}).then(function (response){
-            response.should.not.have.property('error');
-            response.data.length.should.be.equal(2);
-          });
-      });
+            response.should.not.have.property('error')
+            response.data.length.should.be.equal(2)
+          })
+      })
       it('filter from_date and to_date', function () {
           return runAction('formCiconia:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:16Z'}).then(function (response){
-            response.should.not.have.property('error');
-            response.data.length.should.be.equal(1);
-          });
-      });
-    });
+            response.should.not.have.property('error')
+            response.data.length.should.be.equal(1)
+          })
+      })
+    })
 
   }); // given some Ciconia rows
 
   describe('Edit ciconia row', function () {
-    var ciconiaId;
+    var ciconiaId
 
     before(function () {
       return setup.runActionAsUser2('formCiconia:create', ciconiaRecord).then(function (response) {
-        ciconiaId = response.data.id;
-      });
-    });
+        ciconiaId = response.data.id
+      })
+    })
 
     it('is allowed if the requester is the submitter', function () {
       return setup.runActionAsUser2('formCiconia:edit', {id: ciconiaId, notes: 'some new notes'}).then(function (response) {
-        response.should.not.have.property('error');
+        response.should.not.have.property('error')
         return setup.api.models.formCiconia.findOne({where: {id: ciconiaId}}).then(function (ciconia) {
-          ciconia.notes.should.be.equal('some new notes');
-        });
+          ciconia.notes.should.be.equal('some new notes')
+        })
 
-      });
-    });
+      })
+    })
 
     setup.describeAsGuest(function (runAction) {
       it('is not allowed if the requester is guest  user', function () {
         return runAction('formCiconia:edit', {id: ciconiaId}).then(function (response) {
-          response.should.have.property('error').and.not.empty();
-        });
-      });
-    });
+          response.should.have.property('error').and.not.empty()
+        })
+      })
+    })
 
     setup.describeAsUser(function (runAction) {
       it('is not allowed if the requester user is not the submitter', function () {
         return runAction('formCiconia:edit', {id: ciconiaId}).then(function (response) {
-          response.should.have.property('error').and.not.empty();
-        });
-      });
-    });
+          response.should.have.property('error').and.not.empty()
+        })
+      })
+    })
 
     setup.describeAsAdmin(function (runAction) {
       it('is allowed if the requester user is admin', function () {
         return runAction('formCiconia:edit', {id: ciconiaId, notes: 'some new notes', user: 3}).then(function (response) {
-          response.should.not.have.property('error');
+          response.should.not.have.property('error')
           return setup.api.models.formCiconia.findOne({where: {id: ciconiaId}}).then(function (ciconia) {
-            ciconia.notes.should.be.equal('some new notes');
-          });
-        });
-      });
-    });
+            ciconia.notes.should.be.equal('some new notes')
+          })
+        })
+      })
+    })
 
 
   }); // Edit ciconia row
 
-});
+})

@@ -1,10 +1,10 @@
-var _ = require('lodash');
-var should = require('should');
-var sinon = require('sinon');
-var setup = require('../_setup');
-var Promise = require('bluebird');
-var moment = require('moment');
-require('should-sinon');
+var _ = require('lodash')
+var should = require('should')
+var sinon = require('sinon')
+var setup = require('../_setup')
+var Promise = require('bluebird')
+var moment = require('moment')
+require('should-sinon')
 
 describe('Action formHerps:', function () {
   var herpsRecord = {
@@ -115,107 +115,107 @@ describe('Action formHerps:', function () {
       }
     ],
     notes: 'some notes'
-  };
+  }
 
   before(function () {
-    return setup.init();
-  });
+    return setup.init()
+  })
 
   after(function () {
-    return setup.finish();
-  });
+    return setup.finish()
+  })
 
   describe('Guest user', function () {
     setup.describeAsGuest(function (runAction) {
       it('fails to create herps record', function () {
         return runAction('formHerps:create', herpsRecord).then(function (response) {
-          response.error.should.be.equal('Error: Please log in to continue');
-        });
-      });
-    });
+          response.error.should.be.equal('Error: Please log in to continue')
+        })
+      })
+    })
   }); // Guest user
 
   setup.describeAsAuth(function (runAction) {
     describe('fails to create without', function () {
       var required = ['latitude', 'longitude', 'observationDateTime', 'monitoringCode',
-      'species', 'count', 'endDateTime', 'startDateTime', 'location'];
+      'species', 'count', 'endDateTime', 'startDateTime', 'location']
 
       required.forEach(function (property) {
         it(property, function () {
-          var reqBirdObj = _.cloneDeep(herpsRecord);
-          delete reqBirdObj[property];
+          var reqBirdObj = _.cloneDeep(herpsRecord)
+          delete reqBirdObj[property]
           return runAction('formHerps:create', reqBirdObj).then(function (response) {
-            response.error.should.be.equal('Error: ' + property + ' is a required parameter for this action');
-          });
-        });
-      });
+            response.error.should.be.equal('Error: actionhero.errors.missingParams')
+          })
+        })
+      })
     }); // fails to create without
 
     describe('CREATE', function () {
       it('creates herps record', function () {
         return runAction('formHerps:create', herpsRecord).then(function (response) {
-          should.not.exist(response.error);
-          response.data.id.should.be.greaterThan(0);
-        });
-      });
+          should.not.exist(response.error)
+          response.data.id.should.be.greaterThan(0)
+        })
+      })
 
       it('attaches the user created the record', function () {
         return runAction('formHerps:create', herpsRecord).then(function (response) {
-          should.not.exist(response.error);
-          response.data.user.should.be.equal(response.requesterUser.id);
-        });
-      });
-    });
+          should.not.exist(response.error)
+          response.data.user.should.be.equal(response.requesterUser.id)
+        })
+      })
+    })
 
   }); // describeAsAuth
 
   describe('Get herps record by id', function () {
-    var herpId;
+    var herpId
 
     before(function () {
       return setup.runActionAsUser2('formHerps:create', herpsRecord).then(function (response) {
-        herpId = response.data.id;
-      });
-    });
+        herpId = response.data.id
+      })
+    })
 
     it('is allowed if the requester user is the submitter', function () {
       return setup.runActionAsUser2('formHerps:view', {id: herpId}).then(function (response) {
-        response.should.not.have.property('error');
-        response.should.have.property('data');
-      });
-    });
+        response.should.not.have.property('error')
+        response.should.have.property('data')
+      })
+    })
 
     it('should return the correct row', function () {
       return setup.runActionAsUser2('formHerps:view', {id: herpId}).then(function (response) {
-        response.should.not.have.property('error');
-        response.data.id.should.be.equal(herpId);
-      });
-    });
+        response.should.not.have.property('error')
+        response.data.id.should.be.equal(herpId)
+      })
+    })
 
     setup.describeAsAdmin(function (runAction) {
       it('is allowed if the requester user is admin', function () {
         return runAction('formHerps:view', {id: herpId}).then(function (response) {
-          response.should.not.have.property('error');
-          response.should.have.property('data');
-        });
-      });
-    });
+          response.should.not.have.property('error')
+          response.should.have.property('data')
+        })
+      })
+    })
 
     setup.describeAsUser(function (runAction) {
       it('is not allowed if the requester user is not the submitter', function () {
         return runAction('formHerps:view', {id: herpId}).then(function (response) {
-          response.should.have.property('error').and.not.empty();
-        });
-      });
-    });
+          response.should.have.property('error').and.not.empty()
+        })
+      })
+    })
 
     setup.describeAsGuest(function (runAction) {
       it('is not allowed if the requester is guest  user', function () {
         return runAction('formHerps:view', {id: herpId}).then(function (response) {
-          response.should.have.property('error').and.not.empty();
-        });
-      });
-    });
+          response.should.have.property('error').and.not.empty()
+        })
+      })
+    })
 
   }); // Get herp record by id
 
@@ -223,148 +223,148 @@ describe('Action formHerps:', function () {
     setup.describeAsUser(function (runAction) {
       it('is allowed to list only his records', function () {
         return runAction('formHerps:list', {}).then(function (response) {
-          response.should.not.have.property('error');
-          response.should.have.property('data').not.empty().instanceOf(Array);
-          response.should.have.property('count').and.be.greaterThan(0);
+          response.should.not.have.property('error')
+          response.should.have.property('data').not.empty().instanceOf(Array)
+          response.should.have.property('count').and.be.greaterThan(0)
 
           for (var i = 0; i < response.data.length; i++) {
-            response.data[i].should.have.property('user');
-            response.data[i].should.not.be.empty();
-            response.data[i].user.should.be.equal(1);
+            response.data[i].should.have.property('user')
+            response.data[i].should.not.be.empty()
+            response.data[i].user.should.be.equal(1)
           }
-        });
-      });
-    });
+        })
+      })
+    })
 
     setup.describeAsAdmin(function (runAction) {
       it('admin is allowed to list all records', function () {
         return runAction('formHerps:list', {}).then(function (response) {
-          response.should.not.have.property('error');
-          response.should.have.property('data').not.empty().instanceOf(Array);
-          response.should.have.property('count').and.be.greaterThan(3);
-        });
-      });
-    });
+          response.should.not.have.property('error')
+          response.should.have.property('data').not.empty().instanceOf(Array)
+          response.should.have.property('count').and.be.greaterThan(3)
+        })
+      })
+    })
 
     setup.describeAsGuest(function (runAction) {
       it('guest is not allowed to list any records', function () {
         return runAction('formHerps:list', {}).then(function (response) {
-          response.should.have.property('error').not.empty();
-          response.should.not.have.property('data');
-          response.should.not.have.property('count');
-        });
-      });
-    });
+          response.should.have.property('error').not.empty()
+          response.should.not.have.property('data')
+          response.should.not.have.property('count')
+        })
+      })
+    })
 
     setup.describeAsAdmin(function (runAction) {
       it('filter user', function () {
         //Depends on users fixture third record AND formHerps fixture
         return runAction('formHerps:create', _.assign(herpsRecord, {user: 3})).then(function (response) {
           return runAction('formHerps:list', {user: 3}).then(function (response){
-            response.should.not.have.property('error');
+            response.should.not.have.property('error')
             for (var i = 0; i < response.data.length; i++) {
-              response.data[i].user.should.be.equal(3);
+              response.data[i].user.should.be.equal(3)
             }
-          });
-        });
-      });
-    });
+          })
+        })
+      })
+    })
 
     setup.describeAsUser(function (runAction) {
       it('filter species', function () {
         return runAction('formHerps:create', _.assign(herpsRecord, {species: 'Anas acuta'})).then(function (response) {
           return runAction('formHerps:list', {species: 'Anas acuta'}).then(function (response){
-            response.should.not.have.property('error');
+            response.should.not.have.property('error')
             for (var i = 0; i < response.data.length; i++) {
-              response.data[i].species.should.be.equal('Anas acuta');
+              response.data[i].species.should.be.equal('Anas acuta')
             }
-          });
-        });
-      });
-    });
+          })
+        })
+      })
+    })
 
     setup.describeAsUser(function (runAction) {
       it('filter location', function () {
         return runAction('formHerps:create', _.assign(herpsRecord, {location: 'some_unq_location'})).then(function (response) {
           return runAction('formHerps:list', {location: 'some_unq_location'}).then(function (response){
-            response.should.not.have.property('error');
-            response.data.length.should.be.equal(1);
-            response.data[0].location.should.be.equal('some_unq_location');
-          });
-        });
-      });
-    });
+            response.should.not.have.property('error')
+            response.data.length.should.be.equal(1)
+            response.data[0].location.should.be.equal('some_unq_location')
+          })
+        })
+      })
+    })
 
     setup.describeAsUser(function (runAction) {
       it('filter from_date', function () {
         return runAction('formHerps:list', {from_date: '2016-12-20T10:15Z'}).then(function (response){
-          response.should.not.have.property('error');
-          response.data.length.should.be.equal(2);
-        });
-      });
+          response.should.not.have.property('error')
+          response.data.length.should.be.equal(2)
+        })
+      })
       it('filter to_date', function () {
           return runAction('formHerps:list', {to_date: '2016-12-20T10:16Z'}).then(function (response){
-            response.should.not.have.property('error');
+            response.should.not.have.property('error')
             response.data.length.should.be.within(2, 4);//3 records from fixtures
-          });
-      });
+          })
+      })
       it('filter from_date and to_date', function () {
           return runAction('formHerps:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:16Z'}).then(function (response){
-            response.should.not.have.property('error');
-            response.data.length.should.be.equal(1);
-          });
-      });
-    });
+            response.should.not.have.property('error')
+            response.data.length.should.be.equal(1)
+          })
+      })
+    })
 
   }); // given some herps rows
 
   describe('Edit herps row', function () {
-    var herpsId;
+    var herpsId
 
     before(function () {
       return setup.runActionAsUser2('formHerps:create', herpsRecord).then(function (response) {
-        herpsId = response.data.id;
-      });
-    });
+        herpsId = response.data.id
+      })
+    })
 
     it('is allowed if the requester is the submitter', function () {
       return setup.runActionAsUser2('formHerps:edit', {id: herpsId, notes: 'some new notes'}).then(function (response) {
-        response.should.not.have.property('error');
+        response.should.not.have.property('error')
         return setup.api.models.formHerps.findOne({where: {id: herpsId}}).then(function (herp) {
-          herp.notes.should.be.equal('some new notes');
-        });
+          herp.notes.should.be.equal('some new notes')
+        })
 
-      });
-    });
+      })
+    })
 
     setup.describeAsGuest(function (runAction) {
       it('is not allowed if the requester is guest  user', function () {
         return runAction('formHerps:edit', {id: herpsId}).then(function (response) {
-          response.should.have.property('error').and.not.empty();
-        });
-      });
-    });
+          response.should.have.property('error').and.not.empty()
+        })
+      })
+    })
 
     setup.describeAsUser(function (runAction) {
       it('is not allowed if the requester user is not the submitter', function () {
         return runAction('formHerps:edit', {id: herpsId}).then(function (response) {
-          response.should.have.property('error').and.not.empty();
-        });
-      });
-    });
+          response.should.have.property('error').and.not.empty()
+        })
+      })
+    })
 
     setup.describeAsAdmin(function (runAction) {
       it('is allowed if the requester user is admin', function () {
         return runAction('formHerps:edit', {id: herpsId, notes: 'some new notes'}).then(function (response) {
-          response.should.not.have.property('error');
+          response.should.not.have.property('error')
           return setup.api.models.formHerps.findOne({where: {id: herpsId}}).then(function (herp) {
-            herp.notes.should.be.equal('some new notes');
-          });
-        });
-      });
-    });
+            herp.notes.should.be.equal('some new notes')
+          })
+        })
+      })
+    })
 
 
   }); // Edit herp row
 
-});
+})
