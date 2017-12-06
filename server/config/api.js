@@ -1,7 +1,7 @@
 var path = require('path');
 
-exports['default'] = {
-  general: function(api){
+exports[ 'default' ] = {
+  general: function (api) {
     var packageJSON = require(api.projectRoot + path.sep + 'package.json');
 
     return {
@@ -12,8 +12,6 @@ exports['default'] = {
       //  id: 'myActionHeroServer',
       // A unique token to your application that servers will use to authenticate to each other
       serverToken: 'something pretty unique so it can work',
-      // The welcome message seen by TCP and webSocket clients upon connection
-      welcomeMessage: 'Hello! Welcome to SmartBirds API',
       // the redis prefix for actionhero's cache objects
       cachePrefix: 'actionhero:cache:',
       // the redis prefix for actionhero's cache/lock objects
@@ -31,30 +29,31 @@ exports['default'] = {
       // params you would like hidden from any logs
       filteredParams: [],
       // values that signify missing params
-      missingParamChecks: [null, '', undefined],
+      missingParamChecks: [ null, '', undefined ],
       // The default filetype to server when a user requests a directory
-      directoryFileType : 'index.html',
+      directoryFileType: 'index.html',
       // The default priority level given to middleware of all types (action, connection, and say)
-      defaultMiddlewarePriority : 100,
+      defaultMiddlewarePriority: 100,
       // Which channel to use on redis pub/sub for RPC communication
       channel: 'actionhero',
       // How long to wait for an RPC call before considering it a failure
       rpcTimeout: 5000,
       // configuration for your actionhero project structure
       paths: {
-        'action':      [ __dirname + '/../actions'      ] ,
-        'task':        [ __dirname + '/../tasks'        ] ,
-        'public':      [ __dirname + '/../../public'       ] ,
-        'pid':         [ __dirname + '/../../pids'         ] ,
-        'log':         [ __dirname + '/../../log'          ] ,
-        'server':      [ __dirname + '/../servers'      ] ,
-        'initializer': [ __dirname + '/../initializers' ] ,
-        'plugin':      [ __dirname + '/../../node_modules' ] ,
-        'locale':      [ __dirname + '/../../i18n' ],
-        'model':       [ __dirname + '/../models'       ] ,
-        'view':        [ __dirname + '/../views' ] ,
-        'fileupload':  [ __dirname + '/../../uploads/tmp' ] ,
-        'monitoring':  [ __dirname + '/../../uploads/files' ] ,
+        'action': [ path.join(__dirname, '/../actions') ],
+        'task': [ path.join(__dirname, '/../tasks') ],
+        'public': [ path.join(__dirname, '/../../public') ],
+        'pid': [ path.join(__dirname, '/../../pids') ],
+        'log': [ path.join(__dirname, '/../../log') ],
+        'server': [ path.join(__dirname + '/../servers') ],
+        'cli': [ path.join(__dirname, '/../bin') ],
+        'initializer': [ path.join(__dirname, '/../initializers') ],
+        'plugin': [ path.join(__dirname, '/../../node_modules') ],
+        'locale': [ path.join(__dirname, '/../../i18n') ],
+        'model': [ path.join(__dirname, '/../models') ],
+        'view': [ path.join(__dirname, '/../views') ],
+        'fileupload': [ path.join(__dirname, '/../../uploads/tmp') ],
+        'monitoring': [ path.join(__dirname, '/../../uploads/files') ],
       },
       // hash containing chat rooms you wish to be created at server boot
       startingChatRooms: {
@@ -68,7 +67,7 @@ exports['default'] = {
 }
 
 exports.test = {
-  general: function(api){
+  general: function (api) {
     return {
       id: 'test-server',
       developmentMode: true,
@@ -76,16 +75,21 @@ exports.test = {
         'defaultRoom': {},
         'otherRoom': {},
       },
-      'locale': [require('os').tmpdir()  + require('path').sep + 'locale']
+      paths: {
+        'locale': [
+          // require('os').tmpdir() + require('path').sep + 'locale'
+          path.join(__dirname, '/../../i18n')
+        ]
+      }
     }
   }
 }
 
 exports.production = {
-  general: function(api){
+  general: function (api) {
     return {
       developmentMode: false,
-      filteredParams: ['password', 'oldPassword', 'newPassword'],
+      filteredParams: [ 'password', 'oldPassword', 'newPassword' ],
     }
   }
 }
