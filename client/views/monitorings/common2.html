@@ -4,28 +4,28 @@
            label="Място"
            model="monitoringDetailController.data.location"></field>-->
     <field name="location" type="location" required="true"
-           label="Място"
+           label="{{'COMMON_FORM_LOCATION' | translate}}"
            on-select="monitoringDetailController.locationUpdated($item)"
            model="monitoringDetailController.data.location"></field>
   </div>
   <div class="col-md-4 col-lg-3">
     <field name="monitoringCode" type="text"
-           label="Код наблюдение"
+           label="{{'COMMON_FORM_MONITORING_CODE' | translate}}"
            model="monitoringDetailController.data.monitoringCode"
-           uib-tooltip="Това поле можете да бъде използвано, когато искате да добавите повече от един запис на дадено място. Кода на полето е по ваш избор."
+           uib-tooltip="{{'COMMON_FORM_MONITORING_CODE_TOOLTIP' | translate}}"
     ></field>
   </div>
   <div class="col-md-3 col-lg-3">
     <field name="observationDate" type="date" required="true"
-           label="Наблюдение дата"
+           label="{{'COMMON_FORM_OBSERVATION_DATE' | translate}}"
            on-select="monitoringDetailController.observationDateChange()"
            model="monitoringDetailController.data.observationDateTime"></field>
   </div>
 
   <div class="col-md-2 col-lg-3">
     <field name="observationTime" type="time" required="true"
-           label="Наблюдение час"
-           label-md="Час"
+           label="{{'COMMON_FORM_OBSERVATION_TIME' | translate}}"
+           label-md="{{'COMMON_FORM_TIME' | translate}}"
            on-select="monitoringDetailController.observationDateChange()"
            model="monitoringDetailController.data.observationDateTime"></field>
   </div>
@@ -35,27 +35,27 @@
 
   <div class="col-md-4 col-lg-3">
     <field name="startDate" type="date" required="true"
-           label="Начална дата"
+           label="{{'COMMON_FORM_START_DATE' | translate}}"
            model="monitoringDetailController.data.startDateTime"></field>
   </div>
 
   <div class="col-md-2 col-lg-3">
     <field name="startTime" type="time" required="true"
-           label="Начален час"
-           label-md="Час"
+           label="{{'COMMON_FORM_START_TIME' | translate}}"
+           label-md="{{'COMMON_FORM_TIME' | translate}}"
            model="monitoringDetailController.data.startDateTime"></field>
   </div>
 
   <div class="col-md-4 col-lg-3">
     <field name="endDate" type="date" required="true"
-           label="Крайна дата"
+           label="{{'COMMON_FORM_END_DATE' | translate}}"
            model="monitoringDetailController.data.endDateTime"></field>
   </div>
 
   <div class="col-md-2 col-lg-3">
     <field name="endTime" type="time" required="true"
-           label="Краен час"
-           label-md="Час"
+           label="{{'COMMON_FORM_END_TIME' | translate}}"
+           label-md="{{'COMMON_FORM_TIME' | translate}}"
            model="monitoringDetailController.data.endDateTime"></field>
   </div>
 
@@ -64,19 +64,19 @@
 <div class="row">
   <div ng-if="$user.isAdmin()" class="col-md-4">
     <field name="user" type="user" required="true"
-           label="Наблюдател"
+           label="{{'COMMON_FORM_OBSERVER' | translate}}"
            model="monitoringDetailController.data.user"></field>
   </div>
 
   <div class="col-md-4">
     <field name="observers" type="text"
-           label="Други наблюдатели"
+           label="{{'COMMON_FORM_OTHER_OBSERVERS' | translate}}"
            model="monitoringDetailController.data.observers"></field>
   </div>
 
   <div ng-if="monitoringDetailController.data.hasSource" class="col-md-4">
     <field name="source" type="single-choice" nomenclature="main_source"
-           label="Източник"
+           label="{{'COMMON_FORM_SOURCE' | translate}}"
            model="monitoringDetailController.data.source"></field>
   </div>
 </div>
