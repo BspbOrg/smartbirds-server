@@ -1,4 +1,4 @@
-function parseDatabaseUrl(databaseUrl, options) {
+function parseDatabaseUrl (databaseUrl, options) {
   options = options || {};
   if (!databaseUrl) return options;
 
@@ -26,15 +26,14 @@ function parseDatabaseUrl(databaseUrl, options) {
   }
 
   if (urlParts.auth) {
-    options.username = urlParts.auth.split(':')[0];
-    options.password = urlParts.auth.split(':')[1];
+    options.username = urlParts.auth.split(':')[ 0 ];
+    options.password = urlParts.auth.split(':')[ 1 ];
   }
 
   return options;
 }
 
-
-exports.default = {
+exports[ 'default' ] = {
   sequelize: function (api) {
     return parseDatabaseUrl(process.env.DATABASE_URL || 'postgres://smartbirds:secret@localhost:5432/smartbirds', {
       autoMigrate: true,
@@ -73,17 +72,17 @@ exports.test = {
 // For sequelize-cli
 // Add to the exports below, if you have setup additional environment-specific settings
 
-exports.development = exports.default.sequelize();
+exports.development = exports[ 'default' ].sequelize();
 exports.test = merge(exports.test);
 exports.production = merge(exports.production);
 
-function merge(overlayFn) {
+function merge (overlayFn) {
   var mergeObj = {};
-  for (var attrname in exports.default.sequelize()) {
-    mergeObj[attrname] = exports.default.sequelize()[attrname];
+  for (var attrname in exports[ 'default' ].sequelize()) {
+    mergeObj[ attrname ] = exports[ 'default' ].sequelize()[ attrname ];
   }
   if (typeof(overlayFn) !== 'undefined') for (var attrname in overlayFn.sequelize()) {
-    mergeObj[attrname] = overlayFn.sequelize()[attrname];
+    mergeObj[ attrname ] = overlayFn.sequelize()[ attrname ];
   }
 
   // Map over AH's sequelize fn
