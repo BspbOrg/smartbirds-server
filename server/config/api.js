@@ -1,8 +1,12 @@
-exports.default = {
+var path = require('path');
+
+exports['default'] = {
   general: function(api){
+    var packageJSON = require(api.projectRoot + path.sep + 'package.json');
+
     return {
-      apiVersion: '0.0.1',
-      serverName: 'smartbirds-server',
+      apiVersion: packageJSON.version,
+      serverName: packageJSON.name,
       // id can be set here, or it will be generated dynamically.
       //  Be sure that every server you run has a unique ID (which will happen when generated dynamically)
       //  id: 'myActionHeroServer',
@@ -18,8 +22,6 @@ exports.default = {
       lockDuration: 1000 * 10, // 10 seconds
       // Watch for changes in actions and tasks, and reload/restart them on the fly
       developmentMode: true,
-      // Should we run each action within a domain? Makes your app safer but slows it down
-      actionDomains: false,
       // How many pending actions can a single connection be working on
       simultaneousActions: 5,
       // allow connections to be created without remoteIp and remotePort (they will be set to 0)
@@ -44,6 +46,7 @@ exports.default = {
         'server':      [ __dirname + '/../servers'      ] ,
         'initializer': [ __dirname + '/../initializers' ] ,
         'plugin':      [ __dirname + '/../../node_modules' ] ,
+        'locale':      [ __dirname + '/../../i18n' ],
         'model':       [ __dirname + '/../models'       ] ,
         'view':        [ __dirname + '/../views' ] ,
         'fileupload':  [ __dirname + '/../../uploads/tmp' ] ,
@@ -62,19 +65,14 @@ exports.default = {
 
 exports.test = {
   general: function(api){
-    var actionDomains = true;
-    if(process.env.ACTIONDOMAINS === 'false'){
-      actionDomains = false;
-    }
-
     return {
       id: 'test-server',
       developmentMode: true,
-      actionDomains: actionDomains,
       startingChatRooms: {
         'defaultRoom': {},
         'otherRoom': {},
       },
+      'locale': [require('os').tmpdir()  + require('path').sep + 'locale']
     }
   }
 }

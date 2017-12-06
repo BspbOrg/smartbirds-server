@@ -1,3 +1,5 @@
+var os = require('os');
+
 exports.default = {
   servers: {
     web: function(api){
@@ -52,7 +54,7 @@ exports.default = {
         // Options to be applied to incoming file uploads.
         //  More options and details at https://github.com/felixge/node-formidable
         formOptions: {
-          uploadDir: '/tmp',
+          uploadDir: os.tmpdir(),
           keepExtensions: false,
           maxFieldsSize: 1024 * 1024 * 100
         },
@@ -70,6 +72,11 @@ exports.default = {
         // should this node server attempt to gzip responses if the client can accept them?
         // this will slow down the performance of actionhero, and if you need this funcionality, it is recommended that you do this upstream with nginx or your load balancer
         compress: false,
+        // options to pass to the query parser
+        // learn more about the options @ https://github.com/hapijs/qs
+        queryParseOptions: {},
+        // when true, an ETAG Header will be provided with each requested static file for caching reasons
+        enableEtag: true
       }
     }
   }

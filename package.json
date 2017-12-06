@@ -46,7 +46,7 @@
     "budo": "budo ./client/scripts/app.js --serve js/scripts.js  -d public/ --live --pushstate"
   },
   "dependencies": {
-    "actionhero": "~12.1.2",
+    "actionhero": "~13.4.5",
     "archiver": "^1.1.0",
     "bcrypt": "~0.8.5",
     "bluebird": "~3.0.5",
