@@ -31,15 +31,16 @@ var setup = {
     });
   },
   runActionAs: function (action, params, user) {
-    return setup.runAction('session:create', {
+    var conn = new setup.api.specHelper.connection();
+    conn.params = {
       email: user,
       password: "secret"
-    }).then(function (response) {
+    }
+    return setup.runAction('session:create', conn).then(function (response) {
       response.should.have.property('csrfToken').and.not.be.empty();
-      var connection = new setup.api.specHelper.connection();
-      connection.params = _.assign({}, params);
-      connection.rawConnection.req = {headers: {'x-sb-csrf-token': response.csrfToken}};
-      return setup.runAction(action, connection).then(function(actionResponse) {
+      conn.params = _.assign({}, params);
+      conn.rawConnection.req = { headers: { 'x-sb-csrf-token': response.csrfToken } };
+      return setup.runAction(action, conn).then(function (actionResponse) {
         actionResponse.requesterUser = response.user;
         return actionResponse;
       });
@@ -72,16 +73,16 @@ var setup = {
   describeAsAdmin: function (specs) {
     return setup.describeAs('admin', setup.runActionAsAdmin, specs);
   },
-  describeAsAuth: function(specs) {
-    return setup.describeAsRoles(['user', 'admin'], specs);
+  describeAsAuth: function (specs) {
+    return setup.describeAsRoles([ 'user', 'admin' ], specs);
   },
   describeAsRoles: function (roles, specs) {
     return Promise.map(roles, function (role) {
-      return setup['describeAs' + _.capitalize(role.toLowerCase())](specs);
+      return setup[ 'describeAs' + _.capitalize(role.toLowerCase()) ](specs);
     });
   },
   describeAllRoles: function (specs) {
-    return setup.describeAsRoles(['guest', 'user', 'admin'], specs);
+    return setup.describeAsRoles([ 'guest', 'user', 'admin' ], specs);
   }
 };
 

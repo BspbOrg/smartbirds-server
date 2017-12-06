@@ -46,7 +46,7 @@
     "budo": "budo ./client/scripts/app.js --serve js/scripts.js  -d public/ --live --pushstate"
   },
   "dependencies": {
-    "actionhero": "~13.4.5",
+    "actionhero": "~14.0.12",
     "archiver": "^1.1.0",
     "bcrypt": "~0.8.5",
     "bluebird": "~3.0.5",
@@ -66,9 +66,11 @@
     "ejs": "^2.3.4",
     "email-templates": "^2.0.1",
     "envify": "~3.4.0",
+    "fakeredis": "^2.0.0",
     "filestorage": "^1.5.0",
     "form-data": "^2.3.1",
     "http-server": "~0.8.5",
+    "ioredis": "^3.2.2",
     "less": "~2.5.3",
     "less-plugin-clean-css": "~1.5.1",
     "lodash": "^4.16.6",
@@ -95,7 +97,8 @@
     "umzug": "~1.6.0",
     "underscore.string": "^3.3.4",
     "uuid": "^2.0.3",
-    "validator": "~4.2.1"
+    "validator": "~4.2.1",
+    "ws": "^3.3.2"
   },
   "browser": {
     "angular": "./bower_components/angular/angular.js",

@@ -2,6 +2,7 @@ var crypto = require('crypto');
 
 module.exports = {
   initialize: function (api, next) {
+    const redis = api.redis.clients.client
 
     api.session = {
       prefix: 'session:',
@@ -9,7 +10,7 @@ module.exports = {
 
       load: function (connection, callback) {
         var key = api.session.prefix + connection.fingerprint;
-        api.redis.client.get(key, function (error, data) {
+        redis.get(key, function (error, data) {
           if (error) {
             return callback(error);
           }
@@ -36,11 +37,11 @@ module.exports = {
           };
 
           user.update({lastLoginAt: new Date()}).then(function () {
-            api.redis.client.set(key, JSON.stringify(sessionData), function (error, data) {
+            redis.set(key, JSON.stringify(sessionData), function (error, data) {
               if (error) {
                 return callback(error);
               }
-              api.redis.client.expire(key, api.session.ttl, function (error) {
+              redis.expire(key, api.session.ttl, function (error) {
                 callback(error, sessionData);
               });
             });
@@ -50,7 +51,7 @@ module.exports = {
 
       destroy: function (connection, callback) {
         var key = api.session.prefix + connection.fingerprint;
-        api.redis.client.del(key, callback);
+        redis.del(key, callback);
       },
 
       middleware: {
@@ -71,7 +72,7 @@ module.exports = {
 
                 data.session = sessionData;
                 var key = api.session.prefix + data.connection.fingerprint;
-                api.redis.client.expire(key, api.session.ttl, function (error) {
+                redis.expire(key, api.session.ttl, function (error) {
                   if (error)
                     api.log('redis error', 'error', error);
                   next(error);
