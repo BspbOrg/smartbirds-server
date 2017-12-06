@@ -2,7 +2,7 @@ var _ = require('lodash');
 var Promise = require('bluebird');
 
 var setup = {
-  serverPrototype: require(__dirname + "/../node_modules/actionhero/actionhero.js").actionheroPrototype,
+  serverPrototype: require(__dirname + "/../node_modules/actionhero/actionhero.js"),
   testUrl: "http://127.0.0.1:18080/api",
 
   init: function () {
