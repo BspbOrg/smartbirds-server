@@ -6,10 +6,10 @@
           <button type="button"
                   class="btn btn-danger"
                   ng-disabled="!monitoringController.selectedRows.length"
-                  confirm="Потвърдете изтриването на {{monitoringController.selectedRows.length}} записа"
+                  confirm="{{'HERP_LIST_BUTTON_DELETE_CONFIRM_MESSAGE' | translate:monitoringController.deleteSelecterRowsTranslationValues()}}"
                   ng-click="monitoringController.deleteRows(monitoringController.selectedRows)">
             <i class="fa fa-trash fa-fw"></i>
-            Изтриване
+            {{'HERP_LIST_BUTTON_DELETE' | translate}}
             <span ng-if="monitoringController.selectedRows.length>1" class="badge">{{monitoringController.selectedRows.length}}</span>
           </button>
         </div>
@@ -19,12 +19,12 @@
              ui-sref=".new"
           >
             <i class="fa fa-file-o fa-fw"></i>
-            Ново наблюдение
+            {{'HERP_LIST_BUTTON_NEW_ENTRY' | translate}}
           </a>
         </div>
       </div>
-      Форма ЗВБ
-      <small>Наблюдения на земноводни, влечуги и бозайници</small>
+      {{'HERP_LIST_TITLE_MAIN' | translate}}
+      <small translate>HERP_LIST_TITLE_SECONDARY</small>
     </h1>
   </div>
 </div>
@@ -36,15 +36,15 @@
         <div class="pull-right">
           <div class="btn-group">
             <button type="button" class="btn btn-default" disabled
-                    title="Намерени записи отговарящи на избраните филтри">
+                    title="{{'HERP_LIST_FOUND_RECORDS_COUNT_TOOLTIP' | translate}}">
               {{monitoringController.count || 0}}
             </button>
             <a role="button" class="btn btn-default" ng-href="{{monitoringController.downloadLink}}" target="_blank"
-               title="Генериране на csv файл с всички намерени записи">
+               title="{{'HERP_LIST_BUTTON_CSV_EXPORT_TOOLTIP' | translate}}">
               <i class="fa fa-download fa-fw"></i> csv
             </a>
             <a role="button" class="btn btn-default" ng-href="{{monitoringController.exportLink}}" target="_blank"
-               title="Генериране на zip файл с всички намерени записи, техните снимки и gpx файлове">
+               title="{{'HERP_LIST_BUTTON_ZIP_EXPORT_TOOLTIP' | translate}}">
               <i class="fa fa-download fa-fw"></i> zip
             </a>
           </div>
@@ -58,38 +58,38 @@
 
             <div ng-if="$user.isAdmin()" class="col-md-4 col-lg-3">
               <field name="user" type="user"
-                     label="Наблюдател"
-                     placeholder="- всички -"
+                     label="{{'HERP_LIST_FILTER_USER' | translate}}"
+                     placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
                      on-select="monitoringController.updateFilter()"
                      model="monitoringController.filter.user"></field>
             </div>
 
             <div class="col-md-4 col-lg-3">
               <field name="location" type="location"
-                     label="Място"
-                     placeholder="- всички -"
+                     label="{{'HERP_LIST_FILTER_LOCATION' | translate}}"
+                     placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
                      on-select="monitoringController.updateFilter()"
                      model="monitoringController.filter.location"></field>
             </div>
 
             <div class="col-md-4 col-lg-3">
               <field name="fromDate" type="date"
-                     label="От"
+                     label="{{'HERP_LIST_FILTER_FROM_DATE' | translate}}"
                      on-select="monitoringController.updateFilter()"
                      model="monitoringController.filter.from_date"></field>
             </div>
 
             <div class="col-md-4 col-lg-3">
               <field name="toDate" type="date"
-                     label="До"
+                     label="{{'HERP_LIST_FILTER_TO_DATE' | translate}}"
                      on-select="monitoringController.updateFilter()"
                      model="monitoringController.filter.to_date"></field>
             </div>
 
             <div class="col-md-4 col-lg-3">
               <field name="species" type="species" nomenclature="herp"
-                     label="Вид"
-                     placeholder="- всички -"
+                     label="{{'HERP_LIST_FILTER_SPECIES' | translate}}"
+                     placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
                      on-select="monitoringController.updateFilter()"
                      model="monitoringController.filter.species"></field>
             </div>
@@ -107,13 +107,13 @@
   <div class="col-lg-12">
     <ul class="nav nav-tabs">
       <li role="presentation" ng-class="{active: monitoringController.tab == 'list'}">
-        <a href ng-click="monitoringController.tab = 'list'">
-          Списък
+        <a href ng-click="monitoringController.tab = 'list'" translate>
+          HERP_LIST_TAB_LIST
         </a>
       </li>
       <li role="presentation" ng-class="{active: monitoringController.tab == 'map'}">
-        <a href ng-click="monitoringController.tab = 'map'; monitoringController.nextPage(1000)">
-          Карта
+        <a href ng-click="monitoringController.tab = 'map'; monitoringController.nextPage(1000)" translate>
+          HERP_LIST_TAB_MAP
         </a>
       </li>
     </ul>
@@ -123,9 +123,9 @@
      class="row">
   <div class="col-md-12">
     <p ng-if="monitoringController.count > monitoringController.rows.length" class="text-warning">
-      Показани са само последните {{monitoringController.rows.length}} записа!
+      {{'HERP_LIST_MAP_SHOWN_RECORDS_WARNING' | translate: monitoringController.resultRowsTranslationValues()}}
       <button ng-if="$user.isAdmin() && !monitoringController.loading" type="button" class="btn btn-default btn-xs"
-              ng-click="monitoringController.nextPage(-1)">Покажи всички
+              ng-click="monitoringController.nextPage(-1)" translate>HERP_LIST_MAP_BUTTON_SHOW_ALL
       </button>
     </p>
     <list-map rows="monitoringController.rows" ctrl="monitoringController.map"></list-map>
@@ -146,27 +146,27 @@
         </th>
         <th sb-sorting="id">#</th>
         <th ng-if="$user.isAdmin()"
-            sb-sorting="getUser().getName()">
-          Наблюдател
+            sb-sorting="getUser().getName()" translate>
+          HERP_LIST_TABLE_USER
         </th>
         <th
-          sb-sorting="location">
-          Локация
+          sb-sorting="location" translate>
+          HERP_LIST_TABLE_LOCATION
         </th>
         <th
-          sb-sorting="date|date:'yyyyMMddHHmmss'">
-          Дата/час
+          sb-sorting="date|date:'yyyyMMddHHmmss'" translate>
+          HERP_LIST_TABLE_DATE
         </th>
         <th
-          sb-sorting="updatedAt|date:'yyyyMMddHHmmss'">
-          Променен
+          sb-sorting="updatedAt|date:'yyyyMMddHHmmss'" translate>
+          HERP_LIST_TABLE_UPDATED
         </th>
-        <th sb-sorting="species.label.bg">
-          Вид
+        <th sb-sorting="species.label.bg" translate>
+          HERP_LIST_TABLE_SPECIES
         </th>
         <th
-          sb-sorting="count">
-          Брой
+          sb-sorting="count" translate>
+          HERP_LIST_TABLE_COUNT
         </th>
       </tr>
       </thead>
