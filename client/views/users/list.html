@@ -8,11 +8,11 @@
              ui-sref=".new"
           >
             <i class="fa fa-file-o fa-fw"></i>
-            {{'USERS_LIST_BUTTON_NEW_USER' | translate}}
+            {{'USER_LIST_BUTTON_NEW_USER' | translate}}
           </a>
         </div>
       </div>
-      {{'USERS_LIST_TITLE' | translate}}
+      {{'USER_LIST_TITLE' | translate}}
     </h1>
   </div>
 </div>
@@ -25,20 +25,20 @@
         <form role="form" class="form form-filter">
 
           <div class="form-group">
-            <label translate>USERS_LIST_FILTER_SEARCH</label>
+            <label translate>USER_LIST_FILTER_SEARCH</label>
             <input name="search" type="text" class="form-control"
                    ng-model="data.filter.search"
             />
           </div>
 
           <div class="form-group">
-            <label translate>USERS_LIST_FILTER_ROLE</label>
+            <label translate>USER_LIST_FILTER_ROLE</label>
             <select name="role" class="form-control"
                     ng-model="data.filter.role"
             >
-              <option value="" translate>USERS_LIST_FILTER_ROLE_ALL</option>
-              <option value="user" translate>USERS_LIST_FILTER_ROLE_USER</option>
-              <option value="admin" translate>USERS_LIST_FILTER_ROLE_ADMINISTRATOR</option>
+              <option value="" translate>USER_LIST_FILTER_ROLE_ALL</option>
+              <option value="user" translate>USER_LIST_FILTER_ROLE_USER</option>
+              <option value="admin" translate>USER_LIST_FILTER_ROLE_ADMINISTRATOR</option>
             </select>
           </div>
 
@@ -55,11 +55,11 @@
       <thead>
       <tr>
         <th class="col-md-1" sortable-column="id">#</th>
-        <th class="col-md-3" sortable-column="email" translate>USERS_LIST_TABLE_EMAIL</th>
-        <th class="col-md-2" sortable-column="firstName" translate>USERS_LIST_TABLE_FIRST_NAME</th>
-        <th class="col-md-2" sortable-column="lastName" translate>USERS_LIST_TABLE_LAST_NAME</th>
-        <th class="col-md-2" sortable-column="lastLoginAt|date:'yyyyMMddHHmmss'" translate>USERS_LIST_TABLE_LAST_LOGIN</th>
-        <th class="col-md-1 text-center" sortable-column="isAdmin" translate>USERS_LIST_TABLE_ROLE</th>
+        <th class="col-md-3" sortable-column="email" translate>USER_LIST_TABLE_EMAIL</th>
+        <th class="col-md-2" sortable-column="firstName" translate>USER_LIST_TABLE_FIRST_NAME</th>
+        <th class="col-md-2" sortable-column="lastName" translate>USER_LIST_TABLE_LAST_NAME</th>
+        <th class="col-md-2" sortable-column="lastLoginAt|date:'yyyyMMddHHmmss'" translate>USER_LIST_TABLE_LAST_LOGIN</th>
+        <th class="col-md-1 text-center" sortable-column="isAdmin" translate>USER_LIST_TABLE_ROLE</th>
       </tr>
       </thead>
       <tbody>
@@ -75,8 +75,8 @@
           <button type="button" class="btn btn-sm"
                   ng-class="{'btn-warning': row.isAdmin, 'btn-default': !row.isAdmin}"
                   ng-click="usersController.toggleAdmin(row)">
-            <span ng-if="row.isAdmin" translate>USERS_LIST_TABLE_BUTTON_ADMINISTRATOR</span>
-            <span ng-if="!row.isAdmin" translate>USERS_LIST_TABLE_BUTTON_USER</span>
+            <span ng-if="row.isAdmin" translate>USER_LIST_TABLE_BUTTON_ADMINISTRATOR</span>
+            <span ng-if="!row.isAdmin" translate>USER_LIST_TABLE_BUTTON_USER</span>
           </button>
         </td>
       </tr>

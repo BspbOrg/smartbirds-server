@@ -6,13 +6,13 @@
           <button type="button" class="btn btn-primary"
                   ng-disabled="user.form.$pristine || user.form.$invalid"
                   ng-click="user.save()">
-            Запис
+            {{'USER_DETAIL_BUTTON_SAVE' | translate}}
             <i class="fa fa-save fa-fw"></i>
           </button>
         </div>
       </div>
-      <span ng-if="!user.data.id">Нов наблюдател</span>
-      <span ng-if="user.data.id">Редакция на профил</span>
+      <span ng-if="!user.data.id" translate>USER_DETAIL_TITLE_NEW</span>
+      <span ng-if="user.data.id" translate>USER_DETAIL_TITLE_EDIT</span>
     </h1>
   </div>
 
@@ -21,21 +21,21 @@
           role="form"
           autocomplete="off"
           confirm-on-exit="user.form.$dirty"
-          confirm-message-window="Имате незаписани промени!"
-          confirm-message-route="Имате незаписани промени. Сигурни ли сте че искате да продължите?">
+          confirm-message-window="{{'USER_DETAIL_UNSAVED_DATA_ALERT_TITLE' | translate}}"
+          confirm-message-route="{{'USER_DETAIL_UNSAVED_DATA_ALERT_MESSAGE' | translate}}">
 
       <field ng-if="$user.isAdmin()" name="admin" type="bool"
-             label="Администратор"
+             label="{{'USER_DETAIL_ADMINISTRATOR' | translate}}"
              model="user.data.isAdmin"
       ></field>
 
       <field name="firstName" type="text" required="true"
-             label="Име"
+             label="{{'USER_DETAIL_FIRST_NAME' | translate}}"
              model="user.data.firstName"
       ></field>
 
       <field name="lastName" type="text" required="true"
-             label="Фамилия"
+             label="{{'USER_DETAIL_LAST_NAME' | translate}}"
              model="user.data.lastName"
       ></field>
 
@@ -44,21 +44,21 @@
       <input ng-if="!user.hideFake" type="password" name="fakepasswordremembered1"/>
 
       <field name="email" type="email" required="true"
-             label="E-mail" readonly="user.data.id"
+             label="{{'USER_DETAIL_EMAIL' | translate}}" readonly="user.data.id"
              autocomplete="off"
              model="user.data.email"
       ></field>
 
       <field ng-if="!user.data.id"
              name="password" type="password" required="true"
-             label="Парола"
+             label="{{'USER_DETAIL_PASSWORD' | translate}}"
              autocomplete="off"
              model="user.data.password"
       ></field>
 
       <field ng-if="$user.getIdentity().id === user.data.id" language-switcher name="language" type="select"
              choices="[{id: 'bg', label: 'BG'}, {id: 'en', label: 'EN'}]"
-             label="Език"
+             label="{{'USER_DETAIL_LANGUAGE' | translate}}"
              model="user.data.language"
              on-select="$ctrl.changeLanguage(model)"></field>
 
@@ -67,54 +67,54 @@
       <input ng-if="!user.hideFake" type="password" name="fakepasswordremembered2"/>
 
       <field name="address" type="text"
-             label="Адрес"
+             label="{{'USER_DETAIL_ADDRESS' | translate}}"
              model="user.data.address"></field>
 
       <field name="city" type="text"
-             label="Град"
+             label="{{'USER_DETAIL_CITY' | translate}}"
              model="user.data.city"></field>
 
       <field name="postcode" type="text"
-             label="Пощенски код"
+             label="{{'USER_DETAIL_POST_CODE' | translate}}"
              model="user.data.postcode"></field>
 
       <field name="phone" type="phone"
-             label="Телефон"
+             label="{{'USER_DETAIL_PHONE' | translate}}"
              model="user.data.phone"></field>
 
       <field name="mobile" type="phone"
-             label="Моб. телефон"
+             label="{{'USER_DETAIL_MOBILE' | translate}}"
              model="user.data.mobile"></field>
 
       <field name="birds_knowledge" type="select"
              choices="['начинаещ', 'напреднал', 'професионалист']"
-             label="Ниво на познание на птиците"
-             placeholder="- няма -"
+             label="{{'USER_DETAIL_BIRDS_KNOWLEDGE' | translate}}"
+             placeholder="- {{'USER_DETAIL_BIRDS_KNOWLEDGE_NONE' | translate}} -"
              model="user.data.birdsKnowledge"></field>
 
       <field name="profile" type="text"
-             label="Профил"
+             label="{{'USER_DETAIL_PROFILE' | translate}}"
              model="user.data.profile"></field>
 
       <field name="level" type="select"
              choices="['първо', 'второ']"
-             label="Ниво"
-             placeholder="- няма -"
+             label="{{'USER_DETAIL_LEVEL' | translate}}"
+             placeholder="- {{'USER_DETAIL_LEVEL_NONE' | translate}} -"
              model="user.data.level"></field>
 
       <field name="notes" type="memo"
-             label="Бележки"
+             label="{{'USER_DETAIL_NOTES' | translate}}"
              model="user.data.notes"></field>
 
       <hr>
 
-      <h3>Подпис</h3>
+      <h3 translate>USER_DETAIL_SIGNATURE</h3>
 
       <img ng-src="{{user.data.getBannerUrl()}}">
 
       <div class="form-group">
         <label class="control-label"
-               for="banner1">Вграждане в BB forum</label>
+               for="banner1" translate>USER_DETAIL_EMBED_IN_BB_FORUM</label>
         <input type="text"
                id="banner1"
                class="form-control"
@@ -123,7 +123,7 @@
       </div>
       <div class="form-group">
         <label class="control-label"
-               for="banner3">Алтернативно вграждане в BB forum</label>
+               for="banner3" translate>USER_DETAIL_ALTERNATIVE_EMBED_IN_BB_FORUM</label>
         <input type="text"
                id="banner3"
                class="form-control"
@@ -132,7 +132,7 @@
       </div>
       <div class="form-group">
         <label class="control-label"
-               for="banner2">Вграждане в HTML</label>
+               for="banner2" translate>USER_DETAIL_EMBED_HTML</label>
         <input type="text"
                id="banner2"
                class="form-control"
@@ -150,7 +150,7 @@
         <button type="button" class="btn btn-primary"
                 ng-disabled="user.form.$pristine || user.form.$invalid"
                 ng-click="user.save()">
-          Запис
+          {{'USER_DETAIL_BUTTON_SAVE' | translate}}
           <i class="fa fa-save fa-fw"></i>
         </button>
       </div>
