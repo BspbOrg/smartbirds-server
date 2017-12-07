@@ -366,5 +366,19 @@
   "CICONIA_DETAIL_DATA_ON_JUVENILES_EXPELLED_FROM_PARENTS": "Данни за загинали малки изхвърлени от родителите",
   "CICONIA_DETAIL_DIED_OTHER_REASONS": "Загинали по други причини",
   "CICONIA_DETAIL_REASON": "Причина",
-  "CICONIA_DETAIL_SPECIES_NOTES": "Бележки вид"
+  "CICONIA_DETAIL_SPECIES_NOTES": "Бележки вид",
+  "USERS_LIST_BUTTON_NEW_USER": "Нов наблюдател",
+  "USERS_LIST_TITLE": "Наблюдатели",
+  "USERS_LIST_FILTER_SEARCH": "Търсене",
+  "USERS_LIST_FILTER_ROLE": "Права",
+  "USERS_LIST_FILTER_ROLE_ALL": "Всички",
+  "USERS_LIST_FILTER_ROLE_USER": "Наблюдател",
+  "USERS_LIST_FILTER_ROLE_ADMINISTRATOR": "Администратор",
+  "USERS_LIST_TABLE_EMAIL": "Е-поща",
+  "USERS_LIST_TABLE_FIRST_NAME": "Име",
+  "USERS_LIST_TABLE_LAST_NAME": "Фамилия",
+  "USERS_LIST_TABLE_LAST_LOGIN": "Последно влизане",
+  "USERS_LIST_TABLE_ROLE": "Права",
+  "USERS_LIST_TABLE_BUTTON_ADMINISTRATOR": "Администратор",
+  "USERS_LIST_TABLE_BUTTON_USER": "Наблюдател"
 }
