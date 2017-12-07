@@ -1,8 +1,8 @@
 <form name="smartform"
       role="form"
       confirm-on-exit="smartform.$dirty"
-      confirm-message-window="Имате незаписани промени!"
-      confirm-message-route="Имате незаписани промени. Сигурни ли сте че искате да продължите?">
+      confirm-message-window="{{'CICONIA_DETAIL_UNSAVED_DATA_ALERT_TITLE' | translate}}"
+      confirm-message-route="{{'CICONIA_DETAIL_UNSAVED_DATA_ALERT_MESSAGE' | translate}}">
   <div class="row">
     <div class="col-lg-12">
       <h1 class="page-header">
@@ -13,7 +13,7 @@
                     ng-disabled="smartform.$invalid || smartform.$pristine"
                     ng-click="monitoringDetailController.save()"
             >
-              Запис
+              {{'CICONIA_DETAIL_BUTTON_SAVE' | translate}}
               <i class="fa fa-save fa-fw"></i>
             </button>
             <button type="button"
@@ -21,13 +21,13 @@
                     ng-disabled="!monitoringDetailController.data.id"
                     ng-click="monitoringDetailController.copy()"
             >
-              Копие
+              {{'CICONIA_DETAIL_BUTTON_COPY' | translate}}
               <i class="fa fa-copy fa-fw"></i>
             </button>
           </div>
         </div>
-        <span ng-if="monitoringDetailController.data.id">Редакция на запис</span>
-        <span ng-if="!monitoringDetailController.data.id">Нов запис</span>
+        <span ng-if="monitoringDetailController.data.id" translate>CICONIA_DETAIL_TITLE_EDIT</span>
+        <span ng-if="!monitoringDetailController.data.id" translate>CICONIA_DETAIL_TITLE_NEW</span>
       </h1>
     </div>
   </div>
@@ -36,19 +36,19 @@
 
   <div ng-include="'/views/monitorings/common.html'"></div>
 
-  <h5>1. Гнездото на БЕЛИТЕ щъркели е върху:</h5>
+  <h5 translate>CICONIA_DETAIL_PARAGRAPH_1_TITLE</h5>
   <div class="row">
     <div class="col-md-6 col-lg-5">
       <div class="row">
         <div class="col-md-6">
           <field name="latitude" type="float" required="true"
-                 label="Географска ширина"
+                 label="{{'CICONIA_DETAIL_LATITUDE' | translate}}"
                  on-select="monitoringDetailController.updateFromModel()"
                  model="monitoringDetailController.data.latitude"></field>
         </div>
         <div class="col-md-6">
           <field name="longitude" type="float" required="true"
-                 label="Географска дължина"
+                 label="{{'CICONIA_DETAIL_LONGITUDE' | translate}}"
                  on-select="monitoringDetailController.updateFromModel()"
                  model="monitoringDetailController.data.longitude"></field>
         </div>
@@ -86,36 +86,36 @@
       <div class="row">
         <div class="col-md-6">
           <field name="primarySubstrateType" type="single-choice" nomenclature="ciconia_substratum"
-                 label="Основен тип на субстрата"
+                 label="{{'CICONIA_DETAIL_PRIMARY_SUBSTRATE_TYPE' | translate}}"
                  model="monitoringDetailController.data.primarySubstrateType"></field>
         </div>
         <div class="col-md-6">
           <field name="electricityPole" type="single-choice" nomenclature="ciconia_column"
-                 label="Стълб"
+                 label="{{'CICONIA_DETAIL_ELECTRICITY_POLE' | translate}}"
                  model="monitoringDetailController.data.electricityPole"></field>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
           <field name="nestIsOnArtificialPlatform" type="bool"
-                 label="Гнездо на изкуствена платформа"
+                 label="{{'CICONIA_DETAIL_NEST_IS_ON_ARTIFICIAL_PLATFORM' | translate}}"
                  model="monitoringDetailController.data.nestIsOnArtificialPlatform"></field>
         </div>
         <div class="col-md-6">
           <field name="typeElectricityPole" type="single-choice" nomenclature="ciconia_column_type"
-                 label="Вид стълб"
+                 label="{{'CICONIA_DETAIL_TYPE_ELECTRICITY_POLE' | translate}}"
                  model="monitoringDetailController.data.typeElectricityPole"></field>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
           <field name="nestOnArtificialHumanMadePlatform" type="bool"
-                 label="Гнездо на изкуствена поставка направена от човек"
+                 label="{{'CICONIA_DETAIL_NEST_ON_ARTIFICIAL_HUMAN_MADE_PLATFORM' | translate}}"
                  model="monitoringDetailController.data.nestOnArtificialHumanMadePlatform"></field>
         </div>
         <div class="col-md-6">
           <field name="nestIsOnAnotherTypeOfSubstrate" type="text"
-                 label="Гнездо на друг вид субстрат"
+                 label="{{'CICONIA_DETAIL_NEST_IS_ON_ANOTHER_TYPE_OF_SUBSTRATE' | translate}}"
                  model="monitoringDetailController.data.nestIsOnAnotherTypeOfSubstrate"></field>
         </div>
       </div>
@@ -126,42 +126,42 @@
   <div class="row">
     <div class="col-md-6">
       <field name="nestThisYearNotUtilizedByWhiteStorks" type="single-choice" nomenclature="ciconia_not_occupied"
-             label="Гнездото тази година НЕ се обитава от БЕЛИТЕ щъркели"
+             label="{{'CICONIA_DETAIL_NEST_THIS_YEAR_NOT_UTILIZED_BY_WHITE_STORKS' | translate}}"
              model="monitoringDetailController.data.nestThisYearNotUtilizedByWhiteStorks"></field>
     </div>
     <div class="col-md-6">
       <field name="thisYearOneTwoBirdsAppearedInNest" type="single-choice" nomenclature="ciconia_new_birds"
-             label="Тази година в гнездото са се появили една/две птици"
+             label="{{'CICONIA_DETAIL_THIS_YEAR_ONE_TWO_BIRDS_APPEARED_IN_NEST' | translate}}"
              model="monitoringDetailController.data.thisYearOneTwoBirdsAppearedInNest"></field>
     </div>
   </div>
   <div class="row">
     <div class="col-md-6">
       <field name="approximateDateStorksAppeared" type="date"
-             label="Приблизителна дата на появяване на щъркелите"
+             label="{{'CICONIA_DETAIL_APPROXIMATE_DATE_STORKS_APPEARED' | translate}}"
              model="monitoringDetailController.data.approximateDateStorksAppeared"></field>
     </div>
     <div class="col-md-6">
       <field name="approximateDateDisappearanceWhiteStorks" type="date"
-             label="Приблизителна дата на изчезване на щъркелите"
+             label="{{'CICONIA_DETAIL_APPROXIMTE_DATE_STORKS_DISAPPEARED' | translate}}"
              model="monitoringDetailController.data.approximateDateDisappearanceWhiteStorks"></field>
     </div>
   </div>
 
-  <h5>3. В гнездото не се виждат малки</h5>
+  <h5 translate>CICONIA_DETAIL_PARAGRAPH_3</h5>
   <div class="row">
     <div class="col-md-6">
       <field name="thisYearInTheNestAppeared" type="single-choice" nomenclature="ciconia_new_birds"
-             label="Тази година в гнездото са се появили"
+             label="{{'CICONIA_DETAIL_THIS_YEAR_IN_THE_NEST_APPEARED' | translate}}"
              model="monitoringDetailController.data.thisYearInTheNestAppeared"></field>
     </div>
   </div>
 
-  <h5>4. В гнездото има:</h5>
+  <h5 translate>CICONIA_DETAIL_PARAGRAPH_4</h5>
   <div class="row">
     <div class="col-md-6">
       <field name="countJuvenilesInNest" type="int" min="1"
-             label="Брой малки в гнездото"
+             label="{{'CICONIA_DETAIL_COUNT_JUVENILES_IN_NEST' | translate}}"
              model="monitoringDetailController.data.countJuvenilesInNest"></field>
     </div>
   </div>
@@ -170,31 +170,31 @@
   <div class="row">
     <div class="col-md-6">
       <field name="nestNotUsedForOverOneYear" type="int" min="0"
-             label="Гнездото НЕ се обитава от ПОВЕЧЕ от една година"
+             label="{{'CICONIA_DETAIL_NEST_NOT_USED_FOR_OVER_ONE_YEAR' | translate}}"
              model="monitoringDetailController.data.nestNotUsedForOverOneYear"></field>
     </div>
   </div>
 
-  <h5>6. Данни за загинали малки</h5>
+  <h5 translate>CICONIA_DETAIL_PARAGRAPH_6</h5>
   <div class="row">
     <div class="col-md-6">
       <field name="dataOnJuvenileMortalityFromElectrocutions" type="int" min="0"
-             label="Данни за загинали малки от ел. ток"
+             label="{{'CICONIA_DETAIL_DATA_ON_JUVENILE_MORTALITY_FROM_ELECTROCUTIONS' | translate}}"
              model="monitoringDetailController.data.dataOnJuvenileMortalityFromElectrocutions"></field>
     </div>
     <div class="col-md-6">
       <field name="dataOnJuvenileExpelledFromParents" type="int" min="0"
-             label="Данни за загинали малки изхвърлени от родителите"
+             label="{{'CICONIA_DETAIL_DATA_ON_JUVENILES_EXPELLED_FROM_PARENTS' | translate}}"
              model="monitoringDetailController.data.dataOnJuvenilesExpelledFromParents"></field>
     </div>
     <div class="col-md-6">
       <field name="diedOtherReasons" type="int" min="0"
-             label="Загинали по други причини"
+             label="{{'CICONIA_DETAIL_DIED_OTHER_REASONS' | translate}}"
              model="monitoringDetailController.data.diedOtherReasons"></field>
     </div>
     <div class="col-md-6">
       <field name="reason" type="text"
-             label="Причина"
+             label="{{'CICONIA_DETAIL_REASON' | translate}}"
              model="monitoringDetailController.data.reason"></field>
     </div>
   </div>
@@ -202,7 +202,7 @@
   <div class="row">
     <div class="col-md-12">
       <field name="speciesNotes" type="memo"
-             label="Бележки вид"
+             label="{{'CICONIA_DETAIL_SPECIES_NOTES' | translate}}"
              model="monitoringDetailController.data.speciesNotes"></field>
     </div>
   </div>
@@ -220,7 +220,7 @@
                   ng-disabled="smartform.$invalid || smartform.$pristine"
                   ng-click="monitoringDetailController.save()"
           >
-            Запис
+            {{'CICONIA_DETAIL_BUTTON_SAVE' | translate}}
             <i class="fa fa-save fa-fw"></i>
           </button>
           <button type="button"
@@ -228,7 +228,7 @@
                   ng-disabled="!monitoringDetailController.data.id"
                   ng-click="monitoringDetailController.copy()"
           >
-            Копие
+            {{'CICONIA_DETAIL_BUTTON_COPY' | translate}}
             <i class="fa fa-copy fa-fw"></i>
           </button>
         </div>
