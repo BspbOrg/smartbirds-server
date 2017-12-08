@@ -85,8 +85,10 @@ module.exports = {
         rm.pipe(concat(function (data) {
           try {
             var meta = JSON.parse(data);
-            api.log('blob %s => %s', 'debug', id, meta);
-            next(null, self.storage.createReadStream(meta.blob).pipe(api.filestorage.inflator(meta.type || 'application/octet-stream', meta.filters || {})), meta);
+            api.log('blob', 'debug', { id: id, meta: meta });
+            var inflator = api.filestorage.inflator(meta.type || 'application/octet-stream', meta.filters || {});
+            var strm = self.storage.createReadStream(meta.blob).pipe(inflator);
+            next(null, strm, meta);
           } catch (e) {
             return next(e);
           }
@@ -102,9 +104,13 @@ module.exports = {
 
       deflator: function (mime, filters) {
         if (mime.startsWith('image/')) {
-          api.log('detected image, will downsample to 1024');
-          filters.downsample = 1024;
-          return sharp().resize(1024, 1024).max().withoutEnlargement().jpeg({ force: false });
+          api.log('detected image, will downsample to %d', 'verbose', api.config.filestorage.imageDownsample);
+          filters.downsample = api.config.filestorage.imageDownsample;
+          return sharp()
+            .resize(api.config.filestorage.imageDownsample, api.config.filestorage.imageDownsample)
+            .max()
+            .withoutEnlargement()
+            .jpeg({ force: false });
         } else if ('application/gpx+xml' === mime) {
           filters.gzip = true;
           return zlib.createGzip();
