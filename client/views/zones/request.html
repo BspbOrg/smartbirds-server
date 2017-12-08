@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-lg-12">
-    <h1 class="page-header">Заявка за зона</h1>
+    <h1 class="page-header" translate>REQUEST_ZONE_TITLE</h1>
   </div>
 
   <div class="col-lg-12">
@@ -11,13 +11,13 @@
             <button type="button" class="btn btn-primary"
                     ng-disabled="!selectedZone"
                     ng-click="requestZone.request(selectedZone)">
-              Заяви
+              {{'REQUEST_ZONE_BUTTON_REQUEST' | translate}}
               <i class="fa fa-chevron-right fa-fw"></i>
             </button>
           </div>
         </div>
         <h5>
-          <i class="fa fa-edit fa-fw"></i> Заявка за нова зона
+          <i class="fa fa-edit fa-fw"></i> {{'REQUEST_ZONE_SUBTITLE' | translate}}
         </h5>
       </div>
     </div>
@@ -27,16 +27,16 @@
     <form name="form" role="form">
 
       <div class="form-group" ng-class="{'has-error': !zones.length && requestZone.location}">
-        <label for="location">Локация</label>
+        <label for="location" translate>REQUEST_ZONE_LOCATION</label>
         <location-selector model="requestZone.location"
                            name="location"
-                           placeholder="Изберете област за да видите свободни зони"
+                           placeholder="{{'REQUEST_ZONE_LOCATION_PLACEHOLDER' | translate}}"
                            required="true"></location-selector>
         <!--<input name="location" type="text" class="form-control"-->
                <!--ng-model="requestZone.location" required-->
                <!--uib-typeahead="location as location.type.bg+' '+location.name.bg+', '+location.area.bg for location in locations | filter:$viewValue | limitTo:10"-->
                <!--typeahead-template-url="/views/directives/location.html">-->
-        <p ng-if="!zones.length && requestZone.location" class="help-block">Не съществуват зони в района на избраното от вас място, Моля опитайте съседно населено място</p>
+        <p ng-if="!zones.length && requestZone.location" class="help-block" translate>REQUEST_ZONE_NO_ZONES_FOUND_FOR_LOCATION</p>
       </div>
 
     </form>

@@ -11,9 +11,9 @@
            is-open="field.opened"
            ng-required="::field.required"
            ng-change="field.onSelect()"
-           current-text="Днес"
-           close-text="OK"
-           clear-text="Изчистване"
+           current-text="{{'DATE_SELECTOR_TODAY' | translate}}"
+           close-text="{{'DATE_SELECTOR_OK' | translate}}"
+           clear-text="{{'DATE_SELECTOR_CLEAR' | translate}}"
     >
     <span class="input-group-btn">
       <button type="button" class="btn btn-default" ng-click="field.opened = true">

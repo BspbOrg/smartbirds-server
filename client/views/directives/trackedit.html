@@ -7,7 +7,7 @@
           role="menuitem"
           ng-if="$ctrl.trackUrl"
           class="btn btn-danger btn-sm"
-          confirm="Потвърдете изтриването на gpx следата"
+          confirm="{{'GPX_TRACK_DELETE_CONFIRM_MESSAGE' | translate}}"
           ng-click="$ctrl.delete()">
     <i class="fa fa-remove fa-fw"></i> gpx
   </button>

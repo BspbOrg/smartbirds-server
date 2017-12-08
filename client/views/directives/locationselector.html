@@ -21,7 +21,7 @@
 
   <div ng-if="field.loading || field.noResults" class="input-group-addon">
     <i ng-if="field.loading" class="glyphicon glyphicon-refresh"></i>
-    <i ng-if="field.noResults" title="Няма намерени локации" class="glyphicon glyphicon-remove"></i>
+    <i ng-if="field.noResults" title="{{'LOCATION_SELECTOR_NO_LOCATIONS_FOUND' | translate}}" class="glyphicon glyphicon-remove"></i>
   </div>
   <div ng-if="confirm && field.value.id" class="input-group-btn">
     <button type="button" class="btn btn-danger {{btnClass}}"

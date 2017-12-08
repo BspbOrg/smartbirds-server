@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-12">
-    <h1 class="page-header">
-      Смяна на парола
+    <h1 class="page-header" translate>
+      CHANGE_PASSWORD_TITLE
     </h1>
   </div>
 
@@ -15,20 +15,20 @@
       <input ng-if="!user.hideFake" type="password" name="fakepasswordremembered1"/>
 
       <field name="oldPassword" type="password" required="true"
-             label="Стара парола"
+             label="{{'CHANGE_PASSWORD_OLD_PASSWORD' | translate}}"
              autocomplete="off"
              model="user.data.oldPassword"
       ></field>
 
       <field name="newPassword" type="password" required="true"
-             label="Нова парола"
+             label="{{'CHANGE_PASSWORD_NEW_PASSWORD' | translate}}"
              autocomplete="off"
              model="user.data.newPassword"
       ></field>
 
       <field name="confirmPassword" type="password2" required="true"
              match="user.data.newPassword"
-             label="Повторение на паролата"
+             label="{{'CHANGE_PASSWORD_REPEAT_PASSWORD' | translate}}"
              autocomplete="off"
              model="user.data.confirmPassword"
       ></field>
@@ -40,8 +40,8 @@
       <div class="btn-group">
         <button type="button" class="btn btn-primary"
                 ng-disabled="user.form.$pristine || user.form.$invalid"
-                ng-click="user.changePassword()">
-          Смяна на парола
+                ng-click="user.changePassword()" translate>
+          CHANGE_PASSWORD_BUTTON_CHANGE_PASSWORD
         </button>
       </div>
     </form>

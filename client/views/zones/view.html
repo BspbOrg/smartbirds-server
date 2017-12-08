@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-lg-12">
     <h1 class="page-header">
-      Площадка {{zone.id}}
+      {{'ZONE_VIEW_TITLE' | translate}} {{zone.id}}
       <small>
         {{zone.location | locationLabel}}
       </small>
@@ -33,9 +33,9 @@
           <div class="row">
             <div class="col-md-3">
               <div class="form-group">
-                <label for="owner">Наблюдател</label>
+                <label for="owner" translate>ZONE_VIEW_OWNER</label>
                 <input ng-if="zone.$resolved" id="owner" class="form-control" disabled
-                       value="{{::(zone.owner && (zone.owner.firstName + ' ' + zone.owner.lastName) || 'няма')}}">
+                       value="{{::(zone.owner && (zone.owner.firstName + ' ' + zone.owner.lastName) || ('ZONE_VIEW_OWNER_NONE' | translate))}}">
                 <i ng-if="!zone.$resolved" class="fa fa-spinner fa-spin"></i>
               </div>
             </div>
