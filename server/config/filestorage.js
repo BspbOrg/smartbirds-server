@@ -1,4 +1,6 @@
 
 exports.default = {
-  filestorage: {}
+  filestorage: {
+    imageDownsample: 1024
+  }
 };
