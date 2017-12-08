@@ -1,10 +1,10 @@
 <div class="modal-header">
-  <h3 class="modal-title">Потвърждение</h3>
+  <h3 class="modal-title" translate>CONFIRM_DIALOG_TITLE</h3>
 </div>
 <div class="modal-body">
   <p class="lead">{{message}}</p>
 </div>
 <div class="modal-footer">
-  <button class="btn btn-primary" type="button" ng-click="$dismiss('cancel')">Отказ</button>
-  <button class="btn btn-danger" type="button" ng-click="$close('confirm')">Потвърждение</button>
+  <button class="btn btn-primary" type="button" ng-click="$dismiss('cancel')" translate>CONFIRM_DIALOG_BUTTON_CANCEL</button>
+  <button class="btn btn-danger" type="button" ng-click="$close('confirm')" translate>CONFIRM_DIALOG_BUTTON_CONFIRM</button>
 </div>
