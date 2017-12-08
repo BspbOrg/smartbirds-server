@@ -411,5 +411,10 @@
   "USER_DETAIL_SIGNATURE": "Подпис",
   "USER_DETAIL_EMBED_IN_BB_FORUM": "Вграждане в BB forum",
   "USER_DETAIL_ALTERNATIVE_EMBED_IN_BB_FORUM": "Алтернативно вграждане в BB forum",
-  "USER_DETAIL_EMBED_HTML": "Вграждане в HTML"
+  "USER_DETAIL_EMBED_HTML": "Вграждане в HTML",
+  "VISIT_LIST_BUTTON_NEW": "Ново посещение",
+  "VISIT_LIST_TITLE": "Дати на посещения",
+  "VISIT_LIST_TABLE_YEAR": "Година",
+  "VISIT_LIST_TABLE_EARLY": "Ранно",
+  "VISIT_LIST_TABLE_LATE": "Късно"
 }
