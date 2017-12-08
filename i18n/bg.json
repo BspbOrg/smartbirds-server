@@ -426,5 +426,15 @@
   "VISIT_LIST_TITLE": "Дати на посещения",
   "VISIT_LIST_TABLE_YEAR": "Година",
   "VISIT_LIST_TABLE_EARLY": "Ранно",
-  "VISIT_LIST_TABLE_LATE": "Късно"
+  "VISIT_LIST_TABLE_LATE": "Късно",
+  "NOMENCLATURES_TITLE": "Номенклатури",
+  "NOMENCLATURES_UNSAVED_DATA_TITLE": "Имате незаписани промени!",
+  "NOMENCLATURES_UNSAVED_DATA_MESSAGE": "Имате незаписани промени. Сигурни ли сте че искате да продължите?",
+  "NOMENCLATURES_BUTTON_ADD": "Добавяне",
+  "NOMENCLATURES_BUTTON_SAVE": "Запис",
+  "SPECIES_TITLE": "Видове",
+  "SPECIES_UNSAVED_DATA_TITLE": "Имате незаписани промени!",
+  "SPECIES_UNSAVED_DATA_MESSAGE": "Имате незаписани промени. Сигурни ли сте че искате да продължите?",
+  "SPECIES_BUTTON_ADD": "Добавяне",
+  "SPECIES_BUTTON_SAVE": "Запис"
 }
