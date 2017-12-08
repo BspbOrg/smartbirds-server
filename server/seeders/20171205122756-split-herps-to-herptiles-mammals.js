@@ -1,6 +1,7 @@
 'use strict'
 
 var fs = require('fs')
+var path = require('path')
 var parse = require('csv-parse')
 var parser = parse({
   columns: true,
@@ -31,11 +32,11 @@ function importRecord (queryInterface, record) {
 
 module.exports = {
   up: function (queryInterface, Sequelize, next) {
-    var stream = fs.createReadStream(__dirname + '/../../data/species_herptiles_mammals.csv')
+    var stream = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'species_herptiles_mammals.csv'))
       .pipe(parser)
       .on('readable', function () {
         var record
-        while (record = parser.read()) {
+        while (record = parser.read()) { // eslint-disable-line no-cond-assign
           inserts.push(Promise.resolve(record).then(importRecord.bind(null, queryInterface)).then(function () {
             completed++
             notify()

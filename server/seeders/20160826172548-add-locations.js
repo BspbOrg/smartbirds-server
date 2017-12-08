@@ -1,10 +1,11 @@
 'use strict'
 
 var _ = require('lodash')
+var path = require('path')
 var Promise = require('bluebird')
 
 module.exports = {
-  up: function (queryInterface, Sequelize) {
+  up: function (queryInterface) {
     var fs = require('fs')
     var parse = require('csv-parse')
     var parser = parse({
@@ -25,27 +26,28 @@ module.exports = {
       console.log('waiting ' + (inserts.length - completed) + '/' + inserts.length)
     }
 
-    var stream = fs.createReadStream(__dirname + '/../../data/locations-ver2_new.csv')
+    var stream = fs
+      .createReadStream(path.join(__dirname, '..', '..', 'data', 'locations-ver2_new.csv'))
       .pipe(parser)
       .on('readable', function () {
-        var record, i
-        while (record = parser.read()) {
+        var record
+        while (record = parser.read()) { // eslint-disable-line no-cond-assign
           var fields = {
-            nameBg: record['Name_bg_naseleno_myasto'],
-            nameEn: record['Name_en_naseleno_myasto'],
-            areaBg: record['NAME_Obshtina'],
-            areaEn: record['L_NAME_Obshtina'],
-            typeBg: record['Descr_bg_naseleno_myasto'],
-            typeEn: record['Descr_en_naseleno_myasto'],
-            regionBg: record['REG_NAME'],
-            regionEn: record['REG_LNAME'],
-            latitude: record['POINT_Y'],
-            longitude: record['POINT_X'],
-            ekatte: record['EKATTE']
+            nameBg: record[ 'Name_bg_naseleno_myasto' ],
+            nameEn: record[ 'Name_en_naseleno_myasto' ],
+            areaBg: record[ 'NAME_Obshtina' ],
+            areaEn: record[ 'L_NAME_Obshtina' ],
+            typeBg: record[ 'Descr_bg_naseleno_myasto' ],
+            typeEn: record[ 'Descr_en_naseleno_myasto' ],
+            regionBg: record[ 'REG_NAME' ],
+            regionEn: record[ 'REG_LNAME' ],
+            latitude: record[ 'POINT_Y' ],
+            longitude: record[ 'POINT_X' ],
+            ekatte: record[ 'EKATTE' ]
           }
           inserts.push((function (fields) {
             return Promise
-              .resolve(_.pick(fields, ['nameBg', 'areaBg', 'regionBg', 'ekatte']))
+              .resolve(_.pick(fields, [ 'nameBg', 'areaBg', 'regionBg', 'ekatte' ]))
               .then(function (keyFields) {
                 return {
                   fields: keyFields,
@@ -56,15 +58,19 @@ module.exports = {
               })
               // find the location id
               .then(function (args) {
-                return cache[args.key] = cache[args.key] || queryInterface.rawSelect('Locations', {
-                  attributes: ['id'],
-                  where: args.fields
-                }, 'id')
+                if (!cache[ args.key ]) {
+                  cache[ args.key ] = queryInterface
+                    .rawSelect('Locations', {
+                      attributes: [ 'id' ],
+                      where: args.fields
+                    }, 'id')
                     .then(function (id) {
                       return _.extend(args, {
                         locationId: id
                       })
                     })
+                }
+                return cache[ args.key ]
               })
               // insert or update the location
               .then(function (args) {
@@ -73,13 +79,13 @@ module.exports = {
                 }, fields)
                 if (args.locationId) {
                   // update
-                  return queryInterface.bulkUpdate('Locations', record, {id: args.locationId})
+                  return queryInterface.bulkUpdate('Locations', record, { id: args.locationId })
                     .then(function (res) {
-                      if (res[1].rowCount != 1) {
-                        return Promise.reject('Something bad happened.\n' +
+                      if (res[ 1 ].rowCount !== 1) {
+                        return Promise.reject(new Error('Something bad happened.\n' +
                           "Couldn't update " + JSON.stringify(record) + '\n' +
                           'Res = ' + JSON.stringify(res) + '\n' +
-                          'id = ' + JSON.stringify(args.locationId))
+                          'id = ' + JSON.stringify(args.locationId)))
                       }
                       console.warn('Had to update\n' +
                         JSON.stringify(record) + '\n' +
@@ -87,7 +93,7 @@ module.exports = {
                         JSON.stringify(args) + '\n' +
                         'res = ' + JSON.stringify(res) + '\n' +
                         '\n\n\n')
-                      updated += res[1].rowCount
+                      updated += res[ 1 ].rowCount
                       return args.locationId
                     })
                 } else {
@@ -98,16 +104,16 @@ module.exports = {
                   })
                   return queryInterface.insert(null, 'Locations', record)
                     // search for the inserted location to know it's id
-                    .then(function (res) {
+                    .then(function () {
                       inserted++
                       return queryInterface.rawSelect('Locations', {
-                        attributes: ['id'],
+                        attributes: [ 'id' ],
                         where: args.fields
                       }, 'id')
                     })
                     .then(function (id) {
                       if (!id) {
-                        return Promise.reject('Something bad happened. Tried to insert ' + JSON.stringify(record) + " but now I can't find it")
+                        return Promise.reject(new Error('Something bad happened. Tried to insert ' + JSON.stringify(record) + " but now I can't find it"))
                       }
                       return id
                     })
@@ -147,6 +153,6 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize, next) {
-    return queryInterface.bulkDelete('Locations', {imported: 3}).finally(next)
+    return queryInterface.bulkDelete('Locations', { imported: 3 }).finally(next)
   }
 }

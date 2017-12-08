@@ -4,7 +4,7 @@ var _ = require('lodash')
 var Promise = require('bluebird')
 
 module.exports = {
-  up: function (queryInterface, Sequelize) {
+  up: function (queryInterface) {
     var updated = 0
     var deleted = 0
     return queryInterface
@@ -16,7 +16,7 @@ module.exports = {
         plain: false
       }, 'id')
       .then(function (res) {
-        if (!res) return Promise.reject('failure to search for duplicated locations!')
+        if (!res) return Promise.reject(new Error('failure to search for duplicated locations!'))
         console.log('found ' + res.length + ' duplicated locations')
         return Promise.map(res, function (location) {
           console.log('working location', location)
@@ -27,8 +27,8 @@ module.exports = {
               plain: false
             }, 'id')
             .then(function (res) {
-              if (!res || res.length == 0) return Promise.reject("Can't find valid record for " + JSON.stringify(location))
-              if (res.length > 1) return Promise.reject('Found too many records for ' + JSON.stringify(location))
+              if (!res || res.length === 0) return Promise.reject(new Error('Can\'t find valid record for ' + JSON.stringify(location)))
+              if (res.length > 1) return Promise.reject(new Error('Found too many records for ' + JSON.stringify(location)))
               console.log('replacing ', location.id, ' with ', res[0].id)
               return res[0].id
             })
@@ -54,7 +54,7 @@ module.exports = {
       })
   },
 
-  down: function (queryInterface, Sequelize) {
+  down: function () {
     // do nothing - we don't know which to duplicate
     return true
   }

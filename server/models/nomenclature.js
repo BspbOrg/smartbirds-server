@@ -34,8 +34,8 @@ module.exports = function (sequelize, DataTypes) {
       },
       apiUpdate: function (data) {
         this.type = data.type || this.type
-        this.labelBg = data.label && data.label.bg || this.labelBg
-        this.labelEn = data.label && data.label.en || this.labelEn
+        this.labelBg = data.label ? data.label.bg : this.labelBg
+        this.labelEn = data.label ? data.label.en : this.labelEn
       }
     }
   }

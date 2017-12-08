@@ -1,6 +1,7 @@
 'use strict'
 
 var _ = require('lodash')
+var path = require('path')
 
 function makeNomenclature (type, labelEn, labelBg) {
   type = type.replace(/^form_/, '')
@@ -23,8 +24,8 @@ module.exports = {
     var parse = require('csv-parse')
     var parserEn = parse({delimiter: ';', columns: true, skip_empty_lines: true})
     var parserBg = parse({delimiter: ';', columns: true, skip_empty_lines: true})
-    var inputEn = fs.createReadStream(__dirname + '/../../data/nomenclatures-en.csv')
-    var inputBg = fs.createReadStream(__dirname + '/../../data/nomenclatures-bg.csv')
+    var inputEn = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'nomenclatures-en.csv'))
+    var inputBg = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'nomenclatures-bg.csv'))
     var inserts = []
     var recordsBg = []
     var Promise = require('bluebird')
@@ -39,16 +40,19 @@ module.exports = {
 
     parserBg.on('readable', function () {
       var record
-      while (record = parserBg.read()) {
+      while (record = parserBg.read()) { // eslint-disable-line no-cond-assign
         recordsBg.push(_.clone(record))
       }
     })
 
     parserEn.on('readable', function () {
-      var recordEn, recordBg, types, tLen,
-        nomenclatures = []
+      var recordEn
+      var recordBg
+      var types
+      var tLen
+      var nomenclatures = []
 
-      while (recordEn = parserEn.read()) {
+      while (recordEn = parserEn.read()) { // eslint-disable-line no-cond-assign
         recordBg = recordsBg.shift()
 
         if (!tLen) {
@@ -57,10 +61,10 @@ module.exports = {
         }
 
         for (var i = 0; i < tLen; i++) {
-          var type = types[i],
-            labelEn = recordEn[type].trim(),
-            labelBg = recordBg[type].trim(),
-            nomenclature
+          var type = types[i]
+          var labelEn = recordEn[ type ].trim()
+          var labelBg = recordBg[ type ].trim()
+          var nomenclature
 
           if (labelEn && labelBg) {
             nomenclature = makeNomenclature(type, labelEn, labelBg)

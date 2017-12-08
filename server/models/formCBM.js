@@ -6,7 +6,6 @@
 
 var _ = require('lodash')
 var Promise = require('bluebird')
-var crypto = require('crypto')
 var Model = require('../helpers/Model')
 
 var fields = {

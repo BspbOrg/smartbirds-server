@@ -74,7 +74,7 @@ module.exports = function (sequelize, DataTypes) {
 
       updatePassword: function (pw, callback) {
         var self = this
-        var salt = bcrypt.genSalt(bcryptComplexity, function (error, salt) {
+        bcrypt.genSalt(bcryptComplexity, function (error, salt) {
           if (error) {
             return callback(error)
           }
@@ -96,7 +96,7 @@ module.exports = function (sequelize, DataTypes) {
         var self = this
         crypto.randomBytes(64, function (ex, buf) {
           var pwToken = buf.toString('hex')
-          var salt = bcrypt.genSalt(bcryptComplexity, function (error, salt) {
+          bcrypt.genSalt(bcryptComplexity, function (error, salt) {
             if (error) return callback(error)
 
             bcrypt.hash(pwToken, salt, function (error, hash) {

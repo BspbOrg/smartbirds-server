@@ -1,7 +1,6 @@
 'use strict'
 
-var _ = require('lodash')
-var Promise = require('bluebird')
+var path = require('path')
 var moment = require('moment')
 var validator = require('validator')
 
@@ -113,7 +112,7 @@ module.exports = {
       }, 'id').then(function (res) {
         if (res === null || res.length === 0) {
           console.error('Missing nomenclature ' + column.csvName + ' value ' + value)
-          return Promise.reject('Missing nomenclature ' + column.csvName + ' value ' + value)
+          return Promise.reject(new Error('Missing nomenclature ' + column.csvName + ' value ' + value))
         }
         cbmRow[column.fieldName + 'Bg'] = res[0].labelBg
         cbmRow[column.fieldName + 'En'] = res[0].labelEn
@@ -159,7 +158,7 @@ module.exports = {
                         if (record[column.csvName] === null || record[column.csvName] === '') {
                           if (column.required) {
                             console.error('Null value for required field', column.csvName)
-                            return Promise.reject('Null value for field', column.csvName)
+                            return Promise.reject(new Error('Null value for field', column.csvName))
                           }
                           return true
                         }
@@ -175,7 +174,7 @@ module.exports = {
                           cbmRow.zoneId = res
                         } else {
                           console.error('Missing zone ' + record.zone)
-                          return Promise.reject('Missing zone ' + record.zone)
+                          return Promise.reject(new Error('Missing zone ' + record.zone))
                         }
                       }),
                       Promise.resolve(record['species'].trim())
@@ -183,7 +182,8 @@ module.exports = {
                             return species.split('|').shift().trim()
                           })
                           .then(function (species) {
-                            return cbmRow.species = species
+                            cbmRow.species = species
+                            return cbmRow.species
                           })
                           .then(function (species) {
                             return queryInterface.rawSelect('Species', {
@@ -249,10 +249,10 @@ module.exports = {
                         })
                           .then(function (threats) {
                             cbmRow.threatsBg = threats.reduce(function (sum, threat) {
-                              return sum + (sum && ' | ' || '') + threat.labelBg
+                              return sum + (sum ? ' | ' : '') + threat.labelBg
                             }, '')
                             cbmRow.threatsEn = threats.reduce(function (sum, threat) {
-                              return sum + (sum && ' | ' || '') + threat.labelEn
+                              return sum + (sum ? ' | ' : '') + threat.labelEn
                             }, '')
                             return cbmRow
                           })
@@ -260,7 +260,7 @@ module.exports = {
                       .then(function (cbmRow) {
                         return queryInterface.bulkInsert('FormCBM', [cbmRow])
                       }, function (err) {
-
+                        console.error(err)
                       })
                       .finally(function () {
                         completed++
@@ -272,7 +272,7 @@ module.exports = {
 
               var scheduled = false
 
-              var stream = fs.createReadStream(__dirname + '/../../data/cbm.csv')
+              var stream = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'cbm.csv'))
                   .pipe(parser)
                   .on('readable', function () {
                     function f () {
@@ -288,7 +288,7 @@ module.exports = {
                       }
 
                       var rec
-                      while (rec = parser.read()) {
+                      while (rec = parser.read()) { // eslint-disable-line no-cond-assign
                         counts.rows++
                         processRecord(rec, counts.rows)
 

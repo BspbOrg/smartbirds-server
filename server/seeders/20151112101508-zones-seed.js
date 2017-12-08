@@ -1,5 +1,7 @@
 'use strict'
 
+var path = require('path')
+
 module.exports = {
   up: function (queryInterface, Sequelize, next) {
     var fs = require('fs')
@@ -20,19 +22,21 @@ module.exports = {
       console.log('waiting ' + (inserts.length - completed) + '/' + inserts.length)
     }
 
-    var stream = fs.createReadStream(__dirname + '/../../data/zones.csv')
+    var stream = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'zones.csv'))
       .pipe(parser)
       .on('readable', function () {
-        var record, i, zones = []
-        while (record = parser.read()) {
+        var record
+        var i
+        var zones = []
+        while (record = parser.read()) { // eslint-disable-line no-cond-assign
           var zone = {
             id: record.UTMNameFul,
             createdAt: new Date(),
             updatedAt: new Date()
           }
           for (i = 1; i <= 4; i++) {
-            zone['lat' + i] = record['Y_' + i]
-            zone['lon' + i] = record['X_' + i]
+            zone[ 'lat' + i ] = record[ 'Y_' + i ]
+            zone[ 'lon' + i ] = record[ 'X_' + i ]
           }
           zones.push(zone)
         }

@@ -1,6 +1,6 @@
 'use strict'
 module.exports = function (sequelize, DataTypes) {
-  var Mammals_stats = sequelize.define('mammals_stats', {
+  var mammalsStats = sequelize.define('mammals_stats', {
     latitude: { type: DataTypes.DOUBLE, primaryKey: true },
     longitude: { type: DataTypes.DOUBLE, primaryKey: true },
     species_count: DataTypes.INTEGER,
@@ -9,5 +9,5 @@ module.exports = function (sequelize, DataTypes) {
     timestamps: false,
     tableName: 'mammals_stats'
   })
-  return Mammals_stats
+  return mammalsStats
 }

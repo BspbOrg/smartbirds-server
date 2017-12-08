@@ -2,7 +2,8 @@
 
 var inserts = []
 var Promise = require('bluebird')
-var completed = 0, errors = 0
+var completed = 0
+var errors = 0
 var lastNotice = 0
 
 function notify (force) {
@@ -25,10 +26,10 @@ function importRecord (queryInterface, record) {
     updatedAt: new Date()
   }]).then(function () {
     completed++
-    notify(completed + errors == inserts.length)
+    notify(completed + errors === inserts.length)
   }).catch(function (err) {
     errors++
-    notify(completed + errors == inserts.length)
+    notify(completed + errors === inserts.length)
     console.warn(err)
   })
 }

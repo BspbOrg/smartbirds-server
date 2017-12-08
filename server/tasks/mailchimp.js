@@ -2,7 +2,6 @@
  * Created by groupsky on 12.04.16.
  */
 
-var _ = require('lodash')
 var Promise = require('bluebird')
 
 module.exports.mailchimp = {

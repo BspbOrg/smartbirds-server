@@ -4,7 +4,7 @@
 
 'use strict'
 module.exports = function (sequelize, DataTypes) {
-  var Location = sequelize.define('Location', {
+  return sequelize.define('Location', {
     nameBg: DataTypes.TEXT,
     nameEn: DataTypes.TEXT,
     areaBg: DataTypes.TEXT,
@@ -18,14 +18,14 @@ module.exports = function (sequelize, DataTypes) {
     ekatte: DataTypes.TEXT
   }, {
     indexes: [
-      {fields: ['nameBg']},
-      {fields: ['nameEn']},
-      {fields: ['areaBg']},
-      {fields: ['areaEn']}
+      { fields: [ 'nameBg' ] },
+      { fields: [ 'nameEn' ] },
+      { fields: [ 'areaBg' ] },
+      { fields: [ 'areaEn' ] }
     ],
     classMethods: {
       associate: function (models) {
-        models.location.hasMany(models.zone, {as: 'zones', foreignKey: 'locationId'})
+        models.location.hasMany(models.zone, { as: 'zones', foreignKey: 'locationId' })
       }
     },
     instanceMethods: {
@@ -55,5 +55,4 @@ module.exports = function (sequelize, DataTypes) {
       }
     }
   })
-  return Location
 }

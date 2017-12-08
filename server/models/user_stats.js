@@ -1,6 +1,6 @@
 'use strict'
 module.exports = function (sequelize, DataTypes) {
-  var User_Stats = sequelize.define('user_stats', {
+  var userStats = sequelize.define('user_stats', {
     id: {type: DataTypes.INTEGER, primaryKey: true},
     species_count: DataTypes.INTEGER,
     entry_count: DataTypes.INTEGER,
@@ -10,5 +10,5 @@ module.exports = function (sequelize, DataTypes) {
     timestamps: false,
     tableName: 'user_stats'
   })
-  return User_Stats
+  return userStats
 }

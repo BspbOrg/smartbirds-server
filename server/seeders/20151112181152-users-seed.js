@@ -1,5 +1,6 @@
 'use strict'
 
+var path = require('path')
 var Promise = require('bluebird')
 var _ = require('lodash')
 
@@ -17,7 +18,6 @@ module.exports = {
     var lastNotice = 0
     var uniqueId = 0
     var validator = require('validator')
-    var cnt = 0
     var usersCache = {}
     var counts = {
       rows: 0,
@@ -33,14 +33,15 @@ module.exports = {
 
     function findId (user) {
       var email = user.email
-      if (email in usersCache) return usersCache[email]
-      return usersCache[email] = usersCache[email] || queryInterface.rawSelect('Users', {
-        attributes: ['id'],
-        where: {
-          email: email
-        }
-      }, 'id')
-
+      if (email in usersCache) return usersCache[ email ]
+      if (!usersCache[ email ]) {
+        usersCache[ email ] = queryInterface
+          .rawSelect('Users', {
+            attributes: [ 'id' ],
+            where: {
+              email: email
+            }
+          }, 'id')
           .then(function (id) {
             if (id !== null) { return id }
 
@@ -48,7 +49,7 @@ module.exports = {
               .then(function () {
                 counts.users++
                 return queryInterface.rawSelect('Users', {
-                  attributes: ['id'],
+                  attributes: [ 'id' ],
                   where: {
                     email: email
                   }
@@ -57,13 +58,16 @@ module.exports = {
           })
 
           .then(function (id) {
-            return usersCache[email] = id
+            usersCache[ email ] = id
+            return usersCache[ email ]
           })
+      }
+      return usersCache[ email ]
     }
 
     function genMetas (userId, values) {
       return Object.keys(values).map(function (key) {
-        var value = values[key].trim()
+        var value = values[ key ].trim()
         if (!value) return
         return {
           userId: userId,
@@ -78,50 +82,54 @@ module.exports = {
       })
     }
 
-    var stream = fs.createReadStream(__dirname + '/../../data/users.csv')
+    var stream = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'users.csv'))
       .pipe(parser)
       .on('readable', function () {
-        var rec, i, metas = []
-        while (rec = parser.read()) {
+        var rec
+        while (rec = parser.read()) { // eslint-disable-line no-cond-assign
           counts.rows++
           var record = rec
 
-          var email = record['e_mail'] && record['e_mail'].trim()
+          var email = record[ 'e_mail' ] && record[ 'e_mail' ].trim()
           if (!validator.isEmail(email)) {
-            email = (record['Квадрат'] && record['Квадрат'].trim() || ('user' + (uniqueId++))) + '@smartbirds.org'
+            email = (record[ 'Квадрат' ] ? record[ 'Квадрат' ].trim() : ('user' + (uniqueId++))) + '@smartbirds.org'
           }
 
           inserts.push(findId({
             email: email,
             passwordHash: 'imported hash',
-            firstName: record['Име'] && record['Име'].trim(),
-            lastName: record['Фамилия'] && record['Фамилия'].trim(),
+            firstName: record[ 'Име' ] && record[ 'Име' ].trim(),
+            lastName: record[ 'Фамилия' ] && record[ 'Фамилия' ].trim(),
             createdAt: new Date(),
             updatedAt: new Date(),
             imported: true
           }).then(function (id) {
             var metas = genMetas(id, {
-              address: record['Адрес'] && record['Адрес'].trim(),
-              city: record['Населено място'] && record['Населено място'].trim(),
-              postcode: record['Пощ.код'] && record['Пощ.код'].trim(),
-              phone: record['телефон'] && record['телефон'].trim(),
-              modile: record['мобилен тел.'] && record['мобилен тел.'].trim(),
-              first_year: record['година на първо участие'] && record['година на първо участие'].trim(),
-              level: record['ниво на участие'] && record['ниво на участие'].trim(),
-              birds_knowledge: record['познание на птиците'] && record['познание на птиците'].trim(),
-              profile: record['Профил'] && record['Профил'].trim(),
-              notes: record['Бележки'] && record['Бележки'].trim()
+              address: record[ 'Адрес' ] && record[ 'Адрес' ].trim(),
+              city: record[ 'Населено място' ] && record[ 'Населено място' ].trim(),
+              postcode: record[ 'Пощ.код' ] && record[ 'Пощ.код' ].trim(),
+              phone: record[ 'телефон' ] && record[ 'телефон' ].trim(),
+              modile: record[ 'мобилен тел.' ] && record[ 'мобилен тел.' ].trim(),
+              first_year: record[ 'година на първо участие' ] && record[ 'година на първо участие' ].trim(),
+              level: record[ 'ниво на участие' ] && record[ 'ниво на участие' ].trim(),
+              birds_knowledge: record[ 'познание на птиците' ] && record[ 'познание на птиците' ].trim(),
+              profile: record[ 'Профил' ] && record[ 'Профил' ].trim(),
+              notes: record[ 'Бележки' ] && record[ 'Бележки' ].trim()
             })
-            return Promise.all([
-              metas.length && queryInterface.bulkInsert('UserMeta', metas),
-              record['Квадрат']
-              ? queryInterface.bulkUpdate('Zones', {ownerId: id, status: 'owned'}, {id: record['Квадрат'].trim()}).then(function (res) {
-                counts.zones += res[1].rowCount
-                if (res[1].rowCount == 0) {
-                  console.warn('Unknown zone ' + record['Квадрат'])
+            var promises = []
+            if (metas.length) promises.push(queryInterface.bulkInsert('UserMeta', metas))
+            if (record[ 'Квадрат' ]) {
+              promises.push(queryInterface.bulkUpdate('Zones', {
+                ownerId: id,
+                status: 'owned'
+              }, { id: record[ 'Квадрат' ].trim() }).then(function (res) {
+                counts.zones += res[ 1 ].rowCount
+                if (res[ 1 ].rowCount === 0) {
+                  console.warn('Unknown zone ' + record[ 'Квадрат' ])
                 }
-              }) : true
-            ])
+              }))
+            }
+            return Promise.all(promises)
           }))
         }
       })
@@ -149,15 +157,15 @@ module.exports = {
 
   down: function (queryInterface, Sequelize) {
     return queryInterface.rawSelect('Users', {
-      attributes: ['id'],
-      where: {imported: true},
+      attributes: [ 'id' ],
+      where: { imported: true },
       plain: false
     }, 'id').then(function (users) {
       users = _.pluck(users, 'id')
       return Promise.all([
-        queryInterface.bulkUpdate('Zones', {ownerId: null}, {ownerId: {$in: users}}),
-        queryInterface.bulkDelete('UserMeta', {userId: {$in: users}}),
-        queryInterface.bulkDelete('Users', {id: {$in: users}})
+        queryInterface.bulkUpdate('Zones', { ownerId: null }, { ownerId: { $in: users } }),
+        queryInterface.bulkDelete('UserMeta', { userId: { $in: users } }),
+        queryInterface.bulkDelete('Users', { id: { $in: users } })
       ])
     })
   }
