@@ -37,7 +37,7 @@ var fields = {
       filter: { type: 'herptiles_habitat' }
     }
   },
-  threats: {
+  threatsHerptiles: {
     type: 'multi',
     relation: {
       model: 'nomenclature',

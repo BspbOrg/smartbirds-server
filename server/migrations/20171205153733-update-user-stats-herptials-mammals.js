@@ -12,8 +12,8 @@ module.exports = {
             ') AS ' +
             ' SELECT ' +
             '   users.id as id,' +
-            '   coalesce(cbm.species_count, 0) + coalesce(birds.species_count, 0) + coalesce(herps.species_count, 0) + coalesce(herptials.species_count, 0) + coalesce(mammals.species_count, 0) AS species_count,' +
-            '   coalesce(cbm.count, 0) + coalesce(birds.count, 0) + coalesce(herps.count, 0) + coalesce(herptials.count, 0) + coalesce(mammals.count, 0) AS entry_count,' +
+            '   coalesce(cbm.species_count, 0) + coalesce(birds.species_count, 0) + coalesce(herps.species_count, 0) + coalesce(herptiles.species_count, 0) + coalesce(mammals.species_count, 0) AS species_count,' +
+            '   coalesce(cbm.count, 0) + coalesce(birds.count, 0) + coalesce(herps.count, 0) + coalesce(herptiles.count, 0) + coalesce(mammals.count, 0) AS entry_count,' +
             '   users."firstName" as first_name,' +
             '   users."lastName" as last_name' +
             ' ' +
@@ -47,9 +47,9 @@ module.exports = {
             '     "userId" as id,' +
             '     count(DISTINCT species) as species_count,' +
             '     count(*) as count' +
-            '   FROM "FormHerptials" as herptials' +
+            '   FROM "FormHerptiles" as herptiles' +
             '   GROUP BY "userId"' +
-            ') herptials USING (id)' +
+            ') herptiles USING (id)' +
             ' LEFT JOIN (' +
             '   SELECT ' +
             '     "userId" as id,' +
