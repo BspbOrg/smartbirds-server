@@ -3,10 +3,9 @@
 var _ = require('lodash');
 var Promise = require('bluebird');
 var Sequelize = require('sequelize');
+var assign = Object.assign;
 
-var tableNames = [ 'FormHerptiles', 'FormMammals' ];
-
-var schema = {
+var baseSchema = {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -32,12 +31,6 @@ var schema = {
     type: Sequelize.TEXT
   },
   habitatBg: {
-    type: Sequelize.TEXT
-  },
-  threatsHerpsEn: {
-    type: Sequelize.TEXT
-  },
-  threatsHerpsBg: {
     type: Sequelize.TEXT
   },
   count: {
@@ -187,46 +180,60 @@ var schema = {
   pictures: Sequelize.BLOB,
   track: Sequelize.TEXT,
   hash: Sequelize.STRING(64),
-};
+}
+
+var tables = [ {
+  tableName: 'FormHerptiles',
+  schema: assign({}, baseSchema, {
+    threatsHerptilesEn: Sequelize.TEXT,
+    threatsHerptilesBg: Sequelize.TEXT,
+  })
+}, {
+  tableName: 'FormMammals',
+  schema: assign({}, baseSchema, {
+    threatsMammalsEn: Sequelize.TEXT,
+    threatsMammalsBg: Sequelize.TEXT,
+  })
+} ]
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
     return Promise
-      .map(tableNames, function (tableName) {
+      .map(tables, function (table) {
         return queryInterface
-          .createTable(tableName, schema)
+          .createTable(table.tableName, table.schema)
           .then(function () {
-            return queryInterface.addIndex(tableName, {
+            return queryInterface.addIndex(table.tableName, {
               fields: [ 'userId' ]
             })
           })
           .then(function () {
-            return queryInterface.addIndex(tableName, {
+            return queryInterface.addIndex(table.tableName, {
               fields: [ 'startDateTime' ]
             })
           })
           .then(function () {
-            return queryInterface.addIndex(tableName, {
+            return queryInterface.addIndex(table.tableName, {
               fields: [ 'observationDateTime' ]
             })
           })
           .then(function () {
-            return queryInterface.addIndex(tableName, {
+            return queryInterface.addIndex(table.tableName, {
               fields: [ 'species' ]
             })
           })
           .then(function () {
-            return queryInterface.addIndex(tableName, {
+            return queryInterface.addIndex(table.tableName, {
               fields: [ 'monitoringCode' ]
             })
           })
           .then(function () {
-            return queryInterface.addIndex(tableName, {
+            return queryInterface.addIndex(table.tableName, {
               fields: [ 'location' ]
             })
           })
           .then(function () {
-            return queryInterface.addIndex(tableName, {
+            return queryInterface.addIndex(table.tableName, {
               unique: true,
               fields: [ 'hash' ]
             })
@@ -241,8 +248,8 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize) {
-    return Promise.map(tableNames, function (tableName) {
-      return queryInterface.dropTable(tableName)
+    return Promise.map(tables, function (table) {
+      return queryInterface.dropTable(table.tableName)
     })
   }
 };

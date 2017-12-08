@@ -37,7 +37,7 @@ var fields = {
       filter: { type: 'mammals_habitat' }
     }
   },
-  threats: {
+  threatsMammals: {
     type: 'multi',
     relation: {
       model: 'nomenclature',
