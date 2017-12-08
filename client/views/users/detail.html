@@ -57,7 +57,7 @@
       ></field>
 
       <field ng-if="$user.getIdentity().id === user.data.id" language-switcher name="language" type="select"
-             choices="[{id: 'bg', label: 'BG'}, {id: 'en', label: 'EN'}]"
+             choices="[{id: 'bg', label: 'LANGUAGE_BULGARIAN'}, {id: 'en', label: 'LANGUAGE_ENGLISH'}]"
              label="{{'USER_DETAIL_LANGUAGE' | translate}}"
              model="user.data.language"
              on-select="$ctrl.changeLanguage(model)"></field>
@@ -87,7 +87,7 @@
              model="user.data.mobile"></field>
 
       <field name="birds_knowledge" type="select"
-             choices="['начинаещ', 'напреднал', 'професионалист']"
+             choices="[{id: 'beginner', label: 'USER_DETAIL_BIRDS_KNOWLEDGE_BEGINNER'}, {id: 'advanced', label: 'USER_DETAIL_BIRDS_KNOWLEDGE_ADVANCED'}, {id: 'professional', label: 'USER_DETAIL_BIRDS_KNOWLEDGE_PROFESSIONAL'}]"
              label="{{'USER_DETAIL_BIRDS_KNOWLEDGE' | translate}}"
              placeholder="- {{'USER_DETAIL_BIRDS_KNOWLEDGE_NONE' | translate}} -"
              model="user.data.birdsKnowledge"></field>
@@ -97,7 +97,7 @@
              model="user.data.profile"></field>
 
       <field name="level" type="select"
-             choices="['първо', 'второ']"
+             choices="[{id: 'first', label: 'USER_DETAIL_LEVEL_FIRST'}, {id: 'second', label: 'USER_DETAIL_LEVEL_SECOND'}]"
              label="{{'USER_DETAIL_LEVEL' | translate}}"
              placeholder="- {{'USER_DETAIL_LEVEL_NONE' | translate}} -"
              model="user.data.level"></field>
