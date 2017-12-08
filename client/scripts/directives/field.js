@@ -161,11 +161,13 @@ require('../app').directive('field', /*@ngInject*/function ($q) {
         {
           field.values = $parse($attrs.choices)($scope.$parent).map(function(el) {
             if(typeof el !== 'object') {
+              var translated = $filter('translate')(el);
               return {
-                id: el,
-                label: el
+                id: translated,
+                label: translated
               }
             }
+            el.label = $filter('translate')(el.label);
             return el;
           });
         }
