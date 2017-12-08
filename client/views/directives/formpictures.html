@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <h3>Снимки</h3>
+  <h3 translate>ADD_PICTURE_COMPONENT_TITLE</h3>
   <div class="row">
 
     <div ng-repeat="picture in $ctrl.pictures" class="col-sm-6 col-md-4 col-lg-3">
@@ -11,7 +11,7 @@
         <div class="thumbnail-overlay top right hover">
           <button type="button"
                   class="btn btn-danger btn-xs"
-                  confirm="Потвърдете изтриването на снимката"
+                  confirm="{{'ADD_PICTURE_COMPONENT_CONFIRM_DELETE' | translate}}"
                   ng-click="$ctrl.delete(picture)">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             <span class="sr-only">Delete</span>
@@ -24,7 +24,7 @@
     </div>
 
     <div class="col-sm-6 col-md-4 col-lg-3">
-      <label for="image-upload" class="btn btn-primary btn-lg ">Добави снимка</label>
+      <label for="image-upload" class="btn btn-primary btn-lg " translate>ADD_PICTURE_COMPONENT_ADD</label>
       <input type="file" id="image-upload" nv-file-select uploader="$ctrl.uploader" accept="image/*">
     </div>
 
