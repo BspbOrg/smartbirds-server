@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-var _ = require('lodash');
-var Promise = require('bluebird');
-var Model = require('../helpers/Model');
+var _ = require('lodash')
+var Promise = require('bluebird')
+var Model = require('../helpers/Model')
 
 var fields = {
   species: {
@@ -66,18 +66,18 @@ var fields = {
     type: 'text',
     required: true
   }
-};
+}
 
 var model = Model('FormMammals', fields, [
   {targetModelName: 'species', as: 'speciesInfo', foreignKey: 'species', targetKey: 'labelLa'},
-  {targetModelName: 'user', as: 'user'},
-]);
+  {targetModelName: 'user', as: 'user'}
+])
 
-module.exports = model.getModelDefinition;
+module.exports = model.getModelDefinition
 
-module.exports.fields = model.getFields();
-module.exports.schema = model.getSchema();
+module.exports.fields = model.getFields()
+module.exports.schema = model.getSchema()
 
-module.exports.editInputs = model.getEditInputs();
+module.exports.editInputs = model.getEditInputs()
 
-module.exports.insertInputs = model.getInsertInputs();
+module.exports.insertInputs = model.getInsertInputs()

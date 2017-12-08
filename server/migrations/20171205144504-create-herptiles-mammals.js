@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
-var _ = require('lodash');
-var Promise = require('bluebird');
-var Sequelize = require('sequelize');
-var assign = Object.assign;
+var _ = require('lodash')
+var Promise = require('bluebird')
+var Sequelize = require('sequelize')
+var assign = Object.assign
 
 var baseSchema = {
   id: {
@@ -36,7 +36,7 @@ var baseSchema = {
   count: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    defaultValue: 1,
+    defaultValue: 1
   },
   marking: {
     type: Sequelize.TEXT
@@ -85,7 +85,7 @@ var baseSchema = {
     allowNull: false
   },
 
-  //Common fields not defined as common in Model.js
+  // Common fields not defined as common in Model.js
   latitude: {
     type: Sequelize.FLOAT,
     allowNull: false
@@ -102,7 +102,7 @@ var baseSchema = {
     type: Sequelize.TEXT,
     allowNull: false
   },
-  //CommonFields as defined in model!!
+  // CommonFields as defined in model!!
   endDateTime: {
     type: Sequelize.DATE,
     allowNull: false
@@ -161,7 +161,7 @@ var baseSchema = {
     type: Sequelize.TEXT
   },
 
-  //Internal
+  // Internal
   userId: {
     type: Sequelize.INTEGER,
     allowNull: false
@@ -179,20 +179,20 @@ var baseSchema = {
   },
   pictures: Sequelize.BLOB,
   track: Sequelize.TEXT,
-  hash: Sequelize.STRING(64),
+  hash: Sequelize.STRING(64)
 }
 
 var tables = [ {
   tableName: 'FormHerptiles',
   schema: assign({}, baseSchema, {
     threatsHerptilesEn: Sequelize.TEXT,
-    threatsHerptilesBg: Sequelize.TEXT,
+    threatsHerptilesBg: Sequelize.TEXT
   })
 }, {
   tableName: 'FormMammals',
   schema: assign({}, baseSchema, {
     threatsMammalsEn: Sequelize.TEXT,
-    threatsMammalsBg: Sequelize.TEXT,
+    threatsMammalsBg: Sequelize.TEXT
   })
 } ]
 
@@ -252,4 +252,4 @@ module.exports = {
       return queryInterface.dropTable(table.tableName)
     })
   }
-};
+}

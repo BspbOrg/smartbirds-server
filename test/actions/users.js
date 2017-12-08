@@ -1,6 +1,4 @@
-/**
- * Created by groupsky on 19.11.15.
- */
+/* global describe, before, after, beforeEach, it */
 
 var _ = require('lodash')
 var should = require('should')
@@ -10,8 +8,7 @@ var Promise = require('bluebird')
 require('should-sinon')
 
 describe('Action user:', function () {
-
-  var user = { email: 'user@acme.corp', password: 'secret', firstName: "User", lastName: "Model" }
+  var user = { email: 'user@acme.corp', password: 'secret', firstName: 'User', lastName: 'Model' }
 
   before(function () {
     return setup.init()
@@ -21,7 +18,7 @@ describe('Action user:', function () {
     return setup.finish()
   })
 
-  describe("given no user", function () {
+  describe('given no user', function () {
     beforeEach(function () {
       return setup.api.models.user.findOne({ where: { email: user.email } }).then(function (user) {
         if (user) {
@@ -31,7 +28,7 @@ describe('Action user:', function () {
     })
 
     setup.describeAllRoles(function (runAction) {
-      describe("fails to create w/o", function () {
+      describe('fails to create w/o', function () {
         it('email', function () {
           return runAction('user:create', _.omit(user, 'email')).then(function (response) {
             response.error.should.be.equal('Error: actionhero.errors.missingParams')
@@ -69,7 +66,6 @@ describe('Action user:', function () {
           response.should.have.property('error').and.not.be.empty()
         })
       })
-
     }) // describeAllRoles
 
     setup.describeAsRoles([ 'Guest', 'User' ], function (runAction) {
@@ -89,7 +85,6 @@ describe('Action user:', function () {
         })
       })
     }) // describeAsAdmin
-
   }) // given no user
 
   describe('given a user', function () {
@@ -183,7 +178,7 @@ describe('Action user:', function () {
 
         it('cannot update password with others token', function () {
           return runAction('user:reset', {
-            email: "user@smartbirds.com",
+            email: 'user@smartbirds.com',
             token: token,
             password: 'secret'
           }).then(function (response) {
@@ -216,9 +211,7 @@ describe('Action user:', function () {
             response.should.not.have.property('error')
           })
         })
-
       })
-
     }) // describeAllRoles
 
     setup.describeAsRoles([ 'Guest', 'User' ], function (runAction) {
@@ -287,12 +280,12 @@ describe('Action user:', function () {
   }) // given a user
 
   describe('given owner', function () {
-    var email = "user@smartbirds.com"
+    var email = 'user@smartbirds.com'
     var userId
 
     before(function () {
       return setup.api.models.user.findOne({ where: { email: email } }).then(function (user) {
-        if (!user) return Promise.reject("User doesn't exists")
+        if (!user) return Promise.reject(new Error('User doesn\'t exists'))
         userId = user.id
       })
     })

@@ -2,7 +2,7 @@
  * Created by dani on 11.01.16.
  */
 
-var lodash = require('lodash');
+var lodash = require('lodash')
 
 var baseModel = {
   monitoringCode: 'random_354',
@@ -33,7 +33,7 @@ var baseModel = {
   startDateTime: '2015-12-10T09:15Z',
   latitude: 42.1463749,
   longitude: 24.7492006
-};
+}
 
 module.exports = [
   {
@@ -41,7 +41,7 @@ module.exports = [
     data: lodash.extend({}, baseModel, {
       species: 'Accipiter nisus',
       user: {email: 'user@smartbirds.com'},
-      observationDateTime: '2016-12-10T10:15:01Z',
+      observationDateTime: '2016-12-10T10:15:01Z'
     })
   },
   {
@@ -49,7 +49,7 @@ module.exports = [
     data: lodash.extend({}, baseModel, {
       species: 'Accipiter nisus',
       user: {email: 'user@smartbirds.com'},
-      observationDateTime: '2016-12-20T10:15:02Z',
+      observationDateTime: '2016-12-20T10:15:02Z'
     })
   },
   {
@@ -58,7 +58,7 @@ module.exports = [
       species: 'Accipiter nisus',
       user: {email: 'user@smartbirds.com'},
       observationDateTime: '2016-12-30T10:15:03Z',
-      location: 'some_unq_location',
+      location: 'some_unq_location'
     })
   },
   {
@@ -66,7 +66,7 @@ module.exports = [
     data: lodash.extend({}, baseModel, {
       species: 'Alle alle',
       user: {email: 'admin@smartbirds.com'},
-      observationDateTime: '2015-12-10T10:15:04Z',
+      observationDateTime: '2015-12-10T10:15:04Z'
     })
   },
   {
@@ -74,7 +74,7 @@ module.exports = [
     data: lodash.extend({}, baseModel, {
       species: 'Aix sponsa',
       user: {email: 'admin@smartbirds.com'},
-      observationDateTime: '2015-12-10T10:15:05Z',
+      observationDateTime: '2015-12-10T10:15:05Z'
     })
   },
   {
@@ -82,7 +82,7 @@ module.exports = [
     data: lodash.extend({}, baseModel, {
       species: 'Acrocephalus agricola',
       user: {email: 'admin@smartbirds.com'},
-      observationDateTime: '2015-12-10T10:15:06Z',
+      observationDateTime: '2015-12-10T10:15:06Z'
     })
   },
   {
@@ -90,7 +90,7 @@ module.exports = [
     data: lodash.extend({}, baseModel, {
       species: 'Acrocephalus agricola',
       user: {email: 'user2@smartbirds.com'},
-      observationDateTime: '2015-12-10T10:15:07Z',
+      observationDateTime: '2015-12-10T10:15:07Z'
     })
   }
-];
+]

@@ -5,48 +5,48 @@
 module.exports = {
   formatter: {
     integer: formatterInteger,
-    date: formatterDate,
+    date: formatterDate
   },
   validator: {
     positive: validatorPositive,
     greaterOrEqual: validatorGreaterOrEqual,
-    date: validatorDate,
+    date: validatorDate
   }
-};
-
-function formatterInteger(param, connection, actionTemplate) {
-  var i = parseInt(param);
-  if (i != param) return undefined;
-  return i;
 }
 
-function formatterDate(param, connection, actionTemplate) {
-  var timestamp = formatterInteger(param, connection, actionTemplate);
-  if (typeof timestamp !== 'number') return null;
-  return new Date(timestamp);
+function formatterInteger (param, connection, actionTemplate) {
+  var i = parseInt(param)
+  if (i != param) return undefined
+  return i
 }
 
-function validatorPositive(param, connection, actionTemplate) {
+function formatterDate (param, connection, actionTemplate) {
+  var timestamp = formatterInteger(param, connection, actionTemplate)
+  if (typeof timestamp !== 'number') return null
+  return new Date(timestamp)
+}
+
+function validatorPositive (param, connection, actionTemplate) {
   if (param <= 0) {
-    return 'must be > 0';
+    return 'must be > 0'
   } else {
-    return true;
+    return true
   }
 }
 
-function validatorGreaterOrEqual(limit) {
-  return function(param, connection, actionTemplate) {
+function validatorGreaterOrEqual (limit) {
+  return function (param, connection, actionTemplate) {
     if (param < limit) {
-      return 'must be >= '+limit;
+      return 'must be >= ' + limit
     } else {
-      return true;
+      return true
     }
   }
 }
 
-function validatorDate(param, connection, actionTemplate) {
+function validatorDate (param, connection, actionTemplate) {
   if (param instanceof Date) {
-    return true;
+    return true
   }
-  return JSON.stringify(param)+' must be Date';
+  return JSON.stringify(param) + ' must be Date'
 }

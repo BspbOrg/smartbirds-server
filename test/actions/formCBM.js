@@ -1,6 +1,4 @@
-/**
- * Created by dani on 08.01.16.
- */
+/* global describe, beforeEach, it */
 
 var _ = require('lodash')
 var should = require('should')
@@ -134,7 +132,7 @@ describe('Action formCBM:', function () {
         })
       })
     })
-  }); // Guest user
+  }) // Guest user
 
   setup.describeAsAuth(function (runAction) {
     describe('fails to create without', function () {
@@ -186,7 +184,6 @@ describe('Action formCBM:', function () {
         })
       })
 
-
       it('startDateTime', function () {
         return runAction('formCBM:create', _.omit(cbmRecord, 'startDateTime')).then(function (response) {
           response.error.should.be.equal('Error: actionhero.errors.missingParams')
@@ -198,8 +195,7 @@ describe('Action formCBM:', function () {
           response.error.should.be.equal('Error: actionhero.errors.missingParams')
         })
       })
-
-    }); // fails to create without
+    }) // fails to create without
 
     describe('CREATE', function () {
       it('creates cbm record', function () {
@@ -216,8 +212,7 @@ describe('Action formCBM:', function () {
         })
       })
     })
-
-  }); // describeAsAuth
+  }) // describeAsAuth
 
   describe('Get CBM record by id', function () {
     var cbmId
@@ -266,8 +261,7 @@ describe('Action formCBM:', function () {
         })
       })
     })
-
-  }); // Get CBM record by id
+  }) // Get CBM record by id
 
   describe('given some cbm rows:', function () {
     setup.describeAsUser(function (runAction) {
@@ -305,7 +299,7 @@ describe('Action formCBM:', function () {
         })
       })
     })
-  }); // given some cbm rows
+  }) // given some cbm rows
 
   describe('Edit cbm row', function () {
     var cbmId
@@ -322,7 +316,6 @@ describe('Action formCBM:', function () {
         return setup.api.models.formCBM.findOne({where: {id: cbmId}}).then(function (cbm) {
           cbm.notes.should.be.equal('some new notes')
         })
-
       })
     })
 
@@ -352,8 +345,5 @@ describe('Action formCBM:', function () {
         })
       })
     })
-
-
-  }); // Edit cbm row
-
-}); // Action: formCBM
+  }) // Edit cbm row
+}) // Action: formCBM

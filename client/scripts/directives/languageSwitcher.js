@@ -4,12 +4,12 @@
 
 require('../app').directive('languageSwitcher', function () {
   return {
-    controller: /*@ngInject*/function($translate) {
+    controller: /* @ngInject */function ($translate) {
       var ctrl = this
-      ctrl.changeLanguage= function (language) {
+      ctrl.changeLanguage = function (language) {
         $translate.use(language)
       }
     },
-    controllerAs: "$ctrl"
+    controllerAs: '$ctrl'
   }
 })

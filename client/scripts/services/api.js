@@ -2,10 +2,9 @@
  * Created by groupsky on 10.11.15.
  */
 
-var angular = require('angular');
-require('../app').service('api', /*@ngInject*/function ($log, $http, $resource, $q, $window, ENDPOINT_URL, User) {
-
-  var api = this;
+var angular = require('angular')
+require('../app').service('api', /* @ngInject */function ($log, $http, $resource, $q, $window, ENDPOINT_URL, User) {
+  var api = this
 
   api.session = {
     login: function (auth) {
@@ -14,7 +13,7 @@ require('../app').service('api', /*@ngInject*/function ($log, $http, $resource, 
         url: ENDPOINT_URL + '/session',
         data: auth,
         withCredentials: true
-      });
+      })
     },
     restore: function (xsrf, opts) {
       return $http(angular.extend({
@@ -24,27 +23,27 @@ require('../app').service('api', /*@ngInject*/function ($log, $http, $resource, 
           csrfToken: xsrf
         },
         withCredentials: true
-      }, opts));
+      }, opts))
     },
     forgotPassword: function (auth) {
       return $http({
         method: 'POST',
         url: ENDPOINT_URL + '/session/' + auth.email + '/resetpw',
         data: auth
-      });
+      })
     },
     resetPassword: function (auth) {
       return $http({
         method: 'POST',
         url: ENDPOINT_URL + '/session/' + auth.email + '/resetpw2',
         data: auth
-      });
+      })
     },
     logout: function () {
       return $http({
         method: 'DELETE',
         url: ENDPOINT_URL + '/session'
-      });
+      })
     },
     changePassword: function (userId, oldPassword, newPassword) {
       return $http({
@@ -54,9 +53,9 @@ require('../app').service('api', /*@ngInject*/function ($log, $http, $resource, 
           oldPassword: oldPassword,
           newPassword: newPassword
         }
-      });
+      })
     }
-  };
+  }
 
   api.stats = {};
 
@@ -66,9 +65,8 @@ require('../app').service('api', /*@ngInject*/function ($log, $http, $resource, 
         method: 'GET',
         url: '/' + form + '_stats.json'
       }).then(function (response) {
-        return response.data;
-      });
-    };
-  });
-
-});
+        return response.data
+      })
+    }
+  })
+})

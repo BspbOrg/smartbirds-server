@@ -2,7 +2,7 @@
  * Created by groupsky on 26.05.16.
  */
 
-'use strict';
+'use strict'
 module.exports = function (sequelize, DataTypes) {
   var Visit = sequelize.define('Visit', {
     year: {
@@ -12,10 +12,10 @@ module.exports = function (sequelize, DataTypes) {
     earlyStart: DataTypes.DATEONLY,
     earlyEnd: DataTypes.DATEONLY,
     lateStart: DataTypes.DATEONLY,
-    lateEnd: DataTypes.DATEONLY,
+    lateEnd: DataTypes.DATEONLY
   }, {
     indexes: [
-      {unique: true, fields: ['year']},
+      {unique: true, fields: ['year']}
     ],
     instanceMethods: {
       apiData: function (api) {
@@ -29,17 +29,17 @@ module.exports = function (sequelize, DataTypes) {
             start: this.lateStart,
             end: this.lateEnd
           }
-        };
+        }
       },
       apiUpdate: function (api, params) {
-        this.year = parseInt(params.year);
-        this.earlyStart = params.early.start;
-        this.earlyEnd = params.early.end;
-        this.lateStart = params.late.start;
-        this.lateEnd = params.late.end;
-        return this;
+        this.year = parseInt(params.year)
+        this.earlyStart = params.early.start
+        this.earlyEnd = params.early.end
+        this.lateStart = params.late.start
+        this.lateEnd = params.late.end
+        return this
       }
     }
-  });
-  return Visit;
-};
+  })
+  return Visit
+}

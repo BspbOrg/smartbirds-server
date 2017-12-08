@@ -1,4 +1,4 @@
-var inputs = require('../helpers/inputs');
+var inputs = require('../helpers/inputs')
 
 exports.uploader = {
   name: 'uploader',
@@ -8,17 +8,17 @@ exports.uploader = {
     file: {required: true}
   },
   run: function (api, data, next) {
-    api.log('received', 'info', data.params.file);
+    api.log('received', 'info', data.params.file)
     api.filestorage.push(data.params.file, {
       userId: data.session.userId
     }, function (err, id, stat) {
-      if (err) return next(err);
-      api.log('saved as #' + id, 'info', stat);
-      data.response.data = {id: id};
-      next();
-    });
+      if (err) return next(err)
+      api.log('saved as #' + id, 'info', stat)
+      data.response.data = {id: id}
+      next()
+    })
   }
-};
+}
 
 exports.download = {
   name: 'downloader',
@@ -28,22 +28,22 @@ exports.download = {
     id: {required: true}
   },
   run: function (api, data, next) {
-    api.log('serving', 'info', data.params.id);
-    api.filestorage.get(data.params.id, function(err, stream, stat) {
+    api.log('serving', 'info', data.params.id)
+    api.filestorage.get(data.params.id, function (err, stream, stat) {
       if (err) {
-        data.connection.rawConnection.responseHttpCode = 404;
-        return next(err);
+        data.connection.rawConnection.responseHttpCode = 404
+        return next(err)
       }
 
       if (stat.custom && stat.custom.userId && !data.session.user.isAdmin && stat.custom.userId !== data.session.userId) {
-          data.connection.rawConnection.responseHttpCode = 403;
-          return next(new Error('no permission'));
+        data.connection.rawConnection.responseHttpCode = 403
+        return next(new Error('no permission'))
       }
 
-      api.log('sending', 'info', stat);
-      api.servers.servers.web.sendFile(data.connection, null, stream, stat.type, stat.length);
-      data.toRender = false;
-      next();
-    });
+      api.log('sending', 'info', stat)
+      api.servers.servers.web.sendFile(data.connection, null, stream, stat.type, stat.length)
+      data.toRender = false
+      next()
+    })
   }
-};
+}

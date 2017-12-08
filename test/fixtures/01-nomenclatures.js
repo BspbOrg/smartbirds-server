@@ -4,7 +4,7 @@
 
 module.exports = [
   {
-    model: "nomenclature",
+    model: 'nomenclature',
     data: {
       id: 4,
       type: 'birds_nest_success',
@@ -13,7 +13,7 @@ module.exports = [
     }
   },
   {
-    model: "nomenclature",
+    model: 'nomenclature',
     data: {
       id: 5,
       type: 'birds_nest_success',
@@ -22,7 +22,7 @@ module.exports = [
     }
   },
   {
-    model: "nomenclature",
+    model: 'nomenclature',
     data: {
       id: 6,
       type: 'cbm_sector',
@@ -31,7 +31,7 @@ module.exports = [
     }
   },
   {
-    model: "nomenclature",
+    model: 'nomenclature',
     data: {
       id: 7,
       type: 'cbm_visit_number',
@@ -40,7 +40,7 @@ module.exports = [
     }
   },
   {
-    model: "nomenclature",
+    model: 'nomenclature',
     data: {
       id: 8,
       type: 'cbm_habitat',
@@ -49,7 +49,7 @@ module.exports = [
     }
   },
   {
-    model: "nomenclature",
+    model: 'nomenclature',
     data: {
       id: 9,
       type: 'cbm_habitat',
@@ -58,7 +58,7 @@ module.exports = [
     }
   },
   {
-    model: "nomenclature",
+    model: 'nomenclature',
     data: {
       id: 10,
       type: 'cbm_distance',
@@ -67,7 +67,7 @@ module.exports = [
     }
   },
   {
-    model: "nomenclature",
+    model: 'nomenclature',
     data: {
       id: 11,
       type: 'main_threats',
@@ -76,7 +76,7 @@ module.exports = [
     }
   },
   {
-    model: "nomenclature",
+    model: 'nomenclature',
     data: {
       id: 12,
       type: 'main_threats',
@@ -85,7 +85,7 @@ module.exports = [
     }
   },
   {
-    model: "nomenclature",
+    model: 'nomenclature',
     data: {
       id: 13,
       type: 'main_cloud_level',
@@ -94,7 +94,7 @@ module.exports = [
     }
   },
   {
-    model: "nomenclature",
+    model: 'nomenclature',
     data: {
       id: 14,
       type: 'main_wind_direction',
@@ -103,7 +103,7 @@ module.exports = [
     }
   },
   {
-    model: "nomenclature",
+    model: 'nomenclature',
     data: {
       id: 15,
       type: 'main_wind_force',
@@ -112,12 +112,12 @@ module.exports = [
     }
   },
   {
-    model: "nomenclature",
+    model: 'nomenclature',
     data: {
       id: 16,
       type: 'main_rain',
       labelBg: 'Ръми',
       labelEn: 'Drizzle'
     }
-  },
-];
+  }
+]

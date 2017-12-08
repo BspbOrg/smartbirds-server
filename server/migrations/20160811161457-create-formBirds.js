@@ -1,12 +1,9 @@
-'use strict';
+'use strict'
 
+var _ = require('lodash')
+var Sequelize = require('sequelize')
 
-var _ = require('lodash');
-var Sequelize = require('sequelize');
-
-
-var tableName = 'FormBirds';
-
+var tableName = 'FormBirds'
 
 var schema = {
   id: {
@@ -185,7 +182,7 @@ var schema = {
     type: Sequelize.TEXT
   },
 
-  //Common fields
+  // Common fields
   endDateTime: {
     type: Sequelize.DATE,
     allowNull: false
@@ -244,7 +241,7 @@ var schema = {
     type: Sequelize.TEXT
   },
 
-  //Internal
+  // Internal
   userId: {
     type: Sequelize.INTEGER,
     allowNull: false
@@ -260,20 +257,20 @@ var schema = {
   imported: {
     type: Sequelize.INTEGER
   }
-};
+}
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.createTable(tableName, schema).then(function () {
       return queryInterface.addIndex(tableName, {
-          fields: ['userId']
-        })
+        fields: ['userId']
+      })
         .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['startDateTime']
           })
-        })      
-        .then(function(){
+        })
+        .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['observationDateTime']
           })
@@ -286,20 +283,19 @@ module.exports = {
         .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['monitoringCode']
-          })        
+          })
         })
         .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['location']
-          })        
+          })
         })
         .catch(function () {
         })
-    });
+    })
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable(tableName);
+    return queryInterface.dropTable(tableName)
   }
 }
-;

@@ -1,19 +1,19 @@
-var path              = require('path');
-var fs                = require('fs');
-var Sequelize         = require('sequelize');
-var Umzug             = require('umzug');
-var _ = require('lodash');
+var path = require('path')
+var fs = require('fs')
+var Sequelize = require('sequelize')
+var Umzug = require('umzug')
+var _ = require('lodash')
 
 module.exports = {
-  initialize: function(api, next){
-    api.models = {};
+  initialize: function (api, next) {
+    api.models = {}
 
     var sequelizeInstance = new Sequelize(
       api.config.sequelize.database,
       api.config.sequelize.username,
       api.config.sequelize.password,
       api.config.sequelize
-    );
+    )
 
     var umzug = new Umzug({
       storage: 'sequelize',
@@ -21,12 +21,12 @@ module.exports = {
         sequelize: sequelizeInstance
       },
       migrations: {
-        params: [sequelizeInstance.getQueryInterface(), sequelizeInstance.constructor, function() {
-          throw new Error('Migration tried to use old style "done" callback. Please upgrade to "umzug" and return a promise instead.');
+        params: [sequelizeInstance.getQueryInterface(), sequelizeInstance.constructor, function () {
+          throw new Error('Migration tried to use old style "done" callback. Please upgrade to "umzug" and return a promise instead.')
         }],
         path: api.projectRoot + '/migrations'
       }
-    });
+    })
 
     api.sequelize = {
 
@@ -34,68 +34,67 @@ module.exports = {
 
       umzug: umzug,
 
-      migrate: function(opts, next){
-        if(typeof opts === "function"){
-          next = opts;
-          opts = null;
+      migrate: function (opts, next) {
+        if (typeof opts === 'function') {
+          next = opts
+          opts = null
         }
-        opts = opts === null ? { method: 'up' } : opts;
+        opts = opts === null ? { method: 'up' } : opts
 
         checkMetaOldSchema(api, umzug).then(function () {
-          return umzug.execute(opts);
-        }).then(function() {
-          next();
-        });
+          return umzug.execute(opts)
+        }).then(function () {
+          next()
+        })
       },
 
-      migrateUndo: function(next) {
-        checkMetaOldSchema(api, umzug).then(function() {
-          return umzug.down();
-        }).then(function() {
-          next();
-        });
+      migrateUndo: function (next) {
+        checkMetaOldSchema(api, umzug).then(function () {
+          return umzug.down()
+        }).then(function () {
+          next()
+        })
       },
 
-      connect: function(next){
-        var dir = path.normalize(api.projectRoot + '/models');
-        fs.readdirSync(dir).forEach(function(file){
-          var nameParts = file.split("/");
-          var name = nameParts[(nameParts.length - 1)].split(".")[0];
-          api.models[name] = api.sequelize.sequelize.import(dir + '/' + file);
-        });
+      connect: function (next) {
+        var dir = path.normalize(api.projectRoot + '/models')
+        fs.readdirSync(dir).forEach(function (file) {
+          var nameParts = file.split('/')
+          var name = nameParts[(nameParts.length - 1)].split('.')[0]
+          api.models[name] = api.sequelize.sequelize.import(dir + '/' + file)
+        })
 
-        _.forEach(api.models, function(model, name) {
-          if (model.associate)
-            model.associate(api.models);
-        });
+        _.forEach(api.models, function (model, name) {
+          if (model.associate) { model.associate(api.models) }
+        })
 
-        api.sequelize.test(next);
+        api.sequelize.test(next)
       },
 
-      loadFixtures: function(next) {
-        if(api.config.sequelize.loadFixtures) {
-          var SequelizeFixtures = require('sequelize-fixtures');
+      loadFixtures: function (next) {
+        if (api.config.sequelize.loadFixtures) {
+          var SequelizeFixtures = require('sequelize-fixtures')
           SequelizeFixtures.loadFile(api.projectRoot + '/test/fixtures/*.{json,yml,js}', api.models)
-            .then(function() {
+            .then(function () {
               next()
-            }).catch(function(err) {
-              console.error("Error loading fixtures", err);
+            }).catch(function (err) {
+              console.error('Error loading fixtures', err)
               next(err)
-            });
+            })
         } else {
-          next();
+          next()
         }
       },
 
-      autoMigrate: function(next) {
-        if(api.config.sequelize.autoMigrate == null || api.config.sequelize.autoMigrate) {
-          checkMetaOldSchema(api, umzug).then(function() {
-            return umzug.up();
+      autoMigrate: function (next) {
+        if (api.config.sequelize.autoMigrate == null || api.config.sequelize.autoMigrate) {
+          checkMetaOldSchema(api, umzug).then(function () {
+            return umzug.up()
           }).then(function () {
-            next();
-          });
+            next()
+          })
         } else {
-          next();
+          next()
         }
       },
 
@@ -104,44 +103,44 @@ module.exports = {
       // Arguments:
       //  - next (callback function(err)): Will be called after the test is complete
       //      If the test fails, the `err` argument will contain the error
-      test: function(next){
-        api.sequelize.sequelize.query("SELECT 1").then(function(){
-          next();
-        }).catch(function(err){
-          api.log(err, 'warning');
-          console.log(err);
-          next(err);
-        });
+      test: function (next) {
+        api.sequelize.sequelize.query('SELECT 1').then(function () {
+          next()
+        }).catch(function (err) {
+          api.log(err, 'warning')
+          console.log(err)
+          next(err)
+        })
       }
-    };
+    }
 
-    next();
+    next()
   },
 
   startPriority: 101, // aligned with actionhero's redis initializer
-  start: function(api, next){
-    api.sequelize.connect(function(err){
-      if(err) {
-        return next(err);
+  start: function (api, next) {
+    api.sequelize.connect(function (err) {
+      if (err) {
+        return next(err)
       }
 
-      api.sequelize.autoMigrate(function() {
-        api.sequelize.loadFixtures(next);
-      });
-    });
+      api.sequelize.autoMigrate(function () {
+        api.sequelize.loadFixtures(next)
+      })
+    })
   }
-};
+}
 
-function checkMetaOldSchema(api, umzug) {
+function checkMetaOldSchema (api, umzug) {
   // Check if we need to upgrade from the old sequelize migration format
-  return api.sequelize.sequelize.query('SELECT * FROM "SequelizeMeta"', {raw: true}).then(function(raw) {
-    var rows = raw[0];
+  return api.sequelize.sequelize.query('SELECT * FROM "SequelizeMeta"', {raw: true}).then(function (raw) {
+    var rows = raw[0]
     if (rows.length && rows[0].hasOwnProperty('id')) {
-      throw new Error('Old-style meta-migration table detected - please use `sequelize-cli`\'s `db:migrate:old_schema` to migrate.');
+      throw new Error('Old-style meta-migration table detected - please use `sequelize-cli`\'s `db:migrate:old_schema` to migrate.')
     }
   }).catch(Sequelize.DatabaseError, function (err) {
-    var noTableMsg = 'No SequelizeMeta table found - creating new table';
-    api.log(noTableMsg);
-    console.log(noTableMsg);
-  });
+    var noTableMsg = 'No SequelizeMeta table found - creating new table'
+    api.log(noTableMsg)
+    console.log(noTableMsg)
+  })
 }

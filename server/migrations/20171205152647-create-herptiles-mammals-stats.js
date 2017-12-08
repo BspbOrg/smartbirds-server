@@ -1,11 +1,11 @@
-'use strict';
+'use strict'
 
-var _ = require('lodash');
-var Promise = require('bluebird');
+var _ = require('lodash')
+var Promise = require('bluebird')
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return;
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return
     return Promise.all([
 
       queryInterface.sequelize.query('CREATE OR REPLACE VIEW herptiles_stats (' +
@@ -26,18 +26,18 @@ module.exports = {
         '    COUNT(DISTINCT species), ' +
         '    SUM(count)' +
         '  FROM "FormMammals" as form' +
-        '  GROUP BY lat, lon'),
+        '  GROUP BY lat, lon')
 
-    ]);
+    ])
   },
 
   down: function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return;
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return
     return Promise.all([
 
       queryInterface.sequelize.query('DROP VIEW IF EXISTS herptiles_stats'),
-      queryInterface.sequelize.query('DROP VIEW IF EXISTS mammals_stats'),
+      queryInterface.sequelize.query('DROP VIEW IF EXISTS mammals_stats')
 
-    ]);
+    ])
   }
-};
+}

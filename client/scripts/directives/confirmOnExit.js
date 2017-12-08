@@ -36,45 +36,45 @@
  * @author Manikanta G
  */
 require('../app')
-  .directive('confirmOnExit', /*@ngInject*/function ($window, $parse) {
+  .directive('confirmOnExit', /* @ngInject */function ($window, $parse) {
     return {
       restrict: 'A',
       link: function ($scope, $elem, $attrs) {
-        var callback = $parse($attrs.confirmOnExit);
-        var confirmOnExit = function(){
-          return callback($scope);
-        };
+        var callback = $parse($attrs.confirmOnExit)
+        var confirmOnExit = function () {
+          return callback($scope)
+        }
 
-        var confirmMessage = $attrs.confirmMessage;
-        var confirmMessageRoute = $attrs.confirmMessageRoute;
-        var confirmMessageWindow = $attrs.confirmMessageWindow;
-        var previousWindowBeforeUnload = $window.onbeforeunload;
+        var confirmMessage = $attrs.confirmMessage
+        var confirmMessageRoute = $attrs.confirmMessageRoute
+        var confirmMessageWindow = $attrs.confirmMessageWindow
+        var previousWindowBeforeUnload = $window.onbeforeunload
 
         $window.onbeforeunload = function () {
           if (confirmOnExit()) {
-            return confirmMessageWindow || confirmMessage;
+            return confirmMessageWindow || confirmMessage
           }
-        };
+        }
 
         $scope.$on('$locationChangeStart', function (event) {
           if (confirmOnExit()) {
             if (!$window.confirm(confirmMessageRoute || confirmMessage)) {
-              event.preventDefault();
+              event.preventDefault()
             }
           }
-        });
+        })
 
         $scope.$on('$stateChangeStart', function (event) {
           if (confirmOnExit()) {
             if (!$window.confirm(confirmMessageRoute || confirmMessage)) {
-              event.preventDefault();
+              event.preventDefault()
             }
           }
-        });
+        })
 
         $scope.$on('$destroy', function () {
-          $window.onbeforeunload = previousWindowBeforeUnload;
-        });
+          $window.onbeforeunload = previousWindowBeforeUnload
+        })
       }
-    };
-  });
+    }
+  })

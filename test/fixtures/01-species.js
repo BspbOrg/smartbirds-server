@@ -1,6 +1,6 @@
 module.exports = [
   {
-    model: "species",
+    model: 'species',
     data: {
       id: 1,
       type: 'birds',
@@ -10,7 +10,7 @@ module.exports = [
     }
   },
   {
-    model: "species",
+    model: 'species',
     data: {
       id: 2,
       type: 'birds',
@@ -20,7 +20,7 @@ module.exports = [
     }
   },
   {
-    model: "species",
+    model: 'species',
     data: {
       id: 3,
       type: 'birds',
@@ -30,7 +30,7 @@ module.exports = [
     }
   },
   {
-    model: "species",
+    model: 'species',
     data: {
       id: 4,
       type: 'birds',
@@ -39,4 +39,4 @@ module.exports = [
       labelEn: 'Paddyfield Warbler'
     }
   }
-];
+]

@@ -1,9 +1,9 @@
-var Promise = require('bluebird');
+var Promise = require('bluebird')
 
 module.exports.generateUserBanners = {
-  name: "banner:generate",
-  description: "banner:generate",
-  queue: "default",
+  name: 'banner:generate',
+  description: 'banner:generate',
+  queue: 'default',
   // every 24 hours
   frequency: 24 * 60 * 60 * 1000,
   run: function (api, params, next) {
@@ -17,7 +17,7 @@ module.exports.generateUserBanners = {
         return Promise.map(usersStats, function (stat) {
           return api.banner.generate(
             stat.id,
-            stat.first_name+' '+stat.last_name,
+            stat.first_name + ' ' + stat.last_name,
             stat.entry_count,
             stat.species_count)
         })
@@ -25,9 +25,9 @@ module.exports.generateUserBanners = {
 
       // final statement
       .then(function () {
-        next();
+        next()
       }, function (error) {
-        next(error);
-      });
+        next(error)
+      })
   }
-};
+}

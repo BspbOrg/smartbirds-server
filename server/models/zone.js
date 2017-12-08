@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 module.exports = function (sequelize, DataTypes) {
   var Zone = sequelize.define('Zone', {
     id: {
@@ -30,11 +30,11 @@ module.exports = function (sequelize, DataTypes) {
       statusAndOwner: function () {
         if (this.status === 'free') {
           if (this.ownerId !== null) {
-            throw new Error('Status cannot be free when owner is not NULL!');
+            throw new Error('Status cannot be free when owner is not NULL!')
           }
         } else {
           if (this.ownerId === null) {
-            throw new Error('Status cannot be ' + this.status + ' when owner is NULL!');
+            throw new Error('Status cannot be ' + this.status + ' when owner is NULL!')
           }
         }
       }
@@ -47,8 +47,8 @@ module.exports = function (sequelize, DataTypes) {
     classMethods: {
       associate: function (models) {
         // associations can be defined here
-        models.zone.belongsTo(models.user, {as: 'owner'});
-        models.zone.belongsTo(models.location, {as: 'location'});
+        models.zone.belongsTo(models.user, {as: 'owner'})
+        models.zone.belongsTo(models.location, {as: 'location'})
       }
     },
     instanceMethods: {
@@ -64,16 +64,16 @@ module.exports = function (sequelize, DataTypes) {
           locationId: this.locationId,
           ownerId: this.ownerId,
           status: this.status
-        };
+        }
         if (this.location) {
-          data.location = this.location.apiData(api);
+          data.location = this.location.apiData(api)
         }
         if (this.owner) {
-          data.owner = this.owner.apiData(api);
+          data.owner = this.owner.apiData(api)
         }
-        return data;
+        return data
       }
     }
-  });
-  return Zone;
-};
+  })
+  return Zone
+}

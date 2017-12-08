@@ -2,26 +2,26 @@
  * Created by groupsky on 01.09.16.
  */
 
-var angular = require('angular');
+var angular = require('angular')
 
-require('../app').directive('sbScrollTo', /*@ngInject*/function ($log, $rootScope, $timeout, $uiViewScroll, $window) {
-  var pending;
+require('../app').directive('sbScrollTo', /* @ngInject */function ($log, $rootScope, $timeout, $uiViewScroll, $window) {
+  var pending
 
   $rootScope.$on('$stateChangeStart', function () {
     if (pending) {
-      $timeout.cancel(pending.timeout);
+      $timeout.cancel(pending.timeout)
     }
-  });
+  })
   $rootScope.$on('$stateChangeSuccess', function () {
     if (pending) {
-      pending.timeout = $timeout(pending.f);
+      pending.timeout = $timeout(pending.f)
     }
-  });
-  $rootScope.$on('$stateChangeError', function() {
+  })
+  $rootScope.$on('$stateChangeError', function () {
     if (pending) {
-      pending.timeout = $timeout(pending.f);
+      pending.timeout = $timeout(pending.f)
     }
-  });
+  })
 
   return {
     link: function ($scope, elem, attrs) {
@@ -32,34 +32,34 @@ require('../app').directive('sbScrollTo', /*@ngInject*/function ($log, $rootScop
         var p = pending = {
           tries: 0,
           f: function () {
-            if (pending !== p) return;
-            p.tries++;
-            console.log('sbScrollTo.click', p.tries);
-            var selector = attrs.sbScrollTo;
+            if (pending !== p) return
+            p.tries++
+            console.log('sbScrollTo.click', p.tries)
+            var selector = attrs.sbScrollTo
             if (!selector) {
-              $log.warn('no selector provided at', elem);
-              pending = false;
-              return;
+              $log.warn('no selector provided at', elem)
+              pending = false
+              return
             }
 
-            var target = $window.document.querySelector(selector);
+            var target = $window.document.querySelector(selector)
             if (!target) {
               if (p.tries < 3) {
-                p.timeout = $timeout(p.f);
+                p.timeout = $timeout(p.f)
               } else {
-                $log.warn('cannot find element for', selector);
-                pending = false;
+                $log.warn('cannot find element for', selector)
+                pending = false
               }
-              return;
+              return
             }
 
-            $uiViewScroll(angular.element(target));
-            pending = false;
-          },
-        };
+            $uiViewScroll(angular.element(target))
+            pending = false
+          }
+        }
 
-        pending.timeout = $timeout(p.f);
-      });
+        pending.timeout = $timeout(p.f)
+      })
     }
   }
-});
+})

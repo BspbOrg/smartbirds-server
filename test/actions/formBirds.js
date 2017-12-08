@@ -1,3 +1,5 @@
+/* global describe, beforeEach, it */
+
 var _ = require('lodash')
 var should = require('should')
 var sinon = require('sinon')
@@ -43,7 +45,7 @@ describe('Action formBirds:', function () {
     countMax: 12,
     sex: {
       type: 'birds_sex',
-      id:33,
+      id: 33,
       label: {
         bg: 'Женски',
         en: 'Female'
@@ -76,7 +78,7 @@ describe('Action formBirds:', function () {
     },
     behaviour: {
       type: 'birds_behaviour',
-      id:14,
+      id: 14,
       label: {
         bg: 'Строеж на гнездо / гнездова камера',
         en: 'Building of a nest / nest chamber'
@@ -84,7 +86,7 @@ describe('Action formBirds:', function () {
     },
     deadIndividualCauses: {
       type: 'birds_death',
-      id:15,
+      id: 15,
       label: {
         bg: 'Лов',
         en: 'Hunting'
@@ -125,8 +127,8 @@ describe('Action formBirds:', function () {
       }
     },
     brooding: true,
-    eggsCount:1,
-    countNestling:1,
+    eggsCount: 1,
+    countNestling: 1,
     countFledgling: 1,
     countSuccessfullyLeftNest: 2,
     nestProtected: true,
@@ -261,7 +263,6 @@ describe('Action formBirds:', function () {
         })
       })
     })
-
   }) // describeAsAuth
 
   describe('Get BIRDS record by id', function () {
@@ -311,7 +312,6 @@ describe('Action formBirds:', function () {
         })
       })
     })
-
   }) // Get BIRDS record by id
 
   describe('given some birds rows:', function () {
@@ -353,58 +353,57 @@ describe('Action formBirds:', function () {
 
     setup.describeAsAdmin(function (runAction) {
       it('filter user', function () {
-        //Depends on users fixture third record AND formBirds fixture
-        return runAction('formBirds:list', {user: 3}).then(function (response){
-            response.should.not.have.property('error')
-            for (var i = 0; i < response.data.length; i++) {
-              response.data[i].user.should.be.equal(3)
-            }
+        // Depends on users fixture third record AND formBirds fixture
+        return runAction('formBirds:list', {user: 3}).then(function (response) {
+          response.should.not.have.property('error')
+          for (var i = 0; i < response.data.length; i++) {
+            response.data[i].user.should.be.equal(3)
+          }
         })
       })
     })
 
     setup.describeAsUser(function (runAction) {
       it('filter species', function () {
-        return runAction('formBirds:list', {species: 'Alle alle'}).then(function (response){
-            response.should.not.have.property('error')
-            for (var i = 0; i < response.data.length; i++) {
-              response.data[i].species.should.be.equal('Alle alle')
-            }
+        return runAction('formBirds:list', {species: 'Alle alle'}).then(function (response) {
+          response.should.not.have.property('error')
+          for (var i = 0; i < response.data.length; i++) {
+            response.data[i].species.should.be.equal('Alle alle')
+          }
         })
       })
     })
 
     setup.describeAsUser(function (runAction) {
       it('filter location', function () {
-        return runAction('formBirds:list', {location: 'some_unq_location'}).then(function (response){
-            response.should.not.have.property('error')
-            response.data.length.should.be.equal(1)
-            response.data[0].location.should.be.equal('some_unq_location')
+        return runAction('formBirds:list', {location: 'some_unq_location'}).then(function (response) {
+          response.should.not.have.property('error')
+          response.data.length.should.be.equal(1)
+          response.data[0].location.should.be.equal('some_unq_location')
         })
       })
     })
 
     setup.describeAsUser(function (runAction) {
       it('filter from_date', function () {
-        return runAction('formBirds:list', {from_date: '2016-12-20T10:15Z'}).then(function (response){
+        return runAction('formBirds:list', {from_date: '2016-12-20T10:15Z'}).then(function (response) {
           response.should.not.have.property('error')
           response.data.length.should.be.equal(3)
         })
       })
       it('filter to_date', function () {
-          return runAction('formBirds:list', {to_date: '2016-12-20T10:16Z'}).then(function (response){
-            response.should.not.have.property('error')
-            response.data.length.should.be.equal(2)
-          })
+        return runAction('formBirds:list', {to_date: '2016-12-20T10:16Z'}).then(function (response) {
+          response.should.not.have.property('error')
+          response.data.length.should.be.equal(2)
+        })
       })
       it('filter from_date and to_date', function () {
-          return runAction('formBirds:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:16Z'}).then(function (response){
-            response.should.not.have.property('error')
-            response.data.length.should.be.equal(1)
-          })
+        return runAction('formBirds:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:16Z'}).then(function (response) {
+          response.should.not.have.property('error')
+          response.data.length.should.be.equal(1)
+        })
       })
     })
-
   }) // given some birds rows
 
   describe('Edit birds row', function () {
@@ -422,7 +421,6 @@ describe('Action formBirds:', function () {
         return setup.api.models.formBirds.findOne({where: {id: birdsId}}).then(function (bird) {
           bird.notes.should.be.equal('some new notes')
         })
-
       })
     })
 
@@ -452,8 +450,5 @@ describe('Action formBirds:', function () {
         })
       })
     })
-
-
   }) // Edit bird row
-
 })

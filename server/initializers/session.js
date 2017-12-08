@@ -1,4 +1,4 @@
-var crypto = require('crypto');
+var crypto = require('crypto')
 
 module.exports = {
   initialize: function (api, next) {
@@ -9,49 +9,47 @@ module.exports = {
       ttl: 60 * 60 * 24, // 1 day
 
       load: function (connection, callback) {
-        var key = api.session.prefix + connection.fingerprint;
+        var key = api.session.prefix + connection.fingerprint
         redis.get(key, function (error, data) {
           if (error) {
-            return callback(error);
+            return callback(error)
+          } else if (data) {
+            return callback(null, JSON.parse(data))
+          } else {
+            return callback(null, false)
           }
-          else if (data) {
-            return callback(null, JSON.parse(data));
-          }
-          else {
-            return callback(null, false);
-          }
-        });
+        })
       },
 
       create: function (connection, user, callback) {
-        var key = api.session.prefix + connection.fingerprint;
+        var key = api.session.prefix + connection.fingerprint
 
         crypto.randomBytes(64, function (ex, buf) {
-          var csrfToken = buf.toString('hex');
+          var csrfToken = buf.toString('hex')
 
           var sessionData = {
             userId: user.id,
             csrfToken: csrfToken,
             sesionCreatedAt: new Date().getTime(),
             user: user
-          };
+          }
 
           user.update({lastLoginAt: new Date()}).then(function () {
             redis.set(key, JSON.stringify(sessionData), function (error, data) {
               if (error) {
-                return callback(error);
+                return callback(error)
               }
               redis.expire(key, api.session.ttl, function (error) {
-                callback(error, sessionData);
-              });
-            });
-          }).catch(callback);
-        });
+                callback(error, sessionData)
+              })
+            })
+          }).catch(callback)
+        })
       },
 
       destroy: function (connection, callback) {
-        var key = api.session.prefix + connection.fingerprint;
-        redis.del(key, callback);
+        var key = api.session.prefix + connection.fingerprint
+        redis.del(key, callback)
       },
 
       middleware: {
@@ -63,25 +61,23 @@ module.exports = {
             api.session.load(data.connection, function (error, sessionData) {
               // if we have a session load check it and store it
               if (!error && sessionData) {
-                var csrfToken = data.connection.rawConnection.req && data.connection.rawConnection.req.headers['x-sb-csrf-token'] || data.params.csrfToken;
+                var csrfToken = data.connection.rawConnection.req && data.connection.rawConnection.req.headers['x-sb-csrf-token'] || data.params.csrfToken
 
                 if (!csrfToken || csrfToken != sessionData.csrfToken) {
-                  data.csrfError = true;
-                  return next();
+                  data.csrfError = true
+                  return next()
                 }
 
-                data.session = sessionData;
-                var key = api.session.prefix + data.connection.fingerprint;
+                data.session = sessionData
+                var key = api.session.prefix + data.connection.fingerprint
                 redis.expire(key, api.session.ttl, function (error) {
-                  if (error)
-                    api.log('redis error', 'error', error);
-                  next(error);
-                });
+                  if (error) { api.log('redis error', 'error', error) }
+                  next(error)
+                })
               } else {
-                if (error)
-                  api.log('redis error', 'error', error);
+                if (error) { api.log('redis error', 'error', error) }
                 // no session - moving on
-                return next();
+                return next()
               }
             })
           }
@@ -92,10 +88,10 @@ module.exports = {
           priority: 2000,
           preProcessor: function (data, next) {
             if (!data.session) {
-              data.connection.rawConnection.responseHttpCode = 401;
-              return next(new Error('Please log in to continue'));
+              data.connection.rawConnection.responseHttpCode = 401
+              return next(new Error('Please log in to continue'))
             }
-            next();
+            next()
           }
         },
         admin: {
@@ -104,15 +100,15 @@ module.exports = {
           priority: 3000,
           preProcessor: function (data, next) {
             if (!data.session) {
-              data.connection.rawConnection.responseHttpCode = 401;
-              return next(new Error('Please log in to continue'));
+              data.connection.rawConnection.responseHttpCode = 401
+              return next(new Error('Please log in to continue'))
             }
             if (!data.session.user.isAdmin) {
-              data.connection.rawConnection.responseHttpCode = 403;
-              return next(new Error('Admin required'));
+              data.connection.rawConnection.responseHttpCode = 403
+              return next(new Error('Admin required'))
             }
 
-            return next();
+            return next()
           }
         },
         owner: {
@@ -121,40 +117,40 @@ module.exports = {
           priority: 3000,
           preProcessor: function (data, next) {
             if (!data.session) {
-              data.connection.rawConnection.responseHttpCode = 401;
-              return next(new Error('Please log in to continue'));
+              data.connection.rawConnection.responseHttpCode = 401
+              return next(new Error('Please log in to continue'))
             }
             if (!data.session.user.isAdmin) {
               if (data.params.id === 'me' || data.params.id == data.session.userId) {
-                data.params.id = data.session.userId;
-                next();
+                data.params.id = data.session.userId
+                next()
               } else {
-                data.connection.rawConnection.responseHttpCode = 403;
-                return next(new Error('Admin required'));
+                data.connection.rawConnection.responseHttpCode = 403
+                return next(new Error('Admin required'))
               }
             } else {
-              return next();
+              return next()
             }
           }
         }
       }
-    };
+    }
 
-    api.actions.addMiddleware(api.session.middleware.session);
-    api.actions.addMiddleware(api.session.middleware.auth);
-    api.actions.addMiddleware(api.session.middleware.admin);
-    api.actions.addMiddleware(api.session.middleware.owner);
+    api.actions.addMiddleware(api.session.middleware.session)
+    api.actions.addMiddleware(api.session.middleware.auth)
+    api.actions.addMiddleware(api.session.middleware.admin)
+    api.actions.addMiddleware(api.session.middleware.owner)
 
-    api.params.globalSafeParams.push('csrfToken');
+    api.params.globalSafeParams.push('csrfToken')
 
-    next();
+    next()
   },
 
   start: function (api, next) {
-    next();
+    next()
   },
 
   stop: function (api, next) {
-    next();
+    next()
   }
-};
+}

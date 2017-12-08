@@ -1,3 +1,5 @@
+/* global describe, beforeEach, it */
+
 var _ = require('lodash')
 var should = require('should')
 var sinon = require('sinon')
@@ -15,7 +17,7 @@ describe('Action formHerps:', function () {
     species: 'Accipiter nisus',
     sex: {
       type: 'herp_gender',
-      id:33,
+      id: 33,
       label: {
         bg: 'Женски',
         en: 'Female'
@@ -133,12 +135,12 @@ describe('Action formHerps:', function () {
         })
       })
     })
-  }); // Guest user
+  }) // Guest user
 
   setup.describeAsAuth(function (runAction) {
     describe('fails to create without', function () {
       var required = ['latitude', 'longitude', 'observationDateTime', 'monitoringCode',
-      'species', 'count', 'endDateTime', 'startDateTime', 'location']
+        'species', 'count', 'endDateTime', 'startDateTime', 'location']
 
       required.forEach(function (property) {
         it(property, function () {
@@ -149,7 +151,7 @@ describe('Action formHerps:', function () {
           })
         })
       })
-    }); // fails to create without
+    }) // fails to create without
 
     describe('CREATE', function () {
       it('creates herps record', function () {
@@ -166,8 +168,7 @@ describe('Action formHerps:', function () {
         })
       })
     })
-
-  }); // describeAsAuth
+  }) // describeAsAuth
 
   describe('Get herps record by id', function () {
     var herpId
@@ -216,8 +217,7 @@ describe('Action formHerps:', function () {
         })
       })
     })
-
-  }); // Get herp record by id
+  }) // Get herp record by id
 
   describe('given some herps rows:', function () {
     setup.describeAsUser(function (runAction) {
@@ -258,9 +258,9 @@ describe('Action formHerps:', function () {
 
     setup.describeAsAdmin(function (runAction) {
       it('filter user', function () {
-        //Depends on users fixture third record AND formHerps fixture
+        // Depends on users fixture third record AND formHerps fixture
         return runAction('formHerps:create', _.assign(herpsRecord, {user: 3})).then(function (response) {
-          return runAction('formHerps:list', {user: 3}).then(function (response){
+          return runAction('formHerps:list', {user: 3}).then(function (response) {
             response.should.not.have.property('error')
             for (var i = 0; i < response.data.length; i++) {
               response.data[i].user.should.be.equal(3)
@@ -273,7 +273,7 @@ describe('Action formHerps:', function () {
     setup.describeAsUser(function (runAction) {
       it('filter species', function () {
         return runAction('formHerps:create', _.assign(herpsRecord, {species: 'Anas acuta'})).then(function (response) {
-          return runAction('formHerps:list', {species: 'Anas acuta'}).then(function (response){
+          return runAction('formHerps:list', {species: 'Anas acuta'}).then(function (response) {
             response.should.not.have.property('error')
             for (var i = 0; i < response.data.length; i++) {
               response.data[i].species.should.be.equal('Anas acuta')
@@ -286,7 +286,7 @@ describe('Action formHerps:', function () {
     setup.describeAsUser(function (runAction) {
       it('filter location', function () {
         return runAction('formHerps:create', _.assign(herpsRecord, {location: 'some_unq_location'})).then(function (response) {
-          return runAction('formHerps:list', {location: 'some_unq_location'}).then(function (response){
+          return runAction('formHerps:list', {location: 'some_unq_location'}).then(function (response) {
             response.should.not.have.property('error')
             response.data.length.should.be.equal(1)
             response.data[0].location.should.be.equal('some_unq_location')
@@ -297,26 +297,25 @@ describe('Action formHerps:', function () {
 
     setup.describeAsUser(function (runAction) {
       it('filter from_date', function () {
-        return runAction('formHerps:list', {from_date: '2016-12-20T10:15Z'}).then(function (response){
+        return runAction('formHerps:list', {from_date: '2016-12-20T10:15Z'}).then(function (response) {
           response.should.not.have.property('error')
           response.data.length.should.be.equal(2)
         })
       })
       it('filter to_date', function () {
-          return runAction('formHerps:list', {to_date: '2016-12-20T10:16Z'}).then(function (response){
-            response.should.not.have.property('error')
-            response.data.length.should.be.within(2, 4);//3 records from fixtures
-          })
+        return runAction('formHerps:list', {to_date: '2016-12-20T10:16Z'}).then(function (response) {
+          response.should.not.have.property('error')
+          response.data.length.should.be.within(2, 4)// 3 records from fixtures
+        })
       })
       it('filter from_date and to_date', function () {
-          return runAction('formHerps:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:16Z'}).then(function (response){
-            response.should.not.have.property('error')
-            response.data.length.should.be.equal(1)
-          })
+        return runAction('formHerps:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:16Z'}).then(function (response) {
+          response.should.not.have.property('error')
+          response.data.length.should.be.equal(1)
+        })
       })
     })
-
-  }); // given some herps rows
+  }) // given some herps rows
 
   describe('Edit herps row', function () {
     var herpsId
@@ -333,7 +332,6 @@ describe('Action formHerps:', function () {
         return setup.api.models.formHerps.findOne({where: {id: herpsId}}).then(function (herp) {
           herp.notes.should.be.equal('some new notes')
         })
-
       })
     })
 
@@ -363,8 +361,5 @@ describe('Action formHerps:', function () {
         })
       })
     })
-
-
-  }); // Edit herp row
-
+  }) // Edit herp row
 })

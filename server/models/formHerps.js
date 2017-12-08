@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 
-var _ = require('lodash');
-var Promise = require('bluebird');
-var Model = require('../helpers/Model');
+var _ = require('lodash')
+var Promise = require('bluebird')
+var Model = require('../helpers/Model')
 
-var fields = {  
+var fields = {
   species: {
     type: 'choice',
     required: true,
@@ -13,7 +13,7 @@ var fields = {
       model: 'species',
       filter: { type: 'herp_name' }
     }
-  },  
+  },
   sex: {
     type: 'choice',
     uniqueHash: true,
@@ -48,7 +48,7 @@ var fields = {
     type: '+int',
     required: true
   },
-  marking: 'text',  
+  marking: 'text',
   axisDistance: 'num',
   weight: 'num',
   sCLL: 'num',
@@ -60,24 +60,24 @@ var fields = {
   tempCloaca: 'num',
   sqVentr: 'num',
   sqCaud: 'num',
-  sqDors: 'num',  
-  speciesNotes: 'text',  
+  sqDors: 'num',
+  speciesNotes: 'text',
   location: {
     type: 'text',
     required: true
-  }  
-};
+  }
+}
 
 var model = Model('FormHerps', fields, [
   {targetModelName: 'species', as: 'speciesInfo', foreignKey: 'species', targetKey: 'labelLa'},
-  {targetModelName: 'user', as: 'user'},
-]);
+  {targetModelName: 'user', as: 'user'}
+])
 
-module.exports = model.getModelDefinition;
+module.exports = model.getModelDefinition
 
-module.exports.fields = model.getFields();
-module.exports.schema = model.getSchema();
+module.exports.fields = model.getFields()
+module.exports.schema = model.getSchema()
 
-module.exports.editInputs = model.getEditInputs();
+module.exports.editInputs = model.getEditInputs()
 
-module.exports.insertInputs = model.getInsertInputs();
+module.exports.insertInputs = model.getInsertInputs()

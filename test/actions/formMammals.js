@@ -1,3 +1,5 @@
+/* global describe, beforeEach, it */
+
 var _ = require('lodash')
 var should = require('should')
 var sinon = require('sinon')
@@ -15,7 +17,7 @@ describe('Action formMammals:', function () {
     species: 'Accipiter nisus',
     sex: {
       type: 'mammals_gender',
-      id:33,
+      id: 33,
       label: {
         bg: 'Женски',
         en: 'Female'
@@ -132,12 +134,12 @@ describe('Action formMammals:', function () {
         })
       })
     })
-  }); // Guest user
+  }) // Guest user
 
   setup.describeAsAuth(function (runAction) {
     describe('fails to create without', function () {
       var required = ['latitude', 'longitude', 'observationDateTime', 'monitoringCode',
-      'species', 'count', 'endDateTime', 'startDateTime', 'location']
+        'species', 'count', 'endDateTime', 'startDateTime', 'location']
 
       required.forEach(function (property) {
         it(property, function () {
@@ -148,7 +150,7 @@ describe('Action formMammals:', function () {
           })
         })
       })
-    }); // fails to create without
+    }) // fails to create without
 
     describe('CREATE', function () {
       it('creates mammals record', function () {
@@ -165,8 +167,7 @@ describe('Action formMammals:', function () {
         })
       })
     })
-
-  }); // describeAsAuth
+  }) // describeAsAuth
 
   describe('Get mammals record by id', function () {
     var mammalsId
@@ -215,8 +216,7 @@ describe('Action formMammals:', function () {
         })
       })
     })
-
-  }); // Get mammals record by id
+  }) // Get mammals record by id
 
   describe('given some mammals rows:', function () {
     setup.describeAsUser(function (runAction) {
@@ -257,9 +257,9 @@ describe('Action formMammals:', function () {
 
     setup.describeAsAdmin(function (runAction) {
       it('filter user', function () {
-        //Depends on users fixture third record AND formMammals fixture
+        // Depends on users fixture third record AND formMammals fixture
         return runAction('formMammals:create', _.assign(mammalsRecord, {user: 3})).then(function (response) {
-          return runAction('formMammals:list', {user: 3}).then(function (response){
+          return runAction('formMammals:list', {user: 3}).then(function (response) {
             response.should.not.have.property('error')
             for (var i = 0; i < response.data.length; i++) {
               response.data[i].user.should.be.equal(3)
@@ -272,7 +272,7 @@ describe('Action formMammals:', function () {
     setup.describeAsUser(function (runAction) {
       it('filter species', function () {
         return runAction('formMammals:create', _.assign(mammalsRecord, {species: 'Anas acuta'})).then(function (response) {
-          return runAction('formMammals:list', {species: 'Anas acuta'}).then(function (response){
+          return runAction('formMammals:list', {species: 'Anas acuta'}).then(function (response) {
             response.should.not.have.property('error')
             for (var i = 0; i < response.data.length; i++) {
               response.data[i].species.should.be.equal('Anas acuta')
@@ -285,7 +285,7 @@ describe('Action formMammals:', function () {
     setup.describeAsUser(function (runAction) {
       it('filter location', function () {
         return runAction('formMammals:create', _.assign(mammalsRecord, {location: 'some_unq_location'})).then(function (response) {
-          return runAction('formMammals:list', {location: 'some_unq_location'}).then(function (response){
+          return runAction('formMammals:list', {location: 'some_unq_location'}).then(function (response) {
             response.should.not.have.property('error')
             response.data.length.should.be.equal(1)
             response.data[0].location.should.be.equal('some_unq_location')
@@ -296,26 +296,25 @@ describe('Action formMammals:', function () {
 
     setup.describeAsUser(function (runAction) {
       it('filter from_date', function () {
-        return runAction('formMammals:list', {from_date: '2016-12-20T10:15Z'}).then(function (response){
+        return runAction('formMammals:list', {from_date: '2016-12-20T10:15Z'}).then(function (response) {
           response.should.not.have.property('error')
           response.data.length.should.be.equal(2)
         })
       })
       it('filter to_date', function () {
-          return runAction('formMammals:list', {to_date: '2016-12-20T10:16Z'}).then(function (response){
-            response.should.not.have.property('error')
-            response.data.length.should.be.within(2, 4);//3 records from fixtures
-          })
+        return runAction('formMammals:list', {to_date: '2016-12-20T10:16Z'}).then(function (response) {
+          response.should.not.have.property('error')
+          response.data.length.should.be.within(2, 4)// 3 records from fixtures
+        })
       })
       it('filter from_date and to_date', function () {
-          return runAction('formMammals:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:16Z'}).then(function (response){
-            response.should.not.have.property('error')
-            response.data.length.should.be.equal(1)
-          })
+        return runAction('formMammals:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:16Z'}).then(function (response) {
+          response.should.not.have.property('error')
+          response.data.length.should.be.equal(1)
+        })
       })
     })
-
-  }); // given some mammals rows
+  }) // given some mammals rows
 
   describe('Edit mammals row', function () {
     var mammalsId
@@ -332,7 +331,6 @@ describe('Action formMammals:', function () {
         return setup.api.models.formMammals.findOne({where: {id: mammalsId}}).then(function (mammal) {
           mammal.notes.should.be.equal('some new notes')
         })
-
       })
     })
 
@@ -362,8 +360,5 @@ describe('Action formMammals:', function () {
         })
       })
     })
-
-
-  }); // Edit mammals row
-
+  }) // Edit mammals row
 })

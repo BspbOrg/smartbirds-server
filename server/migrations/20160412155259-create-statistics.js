@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return;
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return
     return queryInterface.sequelize.query('CREATE OR REPLACE VIEW cbm_stats (' +
       'latitude, longitude, species_count, units_count' +
       ') AS SELECT ' +
@@ -11,11 +11,11 @@ module.exports = {
       '    COUNT(DISTINCT species), ' +
       '    SUM(count)' +
       '  FROM "FormCBM" as cbm' +
-      '  GROUP BY lat, lon');
+      '  GROUP BY lat, lon')
   },
 
   down: function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return;
-    return queryInterface.sequelize.query('DROP VIEW IF EXISTS cbm_stats');
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    return queryInterface.sequelize.query('DROP VIEW IF EXISTS cbm_stats')
   }
-};
+}

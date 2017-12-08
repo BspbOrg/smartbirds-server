@@ -3,8 +3,8 @@ var fs = require('fs')
 var fetch = require('node-fetch')
 var FormData = require('form-data')
 
-function serveStatic(api, data, next) {
-  fs.readFile(path.join(api.config.poeditor.fallbackPath, data.params.lang+'.json'), 'utf8', function (err, input) {
+function serveStatic (api, data, next) {
+  fs.readFile(path.join(api.config.poeditor.fallbackPath, data.params.lang + '.json'), 'utf8', function (err, input) {
     if (err) return next(err)
     try {
       data.response = JSON.parse(input)
@@ -15,7 +15,7 @@ function serveStatic(api, data, next) {
   })
 }
 
-function serveDynamic(api, data, next) {
+function serveDynamic (api, data, next) {
   var form = new FormData()
   form.append('api_token', api.config.poeditor.api_token)
   form.append('id', api.config.poeditor.project_id)

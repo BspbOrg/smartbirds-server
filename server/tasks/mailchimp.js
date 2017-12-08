@@ -2,8 +2,8 @@
  * Created by groupsky on 12.04.16.
  */
 
-var _ = require('lodash');
-var Promise = require('bluebird');
+var _ = require('lodash')
+var Promise = require('bluebird')
 
 module.exports.mailchimp = {
   name: 'stats:mailchimp',
@@ -22,7 +22,7 @@ module.exports.mailchimp = {
         var res = []
         while (users.length) {
           var u = users.splice(0, 250)
-          var p = api.mailchimp.client.post('/lists/'+api.config.mailchimp.list_id, {
+          var p = api.mailchimp.client.post('/lists/' + api.config.mailchimp.list_id, {
             members: u.map(function (user) {
               var fields = {
                 FNAME: user.firstName,
@@ -35,7 +35,7 @@ module.exports.mailchimp = {
                 NOTES: user.notes,
                 PHONE: user.phone,
                 POSTCODE: user.postcode,
-                PROFILE: user.profile,
+                PROFILE: user.profile
               }
 
               for (var key in fields) {
@@ -43,15 +43,15 @@ module.exports.mailchimp = {
                 if (!fields[key]) delete fields[key]
               }
 
-              api.log('update '+user.email, 'info', fields)
+              api.log('update ' + user.email, 'info', fields)
 
               return {
                 email_address: user.email,
                 status: 'subscribed',
-                merge_fields: fields,
+                merge_fields: fields
               }
             }),
-            update_existing: true,
+            update_existing: true
           })
           res.push(p)
         }
@@ -63,9 +63,9 @@ module.exports.mailchimp = {
 
       // final statement
       .then(function () {
-        next();
+        next()
       }, function (error) {
-        next(error);
-      });
+        next(error)
+      })
   }
-};
+}

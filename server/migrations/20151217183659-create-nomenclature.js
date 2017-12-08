@@ -1,49 +1,49 @@
-'use strict';
+'use strict'
 
-var tableName = "Nomenclatures";
+var tableName = 'Nomenclatures'
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.createTable(tableName, {
-      "id": {
+      'id': {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
       },
-      "type": {
+      'type': {
         type: Sequelize.STRING(32),
         allowNull: false
       },
-      "labelBg": {
+      'labelBg': {
         type: Sequelize.TEXT,
         allowNull: false
       },
-      "labelEn": {
+      'labelEn': {
         type: Sequelize.TEXT,
         allowNull: false
       },
-      "createdAt": {
+      'createdAt': {
         allowNull: false,
         type: Sequelize.DATE
       },
-      "updatedAt": {
+      'updatedAt': {
         allowNull: false,
         type: Sequelize.DATE
       }
-    }).then(function() {
+    }).then(function () {
       return queryInterface.addIndex(tableName, {
-        "unique": true,
-        "fields": ["type", "labelBg"]
-      });
-    }).then(function() {
+        'unique': true,
+        'fields': ['type', 'labelBg']
+      })
+    }).then(function () {
       return queryInterface.addIndex(tableName, {
-        "unique": true,
-        "fields": ["type", "labelEn"]
-      });
-    });
+        'unique': true,
+        'fields': ['type', 'labelEn']
+      })
+    })
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable(tableName);
+    return queryInterface.dropTable(tableName)
   }
-};
+}

@@ -1,25 +1,22 @@
-/**
- * Created by groupsky on 19.11.15.
- */
+/* global describe, beforeEach, it */
 
-var _ = require('lodash');
-//var request = require("request");
-var should = require('should');
-var setup = require('../_setup');
+var _ = require('lodash')
+// var request = require("request");
+var should = require('should')
+var setup = require('../_setup')
 
 describe('Action session:', function () {
-
-  var user = 'user@smartbirds.com';
-  var admin = 'admin@smartbirds.com';
-  var password = 'secret';
+  var user = 'user@smartbirds.com'
+  var admin = 'admin@smartbirds.com'
+  var password = 'secret'
 
   before(function () {
-    return setup.init();
-  });
+    return setup.init()
+  })
 
   after(function () {
-    return setup.finish();
-  });
+    return setup.finish()
+  })
 
   describe(':create', function () {
     it('logins user', function () {
@@ -27,23 +24,22 @@ describe('Action session:', function () {
         email: user,
         password: password
       }).then(function (response) {
-        should.not.exists(response.error);
-        should.exists(response.csrfToken);
-        should.exists(response.user);
-      });
-    });
+        should.not.exists(response.error)
+        should.exists(response.csrfToken)
+        should.exists(response.user)
+      })
+    })
 
     it('logins admin', function () {
       return setup.runAction('session:create', {
         email: admin,
         password: password
       }).then(function (response) {
-        should.not.exists(response.error);
-        should.exists(response.csrfToken);
-        should.exists(response.user);
-        response.user.isAdmin.should.be.true();
-      });
-    });
-  });
-
-});
+        should.not.exists(response.error)
+        should.exists(response.csrfToken)
+        should.exists(response.user)
+        response.user.isAdmin.should.be.true()
+      })
+    })
+  })
+})

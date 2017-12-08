@@ -2,19 +2,19 @@
  * Created by dani on 08.01.16.
  */
 
-var _ = require('lodash');
-var Promise = require('bluebird');
-var moment = require('moment');
-var actions = require('../helpers/actions');
+var _ = require('lodash')
+var Promise = require('bluebird')
+var moment = require('moment')
+var actions = require('../helpers/actions')
 
-function prepareQuery(api, data) {
+function prepareQuery (api, data) {
   return Promise.resolve({})
     .then(function (q) {
-      var limit = parseInt(data.params.limit) || 20;
+      var limit = parseInt(data.params.limit) || 20
       // if (!data.session.user.isAdmin) {
       //   limit = Math.max(1, Math.min(1000, limit));
       // }
-      var offset = data.params.offset || 0;
+      var offset = data.params.offset || 0
 
       q = {
         order: [
@@ -22,25 +22,24 @@ function prepareQuery(api, data) {
           ['id', 'DESC']
         ],
         offset: offset
-      };
-      if (limit !== -1)
-        q.limit = limit;
+      }
+      if (limit !== -1) { q.limit = limit }
 
       if (!data.session.user.isAdmin) {
         q.where = _.extend(q.where || {}, {
           userId: data.session.userId
-        });
+        })
       } else {
         if (data.params.user) {
           q.where = _.extend(q.where || {}, {
             userId: data.params.user
-          });
+          })
         }
       }
       if (data.params.zone) {
         q.where = _.extend(q.where || {}, {
           zoneId: data.params.zone
-        });
+        })
       } else if (data.params.location) {
         q.include = [].concat(q.include || [], [
           {
@@ -50,7 +49,7 @@ function prepareQuery(api, data) {
               locationId: data.params.location
             }
           }
-        ]);
+        ])
       }
       if (data.params.visit) {
         q.where = _.extend(q.where || {}, {
@@ -58,7 +57,7 @@ function prepareQuery(api, data) {
             visitBg: data.params.visit,
             visitEn: data.params.visit
           }
-        });
+        })
       }
       if (data.params.year) {
         q.where = _.extend(q.where || {}, {
@@ -66,14 +65,14 @@ function prepareQuery(api, data) {
             $gte: moment().year(data.params.year).startOf('year').toDate(),
             $lte: moment().year(data.params.year).endOf('year').toDate()
           }
-        });
+        })
       }
       if (data.params.species) {
         q.where = _.extend(q.where || {}, {
           species: data.params.species
-        });
+        })
       }
-      return q;
+      return q
     })
 }
 
@@ -127,10 +126,10 @@ exports.formCBMList = {
       primaryHabitatBg: cbm.primaryHabitatBg,
       primaryHabitatEn: cbm.primaryHabitatEn,
       speciesEuringCode: cbm['speciesInfo.euring'],
-      speciesCode: cbm['speciesInfo.code'],
+      speciesCode: cbm['speciesInfo.code']
     }
   })
-};
+}
 
 exports.formCBMAdd = {
   name: 'formCBM:create',
@@ -161,56 +160,56 @@ exports.formCBMAdd = {
     monitoringCode: {required: true},
     zone: {required: true},
     user: {required: false},
-    //source: {required: true},
+    // source: {required: true},
     latitude: {required: false},
     longitude: {required: false},
     pictures: {required: false},
-    track: {required: false},
+    track: {required: false}
   },
   run: function (api, data, next) {
     Promise.resolve(data)
       .then(function (data) {
-        return api.models.formCBM.build({});
+        return api.models.formCBM.build({})
       })
       .then(function (cbm) {
         if (!data.session.user.isAdmin || !data.params.user) {
-          data.params.user = data.session.userId;
+          data.params.user = data.session.userId
         }
-        return cbm;
+        return cbm
       })
       .then(function (cbm) {
-        return cbm.apiUpdate(data.params);
+        return cbm.apiUpdate(data.params)
       })
       .then(function (record) {
-        var modelName = 'formCBM';
-        var hash = record.calculateHash();
-        api.log('looking for %s with hash %s', 'info', modelName, hash);
+        var modelName = 'formCBM'
+        var hash = record.calculateHash()
+        api.log('looking for %s with hash %s', 'info', modelName, hash)
         return api.models[modelName].findOne({where: {hash: hash}})
           .then(function (existing) {
             if (existing) {
-              api.log('found %s with hash %s, reusing', 'info', modelName, hash);
-              return existing;
+              api.log('found %s with hash %s, reusing', 'info', modelName, hash)
+              return existing
             } else {
-              api.log('not found %s with hash %s, creating', 'info', modelName, hash);
-              return record.save();
+              api.log('not found %s with hash %s, creating', 'info', modelName, hash)
+              return record.save()
             }
-          });
+          })
       })
       .then(function (cbm) {
-        return cbm.apiData(api);
+        return cbm.apiData(api)
       })
       .then(function (res) {
-        return data.response.data = res;
+        return data.response.data = res
       })
       .then(function () {
-        next();
+        next()
       })
       .catch(function (error) {
-        api.logger.error(error);
-        next(error);
-      });
+        api.logger.error(error)
+        next(error)
+      })
   }
-}; // CBM create
+} // CBM create
 
 exports.formCBMEdit = {
   name: 'formCBM:edit',
@@ -244,11 +243,11 @@ exports.formCBMEdit = {
     monitoringCode: {},
     zone: {},
     user: {required: false},
-    //source: {},
+    // source: {},
     latitude: {},
     longitude: {},
     pictures: {required: false},
-    track: {required: false},
+    track: {required: false}
   },
 
   run: function (api, data, next) {
@@ -258,44 +257,44 @@ exports.formCBMEdit = {
       })
       .then(function (formCBM) {
         if (!formCBM) {
-          data.connection.rawConnection.responseHttpCode = 404;
-          return Promise.reject(new Error('cbm not found'));
+          data.connection.rawConnection.responseHttpCode = 404
+          return Promise.reject(new Error('cbm not found'))
         }
 
         if (!data.session.user.isAdmin && formCBM.userId != data.session.userId) {
-          data.connection.rawConnection.responseHttpCode = 401;
-          return Promise.reject(new Error('no permission'));
+          data.connection.rawConnection.responseHttpCode = 401
+          return Promise.reject(new Error('no permission'))
         }
 
-        return formCBM;
+        return formCBM
       })
       .then(function (formCBM) {
         if (!data.session.user.isAdmin || !data.params.user) {
-          data.params.user = data.session.userId;
+          data.params.user = data.session.userId
         }
-        return formCBM;
+        return formCBM
       })
       .then(function (formCBM) {
-        return formCBM.apiUpdate(data.params);
+        return formCBM.apiUpdate(data.params)
       })
       .then(function (formCBM) {
-        return formCBM.save();
+        return formCBM.save()
       })
       .then(function (cbm) {
-        return cbm.apiData(api);
+        return cbm.apiData(api)
       })
       .then(function (res) {
-        return data.response.data = res;
+        return data.response.data = res
       })
       .then(function () {
-        next();
+        next()
       })
       .catch(function (error) {
-        api.logger.error(error);
-        next(error);
-      });
+        api.logger.error(error)
+        next(error)
+      })
   }
-}; // CBM edit
+} // CBM edit
 
 exports.formCBMView = {
   name: 'formCBM:view',
@@ -305,29 +304,28 @@ exports.formCBMView = {
 
   run: function (api, data, next) {
     var q = {
-      where: {id: data.params.id},
-    };
+      where: {id: data.params.id}
+    }
 
     api.models.formCBM.findOne(q).then(function (cbm) {
-        if (!cbm) {
-          data.connection.rawConnection.responseHttpCode = 404;
-          return next(new Error('cbm record not found'));
-        }
+      if (!cbm) {
+        data.connection.rawConnection.responseHttpCode = 404
+        return next(new Error('cbm record not found'))
+      }
 
-        if (!data.session.user.isAdmin && cbm.userId != data.session.userId) {
-          data.connection.rawConnection.responseHttpCode = 401;
-          return next(new Error('no permission'));
-        }
+      if (!data.session.user.isAdmin && cbm.userId != data.session.userId) {
+        data.connection.rawConnection.responseHttpCode = 401
+        return next(new Error('no permission'))
+      }
 
-        cbm.apiData(api).then(function (apiData) {
-          data.response.data = apiData;
-          next();
-        });
+      cbm.apiData(api).then(function (apiData) {
+        data.response.data = apiData
+        next()
       })
+    })
       .catch(next)
-    ;
   }
-};
+}
 
 exports.formCBMDelete = {
   name: 'formCBM:delete',
@@ -340,23 +338,23 @@ exports.formCBMDelete = {
       return api.models.formCBM.findOne({where: {id: data.params.id}})
     }).then(function (formCBM) {
       if (!formCBM) {
-        data.connection.rawConnection.responseHttpCode = 404;
-        return Promise.reject(new Error('cbm not found'));
+        data.connection.rawConnection.responseHttpCode = 404
+        return Promise.reject(new Error('cbm not found'))
       }
 
       if (!data.session.user.isAdmin && formCBM.userId != data.session.userId) {
-        data.connection.rawConnection.responseHttpCode = 401;
-        return Promise.reject(new Error('no permission'));
+        data.connection.rawConnection.responseHttpCode = 401
+        return Promise.reject(new Error('no permission'))
       }
 
-      return formCBM;
+      return formCBM
     }).then(function (formCBM) {
-      return formCBM.destroy();
+      return formCBM.destroy()
     }).then(function () {
-      next();
+      next()
     }).catch(function (error) {
-      api.log('Exception', 'error', error);
-      next(error);
-    });
+      api.log('Exception', 'error', error)
+      next(error)
+    })
   }
-};
+}

@@ -1,3 +1,5 @@
+/* global describe, beforeEach, it */
+
 var _ = require('lodash')
 var should = require('should')
 var sinon = require('sinon')
@@ -124,7 +126,7 @@ describe('Action formCiconia:', function () {
         })
       })
     })
-  }); // Guest user
+  }) // Guest user
 
   setup.describeAsAuth(function (runAction) {
     describe('fails to create without', function () {
@@ -140,8 +142,7 @@ describe('Action formCiconia:', function () {
           })
         })
       })
-
-    }); // fails to create without
+    }) // fails to create without
 
     describe('CREATE', function () {
       it('creates Ciconia record', function () {
@@ -158,8 +159,7 @@ describe('Action formCiconia:', function () {
         })
       })
     })
-
-  }); // describeAsAuth
+  }) // describeAsAuth
 
   describe('Get Ciconia record by id', function () {
     var ciconiaId
@@ -208,8 +208,7 @@ describe('Action formCiconia:', function () {
         })
       })
     })
-
-  }); // Get ciconia record by id
+  }) // Get ciconia record by id
 
   describe('given some ciconia rows:', function () {
     setup.describeAsUser(function (runAction) {
@@ -250,9 +249,9 @@ describe('Action formCiconia:', function () {
 
     setup.describeAsAdmin(function (runAction) {
       it('filter user', function () {
-        //Depends on users fixture third record AND formCiconia fixture
+        // Depends on users fixture third record AND formCiconia fixture
         return runAction('formCiconia:create', _.assign(ciconiaRecord, {user: 3})).then(function (response) {
-          return runAction('formCiconia:list', {user: 3}).then(function (response){
+          return runAction('formCiconia:list', {user: 3}).then(function (response) {
             response.should.not.have.property('error')
             for (var i = 0; i < response.data.length; i++) {
               response.data[i].user.should.be.equal(3)
@@ -265,7 +264,7 @@ describe('Action formCiconia:', function () {
     setup.describeAsUser(function (runAction) {
       it('filter location', function () {
         return runAction('formCiconia:create', _.assign(ciconiaRecord, {location: 'some_unq_location'})).then(function (response) {
-          return runAction('formCiconia:list', {location: 'some_unq_location'}).then(function (response){
+          return runAction('formCiconia:list', {location: 'some_unq_location'}).then(function (response) {
             response.should.not.have.property('error')
             response.data.length.should.be.equal(1)
             response.data[0].location.should.be.equal('some_unq_location')
@@ -276,26 +275,25 @@ describe('Action formCiconia:', function () {
 
     setup.describeAsUser(function (runAction) {
       it('filter from_date', function () {
-        return runAction('formCiconia:list', {from_date: '2016-12-20T10:15Z'}).then(function (response){
+        return runAction('formCiconia:list', {from_date: '2016-12-20T10:15Z'}).then(function (response) {
           response.should.not.have.property('error')
           response.data.length.should.be.within(3, 5)
         })
       })
       it('filter to_date', function () {
-          return runAction('formCiconia:list', {to_date: '2016-12-20T10:16Z'}).then(function (response){
-            response.should.not.have.property('error')
-            response.data.length.should.be.equal(2)
-          })
+        return runAction('formCiconia:list', {to_date: '2016-12-20T10:16Z'}).then(function (response) {
+          response.should.not.have.property('error')
+          response.data.length.should.be.equal(2)
+        })
       })
       it('filter from_date and to_date', function () {
-          return runAction('formCiconia:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:16Z'}).then(function (response){
-            response.should.not.have.property('error')
-            response.data.length.should.be.equal(1)
-          })
+        return runAction('formCiconia:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:16Z'}).then(function (response) {
+          response.should.not.have.property('error')
+          response.data.length.should.be.equal(1)
+        })
       })
     })
-
-  }); // given some Ciconia rows
+  }) // given some Ciconia rows
 
   describe('Edit ciconia row', function () {
     var ciconiaId
@@ -312,7 +310,6 @@ describe('Action formCiconia:', function () {
         return setup.api.models.formCiconia.findOne({where: {id: ciconiaId}}).then(function (ciconia) {
           ciconia.notes.should.be.equal('some new notes')
         })
-
       })
     })
 
@@ -342,8 +339,5 @@ describe('Action formCiconia:', function () {
         })
       })
     })
-
-
-  }); // Edit ciconia row
-
+  }) // Edit ciconia row
 })

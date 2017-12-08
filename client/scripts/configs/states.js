@@ -1,73 +1,71 @@
-var angular = require('angular');
-var forms = require('./forms');
-var module = require('../app');
+var angular = require('angular')
+var forms = require('./forms')
+var module = require('../app')
 
-module.config(/*@ngInject*/function ($locationProvider, $stateProvider, $urlRouterProvider) {
+module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRouterProvider) {
+  $locationProvider.html5Mode(true)
 
-    $locationProvider.html5Mode(true);
+  $urlRouterProvider
+      .otherwise('/')
 
-    $urlRouterProvider
-      .otherwise('/');
-
-
-    //////////////////////////
+    /// ///////////////////////
     // State Configurations //
-    //////////////////////////
+    /// ///////////////////////
 
   var resolveUser = {
-    user: /*@ngInject*/function($rootScope, user) {
-      return user.resolve(true).then(function(identity) {
-        return $rootScope.$user = user;
-      }, function() {
-        return undefined;
+    user: /* @ngInject */function ($rootScope, user) {
+      return user.resolve(true).then(function (identity) {
+        return $rootScope.$user = user
+      }, function () {
+        return undefined
       })
     }
-  };
+  }
 
     // Use $stateProvider to configure your states.
-    $stateProvider
+  $stateProvider
 
-      //////////
+      /// ///////
       // Home //
-      //////////
-      .state("home", {
-        url: "/",
+      /// ///////
+      .state('home', {
+        url: '/',
         templateUrl: '/views/home.html',
         title: 'Home',
-        resolve: resolveUser,
+        resolve: resolveUser
       })
 
-      .state("cbm", {
-        url: "/cbm",
+      .state('cbm', {
+        url: '/cbm',
         templateUrl: '/views/home-cbm.html',
         title: 'МОВП',
-        resolve: resolveUser,
+        resolve: resolveUser
       })
 
-      .state("birds", {
-        url: "/birds",
+      .state('birds', {
+        url: '/birds',
         templateUrl: '/views/home-birds.html',
         title: 'Птици',
-        resolve: resolveUser,
+        resolve: resolveUser
       })
 
-      .state("herp", {
-        url: "/herp",
+      .state('herp', {
+        url: '/herp',
         templateUrl: '/views/home-herp.html',
         title: 'ЗВБ',
-        resolve: resolveUser,
+        resolve: resolveUser
       })
 
-      .state("ciconia", {
-        url: "/ciconia",
+      .state('ciconia', {
+        url: '/ciconia',
         templateUrl: '/views/home-ciconia.html',
         title: 'ЗВБ',
-        resolve: resolveUser,
+        resolve: resolveUser
       })
 
-      ///////////
+      /// ////////
       // Login //
-      ///////////
+      /// ////////
       .state('login', {
         url: '/login?email',
         templateUrl: '/views/login.html',
@@ -76,9 +74,9 @@ module.config(/*@ngInject*/function ($locationProvider, $stateProvider, $urlRout
         title: 'Login'
       })
 
-      ///////////
+      /// ////////
       // Register //
-      ///////////
+      /// ////////
       .state('register', {
         url: '/register?email',
         templateUrl: '/views/register.html',
@@ -87,9 +85,9 @@ module.config(/*@ngInject*/function ($locationProvider, $stateProvider, $urlRout
         title: 'Register'
       })
 
-      ///////////
+      /// ////////
       // Forgot //
-      ///////////
+      /// ////////
       .state('forgot', {
         url: '/forgot?email',
         templateUrl: '/views/forgot.html',
@@ -98,9 +96,9 @@ module.config(/*@ngInject*/function ($locationProvider, $stateProvider, $urlRout
         title: 'Forgot password'
       })
 
-      ///////////
+      /// ////////
       // Reset //
-      ///////////
+      /// ////////
       .state('reset', {
         url: '/reset?email&token',
         templateUrl: '/views/reset.html',
@@ -109,11 +107,11 @@ module.config(/*@ngInject*/function ($locationProvider, $stateProvider, $urlRout
         title: 'Reset password'
       })
 
-      ///////////
+      /// ////////
       // Auth //
-      ///////////
+      /// ////////
       .state('auth', {
-        //parent: 'base',
+        // parent: 'base',
         abstract: true,
         templateUrl: '/views/layout.html',
         controller: 'MainController',
@@ -122,18 +120,18 @@ module.config(/*@ngInject*/function ($locationProvider, $stateProvider, $urlRout
           roles: ['user']
         },
         resolve: {
-          authorize: /*@ngInject*/function (authorization, localization) {
-            return authorization.authorize();
+          authorize: /* @ngInject */function (authorization, localization) {
+            return authorization.authorize()
           },
-          db: /*@ngInject*/function (db) {
-            return db.$promise || db;
+          db: /* @ngInject */function (db) {
+            return db.$promise || db
           }
         }
       })
 
-      ///////////
+      /// ////////
       // Dashboard //
-      ///////////
+      /// ////////
       .state('auth.dashboard', {
         url: '/dashboard',
         views: {
@@ -144,9 +142,9 @@ module.config(/*@ngInject*/function ($locationProvider, $stateProvider, $urlRout
         }
       })
 
-      ///////////
+      /// ////////
       // Users //
-      ///////////
+      /// ////////
       .state('auth.users', {
         url: '/users',
         views: {
@@ -158,10 +156,9 @@ module.config(/*@ngInject*/function ($locationProvider, $stateProvider, $urlRout
         }
       })
 
-
-      ///////////
+      /// ////////
       // Users //
-      ///////////
+      /// ////////
       .state('auth.users.detail', {
         url: '/{id:int}',
         views: {
@@ -173,10 +170,9 @@ module.config(/*@ngInject*/function ($locationProvider, $stateProvider, $urlRout
         }
       })
 
-
-      ///////////
+      /// ////////
       // User New //
-      ///////////
+      /// ////////
       .state('auth.users.new', {
         url: '/new',
         views: {
@@ -188,10 +184,9 @@ module.config(/*@ngInject*/function ($locationProvider, $stateProvider, $urlRout
         }
       })
 
-
-      ///////////
+      /// ////////
       // User Change Password //
-      ///////////
+      /// ////////
       .state('auth.users.changepw', {
         url: '/password',
         views: {
@@ -203,92 +198,88 @@ module.config(/*@ngInject*/function ($locationProvider, $stateProvider, $urlRout
         }
       })
 
-
-      ///////////
+      /// ////////
       // Monitorings //
-      ///////////
+      /// ////////
       .state('auth.monitoring', {
         url: '/monitoring'
-      });
+      })
 
-  angular.forEach(forms, function(formDef, formName) {
-
+  angular.forEach(forms, function (formDef, formName) {
     $stateProvider
 
-    ///////////
+    /// ////////
     // Monitoring List //
-    ///////////
-      .state('auth.monitoring.'+formName, {
-        url: '/'+formName+'?'+(formDef||[]).filters.join('&'),
+    /// ////////
+      .state('auth.monitoring.' + formName, {
+        url: '/' + formName + '?' + (formDef || []).filters.join('&'),
         views: {
           'content@auth': {
-            templateUrl: '/views/monitorings/list_'+formName+'.html',
+            templateUrl: '/views/monitorings/list_' + formName + '.html',
             controller: 'MonitoringController',
             controllerAs: 'monitoringController'
           }
         },
         resolve: {
-          model: [formDef.model, function(model) {
-            return model;
+          model: [formDef.model, function (model) {
+            return model
           }],
-          formName: function() {
-            return formName;
+          formName: function () {
+            return formName
           },
-          formDef: function() {
-            return formDef;
+          formDef: function () {
+            return formDef
           }
         }
       })
 
-      ///////////
+      /// ////////
       // Monitoring Detail //
-      ///////////
-      .state('auth.monitoring.'+formName+'.detail', {
+      /// ////////
+      .state('auth.monitoring.' + formName + '.detail', {
         url: '/{id:int}',
         views: {
           'content@auth': {
-            templateUrl: '/views/monitorings/'+formName+'.html',
+            templateUrl: '/views/monitorings/' + formName + '.html',
             controller: 'MonitoringDetailController',
             controllerAs: 'monitoringDetailController'
           }
         }
       })
 
-      ///////////
+      /// ////////
       // Monitoring New //
-      ///////////
-      .state('auth.monitoring.'+formName+'.new', {
+      /// ////////
+      .state('auth.monitoring.' + formName + '.new', {
         url: '/new',
         views: {
           'content@auth': {
-            templateUrl: '/views/monitorings/'+formName+'.html',
+            templateUrl: '/views/monitorings/' + formName + '.html',
             controller: 'MonitoringDetailController',
             controllerAs: 'monitoringDetailController'
           }
         }
       })
 
-      ///////////
+      /// ////////
       // Monitoring Copy //
-      ///////////
-      .state('auth.monitoring.'+formName+'.copy', {
+      /// ////////
+      .state('auth.monitoring.' + formName + '.copy', {
         url: '/copy?{fromId:int}',
         views: {
           'content@auth': {
-            templateUrl: '/views/monitorings/'+formName+'.html',
+            templateUrl: '/views/monitorings/' + formName + '.html',
             controller: 'MonitoringDetailController',
             controllerAs: 'monitoringDetailController'
           }
         }
       })
+  })
+  $stateProvider
 
-  });
-    $stateProvider
-
-
-      ///////////
+      /// ////////
       // Zones //
-      ///////////
+      /// ////////
       .state('auth.zones', {
         url: '/zones?status&{location:int}&{owner:int}&zone',
         views: {
@@ -300,9 +291,9 @@ module.config(/*@ngInject*/function ($locationProvider, $stateProvider, $urlRout
         }
       })
 
-      ///////////
+      /// ////////
       // View Zone //
-      ///////////
+      /// ////////
       .state('auth.zones.view', {
         url: '/{id:[a-zA-Z]+[0-9]+}',
         views: {
@@ -314,9 +305,9 @@ module.config(/*@ngInject*/function ($locationProvider, $stateProvider, $urlRout
         }
       })
 
-      ///////////
+      /// ////////
       // Request Zone //
-      ///////////
+      /// ////////
       .state('auth.zones.request', {
         url: '/request',
         views: {
@@ -327,9 +318,9 @@ module.config(/*@ngInject*/function ($locationProvider, $stateProvider, $urlRout
         }
       })
 
-      ///////////
+      /// ////////
       // Visits //
-      ///////////
+      /// ////////
       .state('auth.visits', {
         url: '/visits',
         views: {
@@ -340,9 +331,9 @@ module.config(/*@ngInject*/function ($locationProvider, $stateProvider, $urlRout
         }
       })
 
-      ///////////
+      /// ////////
       // Nomenclatures //
-      ///////////
+      /// ////////
       .state('auth.nomenclatures', {
         url: '/nomenclatures?group&nomenclature',
         views: {
@@ -353,9 +344,9 @@ module.config(/*@ngInject*/function ($locationProvider, $stateProvider, $urlRout
         }
       })
 
-      ///////////
+      /// ////////
       // Species //
-      ///////////
+      /// ////////
       .state('auth.species', {
         url: '/species?type',
         views: {
@@ -365,19 +356,16 @@ module.config(/*@ngInject*/function ($locationProvider, $stateProvider, $urlRout
           }
         }
       })
-
-
-  })
-  .run(/*@ngInject*/function ($rootScope, $state, $stateParams, authorization, user) {
-    $rootScope.$state = $state;
-    $rootScope.$stateParams = $stateParams;
+})
+  .run(/* @ngInject */function ($rootScope, $state, $stateParams, authorization, user) {
+    $rootScope.$state = $state
+    $rootScope.$stateParams = $stateParams
     $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
-      $rootScope.toState = toState;
-      $rootScope.toStateParams = toStateParams;
+      $rootScope.toState = toState
+      $rootScope.toStateParams = toStateParams
 
-      if (user.isResolved())
-        if (!authorization.authorize())
-          event.preventDefault();
-    });
+      if (user.isResolved()) {
+        if (!authorization.authorize()) { event.preventDefault() }
+      }
+    })
   })
-;

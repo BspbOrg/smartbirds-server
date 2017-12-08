@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
@@ -11,27 +11,27 @@ module.exports = {
       'email': {
         type: Sequelize.STRING,
         allowNull: false,
-        validate: {isEmail: true},
+        validate: {isEmail: true}
       },
       'passwordHash': {
         type: Sequelize.TEXT,
-        allowNull: false,
+        allowNull: false
       },
       'passwordSalt': {
         type: Sequelize.TEXT,
-        allowNull: false,
+        allowNull: false
       },
       'firstName': {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       'lastName': {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       'lastLoginAt': {
         type: Sequelize.DATE,
-        allowNull: true,
+        allowNull: true
       },
       'isAdmin': {
         type: Sequelize.BOOLEAN,
@@ -48,14 +48,14 @@ module.exports = {
       }
     }).then(function () {
       return queryInterface.addIndex('Users', {
-          unique: true,
-          fields: ['email']
-        }
-      );
-    });
+        unique: true,
+        fields: ['email']
+      }
+      )
+    })
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable('Users');
+    return queryInterface.dropTable('Users')
   }
-};
+}

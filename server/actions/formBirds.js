@@ -1,11 +1,11 @@
 'use strict'
 
-var _ = require('lodash');
-var Promise = require('bluebird');
-var moment = require('moment');
-var actions = require('../helpers/actions');
+var _ = require('lodash')
+var Promise = require('bluebird')
+var moment = require('moment')
+var actions = require('../helpers/actions')
 
-var model = require('../models/formBirds');
+var model = require('../models/formBirds')
 
 exports.formBirdsAdd = {
   name: 'formBirds:create',
@@ -14,7 +14,7 @@ exports.formBirdsAdd = {
   inputs: model.insertInputs,
 
   run: actions.getInsert('formBirds')
-};
+}
 
 exports.formBirdsEdit = {
   name: 'formBirds:edit',
@@ -25,7 +25,7 @@ exports.formBirdsEdit = {
   inputs: model.editInputs,
 
   run: actions.getEdit('formBirds')
-};
+}
 
 exports.formBirdsView = {
   name: 'formBirds:view',
@@ -34,7 +34,7 @@ exports.formBirdsView = {
   inputs: {id: {required: true}},
 
   run: actions.getView('formBirds')
-};
+}
 
 exports.formBirdsDelete = {
   name: 'formBirds:delete',
@@ -43,17 +43,16 @@ exports.formBirdsDelete = {
   inputs: {id: {required: true}},
 
   run: actions.getDelete('formBirds')
-};
+}
 
-
-function prepareQuery(api, data) {
+function prepareQuery (api, data) {
   return Promise.resolve({})
     .then(function (q) {
-      var limit = parseInt(data.params.limit) || 20;
+      var limit = parseInt(data.params.limit) || 20
       // if (!data.session.user.isAdmin) {
       //   limit = Math.max(1, Math.min(1000, limit));
       // }
-      var offset = data.params.offset || 0;
+      var offset = data.params.offset || 0
 
       q = {
         order: [
@@ -61,44 +60,43 @@ function prepareQuery(api, data) {
           ['id', 'DESC']
         ],
         offset: offset
-      };
-      if (limit !== -1)
-        q.limit = limit;
+      }
+      if (limit !== -1) { q.limit = limit }
 
       if (!data.session.user.isAdmin) {
         q.where = _.extend(q.where || {}, {
           userId: data.session.userId
-        });
+        })
       } else {
         if (data.params.user) {
           q.where = _.extend(q.where || {}, {
             userId: data.params.user
-          });
+          })
         }
       }
       if (data.params.location) {
         q.where = _.extend(q.where || {}, {
-          location: api.sequelize.sequelize.options.dialect === 'postgres'?{ilike: data.params.location}:data.params.location
-        });
+          location: api.sequelize.sequelize.options.dialect === 'postgres' ? {ilike: data.params.location} : data.params.location
+        })
       }
       if (data.params.species) {
         q.where = _.extend(q.where || {}, {
           species: data.params.species
-        });
+        })
       }
       if (data.params.from_date) {
-        q.where = q.where || {};
+        q.where = q.where || {}
         q.where.observationDateTime = _.extend(q.where.observationDateTime || {}, {
           $gte: moment(data.params.from_date).toDate()
-        });
+        })
       }
       if (data.params.to_date) {
-        q.where = q.where || {};
+        q.where = q.where || {}
         q.where.observationDateTime = _.extend(q.where.observationDateTime || {}, {
           $lte: moment(data.params.to_date).toDate()
-        });
+        })
       }
-      return q;
+      return q
     })
 }
 
@@ -106,7 +104,7 @@ exports.formBirdsList = {
   name: 'formBirds:list',
   description: 'formBirds:list',
   middleware: ['auth'],
-  //location&user&year&month&species&limit&offset
+  // location&user&year&month&species&limit&offset
   inputs: {
     location: {},
     user: {},
@@ -119,7 +117,7 @@ exports.formBirdsList = {
 
   run: actions.getSelect('formBirds', prepareQuery, function (api, record) {
     return {
-      speciesEuringCode: record['speciesInfo.euring'],
+      speciesEuringCode: record['speciesInfo.euring']
     }
   })
-};
+}

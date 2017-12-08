@@ -2,18 +2,18 @@
  * Created by groupsky on 09.12.15.
  */
 
-var Promise = require('bluebird');
+var Promise = require('bluebird')
 
-function getZone(api, data, next) {
+function getZone (api, data, next) {
   var q = {
     where: {id: data.params.id},
     include: [{model: api.models.location, as: 'location'}]
-  };
+  }
   if (data.session.user.isAdmin) {
-    q.include.push({model: api.models.user, as: 'owner'});
+    q.include.push({model: api.models.user, as: 'owner'})
   }
   return api.models.zone.findOne(q)
-    .catch(next);
+    .catch(next)
 }
 
 exports.zoneOwnershipRequest = {
@@ -25,32 +25,31 @@ exports.zoneOwnershipRequest = {
 
   run: function (api, data, next) {
     getZone(api, data, next).then(function (zone) {
-        if (!zone) {
-          data.connection.rawConnection.responseHttpCode = 404;
-          return next(new Error('zone not found'));
-        }
+      if (!zone) {
+        data.connection.rawConnection.responseHttpCode = 404
+        return next(new Error('zone not found'))
+      }
 
-        if (zone.status !== 'free' && zone.ownerId !== data.session.userId) {
-          data.connection.rawConnection.responseHttpCode = 409;
-          return next(new Error('zone is not free'));
-        }
+      if (zone.status !== 'free' && zone.ownerId !== data.session.userId) {
+        data.connection.rawConnection.responseHttpCode = 409
+        return next(new Error('zone is not free'))
+      }
 
-        return zone.update({
-          status: 'requested',
-          ownerId: data.session.userId
-        });
+      return zone.update({
+        status: 'requested',
+        ownerId: data.session.userId
+      })
+    })
+      .then(function (zone) {
+        return getZone(api, data, next)
       })
       .then(function (zone) {
-        return getZone(api, data, next);
+        data.response.data = zone.apiData(api)
+        next()
       })
-      .then(function (zone) {
-        data.response.data = zone.apiData(api);
-        next();
-      })
-    ;
   }
 
-};
+}
 
 exports.zoneOwnershipRespond = {
   name: 'zone:respondOwnershipRequest',
@@ -64,34 +63,33 @@ exports.zoneOwnershipRespond = {
 
   run: function (api, data, next) {
     getZone(api, data, next).then(function (zone) {
-        if (!zone) {
-          data.connection.rawConnection.responseHttpCode = 404;
-          return next(new Error('zone not found'));
-        }
+      if (!zone) {
+        data.connection.rawConnection.responseHttpCode = 404
+        return next(new Error('zone not found'))
+      }
 
-        if (zone.status !== 'requested') {
-          data.connection.rawConnection.responseHttpCode = 409;
-          return next(new Error('zone is not requested'));
-        }
+      if (zone.status !== 'requested') {
+        data.connection.rawConnection.responseHttpCode = 409
+        return next(new Error('zone is not requested'))
+      }
 
-        if (data.params.response) {
+      if (data.params.response) {
           // approve ownership
-          return zone.update({status: 'owned'});
-        } else {
+        return zone.update({status: 'owned'})
+      } else {
           // reject ownership
-          return zone.update({status: 'free', ownerId: null});
-        }
+        return zone.update({status: 'free', ownerId: null})
+      }
+    })
+      .then(function (zone) {
+        return getZone(api, data, next)
       })
       .then(function (zone) {
-        return getZone(api, data, next);
+        data.response.data = zone.apiData(api)
+        next()
       })
-      .then(function (zone) {
-        data.response.data = zone.apiData(api);
-        next();
-      })
-    ;
   }
-};
+}
 
 exports.zoneSetOwner = {
   name: 'zone:setOwner',
@@ -105,33 +103,32 @@ exports.zoneSetOwner = {
 
   run: function (api, data, next) {
     getZone(api, data, next).then(function (zone) {
-        if (!zone) {
-          data.connection.rawConnection.responseHttpCode = 404;
-          return next(new Error('zone not found'));
+      if (!zone) {
+        data.connection.rawConnection.responseHttpCode = 404
+        return next(new Error('zone not found'))
+      }
+
+      return api.models.user.findById(data.params.owner).then(function (user) {
+        if (!user) {
+          data.connection.rawConnection.responseHttpCode = 404
+          return next(new Error('user not found'))
         }
 
-        return api.models.user.findById(data.params.owner).then(function (user) {
-          if (!user) {
-            data.connection.rawConnection.responseHttpCode = 404;
-            return next(new Error('user not found'));
-          }
-
-          return zone.update({
-            status: 'owned',
-            ownerId: data.params.owner
-          });
-        });
+        return zone.update({
+          status: 'owned',
+          ownerId: data.params.owner
+        })
+      })
+    })
+      .then(function (zone) {
+        return getZone(api, data, next)
       })
       .then(function (zone) {
-        return getZone(api, data, next);
+        data.response.data = zone.apiData(api)
+        next()
       })
-      .then(function (zone) {
-        data.response.data = zone.apiData(api);
-        next();
-      })
-    ;
   }
-};
+}
 
 exports.zoneClearOwner = {
   name: 'zone:clearOwner',
@@ -144,24 +141,23 @@ exports.zoneClearOwner = {
 
   run: function (api, data, next) {
     getZone(api, data, next).then(function (zone) {
-        if (!zone) {
-          data.connection.rawConnection.responseHttpCode = 404;
-          return next(new Error('zone not found'));
-        }
+      if (!zone) {
+        data.connection.rawConnection.responseHttpCode = 404
+        return next(new Error('zone not found'))
+      }
 
-        return zone.update({
-          status: 'free',
-          ownerId: null,
-          owner: null
-        });
+      return zone.update({
+        status: 'free',
+        ownerId: null,
+        owner: null
+      })
+    })
+      .then(function (zone) {
+        return getZone(api, data, next)
       })
       .then(function (zone) {
-        return getZone(api, data, next);
+        data.response.data = zone.apiData(api)
+        next()
       })
-      .then(function (zone) {
-        data.response.data = zone.apiData(api);
-        next();
-      })
-    ;
   }
-};
+}

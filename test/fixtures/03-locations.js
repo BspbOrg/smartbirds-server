@@ -4,7 +4,7 @@
 
 module.exports = [
   {
-    model: "location",
+    model: 'location',
     data: {
       id: 1,
       nameBg: 'Plovdiv',
@@ -14,7 +14,7 @@ module.exports = [
     }
   },
   {
-    model: "location",
+    model: 'location',
     data: {
       id: 2,
       nameBg: 'Sofia',
@@ -23,4 +23,4 @@ module.exports = [
       areaEn: 'Sofia'
     }
   }
-];
+]

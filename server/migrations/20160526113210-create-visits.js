@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-var tableName = "Visits";
+var tableName = 'Visits'
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
@@ -18,23 +18,23 @@ module.exports = {
       earlyEnd: Sequelize.DATEONLY,
       lateStart: Sequelize.DATEONLY,
       lateEnd: Sequelize.DATEONLY,
-      "createdAt": {
+      'createdAt': {
         allowNull: false,
         type: Sequelize.DATE
       },
-      "updatedAt": {
+      'updatedAt': {
         allowNull: false,
         type: Sequelize.DATE
       }
     }).then(function () {
       return queryInterface.addIndex(tableName, {
-        "unique": true,
-        "fields": ["year"]
-      });
-    });
+        'unique': true,
+        'fields': ['year']
+      })
+    })
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable(tableName);
+    return queryInterface.dropTable(tableName)
   }
-};
+}

@@ -15,9 +15,9 @@ exports.default = {
         }
       },
       mailOptions: {
-        from: "no-reply@smartbirds.org"
+        from: 'no-reply@smartbirds.org'
       },
       templates: __dirname + '/../templates'
-    };
+    }
   }
-};
+}

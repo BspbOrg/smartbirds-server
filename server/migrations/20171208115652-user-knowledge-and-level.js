@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-var Promise = require('bluebird');
+var Promise = require('bluebird')
 
 var columnInfo = [
   {
@@ -28,20 +28,19 @@ var columnInfo = [
     newVal: 'second',
     oldVal: 'второ'
   }
-];
+]
 
 module.exports = {
 
   up: function (queryInterface, Sequelize) {
     return Promise.map(columnInfo, function (info) {
       return queryInterface.sequelize.query('UPDATE "Users" SET "' + info.column + '" = \'' + info.newVal + '\' WHERE "' + info.column + '" = \'' + info.oldVal + '\';')
-    });
+    })
   },
 
   down: function (queryInterface, Sequelize) {
     return Promise.map(columnInfo, function (info) {
       return queryInterface.sequelize.query('UPDATE "Users" SET "' + info.column + '" = \'' + info.oldVal + '\' WHERE "' + info.column + '" = \'' + info.newVal + '\';')
-    });
+    })
   }
 }
-;

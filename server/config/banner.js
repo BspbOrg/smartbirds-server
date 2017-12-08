@@ -6,7 +6,7 @@ exports.default = {
   banner: function (api) {
     return {
       generator: __dirname + '/../../tools/user_banner.sh',
-      outputDir: __dirname + '/../../public/banner',
+      outputDir: __dirname + '/../../public/banner'
     }
   }
 }

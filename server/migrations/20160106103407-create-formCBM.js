@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-var tableName = 'FormCBM';
+var tableName = 'FormCBM'
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
@@ -137,40 +137,39 @@ module.exports = {
       }
     }).then(function () {
       return queryInterface.addIndex(tableName, {
-          fields: ['userId']
-        })
+        fields: ['userId']
+      })
         .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['zoneId']
-          });
+          })
         })
         .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['visitBg']
-          });
+          })
         })
         .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['visitEn']
-          });
+          })
         })
         .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['startDateTime']
-          });
+          })
         })
         .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['species']
-          });
+          })
         })
         .catch(function () {
         })
-    });
+    })
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable(tableName);
+    return queryInterface.dropTable(tableName)
   }
 }
-;

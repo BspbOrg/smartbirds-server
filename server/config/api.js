@@ -1,8 +1,8 @@
-var path = require('path');
+var path = require('path')
 
 exports[ 'default' ] = {
   general: function (api) {
-    var packageJSON = require(api.projectRoot + path.sep + 'package.json');
+    var packageJSON = require(api.projectRoot + path.sep + 'package.json')
 
     return {
       apiVersion: packageJSON.version,
@@ -53,14 +53,14 @@ exports[ 'default' ] = {
         'model': [ path.join(__dirname, '/../models') ],
         'view': [ path.join(__dirname, '/../views') ],
         'fileupload': [ path.join(__dirname, '/../../uploads/tmp') ],
-        'monitoring': [ path.join(__dirname, '/../../uploads/files') ],
+        'monitoring': [ path.join(__dirname, '/../../uploads/files') ]
       },
       // hash containing chat rooms you wish to be created at server boot
       startingChatRooms: {
         // format is {roomName: {authKey, authValue}}
-        //'secureRoom': {authorized: true},
-        //'defaultRoom': {},
-        //'anotherRoom': {},
+        // 'secureRoom': {authorized: true},
+        // 'defaultRoom': {},
+        // 'anotherRoom': {},
       }
     }
   }
@@ -73,7 +73,7 @@ exports.test = {
       developmentMode: true,
       startingChatRooms: {
         'defaultRoom': {},
-        'otherRoom': {},
+        'otherRoom': {}
       },
       paths: {
         'locale': [
@@ -89,7 +89,7 @@ exports.production = {
   general: function (api) {
     return {
       developmentMode: false,
-      filteredParams: [ 'password', 'oldPassword', 'newPassword' ],
+      filteredParams: [ 'password', 'oldPassword', 'newPassword' ]
     }
   }
 }

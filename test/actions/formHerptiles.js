@@ -1,3 +1,5 @@
+/* global describe, beforeEach, it */
+
 var _ = require('lodash')
 var should = require('should')
 var sinon = require('sinon')
@@ -132,12 +134,12 @@ describe('Action formHerptiles:', function () {
         })
       })
     })
-  }); // Guest user
+  }) // Guest user
 
   setup.describeAsAuth(function (runAction) {
     describe('fails to create without', function () {
       var required = ['latitude', 'longitude', 'observationDateTime', 'monitoringCode',
-      'species', 'count', 'endDateTime', 'startDateTime', 'location']
+        'species', 'count', 'endDateTime', 'startDateTime', 'location']
 
       required.forEach(function (property) {
         it(property, function () {
@@ -148,7 +150,7 @@ describe('Action formHerptiles:', function () {
           })
         })
       })
-    }); // fails to create without
+    }) // fails to create without
 
     describe('CREATE', function () {
       it('creates herptiles record', function () {
@@ -165,8 +167,7 @@ describe('Action formHerptiles:', function () {
         })
       })
     })
-
-  }); // describeAsAuth
+  }) // describeAsAuth
 
   describe('Get herptiles record by id', function () {
     var herptilesId
@@ -215,8 +216,7 @@ describe('Action formHerptiles:', function () {
         })
       })
     })
-
-  }); // Get herptiles record by id
+  }) // Get herptiles record by id
 
   describe('given some herptiles rows:', function () {
     setup.describeAsUser(function (runAction) {
@@ -257,9 +257,9 @@ describe('Action formHerptiles:', function () {
 
     setup.describeAsAdmin(function (runAction) {
       it('filter user', function () {
-        //Depends on users fixture third record AND formHerptiles fixture
+        // Depends on users fixture third record AND formHerptiles fixture
         return runAction('formHerptiles:create', _.assign(herptilesRecord, {user: 3})).then(function (response) {
-          return runAction('formHerptiles:list', {user: 3}).then(function (response){
+          return runAction('formHerptiles:list', {user: 3}).then(function (response) {
             response.should.not.have.property('error')
             for (var i = 0; i < response.data.length; i++) {
               response.data[i].user.should.be.equal(3)
@@ -272,7 +272,7 @@ describe('Action formHerptiles:', function () {
     setup.describeAsUser(function (runAction) {
       it('filter species', function () {
         return runAction('formHerptiles:create', _.assign(herptilesRecord, {species: 'Anas acuta'})).then(function (response) {
-          return runAction('formHerptiles:list', {species: 'Anas acuta'}).then(function (response){
+          return runAction('formHerptiles:list', {species: 'Anas acuta'}).then(function (response) {
             response.should.not.have.property('error')
             for (var i = 0; i < response.data.length; i++) {
               response.data[i].species.should.be.equal('Anas acuta')
@@ -285,7 +285,7 @@ describe('Action formHerptiles:', function () {
     setup.describeAsUser(function (runAction) {
       it('filter location', function () {
         return runAction('formHerptiles:create', _.assign(herptilesRecord, {location: 'some_unq_location'})).then(function (response) {
-          return runAction('formHerptiles:list', {location: 'some_unq_location'}).then(function (response){
+          return runAction('formHerptiles:list', {location: 'some_unq_location'}).then(function (response) {
             response.should.not.have.property('error')
             response.data.length.should.be.equal(1)
             response.data[0].location.should.be.equal('some_unq_location')
@@ -296,26 +296,25 @@ describe('Action formHerptiles:', function () {
 
     setup.describeAsUser(function (runAction) {
       it('filter from_date', function () {
-        return runAction('formHerptiles:list', {from_date: '2016-12-20T10:15Z'}).then(function (response){
+        return runAction('formHerptiles:list', {from_date: '2016-12-20T10:15Z'}).then(function (response) {
           response.should.not.have.property('error')
           response.data.length.should.be.equal(2)
         })
       })
       it('filter to_date', function () {
-          return runAction('formHerptiles:list', {to_date: '2016-12-20T10:16Z'}).then(function (response){
-            response.should.not.have.property('error')
-            response.data.length.should.be.within(2, 4);//3 records from fixtures
-          })
+        return runAction('formHerptiles:list', {to_date: '2016-12-20T10:16Z'}).then(function (response) {
+          response.should.not.have.property('error')
+          response.data.length.should.be.within(2, 4)// 3 records from fixtures
+        })
       })
       it('filter from_date and to_date', function () {
-          return runAction('formHerptiles:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:16Z'}).then(function (response){
-            response.should.not.have.property('error')
-            response.data.length.should.be.equal(1)
-          })
+        return runAction('formHerptiles:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:16Z'}).then(function (response) {
+          response.should.not.have.property('error')
+          response.data.length.should.be.equal(1)
+        })
       })
     })
-
-  }); // given some herptiles rows
+  }) // given some herptiles rows
 
   describe('Edit herptiles row', function () {
     var herptilesId
@@ -332,7 +331,6 @@ describe('Action formHerptiles:', function () {
         return setup.api.models.formHerptiles.findOne({where: {id: herptilesId}}).then(function (herptile) {
           herptile.notes.should.be.equal('some new notes')
         })
-
       })
     })
 
@@ -362,8 +360,5 @@ describe('Action formHerptiles:', function () {
         })
       })
     })
-
-
-  }); // Edit herptiles row
-
+  }) // Edit herptiles row
 })

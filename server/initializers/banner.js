@@ -3,7 +3,6 @@ var md5 = require('blueimp-md5')
 
 module.exports = {
   initialize: function (api, next) {
-
     api.banner = {
       generate: function (id, name, count, species) {
         var outputFile =

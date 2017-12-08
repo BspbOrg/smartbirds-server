@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-var Promise = require('bluebird');
+var Promise = require('bluebird')
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
@@ -11,14 +11,14 @@ module.exports = {
       validate: {
         isIn: [['free', 'requested', 'owned']]
       }
-    }).then(function(){
-        return queryInterface.addIndex('Zones', {fields: ['status']});
-    }).then(function(){
-      return queryInterface.bulkUpdate('Zones', {status: 'owned'}, {ownerId: {$ne: null}});
-    });
+    }).then(function () {
+      return queryInterface.addIndex('Zones', {fields: ['status']})
+    }).then(function () {
+      return queryInterface.bulkUpdate('Zones', {status: 'owned'}, {ownerId: {$ne: null}})
+    })
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.removeColumn('Zones', 'status');
+    return queryInterface.removeColumn('Zones', 'status')
   }
-};
+}

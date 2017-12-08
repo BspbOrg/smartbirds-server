@@ -2,7 +2,7 @@
  * Created by groupsky on 04.12.15.
  */
 
-'use strict';
+'use strict'
 module.exports = function (sequelize, DataTypes) {
   var Location = sequelize.define('Location', {
     nameBg: DataTypes.TEXT,
@@ -15,7 +15,7 @@ module.exports = function (sequelize, DataTypes) {
     regionBg: DataTypes.TEXT,
     longitude: DataTypes.FLOAT,
     latitude: DataTypes.FLOAT,
-    ekatte: DataTypes.TEXT,
+    ekatte: DataTypes.TEXT
   }, {
     indexes: [
       {fields: ['nameBg']},
@@ -25,7 +25,7 @@ module.exports = function (sequelize, DataTypes) {
     ],
     classMethods: {
       associate: function (models) {
-        models.location.hasMany(models.zone, {as: 'zones', foreignKey: 'locationId'});
+        models.location.hasMany(models.zone, {as: 'zones', foreignKey: 'locationId'})
       }
     },
     instanceMethods: {
@@ -51,9 +51,9 @@ module.exports = function (sequelize, DataTypes) {
           longitude: this.longitude,
           latitude: this.latitude,
           ekatte: this.ekatte
-        };
+        }
       }
     }
-  });
-  return Location;
-};
+  })
+  return Location
+}

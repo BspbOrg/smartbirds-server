@@ -1,12 +1,9 @@
-'use strict';
+'use strict'
 
+var _ = require('lodash')
+var Sequelize = require('sequelize')
 
-var _ = require('lodash');
-var Sequelize = require('sequelize');
-
-
-var tableName = 'FormHerps';
-
+var tableName = 'FormHerps'
 
 var schema = {
   id: {
@@ -37,55 +34,55 @@ var schema = {
     type: Sequelize.TEXT
   },
   threatsHerpsEn: {
-	type: Sequelize.TEXT
+    type: Sequelize.TEXT
   },
   threatsHerpsBg: {
-	type: Sequelize.TEXT
+    type: Sequelize.TEXT
   },
   count: {
     type: Sequelize.INTEGER,
     allowNull: false,
-	defaultValue: 1,
+    defaultValue: 1
   },
-  marking: { 
+  marking: {
     type: Sequelize.TEXT
   },
   axisDistance: {
-	type: Sequelize.FLOAT
+    type: Sequelize.FLOAT
   },
   weight: {
-	type: Sequelize.FLOAT
+    type: Sequelize.FLOAT
   },
   sCLL: {
-	type: Sequelize.FLOAT
+    type: Sequelize.FLOAT
   },
   mPLLcdC: {
-	type: Sequelize.FLOAT
+    type: Sequelize.FLOAT
   },
   mCWA: {
-	type: Sequelize.FLOAT
+    type: Sequelize.FLOAT
   },
   hLcapPl: {
-	type: Sequelize.FLOAT
+    type: Sequelize.FLOAT
   },
   tempSubstrat: {
-	type: Sequelize.FLOAT
+    type: Sequelize.FLOAT
   },
   tempAir: {
-	type: Sequelize.FLOAT
+    type: Sequelize.FLOAT
   },
   tempCloaca: {
-	type: Sequelize.FLOAT
+    type: Sequelize.FLOAT
   },
   sqVentr: {
-	type: Sequelize.FLOAT
+    type: Sequelize.FLOAT
   },
   sqCaud: {
-	type: Sequelize.FLOAT
+    type: Sequelize.FLOAT
   },
   sqDors: {
-	type: Sequelize.FLOAT
-  },  
+    type: Sequelize.FLOAT
+  },
   speciesNotes: {
     type: Sequelize.TEXT
   },
@@ -94,7 +91,7 @@ var schema = {
     allowNull: false
   },
 
-  //Common fields not defined as common in Model.js
+  // Common fields not defined as common in Model.js
   latitude: {
     type: Sequelize.FLOAT,
     allowNull: false
@@ -111,7 +108,7 @@ var schema = {
     type: Sequelize.TEXT,
     allowNull: false
   },
-  //CommonFields as defined in model!!
+  // CommonFields as defined in model!!
   endDateTime: {
     type: Sequelize.DATE,
     allowNull: false
@@ -170,7 +167,7 @@ var schema = {
     type: Sequelize.TEXT
   },
 
-  //Internal
+  // Internal
   userId: {
     type: Sequelize.INTEGER,
     allowNull: false
@@ -186,20 +183,20 @@ var schema = {
   imported: {
     type: Sequelize.INTEGER
   }
-};
+}
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.createTable(tableName, schema).then(function () {
       return queryInterface.addIndex(tableName, {
-          fields: ['userId']
-        })
+        fields: ['userId']
+      })
         .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['startDateTime']
           })
-        })      
-        .then(function(){
+        })
+        .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['observationDateTime']
           })
@@ -212,20 +209,19 @@ module.exports = {
         .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['monitoringCode']
-          })        
+          })
         })
         .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['location']
-          })        
+          })
         })
         .catch(function () {
         })
-    });
+    })
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable(tableName);
+    return queryInterface.dropTable(tableName)
   }
 }
-;

@@ -1,5 +1,5 @@
-var _ = require('lodash');
-var Promise = require('bluebird');
+var _ = require('lodash')
+var Promise = require('bluebird')
 
 exports.userCreate = {
   name: 'user:create',
@@ -26,27 +26,27 @@ exports.userCreate = {
   },
 
   run: function (api, data, next) {
-    var user = api.models.user.build(data.params, this.inputs);
-    user.isAdmin = !!(data.session && data.session.user.isAdmin && data.params.isAdmin);
-    user.lastLoginAt = null;
-    user.imported = false;
+    var user = api.models.user.build(data.params, this.inputs)
+    user.isAdmin = !!(data.session && data.session.user.isAdmin && data.params.isAdmin)
+    user.lastLoginAt = null
+    user.imported = false
     user.updatePassword(data.params.password, function (error) {
       if (error) {
-        return next(error);
+        return next(error)
       }
 
       user.save()
         .then(function (userObj) {
-          data.response.data = userObj.apiData(api);
-          next();
+          data.response.data = userObj.apiData(api)
+          next()
         })
         .catch(function (error) {
-          console.error('userCreate error:', error);
-          next(new Error('Вече съществува потребител с тази е-поща'));
-        });
-    });
+          console.error('userCreate error:', error)
+          next(new Error('Вече съществува потребител с тази е-поща'))
+        })
+    })
   }
-};
+}
 
 exports.userLost = {
   name: 'user:lost',
@@ -56,37 +56,34 @@ exports.userLost = {
   },
   run: function (api, data, next) {
     api.models.user.findOne({where: {email: data.params.email}}).then(function (user) {
-        if (!user) {
-          data.connection.rawConnection.responseHttpCode = 404;
-          return next(new Error('Няма такъв потребител'));
-        }
+      if (!user) {
+        data.connection.rawConnection.responseHttpCode = 404
+        return next(new Error('Няма такъв потребител'))
+      }
 
-        user.genPasswordToken(function (error, passwordToken) {
-          if (error) return next(error);
+      user.genPasswordToken(function (error, passwordToken) {
+        if (error) return next(error)
 
-          user.save().then(function (userObj) {
+        user.save().then(function (userObj) {
+          api.tasks.enqueue('mail:send', {
+            mail: {to: userObj.email, subject: 'Възстановяване на парола'},
+            template: 'lost_password',
+            locals: {
+              passwordToken: passwordToken,
+              email: userObj.email
+            }
+          }, 'default', function (error, toRun) {
+            if (error) return next(error)
 
-            api.tasks.enqueue("mail:send", {
-              mail: {to: userObj.email, subject: "Възстановяване на парола"},
-              template: "lost_password",
-              locals: {
-                passwordToken: passwordToken,
-                email: userObj.email
-              }
-            }, 'default', function (error, toRun) {
-              if (error) return next(error);
-
-              data.response.data = {success: toRun};
-              next();
-            });
-
-          }).catch(next);
-        });
+            data.response.data = {success: toRun}
+            next()
+          })
+        }).catch(next)
       })
+    })
       .catch(next)
-    ;
   }
-};
+}
 
 exports.userReset = {
   name: 'user:reset',
@@ -98,39 +95,38 @@ exports.userReset = {
   },
   run: function (api, data, next) {
     api.models.user.findOne({where: {email: data.params.email}}).then(function (user) {
-        if (!user) {
-          data.connection.rawConnection.responseHttpCode = 404;
-          return next(new Error('Няма такъв потребител'));
+      if (!user) {
+        data.connection.rawConnection.responseHttpCode = 404
+        return next(new Error('Няма такъв потребител'))
+      }
+
+      if (!user.forgotPasswordTimestamp || Date.now() - user.forgotPasswordTimestamp.getTime() > 1000 * 60 * 60) {
+        data.connection.rawConnection.responseHttpCode = 400
+        return next(new Error('Невалиден код'))
+      }
+
+      return user.checkPasswordToken(data.params.token, function (error, matched) {
+        if (error) return next(error)
+        if (!matched) {
+          data.connection.rawConnection.responseHttpCode = 400
+          return next(new Error('Невалиден код'))
         }
 
-        if (!user.forgotPasswordTimestamp || Date.now() - user.forgotPasswordTimestamp.getTime() > 1000 * 60 * 60) {
-          data.connection.rawConnection.responseHttpCode = 400;
-          return next(new Error('Невалиден код'));
-        }
+        return user.updatePassword(data.params.password, function (error) {
+          if (error) return next(error)
 
-        return user.checkPasswordToken(data.params.token, function (error, matched) {
-          if (error) return next(error);
-          if (!matched) {
-            data.connection.rawConnection.responseHttpCode = 400;
-            return next(new Error('Невалиден код'));
-          }
-
-          return user.updatePassword(data.params.password, function (error) {
-            if (error) return next(error);
-
-            return user.save()
+          return user.save()
               .then(function (userObj) {
-                data.response.data = userObj.apiData(api);
-                next();
+                data.response.data = userObj.apiData(api)
+                next()
               })
-              .catch(next);
-          });
-        });
+              .catch(next)
+        })
       })
+    })
       .catch(next)
-    ;
   }
-};
+}
 
 exports.userView = {
   name: 'user:view',
@@ -144,18 +140,17 @@ exports.userView = {
 
   run: function (api, data, next) {
     api.models.user.findOne({where: {id: data.params.id}}).then(function (user) {
-        if (!user) {
-          data.connection.rawConnection.responseHttpCode = 404;
-          return next(new Error('Няма такъв потребител'));
-        }
+      if (!user) {
+        data.connection.rawConnection.responseHttpCode = 404
+        return next(new Error('Няма такъв потребител'))
+      }
 
-        data.response.data = user.apiData(api);
-        next();
-      })
+      data.response.data = user.apiData(api)
+      next()
+    })
       .catch(next)
-    ;
   }
-};
+}
 
 exports.userEdit = {
   name: 'user:edit',
@@ -185,11 +180,11 @@ exports.userEdit = {
 
   run: function (api, data, next) {
     api.models.user.findOne({where: {id: data.params.id}}).then(function (user) {
-        if (!user) {
-          data.connection.rawConnection.responseHttpCode = 404;
-          return next(new Error('Няма такъв потребител'));
-        }
-        //if (data.params.password) {
+      if (!user) {
+        data.connection.rawConnection.responseHttpCode = 404
+        return next(new Error('Няма такъв потребител'))
+      }
+        // if (data.params.password) {
         //  user.updatePassword(data.params.password, function (error) {
         //    if (error) {
         //      return callback(error);
@@ -198,23 +193,21 @@ exports.userEdit = {
         //      next();
         //    }).catch(next);
         //  });
-        //}
-        user.apiUpdate(data.params);
-        if (data.session.user.isAdmin && 'isAdmin' in data.params)
-          user.isAdmin = data.params.isAdmin;
-        user.save().then(function () {
-          data.response.data = user.apiData(api);
-          next();
-        }).catch(next);
-      })
+        // }
+      user.apiUpdate(data.params)
+      if (data.session.user.isAdmin && 'isAdmin' in data.params) { user.isAdmin = data.params.isAdmin }
+      user.save().then(function () {
+        data.response.data = user.apiData(api)
+        next()
+      }).catch(next)
+    })
       .catch(next)
-    ;
   }
-};
+}
 
 exports.userList = {
-  name: "user:list",
-  description: "List users. Requires admin role",
+  name: 'user:list',
+  description: 'List users. Requires admin role',
   outputExample: {
     data: [{id: 1, email: 'user@example.com', firstName: 'John', lastName: 'Doe', isAdmin: false}],
     count: 123
@@ -228,12 +221,12 @@ exports.userList = {
   },
 
   run: function (api, data, next) {
-    var limit = Math.min(1000, data.params.limit || 20);
-    var offset = data.params.offset || 0;
+    var limit = Math.min(1000, data.params.limit || 20)
+    var offset = data.params.offset || 0
 
     var q = {
       offset: offset
-    };
+    }
 
     if (!data.session.user.isAdmin) {
       q.where = {
@@ -241,14 +234,13 @@ exports.userList = {
       }
     }
 
-    if (limit !== -1)
-      q.limit = limit;
+    if (limit !== -1) { q.limit = limit }
 
     if (data.params.q) {
-      var vals = ('' + data.params.q).split(' ');
+      var vals = ('' + data.params.q).split(' ')
       switch (vals.length) {
         case 0:
-          break;
+          break
         case 1:
           q.where = _.extend(q.where || {}, {
             $or: [].concat(
@@ -263,37 +255,36 @@ exports.userList = {
                 }
               })
             )
-          });
-          break;
+          })
+          break
         default:
           q.where = _.extend(q.where || {}, {
             $or: vals.map(function (val, idx, array) {
               return {
                 $and: [
-                  {firstName: {$ilike: array.slice(0, idx).join(" ") + '%'}},
-                  {lastName: {$ilike: array.slice(idx).join(" ") + '%'}}
+                  {firstName: {$ilike: array.slice(0, idx).join(' ') + '%'}},
+                  {lastName: {$ilike: array.slice(idx).join(' ') + '%'}}
                 ]
               }
             }).concat([
               {firstName: {$ilike: data.params.q + '%'}},
               {lastName: {$ilike: data.params.q + '%'}}
             ])
-          });
-          break;
+          })
+          break
       }
     }
 
     api.models.user.findAndCountAll(q).then(function (result) {
-      data.response.count = result.count;
+      data.response.count = result.count
       data.response.data = result.rows.map(function (user) {
-        return user.apiData(api);
-      });
-      if (result.count > limit + offset)
-        data.connection.rawConnection.responseHttpCode = 206;
-      next();
-    }).catch(next);
+        return user.apiData(api)
+      })
+      if (result.count > limit + offset) { data.connection.rawConnection.responseHttpCode = 206 }
+      next()
+    }).catch(next)
   }
-};
+}
 
 exports.userChangePassword = {
   name: 'user:changepw',
@@ -308,41 +299,41 @@ exports.userChangePassword = {
   run: function (api, data, next) {
     Promise.resolve(data)
       .then(function (data) {
-        return api.models.user.findOne({where: {id: data.params.id}});
+        return api.models.user.findOne({where: {id: data.params.id}})
       })
       .then(function (user) {
         if (!user) {
-          data.connection.rawConnection.responseHttpCode = 404;
-          return Promise.reject(new Error('Няма такъв потребител'));
+          data.connection.rawConnection.responseHttpCode = 404
+          return Promise.reject(new Error('Няма такъв потребител'))
         }
         return Promise.fromCallback(function (callback) {
-            return user.checkPassword(data.params.oldPassword, callback);
-          })
+          return user.checkPassword(data.params.oldPassword, callback)
+        })
           .then(function (match) {
-            if (!match) return Promise.reject(new Error('Грешна парола'));
-            return user;
-          });
+            if (!match) return Promise.reject(new Error('Грешна парола'))
+            return user
+          })
       })
       .then(function (user) {
         return Promise.fromCallback(function (callback) {
-          return user.updatePassword(data.params.newPassword, callback);
-        });
+          return user.updatePassword(data.params.newPassword, callback)
+        })
       })
       .then(function (user) {
-        return user.save();
+        return user.save()
       })
       .then(function (user) {
-        return true;
+        return true
       })
       .then(function (res) {
-        return data.response.data = res;
+        return data.response.data = res
       })
       .then(function () {
-        next();
+        next()
       })
       .catch(function (error) {
-        api.logger.error(error);
-        next(error);
-      });
+        api.logger.error(error)
+        next(error)
+      })
   }
-};
+}

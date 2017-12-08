@@ -2,9 +2,9 @@
  * Created by groupsky on 12.04.16.
  */
 
-var _ = require('lodash');
-var Promise = require('bluebird');
-var writeFile = Promise.promisify(require("fs").writeFile);
+var _ = require('lodash')
+var Promise = require('bluebird')
+var writeFile = Promise.promisify(require('fs').writeFile)
 
 module.exports.generateStatistics = {
   name: 'stats:generate',
@@ -23,22 +23,22 @@ module.exports.generateStatistics = {
           ciconia: api.models.ciconia_stats.findAll(),
           herps: api.models.herps_stats.findAll(),
           herptiles: api.models.herptiles_stats.findAll(),
-          mammals: api.models.mammals_stats.findAll(),
+          mammals: api.models.mammals_stats.findAll()
 
-        });
+        })
       })
 
       .then(function (stats) {
         return Promise.props(_.mapValues(stats, function (stat, table) {
-          return writeFile(api.config.general.paths.public[0] + '/' + table + '_stats.json', JSON.stringify(stat));
-        }));
+          return writeFile(api.config.general.paths.public[0] + '/' + table + '_stats.json', JSON.stringify(stat))
+        }))
       })
 
       // final statement
       .then(function () {
-        next();
+        next()
       }, function (error) {
-        next(error);
-      });
+        next(error)
+      })
   }
-};
+}

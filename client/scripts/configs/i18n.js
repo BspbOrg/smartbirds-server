@@ -1,4 +1,4 @@
-require('../app').config(/*@ngInject*/function ($translateProvider, ENDPOINT_URL) {
+require('../app').config(/* @ngInject */function ($translateProvider, ENDPOINT_URL) {
   $translateProvider
     .useUrlLoader(ENDPOINT_URL + '/i18n')
     .registerAvailableLanguageKeys(['en', 'bg'], {
@@ -7,5 +7,5 @@ require('../app').config(/*@ngInject*/function ($translateProvider, ENDPOINT_URL
       '*': 'en'
     })
     .determinePreferredLanguage()
-    .preferredLanguage('bg');
-});
+    .preferredLanguage('bg')
+})

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
@@ -8,16 +8,16 @@ module.exports = {
         labelBg: 'Точен брой',
         labelEn: 'Exact number',
         createdAt: new Date(),
-        updatedAt: new Date(),
+        updatedAt: new Date()
       },
       {
         type: 'humid_birds_count_units',
         labelBg: 'Индивиди',
         labelEn: 'Individuals',
         createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ]);
+        updatedAt: new Date()
+      }
+    ])
   },
 
   down: function (queryInterface, Sequelize) {
@@ -25,9 +25,9 @@ module.exports = {
       type: {
         $in: [
           'humid_birds_count_type',
-          'humid_birds_count_units',
+          'humid_birds_count_units'
         ]
       }
     })
   }
-};
+}

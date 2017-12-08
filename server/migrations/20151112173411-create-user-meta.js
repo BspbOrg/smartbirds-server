@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.createTable('UserMeta', {
@@ -35,19 +35,19 @@ module.exports = {
     }).then(function () {
       return queryInterface.addIndex('UserMeta', {
         fields: ['userId', 'metaKey']
-      });
+      })
     }).then(function () {
       return queryInterface.addIndex('UserMeta', {
         fields: ['metaKey']
-      });
+      })
     }).then(function () {
-      return queryInterface.addColumn('Users', 'imported', Sequelize.BOOLEAN);
-    });
+      return queryInterface.addColumn('Users', 'imported', Sequelize.BOOLEAN)
+    })
   },
   down: function (queryInterface, Sequelize) {
     return queryInterface.dropTable('UserMeta')
       .then(function () {
-        return queryInterface.removeColumn('Users', 'imported');
-      });
+        return queryInterface.removeColumn('Users', 'imported')
+      })
   }
-};
+}

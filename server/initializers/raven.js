@@ -5,30 +5,30 @@
 module.exports = {
   loadPriority: 500,
   initialize: function (api, next) {
-    var raven = require('raven');
-    api.raven = new raven.Client(api.config.raven.dsn, api.config.raven.options);
+    var raven = require('raven')
+    api.raven = new raven.Client(api.config.raven.dsn, api.config.raven.options)
     if (api.config.raven.dsn) {
-      api.log('Raven initialized with', 'info', api.config.raven);
-      api.raven.patchGlobal();
+      api.log('Raven initialized with', 'info', api.config.raven)
+      api.raven.patchGlobal()
 
-      this.initLogging(api);
-      this.initMiddleware(api);
+      this.initLogging(api)
+      this.initMiddleware(api)
     } else {
-      api.log('Raven is not enabled. Set SENTRY_DSN env to enable');
+      api.log('Raven is not enabled. Set SENTRY_DSN env to enable')
     }
 
-    next();
+    next()
   },
   initLogging: function (api) {
     api.raven.on('logged', function () {
-      api.log('Raven logged', 'debug');
-    });
+      api.log('Raven logged', 'debug')
+    })
     api.raven.on('error', function (e) {
-      api.log('Raven error', 'error', e);
-    });
+      api.log('Raven error', 'error', e)
+    })
   },
   initMiddleware: function (api) {
-    var ravenParsers = require('raven/lib/parsers');
+    var ravenParsers = require('raven/lib/parsers')
 
     api.raven.middleware = {
       action: {
@@ -37,9 +37,9 @@ module.exports = {
         priority: 1,
         preProcessor: function (data, next) {
           try {
-            next();
+            next()
           } catch (err) {
-            api.log('Exception during ' + data.action, 'crit', err);
+            api.log('Exception during ' + data.action, 'crit', err)
 
             try {
               api.raven.captureException(err, ravenParsers.parseRequest(data.connection.rawConnection.req, {
@@ -50,16 +50,16 @@ module.exports = {
                   validatorErrors: data.validatorErrors
                 }
               }), function () {
-                next(err);
-              });
+                next(err)
+              })
             } catch (e) {
-              api.raven.captureException(e);
+              api.raven.captureException(e)
             }
           }
         }
       }
-    };
+    }
 
-    api.actions.addMiddleware(api.raven.middleware.action);
+    api.actions.addMiddleware(api.raven.middleware.action)
   }
-};
+}

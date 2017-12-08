@@ -2,22 +2,22 @@
  * Created by groupsky on 03.12.15.
  */
 
-if (process.env.NODE_ENV === "production") {
-  var bulk = require('bulk-require');
+if (process.env.NODE_ENV === 'production') {
+  var bulk = require('bulk-require')
 
-  require('./app').run(/*@ngInject*/function ($log, $templateCache) {
+  require('./app').run(/* @ngInject */function ($log, $templateCache) {
     // include all views
-    function registerViews(url, view) {
+    function registerViews (url, view) {
       if (angular.isObject(view)) {
         angular.forEach(view, function (subview, key) {
-          registerViews(url + "/" + key, subview);
-        });
+          registerViews(url + '/' + key, subview)
+        })
       } else {
-        $log.debug('registering template cache', url);
-        $templateCache.put(url + '.html', view);
+        $log.debug('registering template cache', url)
+        $templateCache.put(url + '.html', view)
       }
     }
 
-    registerViews('/views', bulk(__dirname + "/../views", ['**/*.html']));
-  });
+    registerViews('/views', bulk(__dirname + '/../views', ['**/*.html']))
+  })
 }

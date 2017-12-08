@@ -1,12 +1,9 @@
-'use strict';
+'use strict'
 
+var _ = require('lodash')
+var Sequelize = require('sequelize')
 
-var _ = require('lodash');
-var Sequelize = require('sequelize');
-
-
-var tableName = 'FormCiconia';
-
+var tableName = 'FormCiconia'
 
 var schema = {
   id: {
@@ -98,13 +95,13 @@ var schema = {
   speciesNotes: {
     type: Sequelize.TEXT
   },
-  
+
   location: {
     type: Sequelize.TEXT,
     allowNull: false
   },
 
-  //Common fields not defined as common in Model.js
+  // Common fields not defined as common in Model.js
   latitude: {
     type: Sequelize.FLOAT,
     allowNull: false
@@ -121,7 +118,7 @@ var schema = {
     type: Sequelize.TEXT,
     allowNull: false
   },
-  //CommonFields as defined in model!!
+  // CommonFields as defined in model!!
   endDateTime: {
     type: Sequelize.DATE,
     allowNull: false
@@ -180,7 +177,7 @@ var schema = {
     type: Sequelize.TEXT
   },
 
-  //Internal
+  // Internal
   userId: {
     type: Sequelize.INTEGER,
     allowNull: false
@@ -196,41 +193,40 @@ var schema = {
   imported: {
     type: Sequelize.INTEGER
   }
-};
+}
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.createTable(tableName, schema).then(function () {
       return queryInterface.addIndex(tableName, {
-          fields: ['userId']
-        })
+        fields: ['userId']
+      })
         .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['startDateTime']
           })
-        })      
-        .then(function(){
+        })
+        .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['observationDateTime']
           })
-        })        
+        })
         .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['monitoringCode']
-          })        
+          })
         })
         .then(function () {
           return queryInterface.addIndex(tableName, {
             fields: ['location']
-          })        
+          })
         })
         .catch(function () {
         })
-    });
+    })
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable(tableName);
+    return queryInterface.dropTable(tableName)
   }
 }
-;

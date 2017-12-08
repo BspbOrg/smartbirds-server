@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 module.exports = function (sequelize, DataTypes) {
   var UserMeta = sequelize.define('UserMeta', {
     userId: {
@@ -22,7 +22,7 @@ module.exports = function (sequelize, DataTypes) {
       },
       {
         fields: ['metaKey', 'metaValue']
-      },
+      }
     ],
     classMethods: {
       associate: function (models) {
@@ -40,6 +40,6 @@ module.exports = function (sequelize, DataTypes) {
         }
       }
     }
-  });
-  return UserMeta;
-};
+  })
+  return UserMeta
+}

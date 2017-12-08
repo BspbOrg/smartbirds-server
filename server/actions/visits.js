@@ -2,8 +2,8 @@
  * Created by groupsky on 26.05.16.
  */
 
-var Promise = require('bluebird');
-var _ = require('lodash');
+var Promise = require('bluebird')
+var _ = require('lodash')
 
 exports.visitList = {
   name: 'visit:list',
@@ -16,37 +16,36 @@ exports.visitList = {
     Promise
       .resolve(data.params)
       .then(function (params) {
-        var q = {};
+        var q = {}
 
-        return q;
+        return q
       })
       .then(function (q) {
-        return api.models.visit.findAndCountAll(q);
+        return api.models.visit.findAndCountAll(q)
       })
       .then(function (result) {
         return Promise.map(result.rows, function (row) {
-            return row.apiData(api);
-          })
+          return row.apiData(api)
+        })
           .then(function (rows) {
             return {
               count: result.count,
               data: rows
-            };
-          });
+            }
+          })
       })
       .then(function (response) {
-        return data.response = response;
+        return data.response = response
       })
       .then(function () {
-        next();
+        next()
       })
       .catch(function (e) {
-        api.log('Failure', 'error', e);
-        next(e);
+        api.log('Failure', 'error', e)
+        next(e)
       })
-    ;
   }
-};
+}
 
 exports.visitEdit = {
   name: 'visit:edit',
@@ -66,29 +65,29 @@ exports.visitEdit = {
         return api.models.visit.findOne({where: {year: data.params.year}})
       })
       .then(function (model) {
-        return model || api.models.visit.build({});
+        return model || api.models.visit.build({})
       })
       .then(function (model) {
-        return model.apiUpdate(api, data.params);
+        return model.apiUpdate(api, data.params)
       })
       .then(function (model) {
-        return model.save();
+        return model.save()
       })
       .then(function (model) {
-        return model.apiData(api);
+        return model.apiData(api)
       })
       .then(function (res) {
-        return data.response.data = res;
+        return data.response.data = res
       })
       .then(function () {
-        next();
+        next()
       })
       .catch(function (error) {
-        api.logger.error(error);
-        next(error);
-      });
+        api.logger.error(error)
+        next(error)
+      })
   }
-};
+}
 
 exports.visitView = {
   name: 'visit:view',
@@ -102,34 +101,34 @@ exports.visitView = {
       .then(function (params) {
         return {
           where: {year: data.params.year}
-        };
+        }
       })
       .then(function (q) {
-        return api.models.visit.findOne(q);
+        return api.models.visit.findOne(q)
       })
       .then(function (model) {
         if (!model) {
-          data.connection.rawConnection.responseHttpCode = 404;
-          return next(new Error('not found'));
+          data.connection.rawConnection.responseHttpCode = 404
+          return next(new Error('not found'))
         }
 
-        return model;
+        return model
       })
       .then(function (model) {
-        return model.apiData(api);
+        return model.apiData(api)
       })
       .then(function (res) {
-        return data.response.data = res;
+        return data.response.data = res
       })
       .then(function () {
-        next();
+        next()
       })
       .catch(function (error) {
-        api.logger.error(error);
-        next(error);
-      });
+        api.logger.error(error)
+        next(error)
+      })
   }
-};
+}
 
 exports.visitDelete = {
   name: 'visit:delete',
@@ -143,21 +142,21 @@ exports.visitDelete = {
       .then(function (params) {
         return {
           where: {year: data.params.year}
-        };
+        }
       })
       .then(function (q) {
-        return api.models.visist.findOne(q);
+        return api.models.visist.findOne(q)
       })
       .then(function (model) {
-        return model.destroy();
+        return model.destroy()
       })
       .then(function () {
-        data.connection.rawConnection.responseHttpCode = 204;
-        next();
+        data.connection.rawConnection.responseHttpCode = 204
+        next()
       })
       .catch(function (error) {
-        api.logger.error(error);
-        next(error);
-      });
+        api.logger.error(error)
+        next(error)
+      })
   }
-};
+}

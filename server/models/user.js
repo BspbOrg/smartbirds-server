@@ -1,30 +1,30 @@
-var _ = require('lodash');
-var bcrypt = require('bcrypt');
-var bcryptComplexity = 10;
-var crypto = require('crypto');
+var _ = require('lodash')
+var bcrypt = require('bcrypt')
+var bcryptComplexity = 10
+var crypto = require('crypto')
 
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define("User", {
+  return sequelize.define('User', {
     'email': {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {isEmail: true},
+      validate: {isEmail: true}
     },
     'passwordHash': {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: false
     },
     'firstName': {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     'lastName': {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     'lastLoginAt': {
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: true
     },
     'isAdmin': {
       type: DataTypes.BOOLEAN,
@@ -62,57 +62,57 @@ module.exports = function (sequelize, DataTypes) {
     classMethods: {
       associate: function (models) {
         // associations can be defined here
-        //models.user.hasMany(models.usermeta);
-        //models.user.hasMany(models.zone, {foreignKey: 'ownerId', as: 'zones'});
+        // models.user.hasMany(models.usermeta);
+        // models.user.hasMany(models.zone, {foreignKey: 'ownerId', as: 'zones'});
       }
     },
 
     instanceMethods: {
       name: function () {
-        return [this.firstName, this.lastName].join(' ');
+        return [this.firstName, this.lastName].join(' ')
       },
 
       updatePassword: function (pw, callback) {
-        var self = this;
+        var self = this
         var salt = bcrypt.genSalt(bcryptComplexity, function (error, salt) {
           if (error) {
-            return callback(error);
+            return callback(error)
           }
           bcrypt.hash(pw, salt, function (error, hash) {
             if (error) {
-              return callback(error);
+              return callback(error)
             }
-            self.passwordHash = hash;
-            callback(null, self);
-          });
-        });
+            self.passwordHash = hash
+            callback(null, self)
+          })
+        })
       },
 
       checkPassword: function (pw, callback) {
-        bcrypt.compare(pw, this.passwordHash, callback);
+        bcrypt.compare(pw, this.passwordHash, callback)
       },
 
       genPasswordToken: function (callback) {
-        var self = this;
+        var self = this
         crypto.randomBytes(64, function (ex, buf) {
-          var pwToken = buf.toString('hex');
+          var pwToken = buf.toString('hex')
           var salt = bcrypt.genSalt(bcryptComplexity, function (error, salt) {
-            if (error) return callback(error);
+            if (error) return callback(error)
 
             bcrypt.hash(pwToken, salt, function (error, hash) {
-              if (error) return callback(error);
+              if (error) return callback(error)
 
-              self.forgotPasswordHash = hash;
-              self.forgotPasswordTimestamp = new Date();
+              self.forgotPasswordHash = hash
+              self.forgotPasswordTimestamp = new Date()
 
-              callback(null, pwToken);
-            });
-          });
-        });
+              callback(null, pwToken)
+            })
+          })
+        })
       },
 
       checkPasswordToken: function (token, callback) {
-        bcrypt.compare(token, this.forgotPasswordHash, callback);
+        bcrypt.compare(token, this.forgotPasswordHash, callback)
       },
 
       apiData: function (api) {
@@ -133,13 +133,13 @@ module.exports = function (sequelize, DataTypes) {
           postcode: this.postcode,
           profile: this.profile,
           language: this.language
-        };
+        }
       },
 
       apiUpdate: function (data) {
         _.assign(this, _.pick(data, 'firstName', 'lastName', 'address', 'birdsKnowledge',
-          'city', 'level', 'mobile', 'notes', 'phone', 'postcode', 'profile', 'language'));
+          'city', 'level', 'mobile', 'notes', 'phone', 'postcode', 'profile', 'language'))
       }
     }
-  });
-};
+  })
+}

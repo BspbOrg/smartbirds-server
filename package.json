@@ -277,5 +277,11 @@
       "envify",
       "browserify-ngannotate"
     ]
+  },
+  "standard": {
+    "ignore": [
+      "**/test/",
+      "/public/"
+    ]
   }
 }

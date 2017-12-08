@@ -2,7 +2,7 @@
  * Created by groupsky on 16.03.16.
  */
 
-'use strict';
+'use strict'
 
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Species', {
@@ -37,16 +37,16 @@ module.exports = function (sequelize, DataTypes) {
           },
           euring: this.euring,
           code: this.code
-        };
+        }
       },
-      apiUpdate: function(data) {
-        this.type = data.type || this.type;
-        this.labelBg = data.label && data.label.bg || this.labelBg;
-        this.labelEn = data.label && data.label.en || this.labelEn;
-        this.labelLa = data.label && data.label.la || this.labelLa;
-        this.euring = data.euring || this.euring;
-        this.code = data.code || this.code;
-      },
+      apiUpdate: function (data) {
+        this.type = data.type || this.type
+        this.labelBg = data.label && data.label.bg || this.labelBg
+        this.labelEn = data.label && data.label.en || this.labelEn
+        this.labelLa = data.label && data.label.la || this.labelLa
+        this.euring = data.euring || this.euring
+        this.code = data.code || this.code
+      }
     }
-  });
-};
+  })
+}

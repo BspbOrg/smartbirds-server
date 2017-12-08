@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return;
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return
     return queryInterface.sequelize
       .query('DROP VIEW IF EXISTS user_stats')
       .then(function () {
@@ -58,12 +58,12 @@ module.exports = {
             '   FROM "FormMammals" as mammals' +
             '   GROUP BY "userId"' +
             ') mammals USING (id)' +
-            '');
+            '')
       })
   },
 
   down: function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return;
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return
     return queryInterface.sequelize.query('DROP VIEW IF EXISTS user_stats')
       .then(function () {
         return queryInterface.sequelize.query('CREATE VIEW user_stats (' +
@@ -101,7 +101,7 @@ module.exports = {
           '   FROM "FormHerps" as herps' +
           '   GROUP BY "userId"' +
           ') herps USING (id)' +
-          '');
+          '')
       })
   }
-};
+}

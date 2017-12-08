@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return;
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return
     return queryInterface.sequelize.query('DROP VIEW IF EXISTS cbm_stats').then(function () {
       return queryInterface.sequelize.query('CREATE VIEW cbm_stats (' +
         'id, latitude, longitude, species_count, units_count, visits_count, first_name, last_name' +
@@ -24,12 +24,12 @@ module.exports = {
         ' GROUP BY zones.id' +
         ' ' +
         ' ORDER BY species_count desc' +
-        '');
-    });
+        '')
+    })
   },
 
   down: function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return;
-    return queryInterface.sequelize.query('DROP VIEW IF EXISTS cbm_stats');
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    return queryInterface.sequelize.query('DROP VIEW IF EXISTS cbm_stats')
   }
-};
+}

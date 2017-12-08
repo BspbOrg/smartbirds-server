@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 module.exports = function (sequelize, DataTypes) {
   var CBM_Stats = sequelize.define('cbm_stats', {
     id: {
@@ -15,6 +15,6 @@ module.exports = function (sequelize, DataTypes) {
   }, {
     timestamps: false,
     tableName: 'cbm_stats'
-  });
-  return CBM_Stats;
-};
+  })
+  return CBM_Stats
+}
