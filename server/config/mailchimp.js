@@ -5,8 +5,9 @@
 exports.default = {
   mailchimp: function (api) {
     return {
-      api_key: process.env.MAILCHIMP_API_KEY || '52aced25c7537b3cef939603d3785942-us15',
-      list_id: process.env.MAILCHIMP_LIST_ID || '87b8efeae4'
+      enabled: !!process.env.MAILCHIMP_API_KEY,
+      api_key: process.env.MAILCHIMP_API_KEY,
+      list_id: process.env.MAILCHIMP_LIST_ID
     }
   }
 }

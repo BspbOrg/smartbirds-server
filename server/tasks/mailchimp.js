@@ -11,6 +11,9 @@ module.exports.mailchimp = {
   // every 7 days
   frequency: 7 * 24 * 60 * 60 * 1000,
   run: function (api, params, next) {
+    if (!api.config.mailchimp.enabled) {
+      return next()
+    }
     Promise.resolve(params)
 
       .then(function () {
