@@ -79,9 +79,12 @@ var dependencies = [
 Raven.config('https://b17f1c87d9e346a8bd82335294450e57@app.getsentry.com/71564').addPlugin(require('raven-js-angular'), angular).install()
 
 var app = module.exports = angular.module('sb', dependencies)
-  .run(/* @ngInject */function ($rootScope) {
-    $rootScope.$system = info
-  })
 
+app.run(/* @ngInject */function ($rootScope) {
+  $rootScope.$system = info
+})
+
+// semicolon is required because bulk is transformed into ({}) and that is evaluated as a function call to above statement
+; // eslint-disable-line semi
 // include all js files
-bulk(__dirname, ['./**/!(app|*.spec).js'])
+bulk(__dirname, [ './**/!(app|*.spec).js' ])
