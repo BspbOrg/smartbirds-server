@@ -5,7 +5,7 @@
 exports.default = {
   mailchimp: function (api) {
     return {
-      enabled: !!process.env.MAILCHIMP_API_KEY,
+      enabled: process.env.MAILCHIMP_ENABLED,
       api_key: process.env.MAILCHIMP_API_KEY,
       list_id: process.env.MAILCHIMP_LIST_ID
     }
