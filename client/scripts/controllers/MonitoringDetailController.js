@@ -21,7 +21,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
   if (id) {
     controller.data = model.get({id: id})
   } else {
-    controller.data = new model()
+    controller.data = new model() // eslint-disable-line new-cap
     if (angular.isFunction(model.prototype.afterCreate)) { model.prototype.afterCreate.apply(controller.data) }
   }
   if (!$stateParams.id && $stateParams.fromId) {
@@ -124,7 +124,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
   }
 
   controller.save = function () {
-    var data = new model(controller.data)
+    var data = new model(controller.data) // eslint-disable-line new-cap
     if (!data.monitoringCode) {
       data.monitoringCode = genSingleObservationCode()
     }
