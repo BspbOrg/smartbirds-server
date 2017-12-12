@@ -1,6 +1,7 @@
 /**
  * Created by groupsky on 11.11.15.
  */
+var angular = require('angular')
 
 require('../app')
   .service('user', /* @ngInject */function ($q, $cookies, api) {
@@ -91,7 +92,7 @@ require('../app')
           deferred.reject(response.data)
         }
       }, function (response) {
-        if (response.status == 400) {
+        if (response.status === 400) {
           service.setIdentity(null)
           return deferred.reject(response.data)
         }

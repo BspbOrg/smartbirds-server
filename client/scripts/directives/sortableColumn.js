@@ -1,6 +1,7 @@
 /**
  * Created by groupsky on 18.11.15.
  */
+var angular = require('angular')
 
 require('../app').directive('sortableColumn', /* @ngInject */function ($timeout) {
   return {
@@ -14,14 +15,14 @@ require('../app').directive('sortableColumn', /* @ngInject */function ($timeout)
 
       element.on('click', function (event) {
         $timeout(function () {
-          scope.data.order.reverse = scope.data.order.key == name && !scope.data.order.reverse
+          scope.data.order.reverse = scope.data.order.key === name && !scope.data.order.reverse
           scope.data.order.key = name
         })
       })
 
       scope.$watch('data.order', function (order) {
         angular.forEach(element, function (el) {
-          if (order.key == name) {
+          if (order.key === name) {
             el.classList.add('sorted')
             if (order.reverse) { el.classList.add('reverse') } else { el.classList.remove('reverse') }
           } else {

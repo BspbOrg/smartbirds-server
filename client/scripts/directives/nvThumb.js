@@ -1,6 +1,7 @@
 /**
  * Created by groupsky on 31.08.16.
  */
+var angular = require('angular')
 
 require('../app')
 /**
@@ -39,7 +40,7 @@ require('../app')
           return
         }
 
-        var reader = new FileReader()
+        var reader = new $window.FileReader()
 
         reader.onload = function onLoadFile (event) {
           element.prop('src', event.target.result)

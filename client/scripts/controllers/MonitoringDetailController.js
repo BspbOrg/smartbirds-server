@@ -1,9 +1,7 @@
 var angular = require('angular')
-var moment = require('moment')
 
 require('../app').controller('MonitoringDetailController', /* @ngInject */function ($filter, $http, $scope, $state, $stateParams, $q, $timeout, model, ngToast, db, Raven, Track) {
   var controller = this
-  var authurl = $filter('authurl')
 
   var id = $stateParams.id || $stateParams.fromId
 
@@ -14,7 +12,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
   }
 
   function clearGeneratedSingleObservationCode () {
-    if (controller.data.monitoringCode == genSingleObservationCode()) {
+    if (controller.data.monitoringCode === genSingleObservationCode()) {
       controller.data.monitoringCode = null
     }
   }
@@ -151,7 +149,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
       Raven.captureMessage(JSON.stringify(error))
       ngToast.create({
         className: 'danger',
-        content: '<p>Could not save!</p><pre>' + (error && error.data && error.data.error || JSON.stringify(error, null, 2)) + '</pre>'
+        content: '<p>Could not save!</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
       })
       return $q.reject(error)
     }).then(function (res) {
@@ -160,7 +158,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
   }
 
   controller.observationDateChange = function () {
-    var change = controller.data.startDateTime == controller.data.endDateTime || !controller.data.monitoringCode
+    var change = controller.data.startDateTime ? controller.data.endDateTime : !controller.data.monitoringCode
     if (change || !controller.data.startDateTime) {
       controller.data.startDateTime = controller.data.observationDateTime
     }
@@ -169,7 +167,8 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
     }
   }
 
-  if (controller.hasVisit = model.prototype.hasVisit) {
+  controller.hasVisit = model.prototype.hasVisit
+  if (controller.hasVisit) {
     $scope.$watch(function () {
       return controller.data.startDateTime
     }, function (date) {

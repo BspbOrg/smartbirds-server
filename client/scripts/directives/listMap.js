@@ -1,7 +1,6 @@
 var angular = require('angular')
 
 require('../app').directive('listMap', /* @ngInject */function ($filter, $http, db, Track) {
-  var authurl = $filter('authurl')
   return {
     templateUrl: '/views/directives/listmap.html',
     scope: {

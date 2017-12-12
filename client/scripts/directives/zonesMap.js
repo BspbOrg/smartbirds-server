@@ -2,7 +2,8 @@
  * Created by groupsky on 03.12.15.
  */
 
-var extend = require('angular').extend
+var angular = require('angular')
+var extend = angular.extend
 
 require('../app').directive('zonesMap', /* @ngInject */function () {
   return {
@@ -38,7 +39,7 @@ require('../app').directive('zonesMap', /* @ngInject */function () {
                 vc.zones[status].length = 0
               })
               markerClusterer.getClusters().forEach(function (cluster) {
-                var visible = cluster.getSize() == 1
+                var visible = cluster.getSize() === 1
                 cluster.getMarkers().each(function (marker) {
                   marker.model.visible = visible
                   if (visible && !marker.model.selected) {

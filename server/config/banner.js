@@ -1,12 +1,10 @@
-/**
- * Created by groupsky on 22.11.15.
- */
+var path = require('path')
 
 exports.default = {
   banner: function (api) {
     return {
-      generator: __dirname + '/../../tools/user_banner.sh',
-      outputDir: __dirname + '/../../public/banner'
+      generator: path.join(__dirname, '..', '..', 'tools', 'user_banner.sh'),
+      outputDir: path.join(__dirname, '..', '..', 'public', 'banner')
     }
   }
 }

@@ -27,11 +27,11 @@ require('../app').directive('locationSelector', /* @ngInject */function () {
 
       $scope.$watch('model || modelId', function () {
         if ($scope.model) {
-          if (!field.value || field.value.id != $scope.model.id) {
+          if (!field.value || field.value.id !== $scope.model.id) {
             field.value = $scope.model
           }
         } else if ($scope.modelId) {
-          if (!field.value || field.value.id != $scope.modelId) {
+          if (!field.value || field.value.id !== $scope.modelId) {
             field.value = Location.get({id: $scope.modelId})
             field.value.$promise.then(function (value) {
               field.value = false

@@ -326,7 +326,8 @@ exports.userChangePassword = {
         return true
       })
       .then(function (res) {
-        return data.response.data = res
+        data.response.data = res
+        return res
       })
       .then(function () {
         next()

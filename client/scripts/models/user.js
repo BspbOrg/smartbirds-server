@@ -6,8 +6,6 @@ var angular = require('angular')
 var md5 = require('blueimp-md5')
 
 require('../app').factory('User', /* @ngInject */function ($resource, BANNER_BASE_URL, ENDPOINT_URL) {
-  var ROLE_ADMIN = 'admin'
-
   var User = $resource(ENDPOINT_URL + '/user/:id', {
     id: '@id'
   })
@@ -15,7 +13,7 @@ require('../app').factory('User', /* @ngInject */function ($resource, BANNER_BAS
   // methods
   angular.extend(User.prototype, {
     getName: function () {
-      return [this.firstName, this.lastName].filter(function (s) {
+      return [ this.firstName, this.lastName ].filter(function (s) {
         return !!s
       }).join(' ')
     },
@@ -27,7 +25,8 @@ require('../app').factory('User', /* @ngInject */function ($resource, BANNER_BAS
       return this.getName()
     },
     getBannerUrl: function () {
-      return this.bannerUrl = this.bannerUrl || BANNER_BASE_URL + md5(this.id) + '.png'
+      if (!this.bannerUrl) { this.bannerUrl = BANNER_BASE_URL + md5(this.id) + '.png' }
+      return this.bannerUrl
     }
   })
 

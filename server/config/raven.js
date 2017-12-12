@@ -2,8 +2,6 @@
  * Created by groupsky on 23.03.16.
  */
 
-var pkg = require('../../package.json')
-
 exports.default = {
   raven: function (api) {
     return {

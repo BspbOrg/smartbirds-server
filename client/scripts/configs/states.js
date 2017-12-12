@@ -15,7 +15,8 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
   var resolveUser = {
     user: /* @ngInject */function ($rootScope, user) {
       return user.resolve(true).then(function (identity) {
-        return $rootScope.$user = user
+        $rootScope.$user = user
+        return user
       }, function () {
         return undefined
       })

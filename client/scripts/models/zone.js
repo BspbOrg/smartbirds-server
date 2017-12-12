@@ -2,9 +2,8 @@
  * Created by groupsky on 20.11.15.
  */
 
-var angular = require('angular'),
-  isDefined = angular.isDefined,
-  isUndefined = angular.isUndefined
+var angular = require('angular')
+var isUndefined = angular.isUndefined
 
 require('../app').factory('Zone', /* @ngInject */function ($resource, ENDPOINT_URL, Location) {
   var Zone = $resource(ENDPOINT_URL + '/zone/:id', {
@@ -62,14 +61,17 @@ require('../app').factory('Zone', /* @ngInject */function ($resource, ENDPOINT_U
   angular.extend(Zone.prototype, {
     getCenter: function () {
       if (isUndefined(this.coordinates)) return
-      return this.center = this.center || {
-        latitude: this.coordinates.reduce(function (sum, point) {
-          return sum + point.latitude
-        }, 0) / this.coordinates.length,
-        longitude: this.coordinates.reduce(function (sum, point) {
-          return sum + point.longitude
-        }, 0) / this.coordinates.length
+      if (!this.center) {
+        this.center = {
+          latitude: this.coordinates.reduce(function (sum, point) {
+            return sum + point.latitude
+          }, 0) / this.coordinates.length,
+          longitude: this.coordinates.reduce(function (sum, point) {
+            return sum + point.longitude
+          }, 0) / this.coordinates.length
+        }
       }
+      return this.center
     },
     getStatus: function () {
       return this.status
@@ -83,7 +85,7 @@ require('../app').factory('Zone', /* @ngInject */function ($resource, ENDPOINT_U
         this.owner = null
         this.ownerId = null
       }
-      return Zone.respond.call(this, {id: this.id}, {response: response}).then(function (response) {
+      return Zone.respond.call(this, { id: this.id }, { response: response }).then(function (response) {
         var data = response.data
         if (data) {
           Zone.call(self, data)
@@ -94,7 +96,7 @@ require('../app').factory('Zone', /* @ngInject */function ($resource, ENDPOINT_U
       this.ownerId = null
       this.owner = null
       this.status = 'free'
-      return Zone.removeOwner.call(this, {id: this.id}, this)
+      return Zone.removeOwner.call(this, { id: this.id }, this)
     },
 
     $setOwner: function (owner) {
@@ -102,7 +104,7 @@ require('../app').factory('Zone', /* @ngInject */function ($resource, ENDPOINT_U
       this.owner = owner
       this.ownerId = owner.id
       this.status = 'owned'
-      return Zone.setOwner.call(this, {id: this.id}, {owner: owner.id}).then(function (response) {
+      return Zone.setOwner.call(this, { id: this.id }, { owner: owner.id }).then(function (response) {
         var data = response.data
         if (data) {
           Zone.call(self, data)

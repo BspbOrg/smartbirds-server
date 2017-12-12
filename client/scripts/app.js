@@ -1,6 +1,4 @@
-/**
- * Created by groupsky on 30.10.15.
- */
+/* global Raven */
 
 var angular = require('angular')
 var bulk = require('bulk-require')
@@ -76,7 +74,12 @@ var dependencies = [
   'pascalprecht.translate'
 ]
 
-Raven.config('https://b17f1c87d9e346a8bd82335294450e57@app.getsentry.com/71564').addPlugin(require('raven-js-angular'), angular).install()
+if (Raven) {
+  Raven
+    .config('https://b17f1c87d9e346a8bd82335294450e57@app.getsentry.com/71564')
+    .addPlugin(require('raven-js-angular'), angular)
+    .install()
+}
 
 var app = module.exports = angular.module('sb', dependencies)
 

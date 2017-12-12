@@ -7,9 +7,13 @@ module.exports = {
 }
 
 function fixParsedURL (api, data) {
-  var baseurl = 'http' + (api.config.servers.web.secure ? 's' : '') +
-    '://' + (data.connection.rawConnection.req && data.connection.rawConnection.req.headers && data.connection.rawConnection.req.headers.host || 'localhost')
-  data.connection.rawConnection.parsedURL = url.parse(url.resolve(baseurl, data.connection.rawConnection.req && data.connection.rawConnection.req.url || '/'), true)
+  var req = data.connection.rawConnection.req
+  var host = req && req.headers && req.headers.host
+    ? req.headers.host
+    : 'localhost'
+  var baseUrl = 'http' + (api.config.servers.web.secure ? 's' : '') + '://' + host
+  var resolvedUrl = url.resolve(baseUrl, req && req.url ? req.url : '/')
+  data.connection.rawConnection.parsedURL = url.parse(resolvedUrl, true)
   return data.connection.rawConnection.parsedURL
 }
 

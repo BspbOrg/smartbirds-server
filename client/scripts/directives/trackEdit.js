@@ -14,7 +14,6 @@ require('../app').directive('trackEdit', /* @ngInject */function ($cookies, $log
     controller: /* @ngInject */function ($filter) {
       var $ctrl = this
       var ngModel
-      var authurl = $filter('authurl')
 
       var uploader = $ctrl.uploader = new FileUploader({
         url: ENDPOINT_URL + '/storage',

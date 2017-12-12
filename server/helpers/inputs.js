@@ -14,19 +14,19 @@ module.exports = {
   }
 }
 
-function formatterInteger (param, connection, actionTemplate) {
+function formatterInteger (param) {
   var i = parseInt(param)
-  if (i != param) return undefined
+  if (('' + i) !== ('' + param)) return
   return i
 }
 
-function formatterDate (param, connection, actionTemplate) {
-  var timestamp = formatterInteger(param, connection, actionTemplate)
-  if (typeof timestamp !== 'number') return null
+function formatterDate (param, actionTemplate) {
+  var timestamp = formatterInteger(param)
+  if (typeof timestamp !== 'number') return
   return new Date(timestamp)
 }
 
-function validatorPositive (param, connection, actionTemplate) {
+function validatorPositive (param) {
   if (param <= 0) {
     return 'must be > 0'
   } else {
@@ -35,7 +35,7 @@ function validatorPositive (param, connection, actionTemplate) {
 }
 
 function validatorGreaterOrEqual (limit) {
-  return function (param, connection, actionTemplate) {
+  return function (param) {
     if (param < limit) {
       return 'must be >= ' + limit
     } else {
@@ -44,7 +44,7 @@ function validatorGreaterOrEqual (limit) {
   }
 }
 
-function validatorDate (param, connection, actionTemplate) {
+function validatorDate (param) {
   if (param instanceof Date) {
     return true
   }

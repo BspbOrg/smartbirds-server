@@ -3,12 +3,11 @@
  */
 
 var Promise = require('bluebird')
-var _ = require('lodash')
 
 exports.visitList = {
   name: 'visit:list',
   description: 'visit:list',
-  middleware: ['auth'],
+  middleware: [ 'auth' ],
 
   inputs: {},
 
@@ -24,9 +23,10 @@ exports.visitList = {
         return api.models.visit.findAndCountAll(q)
       })
       .then(function (result) {
-        return Promise.map(result.rows, function (row) {
-          return row.apiData(api)
-        })
+        return Promise
+          .map(result.rows, function (row) {
+            return row.apiData(api)
+          })
           .then(function (rows) {
             return {
               count: result.count,
@@ -35,7 +35,8 @@ exports.visitList = {
           })
       })
       .then(function (response) {
-        return data.response = response
+        data.response = response
+        return response
       })
       .then(function () {
         next()
@@ -50,10 +51,10 @@ exports.visitList = {
 exports.visitEdit = {
   name: 'visit:edit',
   description: 'visit:edit',
-  middleware: ['admin'],
+  middleware: [ 'admin' ],
 
   inputs: {
-    year: {required: true},
+    year: { required: true },
     early: {},
     late: {}
   },
@@ -62,7 +63,7 @@ exports.visitEdit = {
     Promise
       .resolve(data.params)
       .then(function (params) {
-        return api.models.visit.findOne({where: {year: data.params.year}})
+        return api.models.visit.findOne({ where: { year: data.params.year } })
       })
       .then(function (model) {
         return model || api.models.visit.build({})
@@ -77,7 +78,8 @@ exports.visitEdit = {
         return model.apiData(api)
       })
       .then(function (res) {
-        return data.response.data = res
+        data.response.data = res
+        return res
       })
       .then(function () {
         next()
@@ -92,15 +94,15 @@ exports.visitEdit = {
 exports.visitView = {
   name: 'visit:view',
   description: 'visit:view',
-  middleware: ['auth'],
-  inputs: {year: {required: true}},
+  middleware: [ 'auth' ],
+  inputs: { year: { required: true } },
 
   run: function (api, data, next) {
     Promise
       .resolve(data.params)
       .then(function (params) {
         return {
-          where: {year: data.params.year}
+          where: { year: data.params.year }
         }
       })
       .then(function (q) {
@@ -118,7 +120,8 @@ exports.visitView = {
         return model.apiData(api)
       })
       .then(function (res) {
-        return data.response.data = res
+        data.response.data = res
+        return res
       })
       .then(function () {
         next()
@@ -133,15 +136,15 @@ exports.visitView = {
 exports.visitDelete = {
   name: 'visit:delete',
   description: 'visit:delete',
-  middleware: ['admin'],
-  inputs: {year: {required: true}},
+  middleware: [ 'admin' ],
+  inputs: { year: { required: true } },
 
   run: function (api, data, next) {
     Promise
       .resolve(data.params)
       .then(function (params) {
         return {
-          where: {year: data.params.year}
+          where: { year: data.params.year }
         }
       })
       .then(function (q) {

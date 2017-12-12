@@ -11,7 +11,7 @@ module.exports = {
   initialize: function (api, next) {
     api.mailer = {
       send: function (options, next) {
-        config = api.config.mailer
+        var config = api.config.mailer
 
         if (!(options.mail && options.template && options.locals)) {
           return next(new Error('Invalid options. Must contain template, mail, and locals property'))
@@ -36,7 +36,7 @@ module.exports = {
     next()
   },
   start: function (api, next) {
-    config = api.config.mailer
+    var config = api.config.mailer
     api.log('Creating mail transport ' + config.transport.type)
     api.mailer.transport = nodemailer.createTransport(require(config.transport.type)(config.transport.config))
     next()

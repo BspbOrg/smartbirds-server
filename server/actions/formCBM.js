@@ -199,7 +199,8 @@ exports.formCBMAdd = {
         return cbm.apiData(api)
       })
       .then(function (res) {
-        return data.response.data = res
+        data.response.data = res
+        return res
       })
       .then(function () {
         next()
@@ -261,7 +262,7 @@ exports.formCBMEdit = {
           return Promise.reject(new Error('cbm not found'))
         }
 
-        if (!data.session.user.isAdmin && formCBM.userId != data.session.userId) {
+        if (!data.session.user.isAdmin && formCBM.userId !== data.session.userId) {
           data.connection.rawConnection.responseHttpCode = 401
           return Promise.reject(new Error('no permission'))
         }
@@ -284,7 +285,8 @@ exports.formCBMEdit = {
         return cbm.apiData(api)
       })
       .then(function (res) {
-        return data.response.data = res
+        data.response.data = res
+        return res
       })
       .then(function () {
         next()
@@ -313,7 +315,7 @@ exports.formCBMView = {
         return next(new Error('cbm record not found'))
       }
 
-      if (!data.session.user.isAdmin && cbm.userId != data.session.userId) {
+      if (!data.session.user.isAdmin && cbm.userId !== data.session.userId) {
         data.connection.rawConnection.responseHttpCode = 401
         return next(new Error('no permission'))
       }
@@ -342,7 +344,7 @@ exports.formCBMDelete = {
         return Promise.reject(new Error('cbm not found'))
       }
 
-      if (!data.session.user.isAdmin && formCBM.userId != data.session.userId) {
+      if (!data.session.user.isAdmin && formCBM.userId !== data.session.userId) {
         data.connection.rawConnection.responseHttpCode = 401
         return Promise.reject(new Error('no permission'))
       }

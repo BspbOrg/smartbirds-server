@@ -1,6 +1,7 @@
 /**
  * Created by groupsky on 12.01.16.
  */
+var angular = require('angular')
 
 require('../app').service('Nomenclature', /* @ngInject */function ($resource, ENDPOINT_URL) {
   var Nomenclature = $resource(ENDPOINT_URL + '/nomenclature/:type/:label', {

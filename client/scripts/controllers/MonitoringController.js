@@ -6,7 +6,6 @@ var _ = require('lodash')
 var angular = require('angular')
 require('../app').controller('MonitoringController', /* @ngInject */function ($filter, $state, $stateParams, $q, model, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, formName) {
   var controller = this
-  var lastModel = false
   var authurl = $filter('authurl')
 
   controller.db = db
@@ -23,7 +22,7 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($f
   controller.visits = {}
   controller.map = {}
   controller.tab = 'list'
-  if (formName == 'cbm') {
+  if (formName === 'cbm') {
     $q.resolve(db.nomenclatures.$promise || db.nomenclatures).then(function (nomenclatures) {
       return nomenclatures.cbm_visit_number.$promise || nomenclatures.cbm_visit_number
     }).then(function (visits) {
@@ -42,7 +41,7 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($f
 
   controller.updateFilter = function () {
     var filter = _.mapValues(controller.filter, function (value) {
-      return value && angular.isFunction(value.toJSON) && value.toJSON() || value
+      return value && angular.isFunction(value.toJSON) ? value.toJSON() : value
     })
     console.log($stateParams, '->', filter)
     if (angular.equals(filter, $stateParams)) { return }
@@ -88,26 +87,24 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($f
       Raven.captureMessage(JSON.stringify(error))
       ngToast.create({
         className: 'danger',
-        content: '<p>Error during deletion!</p><pre>' + (error && error.data && error.data.error || JSON.stringify(error, null, 2)) + '</pre>'
+        content: '<p>Error during deletion!</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
       })
       return $q.reject(error)
     })
   }
 
   function fetch (query) {
+    var params = $httpParamSerializer(angular.extend({}, query, {
+      limit: -1,
+      offset: 0
+    }))
     controller.loading = true
-    controller.downloadLink = authurl(ENDPOINT_URL + '/' + formName + '.csv?' + $httpParamSerializer(angular.extend({}, query, {
-      limit: -1,
-      offset: 0
-    })))
-    controller.exportLink = authurl(ENDPOINT_URL + '/' + formName + '.zip?' + $httpParamSerializer(angular.extend({}, query, {
-      limit: -1,
-      offset: 0
-    })))
+    controller.downloadLink = authurl(ENDPOINT_URL + '/' + formName + '.csv?' + params)
+    controller.exportLink = authurl(ENDPOINT_URL + '/' + formName + '.zip?' + params)
     return model.query(query).$promise
       .then(function (rows) {
         controller.count = rows.$$response.data.$$response.count
-        controller.rows.extend(rows)
+        Array.prototype.push.apply(controller.rows, rows)
         controller.endOfPages = !rows.length
         return controller.rows
       })
@@ -127,7 +124,7 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($f
     if (angular.isFunction(controller.map.clear)) {
       controller.map.clear()
     }
-    controller.filter.limit = controller.tab == 'list' ? 50 : 1000
+    controller.filter.limit = controller.tab === 'list' ? 50 : 1000
     fetch(controller.filter)
   }
   controller.requestRows()
@@ -135,7 +132,7 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($f
   controller.nextPage = function (count) {
     fetch(angular.extend({}, controller.filter, {
       offset: controller.rows.length,
-      limit: count || (controller.tab == 'list' ? 50 : 1000)
+      limit: count || (controller.tab === 'list' ? 50 : 1000)
     }))
   }
 

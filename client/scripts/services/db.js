@@ -58,7 +58,7 @@ require('../app').service('db', /* @ngInject */function ($q, Location, Nomenclat
     })
     return res
   }).catch(function (response) {
-    if (response.status == 403) {
+    if (response.status === 403) {
       return []
     }
     return $q.reject(response)

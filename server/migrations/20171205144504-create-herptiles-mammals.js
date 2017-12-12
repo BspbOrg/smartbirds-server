@@ -1,6 +1,5 @@
 'use strict'
 
-var _ = require('lodash')
 var Promise = require('bluebird')
 var Sequelize = require('sequelize')
 var assign = Object.assign

@@ -1,6 +1,7 @@
 /**
  * Created by groupsky on 12.01.16.
  */
+var angular = require('angular')
 
 require('../app').directive('sbValidationMatch', /* @ngInject */function ($parse) {
   return {

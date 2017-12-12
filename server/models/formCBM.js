@@ -279,8 +279,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     instanceMethods: {
       calculateHash: Model.generateCalcHash(fields),
-      apiData: function (api) {
-        var data = {}
+      apiData: function () {
         var self = this
         return Promise.props(_.mapValues(fields, function (field, name) {
           if (_.isString(field)) field = {type: field}
@@ -291,12 +290,12 @@ module.exports = function (sequelize, DataTypes) {
                   case 'nomenclature':
                     {
                       var res = []
-                      var bg = self[name + 'Bg'] && self[name + 'Bg'].split('|').map(function (val) {
+                      var bg = self[name + 'Bg'] ? self[name + 'Bg'].split('|').map(function (val) {
                         return val.trim()
-                      }) || []
-                      var en = self[name + 'En'] && self[name + 'En'].split('|').map(function (val) {
+                      }) : []
+                      var en = self[name + 'En'] ? self[name + 'En'].split('|').map(function (val) {
                         return val.trim()
-                      }) || []
+                      }) : []
                       while (bg.length && en.length) {
                         res.push({
                           label: {
@@ -316,12 +315,12 @@ module.exports = function (sequelize, DataTypes) {
                 switch (field.relation.model) {
                   case 'nomenclature':
                     {
-                      return (self[name + 'Bg'] || self[name + 'En']) && {
+                      return (self[name + 'Bg'] || self[name + 'En']) ? {
                         label: {
                           bg: self[name + 'Bg'],
                           en: self[name + 'En']
                         }
-                      } || null
+                      } : null
                     }
                   case 'species':
                     {
@@ -372,10 +371,10 @@ module.exports = function (sequelize, DataTypes) {
                       }
                       if (!_.isArray(val)) val = [val]
                       self[name + 'Bg'] = _.reduce(val, function (sum, v) {
-                        return sum + (sum && ' | ' || '') + v.label.bg
+                        return sum + (sum ? ' | ' : '') + v.label.bg
                       }, '')
                       self[name + 'En'] = _.reduce(val, function (sum, v) {
-                        return sum + (sum && ' | ' || '') + v.label.en
+                        return sum + (sum ? ' | ' : '') + v.label.en
                       }, '')
 
                       break

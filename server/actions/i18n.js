@@ -23,7 +23,7 @@ function serveDynamic (api, data, next) {
   fetch('https://api.poeditor.com/v2/terms/list', { method: 'POST', body: form })
     .then(function (res) { return res.json() })
     .then(function (json) {
-      var terms = json && json.result && json.result.terms || []
+      var terms = json && json.result ? json.result.terms : []
       terms.map(function (item) {
         var term = item.term
         var translation = item.translation && item.translation.content

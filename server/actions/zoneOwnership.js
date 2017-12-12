@@ -2,8 +2,6 @@
  * Created by groupsky on 09.12.15.
  */
 
-var Promise = require('bluebird')
-
 function getZone (api, data, next) {
   var q = {
     where: {id: data.params.id},

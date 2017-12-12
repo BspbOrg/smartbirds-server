@@ -3,7 +3,6 @@ var Promise = require('bluebird')
 var paging = require('../helpers/paging')
 var incremental = require('../helpers/incremental')
 var links = require('../helpers/links')
-var url = require('url')
 
 _.forOwn({
   nomenclature: {
@@ -16,13 +15,13 @@ _.forOwn({
     keys: 'labelLa'
   }
 }, function (definition, model) {
-  exports[model + 'UpdateType'] = {
+  exports[ model + 'UpdateType' ] = {
     name: model + ':updateType',
     description: model + ':updateType',
-    middleware: ['admin'],
+    middleware: [ 'admin' ],
     inputs: {
-      type: {required: true},
-      items: {required: true}
+      type: { required: true },
+      items: { required: true }
     },
 
     run: function (api, data, next) {
@@ -37,8 +36,8 @@ _.forOwn({
             throw new Error('cannot update with empty items')
           }
           return data.params.items.map(function (item) {
-            var m = api.models[model].build({})
-            if (item.type && item.type != data.params.type) {
+            var m = api.models[ model ].build({})
+            if (item.type && item.type !== data.params.type) {
               data.connection.rawConnection.responseHttpCode = 400
               throw new Error('cannot submit mixed nomenclature types!')
             }
@@ -49,19 +48,20 @@ _.forOwn({
         })
         .then(function (models) {
           return api.sequelize.sequelize.transaction(function (t) {
-            return api.models[model].destroy({
-              where: {
-                type: data.params.type
-              },
-              transaction: t
-            })
+            return api.models[ model ]
+              .destroy({
+                where: {
+                  type: data.params.type
+                },
+                transaction: t
+              })
               .then(function (deleted) {
                 api.log('replacing %s %s %d with %d', 'info', model, data.params.type, deleted, models.length)
                 data.response.oldCount = deleted
               })
               .then(function () {
                 return Promise.map(models, function (item) {
-                  return item.save({transaction: t})
+                  return item.save({ transaction: t })
                 })
               })
           })
@@ -79,10 +79,10 @@ _.forOwn({
     }
   }
 
-  exports[model + 'Types'] = {
+  exports[ model + 'Types' ] = {
     name: model + ':types',
     description: model + ':types',
-    middleware: ['auth'],
+    middleware: [ 'auth' ],
     inputs: paging.declareInputs(incremental.declareInputs()),
 
     run: function (api, data, next) {
@@ -99,12 +99,13 @@ _.forOwn({
           return q
         })
         .then(function (q) {
-          return api.models[model].findAndCountAll(q)
+          return api.models[ model ].findAndCountAll(q)
         })
         .then(function (result) {
-          return Promise.map(result.rows, function (nomenclature) {
-            return nomenclature.apiData(api)
-          })
+          return Promise
+            .map(result.rows, function (nomenclature) {
+              return nomenclature.apiData(api)
+            })
             .then(function (rows) {
               return {
                 count: result.count,
@@ -127,13 +128,13 @@ _.forOwn({
     }
   }
 
-  exports[model + 'TypeList'] = {
+  exports[ model + 'TypeList' ] = {
     name: model + ':typeList',
     description: model + ':typeList',
-    middleware: ['auth'],
+    middleware: [ 'auth' ],
 
     inputs: paging.declareInputs(incremental.declareInputs({
-      type: {required: true}
+      type: { required: true }
     })),
 
     run: function (api, data, next) {
@@ -143,7 +144,7 @@ _.forOwn({
         })
         .then(function () {
           return {
-            'where': {type: data.params.type}
+            'where': { type: data.params.type }
           }
         })
         .then(function (q) {
@@ -153,12 +154,13 @@ _.forOwn({
           return incremental.prepareQuery(q, data.params)
         })
         .then(function (q) {
-          return api.models[model].findAndCountAll(q)
+          return api.models[ model ].findAndCountAll(q)
         })
         .then(function (result) {
-          return Promise.map(result.rows, function (nomenclature) {
-            return nomenclature.apiData(api)
-          })
+          return Promise
+            .map(result.rows, function (nomenclature) {
+              return nomenclature.apiData(api)
+            })
             .then(function (rows) {
               return {
                 count: result.count,
@@ -184,13 +186,13 @@ _.forOwn({
   (function (define) {
     _.isObject(definition.keys) ? _.forOwn(definition.keys, define) : define(definition.keys)
   })(function (key, label) {
-    exports[model + (label && _.capitalize(label) || '') + 'View'] = {
-      name: model + (label && ':' + label || '') + ':view',
-      description: model + (label && ':' + label || '') + ':view',
-      middleware: ['auth'],
+    exports[ model + (label ? _.capitalize(label) : '') + 'View' ] = {
+      name: model + (label ? ':' + label : '') + ':view',
+      description: model + (label ? ':' + label : '') + ':view',
+      middleware: [ 'auth' ],
       inputs: {
-        type: {required: true},
-        value: {required: true}
+        type: { required: true },
+        value: { required: true }
       },
 
       run: function (api, data, next) {
@@ -201,12 +203,12 @@ _.forOwn({
                 type: data.params.type
               }
             }
-            q.where[key] = data.params.value
+            q.where[ key ] = data.params.value
 
             return q
           })
           .then(function (q) {
-            return api.models[model].findOne(q)
+            return api.models[ model ].findOne(q)
           })
           .then(function (nomenclature) {
             if (!nomenclature) {

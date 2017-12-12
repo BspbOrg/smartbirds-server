@@ -1,6 +1,4 @@
-/**
- * Created by groupsky on 22.11.15.
- */
+var path = require('path')
 
 exports.default = {
   mailer: function (api) {
@@ -17,7 +15,7 @@ exports.default = {
       mailOptions: {
         from: 'no-reply@smartbirds.org'
       },
-      templates: __dirname + '/../templates'
+      templates: path.join(__dirname, '..', 'templates')
     }
   }
 }

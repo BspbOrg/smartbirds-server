@@ -16,20 +16,16 @@ module.exports = {
 function declareInputs (inputs) {
   return _.assign(inputs || {}, {
     since: {
-      required: false,
-      default: function () {
-        return 0
-      },
+      default: 0,
       formatter: inputHelpers.formatter.date,
-      validator: inputHelpers.validator.date
+      validator: inputHelpers.validator.date,
+      required: true
     },
     until: {
-      required: false,
-      default: function () {
-        return new Date().getTime()
-      },
+      default: function () { return new Date().getTime() },
       formatter: inputHelpers.formatter.date,
-      validator: inputHelpers.validator.date
+      validator: inputHelpers.validator.date,
+      required: true
     }
   })
 }

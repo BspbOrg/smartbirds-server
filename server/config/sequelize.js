@@ -76,12 +76,13 @@ exports.test = merge(exports.test)
 exports.production = merge(exports.production)
 
 function merge (overlayFn) {
+  var attrname
   var mergeObj = {}
-  for (var attrname in exports[ 'default' ].sequelize()) {
+  for (attrname in exports[ 'default' ].sequelize()) {
     mergeObj[ attrname ] = exports[ 'default' ].sequelize()[ attrname ]
   }
   if (typeof (overlayFn) !== 'undefined') {
-    for (var attrname in overlayFn.sequelize()) {
+    for (attrname in overlayFn.sequelize()) {
       mergeObj[ attrname ] = overlayFn.sequelize()[ attrname ]
     }
   }

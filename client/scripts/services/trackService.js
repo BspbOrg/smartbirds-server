@@ -1,7 +1,6 @@
 var simplify = require('simplify-js')
 
 require('../app').service('Track', /* @ngInject */function ($filter, $http) {
-  var service = this
   var authurl = $filter('authurl')
 
   this.get = function (trackUrl) {

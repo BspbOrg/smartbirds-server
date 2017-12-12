@@ -1,6 +1,5 @@
 'use strict'
 
-var _ = require('lodash')
 var Sequelize = require('sequelize')
 
 var tableName = 'FormHerps'

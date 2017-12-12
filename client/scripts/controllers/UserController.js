@@ -31,7 +31,7 @@ require('../app').controller('UserController', /* @ngInject */function ($scope, 
         Raven.captureMessage(JSON.stringify(error))
         ngToast.create({
           className: 'danger',
-          content: '<p>Не може да запише промените!</p><pre>' + (error && error.data && error.data.error || JSON.stringify(error, null, 2)) + '</pre>'
+          content: '<p>Не може да запише промените!</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
         })
         return $q.reject(error)
       })
@@ -56,7 +56,7 @@ require('../app').controller('UserController', /* @ngInject */function ($scope, 
         Raven.captureMessage(JSON.stringify(error))
         ngToast.create({
           className: 'danger',
-          content: '<p>Не може да смени паролата</p><pre>' + (error && error.data && error.data.error || JSON.stringify(error, null, 2)) + '</pre>'
+          content: '<p>Не може да смени паролата</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
         })
         return $q.reject(error)
       })

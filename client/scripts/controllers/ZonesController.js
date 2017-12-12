@@ -98,7 +98,7 @@ require('../app').controller('ZonesController', /* @ngInject */function ($scope,
       }
 
       if (filter && filter.status && filter.status.length) {
-        if (filter.status.indexOf(zone.status) == -1) return false
+        if (filter.status.indexOf(zone.status) === -1) return false
       }
 
       if (filter && filter.owner) {
@@ -121,14 +121,8 @@ require('../app').controller('ZonesController', /* @ngInject */function ($scope,
         }
       }
 
-      if (filter && filter.last_monitoring) {
-        var fidx = vc.monitorings.indexOf(filter.last_monitoring)
-        var zidx = vc.monitorings.indexOf(zone.last_monitoring)
-        if (fidx < zidx) return false
-      }
-
-      if (!user.isAdmin() && zone.status != 'free') {
-        if (user.getIdentity().id != zone.ownerId) return false
+      if (!user.isAdmin() && zone.status !== 'free') {
+        if (user.getIdentity().id !== zone.ownerId) return false
       }
       return true
     }

@@ -97,7 +97,7 @@ exports.zoneView = {
         return Promise.reject(new Error('zone not found'))
       }
 
-      if (!data.session.user.isAdmin && zone.ownerId != data.session.userId) {
+      if (!data.session.user.isAdmin && zone.ownerId !== data.session.userId) {
         data.connection.rawConnection.responseHttpCode = 401
         return Promise.reject(new Error('no permission'))
       }

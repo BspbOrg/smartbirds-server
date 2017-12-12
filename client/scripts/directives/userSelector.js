@@ -22,15 +22,14 @@ require('../app').directive('userSelector', /* @ngInject */function () {
     controller: /* @ngInject */function ($filter, $scope, $timeout, User) {
       var field = this
       var filter = $filter('filter')
-      var limitTo = $filter('limitTo')
 
       $scope.$watch('model || modelId', function (userId) {
         if ($scope.model) {
-          if (!field.value || field.value.id != $scope.model.id) {
+          if (!field.value || field.value.id !== $scope.model.id) {
             field.value = $scope.model
           }
         } else if ($scope.modelId) {
-          if (!field.value || field.value.id != $scope.modelId) {
+          if (!field.value || field.value.id !== $scope.modelId) {
             field.value = User.get({id: $scope.modelId})
             field.value.$promise.then(function (value) {
               field.value = false

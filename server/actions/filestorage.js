@@ -1,5 +1,3 @@
-var inputs = require('../helpers/inputs')
-
 exports.uploader = {
   name: 'uploader',
   description: 'uploader',

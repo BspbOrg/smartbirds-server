@@ -2,7 +2,7 @@ var path = require('path')
 
 exports[ 'default' ] = {
   general: function (api) {
-    var packageJSON = require(api.projectRoot + path.sep + 'package.json')
+    var packageJSON = require(path.join(api.projectRoot, 'package.json'))
 
     return {
       apiVersion: packageJSON.version,
@@ -40,20 +40,20 @@ exports[ 'default' ] = {
       rpcTimeout: 5000,
       // configuration for your actionhero project structure
       paths: {
-        'action': [ path.join(__dirname, '/../actions') ],
-        'task': [ path.join(__dirname, '/../tasks') ],
-        'public': [ path.join(__dirname, '/../../public') ],
-        'pid': [ path.join(__dirname, '/../../pids') ],
-        'log': [ path.join(__dirname, '/../../log') ],
-        'server': [ path.join(__dirname + '/../servers') ],
-        'cli': [ path.join(__dirname, '/../bin') ],
-        'initializer': [ path.join(__dirname, '/../initializers') ],
-        'plugin': [ path.join(__dirname, '/../../node_modules') ],
-        'locale': [ path.join(__dirname, '/../../i18n') ],
-        'model': [ path.join(__dirname, '/../models') ],
-        'view': [ path.join(__dirname, '/../views') ],
-        'fileupload': [ path.join(__dirname, '/../../uploads/tmp') ],
-        'monitoring': [ path.join(__dirname, '/../../uploads/files') ]
+        'action': [ path.join(__dirname, '..', 'actions') ],
+        'task': [ path.join(__dirname, '..', 'tasks') ],
+        'public': [ path.join(__dirname, '..', '..', 'public') ],
+        'pid': [ path.join(__dirname, '..', '..', 'pids') ],
+        'log': [ path.join(__dirname, '..', '..', 'log') ],
+        'server': [ path.join(__dirname, '..', 'servers') ],
+        'cli': [ path.join(__dirname, '..', 'bin') ],
+        'initializer': [ path.join(__dirname, '..', 'initializers') ],
+        'plugin': [ path.join(__dirname, '..', '..', 'node_modules') ],
+        'locale': [ path.join(__dirname, '..', '..', 'i18n') ],
+        'model': [ path.join(__dirname, '..', 'models') ],
+        'view': [ path.join(__dirname, '..', 'views') ],
+        'fileupload': [ path.join(__dirname, '..', '..', 'uploads', 'tmp') ],
+        'monitoring': [ path.join(__dirname, '..', '..', 'uploads', 'files') ]
       },
       // hash containing chat rooms you wish to be created at server boot
       startingChatRooms: {
@@ -78,7 +78,7 @@ exports.test = {
       paths: {
         'locale': [
           // require('os').tmpdir() + require('path').sep + 'locale'
-          path.join(__dirname, '/../../i18n')
+          path.join(__dirname, '..', '..', 'i18n')
         ]
       }
     }

@@ -14,16 +14,16 @@ require('../app').factory('FormCBM', /* @ngInject */function ($resource, ENDPOIN
   // instance methods
   angular.extend(FormCBM.prototype, {
     getUser: function () {
-      return db.users[this.user]
+      return db.users[ this.user ]
     },
     getZone: function () {
-      return db.zones[this.zone]
+      return db.zones[ this.zone ]
     },
     getSpecies: function () {
-      return db.species.birds && db.species.birds[this.species]
+      return db.species.birds && db.species.birds[ this.species ]
     },
     getPosition: function () {
-      return new google.maps.LatLng(this.latitude, this.longitude)
+      return { lat: this.latitude, lng: this.longitude }
     },
     preCopy: function () {
       delete this.species
@@ -35,9 +35,7 @@ require('../app').factory('FormCBM', /* @ngInject */function ($resource, ENDPOIN
   })
 
   // class methods
-  angular.extend(FormCBM, {
-
-  })
+  angular.extend(FormCBM, {})
 
   return FormCBM
 })

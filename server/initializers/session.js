@@ -61,9 +61,11 @@ module.exports = {
             api.session.load(data.connection, function (error, sessionData) {
               // if we have a session load check it and store it
               if (!error && sessionData) {
-                var csrfToken = data.connection.rawConnection.req && data.connection.rawConnection.req.headers['x-sb-csrf-token'] || data.params.csrfToken
+                var csrfToken = data.connection.rawConnection.req
+                  ? data.connection.rawConnection.req.headers['x-sb-csrf-token']
+                  : data.params.csrfToken
 
-                if (!csrfToken || csrfToken != sessionData.csrfToken) {
+                if (!csrfToken || csrfToken !== sessionData.csrfToken) {
                   data.csrfError = true
                   return next()
                 }
@@ -121,7 +123,7 @@ module.exports = {
               return next(new Error('Please log in to continue'))
             }
             if (!data.session.user.isAdmin) {
-              if (data.params.id === 'me' || data.params.id == data.session.userId) {
+              if (data.params.id === 'me' || data.params.id === data.session.userId) {
                 data.params.id = data.session.userId
                 next()
               } else {

@@ -18,7 +18,7 @@ module.exports = {
             return Promise.reject(new Error('record not found'))
           }
 
-          if (!data.session.user.isAdmin && record.userId != data.session.userId) {
+          if (!data.session.user.isAdmin && record.userId !== data.session.userId) {
             data.connection.rawConnection.responseHttpCode = 401
             return Promise.reject(new Error('no permission'))
           }
@@ -41,7 +41,8 @@ module.exports = {
           return record.apiData(api)
         })
         .then(function (res) {
-          return data.response.data = res
+          data.response.data = res
+          return res
         })
         .then(function () {
           next()
@@ -93,7 +94,8 @@ module.exports = {
           return record.apiData(api)
         })
         .then(function (res) {
-          return data.response.data = res
+          data.response.data = res
+          return res
         })
         .then(function () {
           next()
@@ -111,22 +113,24 @@ module.exports = {
         where: { id: data.params.id }
       }
 
-      api.models[ modelName ].findOne(q).then(function (record) {
-        if (!record) {
-          data.connection.rawConnection.responseHttpCode = 404
-          return next(new Error('record not found'))
-        }
+      api.models[ modelName ]
+        .findOne(q)
+        .then(function (record) {
+          if (!record) {
+            data.connection.rawConnection.responseHttpCode = 404
+            return next(new Error('record not found'))
+          }
 
-        if (!data.session.user.isAdmin && record.userId != data.session.userId) {
-          data.connection.rawConnection.responseHttpCode = 401
-          return next(new Error('no permission'))
-        }
+          if (!data.session.user.isAdmin && record.userId !== data.session.userId) {
+            data.connection.rawConnection.responseHttpCode = 401
+            return next(new Error('no permission'))
+          }
 
-        record.apiData(api).then(function (apiData) {
-          data.response.data = apiData
-          next()
+          record.apiData(api).then(function (apiData) {
+            data.response.data = apiData
+            next()
+          })
         })
-      })
         .catch(next)
     }
   },
@@ -141,7 +145,7 @@ module.exports = {
           return Promise.reject(new Error('record not found'))
         }
 
-        if (!data.session.user.isAdmin && record.userId != data.session.userId) {
+        if (!data.session.user.isAdmin && record.userId !== data.session.userId) {
           data.connection.rawConnection.responseHttpCode = 401
           return Promise.reject(new Error('no permission'))
         }
@@ -160,20 +164,21 @@ module.exports = {
 
   getSelect: function (modelName, prepareQuery, prepareCsv) {
     if (!prepareCsv) {
+      var skipFields = [
+        'observers',
+        'hash',
+        'user',
+        'speciesInfo',
+        'observationDateTime',
+        'endDateTime',
+        'startDateTime',
+        'imported',
+        'createdAt',
+        'updatedAt'
+      ]
       prepareCsv = function (api, record) {
         return _.omitBy(record, function (value, key) {
-          return [
-            'observers',
-            'hash',
-            'user',
-            'speciesInfo',
-            'observationDateTime',
-            'endDateTime',
-            'startDateTime',
-            'imported',
-            'createdAt',
-            'updatedAt'
-          ].indexOf(key.split('.')[ 0 ]) !== -1
+          return skipFields.indexOf(key.split('.')[ 0 ]) !== -1
         })
       }
     }
@@ -222,7 +227,7 @@ module.exports = {
                       speciesNotes: (record.speciesNotes || '').replace(/[\n\r]+/g, ' '),
                       species: record[ 'speciesInfo.labelLa' ] + ' | ' + record[ 'speciesInfo.labelBg' ],
                       speciesEn: record[ 'speciesInfo.labelLa' ] + ' | ' + record[ 'speciesInfo.labelEn' ],
-                      pictures: (record.pictures && JSON.parse(record.pictures) || []).map(function (pic) {
+                      pictures: (record.pictures ? JSON.parse(record.pictures) : []).map(function (pic) {
                         return pic.url && pic.url.split('/').slice(-1)[ 0 ] + '.jpg'
                       }).filter(function (val) {
                         return val
@@ -253,9 +258,10 @@ module.exports = {
                   })
                 })
               default:
-                return Promise.map(result.rows, function (model) {
-                  return model.apiData(api)
-                })
+                return Promise
+                  .map(result.rows, function (model) {
+                    return model.apiData(api)
+                  })
                   .then(function (data) {
                     return {
                       count: result.count,
@@ -291,9 +297,7 @@ module.exports = {
                   archive.pipe(output)
 
                   archive.append(response.csv, { name: modelName + '.csv' })
-                  var fileCnt = 0
                   var fileMap = {}
-                  var i, l, record
 
                   function appendFile (filename, id) {
                     if (!filename || filename in fileMap || id in fileMap) return
@@ -305,7 +309,7 @@ module.exports = {
                     api.log('adding %s as %s', 'debug', id, filename)
 
                     return new Promise(function (resolve, reject) {
-                      api.filestorage.get(id, function (err, stream, stat) {
+                      api.filestorage.get(id, function (err, stream) {
                         if (err) {
                           api.log('storage error:', 'error', err)
                           return reject(err)
@@ -316,20 +320,20 @@ module.exports = {
                     })
                   }
 
-                  Promise.map(response.data, function (record) {
-                    return Promise.all([
-                      Promise.map(record.pictures && record.pictures.split(', ') || [], function (picture) {
-                        return Promise.resolve(appendFile(picture)).catch(function () {
-                        })
-                      }),
-                      record.trackId && appendFile(record.track, record.trackId)
-                    ])
-                  })
+                  Promise
+                    .map(response.data, function (record) {
+                      return Promise.all([
+                        Promise.map(record.pictures ? record.pictures.split(', ') : [], function (picture) {
+                          return Promise.resolve(appendFile(picture)).catch(function () {
+                          })
+                        }),
+                        record.trackId && appendFile(record.track, record.trackId)
+                      ])
+                    })
                     .then(function () {
                       archive.finalize()
                     }, reject)
                 })
-                break
               default:
                 return response
             }
@@ -352,7 +356,8 @@ module.exports = {
                 data.toRender = false
                 break
               default:
-                return data.response = response
+                data.response = response
+                return response
             }
           }).then(function () {
             next()

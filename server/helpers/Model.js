@@ -122,7 +122,7 @@ function Model (modelName_, fields_, foreignKeyDefs) {
   this.getEditInputs = function () {
     var editInputs = { id: { required: true } }
     for (var prop in fields) {
-      if (prop == 'createdAt' || prop == 'updatedAt' || prop == 'imported') { continue }
+      if (prop === 'createdAt' || prop === 'updatedAt' || prop === 'imported') { continue }
       editInputs[ prop ] = {}
     }
 
@@ -132,8 +132,8 @@ function Model (modelName_, fields_, foreignKeyDefs) {
   this.getInsertInputs = function () {
     var insertInputs = {}
     for (var prop in fields) {
-      if (prop == 'createdAt' || prop == 'updatedAt' || prop == 'imported') { continue }
-      insertInputs[ prop ] = { required: fields[ prop ].required && prop != 'user' }
+      if (prop === 'createdAt' || prop === 'updatedAt' || prop === 'imported') { continue }
+      insertInputs[ prop ] = { required: fields[ prop ].required && prop !== 'user' }
     }
 
     return insertInputs
@@ -166,7 +166,6 @@ function Model (modelName_, fields_, foreignKeyDefs) {
       instanceMethods: {
         calculateHash: Model.generateCalcHash(fields),
         apiData: function (api) {
-          var data = {}
           var self = this
           return Promise.props(_.mapValues(fields, function (field, name) {
             if (_.isString(field)) field = { type: field }
@@ -177,12 +176,12 @@ function Model (modelName_, fields_, foreignKeyDefs) {
                     case 'nomenclature':
                       {
                         var res = []
-                        var bg = self[ name + 'Bg' ] && self[ name + 'Bg' ].split('|').map(function (val) {
+                        var bg = self[ name + 'Bg' ] ? self[ name + 'Bg' ].split('|').map(function (val) {
                           return val.trim()
-                        }) || []
-                        var en = self[ name + 'En' ] && self[ name + 'En' ].split('|').map(function (val) {
+                        }) : []
+                        var en = self[ name + 'En' ] ? self[ name + 'En' ].split('|').map(function (val) {
                           return val.trim()
-                        }) || []
+                        }) : []
                         while (bg.length && en.length) {
                           res.push({
                             label: {
@@ -202,12 +201,12 @@ function Model (modelName_, fields_, foreignKeyDefs) {
                   switch (field.relation.model) {
                     case 'nomenclature':
                       {
-                        return (self[ name + 'Bg' ] || self[ name + 'En' ]) && {
+                        return (self[ name + 'Bg' ] || self[ name + 'En' ]) ? {
                           label: {
                             bg: self[ name + 'Bg' ],
                             en: self[ name + 'En' ]
                           }
-                        } || null
+                        } : null
                       }
                     case 'species':
                       {
@@ -257,10 +256,10 @@ function Model (modelName_, fields_, foreignKeyDefs) {
                         }
                         if (!_.isArray(val)) val = [ val ]
                         self[ name + 'Bg' ] = _.reduce(val, function (sum, v) {
-                          return sum + (sum && ' | ' || '') + v.label.bg
+                          return sum + (sum ? ' | ' : '') + v.label.bg
                         }, '')
                         self[ name + 'En' ] = _.reduce(val, function (sum, v) {
-                          return sum + (sum && ' | ' || '') + v.label.en
+                          return sum + (sum ? ' | ' : '') + v.label.en
                         }, '')
 
                         break
@@ -486,8 +485,7 @@ function generateCalcHash (fields) {
         .join(',') + '}'
     var hash = crypto.createHash('sha256')
     hash.update(serialized)
-    var dig = hash.digest('hex')
-    return dig
+    return hash.digest('hex')
   }
 }
 

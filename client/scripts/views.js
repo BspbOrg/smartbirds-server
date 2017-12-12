@@ -1,8 +1,8 @@
 /**
  * Created by groupsky on 03.12.15.
  */
-
 if (process.env.NODE_ENV === 'production') {
+  var angular = require('angular')
   var bulk = require('bulk-require')
 
   require('./app').run(/* @ngInject */function ($log, $templateCache) {
@@ -18,6 +18,6 @@ if (process.env.NODE_ENV === 'production') {
       }
     }
 
-    registerViews('/views', bulk(__dirname + '/../views', ['**/*.html']))
+    registerViews('/views', bulk(__dirname + '/../views', [ '**/*.html' ])) // eslint-disable-line no-path-concat
   })
 }
