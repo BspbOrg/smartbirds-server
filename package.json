@@ -30,6 +30,7 @@
     "sq": "sequelize",
     "mocha": "NODE_ENV=test PROJECT_ROOT=`pwd`/server mocha --globals config",
     "less": "lessc",
+    "pretest": "standard",
     "test": "npm run mocha --",
     "test:watch": "npm run mocha -- --reporter min --watch -G --full-trace",
     "dev": "docker-compose start && parallelshell 'npm run budo' 'npm run build:css:watch'",
