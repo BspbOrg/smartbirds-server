@@ -31,6 +31,18 @@
               </a>
             </li>
             <li>
+              <a ui-sref="herptiles" class="btn btn-default btn-lg" translate-attr="{title: 'FORM_HERPTILES_LONG'}">
+                <i class="icon icon-herptiles"></i>
+                <span class="network-name" translate>FORM_HERPTILES_SHORT</span>
+              </a>
+            </li>
+            <li>
+              <a ui-sref="mammals" class="btn btn-default btn-lg" translate-attr="{title: 'FORM_MAMMALS_LONG'}">
+                <i class="icon icon-mammals"></i>
+                <span class="network-name" translate>FORM_MAMMALS_SHORT</span>
+              </a>
+            </li>
+            <li>
               <a ui-sref="ciconia" class="btn btn-default btn-lg" translate-attr="{title: 'FORM_CICONIA_LONG'}">
                 <i class="icon icon-ciconia"></i>
                 <span class="network-name" translate>FORM_CICONIA_SHORT</span>
@@ -165,8 +177,12 @@
         <hr class="section-heading-spacer">
         <div class="clearfix"></div>
         <h2 class="section-heading" translate>PUBLIC_HOME_FUNDING_TITLE</h2>
-        <p class="lead text-justify" translate translate-values="{linkStart: '<a href=\'http://bg03.moew.government.bg/\' target=\'_blank\'>', linkEnd: '</a>'}">PUBLIC_HOME_FUNDING_BODY1</p>
-        <p class="lead text-justify" translate translate-values="{linkStart: '<a href=\'http://www.eagleforests.org\' target=\'_blank\'>', linkEnd: '</a>'}">PUBLIC_HOME_FUNDING_BODY2</p>
+        <p class="lead text-justify" translate
+           translate-values="{linkStart: '<a href=\'http://bg03.moew.government.bg/\' target=\'_blank\'>', linkEnd: '</a>'}">
+          PUBLIC_HOME_FUNDING_BODY1</p>
+        <p class="lead text-justify" translate
+           translate-values="{linkStart: '<a href=\'http://www.eagleforests.org\' target=\'_blank\'>', linkEnd: '</a>'}">
+          PUBLIC_HOME_FUNDING_BODY2</p>
       </div>
     </div>
 
@@ -199,7 +215,9 @@
           </li>
         </ul>
         <p class="copyright text-muted small">
-          Copyright &copy; <a href="http://bspb.org" target="_blank" translate>COPYRIGHT_OWNER</a> 2015-2017. | <a href ng-click="showTos()" translate>TOS_LABEL</a>
+          Copyright &copy; <a href="http://bspb.org" target="_blank" translate>COPYRIGHT_OWNER</a> 2015-2017. | <a href
+                                                                                                                   ng-click="showTos()"
+                                                                                                                   translate>TOS_LABEL</a>
         </p>
       </div>
     </div>

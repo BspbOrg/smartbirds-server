@@ -3,32 +3,32 @@ var forms = require('./forms')
 var module = require('../app')
 
 module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRouterProvider) {
-  $locationProvider.html5Mode(true)
+    $locationProvider.html5Mode(true)
 
-  $urlRouterProvider
+    $urlRouterProvider
       .otherwise('/')
 
     /// ///////////////////////
     // State Configurations //
     /// ///////////////////////
 
-  var resolveUser = {
-    user: /* @ngInject */function ($rootScope, user) {
-      return user.resolve(true).then(function (identity) {
-        $rootScope.$user = user
-        return user
-      }, function () {
-        return undefined
-      })
+    var resolveUser = {
+      user: /* @ngInject */function ($rootScope, user) {
+        return user.resolve(true).then(function (identity) {
+          $rootScope.$user = user
+          return user
+        }, function () {
+          return undefined
+        })
+      }
     }
-  }
 
     // Use $stateProvider to configure your states.
-  $stateProvider
+    $stateProvider
 
-      /// ///////
-      // Home //
-      /// ///////
+    /// ///////
+    // Home //
+    /// ///////
       .state('home', {
         url: '/',
         templateUrl: '/views/home.html',
@@ -54,6 +54,20 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
         url: '/herp',
         templateUrl: '/views/home-herp.html',
         title: 'ЗВБ',
+        resolve: resolveUser
+      })
+
+      .state('herptiles', {
+        url: '/herptiles',
+        templateUrl: '/views/home-herptiles.html',
+        title: 'ЗиВ',
+        resolve: resolveUser
+      })
+
+      .state('mammals', {
+        url: '/mammals',
+        templateUrl: '/views/home-mammals.html',
+        title: 'Бозайници',
         resolve: resolveUser
       })
 
@@ -118,7 +132,7 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
         controller: 'MainController',
         controllerAs: 'main',
         data: {
-          roles: ['user']
+          roles: [ 'user' ]
         },
         resolve: {
           authorize: /* @ngInject */function (authorization, localization) {
@@ -206,81 +220,81 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
         url: '/monitoring'
       })
 
-  angular.forEach(forms, function (formDef, formName) {
+    angular.forEach(forms, function (formDef, formName) {
+      $stateProvider
+
+      /// ////////
+      // Monitoring List //
+      /// ////////
+        .state('auth.monitoring.' + formName, {
+          url: '/' + formName + '?' + (formDef || []).filters.join('&'),
+          views: {
+            'content@auth': {
+              templateUrl: '/views/monitorings/list_' + formName + '.html',
+              controller: 'MonitoringController',
+              controllerAs: 'monitoringController'
+            }
+          },
+          resolve: {
+            model: [ formDef.model, function (model) {
+              return model
+            } ],
+            formName: function () {
+              return formName
+            },
+            formDef: function () {
+              return formDef
+            }
+          }
+        })
+
+        /// ////////
+        // Monitoring Detail //
+        /// ////////
+        .state('auth.monitoring.' + formName + '.detail', {
+          url: '/{id:int}',
+          views: {
+            'content@auth': {
+              templateUrl: '/views/monitorings/' + formName + '.html',
+              controller: 'MonitoringDetailController',
+              controllerAs: 'monitoringDetailController'
+            }
+          }
+        })
+
+        /// ////////
+        // Monitoring New //
+        /// ////////
+        .state('auth.monitoring.' + formName + '.new', {
+          url: '/new',
+          views: {
+            'content@auth': {
+              templateUrl: '/views/monitorings/' + formName + '.html',
+              controller: 'MonitoringDetailController',
+              controllerAs: 'monitoringDetailController'
+            }
+          }
+        })
+
+        /// ////////
+        // Monitoring Copy //
+        /// ////////
+        .state('auth.monitoring.' + formName + '.copy', {
+          url: '/copy?{fromId:int}',
+          views: {
+            'content@auth': {
+              templateUrl: '/views/monitorings/' + formName + '.html',
+              controller: 'MonitoringDetailController',
+              controllerAs: 'monitoringDetailController'
+            }
+          }
+        })
+    })
     $stateProvider
 
     /// ////////
-    // Monitoring List //
+    // Zones //
     /// ////////
-      .state('auth.monitoring.' + formName, {
-        url: '/' + formName + '?' + (formDef || []).filters.join('&'),
-        views: {
-          'content@auth': {
-            templateUrl: '/views/monitorings/list_' + formName + '.html',
-            controller: 'MonitoringController',
-            controllerAs: 'monitoringController'
-          }
-        },
-        resolve: {
-          model: [formDef.model, function (model) {
-            return model
-          }],
-          formName: function () {
-            return formName
-          },
-          formDef: function () {
-            return formDef
-          }
-        }
-      })
-
-      /// ////////
-      // Monitoring Detail //
-      /// ////////
-      .state('auth.monitoring.' + formName + '.detail', {
-        url: '/{id:int}',
-        views: {
-          'content@auth': {
-            templateUrl: '/views/monitorings/' + formName + '.html',
-            controller: 'MonitoringDetailController',
-            controllerAs: 'monitoringDetailController'
-          }
-        }
-      })
-
-      /// ////////
-      // Monitoring New //
-      /// ////////
-      .state('auth.monitoring.' + formName + '.new', {
-        url: '/new',
-        views: {
-          'content@auth': {
-            templateUrl: '/views/monitorings/' + formName + '.html',
-            controller: 'MonitoringDetailController',
-            controllerAs: 'monitoringDetailController'
-          }
-        }
-      })
-
-      /// ////////
-      // Monitoring Copy //
-      /// ////////
-      .state('auth.monitoring.' + formName + '.copy', {
-        url: '/copy?{fromId:int}',
-        views: {
-          'content@auth': {
-            templateUrl: '/views/monitorings/' + formName + '.html',
-            controller: 'MonitoringDetailController',
-            controllerAs: 'monitoringDetailController'
-          }
-        }
-      })
-  })
-  $stateProvider
-
-      /// ////////
-      // Zones //
-      /// ////////
       .state('auth.zones', {
         url: '/zones?status&{location:int}&{owner:int}&zone',
         views: {
@@ -357,7 +371,7 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
           }
         }
       })
-})
+  })
   .run(/* @ngInject */function ($rootScope, $state, $stateParams, authorization, user) {
     $rootScope.$state = $state
     $rootScope.$stateParams = $stateParams
