@@ -83,6 +83,7 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($f
         className: 'success',
         content: 'Deleted ' + rows.length + ' records'
       })
+      controller.selectedRows = []
     }, function (error) {
       Raven.captureMessage(JSON.stringify(error))
       ngToast.create({
