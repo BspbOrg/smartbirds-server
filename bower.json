@@ -53,6 +53,9 @@
     "angular-translate-loader-url": "^2.16.0"
   },
   "resolutions": {
-    "font-awesome": "~4.5.0"
+    "font-awesome": "~4.5.0",
+    "angular": "~1.6.7",
+    "angular-sanitize": "~1.6.7",
+    "angular-animate": "~1.6.7"
   }
 }
