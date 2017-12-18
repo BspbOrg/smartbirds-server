@@ -59,16 +59,6 @@ module.exports = {
     filters: [
       'location',
       '{user:int}',
-      'species',
-      'from_date',
-      'to_date'
-    ]
-  },
-  ciconia: {
-    model: 'FormCiconia',
-    filters: [
-      'location',
-      '{user:int}',
       'from_date',
       'to_date'
     ]
