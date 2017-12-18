@@ -9,7 +9,7 @@ module.exports = [
       email: 'user@smartbirds.com',
       firstName: 'Regular',
       lastName: 'User',
-      isAdmin: false,
+      role: 'user',
       passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC'
     }
   },
@@ -19,7 +19,7 @@ module.exports = [
       email: 'admin@smartbirds.com',
       firstName: 'Admin',
       lastName: 'User',
-      isAdmin: true,
+      role: 'admin',
       passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC'
     }
   },
@@ -29,7 +29,7 @@ module.exports = [
       email: 'user2@smartbirds.com',
       firstName: 'Second',
       lastName: 'User',
-      isAdmin: false,
+      role: 'user',
       passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC'
     }
   }

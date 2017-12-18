@@ -12,7 +12,6 @@ exports.userCreate = {
     password: {required: true},
     firstName: {required: true},
     lastName: {required: true},
-    isAdmin: {default: false},
     address: {required: false},
     birdsKnowledge: {required: false},
     city: {required: false},
@@ -22,12 +21,18 @@ exports.userCreate = {
     phone: {required: false},
     postcode: {required: false},
     profile: {required: false},
-    language: {required: false}
+    language: {required: false},
+    role: {default: 'user'},
+    forms: {required: false}
   },
 
   run: function (api, data, next) {
     var user = api.models.user.build(data.params, this.inputs)
-    user.isAdmin = !!(data.session && data.session.user.isAdmin && data.params.isAdmin)
+    if (data.session && data.session.user.isAdmin) {
+      user.role = data.params.role
+    } else {
+      user.role = 'user'
+    }
     user.lastLoginAt = null
     user.imported = false
     user.updatePassword(data.params.password, function (error) {
@@ -116,11 +121,11 @@ exports.userReset = {
           if (error) return next(error)
 
           return user.save()
-              .then(function (userObj) {
-                data.response.data = userObj.apiData(api)
-                next()
-              })
-              .catch(next)
+            .then(function (userObj) {
+              data.response.data = userObj.apiData(api)
+              next()
+            })
+            .catch(next)
         })
       })
     })
@@ -164,7 +169,7 @@ exports.userEdit = {
     password: {required: false},
     firstName: {required: false},
     lastName: {required: false},
-    isAdmin: {required: false},
+    role: {required: false},
 
     address: {required: false},
     birdsKnowledge: {required: false},
@@ -184,18 +189,20 @@ exports.userEdit = {
         data.connection.rawConnection.responseHttpCode = 404
         return next(new Error('Няма такъв потребител'))
       }
-        // if (data.params.password) {
-        //  user.updatePassword(data.params.password, function (error) {
-        //    if (error) {
-        //      return callback(error);
-        //    }
-        //    user.save().then(function () {
-        //      next();
-        //    }).catch(next);
-        //  });
-        // }
+      // if (data.params.password) {
+      //  user.updatePassword(data.params.password, function (error) {
+      //    if (error) {
+      //      return callback(error);
+      //    }
+      //    user.save().then(function () {
+      //      next();
+      //    }).catch(next);
+      //  });
+      // }
       user.apiUpdate(data.params)
-      if (data.session.user.isAdmin && 'isAdmin' in data.params) { user.isAdmin = data.params.isAdmin }
+      if (data.session.user.isAdmin && 'role' in data.params) {
+        user.role = data.params.role
+      }
       user.save().then(function () {
         data.response.data = user.apiData(api)
         next()
@@ -209,7 +216,7 @@ exports.userList = {
   name: 'user:list',
   description: 'List users. Requires admin role',
   outputExample: {
-    data: [{id: 1, email: 'user@example.com', firstName: 'John', lastName: 'Doe', isAdmin: false}],
+    data: [{id: 1, email: 'user@example.com', firstName: 'John', lastName: 'Doe', role: 'user'}],
     count: 123
   },
   middleware: ['auth'],
@@ -234,7 +241,9 @@ exports.userList = {
       }
     }
 
-    if (limit !== -1) { q.limit = limit }
+    if (limit !== -1) {
+      q.limit = limit
+    }
 
     if (data.params.q) {
       var vals = ('' + data.params.q).split(' ')
@@ -280,7 +289,9 @@ exports.userList = {
       data.response.data = result.rows.map(function (user) {
         return user.apiData(api)
       })
-      if (result.count > limit + offset) { data.connection.rawConnection.responseHttpCode = 206 }
+      if (result.count > limit + offset) {
+        data.connection.rawConnection.responseHttpCode = 206
+      }
       next()
     }).catch(next)
   }

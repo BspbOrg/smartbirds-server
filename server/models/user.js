@@ -26,10 +26,16 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: true
     },
-    'isAdmin': {
-      type: DataTypes.BOOLEAN,
+    isAdmin: {
+      type: DataTypes.VIRTUAL,
+      get: function () {
+        return this.getDataValue('role') === 'admin'
+      }
+    },
+    role: {
+      type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: false
+      defaultValue: 'user'
     },
     imported: {
       type: DataTypes.BOOLEAN,
@@ -50,7 +56,8 @@ module.exports = function (sequelize, DataTypes) {
     notes: DataTypes.TEXT,
     phone: DataTypes.TEXT,
     postcode: DataTypes.TEXT,
-    profile: DataTypes.TEXT
+    profile: DataTypes.TEXT,
+    forms: DataTypes.TEXT
   }, {
     indexes: [
       {
@@ -122,7 +129,6 @@ module.exports = function (sequelize, DataTypes) {
           firstName: this.firstName,
           lastName: this.lastName,
           lastLoginAt: this.lastLoginAt,
-          isAdmin: this.isAdmin,
           address: this.address,
           birdsKnowledge: this.birdsKnowledge,
           city: this.city,
@@ -132,7 +138,9 @@ module.exports = function (sequelize, DataTypes) {
           phone: this.phone,
           postcode: this.postcode,
           profile: this.profile,
-          language: this.language
+          language: this.language,
+          role: this.role,
+          isAdmin: !!(this.role && this.role === 'admin')
         }
       },
 
