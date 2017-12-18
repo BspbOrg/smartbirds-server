@@ -70,7 +70,7 @@ describe('Action user:', function () {
 
     setup.describeAsRoles([ 'Guest', 'User' ], function (runAction) {
       it('cannot create admin', function () {
-        return runAction('user:create', _.assign({}, user, { isAdmin: true })).then(function (response) {
+        return runAction('user:create', _.assign({}, user, { role: 'admin' })).then(function (response) {
           should.not.exist(response.error)
           response.data.isAdmin.should.be.false()
         })
@@ -79,7 +79,7 @@ describe('Action user:', function () {
 
     setup.describeAsAdmin(function (runAction) {
       it('can create admin', function () {
-        return runAction('user:create', _.assign({}, user, { isAdmin: true }), function (response) {
+        return runAction('user:create', _.assign({}, user, { role: 'admin' }), function (response) {
           should.not.exist(response.error)
           response.data.isAdmin.should.be.true()
         })
@@ -270,7 +270,7 @@ describe('Action user:', function () {
         })
       })
       it('can promote to admin', function () {
-        return runAction('user:edit', { id: userId, isAdmin: true }).then(function (response) {
+        return runAction('user:edit', { id: userId, role: 'admin' }).then(function (response) {
           should(response).not.have.property('error')
           response.should.have.property('data')
           response.data.should.have.property('isAdmin').and.be.true()
@@ -320,14 +320,14 @@ describe('Action user:', function () {
         })
       })
       it('cannot self-promote to admin', function () {
-        return runAction('user:edit', { id: userId, isAdmin: true }).then(function (response) {
+        return runAction('user:edit', { id: userId, role: 'admin' }).then(function (response) {
           should(response).not.have.property('error')
           response.should.have.property('data')
           response.data.should.have.property('isAdmin').and.be.false()
         })
       })
       it('cannot me-promote to admin', function () {
-        return runAction('user:edit', { id: 'me', isAdmin: true }).then(function (response) {
+        return runAction('user:edit', { id: 'me', role: 'admin' }).then(function (response) {
           should(response).not.have.property('error')
           response.should.have.property('data')
           response.data.should.have.property('isAdmin').and.be.false()
