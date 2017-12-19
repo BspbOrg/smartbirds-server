@@ -170,6 +170,7 @@ exports.userEdit = {
     firstName: {required: false},
     lastName: {required: false},
     role: {required: false},
+    forms: {required: false},
 
     address: {required: false},
     birdsKnowledge: {required: false},

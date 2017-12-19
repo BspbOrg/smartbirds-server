@@ -24,11 +24,6 @@
           confirm-message-window="{{'USER_DETAIL_UNSAVED_DATA_ALERT_TITLE' | translate}}"
           confirm-message-route="{{'USER_DETAIL_UNSAVED_DATA_ALERT_MESSAGE' | translate}}">
 
-      <field ng-if="$user.isAdmin()" name="admin" type="bool"
-             label="{{'USER_DETAIL_ADMINISTRATOR' | translate}}"
-             model="user.data.isAdmin"
-      ></field>
-
       <field name="firstName" type="text" required="true"
              label="{{'USER_DETAIL_FIRST_NAME' | translate}}"
              model="user.data.firstName"
@@ -105,6 +100,24 @@
       <field name="notes" type="memo"
              label="{{'USER_DETAIL_NOTES' | translate}}"
              model="user.data.notes"></field>
+
+
+      <div ng-if="$user.isAdmin()">
+        <hr>
+
+        <h3 translate>USER_DETAIL_RIGHTS</h3>
+
+        <field name="role" type="select" disabled="!$user.isAdmin()"
+               choices="[{id: 'user', label: 'USER_DETAIL_ROLE_USER'}, {id: 'moderator', label: 'USER_DETAIL_ROLE_MODERATOR'}, {id: 'admin', label: 'USER_DETAIL_ROLE_ADMIN'}]"
+               label="{{'USER_DETAIL_ROLE' | translate}}"
+               model="user.data.role"></field>
+
+        <field name="forms" type="checkbox-group"
+               disabled="user.data.role !== 'moderator'"
+               choices="user.moderatorForms"
+               label="{{'USER_DETAIL_FORMS' | translate}}"
+               model="user.data.forms"></field>
+      </div>
 
       <hr>
 
