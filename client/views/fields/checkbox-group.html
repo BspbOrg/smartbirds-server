@@ -1,0 +1,13 @@
+<sb-include src="/views/fields/container.html">
+  <div ng-repeat="value in field.values">
+    <label>
+      <input type="checkbox"
+             id="{{::field.name}}"
+             name="{{::field.name}}"
+             value="{{value.id}}"
+             ng-model="field.checkboxModel[value.id]"
+             ng-disabled="field.disabled">
+      {{value.label}}
+    </label>
+  </div>
+</sb-include>

@@ -3,6 +3,7 @@
  */
 
 var angular = require('angular')
+var forms = require('../configs/forms')
 
 require('../app').controller('UserController', /* @ngInject */function ($scope, $state, $stateParams, $q, $timeout, api, ngToast, user, User, Raven) {
   var controller = this
@@ -11,6 +12,12 @@ require('../app').controller('UserController', /* @ngInject */function ($scope, 
 
   controller.data = id ? User.get({id: id}) : new User()
   controller.data.id = id
+
+  controller.moderatorForms = []
+
+  angular.forEach(forms, function (formDef, formName) {
+    controller.moderatorForms.push({id: formName, label: formDef.model})
+  })
 
   controller.save = function () {
     $q.resolve(controller.data)

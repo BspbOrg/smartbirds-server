@@ -46,6 +46,22 @@ require('../app').directive('field', /* @ngInject */function ($q) {
       field.type = $attrs.type
       field.required = angular.isDefined($attrs.required)
       field.readonly = 'readonly' in $attrs ? (angular.isDefined($attrs.readonly) ? $parse($attrs.readonly)($scope.$parent) : true) : false
+
+      if ('disabled' in $attrs) {
+        if (angular.isDefined($attrs.disabled)) {
+          var disabledGetter = $parse($attrs.disabled).bind(null, $scope.$parent)
+          field.disabled = disabledGetter()
+          $scope.$parent.$watch(disabledGetter, function (value) {
+            field.disabled = value
+          })
+        } else {
+          field.disabled = true
+        }
+
+      } else {
+        field.disabled = false
+      }
+
       field.autocomplete = $attrs.autocomplete
       field.order = function (item) {
         return item && item.toString().replace(/\d+/g, function (digits) {
@@ -68,110 +84,138 @@ require('../app').directive('field', /* @ngInject */function ($q) {
 
       switch ($attrs.type) {
         case 'date':
-        case 'time':
-          {
-            $scope.$watch('field.model', function () {
-              if (angular.isString(field.model)) {
-                field.model = moment(field.model).toDate()
-              }
-            })
-            break
-          }
-        case 'species':
-          {
-            field.values = []
-            angular.forEach(db.species[field.nomenclature], function (item) {
-              field.values.push(item)
-            })
+        case 'time': {
+          $scope.$watch('field.model', function () {
+            if (angular.isString(field.model)) {
+              field.model = moment(field.model).toDate()
+            }
+          })
+          break
+        }
+        case 'species': {
+          field.values = []
+          angular.forEach(db.species[field.nomenclature], function (item) {
+            field.values.push(item)
+          })
 
-            $scope.$watch('field.model', function () {
-              if (field.model) {
-                if (angular.isArray(field.model)) {
-                  field.model.forEach(function (item, idx, array) {
-                    if (angular.isObject(item) && !(item instanceof Species)) {
-                      array[idx] = db.species[field.nomenclature][item.label.bg] || new Species(item)
-                    }
-                  })
-                } else if (angular.isObject(field.model)) {
-                  if (!(field.model instanceof Species)) {
-                    field.model = db.species[field.nomenclature][field.model.label.bg] || new Species(field.model)
+          $scope.$watch('field.model', function () {
+            if (field.model) {
+              if (angular.isArray(field.model)) {
+                field.model.forEach(function (item, idx, array) {
+                  if (angular.isObject(item) && !(item instanceof Species)) {
+                    array[idx] = db.species[field.nomenclature][item.label.bg] || new Species(item)
                   }
+                })
+              } else if (angular.isObject(field.model)) {
+                if (!(field.model instanceof Species)) {
+                  field.model = db.species[field.nomenclature][field.model.label.bg] || new Species(field.model)
                 }
               }
-            })
+            }
+          })
 
-            break
-          }
-        case 'user':
-          {
-            field.values = []
-            angular.forEach(db.users, function (item) {
-              field.values.push(item)
-            })
-            break
-          }
-        case 'location':
-          {
-            field.values = []
-            angular.forEach(db.locations, function (item) {
-              field.values.push(item)
-            })
-            break
-          }
+          break
+        }
+        case 'user': {
+          field.values = []
+          angular.forEach(db.users, function (item) {
+            field.values.push(item)
+          })
+          break
+        }
+        case 'location': {
+          field.values = []
+          angular.forEach(db.locations, function (item) {
+            field.values.push(item)
+          })
+          break
+        }
         case 'single-choice':
-        case 'multiple-choice':
-          {
-            field.values = []
-            angular.forEach(db.nomenclatures[field.nomenclature], function (item) {
-              field.values.push(item)
-            })
+        case 'multiple-choice': {
+          field.values = []
+          angular.forEach(db.nomenclatures[field.nomenclature], function (item) {
+            field.values.push(item)
+          })
 
-            $scope.$watch('field.model', function () {
-              if (field.model) {
-                if (angular.isArray(field.model)) {
-                  field.model.forEach(function (item, idx, array) {
-                    if (angular.isObject(item) && !(item instanceof Nomenclature)) {
-                      array[idx] = db.nomenclatures[field.nomenclature][item.label.bg] || new Nomenclature(item)
-                    }
-                  })
-                } else if (angular.isObject(field.model)) {
-                  if (!(field.model instanceof Nomenclature)) {
-                    field.model = db.nomenclatures[field.nomenclature][field.model.label.bg] || new Nomenclature(field.model)
+          $scope.$watch('field.model', function () {
+            if (field.model) {
+              if (angular.isArray(field.model)) {
+                field.model.forEach(function (item, idx, array) {
+                  if (angular.isObject(item) && !(item instanceof Nomenclature)) {
+                    array[idx] = db.nomenclatures[field.nomenclature][item.label.bg] || new Nomenclature(item)
                   }
+                })
+              } else if (angular.isObject(field.model)) {
+                if (!(field.model instanceof Nomenclature)) {
+                  field.model = db.nomenclatures[field.nomenclature][field.model.label.bg] || new Nomenclature(field.model)
                 }
               }
-            })
+            }
+          })
 
-            break
-          }
-        case 'zone':
-          {
-            field.values = []
-            angular.forEach(db.zones, function (zone) {
-              if (zone.status !== 'owned') return
-              field.values.push(zone)
-            })
-            field.values.sort(function (a, b) {
-              return a.id < b.id ? -1 : a.id > b.id ? +1 : 0
-            })
-            break
-          }
+          break
+        }
+        case 'zone': {
+          field.values = []
+          angular.forEach(db.zones, function (zone) {
+            if (zone.status !== 'owned') return
+            field.values.push(zone)
+          })
+          field.values.sort(function (a, b) {
+            return a.id < b.id ? -1 : a.id > b.id ? +1 : 0
+          })
+          break
+        }
 
-        case 'select':
-          {
-            field.values = $parse($attrs.choices)($scope.$parent).map(function (el) {
-              if (typeof el !== 'object') {
-                var translated = $filter('translate')(el)
-                return {
-                  id: translated,
-                  label: translated
-                }
+        case 'select': {
+          field.values = $parse($attrs.choices)($scope.$parent).map(function (el) {
+            if (typeof el !== 'object') {
+              var translated = $filter('translate')(el)
+              return {
+                id: translated,
+                label: translated
               }
-              el.label = $filter('translate')(el.label)
-              return el
+            }
+            el.label = $filter('translate')(el.label)
+            return el
+          })
+          break
+        }
+
+        case 'checkbox-group': {
+          field.values = $parse($attrs.choices)($scope.$parent).map(function (el) {
+            if (typeof el !== 'object') {
+              var translated = $filter('translate')(el)
+              return {
+                id: translated,
+                label: translated
+              }
+            }
+            el.label = $filter('translate')(el.label)
+            return el
+          })
+
+          field.checkboxModel = {}
+
+          $scope.$watch('field.model', function () {
+            if (angular.isDefined(field.model)) {
+              angular.forEach(field.model, function (value) {
+                field.checkboxModel[value] = true
+              })
+            }
+          })
+
+
+          $scope.$watch('field.checkboxModel', function (checkboxModel) {
+            field.model = []
+            angular.forEach(checkboxModel, function (selected, key) {
+              if (selected) {
+                field.model.push(key)
+              }
             })
-            break
-          }
+          }, true)
+          break
+        }
       }
     }
   }
