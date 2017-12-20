@@ -5,6 +5,8 @@
 module.exports = {
   cbm: {
     model: 'FormCBM',
+    serverModel: 'formCBM',
+    label: 'FORM_LABEL_CBM',
     filters: [
       '{location:int}',
       'zone',
@@ -16,6 +18,8 @@ module.exports = {
   },
   birds: {
     model: 'FormBirds',
+    serverModel: 'formBirds',
+    label: 'FORM_LABEL_BIRDS',
     filters: [
       'location',
       '{user:int}',
@@ -26,6 +30,8 @@ module.exports = {
   },
   herp: {
     model: 'FormHerp',
+    serverModel: 'formHerps',
+    label: 'FORM_LABEL_HERP',
     filters: [
       'location',
       '{user:int}',
@@ -36,6 +42,8 @@ module.exports = {
   },
   herptiles: {
     model: 'FormHerptiles',
+    serverModel: 'formHerptiles',
+    label: 'FORM_LABEL_HERPTILES',
     filters: [
       'location',
       '{user:int}',
@@ -46,6 +54,8 @@ module.exports = {
   },
   mammals: {
     model: 'FormMammals',
+    serverModel: 'formMammals',
+    label: 'FORM_LABEL_MAMMALS',
     filters: [
       'location',
       '{user:int}',
@@ -56,6 +66,8 @@ module.exports = {
   },
   ciconia: {
     model: 'FormCiconia',
+    serverModel: 'formCiconia',
+    label: 'FORM_LABEL_CICONIA',
     filters: [
       'location',
       '{user:int}',
