@@ -584,5 +584,11 @@
   "REQUEST_ZONE_NO_ZONES_FOUND_FOR_LOCATION": "Не съществуват зони в района на избраното от вас място, Моля опитайте съседно населено място",
   "ZONE_VIEW_TITLE": "Площадка",
   "ZONE_VIEW_OWNER": "Наблюдател",
-  "ZONE_VIEW_OWNER_NONE": "няма"
+  "ZONE_VIEW_OWNER_NONE": "няма",
+  "FORM_LABEL_CBM": "МОВП",
+  "FORM_LABEL_BIRDS": "Птици",
+  "FORM_LABEL_HERP": "ЗВБ",
+  "FORM_LABEL_HERPTILES": "ЗиВ",
+  "FORM_LABEL_MAMMALS": "Бозайници",
+  "FORM_LABEL_CICONIA": "Бял щъркел"
 }
