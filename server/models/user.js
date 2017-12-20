@@ -57,7 +57,7 @@ module.exports = function (sequelize, DataTypes) {
     phone: DataTypes.TEXT,
     postcode: DataTypes.TEXT,
     profile: DataTypes.TEXT,
-    forms: DataTypes.TEXT
+    forms: DataTypes.JSON
   }, {
     indexes: [
       {
@@ -123,11 +123,6 @@ module.exports = function (sequelize, DataTypes) {
       },
 
       apiData: function (api) {
-
-        var formsDeserialized = this.forms && this.forms.split('|').map(function (val) {
-          return val
-        })
-
         return {
           id: this.id,
           email: this.email,
@@ -146,22 +141,13 @@ module.exports = function (sequelize, DataTypes) {
           language: this.language,
           role: this.role,
           isAdmin: !!(this.role && this.role === 'admin'),
-          forms: formsDeserialized
+          forms: JSON.parse(this.forms)
         }
       },
 
       apiUpdate: function (data) {
-
-        if (_.has(data, 'forms')) {
-          var forms = ''
-          _.forEach(data['forms'], function (form) {
-            forms = forms + (forms ? '|' : '') + form
-          })
-        }
-
-        this.forms = forms
         _.assign(this, _.pick(data, 'firstName', 'lastName', 'address', 'birdsKnowledge',
-          'city', 'level', 'mobile', 'notes', 'phone', 'postcode', 'profile', 'language'))
+          'city', 'level', 'mobile', 'notes', 'phone', 'postcode', 'profile', 'language', 'forms'))
       }
     }
   })
