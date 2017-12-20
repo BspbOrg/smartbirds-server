@@ -57,7 +57,15 @@ module.exports = function (sequelize, DataTypes) {
     phone: DataTypes.TEXT,
     postcode: DataTypes.TEXT,
     profile: DataTypes.TEXT,
-    forms: DataTypes.JSON
+    forms: {
+      type: DataTypes.TEXT,
+      get: function () {
+        return JSON.parse(this.getDataValue('forms'))
+      },
+      set: function (val) {
+        this.setDataValue('forms', JSON.stringify(val))
+      }
+    }
   }, {
     indexes: [
       {
@@ -141,7 +149,7 @@ module.exports = function (sequelize, DataTypes) {
           language: this.language,
           role: this.role,
           isAdmin: !!(this.role && this.role === 'admin'),
-          forms: JSON.parse(this.forms)
+          forms: this.forms
         }
       },
 
