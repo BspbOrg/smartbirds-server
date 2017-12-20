@@ -195,25 +195,6 @@ require('../app').directive('field', /* @ngInject */function ($q) {
             return el
           })
 
-          field.checkboxModel = {}
-
-          $scope.$watch('field.model', function () {
-            if (angular.isDefined(field.model)) {
-              angular.forEach(field.model, function (value) {
-                field.checkboxModel[value] = true
-              })
-            }
-          })
-
-
-          $scope.$watch('field.checkboxModel', function (checkboxModel) {
-            field.model = []
-            angular.forEach(checkboxModel, function (selected, key) {
-              if (selected) {
-                field.model.push(key)
-              }
-            })
-          }, true)
           break
         }
       }
