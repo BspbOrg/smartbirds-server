@@ -63,17 +63,6 @@ function prepareQuery (api, data) {
       }
       if (limit !== -1) { q.limit = limit }
 
-      if (!data.session.user.isAdmin) {
-        q.where = _.extend(q.where || {}, {
-          userId: data.session.userId
-        })
-      } else {
-        if (data.params.user) {
-          q.where = _.extend(q.where || {}, {
-            userId: data.params.user
-          })
-        }
-      }
       if (data.params.location) {
         q.where = _.extend(q.where || {}, {
           location: api.sequelize.sequelize.options.dialect === 'postgres' ? {ilike: data.params.location} : data.params.location

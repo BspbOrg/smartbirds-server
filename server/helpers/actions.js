@@ -18,7 +18,8 @@ module.exports = {
             return Promise.reject(new Error('record not found'))
           }
 
-          if (!data.session.user.isAdmin && record.userId !== data.session.userId) {
+
+          if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, modelName) && record.userId !== data.session.userId) {
             data.connection.rawConnection.responseHttpCode = 401
             return Promise.reject(new Error('no permission'))
           }
@@ -61,7 +62,7 @@ module.exports = {
           return api.models[ modelName ].build({})
         })
         .then(function (record) {
-          if (!data.session.user.isAdmin || !data.params.user) {
+          if (!data.session.user.isAdmin  || !api.forms.isModerator(data.session.user, modelName) || !data.params.user) {
             data.params.user = data.session.userId
           }
           return record
@@ -121,7 +122,7 @@ module.exports = {
             return next(new Error('record not found'))
           }
 
-          if (!data.session.user.isAdmin && record.userId !== data.session.userId) {
+          if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, modelName) && record.userId !== data.session.userId) {
             data.connection.rawConnection.responseHttpCode = 401
             return next(new Error('no permission'))
           }
@@ -145,7 +146,7 @@ module.exports = {
           return Promise.reject(new Error('record not found'))
         }
 
-        if (!data.session.user.isAdmin && record.userId !== data.session.userId) {
+        if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, modelName) && record.userId !== data.session.userId) {
           data.connection.rawConnection.responseHttpCode = 401
           return Promise.reject(new Error('no permission'))
         }
@@ -185,6 +186,20 @@ module.exports = {
     return function (api, data, next) {
       try {
         return Promise.resolve(prepareQuery(api, data))
+          .then(function (q) {
+            if (data.session.user.isAdmin || api.forms.isModerator(data.session.user, modelName)) {
+              if (data.params.user) {
+                q.where = _.extend(q.where || {}, {
+                  userId: data.params.user
+                })
+              }
+            } else {
+              q.where = _.extend(q.where || {}, {
+                userId: data.session.userId
+              })
+            }
+            return q
+          })
           .then(function (q) {
             switch (data.connection.extension) {
               case 'zip':
