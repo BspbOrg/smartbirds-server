@@ -25,17 +25,6 @@ function prepareQuery (api, data) {
       }
       if (limit !== -1) { q.limit = limit }
 
-      if (!data.session.user.isAdmin) {
-        q.where = _.extend(q.where || {}, {
-          userId: data.session.userId
-        })
-      } else {
-        if (data.params.user) {
-          q.where = _.extend(q.where || {}, {
-            userId: data.params.user
-          })
-        }
-      }
       if (data.params.zone) {
         q.where = _.extend(q.where || {}, {
           zoneId: data.params.zone
@@ -172,7 +161,7 @@ exports.formCBMAdd = {
         return api.models.formCBM.build({})
       })
       .then(function (cbm) {
-        if (!data.session.user.isAdmin || !data.params.user) {
+        if (!data.session.user.isAdmin || !api.forms.isModerator(data.session.user, 'formCBM') || !data.params.user) {
           data.params.user = data.session.userId
         }
         return cbm
@@ -262,7 +251,7 @@ exports.formCBMEdit = {
           return Promise.reject(new Error('cbm not found'))
         }
 
-        if (!data.session.user.isAdmin && formCBM.userId !== data.session.userId) {
+        if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, 'formCBM') && formCBM.userId !== data.session.userId) {
           data.connection.rawConnection.responseHttpCode = 401
           return Promise.reject(new Error('no permission'))
         }
@@ -270,7 +259,7 @@ exports.formCBMEdit = {
         return formCBM
       })
       .then(function (formCBM) {
-        if (!data.session.user.isAdmin || !data.params.user) {
+        if (!data.session.user.isAdmin || !api.forms.isModerator(data.session.user, 'formCBM') || !data.params.user) {
           data.params.user = data.session.userId
         }
         return formCBM
@@ -315,7 +304,7 @@ exports.formCBMView = {
         return next(new Error('cbm record not found'))
       }
 
-      if (!data.session.user.isAdmin && cbm.userId !== data.session.userId) {
+      if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, 'formCBM') && cbm.userId !== data.session.userId) {
         data.connection.rawConnection.responseHttpCode = 401
         return next(new Error('no permission'))
       }
@@ -344,7 +333,7 @@ exports.formCBMDelete = {
         return Promise.reject(new Error('cbm not found'))
       }
 
-      if (!data.session.user.isAdmin && formCBM.userId !== data.session.userId) {
+      if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, 'formCBM') && formCBM.userId !== data.session.userId) {
         data.connection.rawConnection.responseHttpCode = 401
         return Promise.reject(new Error('no permission'))
       }
