@@ -170,6 +170,7 @@ require('../app').directive('field', /* @ngInject */function ($q) {
               el.label = $filter('translate')(el.label)
               return el
             })
+            break
           }
       }
     }
