@@ -3,6 +3,8 @@
  */
 var angular = require('angular')
 
+var forms = require('../configs/forms')
+
 require('../app')
   .service('user', /* @ngInject */function ($q, $cookies, api) {
     var service = this
@@ -25,6 +27,8 @@ require('../app')
           return true
         case 'admin':
           return _identity.isAdmin
+        case 'moderator':
+          return _identity.role === 'moderator'
         default:
           return false
       }
@@ -38,6 +42,17 @@ require('../app')
 
     service.isAdmin = function () {
       return service.isInRole('admin')
+    }
+
+    service.isModerator = function (formName) {
+      if (service.isInRole('moderator')) {
+        return forms[formName] && !!(_identity.forms && _identity.forms[forms[formName].serverModel])
+      }
+      return false
+    }
+
+    service.canAccess = function (formName) {
+      return service.isAdmin() || service.isModerator(formName)
     }
 
     service.getIdentity = function () {

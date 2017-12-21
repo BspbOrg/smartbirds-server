@@ -1,6 +1,6 @@
 var angular = require('angular')
 
-require('../app').controller('MonitoringDetailController', /* @ngInject */function ($filter, $http, $scope, $state, $stateParams, $q, $timeout, model, ngToast, db, Raven, Track) {
+require('../app').controller('MonitoringDetailController', /* @ngInject */function ($filter, $http, $scope, $state, $stateParams, $q, $timeout, model, ngToast, db, Raven, Track, formName) {
   var controller = this
 
   var id = $stateParams.id || $stateParams.fromId
@@ -17,6 +17,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
     }
   }
 
+  controller.formName = formName
   controller.db = db
   if (id) {
     controller.data = model.get({id: id})

@@ -62,7 +62,7 @@
 </div>
 
 <div class="row">
-  <div ng-if="$user.isAdmin()" class="col-md-4">
+  <div ng-if="$user.canAccess(monitoringDetailController.formName)" class="col-md-4">
     <field name="user" type="user" required="true"
            label="{{'COMMON_FORM_OBSERVER' | translate}}"
            model="monitoringDetailController.data.user"></field>

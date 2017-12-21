@@ -8,6 +8,7 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($f
   var controller = this
   var authurl = $filter('authurl')
 
+  controller.formName = formName
   controller.db = db
   controller.filter = angular.copy($stateParams)
   controller.years = Object.keys(new Int8Array(new Date().getFullYear() - 1979)).map(function (year) {
