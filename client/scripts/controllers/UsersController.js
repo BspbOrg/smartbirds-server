@@ -18,14 +18,14 @@ require('../app').controller('UsersController', /* @ngInject */function ($filter
   controller.filterRows = function (config) {
     return function (row) {
       if (config && config.role) {
-        if (config.role === 'user' && row.isAdmin) {
-          return false
-        } else if (config.role === 'admin' && !row.isAdmin) {
+        if (config.role !== row.role) {
           return false
         }
       }
       if (config && config.search) {
-        if (!filter([ row ], config.search).length) { return false }
+        if (!filter([row], config.search).length) {
+          return false
+        }
       }
       return true
     }

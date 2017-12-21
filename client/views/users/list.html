@@ -38,6 +38,7 @@
             >
               <option value="" translate>USER_LIST_FILTER_ROLE_ALL</option>
               <option value="user" translate>USER_LIST_FILTER_ROLE_USER</option>
+              <option value="moderator" translate>USER_LIST_FILTER_ROLE_MODERATOR</option>
               <option value="admin" translate>USER_LIST_FILTER_ROLE_ADMINISTRATOR</option>
             </select>
           </div>
@@ -71,13 +72,14 @@
         <td>{{row.firstName}}</td>
         <td>{{row.lastName}}</td>
         <td>{{row.lastLoginAt | date}}</td>
-        <td class="text-center">
-          <button type="button" class="btn btn-sm"
-                  ng-class="{'btn-warning': row.isAdmin, 'btn-default': !row.isAdmin}"
-                  ng-click="usersController.toggleAdmin(row)">
-            <span ng-if="row.isAdmin" translate>USER_LIST_TABLE_BUTTON_ADMINISTRATOR</span>
-            <span ng-if="!row.isAdmin" translate>USER_LIST_TABLE_BUTTON_USER</span>
-          </button>
+        <td>
+          <span ng-if="row.role === 'user'" translate>USER_DETAIL_ROLE_USER</span>
+          <span ng-if="row.role === 'admin'" translate>USER_DETAIL_ROLE_ADMIN</span>
+          <span ng-if="row.role === 'moderator'">
+            <translate>USER_DETAIL_ROLE_MODERATOR</translate>
+            <span ng-repeat="form in ::row.forms | formLabels"><span ng-if="!$first">, </span><translate>{{::form}}</translate></span>
+          </span>
+
         </td>
       </tr>
       </tbody>
