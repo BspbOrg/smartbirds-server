@@ -113,7 +113,7 @@
                  model="monitoringDetailController.data.endDateTime"></field>
         </div>
 
-        <div ng-if="$user.isAdmin()" class="col-md-12">
+        <div ng-if="$user.canAccess(monitoringDetailController.formName)" class="col-md-12">
           <field name="user" type="user" required="true"
                  label="{{'CBM_DETAIL_OBSERVER' | translate}}"
                  model="monitoringDetailController.data.user"></field>

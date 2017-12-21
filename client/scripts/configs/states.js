@@ -259,6 +259,11 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
             controller: 'MonitoringDetailController',
             controllerAs: 'monitoringDetailController'
           }
+        },
+        resolve: {
+          formName: function () {
+            return formName
+          }
         }
       })
 

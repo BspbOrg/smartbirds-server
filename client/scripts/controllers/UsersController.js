@@ -10,11 +10,6 @@ require('../app').controller('UsersController', /* @ngInject */function ($filter
     limit: 1000
   })
 
-  controller.toggleAdmin = function (user) {
-    user.isAdmin = !user.isAdmin
-    user.$save()
-  }
-
   controller.filterRows = function (config) {
     return function (row) {
       if (config && config.role) {
