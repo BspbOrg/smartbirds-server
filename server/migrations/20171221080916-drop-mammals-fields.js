@@ -16,6 +16,7 @@ module.exports = {
         return queryInterface.sequelize.query('UPDATE "FormMammals" SET "L"="sCLL", "C"="mPLLcdC", "A"="mCWA", "Pl"="hLcapPl"')
       })
       .then(function () {
+        if (queryInterface.sequelize.options.dialect !== 'postgres') return
         return Promise.all([
           queryInterface.removeColumn('FormMammals', 'sCLL'),
           queryInterface.removeColumn('FormMammals', 'mPLLcdC'),
@@ -46,6 +47,7 @@ module.exports = {
         return queryInterface.sequelize.query('UPDATE "FormMammals" SET "sCLL"="L", "mPLLcdC"="C", "mCWA"="A", "hLcapPl"="Pl"')
       })
       .then(function () {
+        if (queryInterface.sequelize.options.dialect !== 'postgres') return
         return Promise.all([
           queryInterface.removeColumn('FormMammals', 'L'),
           queryInterface.removeColumn('FormMammals', 'C'),
