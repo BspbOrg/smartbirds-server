@@ -15,7 +15,7 @@ require('../app').controller('UserController', /* @ngInject */function ($scope, 
 
   controller.moderatorForms = []
 
-  angular.forEach(forms, function (formDef, formName) {
+  angular.forEach(forms, function (formDef) {
     controller.moderatorForms.push({id: formDef.serverModel, label: formDef.label})
   })
 
