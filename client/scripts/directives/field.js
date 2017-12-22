@@ -57,7 +57,6 @@ require('../app').directive('field', /* @ngInject */function ($q) {
         } else {
           field.disabled = true
         }
-
       } else {
         field.disabled = false
       }
