@@ -32,6 +32,28 @@ module.exports = [
       role: 'user',
       passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC'
     }
+  },
+  {
+    model: 'user',
+    data: {
+      email: 'birds@smartbirds.com',
+      firstName: 'Moderator',
+      lastName: 'Birds',
+      role: 'moderator',
+      forms: { "formBirds": true },
+      passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC'
+    }
+  },
+  {
+    model: 'user',
+    data: {
+      email: 'cbm@smartbirds.com',
+      firstName: 'Moderator',
+      lastName: 'CBM',
+      role: 'moderator',
+      forms: { "formCBM": true },
+      passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC'
+    }
   }
 
 ]

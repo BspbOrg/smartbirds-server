@@ -1,4 +1,4 @@
-/* global describe, before, after, beforeEach, it */
+/* global describe, before, after, afterEach, beforeEach, it */
 
 var _ = require('lodash')
 var should = require('should')
@@ -68,11 +68,18 @@ describe('Action user:', function () {
       })
     }) // describeAllRoles
 
-    setup.describeAsRoles([ 'Guest', 'User' ], function (runAction) {
+    setup.describeAsRoles([ 'Guest', 'User', 'Birds' ], function (runAction) {
       it('cannot create admin', function () {
         return runAction('user:create', _.assign({}, user, { role: 'admin' })).then(function (response) {
           should.not.exist(response.error)
-          response.data.isAdmin.should.be.false()
+          response.data.role.should.be.equal('user')
+        })
+      })
+
+      it('cannot create moderator', function () {
+        return runAction('user:create', _.assign({}, user, { role: 'moderator' })).then(function (response) {
+          should.not.exist(response.error)
+          response.data.role.should.be.equal('user')
         })
       })
     }) // describeAs Guest, User
@@ -81,7 +88,14 @@ describe('Action user:', function () {
       it('can create admin', function () {
         return runAction('user:create', _.assign({}, user, { role: 'admin' }), function (response) {
           should.not.exist(response.error)
-          response.data.isAdmin.should.be.true()
+          response.data.role.should.be.equal('admin')
+        })
+      })
+
+      it('can create moderator', function () {
+        return runAction('user:create', _.assign({}, user, { role: 'moderator' })).then(function (response) {
+          should.not.exist(response.error)
+          response.data.role.should.be.equal('moderator')
         })
       })
     }) // describeAsAdmin
@@ -141,7 +155,8 @@ describe('Action user:', function () {
           enqueueStub.yields(null, true)
           return runAction('user:lost', { email: user.email }).then(function (response) {
             var call = enqueueStub.getCall(0)
-            return token = call.args[ 1 ].locals.passwordToken
+            token = call.args[ 1 ].locals.passwordToken
+            return token
           })
         })
 
@@ -248,7 +263,7 @@ describe('Action user:', function () {
       })
     })
 
-    setup.describeAsAdmin(function (runAction) {
+    setup.describeAsRoles([ 'admin', 'birds' ], function (runAction) {
       it('can view user', function () {
         return runAction('user:view', { id: userId }).then(function (response) {
           response.should.not.have.property('error')
@@ -256,17 +271,21 @@ describe('Action user:', function () {
           response.data.should.have.property('email').and.be.equal(user.email)
         })
       })
+
+      it('can list users', function () {
+        return runAction('user:list', {}).then(function (response) {
+          response.should.not.have.property('error')
+          response.should.have.property('data')
+        })
+      })
+    }) // describeAs Admin, Birds
+
+    setup.describeAsAdmin(function (runAction) {
       it('can edit user', function () {
         return runAction('user:edit', { id: userId, firstName: 'scam' }).then(function (response) {
           should(response).not.have.property('error')
           response.should.have.property('data')
           response.data.should.have.property('firstName').and.be.equal('scam')
-        })
-      })
-      it('can list users', function () {
-        return runAction('user:list', {}).then(function (response) {
-          response.should.not.have.property('error')
-          response.should.have.property('data')
         })
       })
       it('can promote to admin', function () {
@@ -276,7 +295,22 @@ describe('Action user:', function () {
           response.data.should.have.property('isAdmin').and.be.true()
         })
       })
+      it('can promote to moderator', function () {
+        return runAction('user:edit', { id: userId, role: 'moderator' }).then(function (response) {
+          should(response).not.have.property('error')
+          response.should.have.property('data')
+          response.data.should.have.property('role').and.be.equal('moderator')
+        })
+      })
     }) // describeAsAdmin
+
+    setup.describeAsBirds(function (runAction) {
+      it('cannot edit user', function () {
+        return runAction('user:edit', { id: userId, firstName: 'scam' }).then(function (response) {
+          response.should.have.property('error').and.not.be.empty()
+        })
+      })
+    })
   }) // given a user
 
   describe('given owner', function () {
@@ -333,6 +367,63 @@ describe('Action user:', function () {
           response.data.should.have.property('isAdmin').and.be.false()
         })
       })
+      it('cannot self-promote to moderator', function () {
+        return runAction('user:edit', { id: userId, role: 'moderator' }).then(function (response) {
+          should(response).not.have.property('error')
+          response.should.have.property('data')
+          response.data.should.have.property('role').and.be.equal('user')
+        })
+      })
+      it('cannot me-promote to moderator', function () {
+        return runAction('user:edit', { id: 'me', role: 'moderator' }).then(function (response) {
+          should(response).not.have.property('error')
+          response.should.have.property('data')
+          response.data.should.have.property('role').and.be.equal('user')
+        })
+      })
     })
-  })
+  }) // given owner
+
+  describe('given moderator', function () {
+    var email = 'birds@smartbirds.com'
+    var userId
+
+    before(function () {
+      return setup.api.models.user.findOne({ where: { email: email } }).then(function (user) {
+        if (!user) return Promise.reject(new Error('User doesn\'t exists'))
+        userId = user.id
+      })
+    })
+
+    setup.describeAsBirds(function (runAction) {
+      it('cannot self-promote to admin', function () {
+        return runAction('user:edit', { id: userId, role: 'admin' }).then(function (response) {
+          should(response).not.have.property('error')
+          response.should.have.property('data')
+          response.data.should.have.property('isAdmin').and.be.false()
+        })
+      })
+      it('cannot me-promote to admin', function () {
+        return runAction('user:edit', { id: 'me', role: 'admin' }).then(function (response) {
+          should(response).not.have.property('error')
+          response.should.have.property('data')
+          response.data.should.have.property('isAdmin').and.be.false()
+        })
+      })
+      it('cannot self-demote to user', function () {
+        return runAction('user:edit', { id: userId, role: 'user' }).then(function (response) {
+          should(response).not.have.property('error')
+          response.should.have.property('data')
+          response.data.should.have.property('role').and.be.equal('moderator')
+        })
+      })
+      it('cannot me-demote to user', function () {
+        return runAction('user:edit', { id: 'me', role: 'user' }).then(function (response) {
+          should(response).not.have.property('error')
+          response.should.have.property('data')
+          response.data.should.have.property('role').and.be.equal('moderator')
+        })
+      })
+    }) // describeAsBirds
+  }) // given moderator
 }) // Action: user

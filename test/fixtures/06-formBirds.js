@@ -92,5 +92,30 @@ module.exports = [
       user: {email: 'user2@smartbirds.com'},
       observationDateTime: '2015-12-10T10:15:07Z'
     })
+  },
+  {
+    model: 'formBirds',
+    data: lodash.extend({}, baseModel, {
+      species: 'Acrocephalus agricola',
+      user: {email: 'cbm@smartbirds.com'},
+      observationDateTime: '2015-12-10T10:15:07Z'
+    })
+  },
+  {
+    model: 'formBirds',
+    data: lodash.extend({}, baseModel, {
+      species: 'Acrocephalus agricola',
+      user: {email: 'birds@smartbirds.com'},
+      observationDateTime: '2015-12-10T10:15:07Z'
+    })
+  },
+  {
+    model: 'formBirds',
+    data: lodash.extend({}, baseModel, {
+      species: 'Aix sponsa',
+      user: {email: 'cbm@smartbirds.com'},
+      observationDateTime: '2016-12-20T10:15:02Z',
+      location: 'some_unq_location'
+    })
   }
 ]

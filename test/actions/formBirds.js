@@ -1,11 +1,9 @@
-/* global describe, beforeEach, it */
+/* global describe, before, after, it */
 
 var _ = require('lodash')
 var should = require('should')
-var sinon = require('sinon')
+require('sinon')
 var setup = require('../_setup')
-var Promise = require('bluebird')
-var moment = require('moment')
 require('should-sinon')
 
 describe('Action formBirds:', function () {
@@ -288,8 +286,8 @@ describe('Action formBirds:', function () {
       })
     })
 
-    setup.describeAsAdmin(function (runAction) {
-      it('is allowed if the requester user is admin', function () {
+    setup.describeAsBirds(function (runAction) {
+      it('is allowed', function () {
         return runAction('formBirds:view', {id: birdId}).then(function (response) {
           response.should.not.have.property('error')
           response.should.have.property('data')
@@ -297,7 +295,16 @@ describe('Action formBirds:', function () {
       })
     })
 
-    setup.describeAsUser(function (runAction) {
+    setup.describeAsAdmin(function (runAction) {
+      it('is allowed', function () {
+        return runAction('formBirds:view', {id: birdId}).then(function (response) {
+          response.should.not.have.property('error')
+          response.should.have.property('data')
+        })
+      })
+    })
+
+    setup.describeAsRoles(['user', 'cbm'], function (runAction) {
       it('is not allowed if the requester user is not the submitter', function () {
         return runAction('formBirds:view', {id: birdId}).then(function (response) {
           response.should.have.property('error').and.not.empty()
@@ -330,9 +337,24 @@ describe('Action formBirds:', function () {
         })
       })
     })
+    setup.describeAsCbm(function (runAction) {
+      it('is allowed to list only his records', function () {
+        return runAction('formBirds:list', {}).then(function (response) {
+          response.should.not.have.property('error')
+          response.should.have.property('data').not.empty().instanceOf(Array)
+          response.should.have.property('count').and.be.greaterThan(0)
 
-    setup.describeAsAdmin(function (runAction) {
-      it('admin is allowed to list all records', function () {
+          for (var i = 0; i < response.data.length; i++) {
+            response.data[i].should.have.property('user')
+            response.data[i].should.not.be.empty()
+            response.data[i].user.should.be.equal(5)
+          }
+        })
+      })
+    })
+
+    setup.describeAsRoles(['admin', 'birds'], function (runAction) {
+      it('is allowed to list all records', function () {
         return runAction('formBirds:list', {}).then(function (response) {
           response.should.not.have.property('error')
           response.should.have.property('data').not.empty().instanceOf(Array)
@@ -351,7 +373,7 @@ describe('Action formBirds:', function () {
       })
     })
 
-    setup.describeAsAdmin(function (runAction) {
+    setup.describeAsRoles(['admin', 'birds'], function (runAction) {
       it('filter user', function () {
         // Depends on users fixture third record AND formBirds fixture
         return runAction('formBirds:list', {user: 3}).then(function (response) {
@@ -363,7 +385,7 @@ describe('Action formBirds:', function () {
       })
     })
 
-    setup.describeAsUser(function (runAction) {
+    setup.describeAsAuth(function (runAction) {
       it('filter species', function () {
         return runAction('formBirds:list', {species: 'Alle alle'}).then(function (response) {
           response.should.not.have.property('error')
@@ -372,35 +394,49 @@ describe('Action formBirds:', function () {
           }
         })
       })
-    })
 
-    setup.describeAsUser(function (runAction) {
       it('filter location', function () {
         return runAction('formBirds:list', {location: 'some_unq_location'}).then(function (response) {
           response.should.not.have.property('error')
-          response.data.length.should.be.equal(1)
-          response.data[0].location.should.be.equal('some_unq_location')
+          response.data.length.should.be.greaterThan(0)
+          for (var i = 0; i < response.data.length; i++) {
+            response.data[i].location.should.be.equal('some_unq_location')
+          }
         })
       })
-    })
 
-    setup.describeAsUser(function (runAction) {
       it('filter from_date', function () {
         return runAction('formBirds:list', {from_date: '2016-12-20T10:15Z'}).then(function (response) {
           response.should.not.have.property('error')
-          response.data.length.should.be.equal(3)
+          response.data.length.should.be.greaterThan(0)
+
+          for (var i = 0; i < response.data.length; i++) {
+            response.data[i].should.have.property('observationDateTime')
+            response.data[i].observationDateTime.should.be.greaterThanOrEqual(new Date('2016-12-20T10:15:00Z'))
+          }
         })
       })
       it('filter to_date', function () {
         return runAction('formBirds:list', {to_date: '2016-12-20T10:16Z'}).then(function (response) {
           response.should.not.have.property('error')
-          response.data.length.should.be.equal(2)
+          response.data.length.should.be.greaterThan(0)
+
+          for (var i = 0; i < response.data.length; i++) {
+            response.data[i].should.have.property('observationDateTime')
+            response.data[i].observationDateTime.should.be.lessThanOrEqual(new Date('2016-12-20T10:16:00Z'))
+          }
         })
       })
       it('filter from_date and to_date', function () {
         return runAction('formBirds:list', {from_date: '2016-12-20T10:15Z', to_date: '2016-12-20T10:16Z'}).then(function (response) {
           response.should.not.have.property('error')
-          response.data.length.should.be.equal(1)
+          response.data.length.should.be.greaterThan(0)
+
+          for (var i = 0; i < response.data.length; i++) {
+            response.data[i].should.have.property('observationDateTime')
+            response.data[i].observationDateTime.should.be.greaterThanOrEqual(new Date('2016-12-20T10:15:00Z'))
+            response.data[i].observationDateTime.should.be.lessThanOrEqual(new Date('2016-12-20T10:16:00Z'))
+          }
         })
       })
     })
@@ -432,7 +468,7 @@ describe('Action formBirds:', function () {
       })
     })
 
-    setup.describeAsUser(function (runAction) {
+    setup.describeAsRoles(['user', 'cbm'], function (runAction) {
       it('is not allowed if the requester user is not the submitter', function () {
         return runAction('formBirds:edit', {id: birdsId}).then(function (response) {
           response.should.have.property('error').and.not.empty()
@@ -440,8 +476,8 @@ describe('Action formBirds:', function () {
       })
     })
 
-    setup.describeAsAdmin(function (runAction) {
-      it('is allowed if the requester user is admin', function () {
+    setup.describeAsRoles(['admin', 'birds'], function (runAction) {
+      it('is allowed', function () {
         return runAction('formBirds:edit', {id: birdsId, notes: 'some new notes', user: 3}).then(function (response) {
           response.should.not.have.property('error')
           return setup.api.models.formBirds.findOne({where: {id: birdsId}}).then(function (bird) {

@@ -1,15 +1,17 @@
+/* globals describe */
+
 var _ = require('lodash')
 var Promise = require('bluebird')
 
 var setup = {
-  serverPrototype: require(__dirname + '/../node_modules/actionhero/actionhero.js'),
+  ServerPrototype: require(__dirname + '/../node_modules/actionhero/actionhero.js'),
   testUrl: 'http://127.0.0.1:18080/api',
 
   init: function () {
     var promise
     if (!setup.server) {
       console.log('    starting test server...')
-      setup.server = new setup.serverPrototype()
+      setup.server = new setup.ServerPrototype()
       promise = Promise.fromNode(setup.server.start.bind(setup.server))
     } else {
       console.log('    restarting test server...')
@@ -31,7 +33,7 @@ var setup = {
     })
   },
   runActionAs: function (action, params, user) {
-    var conn = new setup.api.specHelper.connection()
+    var conn = new setup.api.specHelper.Connection()
     conn.params = {
       email: user,
       password: 'secret'
@@ -55,6 +57,12 @@ var setup = {
   runActionAsUser2: function (action, params) {
     return setup.runActionAs(action, params, 'user2@smartbirds.com')
   },
+  runActionAsBirds: function (action, params) {
+    return setup.runActionAs(action, params, 'birds@smartbirds.com')
+  },
+  runActionAsCbm: function (action, params) {
+    return setup.runActionAs(action, params, 'cbm@smartbirds.com')
+  },
   runActionAsGuest: function (action, params) {
     return setup.runAction(action, params)
   },
@@ -73,8 +81,14 @@ var setup = {
   describeAsAdmin: function (specs) {
     return setup.describeAs('admin', setup.runActionAsAdmin, specs)
   },
+  describeAsBirds: function (specs) {
+    return setup.describeAs('birds moderator', setup.runActionAsBirds, specs)
+  },
+  describeAsCbm: function (specs) {
+    return setup.describeAs('cbm moderator', setup.runActionAsCbm, specs)
+  },
   describeAsAuth: function (specs) {
-    return setup.describeAsRoles([ 'user', 'admin' ], specs)
+    return setup.describeAsRoles([ 'user', 'admin', 'birds', 'cbm' ], specs)
   },
   describeAsRoles: function (roles, specs) {
     return Promise.map(roles, function (role) {
@@ -82,8 +96,8 @@ var setup = {
     })
   },
   describeAllRoles: function (specs) {
-    return setup.describeAsRoles([ 'guest', 'user', 'admin' ], specs)
+    return setup.describeAsRoles([ 'guest', 'user', 'admin', 'birds', 'cbm' ], specs)
   }
 }
 
-var exports = module.exports = setup
+module.exports = setup
