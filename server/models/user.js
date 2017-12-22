@@ -60,7 +60,7 @@ module.exports = function (sequelize, DataTypes) {
     forms: {
       type: DataTypes.TEXT,
       get: function () {
-        return JSON.parse(this.getDataValue('forms'))
+        return this.getDataValue('forms') && JSON.parse(this.getDataValue('forms'))
       },
       set: function (val) {
         this.setDataValue('forms', JSON.stringify(val))
