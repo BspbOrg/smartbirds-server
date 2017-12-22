@@ -50,7 +50,6 @@ require('../app').directive('field', /* @ngInject */function ($q) {
       if ('disabled' in $attrs) {
         if (angular.isDefined($attrs.disabled)) {
           var disabledGetter = $parse($attrs.disabled).bind(null, $scope.$parent)
-          field.disabled = disabledGetter()
           $scope.$parent.$watch(disabledGetter, function (value) {
             field.disabled = value
           })
@@ -166,21 +165,7 @@ require('../app').directive('field', /* @ngInject */function ($q) {
           break
         }
 
-        case 'select': {
-          field.values = $parse($attrs.choices)($scope.$parent).map(function (el) {
-            if (typeof el !== 'object') {
-              var translated = $filter('translate')(el)
-              return {
-                id: translated,
-                label: translated
-              }
-            }
-            el.label = $filter('translate')(el.label)
-            return el
-          })
-          break
-        }
-
+        case 'select':
         case 'checkbox-group': {
           field.values = $parse($attrs.choices)($scope.$parent).map(function (el) {
             if (typeof el !== 'object') {
@@ -193,7 +178,6 @@ require('../app').directive('field', /* @ngInject */function ($q) {
             el.label = $filter('translate')(el.label)
             return el
           })
-
           break
         }
       }

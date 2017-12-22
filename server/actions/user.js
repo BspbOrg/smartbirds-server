@@ -144,7 +144,7 @@ exports.userView = {
   },
 
   run: function (api, data, next) {
-    if (!data.session.user.isAdmin && data.session.user.role !== 'moderator') {
+    if (!data.session.user.isAdmin && !data.session.user.isModerator) {
       if (data.params.id === 'me' || parseInt(data.params.id) === data.session.userId) {
         data.params.id = data.session.userId
       } else {
@@ -244,7 +244,7 @@ exports.userList = {
       offset: offset
     }
 
-    if (!data.session.user.isAdmin && data.session.user.role !== 'moderator') {
+    if (!data.session.user.isAdmin && !data.session.user.isModerator) {
       q.where = {
         id: data.session.userId
       }
