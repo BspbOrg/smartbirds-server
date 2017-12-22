@@ -2,7 +2,6 @@ var angular = require('angular')
 var forms = require('../configs/forms')
 
 require('../app').filter('formLabels', function () {
-
   var formLabels = []
   angular.forEach(forms, function (formDef) {
     formLabels[formDef.serverModel] = formDef.label
