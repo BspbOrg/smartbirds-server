@@ -276,7 +276,6 @@ function Model (modelName_, fields_, foreignKeyDefs) {
                       {
                         if (!_.has(data, name)) return
 
-                        console.log('saving nomenclature ' + name)
                         self[ name + 'Bg' ] = data[ name ] && data[ name ].label.bg
                         self[ name + 'En' ] = data[ name ] && data[ name ].label.en
                         break
@@ -321,9 +320,6 @@ function Model (modelName_, fields_, foreignKeyDefs) {
     });
 
     [ 'beforeCreate', 'beforeUpdate', 'beforeSync', 'beforeSave' ].forEach(function (hook) {
-      model.hook(hook, function (instance) {
-        console.log('hook', hook, typeof this, typeof instance)
-      })
       model.hook(hook, updateHash)
     })
 

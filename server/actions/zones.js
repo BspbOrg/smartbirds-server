@@ -89,7 +89,6 @@ exports.zoneView = {
       }
       return q
     }).then(function (q) {
-      console.log('looking for' + JSON.stringify(q.where))
       return api.models.zone.findOne(q)
     }).then(function (zone) {
       if (!zone) {
@@ -104,7 +103,6 @@ exports.zoneView = {
 
       return zone
     }).then(function (zone) {
-      console.log('extension = ', data.connection.extension)
       switch (data.connection.extension) {
         case 'gpx': return api.template.render('/zone.gpx.ejs', {zone: zone})
         case 'kml': return api.template.render('/zone.kml.ejs', {zone: zone})
@@ -112,7 +110,6 @@ exports.zoneView = {
           return {data: zone.apiData(api)}
       }
     }).then(function (response) {
-      console.log('response = ', response)
       data.response = response
     }).then(function () {
       next()

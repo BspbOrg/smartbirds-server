@@ -11,7 +11,6 @@ exports.sessionCreate = {
 
   run: function (api, data, next) {
     data.response.success = false
-    console.log('searching user')
     api.models.user.findOne({where: {email: data.params.email}}).then(function (user) {
       if (!user) {
         return next(new Error('Няма такъв потребител'))

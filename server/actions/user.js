@@ -41,7 +41,7 @@ exports.userCreate = {
           next()
         })
         .catch(function (error) {
-          console.error('userCreate error:', error)
+          api.log('Error creating user', 'error', error)
           next(new Error('Вече съществува потребител с тази е-поща'))
         })
     })
