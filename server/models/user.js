@@ -32,10 +32,19 @@ module.exports = function (sequelize, DataTypes) {
         return this.getDataValue('role') === 'admin'
       }
     },
+    isModerator: {
+      type: DataTypes.VIRTUAL,
+      get: function () {
+        return this.getDataValue('role') === 'moderator'
+      }
+    },
     role: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: 'user'
+      defaultValue: 'user',
+      validate: {
+        isIn: [['user', 'admin', 'moderator']]
+      }
     },
     imported: {
       type: DataTypes.BOOLEAN,
@@ -148,7 +157,8 @@ module.exports = function (sequelize, DataTypes) {
           profile: this.profile,
           language: this.language,
           role: this.role,
-          isAdmin: !!(this.role && this.role === 'admin'),
+          isAdmin: this.isAdmin,
+          isModerator: this.isModerator,
           forms: this.forms
         }
       },

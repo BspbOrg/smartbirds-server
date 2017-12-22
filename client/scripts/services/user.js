@@ -28,7 +28,7 @@ require('../app')
         case 'admin':
           return _identity.isAdmin
         case 'moderator':
-          return _identity.role === 'moderator'
+          return _identity.isModerator
         default:
           return false
       }
