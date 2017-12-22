@@ -18,7 +18,6 @@ module.exports = {
             return Promise.reject(new Error('record not found'))
           }
 
-
           if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, modelName) && record.userId !== data.session.userId) {
             data.connection.rawConnection.responseHttpCode = 401
             return Promise.reject(new Error('no permission'))
@@ -27,9 +26,10 @@ module.exports = {
           return record
         })
         .then(function (record) {
-          if (!data.session.user.isAdmin || !data.params.user) {
+          if ((!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, modelName)) || !data.params.user) {
             data.params.user = data.session.userId
           }
+          console.log(data.params.user)
           return record
         })
         .then(function (record) {
@@ -62,7 +62,7 @@ module.exports = {
           return api.models[ modelName ].build({})
         })
         .then(function (record) {
-          if (!data.session.user.isAdmin  || !api.forms.isModerator(data.session.user, modelName) || !data.params.user) {
+          if ((!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, modelName)) || !data.params.user) {
             data.params.user = data.session.userId
           }
           return record
