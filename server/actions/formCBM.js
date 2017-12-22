@@ -161,7 +161,7 @@ exports.formCBMAdd = {
         return api.models.formCBM.build({})
       })
       .then(function (cbm) {
-        if (!data.session.user.isAdmin || !api.forms.isModerator(data.session.user, 'formCBM') || !data.params.user) {
+        if ((!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, 'formCBM')) || !data.params.user) {
           data.params.user = data.session.userId
         }
         return cbm
@@ -259,7 +259,7 @@ exports.formCBMEdit = {
         return formCBM
       })
       .then(function (formCBM) {
-        if (!data.session.user.isAdmin || !api.forms.isModerator(data.session.user, 'formCBM') || !data.params.user) {
+        if ((!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, 'formCBM')) || !data.params.user) {
           data.params.user = data.session.userId
         }
         return formCBM

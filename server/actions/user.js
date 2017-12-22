@@ -137,13 +137,21 @@ exports.userView = {
   name: 'user:view',
   description: 'user:view',
   outputExample: {},
-  middleware: ['auth', 'owner'],
+  middleware: ['auth'],
 
   inputs: {
     id: {required: true}
   },
 
   run: function (api, data, next) {
+    if (!data.session.user.isAdmin && data.session.user.role !== 'moderator') {
+      if (data.params.id === 'me' || parseInt(data.params.id) === data.session.userId) {
+        data.params.id = data.session.userId
+      } else {
+        data.connection.rawConnection.responseHttpCode = 403
+        return next(new Error('Admin required'))
+      }
+    }
     api.models.user.findOne({where: {id: data.params.id}}).then(function (user) {
       if (!user) {
         data.connection.rawConnection.responseHttpCode = 404
@@ -236,7 +244,7 @@ exports.userList = {
       offset: offset
     }
 
-    if (!data.session.user.isAdmin) {
+    if (!data.session.user.isAdmin && data.session.user.role !== 'moderator') {
       q.where = {
         id: data.session.userId
       }
