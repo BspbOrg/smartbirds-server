@@ -31,14 +31,14 @@ require('../app').controller('UserController', /* @ngInject */function ($scope, 
       .then(function (res) {
         ngToast.create({
           className: 'success',
-          content: $translate('Profile changes are saved successfully')
+          content: $translate.instant('Profile changes are saved successfully')
         })
         return res
       }, function (error) {
         Raven.captureMessage(JSON.stringify(error))
         ngToast.create({
           className: 'danger',
-          content: '<p>' + $translate('Could not save changes to profile') + '</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
+          content: '<p>' + $translate.instant('Could not save changes to profile') + '</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
         })
         return $q.reject(error)
       })
@@ -57,13 +57,13 @@ require('../app').controller('UserController', /* @ngInject */function ($scope, 
         controller.form.$setPristine()
         ngToast.create({
           className: 'success',
-          content: $translate('Password changed successfully')
+          content: $translate.instant('Password changed successfully')
         })
       }, function (error) {
         Raven.captureMessage(JSON.stringify(error))
         ngToast.create({
           className: 'danger',
-          content: '<p>' + $translate('Password change failed') + '</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
+          content: '<p>' + $translate.instant('Password change failed') + '</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
         })
         return $q.reject(error)
       })

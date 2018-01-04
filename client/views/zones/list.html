@@ -75,11 +75,11 @@
           'panel-default': zone.status=='free'
           }">
       <div class="panel-heading ellipsis"
-           title="{{::zone.id}} - {{::zone.location.type.bg}} {{::zone.location.name.bg}}, {{::zone.location.area.bg}}">
+           title="{{::zone.id}} - {{::zone.location.type[$language]}} {{::zone.location.name[$language]}}, {{::zone.location.area[$language]}}">
         <i class="fa fa-map-marker fa-fw"></i>
         <span class="hidden">{{zone.id}}</span>
         <strong>{{::zone.id}}</strong>
-        {{::zone.location.type.bg}} {{::zone.location.name.bg}}, {{::zone.location.area.bg}}
+        {{::zone.location.type[$language]}} {{::zone.location.name[$language]}}, {{::zone.location.area[$language]}}
         <span class="hidden">({zone.status})</span>
         <span class="hidden">{{($user.isAdmin()?'admin':'user')+'_'+zone.status}}</span>
       </div>

@@ -5,7 +5,7 @@
 var angular = require('angular')
 var isUndefined = angular.isUndefined
 
-require('../app').factory('Zone', /* @ngInject */function ($resource, ENDPOINT_URL, Location) {
+require('../app').factory('Zone', /* @ngInject */function ($resource, $translate, ENDPOINT_URL, Location) {
   var Zone = $resource(ENDPOINT_URL + '/zone/:id', {
     id: '@id'
   }, {
@@ -123,9 +123,9 @@ require('../app').factory('Zone', /* @ngInject */function ($resource, ENDPOINT_U
 
   Zone.statuses = function () {
     return {
-      free: 'свободна',
-      requested: 'заявена',
-      owned: 'заета'
+      free: $translate.instant('zone free'),
+      requested: $translate.instant('zone requested'),
+      owned: $translate.instant('zone owned')
     }
   }
 

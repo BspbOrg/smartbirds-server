@@ -1,5 +1,5 @@
 <a>
-  <span ng-bind-html="match.model.type.bg | uibTypeaheadHighlight:query"></span>
-  <span ng-bind-html="match.model.name.bg | uibTypeaheadHighlight:query"></span>,
-  <span class="text-muted" ng-bind-html="match.model.area.bg | uibTypeaheadHighlight:query"></span>
+  <span ng-bind-html="match.model.type[$language] | uibTypeaheadHighlight:query"></span>
+  <span ng-bind-html="match.model.name[$language] | uibTypeaheadHighlight:query"></span>,
+  <span class="text-muted" ng-bind-html="match.model.area[$language] | uibTypeaheadHighlight:query"></span>
 </a>

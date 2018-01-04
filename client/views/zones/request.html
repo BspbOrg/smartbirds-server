@@ -34,7 +34,7 @@
                            required="true"></location-selector>
         <!--<input name="location" type="text" class="form-control"-->
                <!--ng-model="requestZone.location" required-->
-               <!--uib-typeahead="location as location.type.bg+' '+location.name.bg+', '+location.area.bg for location in locations | filter:$viewValue | limitTo:10"-->
+               <!--uib-typeahead="location as location.type[$language]+' '+location.name[$language]+', '+location.area[$language] for location in locations | filter:$viewValue | limitTo:10"-->
                <!--typeahead-template-url="/views/directives/location.html">-->
         <p ng-if="!zones.length && requestZone.location" class="help-block" translate>REQUEST_ZONE_NO_ZONES_FOUND_FOR_LOCATION</p>
       </div>

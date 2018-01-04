@@ -161,7 +161,7 @@
           sb-sorting="updatedAt|date:'yyyyMMddHHmmss'" translate>
           HERPTILES_LIST_TABLE_UPDATED
         </th>
-        <th sb-sorting="species.label.bg" translate>
+        <th sb-sorting="species.label[$language]" translate>
           HERPTILES_LIST_TABLE_SPECIES
         </th>
         <th
@@ -186,7 +186,7 @@
         </td>
         <td>{{::row.updatedAt|date:'d.MM.yyyy'}} {{row.updatedAt|date:'H:mm'}}</td>
         <td>
-          {{row.getSpecies().label.bg}}<br/>
+          {{row.getSpecies().label[$language]}}<br/>
           <strong>{{row.getSpecies().label.la}}</strong>
         </td>
         <td>{{::row.count}}</td>

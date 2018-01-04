@@ -174,7 +174,8 @@ require('../app').directive('field', /* @ngInject */function ($q) {
                 label: el
               }
             }
-            el.label = $translate(el.label)
+            $translate(el.label).then(function (val) { el.label = val })
+            el.label = $translate.instant(el.label)
             return el
           })
           break

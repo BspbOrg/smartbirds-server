@@ -184,7 +184,7 @@
           CBM_LIST_TABLE_ZONE
         </th>
         <th
-          sb-sorting="visit.label.bg" translate>
+          sb-sorting="visit.label[$language]" translate>
           CBM_LIST_TABLE_VISIT
         </th>
         <th
@@ -195,14 +195,14 @@
           sb-sorting="updatedAt|date:'yyyyMMddHHmmss'" translate>
           CBM_LIST_TABLE_UPDATED
         </th>
-        <th sb-sorting="species.label.bg" translate>
+        <th sb-sorting="species.label[$language]" translate>
           CBM_LIST_TABLE_SPECIES
         </th>
         <th
-          sb-sorting="plot.label.bg" translate>
+          sb-sorting="plot.label[$language]" translate>
           CBM_LIST_TABLE_PLOT
         </th>
-        <th sb-sorting="distance.label.bg" translate>
+        <th sb-sorting="distance.label[$language]" translate>
           CBM_LIST_TABLE_DISTANCE
         </th>
         <th
@@ -223,17 +223,17 @@
         <td ng-if="::$user.canAccess(monitoringController.formName)">{{row.getUser().getName()}}</td>
         <td>{{row.getZone().location | locationLabel}}</td>
         <td>{{::row.zone}}</td>
-        <td>{{::row.visit.label.bg}}</td>
+        <td>{{::row.visit.label[$language]}}</td>
         <td>{{::row.startDateTime|date:'d.MM.yyyy'}} {{row.startDateTime|date:'H:mm'}} -
           {{row.endDateTime|date:'H:mm'}}
         </td>
         <td>{{::row.updatedAt|date:'d.MM.yyyy'}} {{row.updatedAt|date:'H:mm'}}</td>
         <td>
-          {{row.getSpecies().label.bg}}<br/>
+          {{row.getSpecies().label[$language]}}<br/>
           <strong>{{row.getSpecies().label.la}}</strong>
         </td>
-        <td>{{::row.plot.label.bg}}</td>
-        <td>{{::row.distance.label.bg}}</td>
+        <td>{{::row.plot.label[$language]}}</td>
+        <td>{{::row.distance.label[$language]}}</td>
         <td>{{::row.count}}</td>
       </tr>
       </tbody>

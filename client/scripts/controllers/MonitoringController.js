@@ -82,14 +82,14 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($f
     })).then(function () {
       ngToast.create({
         className: 'success',
-        content: $translate('Deleted {{num}} records', { num: rows.length })
+        content: $translate.instant('Deleted {{num}} records', { num: rows.length })
       })
       controller.selectedRows = []
     }, function (error) {
       Raven.captureMessage(JSON.stringify(error))
       ngToast.create({
         className: 'danger',
-        content: '<p>' + $translate('Error during deletion') + '</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
+        content: '<p>' + $translate.instant('Error during deletion') + '</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
       })
       return $q.reject(error)
     })

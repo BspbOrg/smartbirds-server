@@ -12,7 +12,7 @@
            ng-required="::field.required"
            ng-blur="field.onSelect()"
 
-           uib-typeahead="item.name.bg for item in field.values | filter:$viewValue | orderBy:field.order | limitTo:30"
+           uib-typeahead="item.name[$language] for item in field.values | filter:$viewValue | orderBy:field.order | limitTo:30"
            typeahead-append-to-body="false"
            typeahead-editable="true"
            typeahead-focus-first="::field.required"

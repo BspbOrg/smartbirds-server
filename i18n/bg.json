@@ -594,5 +594,8 @@
   "FORM_LABEL_HERP": "ЗВБ",
   "FORM_LABEL_HERPTILES": "ЗиВ",
   "FORM_LABEL_MAMMALS": "Бозайници",
-  "FORM_LABEL_CICONIA": "Бял щъркел"
+  "FORM_LABEL_CICONIA": "Бял щъркел",
+  "MULTIPLE_CHOICE_DEFAULT_NONE_SELECTION": "Моля изберете",
+  "MULTIPLE_CHOICE_NO_SEARCH_RESULTS": "НЯМА РЕЗУЛТАТИ",
+  "MULTIPLE_CHOICE_NUMBER_ITEM_SELECTED": "избрани %d"
 }

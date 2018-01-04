@@ -23,5 +23,8 @@
   "Profile created successfully": "Profile created successfully",
   "Could not create profile": "Could not create profile",
   "Email with instructions to reset password has been sent to {{email}}": "Email with instructions to reset password has been sent to {{email}}",
-  "Password reset failed": "Could not reset password. Try again later"
+  "Password reset failed": "Could not reset password. Try again later",
+  "zone free": "free",
+  "zone requested": "requested",
+  "zone owned": "owned"
 }
