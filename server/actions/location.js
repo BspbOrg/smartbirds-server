@@ -48,7 +48,7 @@ exports.locationGet = {
       return api.models.location.findOne({where: {id: data.params.id}}).then(function (result) {
         if (!result) {
           data.connection.rawConnection.responseHttpCode = 404
-          return next(new Error('location not found'))
+          return next(new Error(api.config.errors.locationNotFound(data.connection, data.params.id)))
         }
         data.response.data = result.apiData(api)
         return next()
@@ -94,7 +94,7 @@ exports.locationListZones = {
             break
           }
           default: {
-            return next(new Error("Invalid filter '" + data.params.filter + "'"))
+            return next(new Error(api.config.errors.invalidLocationFilter(data.connection, data.params.filter)))
           }
         }
       }
@@ -151,7 +151,7 @@ exports.areaListZones = {
             break
           }
           default: {
-            return next(new Error("Invalid filter '" + data.params.filter + "'"))
+            return next(new Error(api.config.errors.invalidLocationFilter(data.connection, data.params.filter)))
           }
         }
       }

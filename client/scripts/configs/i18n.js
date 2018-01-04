@@ -11,8 +11,11 @@ require('../app')
       .preferredLanguage('bg')
   })
   .run(/* @ngInject */function ($translate, $rootScope) {
-    $rootScope.$language = $translate.proposedLanguage()
+    $rootScope.$language = $translate.$language = $translate.proposedLanguage()
     $rootScope.$on('$translateChangeSuccess', function (e, params) {
-      $rootScope.$language = params.language
+      $rootScope.$language = $translate.$language = params.language
     })
+  })
+  .config(/* @ngInject */function ($httpProvider) {
+    $httpProvider.interceptors.push('languageInterceptor')
   })

@@ -35,7 +35,7 @@ exports.download = {
 
       if (stat.custom && stat.custom.userId && !data.session.user.isAdmin && stat.custom.userId !== data.session.userId) {
         data.connection.rawConnection.responseHttpCode = 403
-        return next(new Error('no permission'))
+        return next(new Error(api.config.errors.sessionNoPermission(data.connection)))
       }
 
       api.log('sending', 'info', stat)

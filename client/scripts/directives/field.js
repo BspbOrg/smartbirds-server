@@ -32,7 +32,7 @@ require('../app').directive('field', /* @ngInject */function ($q) {
       $scope.form = formCtrl
     },
     controllerAs: 'field',
-    controller: /* @ngInject */function ($scope, $attrs, $filter, $parse, $rootElement, $timeout, Nomenclature, Species, db) {
+    controller: /* @ngInject */function ($scope, $attrs, $filter, $parse, $rootElement, $timeout, $translate, Nomenclature, Species, db) {
       var field = this
 
       while (!field.name || $rootElement.querySelectorAll('#' + field.name).length) {
@@ -169,13 +169,12 @@ require('../app').directive('field', /* @ngInject */function ($q) {
         case 'checkbox-group': {
           field.values = $parse($attrs.choices)($scope.$parent).map(function (el) {
             if (typeof el !== 'object') {
-              var translated = $filter('translate')(el)
-              return {
-                id: translated,
-                label: translated
+              el = {
+                id: el,
+                label: el
               }
             }
-            el.label = $filter('translate')(el.label)
+            el.label = $translate(el.label)
             return el
           })
           break

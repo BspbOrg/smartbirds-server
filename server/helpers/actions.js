@@ -15,12 +15,12 @@ module.exports = {
         .then(function (record) {
           if (!record) {
             data.connection.rawConnection.responseHttpCode = 404
-            return Promise.reject(new Error('record not found'))
+            return Promise.reject(new Error(api.config.errors.formNotFound(data.connection, modelName, data.params.id)))
           }
 
           if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, modelName) && record.userId !== data.session.userId) {
             data.connection.rawConnection.responseHttpCode = 401
-            return Promise.reject(new Error('no permission'))
+            return Promise.reject(new Error(api.config.errors.sessionNoPermission(data.connection)))
           }
 
           return record
@@ -119,12 +119,12 @@ module.exports = {
         .then(function (record) {
           if (!record) {
             data.connection.rawConnection.responseHttpCode = 404
-            return next(new Error('record not found'))
+            return next(new Error(api.config.errors.formNotFound(data.connection, modelName, data.params.id)))
           }
 
           if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, modelName) && record.userId !== data.session.userId) {
             data.connection.rawConnection.responseHttpCode = 401
-            return next(new Error('no permission'))
+            return next(new Error(api.config.errors.sessionNoPermission(data.connection)))
           }
 
           record.apiData(api).then(function (apiData) {
@@ -143,12 +143,12 @@ module.exports = {
       }).then(function (record) {
         if (!record) {
           data.connection.rawConnection.responseHttpCode = 404
-          return Promise.reject(new Error('record not found'))
+          return Promise.reject(new Error(api.config.errors.formNotFound(data.connection, modelName, data.params.id)))
         }
 
         if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, modelName) && record.userId !== data.session.userId) {
           data.connection.rawConnection.responseHttpCode = 401
-          return Promise.reject(new Error('no permission'))
+          return Promise.reject(new Error(api.config.errors.sessionNoPermission(data.connection)))
         }
 
         return record

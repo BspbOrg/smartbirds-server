@@ -13,13 +13,13 @@ exports.sessionCreate = {
     data.response.success = false
     api.models.user.findOne({where: {email: data.params.email}}).then(function (user) {
       if (!user) {
-        return next(new Error('Няма такъв потребител'))
+        return next(new Error(api.config.errors.sessionInvalidCredentials(data.connection)))
       }
       user.checkPassword(data.params.password, function (error, match) {
         if (error) {
           return next(error)
         } else if (!match) {
-          return next(new Error('Невалидна парола'))
+          return next(new Error(api.config.errors.sessionInvalidCredentials(data.connection)))
         } else {
           api.session.create(data.connection, user, function (error, sessionData) {
             if (error) {
@@ -71,12 +71,12 @@ exports.sessionCheck = {
         return next(error)
       } else if (!sessionData) {
         data.connection.rawConnection.responseHttpCode = 401
-        return next(new Error('Необходимо е да се оторизирате'))
+        return next(new Error(api.config.errors.sessionRequireAuthentication(data.connection)))
       } else {
         api.models.user.findOne({where: {id: sessionData.userId}}).then(function (user) {
           if (!user) {
             data.connection.rawConnection.responseHttpCode = 404
-            return next(new Error('Няма такъв потребител'))
+            return next(new Error(api.config.errors.sessionInvalidCredentials(data.connection)))
           }
           data.response.user = user.apiData(api)
           data.response.csrfToken = sessionData.csrfToken
@@ -102,7 +102,7 @@ exports.sessionWSAuthenticate = {
         return next(error)
       } else if (!sessionData) {
         data.connection.rawConnection.responseHttpCode = 401
-        return next(new Error('Необходимо е да се оторизирате'))
+        return next(new Error(api.config.errors.sessionRequireAuthentication(data.connection)))
       } else {
         data.connection.authorized = true
         data.response.authorized = true

@@ -5,18 +5,18 @@
 var angular = require('angular')
 var forms = require('../configs/forms')
 
-require('../app').controller('UserController', /* @ngInject */function ($scope, $state, $stateParams, $q, $timeout, api, ngToast, user, User, Raven) {
+require('../app').controller('UserController', /* @ngInject */function ($scope, $state, $stateParams, $q, $timeout, $translate, api, ngToast, user, User, Raven) {
   var controller = this
 
   var id = $stateParams.id || $stateParams.fromId
 
-  controller.data = id ? User.get({id: id}) : new User()
+  controller.data = id ? User.get({ id: id }) : new User()
   controller.data.id = id
 
   controller.moderatorForms = []
 
   angular.forEach(forms, function (formDef) {
-    controller.moderatorForms.push({id: formDef.serverModel, label: formDef.label})
+    controller.moderatorForms.push({ id: formDef.serverModel, label: formDef.label })
   })
 
   controller.save = function () {
@@ -31,19 +31,19 @@ require('../app').controller('UserController', /* @ngInject */function ($scope, 
       .then(function (res) {
         ngToast.create({
           className: 'success',
-          content: 'Промените са записани успешно'
+          content: $translate('Profile changes are saved successfully')
         })
         return res
       }, function (error) {
         Raven.captureMessage(JSON.stringify(error))
         ngToast.create({
           className: 'danger',
-          content: '<p>Не може да запише промените!</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
+          content: '<p>' + $translate('Could not save changes to profile') + '</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
         })
         return $q.reject(error)
       })
       .then(function (res) {
-        $state.go('^.detail', {id: res.id}, {location: 'replace'})
+        $state.go('^.detail', { id: res.id }, { location: 'replace' })
       })
   }
 
@@ -57,13 +57,13 @@ require('../app').controller('UserController', /* @ngInject */function ($scope, 
         controller.form.$setPristine()
         ngToast.create({
           className: 'success',
-          content: 'Паролата е сменена успешно'
+          content: $translate('Password changed successfully')
         })
       }, function (error) {
         Raven.captureMessage(JSON.stringify(error))
         ngToast.create({
           className: 'danger',
-          content: '<p>Не може да смени паролата</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
+          content: '<p>' + $translate('Password change failed') + '</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
         })
         return $q.reject(error)
       })

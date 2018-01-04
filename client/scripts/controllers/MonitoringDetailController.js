@@ -1,6 +1,6 @@
 var angular = require('angular')
 
-require('../app').controller('MonitoringDetailController', /* @ngInject */function ($filter, $http, $scope, $state, $stateParams, $q, $timeout, model, ngToast, db, Raven, Track, formName) {
+require('../app').controller('MonitoringDetailController', /* @ngInject */function ($filter, $http, $scope, $state, $stateParams, $q, $timeout, $translate, model, ngToast, db, Raven, Track, formName) {
   var controller = this
 
   var id = $stateParams.id || $stateParams.fromId
@@ -20,7 +20,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
   controller.formName = formName
   controller.db = db
   if (id) {
-    controller.data = model.get({id: id})
+    controller.data = model.get({ id: id })
   } else {
     controller.data = new model() // eslint-disable-line new-cap
     if (angular.isFunction(model.prototype.afterCreate)) { model.prototype.afterCreate.apply(controller.data) }
@@ -60,8 +60,8 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
         args = scope
         scope = undefined
       }
-      controller.data.latitude = args[0].latLng.lat()
-      controller.data.longitude = args[0].latLng.lng()
+      controller.data.latitude = args[ 0 ].latLng.lat()
+      controller.data.longitude = args[ 0 ].latLng.lng()
       controller.updateFromModel()
       $scope.smartform.$setDirty()
     }
@@ -120,7 +120,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
   }
 
   controller.copy = function () {
-    $state.go('^.copy', {fromId: controller.data.id}, {notify: false})
+    $state.go('^.copy', { fromId: controller.data.id }, { notify: false })
     controller.clearForCopy()
   }
 
@@ -143,18 +143,18 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
     }).then(function (res) {
       ngToast.create({
         className: 'success',
-        content: 'Save success.'
+        content: $translate('Form {{form}} saved successfully.', { form: model.name })
       })
       return res
     }, function (error) {
       Raven.captureMessage(JSON.stringify(error))
       ngToast.create({
         className: 'danger',
-        content: '<p>Could not save!</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
+        content: '<p>' + $translate('Could not save {{form}}!', { form: model.name }) + '</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
       })
       return $q.reject(error)
     }).then(function (res) {
-      $state.go('^.detail', {id: res.id}, {location: 'replace'})
+      $state.go('^.detail', { id: res.id }, { location: 'replace' })
     })
   }
 
@@ -176,7 +176,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
       controller.visit = null
       if (!date || angular.isString(date)) return
       var year = date.getUTCFullYear()
-      var visit = controller.visit = db.visits[year]
+      var visit = controller.visit = db.visits[ year ]
       controller.isEarly = false
       controller.isLate = false
       if (visit) {

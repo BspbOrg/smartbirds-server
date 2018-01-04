@@ -248,12 +248,12 @@ exports.formCBMEdit = {
       .then(function (formCBM) {
         if (!formCBM) {
           data.connection.rawConnection.responseHttpCode = 404
-          return Promise.reject(new Error('cbm not found'))
+          return Promise.reject(new Error(api.config.errors.formNotFound(data.connection, 'formCBM', data.params.id)))
         }
 
         if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, 'formCBM') && formCBM.userId !== data.session.userId) {
           data.connection.rawConnection.responseHttpCode = 401
-          return Promise.reject(new Error('no permission'))
+          return Promise.reject(new Error(api.config.errors.sessionNoPermission))
         }
 
         return formCBM
@@ -301,12 +301,12 @@ exports.formCBMView = {
     api.models.formCBM.findOne(q).then(function (cbm) {
       if (!cbm) {
         data.connection.rawConnection.responseHttpCode = 404
-        return next(new Error('cbm record not found'))
+        return next(new Error(api.config.errors.formNotFound(data.connection, 'formCBM', data.params.id)))
       }
 
       if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, 'formCBM') && cbm.userId !== data.session.userId) {
         data.connection.rawConnection.responseHttpCode = 401
-        return next(new Error('no permission'))
+        return next(new Error(api.config.errors.sessionNoPermission(data.connection)))
       }
 
       cbm.apiData(api).then(function (apiData) {
@@ -330,12 +330,12 @@ exports.formCBMDelete = {
     }).then(function (formCBM) {
       if (!formCBM) {
         data.connection.rawConnection.responseHttpCode = 404
-        return Promise.reject(new Error('cbm not found'))
+        return Promise.reject(new Error(api.config.errors.formNotFound(data.connection, 'formCBM', data.params.id)))
       }
 
       if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, 'formCBM') && formCBM.userId !== data.session.userId) {
         data.connection.rawConnection.responseHttpCode = 401
-        return Promise.reject(new Error('no permission'))
+        return Promise.reject(new Error(api.config.errors.sessionNoPermission(data.connection)))
       }
 
       return formCBM

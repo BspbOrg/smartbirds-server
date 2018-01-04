@@ -4,7 +4,7 @@
 
 var _ = require('lodash')
 var angular = require('angular')
-require('../app').controller('MonitoringController', /* @ngInject */function ($filter, $state, $stateParams, $q, model, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, formName) {
+require('../app').controller('MonitoringController', /* @ngInject */function ($filter, $state, $stateParams, $q, $translate, model, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, formName) {
   var controller = this
   var authurl = $filter('authurl')
 
@@ -82,14 +82,14 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($f
     })).then(function () {
       ngToast.create({
         className: 'success',
-        content: 'Deleted ' + rows.length + ' records'
+        content: $translate('Deleted {{num}} records', { num: rows.length })
       })
       controller.selectedRows = []
     }, function (error) {
       Raven.captureMessage(JSON.stringify(error))
       ngToast.create({
         className: 'danger',
-        content: '<p>Error during deletion!</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
+        content: '<p>' + $translate('Error during deletion') + '</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
       })
       return $q.reject(error)
     })

@@ -7,6 +7,7 @@ require('../app').controller('SessionController', /* @ngInject */function ($log,
                                                             $scope,
                                                             $state,
                                                             $stateParams,
+                                                            $translate,
                                                             $uibModal,
                                                             api,
                                                             flashService,
@@ -33,7 +34,7 @@ require('../app').controller('SessionController', /* @ngInject */function ($log,
       }
     }, function (response) {
       $log.debug('auth err', response)
-      flashService.error((response && (response.error || (response.data && response.data.error))) || 'Invalid email or password')
+      flashService.error((response && (response.error || (response.data && response.data.error))) || $translate('Invalid credentials'))
     }).finally(function () {
       ctrl.loading = false
     })
@@ -44,11 +45,11 @@ require('../app').controller('SessionController', /* @ngInject */function ($log,
     $scope.form.$setPristine()
     User.save(user).$promise.then(function (response) {
       $log.debug('user created', response)
-      flashService.success('Успешно създадохте профил', true)
+      flashService.success($translate('Profile created successfully'), true)
       $state.go('login', {email: response.user.email})
     }, function (response) {
       $log.debug('error creating user', response)
-      flashService.error(response.data.error || 'Не може да създаде профил')
+      flashService.error(response.data.error || $translate('Could not create profile'))
     }).finally(function () {
       ctrl.loading = false
     })
@@ -64,11 +65,11 @@ require('../app').controller('SessionController', /* @ngInject */function ($log,
     $scope.form.$setPristine()
     api.session.forgotPassword(user).then(function (response) {
       $log.debug('reset password sent', response)
-      flashService.success('Изпратено е писмо с инструкции', true)
+      flashService.success($translate('Email with instructions to reset password has been sent to {{email}}', user), true)
       $state.go('login', {email: user.email})
     }, function (response) {
       $log.debug('error requesting password reset', response)
-      flashService.error(response.data.error || 'Не може да се смени паролата')
+      flashService.error(response.data.error || $translate('Password reset failed'))
     }).finally(function () {
       ctrl.loading = false
     })
@@ -80,11 +81,11 @@ require('../app').controller('SessionController', /* @ngInject */function ($log,
     $scope.form.$setPristine()
     api.session.resetPassword(user).then(function (response) {
       $log.debug('password reset', response)
-      flashService.success('Паролата е сменена успешно', true)
+      flashService.success($translate('Password changed successfully'), true)
       $state.go('login', {email: user.email})
     }, function (response) {
       $log.debug('error resetting password', response)
-      flashService.error(response.data.error || 'Не може да се смени паролата')
+      flashService.error(response.data.error || $translate('Password change failed'))
     }).finally(function () {
       ctrl.loading = true
     })
