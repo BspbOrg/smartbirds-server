@@ -1,4 +1,4 @@
-let hackProviders = {}
+var hackProviders = {}
 
 require('../app')
   .config(/* @ngInject */function (nyaBsConfigProvider) {
