@@ -13,6 +13,12 @@ require('../app').service('Species', /* @ngInject */function ($resource, $transl
 
   // instance methods
   angular.extend(Species.prototype, {
+    localeLabel: function (locale) {
+      locale = locale || $translate.$language || 'en'
+      var label = (this.label || {})
+
+      return label[ locale ]
+    },
     toString: function (locale) {
       locale = locale || $translate.$language || 'en'
       var label = (this.label || {})

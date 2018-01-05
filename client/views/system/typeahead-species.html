@@ -2,5 +2,5 @@
    tabindex="-1"
    ng-attr-title="{{match.label}}">
   <strong ng-bind-html="match.model.label.la | uibTypeaheadHighlight:query"></strong><br/>
-  <span ng-bind-html="match.model.label[$language] | uibTypeaheadHighlight:query"></span>
+  <span ng-bind-html="match.model.localeLabel($language) | uibTypeaheadHighlight:query"></span>
 </a>

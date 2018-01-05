@@ -51,7 +51,7 @@
     <div>
       <ul class="list-unstyled">
         <li><strong>{{$ctrl.selected.pin.species}}</strong></li>
-        <li>{{$ctrl.selected.pin.species|species:'label[$language]'}}</li>
+        <li>{{$ctrl.selected.pin.species|species:'localeLabel($language)'}}</li>
         <li class="text-1justify">
           <span class="text-muted" translate>LIST_MAP_MARKER_COUNT</span>
           <span class="text-nowrap">{{$ctrl.selected.pin.count}}</span>
