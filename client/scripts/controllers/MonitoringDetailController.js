@@ -143,14 +143,14 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
     }).then(function (res) {
       ngToast.create({
         className: 'success',
-        content: $translate.instant('Form {{form}} saved successfully.', { form: model.name })
+        content: $translate.instant('Form saved successfully.')
       })
       return res
     }, function (error) {
       Raven.captureMessage(JSON.stringify(error))
       ngToast.create({
         className: 'danger',
-        content: '<p>' + $translate.instant('Could not save {{form}}!', { form: model.name }) + '</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
+        content: '<p>' + $translate.instant('Could not save form!') + '</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
       })
       return $q.reject(error)
     }).then(function (res) {
