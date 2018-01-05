@@ -28,18 +28,6 @@ module.exports = {
       'to_date'
     ]
   },
-  herp: {
-    model: 'FormHerp',
-    serverModel: 'formHerps',
-    label: 'FORM_LABEL_HERP',
-    filters: [
-      'location',
-      '{user:int}',
-      'species',
-      'from_date',
-      'to_date'
-    ]
-  },
   herptiles: {
     model: 'FormHerptiles',
     serverModel: 'formHerptiles',
