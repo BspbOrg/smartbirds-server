@@ -5,7 +5,7 @@
 var angular = require('angular')
 var md5 = require('blueimp-md5')
 
-require('../app').factory('User', /* @ngInject */function ($resource, BANNER_BASE_URL, ENDPOINT_URL) {
+require('../app').factory('User', /* @ngInject */function ($resource, $translate, BANNER_BASE_URL, ENDPOINT_URL) {
   var User = $resource(ENDPOINT_URL + '/user/:id', {
     id: '@id'
   })
@@ -25,7 +25,7 @@ require('../app').factory('User', /* @ngInject */function ($resource, BANNER_BAS
       return this.getName()
     },
     getBannerUrl: function () {
-      if (!this.bannerUrl) { this.bannerUrl = BANNER_BASE_URL + md5(this.id) + '.png' }
+      if (!this.bannerUrl) { this.bannerUrl = BANNER_BASE_URL + md5(this.id) + '-' + $translate.$language + '.png' }
       return this.bannerUrl
     }
   })
