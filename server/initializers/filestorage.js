@@ -13,7 +13,7 @@ module.exports = {
 
     api.log('initializing filestorage at %s', 'info', api.config.filestorage.path)
     api.filestorage = {
-      storage: blobs(api.config.filestorage.path),
+      storage: blobs(api.config.filestorage),
       /**
        * @callback storagePushCallback
        * @param {Error} err
