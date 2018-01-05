@@ -17,7 +17,6 @@ require('../app')
       .preferredLanguage('bg')
   })
   .run(/* @ngInject */function ($translate, $rootScope) {
-
     function updateLang (language) {
       $rootScope.localeLanguage = $rootScope.$language = $translate.$language = language
       hackProviders.nyaBsConfigProvider.setLocalizedText(language, {
