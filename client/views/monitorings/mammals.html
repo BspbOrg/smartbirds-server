@@ -37,7 +37,7 @@
   <div ng-include="'/views/monitorings/common.html'"></div>
 
   <div class="row">
-    <div class="col-md-6 col-lg-5">
+    <div class="col-md-8 col-lg-7">
       <div class="row">
         <div class="col-md-6">
           <field name="latitude" type="float" required="true"
@@ -81,36 +81,41 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6 col-lg-5">
-      <field name="species" type="species" nomenclature="mammals" required="true"
-             label="{{'MAMMALS_DETAIL_SPECIES' | translate}}"
-             model="monitoringDetailController.data.species"></field>
-    </div>
-    <div class="col-md-3 col-lg-2">
-      <field name="count" type="int" min="1" required="true"
-             ng-init="monitoringDetailController.data.count=1"
-             label="{{'MAMMALS_DETAIL_COUNT' | translate}}"
-             model="monitoringDetailController.data.count"></field>
-    </div>
-    <div class="col-md-3 col-lg-4">
-      <field name="age" type="single-choice" nomenclature="mammals_age"
-             label="{{'MAMMALS_DETAIL_AGE' | translate}}"
-             model="monitoringDetailController.data.age"></field>
-    </div>
-    <div class="col-md-3 col-lg-3">
-      <field name="sex" type="single-choice" nomenclature="mammals_gender"
-             label="{{'MAMMALS_DETAIL_SEX' | translate}}"
-             model="monitoringDetailController.data.sex"></field>
-    </div>
-    <div class="col-md-6 col-lg-7">
-      <field name="habitat" type="single-choice" nomenclature="mammals_habitat"
-             label="{{'MAMMALS_DETAIL_HABITAT' | translate}}"
-             model="monitoringDetailController.data.habitat"></field>
-    </div>
-    <div class="col-md-6 col-lg-7">
-      <field name="threatsMammalss" type="multiple-choice" nomenclature="mammals_danger_observation"
-             label="{{'MAMMALS_DETAIL_THREATS' | translate}}"
-             model="monitoringDetailController.data.threatsMammalss"></field>
+
+    <div class="col-md-4 col-lg-5">
+      <div class="row">
+        <div class="col-md-8 col-lg-8">
+          <field name="species" type="species" nomenclature="mammals" required="true"
+                 label="{{'MAMMALS_DETAIL_SPECIES' | translate}}"
+                 model="monitoringDetailController.data.species"></field>
+        </div>
+        <div class="col-md-4 col-lg-4">
+          <field name="count" type="int" min="1" required="true"
+                 ng-init="monitoringDetailController.data.count=1"
+                 label="{{'MAMMALS_DETAIL_COUNT' | translate}}"
+                 model="monitoringDetailController.data.count"></field>
+        </div>
+        <div class="col-md-6 col-lg-6">
+          <field name="age" type="single-choice" nomenclature="mammals_age"
+                 label="{{'MAMMALS_DETAIL_AGE' | translate}}"
+                 model="monitoringDetailController.data.age"></field>
+        </div>
+        <div class="col-md-6 col-lg-6">
+          <field name="sex" type="single-choice" nomenclature="mammals_gender"
+                 label="{{'MAMMALS_DETAIL_SEX' | translate}}"
+                 model="monitoringDetailController.data.sex"></field>
+        </div>
+        <div class="col-md-12 col-lg-12">
+          <field name="habitat" type="single-choice" nomenclature="mammals_habitat"
+                 label="{{'MAMMALS_DETAIL_HABITAT' | translate}}"
+                 model="monitoringDetailController.data.habitat"></field>
+        </div>
+        <div class="col-md-12 col-lg-12">
+          <field name="threatsMammalss" type="multiple-choice" nomenclature="mammals_danger_observation"
+                 label="{{'MAMMALS_DETAIL_THREATS' | translate}}"
+                 model="monitoringDetailController.data.threatsMammalss"></field>
+        </div>
+      </div>
     </div>
   </div>
   <div class="row">
