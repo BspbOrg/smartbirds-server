@@ -91,6 +91,18 @@
                 <translate>NAV_VISITS</translate>
               </a>
             </li>
+            <li ng-if="$user.isAdmin()">
+              <a ui-sref="auth.nomenclatures">
+                <i class="fa fa-database fa-fw"></i>
+                <translate>NAV_NOMENCLATURES</translate>
+              </a>
+            </li>
+            <li ng-if="$user.isAdmin()">
+              <a ui-sref="auth.species">
+                <i class="fa fa-database fa-fw"></i>
+                <translate>NAV_SPECIES</translate>
+              </a>
+            </li>
           </ul>
         </div>
         <!-- /.sidebar-collapse -->
