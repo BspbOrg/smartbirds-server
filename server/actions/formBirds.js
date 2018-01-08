@@ -105,8 +105,8 @@ exports.formBirdsList = {
   },
 
   run: actions.getSelect('formBirds', prepareQuery, function (api, record) {
-    return {
-      speciesEuringCode: record['speciesInfo.euring']
-    }
+    var res = actions.defaultPrepareCsv(api, record)
+    res.speciesEuringCode = record['speciesInfo.euring']
+    return res
   })
 }

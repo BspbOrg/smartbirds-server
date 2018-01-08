@@ -163,25 +163,28 @@ module.exports = {
     }
   },
 
+  defaultPrepareCsvSkipFields: [
+    'observers',
+    'hash',
+    'user',
+    'speciesInfo',
+    'observationDateTime',
+    'endDateTime',
+    'startDateTime',
+    'imported',
+    'createdAt',
+    'updatedAt'
+  ],
+
+  defaultPrepareCsv: function (api, record) {
+    return _.omitBy(record, function (value, key) {
+      return module.exports.defaultPrepareCsvSkipFields.indexOf(key.split('.')[ 0 ]) !== -1
+    })
+  },
+
   getSelect: function (modelName, prepareQuery, prepareCsv) {
     if (!prepareCsv) {
-      var skipFields = [
-        'observers',
-        'hash',
-        'user',
-        'speciesInfo',
-        'observationDateTime',
-        'endDateTime',
-        'startDateTime',
-        'imported',
-        'createdAt',
-        'updatedAt'
-      ]
-      prepareCsv = function (api, record) {
-        return _.omitBy(record, function (value, key) {
-          return skipFields.indexOf(key.split('.')[ 0 ]) !== -1
-        })
-      }
+      prepareCsv = module.exports.defaultPrepareCsv
     }
     return function (api, data, next) {
       try {
