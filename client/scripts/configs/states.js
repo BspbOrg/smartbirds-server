@@ -32,49 +32,48 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
     .state('home', {
       url: '/',
       templateUrl: '/views/home.html',
-      title: 'Home',
       resolve: resolveUser
     })
 
     .state('cbm', {
       url: '/cbm',
       templateUrl: '/views/home-cbm.html',
-      title: 'МОВП',
+      title: 'FORM_CBM_SHORT',
       resolve: resolveUser
     })
 
     .state('birds', {
       url: '/birds',
       templateUrl: '/views/home-birds.html',
-      title: 'Птици',
+      title: 'FORM_BIRDS_SHORT',
       resolve: resolveUser
     })
 
     .state('herp', {
       url: '/herp',
       templateUrl: '/views/home-herp.html',
-      title: 'ЗВБ',
+      title: 'FORM_HERP_SHORT',
       resolve: resolveUser
     })
 
     .state('herptiles', {
       url: '/herptiles',
       templateUrl: '/views/home-herptiles.html',
-      title: 'ЗиВ',
+      title: 'FORM_HERPTILES_SHORT',
       resolve: resolveUser
     })
 
     .state('mammals', {
       url: '/mammals',
       templateUrl: '/views/home-mammals.html',
-      title: 'Бозайници',
+      title: 'FORM_MAMMALS_SHORT',
       resolve: resolveUser
     })
 
     .state('ciconia', {
       url: '/ciconia',
       templateUrl: '/views/home-ciconia.html',
-      title: 'ЗВБ',
+      title: 'FORM_CICONIA_SHORT',
       resolve: resolveUser
     })
 
@@ -86,7 +85,7 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
       templateUrl: '/views/login.html',
       controller: 'SessionController',
       controllerAs: 'sessionController',
-      title: 'Login'
+      title: 'TITLE_LOGIN'
     })
 
     /// ////////
@@ -97,7 +96,7 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
       templateUrl: '/views/register.html',
       controller: 'SessionController',
       controllerAs: 'sessionController',
-      title: 'Register'
+      title: 'TITLE_REGISTER'
     })
 
     /// ////////
@@ -108,7 +107,7 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
       templateUrl: '/views/forgot.html',
       controller: 'SessionController',
       controllerAs: 'sessionController',
-      title: 'Forgot password'
+      title: 'TITLE_FORGOT_PASSWORD'
     })
 
     /// ////////
@@ -119,7 +118,7 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
       templateUrl: '/views/reset.html',
       controller: 'SessionController',
       controllerAs: 'sessionController',
-      title: 'Reset password'
+      title: 'TITLE_RESET_PASSWORD'
     })
 
     /// ////////
