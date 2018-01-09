@@ -42,8 +42,17 @@ exports.userCreate = {
 
       user.save()
         .then(function (userObj) {
-          data.response.data = userObj.apiData(api)
-          next()
+          api.tasks.enqueue('mail:send', {
+            mail: {to: userObj.email, subject: 'Успешна регистрация'},
+            template: 'register',
+            locals: {
+              name: userObj.name()
+            }
+          }, 'default', function (error) {
+            if (error) return next(error)
+            data.response.data = userObj.apiData(api)
+            next()
+          })
         })
         .catch(function (error) {
           api.log('Error creating user', 'error', error)
