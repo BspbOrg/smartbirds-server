@@ -97,7 +97,7 @@ module.exports = {
 
       inflator: function (mime, filters) {
         if (filters.gzip) {
-          return zlib.createGzip()
+          return zlib.createUnzip()
         }
         return new stream.PassThrough()
       },
