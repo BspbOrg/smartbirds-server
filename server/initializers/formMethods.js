@@ -1,7 +1,7 @@
 const _ = require('lodash')
 
 function generatePrepareQuery (form) {
-  const prepareQuery = form.prepareQuery
+  const prepareQuery = form.filterList
 
   return async function (api, data, query) {
     query = query || {}
@@ -35,6 +35,8 @@ function generatePrepareQuery (form) {
         userId: data.session.userId
       })
     }
+
+    return query
   }
 }
 

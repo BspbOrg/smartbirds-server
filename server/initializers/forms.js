@@ -2,7 +2,8 @@ const _ = require('lodash')
 const crypto = require('crypto')
 const fs = require('fs')
 const path = require('path')
-const {DataTypes} = require('sequelize')
+const Promise = require('bluebird')
+const { DataTypes } = require('sequelize')
 
 function capitalizeFirstLetter (string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
@@ -153,7 +154,7 @@ function generateCalcHash (fields) {
 }
 
 function generateApiData (fields) {
-  return function (api) {
+  return async function (api) {
     return Promise
       .props(_.mapValues(fields, (field, name) => {
         if (_.isString(field)) field = { type: field }
@@ -195,7 +196,8 @@ function generateApiData (fields) {
               case 'species': {
                 return this[ name ]
               }
-              case 'user': {
+              case 'user':
+              case 'zone': {
                 return this[ name + 'Id' ]
               }
               default:
@@ -260,7 +262,8 @@ function generateApiUpdate (fields) {
               this[ name ] = data[ name ]
               break
             }
-            case 'user': {
+            case 'user':
+            case 'zone': {
               if (!_.has(data, name)) return
 
               this[ name + 'Id' ] = data[ name ]
@@ -333,7 +336,7 @@ module.exports = {
         return form
       },
       register (form) {
-        api.forms[form.modelName] = form
+        api.forms[ form.modelName ] = form
 
         const attributes = formAttributes(form.fields)
         delete attributes.createdAt
@@ -349,11 +352,7 @@ module.exports = {
         return form.model
       }
     }
-    next()
-  },
 
-  startPriority: 100, // should be before sequelize initializer
-  start: function (api, next) {
     const dir = path.normalize(api.projectRoot + '/forms')
     fs.readdirSync(dir).forEach(function (file) {
       if (file.substr(0, 1) === '_') return

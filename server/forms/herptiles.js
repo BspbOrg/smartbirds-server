@@ -2,7 +2,7 @@ const _ = require('lodash')
 const moment = require('moment')
 const { assign } = Object
 
-exports = module.exports = assign({}, require('./_common'))
+exports = module.exports = _.cloneDeep(require('./_common'))
 
 exports.tableName = 'FormHerptiles'
 
@@ -82,7 +82,9 @@ exports.indexes.push({ fields: [ 'species' ] })
 
 exports.listInputs = {
   location: {},
-  species: {}
+  species: {},
+  from_date: {},
+  to_date: {}
 }
 
 exports.filterList = async function (api, data, q) {
