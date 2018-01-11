@@ -5,6 +5,7 @@ var Umzug = require('umzug')
 var _ = require('lodash')
 
 module.exports = {
+  loadPriority: 310,
   initialize: function (api, next) {
     api.models = {}
 
@@ -59,9 +60,15 @@ module.exports = {
       connect: function (next) {
         var dir = path.normalize(api.projectRoot + '/models')
         fs.readdirSync(dir).forEach(function (file) {
+          const filename = path.join(dir, file)
           var nameParts = file.split('/')
-          var name = nameParts[ (nameParts.length - 1) ].split('.')[ 0 ]
-          api.models[ name ] = api.sequelize.sequelize.import(dir + '/' + file)
+          var name = nameParts[(nameParts.length - 1)].split('.')[0]
+          api.models[name] = api.sequelize.sequelize.import(filename)
+          api.watchFileAndAct(filename, () => {
+            api.log('rebooting due to model change: ' + name, 'info')
+            delete require.cache[require.resolve(filename)]
+            api.commands.restart()
+          })
         })
 
         _.forEach(api.models, function (model, name) {
