@@ -208,9 +208,15 @@ module.exports = {
               case 'zip':
               case 'csv':
                 q.include = (q.include || []).concat([
-                  { model: api.models.species, as: 'speciesInfo' },
                   { model: api.models.user, as: 'user' }
                 ])
+
+                if (api.models[ modelName ].associations.speciesInfo) {
+                  q.include = q.include.concat([
+                    { model: api.models.species, as: 'speciesInfo' }
+                  ])
+                }
+
                 q.raw = true
                 break
             }
@@ -237,14 +243,14 @@ module.exports = {
                       lastName: record[ 'user.lastName' ],
                       observationDate: moment.tz(record.observationDateTime, api.config.formats.tz).format(api.config.formats.date),
                       observationTime: moment.tz(record.observationDateTime, api.config.formats.tz).format(api.config.formats.time),
+                      observationDateUTC: moment.tz(record.observationDateTime, 'UTC').format(api.config.formats.date),
+                      observationTimeUTC: moment.tz(record.observationDateTime, 'UTC').format(api.config.formats.time),
                       otherObservers: record.observers
                     }
                     var mid = prepareCsv(api, record)
                     var post = {
                       notes: (record.notes || '').replace(/[\n\r]+/g, ' '),
                       speciesNotes: (record.speciesNotes || '').replace(/[\n\r]+/g, ' '),
-                      species: record[ 'speciesInfo.labelLa' ] + ' | ' + record[ 'speciesInfo.labelBg' ],
-                      speciesEn: record[ 'speciesInfo.labelLa' ] + ' | ' + record[ 'speciesInfo.labelEn' ],
                       pictures: (record.pictures ? JSON.parse(record.pictures) || [] : []).map(function (pic) {
                         return pic.url && pic.url.split('/').slice(-1)[ 0 ] + '.jpg'
                       }).filter(function (val) {
@@ -252,6 +258,11 @@ module.exports = {
                       }).join(', ') || '',
                       track: record.track && record.monitoringCode + '.gpx',
                       trackId: record.track && record.track.split('/').slice(-1)[ 0 ]
+                    }
+
+                    if (api.models[modelName].associations.speciesInfo) {
+                      post.species = record['speciesInfo.labelLa'] + ' | ' + record['speciesInfo.labelBg']
+                      post.speciesEn = record['speciesInfo.labelLa'] + ' | ' + record['speciesInfo.labelEn']
                     }
 
                     result.rows[ i ] = _.assign(pre, mid, post)
