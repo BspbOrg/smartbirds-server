@@ -342,7 +342,7 @@ module.exports = {
         delete attributes.createdAt
         delete attributes.updatedAt
 
-        form.model = api.models[ form.modelName ] = api.sequelize.sequelize.define(form.modelName, attributes, formOptions(form))
+        form.model = api.models[ form.modelName ] = api.sequelize.sequelize.define(form.tableName, attributes, formOptions(form))
 
         const hooks = [ 'beforeCreate', 'beforeUpdate', 'beforeSync', 'beforeSave' ]
         hooks.forEach(function (hook) {
