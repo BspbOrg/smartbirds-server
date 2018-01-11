@@ -158,7 +158,8 @@ function Model (modelName_, fields_, foreignKeyDefs) {
             models[ modelLoweredName ].belongsTo(models[ foreignKey.targetModelName ], {
               as: foreignKey.as,
               foreignKey: foreignKey.foreignKey,
-              targetKey: foreignKey.targetKey
+              targetKey: foreignKey.targetKey,
+              scope: foreignKey.scope
             })
           }
         }
