@@ -67,8 +67,14 @@ var fields = {
 }
 
 var model = Model('FormHerptiles', fields, [
-  {targetModelName: 'species', as: 'speciesInfo', foreignKey: 'species', targetKey: 'labelLa'},
-  {targetModelName: 'user', as: 'user'}
+  {
+    targetModelName: 'species',
+    as: 'speciesInfo',
+    foreignKey: 'species',
+    targetKey: 'labelLa',
+    scope: { type: 'herptiles' }
+  },
+  { targetModelName: 'user', as: 'user' }
 ])
 
 module.exports = model.getModelDefinition

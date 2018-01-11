@@ -15,7 +15,7 @@ var fields = {
     uniqueHash: true,
     relation: {
       model: 'nomenclature',
-      filter: {type: 'cbm_sector'}
+      filter: { type: 'cbm_sector' }
     }
   },
   visit: {
@@ -24,21 +24,21 @@ var fields = {
     uniqueHash: true,
     relation: {
       model: 'nomenclature',
-      filter: {type: 'cbm_visit_number'}
+      filter: { type: 'cbm_visit_number' }
     }
   },
   secondaryHabitat: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: {type: 'cbm_habitat'}
+      filter: { type: 'cbm_habitat' }
     }
   },
   primaryHabitat: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: {type: 'cbm_habitat'}
+      filter: { type: 'cbm_habitat' }
     }
   },
   distance: {
@@ -47,7 +47,7 @@ var fields = {
     uniqueHash: true,
     relation: {
       model: 'nomenclature',
-      filter: {type: 'cbm_distance'}
+      filter: { type: 'cbm_distance' }
     }
   },
   species: {
@@ -56,35 +56,35 @@ var fields = {
     uniqueHash: true,
     relation: {
       model: 'species',
-      filter: {type: 'birds'}
+      filter: { type: 'birds' }
     }
   },
   cloudiness: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: {type: 'main_cloud_level'}
+      filter: { type: 'main_cloud_level' }
     }
   },
   windDirection: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: {type: 'main_wind_direction'}
+      filter: { type: 'main_wind_direction' }
     }
   },
   windSpeed: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: {type: 'main_wind_force'}
+      filter: { type: 'main_wind_force' }
     }
   },
   rain: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: {type: 'main_rain'}
+      filter: { type: 'main_rain' }
     }
   },
 
@@ -143,7 +143,7 @@ var fields = {
     type: 'multi',
     relation: {
       model: 'nomenclature',
-      filter: {type: 'main_threats'}
+      filter: { type: 'main_threats' }
     }
   },
 
@@ -168,7 +168,7 @@ module.exports = function (sequelize, DataTypes) {
 
   _.forEach(fields, function (field, name) {
     if (_.isString(field)) {
-      field = {type: field}
+      field = { type: field }
     }
 
     var fd = {
@@ -177,87 +177,77 @@ module.exports = function (sequelize, DataTypes) {
 
     switch (field.type) {
       case 'multi':
-      case 'choice':
-        {
-          switch (field.relation.model) {
-            case 'nomenclature':
-              {
-                fieldsDef[name + 'Bg'] = _.extend({
-                  type: DataTypes.TEXT
-                }, fd)
-                fieldsDef[name + 'En'] = _.extend({
-                  type: DataTypes.TEXT
-                }, fd)
-                break
-              }
-            case 'species':
-              {
-                fieldsDef[name] = _.extend({
-                  type: DataTypes.TEXT
-                }, fd)
-                break
-              }
-            case 'zone':
-              {
-                fieldsDef[name + 'Id'] = _.extend({
-                  type: field.type === 'multi'
+      case 'choice': {
+        switch (field.relation.model) {
+          case 'nomenclature': {
+            fieldsDef[ name + 'Bg' ] = _.extend({
+              type: DataTypes.TEXT
+            }, fd)
+            fieldsDef[ name + 'En' ] = _.extend({
+              type: DataTypes.TEXT
+            }, fd)
+            break
+          }
+          case 'species': {
+            fieldsDef[ name ] = _.extend({
+              type: DataTypes.TEXT
+            }, fd)
+            break
+          }
+          case 'zone': {
+            fieldsDef[ name + 'Id' ] = _.extend({
+              type: field.type === 'multi'
                 ? DataTypes.TEXT
                 : DataTypes.STRING(10)
-                }, fd)
-                break
-              }
-            case 'user':
-              {
-                fieldsDef[name + 'Id'] = _.extend({
-                  type: field.type === 'multi'
+            }, fd)
+            break
+          }
+          case 'user': {
+            fieldsDef[ name + 'Id' ] = _.extend({
+              type: field.type === 'multi'
                 ? DataTypes.TEXT
                 : DataTypes.INTEGER
-                })
-                break
-              }
-            default:
-              throw new Error('[' + name + '] Unknown relation model ' + field.relation.model)
+            })
+            break
           }
-          break
+          default:
+            throw new Error('[' + name + '] Unknown relation model ' + field.relation.model)
         }
-      case 'timestamp':
-        {
-          fieldsDef[name] = _.extend({
-            type: DataTypes.DATE
-          }, fd)
-          break
-        }
+        break
+      }
+      case 'timestamp': {
+        fieldsDef[ name ] = _.extend({
+          type: DataTypes.DATE
+        }, fd)
+        break
+      }
       case 'float':
       case '+num':
-      case 'num':
-        {
-          fieldsDef[name] = _.extend({
-            type: DataTypes.FLOAT
-          }, fd)
-          break
-        }
+      case 'num': {
+        fieldsDef[ name ] = _.extend({
+          type: DataTypes.FLOAT
+        }, fd)
+        break
+      }
       case '+int':
-      case 'int':
-        {
-          fieldsDef[name] = _.extend({
-            type: DataTypes.INTEGER
-          }, fd)
-          break
-        }
-      case 'text':
-        {
-          fieldsDef[name] = _.extend({
-            type: DataTypes.TEXT
-          }, fd)
-          break
-        }
-      case 'json':
-        {
-          fieldsDef[name] = _.extend({
-            type: DataTypes.TEXT
-          }, fd)
-          break
-        }
+      case 'int': {
+        fieldsDef[ name ] = _.extend({
+          type: DataTypes.INTEGER
+        }, fd)
+        break
+      }
+      case 'text': {
+        fieldsDef[ name ] = _.extend({
+          type: DataTypes.TEXT
+        }, fd)
+        break
+      }
+      case 'json': {
+        fieldsDef[ name ] = _.extend({
+          type: DataTypes.TEXT
+        }, fd)
+        break
+      }
       default:
         throw new Error('[' + name + '] Unknown field type ' + field.type)
     }
@@ -266,15 +256,21 @@ module.exports = function (sequelize, DataTypes) {
   var model = sequelize.define('FormCBM', fieldsDef, {
     freezeTableName: true,
     indexes: [
-      {fields: ['species']},
-      {fields: ['zoneId']},
-      {fields: ['userId']}
+      { fields: [ 'species' ] },
+      { fields: [ 'zoneId' ] },
+      { fields: [ 'userId' ] }
     ],
     classMethods: {
       associate: function (models) {
-        models.formCBM.belongsTo(models.species, {as: 'speciesInfo', foreignKey: 'species', targetKey: 'labelLa'})
-        models.formCBM.belongsTo(models.zone, {as: 'zone'})
-        models.formCBM.belongsTo(models.user, {as: 'user'})
+        models.formCBM.belongsTo(models.species, {
+          targetModelName: 'species',
+          as: 'speciesInfo',
+          foreignKey: 'species',
+          targetKey: 'labelLa',
+          scope: { type: 'birds' }
+        })
+        models.formCBM.belongsTo(models.zone, { as: 'zone' })
+        models.formCBM.belongsTo(models.user, { as: 'user' })
       }
     },
     instanceMethods: {
@@ -282,65 +278,58 @@ module.exports = function (sequelize, DataTypes) {
       apiData: function () {
         var self = this
         return Promise.props(_.mapValues(fields, function (field, name) {
-          if (_.isString(field)) field = {type: field}
+          if (_.isString(field)) field = { type: field }
           switch (field.type) {
-            case 'multi':
-              {
-                switch (field.relation.model) {
-                  case 'nomenclature':
-                    {
-                      var res = []
-                      var bg = self[name + 'Bg'] ? self[name + 'Bg'].split('|').map(function (val) {
-                        return val.trim()
-                      }) : []
-                      var en = self[name + 'En'] ? self[name + 'En'].split('|').map(function (val) {
-                        return val.trim()
-                      }) : []
-                      while (bg.length && en.length) {
-                        res.push({
-                          label: {
-                            bg: bg.shift(),
-                            en: en.shift()
-                          }
-                        })
+            case 'multi': {
+              switch (field.relation.model) {
+                case 'nomenclature': {
+                  var res = []
+                  var bg = self[ name + 'Bg' ] ? self[ name + 'Bg' ].split('|').map(function (val) {
+                    return val.trim()
+                  }) : []
+                  var en = self[ name + 'En' ] ? self[ name + 'En' ].split('|').map(function (val) {
+                    return val.trim()
+                  }) : []
+                  while (bg.length && en.length) {
+                    res.push({
+                      label: {
+                        bg: bg.shift(),
+                        en: en.shift()
                       }
-                      return res
-                    }
-                  default:
-                    return Promise.reject(new Error('[' + name + '] Unhandled relation model ' + field.relation.model))
+                    })
+                  }
+                  return res
                 }
+                default:
+                  return Promise.reject(new Error('[' + name + '] Unhandled relation model ' + field.relation.model))
               }
-            case 'choice':
-              {
-                switch (field.relation.model) {
-                  case 'nomenclature':
-                    {
-                      return (self[name + 'Bg'] || self[name + 'En']) ? {
-                        label: {
-                          bg: self[name + 'Bg'],
-                          en: self[name + 'En']
-                        }
-                      } : null
+            }
+            case 'choice': {
+              switch (field.relation.model) {
+                case 'nomenclature': {
+                  return (self[ name + 'Bg' ] || self[ name + 'En' ]) ? {
+                    label: {
+                      bg: self[ name + 'Bg' ],
+                      en: self[ name + 'En' ]
                     }
-                  case 'species':
-                    {
-                      return self[name]
-                    }
-                  case 'zone':
-                  case 'user':
-                    {
-                      return self[name + 'Id']
-                    }
-                  default:
-                    return Promise.reject(new Error('[' + name + '] Unhandled relation model ' + field.relation.model))
+                  } : null
                 }
+                case 'species': {
+                  return self[ name ]
+                }
+                case 'zone':
+                case 'user': {
+                  return self[ name + 'Id' ]
+                }
+                default:
+                  return Promise.reject(new Error('[' + name + '] Unhandled relation model ' + field.relation.model))
               }
-            case 'json':
-              {
-                return self[name] && JSON.parse(self[name])
-              }
+            }
+            case 'json': {
+              return self[ name ] && JSON.parse(self[ name ])
+            }
             default:
-              return self[name]
+              return self[ name ]
           }
         })).then(function (data) {
           data.id = self.id
@@ -354,77 +343,71 @@ module.exports = function (sequelize, DataTypes) {
         var self = this
 
         _.forEach(fields, function (field, name) {
-          if (_.isString(field)) field = {type: field}
+          if (_.isString(field)) field = { type: field }
           switch (field.type) {
-            case 'multi':
-              {
-                switch (field.relation.model) {
-                  case 'nomenclature':
-                    {
-                      if (!_.has(data, name)) return
+            case 'multi': {
+              switch (field.relation.model) {
+                case 'nomenclature': {
+                  if (!_.has(data, name)) return
 
-                      var val = data[name]
+                  var val = data[ name ]
 
-                      if (!val) {
-                        self[name + 'Bg'] = null
-                        self[name + 'En'] = null
-                      }
-                      if (!_.isArray(val)) val = [val]
-                      self[name + 'Bg'] = _.reduce(val, function (sum, v) {
-                        return sum + (sum ? ' | ' : '') + v.label.bg
-                      }, '')
-                      self[name + 'En'] = _.reduce(val, function (sum, v) {
-                        return sum + (sum ? ' | ' : '') + v.label.en
-                      }, '')
+                  if (!val) {
+                    self[ name + 'Bg' ] = null
+                    self[ name + 'En' ] = null
+                  }
+                  if (!_.isArray(val)) val = [ val ]
+                  self[ name + 'Bg' ] = _.reduce(val, function (sum, v) {
+                    return sum + (sum ? ' | ' : '') + v.label.bg
+                  }, '')
+                  self[ name + 'En' ] = _.reduce(val, function (sum, v) {
+                    return sum + (sum ? ' | ' : '') + v.label.en
+                  }, '')
 
-                      break
-                    }
-                  default:
-                    throw new Error('[' + name + '] Unsupported relation model ' + field.relation.model)
+                  break
                 }
-                break
+                default:
+                  throw new Error('[' + name + '] Unsupported relation model ' + field.relation.model)
               }
-            case 'choice':
-              {
-                switch (field.relation.model) {
-                  case 'nomenclature':
-                    {
-                      if (!_.has(data, name) || !data[name]) return
+              break
+            }
+            case 'choice': {
+              switch (field.relation.model) {
+                case 'nomenclature': {
+                  if (!_.has(data, name) || !data[ name ]) return
 
-                      console.log('saving nomenclature ' + name)
-                      self[name + 'Bg'] = data[name].label.bg
-                      self[name + 'En'] = data[name].label.en
-                      break
-                    }
-                  case 'species':
-                    {
-                      if (!_.has(data, name)) return
-
-                      self[name] = data[name]
-                      break
-                    }
-                  case 'user':
-                  case 'zone':
-                    {
-                      if (!_.has(data, name)) return
-
-                      self[name + 'Id'] = data[name]
-                      break
-                    }
-                  default:
-                    throw new Error('[' + name + '] Unsupported relation model ' + field.relation.model)
+                  console.log('saving nomenclature ' + name)
+                  self[ name + 'Bg' ] = data[ name ].label.bg
+                  self[ name + 'En' ] = data[ name ].label.en
+                  break
                 }
-                break
+                case 'species': {
+                  if (!_.has(data, name)) return
+
+                  self[ name ] = data[ name ]
+                  break
+                }
+                case 'user':
+                case 'zone': {
+                  if (!_.has(data, name)) return
+
+                  self[ name + 'Id' ] = data[ name ]
+                  break
+                }
+                default:
+                  throw new Error('[' + name + '] Unsupported relation model ' + field.relation.model)
               }
+              break
+            }
             case 'json':
               if (!_.has(data, name)) return
 
-              self[name] = JSON.stringify(data[name])
+              self[ name ] = JSON.stringify(data[ name ])
               break
             default:
               if (!_.has(data, name)) return
 
-              self[name] = data[name]
+              self[ name ] = data[ name ]
               break
           }
         })
@@ -434,7 +417,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   });
 
-  ['beforeCreate', 'beforeUpdate', 'beforeSync', 'beforeSave'].forEach(function (hook) {
+  [ 'beforeCreate', 'beforeUpdate', 'beforeSync', 'beforeSave' ].forEach(function (hook) {
     model.hook(hook, function (instance) {
       console.log('hook', hook, typeof this, typeof instance)
     })
