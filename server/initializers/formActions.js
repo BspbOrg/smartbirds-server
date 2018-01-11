@@ -27,7 +27,8 @@ function generateInsertAction (form) {
       data.response.data = await record.apiData(api)
       next()
     } catch (error) {
-      api.logger.error(error)
+      console.error('insert error', error)
+      api.log(error, 'error')
       next(error)
     }
   }
@@ -121,14 +122,14 @@ function generateListAction (form) {
 function generateFormActions (form) {
   const actions = {}
 
+  if (!form || !form.modelName) return actions
+
   let insertInputs = {}
   let editInputs = {
     id: { required: true }
   }
   let listInputs = _.extend({
     user: {},
-    from_date: {},
-    to_date: {},
     limit: { required: false, default: 20 },
     offset: { required: false, default: 0 }
   }, form.listInputs || {})
@@ -181,14 +182,18 @@ function generateFormActions (form) {
     inputs: listInputs,
     run: generateListAction(form)
   }
+
+  return actions
 }
 
 module.exports = {
   // after actions and before params
   loadPriority: 411,
   initialize: function (api, next) {
-    _.forEach(api.forms, form => {
+    api.log('Registering form actions', 'info')
+    _.forEach(api.forms, (form, name) => {
       const collection = generateFormActions(form)
+      api.log(`Registering actions for ${name} form`, 'info')
       _.forEach(collection, action => {
         if (action.version === null || action.version === undefined) { action.version = 1.0 }
         if (api.actions.actions[ action.name ] === null || api.actions.actions[ action.name ] === undefined) {
@@ -201,6 +206,7 @@ module.exports = {
         api.actions.versions[ action.name ].push(action.version)
         api.actions.versions[ action.name ].sort()
         api.actions.validateAction(api.actions.actions[ action.name ][ action.version ])
+        api.log(`Registering ${action.name}@${action.version}`, 'info')
       })
     })
 

@@ -1,6 +1,6 @@
-const { assign } = Object
+const _ = require('lodash')
 
-exports = module.exports = assign({}, require('./_common'))
+exports = module.exports = _.cloneDeep(require('./_common'))
 
 // exports.modelName = '_skelethon'
 

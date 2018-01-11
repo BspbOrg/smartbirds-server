@@ -1,8 +1,7 @@
 const _ = require('lodash')
 const moment = require('moment')
-const { assign } = Object
 
-exports = module.exports = assign({}, require('./_common'))
+exports = module.exports = _.cloneDeep(require('./_common'))
 
 exports.modelName = 'formCBM'
 exports.tableName = 'FormCBM'
@@ -35,6 +34,7 @@ exports.fields = {
   },
   primaryHabitat: {
     type: 'choice',
+    required: true,
     relation: {
       model: 'nomenclature',
       filter: { type: 'cbm_habitat' }
