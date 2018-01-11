@@ -208,12 +208,12 @@ module.exports = {
               case 'zip':
               case 'csv':
                 q.include = (q.include || []).concat([
-                  { model: api.models.user, as: 'user' }
+                  api.models[ modelName ].associations.user
                 ])
 
                 if (api.models[ modelName ].associations.speciesInfo) {
                   q.include = q.include.concat([
-                    { model: api.models.species, as: 'speciesInfo' }
+                    api.models[ modelName ].associations.speciesInfo
                   ])
                 }
 
