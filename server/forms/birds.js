@@ -1,8 +1,12 @@
-'use strict'
+const _ = require('lodash')
+const moment = require('moment')
+const { assign } = Object
 
-var Model = require('../helpers/Model')
+exports = module.exports = assign({}, require('./_common'))
 
-var fields = {
+exports.tableName = 'FormBirds'
+
+exports.fields = assign(exports.fields, {
   source: {
     type: 'choice',
     relation: {
@@ -165,24 +169,53 @@ var fields = {
     required: true
   },
   speciesNotes: 'text'
+})
+
+exports.foreignKeys.push({
+  targetModelName: 'species',
+  as: 'speciesInfo',
+  foreignKey: 'species',
+  targetKey: 'labelLa',
+  scope: { type: 'birds' }
+})
+
+exports.indexes.push({ fields: [ 'species' ] })
+
+exports.listInputs = {
+  location: {},
+  species: {}
 }
 
-var model = Model('FormBirds', fields, [
-  {
-    targetModelName: 'species',
-    as: 'speciesInfo',
-    foreignKey: 'species',
-    targetKey: 'labelLa',
-    scope: { type: 'birds' }
-  },
-  {targetModelName: 'user', as: 'user'}
-])
+exports.filterList = async function (api, data, q) {
+  if (data.params.location) {
+    q.where = _.extend(q.where || {}, {
+      location: api.sequelize.sequelize.options.dialect === 'postgres'
+        ? { ilike: data.params.location }
+        : data.params.location
+    })
+  }
+  if (data.params.species) {
+    q.where = _.extend(q.where || {}, {
+      species: data.params.species
+    })
+  }
+  if (data.params.from_date) {
+    q.where = q.where || {}
+    q.where.observationDateTime = _.extend(q.where.observationDateTime || {}, {
+      $gte: moment(data.params.from_date).toDate()
+    })
+  }
+  if (data.params.to_date) {
+    q.where = q.where || {}
+    q.where.observationDateTime = _.extend(q.where.observationDateTime || {}, {
+      $lte: moment(data.params.to_date).toDate()
+    })
+  }
+  return q
+}
 
-module.exports = model.getModelDefinition
-
-module.exports.fields = model.getFields()
-module.exports.schema = model.getSchema()
-
-module.exports.editInputs = model.getEditInputs()
-
-module.exports.insertInputs = model.getInsertInputs()
+exports.prepareCsv = async function (api, record) {
+  var res = api.actions.prepareCsv(api, record)
+  res.speciesEuringCode = record[ 'speciesInfo.euring' ]
+  return res
+}
