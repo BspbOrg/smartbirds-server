@@ -7,7 +7,7 @@ require('../app').controller('ZonesController', /* @ngInject */function ($scope,
   var controller = this
 
   $scope.zoneStatuses = Zone.statuses()
-  if (!user.isAdmin()) {
+  if (!user.isAdmin() && !user.isModerator('cbm')) {
     delete $scope.zoneStatuses.free
   }
   controller.filter = angular.copy($stateParams)
@@ -121,7 +121,7 @@ require('../app').controller('ZonesController', /* @ngInject */function ($scope,
         }
       }
 
-      if (!user.isAdmin() && zone.status !== 'free') {
+      if (!user.isAdmin() && !user.isModerator('cbm') && zone.status !== 'free') {
         if (user.getIdentity().id !== zone.ownerId) return false
       }
       return true

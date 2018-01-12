@@ -28,7 +28,7 @@
           </div>
         </div>
       </div>
-      <div ng-if="$user.isAdmin()" class="panel-body">
+      <div ng-if="$user.isAdmin() || $user.isModerator('cbm')" class="panel-body">
         <form>
           <div class="row">
             <div class="col-md-3">

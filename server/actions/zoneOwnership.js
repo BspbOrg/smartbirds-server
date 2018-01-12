@@ -7,7 +7,7 @@ function getZone (api, data, next) {
     where: {id: data.params.id},
     include: [{model: api.models.location, as: 'location'}]
   }
-  if (data.session.user.isAdmin) {
+  if (data.session.user.isAdmin || api.forms.isModerator(data.session.user, 'formCBM')) {
     q.include.push({model: api.models.user, as: 'owner'})
   }
   return api.models.zone.findOne(q)
