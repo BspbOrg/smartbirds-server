@@ -1,9 +1,9 @@
 exports.uploader = {
   name: 'uploader',
   description: 'uploader',
-  middleware: ['auth'],
+  middleware: [ 'auth' ],
   inputs: {
-    file: {required: true}
+    file: { required: true }
   },
   run: function (api, data, next) {
     api.log('received', 'info', data.params.file)
@@ -12,7 +12,7 @@ exports.uploader = {
     }, function (err, id, stat) {
       if (err) return next(err)
       api.log('saved as #' + id, 'info', stat)
-      data.response.data = {id: id}
+      data.response.data = { id: id }
       next()
     })
   }
@@ -21,9 +21,9 @@ exports.uploader = {
 exports.download = {
   name: 'downloader',
   description: 'downloader',
-  middleware: ['auth'],
+  middleware: [ 'auth' ],
   inputs: {
-    id: {required: true}
+    id: { required: true }
   },
   run: function (api, data, next) {
     api.log('serving', 'info', data.params.id)
@@ -33,7 +33,11 @@ exports.download = {
         return next(err)
       }
 
-      if (stat.custom && stat.custom.userId && !data.session.user.isAdmin && stat.custom.userId !== data.session.userId) {
+      if (stat.custom &&
+        stat.custom.userId &&
+        !data.session.user.isAdmin &&
+        !data.session.user.isModerator &&
+        stat.custom.userId !== data.session.userId) {
         data.connection.rawConnection.responseHttpCode = 403
         return next(new Error(api.config.errors.sessionNoPermission(data.connection)))
       }
