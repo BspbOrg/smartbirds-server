@@ -14,7 +14,7 @@
           <div class="row">
             <div class="col-lg-12">
 
-              <div ng-if="$user.isAdmin()" class="form-group">
+              <div ng-if="$user.isAdmin() || $user.isModerator('cbm')" class="form-group">
                 <label for="owner" translate>ZONES_FILTERS_OWNER</label>
 
                 <user-selector model-id="zonesController.filter.owner" name="owner"
@@ -81,7 +81,7 @@
         <strong>{{::zone.id}}</strong>
         {{::zone.location.type[$language]}} {{::zone.location.name[$language]}}, {{::zone.location.area[$language]}}
         <span class="hidden">({zone.status})</span>
-        <span class="hidden">{{($user.isAdmin()?'admin':'user')+'_'+zone.status}}</span>
+        <span class="hidden">{{(($user.isAdmin() || $user.isModerator('cbm'))?'admin':'user')+'_'+zone.status}}</span>
       </div>
       <!-- /.panel-heading -->
       <div>
@@ -90,10 +90,10 @@
         </a>
       </div>
 
-      <ul ng-if="$user.isAdmin()" class="list-group">
+      <ul ng-if="$user.isAdmin() || $user.isModerator('cbm')" class="list-group">
         <li class="list-group-item ellipsis owner" ng-init="$state={}">
           <div ng-if="!$state.chooseOwner" class="actions pull-right"
-               ng-switch="($user.isAdmin()?'admin':'user')+'_'+zone.status">
+               ng-switch="(($user.isAdmin() || $user.isModerator('cbm'))?'admin':'user')+'_'+zone.status">
             <div class="btn-group">
               <button ng-switch-when="admin_requested" type="button" class="btn btn-danger btn-xs"
                       ng-click="zonesController.rejectRequest(zone)">
@@ -169,7 +169,7 @@
     </div>
   </div>
 
-  <div ng-if="!$user.isAdmin()" class="col-md-6 col-lg-4">
+  <div ng-if="!$user.isAdmin() && !$user.isModerator('cbm')" class="col-md-6 col-lg-4">
     <div class="panel panel-default">
       <div class="panel-heading">
         <i class="fa fa-map-o fa-fw"></i>

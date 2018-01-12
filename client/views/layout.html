@@ -85,7 +85,7 @@
                 <translate>NAV_USERS</translate>
               </a>
             </li>
-            <li ng-if="$user.isAdmin()">
+            <li ng-if="$user.isAdmin() || $user.isModerator('cbm')">
               <a ui-sref="auth.visits">
                 <i class="fa fa-calendar fa-fw"></i>
                 <translate>NAV_VISITS</translate>

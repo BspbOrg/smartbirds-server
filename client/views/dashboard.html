@@ -5,7 +5,7 @@
 </div>
 
 <div class="row">
-  <div ng-if="$user.isAdmin()" class="col-lg-3 col-md-6">
+  <div ng-if="$user.isAdmin() || $user.isModerator('cbm')" class="col-lg-3 col-md-6">
     <div class="panel panel-primary">
       <div class="panel-heading">
         <div class="row">
