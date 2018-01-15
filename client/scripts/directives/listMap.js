@@ -8,7 +8,7 @@ require('../app').directive('listMap', /* @ngInject */function ($filter, $http, 
       ctrl: '=?'
     },
     bindToController: true,
-    controller: /* @ngInject */function ($scope) {
+    controller: /* @ngInject */function ($scope, $state) {
       var $ctrl = this
 
       angular.extend($ctrl, {
@@ -34,7 +34,7 @@ require('../app').directive('listMap', /* @ngInject */function ($filter, $http, 
           control: {},
           click: function (marker, eventName, model) {
             if ($ctrl.selected && $ctrl.selected.pin === model) {
-              $ctrl.selected = {}
+              $ctrl.openDetails()
             } else {
               $ctrl.selected = { pin: model }
             }
@@ -88,6 +88,9 @@ require('../app').directive('listMap', /* @ngInject */function ($filter, $http, 
           $ctrl.tracks = []
           $ctrl.tracksIndex = {}
           $ctrl.tracksWaiting = 0
+        },
+        openDetails: function () {
+          $state.go('.detail', {id: $ctrl.selected.pin.id})
         }
       })
 
