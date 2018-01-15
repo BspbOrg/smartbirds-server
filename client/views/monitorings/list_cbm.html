@@ -188,7 +188,7 @@
           CBM_LIST_TABLE_VISIT
         </th>
         <th
-          sb-sorting="date|date:'yyyyMMddHHmmss'" translate>
+          sb-sorting="observationDateTime|date:'yyyyMMddHHmmss'" translate>
           CBM_LIST_TABLE_DATE
         </th>
         <th
@@ -224,10 +224,8 @@
         <td>{{row.getZone().location | locationLabel}}</td>
         <td>{{::row.zone}}</td>
         <td>{{::row.visit.label[$language]}}</td>
-        <td>{{::row.startDateTime|date:'d.MM.yyyy'}} {{row.startDateTime|date:'H:mm'}} -
-          {{row.endDateTime|date:'H:mm'}}
-        </td>
-        <td>{{::row.updatedAt|date:'d.MM.yyyy'}} {{row.updatedAt|date:'H:mm'}}</td>
+        <td>{{::row.observationDateTime|date:'d.MM.yyyy HH:mm'}}</td>
+        <td>{{::row.updatedAt|date:'d.MM.yyyy HH:mm'}}</td>
         <td>
           {{row.getSpecies().label[$language]}}<br/>
           <strong>{{row.getSpecies().label.la}}</strong>

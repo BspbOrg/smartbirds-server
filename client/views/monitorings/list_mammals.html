@@ -154,7 +154,7 @@
           MAMMALS_LIST_TABLE_LOCATION
         </th>
         <th
-          sb-sorting="date|date:'yyyyMMddHHmmss'" translate>
+          sb-sorting="observationDateTime|date:'yyyyMMddHHmmss'" translate>
           MAMMALS_LIST_TABLE_DATE
         </th>
         <th
@@ -181,10 +181,8 @@
         <td><a href ui-sref=".detail({id: row.id})">{{::row.id}}</a></td>
         <td ng-if="::$user.canAccess(monitoringController.formName)">{{row.getUser().getName()}}</td>
         <td>{{::row.location}}</td>
-        <td>{{::row.startDateTime|date:'d.MM.yyyy'}} {{row.startDateTime|date:'H:mm'}} -
-          {{row.endDateTime|date:'H:mm'}}
-        </td>
-        <td>{{::row.updatedAt|date:'d.MM.yyyy'}} {{row.updatedAt|date:'H:mm'}}</td>
+        <td>{{::row.observationDateTime|date:'d.MM.yyyy HH:mm'}}</td>
+        <td>{{::row.updatedAt|date:'d.MM.yyyy HH:mm'}}</td>
         <td>
           {{row.getSpecies().label[$language]}}<br/>
           <strong>{{row.getSpecies().label.la}}</strong>
