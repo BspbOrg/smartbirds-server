@@ -10,8 +10,9 @@ module.exports.generateStatistics = {
   name: 'stats:generate',
   description: 'generates statistics for homepage',
   queue: 'default',
-  // every 24 hours
-  frequency: 24 * 60 * 60 * 1000,
+  // use cronjob to schedule the task
+  // npm run enqueue stats:generate
+  frequency: 0,
   run: function (api, params, next) {
     Promise.resolve(params)
 

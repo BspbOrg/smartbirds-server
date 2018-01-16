@@ -8,8 +8,9 @@ module.exports.mailchimp = {
   name: 'stats:mailchimp',
   description: 'updates mailchimp list with user data',
   queue: 'default',
-  // every 7 days
-  frequency: 7 * 24 * 60 * 60 * 1000,
+  // use cronjob to schedule the task
+  // npm run enqueue stats:mailchimp
+  frequency: 0,
   run: function (api, params, next) {
     if (!api.config.mailchimp.enabled) {
       return next()

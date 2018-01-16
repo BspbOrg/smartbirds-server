@@ -4,8 +4,9 @@ module.exports.generateUserBanners = {
   name: 'banner:generate',
   description: 'banner:generate',
   queue: 'default',
-  // every 24 hours
-  frequency: 24 * 60 * 60 * 1000,
+  // use cronjob to schedule the task
+  // npm run enqueue banner:generate
+  frequency: 0,
   run: function (api, params, next) {
     Promise.resolve(params)
 
