@@ -128,7 +128,7 @@
               ng-click="monitoringController.nextPage(-1)" translate>MAMMALS_LIST_MAP_BUTTON_SHOW_ALL
       </button>
     </p>
-    <list-map rows="monitoringController.rows" ctrl="monitoringController.map"></list-map>
+    <list-map rows="monitoringController.selectedRows.length > 0 ? monitoringController.selectedRows : monitoringController.rows" ctrl="monitoringController.map"></list-map>
   </div>
 </div>
 <div ng-if="monitoringController.tab == 'list'"
