@@ -9,6 +9,7 @@ require('../app').factory('FormCBM', /* @ngInject */function ($resource, ENDPOIN
     id: '@id'
   }, {
     // api methods
+    export: {method: 'GET'}
   })
 
   // instance methods

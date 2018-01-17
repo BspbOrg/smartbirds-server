@@ -95,6 +95,24 @@ module.exports = {
         }))
       },
 
+      delete: function (id, next) {
+        var self = this
+        var rm = self.storage.createReadStream(id)
+        rm.on('error', next)
+        rm.pipe(concat(function (data) {
+          try {
+            var meta = JSON.parse(data)
+            api.log('blob', 'debug', { id: id, meta: meta })
+            self.storage.remove(meta.blob, function (err, res) {
+              if (err) return next(err)
+              self.storage.remove(id, next)
+            })
+          } catch (e) {
+            return next(e)
+          }
+        }))
+      },
+
       inflator: function (mime, filters) {
         if (filters.gzip) {
           return zlib.createUnzip()

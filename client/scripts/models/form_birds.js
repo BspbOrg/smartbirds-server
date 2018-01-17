@@ -9,6 +9,7 @@ require('../app').factory('FormBirds', /* @ngInject */function ($localStorage, $
     id: '@id'
   }, {
     // api methods
+    export: {method: 'GET'}
   })
 
   // instance methods

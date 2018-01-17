@@ -1,6 +1,7 @@
 const _ = require('lodash')
 const crypto = require('crypto')
 const fs = require('fs')
+const moment = require('moment')
 const path = require('path')
 const Promise = require('bluebird')
 const { DataTypes } = require('sequelize')
@@ -220,6 +221,54 @@ function generateApiData (fields) {
   }
 }
 
+function generateExportData (form) {
+  return async function (api) {
+    const pre = {
+      startTime: moment.tz(this.startDateTime, api.config.formats.tz).format(api.config.formats.time),
+      startDate: moment.tz(this.startDateTime, api.config.formats.tz).format(api.config.formats.date),
+      endTime: moment.tz(this.endDateTime, api.config.formats.tz).format(api.config.formats.time),
+      endDate: moment.tz(this.endDateTime, api.config.formats.tz).format(api.config.formats.date),
+      observationDate: moment.tz(this.observationDateTime, api.config.formats.tz).format(api.config.formats.date),
+      observationTime: moment.tz(this.observationDateTime, api.config.formats.tz).format(api.config.formats.time),
+      observationDateUTC: moment.tz(this.observationDateTime, 'UTC').format(api.config.formats.date),
+      observationTimeUTC: moment.tz(this.observationDateTime, 'UTC').format(api.config.formats.time),
+      otherObservers: this.observers
+    }
+    if (this.user) {
+      pre.email = this.user.email
+      pre.firstName = this.user.firstName
+      pre.lastName = this.user.lastName
+    }
+    let mid = {}
+    if (form.prepareCsv) {
+      mid = await form.prepareCsv(api, this)
+    } else {
+      mid = _.omitBy(this.dataValues, function (value, key) {
+        return form.exportSkipFields.indexOf(key.split('.')[ 0 ]) !== -1
+      })
+    }
+    const post = {
+      notes: (this.notes || '').replace(/[\n\r]+/g, ' '),
+      speciesNotes: (this.speciesNotes || '').replace(/[\n\r]+/g, ' '),
+      pictures: (this.pictures ? JSON.parse(this.pictures) || [] : []).map(function (pic) {
+        return pic.url && pic.url.split('/').slice(-1)[ 0 ] + '.jpg'
+      }).filter(function (val) {
+        return val
+      }).join(', ') || '',
+      track: this.track && this.monitoringCode + '.gpx',
+      trackId: this.track && this.track.split('/').slice(-1)[ 0 ]
+    }
+
+    if (this.speciesInfo) {
+      post.species = this.speciesInfo.labelLa + ' | ' + this.speciesInfo.labelBg
+      post.speciesEn = this.speciesInfo.labelLa + ' | ' + this.speciesInfo.labelEn
+      post.speciesEuringCode = this.speciesInfo.euring
+    }
+
+    return _.assign(pre, mid, post)
+  }
+}
+
 function generateApiUpdate (fields) {
   return function (data) {
     _.forEach(fields, (field, name) => {
@@ -312,7 +361,8 @@ function formOptions (form) {
     instanceMethods: {
       calculateHash: generateCalcHash(form.fields),
       apiData: generateApiData(form.fields),
-      apiUpdate: generateApiUpdate(form.fields)
+      apiUpdate: generateApiUpdate(form.fields),
+      exportData: generateExportData(form)
     }
   }
 }

@@ -96,13 +96,7 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($f
   }
 
   function fetch (query) {
-    var params = $httpParamSerializer(angular.extend({}, query, {
-      limit: -1,
-      offset: 0
-    }))
     controller.loading = true
-    controller.downloadLink = authurl(ENDPOINT_URL + '/' + formName + '.csv?' + params)
-    controller.exportLink = authurl(ENDPOINT_URL + '/' + formName + '.zip?' + params)
     return model.query(query).$promise
       .then(function (rows) {
         controller.count = rows.$$response.data.$$response.count
@@ -117,6 +111,26 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($f
       })
       .finally(function () {
         controller.loading = false
+      })
+  }
+
+  controller.export = function (outputType) {
+    return model.export(angular.extend({}, controller.filter, {
+      limit: -1,
+      offset: 0,
+      outputType: outputType
+    })).$promise
+      .then(function (res) {
+        ngToast.create({
+          className: 'success',
+          content: $translate.instant('You will be notified by email when your export is ready')
+        })
+      })
+      .catch(function (error) {
+        ngToast.create({
+          className: 'danger',
+          content: '<p>' + $translate.instant('Error during export') + '</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
+        })
       })
   }
 

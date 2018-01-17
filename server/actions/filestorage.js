@@ -43,6 +43,9 @@ exports.download = {
       }
 
       api.log('sending', 'info', stat)
+      if (stat.name) {
+        data.connection.rawConnection.responseHeaders.push([ 'Content-Disposition', `attachment; filename="${stat.name}"` ])
+      }
       api.servers.servers.web.sendFile(data.connection, null, stream, stat.type, stat.length)
       data.toRender = false
       next()
