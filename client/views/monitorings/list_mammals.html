@@ -39,11 +39,11 @@
                     title="{{'MAMMALS_LIST_FOUND_RECORDS_COUNT_TOOLTIP' | translate}}">
               {{monitoringController.count || 0}}
             </button>
-            <a role="button" class="btn btn-default" ng-href="{{monitoringController.downloadLink}}" target="_blank"
+            <a role="button" class="btn btn-default" ng-click="monitoringController.export('csv')"
                title="{{'MAMMALS_LIST_BUTTON_CSV_EXPORT_TOOLTIP' | translate}}">
               <i class="fa fa-download fa-fw"></i> csv
             </a>
-            <a role="button" class="btn btn-default" ng-href="{{monitoringController.exportLink}}" target="_blank"
+            <a role="button" class="btn btn-default" ng-click="monitoringController.export('zip')"
                title="{{'MAMMALS_LIST_BUTTON_ZIP_EXPORT_TOOLTIP' | translate}}">
               <i class="fa fa-download fa-fw"></i> zip
             </a>

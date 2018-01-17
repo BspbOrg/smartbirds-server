@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 // Common form fields
 exports.fields = {
   latitude: {
@@ -99,4 +101,21 @@ exports.foreignKeys = [
 
 exports.indexes = [
   { fields: [ 'userId' ] }
+]
+
+exports.exportSkipFields = [
+  'observers',
+  'hash',
+  'user',
+  'speciesInfo',
+  'observationDateTime',
+  'endDateTime',
+  'startDateTime',
+  'imported',
+  'createdAt',
+  'updatedAt',
+  'pictures',
+  'notes',
+  'speciesNotes',
+  'track'
 ]

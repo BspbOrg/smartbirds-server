@@ -90,13 +90,20 @@ function generateDeleteAction (form) {
 function generateListAction (form) {
   return async function (api, data, next) {
     try {
+      let outputType = data.params.outputType || data.connection.extension
+
       let query = await form.prepareQuery(api, data)
 
       // export is async
-      switch (data.connection.extension) {
+      switch (outputType) {
         case 'zip':
         case 'csv':
-          api.tasks.enqueue('form:export', { query, user: data.session.user }, 'low', (error, success) => {
+          api.tasks.enqueue('form:export', {
+            query,
+            outputType,
+            user: data.session.user,
+            formName: form.modelName
+          }, 'low', (error, success) => {
             if (error) return next(error)
             data.response.success = success
             next()
@@ -131,7 +138,8 @@ function generateFormActions (form) {
   let listInputs = _.extend({
     user: {},
     limit: { required: false, default: 20 },
-    offset: { required: false, default: 0 }
+    offset: { required: false, default: 0 },
+    outputType: {}
   }, form.listInputs || {})
 
   _.forEach(form.fields, (field, fieldName) => {

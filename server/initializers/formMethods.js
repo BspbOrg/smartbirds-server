@@ -75,7 +75,6 @@ function generatePrepareCsvQuery (form) {
       ])
     }
 
-    query.raw = true
     return query
   }
 }

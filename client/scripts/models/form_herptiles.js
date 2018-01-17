@@ -9,6 +9,7 @@ require('../app').factory('FormHerptiles', /* @ngInject */function ($resource, E
     id: '@id'
   }, {
     // api methods
+    export: {method: 'GET'}
   })
 
   // instance methods

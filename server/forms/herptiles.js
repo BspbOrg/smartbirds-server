@@ -114,9 +114,3 @@ exports.filterList = async function (api, data, q) {
   }
   return q
 }
-
-exports.prepareCsv = async function (api, record) {
-  var res = api.actions.prepareCsv(api, record)
-  res.speciesEuringCode = record[ 'speciesInfo.euring' ]
-  return res
-}

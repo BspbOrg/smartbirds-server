@@ -156,6 +156,19 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
       }
     })
 
+    /// //////////
+    // Download //
+    /// //////////
+    .state('auth.download', {
+      url: '/download/{id}',
+      views: {
+        'content': {
+          templateUrl: '/views/download.html',
+          controller: 'DownloadController as $ctrl'
+        }
+      }
+    })
+
     /// ////////
     // Users //
     /// ////////
