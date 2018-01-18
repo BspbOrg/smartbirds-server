@@ -1,11 +1,8 @@
-/* global describe, beforeEach, it */
+/* global describe, before, after, it */
 
 var _ = require('lodash')
 var should = require('should')
-var sinon = require('sinon')
 var setup = require('../_setup')
-var Promise = require('bluebird')
-var moment = require('moment')
 require('should-sinon')
 
 describe('Action formCiconia:', function () {
@@ -56,8 +53,8 @@ describe('Action formCiconia:', function () {
     speciesNotes: 'some notes text',
     location: 'location somewhere',
 
-    endDateTime: '10/12/2015 10:15',
-    startDateTime: '09/12/2015 08:10',
+    endDateTime: '2015-12-10T10:15Z',
+    startDateTime: '2015-12-09T08:10Z',
     observers: 'Some test observers',
     rain: {
       type: 'main_rain',

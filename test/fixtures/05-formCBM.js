@@ -31,8 +31,8 @@ var baseModel = {
   rainBg: 'drizzle',
   rainEn: 'drizzle',
   observers: 'Some test observers',
-  endDateTime: '10/12/2015 10:15',
-  startDateTime: '09/12/2015 08:10',
+  endDateTime: '2015-12-10T10:15:00Z',
+  startDateTime: '2015-12-09T08:10:00Z',
   monitoringCode: 'formCBM_mon_code',
   latitude: 42.1463749,
   longitude: 24.7492006
