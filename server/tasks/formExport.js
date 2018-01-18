@@ -77,8 +77,8 @@ async function exportZip (api, records, formName, outputFilename) {
             }
           }))
         }
-        if (record.trackId) {
-          ops.push(appendFile(`${record.monitoringCode}.gpx`, record.track.split('/').slice(-1)[ 0 ]))
+        if (record.track) {
+          ops.push(appendFile(`${record.track.split('/').slice(-1)[ 0 ]}.gpx`))
         }
         return Promise.all(ops)
       }))
