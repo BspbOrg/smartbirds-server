@@ -4,9 +4,8 @@
 
 var _ = require('lodash')
 var angular = require('angular')
-require('../app').controller('MonitoringController', /* @ngInject */function ($filter, $state, $stateParams, $q, $translate, model, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, formName) {
+require('../app').controller('MonitoringController', /* @ngInject */function ($state, $stateParams, $q, $translate, model, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, formName) {
   var controller = this
-  var authurl = $filter('authurl')
 
   controller.formName = formName
   controller.db = db
