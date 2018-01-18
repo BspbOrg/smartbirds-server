@@ -153,7 +153,7 @@ exports.task = {
       return next(null, { key, successDelete, successEmail })
     } catch (error) {
       api.log(`Error with export: ${error.message}`, 'error', error)
-      return next(error)
+      return next(new Error(error.message))
     }
   }
 }
