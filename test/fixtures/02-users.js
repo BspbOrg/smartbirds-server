@@ -40,7 +40,7 @@ module.exports = [
       firstName: 'Moderator',
       lastName: 'Birds',
       role: 'moderator',
-      forms: { "formBirds": true },
+      forms: { 'formBirds': true },
       passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC'
     }
   },
@@ -51,7 +51,7 @@ module.exports = [
       firstName: 'Moderator',
       lastName: 'CBM',
       role: 'moderator',
-      forms: { "formCBM": true },
+      forms: { 'formCBM': true },
       passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC'
     }
   }

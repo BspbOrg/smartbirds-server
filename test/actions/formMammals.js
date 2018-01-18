@@ -1,18 +1,15 @@
-/* global describe, beforeEach, it */
+/* global describe, before, after, it */
 
 var _ = require('lodash')
 var should = require('should')
-var sinon = require('sinon')
 var setup = require('../_setup')
-var Promise = require('bluebird')
-var moment = require('moment')
 require('should-sinon')
 
 describe('Action formMammals:', function () {
   var mammalsRecord = {
     latitude: 42.1463749,
     longitude: 24.7492006,
-    observationDateTime: '10/12/2015 10:15',
+    observationDateTime: '2015-12-10T10:15Z',
     monitoringCode: 'random_mammals_1234',
     species: 'Accipiter nisus',
     sex: {

@@ -11,7 +11,7 @@ module.exports = {
       'email': {
         type: Sequelize.STRING,
         allowNull: false,
-        validate: {isEmail: true}
+        validate: { isEmail: true }
       },
       'passwordHash': {
         type: Sequelize.TEXT,
@@ -49,9 +49,10 @@ module.exports = {
     }).then(function () {
       return queryInterface.addIndex('Users', {
         unique: true,
-        fields: ['email']
-      }
-      )
+        fields: [ 'email' ]
+      })
+      // eslint-disable-next-line handle-callback-err
+        .catch(err => {})
     })
   },
 

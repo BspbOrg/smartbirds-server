@@ -13,7 +13,7 @@ module.exports = {
   up: function (queryInterface, Sequelize) {
     var columns = getColumns(Sequelize)
     return Promise.map(Object.keys(columns), function (columnName) {
-      return queryInterface.addColumn('Users', columnName, columns[columnName])
+      return queryInterface.addColumn('Users', columnName, columns[ columnName ])
     }).then(function () {
       return queryInterface.removeColumn('Users', 'passwordSalt')
     }).then(function () {
@@ -22,9 +22,10 @@ module.exports = {
       if (queryInterface.sequelize.options.dialect === 'sqlite') {
         return queryInterface.addIndex('Users', {
           unique: true,
-          fields: ['email']
-        }
-        )
+          fields: [ 'email' ]
+        })
+        // eslint-disable-next-line handle-callback-err
+          .catch(err => {})
       }
     })
   },
