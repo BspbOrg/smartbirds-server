@@ -1,5 +1,3 @@
-const _ = require('lodash')
-
 // Common form fields
 exports.fields = {
   latitude: {

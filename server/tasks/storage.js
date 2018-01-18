@@ -1,6 +1,5 @@
 'use strict'
 
-
 exports.delete = {
   name: 'storage:delete',
   description: 'storage:delete',
