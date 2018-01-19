@@ -89,6 +89,23 @@ exports.default = {
   }
 }
 
+exports.staging = {
+  servers: {
+    web: function (api) {
+      return {
+        padding: null,
+        httpHeaders: {
+          'X-Powered-By': api.config.general.serverName,
+          'Access-Control-Allow-Origin': 'http://sb.87.252.173.51.xip.io',
+          'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS, TRACE',
+          'Access-Control-Allow-Headers': 'Content-Type, X-SB-CSRF-Token',
+          'Access-Control-Allow-Credentials': 'true'
+        }
+      }
+    }
+  }
+}
+
 exports.production = {
   servers: {
     web: function (api) {

@@ -34,6 +34,14 @@ exports.test = {
   }
 }
 
+exports.staging = {
+  i18n: function () {
+    return {
+      updateFiles: false
+    }
+  }
+}
+
 exports.production = {
   i18n: function () {
     return {

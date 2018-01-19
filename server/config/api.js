@@ -71,16 +71,20 @@ exports.test = {
     return {
       id: 'test-server',
       developmentMode: true,
-      startingChatRooms: {
-        'defaultRoom': {},
-        'otherRoom': {}
-      },
       paths: {
         'locale': [
           // require('os').tmpdir() + require('path').sep + 'locale'
           path.join(__dirname, '..', '..', 'i18n')
         ]
       }
+    }
+  }
+}
+
+exports.staging = {
+  general: function (api) {
+    return {
+      developmentMode: false
     }
   }
 }
