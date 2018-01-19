@@ -21,9 +21,9 @@ module.exports = {
         sequelize: sequelizeInstance
       },
       migrations: {
-        params: [sequelizeInstance.getQueryInterface(), sequelizeInstance.constructor, function () {
+        params: [ sequelizeInstance.getQueryInterface(), sequelizeInstance.constructor, function () {
           throw new Error('Migration tried to use old style "done" callback. Please upgrade to "umzug" and return a promise instead.')
-        }],
+        } ],
         path: api.projectRoot + '/migrations'
       }
     })
@@ -60,8 +60,8 @@ module.exports = {
         var dir = path.normalize(api.projectRoot + '/models')
         fs.readdirSync(dir).forEach(function (file) {
           var nameParts = file.split('/')
-          var name = nameParts[(nameParts.length - 1)].split('.')[0]
-          api.models[name] = api.sequelize.sequelize.import(dir + '/' + file)
+          var name = nameParts[ (nameParts.length - 1) ].split('.')[ 0 ]
+          api.models[ name ] = api.sequelize.sequelize.import(dir + '/' + file)
         })
 
         _.forEach(api.models, function (model, name) {
@@ -77,7 +77,8 @@ module.exports = {
           SequelizeFixtures.loadFile(api.projectRoot + '/test/fixtures/*.{json,yml,js}', api.models)
             .then(function () {
               next()
-            }).catch(function (err) {
+            })
+            .catch(function (err) {
               console.error('Error loading fixtures', err)
               next(err)
             })
@@ -128,14 +129,20 @@ module.exports = {
         api.sequelize.loadFixtures(next)
       })
     })
+  },
+
+  stopPriority: 99999, // aligned with actionhero's redis initializer
+  stop: function (api, next) {
+    api.sequelize.sequelize.close()
+    next()
   }
 }
 
 function checkMetaOldSchema (api) {
   // Check if we need to upgrade from the old sequelize migration format
-  return api.sequelize.sequelize.query('SELECT * FROM "SequelizeMeta"', {raw: true}).then(function (raw) {
-    var rows = raw[0]
-    if (rows.length && rows[0].hasOwnProperty('id')) {
+  return api.sequelize.sequelize.query('SELECT * FROM "SequelizeMeta"', { raw: true }).then(function (raw) {
+    var rows = raw[ 0 ]
+    if (rows.length && rows[ 0 ].hasOwnProperty('id')) {
       throw new Error('Old-style meta-migration table detected - please use `sequelize-cli`\'s `db:migrate:old_schema` to migrate.')
     }
   }).catch(Sequelize.DatabaseError, function () {
