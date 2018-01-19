@@ -54,8 +54,11 @@ exports.default = {
 exports.test = {
   tasks: function (api) {
     return {
+      scheduler: false,
       timeout: 100,
-      checkTimeout: 50
+      checkTimeout: 50,
+      minTaskProcessors: 0,
+      maxTaskProcessors: 0
     }
   }
 }
