@@ -13,7 +13,7 @@ exports['default'] = {
       // configure i18n to allow for object-style key lookup
       objectNotation: true,
 
-      updateFiles: true,
+      updateFiles: false,
 
       // this will configure logging and error messages in the log(s)
       defaultLocale: 'en',
@@ -29,7 +29,7 @@ exports['default'] = {
 exports.test = {
   i18n: function () {
     return {
-      updateFiles: true
+      updateFiles: false
     }
   }
 }
