@@ -20,70 +20,83 @@ async function exportCsv (api, records, formName, outputFilename) {
   fs.writeFileSync(outputFilename, await convert)
 }
 
+function appendFile (api, archive, fileMap, filename, id) {
+  if (!filename || filename in fileMap || id in fileMap) return
+  let idx = filename.lastIndexOf('.')
+  if (idx === -1) idx = filename.length
+  id = id || filename.substring(0, idx)
+  fileMap[ filename ] = id
+  fileMap[ id ] = filename
+  api.log(`adding ${id} as ${filename}`, 'debug')
+
+  return new Promise(function (resolve, reject) {
+    api.filestorage.get(id, function (err, stream) {
+      if (err) {
+        api.log(`storage error: ${err.message}`, 'error', err)
+        return resolve()
+      }
+
+      resolve(archive.append(stream, { name: filename }))
+    })
+  })
+}
+
 async function exportZip (api, records, formName, outputFilename) {
   const csvOutput = await exportCsv(api, records, formName)
   return new Promise(function (resolve, reject) {
-    let archive = archiver.create('zip', {})
-    archive.on('error', function (err) {
-      api.log(`archive error: ${err.message}`, 'error', err)
-      reject(err)
-    })
-
-    let output = fs.createWriteStream(outputFilename)
-    output.on('error', function (err) {
-      api.log(`output error: ${err.message}`, 'error', err)
-      return reject(err)
-    })
-    output.on('finish', function () {
-      api.log(`tempfile ${outputFilename}`, 'info')
-      return resolve(outputFilename)
-    })
-    archive.pipe(output)
-
-    archive.append(csvOutput, { name: formName + '.csv' })
-    let fileMap = {}
-
-    function appendFile (filename, id) {
-      if (!filename || filename in fileMap || id in fileMap) return
-      let idx = filename.lastIndexOf('.')
-      if (idx === -1) idx = filename.length
-      id = id || filename.substring(0, idx)
-      fileMap[ filename ] = id
-      fileMap[ id ] = filename
-      api.log(`adding ${id} as ${filename}`, 'debug')
-
-      return new Promise(function (resolve, reject) {
-        api.filestorage.get(id, function (err, stream) {
-          if (err) {
-            api.log(`storage error: ${err.message}`, 'error', err)
-            return reject(err)
-          }
-
-          resolve(archive.append(stream, { name: filename }))
-        })
+    try {
+      let archive = archiver.create('zip', {})
+      archive.on('error', function (err) {
+        api.log(`archive error: ${err.message}`, 'error', err)
+        return reject(err)
       })
-    }
 
-    Promise
-      .all(records.map(async (record) => {
-        let ops = []
+      let output = fs.createWriteStream(outputFilename)
+      output.on('error', function (err) {
+        api.log(`output error: ${err.message}`, 'error', err)
+        return reject(err)
+      })
+      output.on('finish', function () {
+        api.log(`tempfile ${outputFilename}`, 'debug')
+        return resolve(outputFilename)
+      })
+      archive.pipe(output)
+
+      archive.append(csvOutput, { name: formName + '.csv' })
+
+      let fileMap = {}
+      let ops = []
+
+      records.forEach((record) => {
         if (record.pictures) {
           let pictures = JSON.parse(record.pictures) || []
-          ops = ops.concat(pictures.map(async (picture) => {
+          pictures.forEach((picture) => {
             try {
-              return appendFile(`${picture.url.split('/').slice(-1)[ 0 ]}.jpg`)
+              ops.push(appendFile(api, archive, fileMap, `${picture.url.split('/').slice(-1)[ 0 ]}.jpg`))
             } catch (error) {
               api.log(`Error appending picture: ${error.message}`, 'notice', error)
             }
-          }))
+          })
         }
         if (record.track) {
-          ops.push(appendFile(`${record.track.split('/').slice(-1)[ 0 ]}.gpx`))
+          ops.push(appendFile(api, archive, fileMap, `${record.track.split('/').slice(-1)[ 0 ]}.gpx`))
         }
-        return Promise.all(ops)
-      }))
-      .then(() => archive.finalize())
-      .catch(reject)
+      })
+
+      Promise
+        .all(ops)
+        .then((res) => {
+          api.log(`Appended ${res.length} files. Finalizing...`, 'debug')
+          archive.finalize()
+        })
+        .catch((err) => {
+          api.log(`Problem with appending files: ${err.message}`, 'error', err)
+          archive.finalize()
+        })
+    } catch (e) {
+      api.log(`Error: ${e.message}`, 'error', e)
+      reject(e)
+    }
   })
 }
 
@@ -112,7 +125,7 @@ exports.task = {
       // fetch the results
       let result = await api.models[ form.modelName ].findAndCountAll(query)
 
-      api.log(`Fetched ${result.count} ${form.modelName} record`, 'info')
+      api.log(`Fetched ${result.count} ${form.modelName} record`, 'debug')
 
       const outputFilename = path.join(api.config.general.paths.fileupload[ 0 ], `${uuid.v4()}.${outputType}`)
 
@@ -133,6 +146,7 @@ exports.task = {
       })
 
       const successDelete = await new Promise((resolve, reject) => {
+        api.log('Scheduling delete in 24h', 'notice', { key: key })
         api.tasks.enqueueIn(1000 * 60 * 60 * 24, 'storage:delete', { key }, 'low', (err, res) => {
           if (err) return reject(err)
           return resolve(res)
@@ -140,6 +154,7 @@ exports.task = {
       })
 
       const successEmail = await new Promise((resolve, reject) => {
+        api.log('Sending email notification', 'notice', { key, user })
         api.tasks.enqueue('mail:send', {
           mail: { to: user.email, subject: 'Export ready' },
           template: 'export_ready',
