@@ -59,7 +59,7 @@ require('../app').service('api', /* @ngInject */function ($log, $http, $resource
 
   api.stats = {};
 
-  ['birds', 'cbm', 'ciconia', 'herps', 'herptiles', 'mammals'].forEach(function (form) {
+  ['birds', 'cbm', 'ciconia', 'herps', 'herptiles', 'mammals', 'invertebrates'].forEach(function (form) {
     api.stats[form + '_stats'] = function () {
       return $http({
         method: 'GET',
