@@ -21,7 +21,7 @@ exports.fields = assign(exports.fields, {
     uniqueHash: true,
     relation: {
       model: 'nomenclature',
-      filter: { type: 'herptiles_gender' }
+      filter: { type: 'invertebrates_gender' }
     }
   },
   age: {
@@ -29,21 +29,21 @@ exports.fields = assign(exports.fields, {
     uniqueHash: true,
     relation: {
       model: 'nomenclature',
-      filter: { type: 'herptiles_age' }
+      filter: { type: 'invertebrates_age' }
     }
   },
   habitat: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'herptiles_habitat' }
+      filter: { type: 'invertebrates_habitat' }
     }
   },
   threatsInvertebrates: {
     type: 'multi',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'herptiles_danger_observation' }
+      filter: { type: 'invertebrates_danger_observation' }
     }
   },
   count: {
