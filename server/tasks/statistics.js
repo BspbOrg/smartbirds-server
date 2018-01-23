@@ -24,7 +24,8 @@ module.exports.generateStatistics = {
           ciconia: api.models.ciconia_stats.findAll(),
           herps: api.models.herps_stats.findAll(),
           herptiles: api.models.herptiles_stats.findAll(),
-          mammals: api.models.mammals_stats.findAll()
+          mammals: api.models.mammals_stats.findAll(),
+          invertebrates: api.models.invertebrates_stats.findAll()
 
         })
       })
