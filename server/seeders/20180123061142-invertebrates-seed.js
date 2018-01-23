@@ -13,13 +13,13 @@ var Promise = require('bluebird')
 var completed = 0
 var lastNotice = 0
 
-function notify(force) {
+function notify (force) {
   if (!force && Date.now() - lastNotice < 5000) return
   lastNotice = Date.now()
   console.log('processed ' + completed + '/' + inserts.length)
 }
 
-function importRecord(queryInterface, record) {
+function importRecord (queryInterface, record) {
   return queryInterface.bulkInsert('Species', [{
     type: record.type.trim() || null,
     labelLa: record.la.trim() || null,
