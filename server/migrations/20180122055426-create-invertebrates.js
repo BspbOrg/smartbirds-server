@@ -154,39 +154,39 @@ var schema = {
 module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface
-      .createTable(tableName, table.schema)
+      .createTable(tableName, schema)
       .then(function () {
-        return queryInterface.addIndex(table.tableName, {
+        return queryInterface.addIndex(tableName, {
           fields: ['userId']
         })
       })
       .then(function () {
-        return queryInterface.addIndex(table.tableName, {
+        return queryInterface.addIndex(tableName, {
           fields: ['startDateTime']
         })
       })
       .then(function () {
-        return queryInterface.addIndex(table.tableName, {
+        return queryInterface.addIndex(tableName, {
           fields: ['observationDateTime']
         })
       })
       .then(function () {
-        return queryInterface.addIndex(table.tableName, {
+        return queryInterface.addIndex(tableName, {
           fields: ['species']
         })
       })
       .then(function () {
-        return queryInterface.addIndex(table.tableName, {
+        return queryInterface.addIndex(tableName, {
           fields: ['monitoringCode']
         })
       })
       .then(function () {
-        return queryInterface.addIndex(table.tableName, {
+        return queryInterface.addIndex(tableName, {
           fields: ['location']
         })
       })
       .then(function () {
-        return queryInterface.addIndex(table.tableName, {
+        return queryInterface.addIndex(tableName, {
           unique: true,
           fields: ['hash']
         })

@@ -1,7 +1,5 @@
 'use strict'
 
-var Promise = require('bluebird')
-
 module.exports = {
   up: function (queryInterface, Sequelize) {
     if (queryInterface.sequelize.options.dialect !== 'postgres') return
