@@ -52,6 +52,18 @@ module.exports = {
       'to_date'
     ]
   },
+  invertebrates: {
+    model: 'FormInvertebrates',
+    serverModel: 'formInvertebrates',
+    label: 'FORM_LABEL_INVERTEBRATES',
+    filters: [
+      'location',
+      '{user:int}',
+      'species',
+      'from_date',
+      'to_date'
+    ]
+  },
   ciconia: {
     model: 'FormCiconia',
     serverModel: 'formCiconia',
