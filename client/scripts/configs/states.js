@@ -70,6 +70,13 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
       resolve: resolveUser
     })
 
+    .state('invertebrates', {
+      url: '/invertebrates',
+      templateUrl: '/views/home-invertebrates.html',
+      title: 'FORM_INVERTEBRATES_SHORT',
+      resolve: resolveUser
+    })
+
     .state('ciconia', {
       url: '/ciconia',
       templateUrl: '/views/home-ciconia.html',
