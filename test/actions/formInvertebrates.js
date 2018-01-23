@@ -13,7 +13,7 @@ describe('Action formInvertebrates:', function () {
     monitoringCode: 'random_invertebrates_1234',
     species: 'Lucanus cervus',
     sex: {
-      type: 'herptiles_gender',
+      type: 'invertebrates_gender',
       id: 33,
       label: {
         bg: 'Женски',
@@ -21,7 +21,7 @@ describe('Action formInvertebrates:', function () {
       }
     },
     age: {
-      type: 'herptiles_age',
+      type: 'invertebrates_age',
       id: 11,
       label: {
         bg: 'Imm.',
@@ -29,7 +29,7 @@ describe('Action formInvertebrates:', function () {
       }
     },
     habitat: {
-      type: 'herptiles_habitat',
+      type: 'invertebrates_habitat',
       id: 102,
       label: {
         bg: 'Диапазон',
@@ -37,11 +37,11 @@ describe('Action formInvertebrates:', function () {
       }
     },
     threatsInvertebrates: {
-      type: 'herptiles_danger_observation',
+      type: 'invertebrates_danger_observation',
       id: 32,
       label: {
-        bg: 'herptiles_danger_observation',
-        en: 'herptiles_danger_observation'
+        bg: 'invertebrates_danger_observation',
+        en: 'invertebrates_danger_observation'
       }
     },
     count: 10,

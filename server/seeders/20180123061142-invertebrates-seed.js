@@ -13,21 +13,21 @@ var Promise = require('bluebird')
 var completed = 0
 var lastNotice = 0
 
-function notify (force) {
+function notify(force) {
   if (!force && Date.now() - lastNotice < 5000) return
   lastNotice = Date.now()
   console.log('processed ' + completed + '/' + inserts.length)
 }
 
-function importRecord (queryInterface, record) {
-  return queryInterface.bulkInsert('Species', [ {
+function importRecord(queryInterface, record) {
+  return queryInterface.bulkInsert('Species', [{
     type: record.type.trim() || null,
     labelLa: record.la.trim() || null,
     labelBg: (record.bg || '').trim() || null,
     labelEn: (record.en || '').trim() || null,
     createdAt: new Date(),
     updatedAt: new Date()
-  } ])
+  }])
 }
 
 module.exports = {
@@ -57,10 +57,47 @@ module.exports = {
             return Promise.reject(e)
           }).then(resolve, reject)
         })
-    }).then(function () {
-      notify(true)
-      return next()
-    }, next)
+    })
+      .then(function () {
+        notify(true)
+      })
+      .then(function () {
+        return queryInterface
+          .rawSelect('Nomenclatures', {
+            attributes: ['type', 'labelBg', 'labelEn'],
+            where: {
+              type: {
+                $in: [
+                  'herptiles_gender',
+                  'herptiles_age',
+                  'herptiles_habitat',
+                  'herptiles_danger_observation'
+                ]
+              }
+            },
+            plain: false
+          }, 'id')
+      })
+      .then(function (res) {
+        var now = new Date()
+        return res.map(function (item) {
+          return Object.assign(item, {createdAt: now, updatedAt: now})
+        })
+      })
+      .then(function (res) {
+        return queryInterface.bulkInsert('Nomenclatures', res.map(function (item) {
+          return Object.assign({}, item, {type: item.type.replace('herptiles_', 'invertebrates_')})
+        }))
+      })
+      .then(function () {
+        next()
+      })
+      .catch(function (e) {
+        console.log(e)
+        module.exports.down(queryInterface, Sequelize, function () {
+          next(e)
+        })
+      })
   },
 
   down: function (queryInterface, Sequelize, next) {
