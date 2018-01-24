@@ -101,6 +101,6 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize, next) {
-    return queryInterface.bulkDelete('Species').finally(next)
+    return queryInterface.bulkDelete('Species', { type: 'invertebrates' }).finally(next)
   }
 }
