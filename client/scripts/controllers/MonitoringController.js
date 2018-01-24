@@ -15,7 +15,7 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
   }).reverse()
   controller.species = {}
   $q.resolve(db.species.$promise || db.species).then(function (species) {
-    return species.birds.$promise || species.birds
+    return species.$promise || species
   }).then(function (species) {
     controller.species = species
   })
