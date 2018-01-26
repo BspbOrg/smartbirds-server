@@ -86,7 +86,7 @@ module.exports = {
           try {
             var meta = JSON.parse(data)
             api.log('blob', 'debug', { id: id, meta: meta })
-            var inflator = api.filestorage.inflator(meta.type || 'application/octet-stream', meta.filters || {})
+            var inflator = api.filestorage.inflator(meta.type || 'application/octet-stream', meta.filters || {}, meta)
             var strm = self.storage.createReadStream(meta.blob).pipe(inflator)
             next(null, strm, meta)
           } catch (e) {
@@ -113,8 +113,9 @@ module.exports = {
         }))
       },
 
-      inflator: function (mime, filters) {
+      inflator: function (mime, filters, meta) {
         if (filters.gzip) {
+          delete meta.length
           return zlib.createUnzip()
         }
         return new stream.PassThrough()
