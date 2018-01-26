@@ -38,20 +38,20 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
     })
     model
       .query(q).$promise
-      .then(function (neightbours) {
+      .then(function (neighbours) {
         var lastIdx = 2
         if ($stateParams.offset > 0) {
           controller.prevParams = {
             offset: $stateParams.offset - 1,
-            id: neightbours[ 0 ].id
+            id: neighbours[ 0 ].id
           }
         } else {
           lastIdx = 1
         }
-        if (neightbours.length > lastIdx) {
+        if (neighbours.length > lastIdx) {
           controller.nextParams = {
             offset: $stateParams.offset + 1,
-            id: neightbours[ lastIdx ].id
+            id: neighbours[ lastIdx ].id
           }
         }
       })
