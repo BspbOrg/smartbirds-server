@@ -684,5 +684,11 @@
     "FORM_LIST_FOUND_RECORDS_COUNT_TOOLTIP": "Намерени записи отговарящи на избраните филтри",
     "FORM_LIST_BUTTON_CSV_EXPORT_TOOLTIP": "Генериране на csv файл с всички намерени записи",
     "FORM_LIST_BUTTON_ZIP_EXPORT_TOOLTIP": "Генериране на zip файл с всички намерени записи, техните снимки и gpx файлове",
-    "WARNING_EXPORT_LIMIT": "Системата ограничава единичен експорт до 20 000 записа."
+    "WARNING_EXPORT_LIMIT": "Системата ограничава единичен експорт до 20 000 записа.",
+    "PUBLIC_BIRDS_TOP_OBSERVERS_RECORDS_MONTH": "Най-много въведени наблюдения за месеца",
+    "PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_MONTH": "Най-много наблюдавани видове за месеца",
+    "PUBLIC_BIRDS_TOP_OBSERVERS_RECORDS_YEAR": "Най-много въведени наблюдения за годината",
+    "PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_YEAR": "Най-много наблюдавани видове за годината",
+    "PUBLIC_BIRDS_TOP_SPECIES_MONTH": "Най-често наблюдавани видове за последния месец",
+    "PUBLIC_BIRDS_LAST_INTERESTING_SPECIES": "Наблюдавани интересни видове"
 }
