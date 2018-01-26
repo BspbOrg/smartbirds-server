@@ -1,30 +1,13 @@
 <form name="smartform"
       role="form"
       confirm-on-exit="smartform.$dirty"
-      confirm-message-window="{{'CBM_DETAIL_UNSAVED_DATA_ALERT_TITLE' | translate"}}"
+      confirm-message-window="{{'CBM_DETAIL_UNSAVED_DATA_ALERT_TITLE' | translate}}"
       confirm-message-route="{{'CBM_DETAIL_UNSAVED_DATA_ALERT_MESSAGE' | translate}}">
   <div class="row">
     <div class="col-md-12">
       <h1 class="page-header">
         <div class="pull-right">
-          <div class="btn-group">
-            <button type="button"
-                    class="btn btn-primary"
-                    ng-disabled="smartform.$invalid || smartform.$pristine"
-                    ng-click="monitoringDetailController.save()"
-            >
-              {{'CBM_DETAIL_BUTTON_SAVE' | translate}}
-              <i class="fa fa-save fa-fw"></i>
-            </button>
-            <button type="button"
-                    class="btn btn-default"
-                    ng-disabled="!monitoringDetailController.data.id"
-                    ng-click="monitoringDetailController.copy()"
-            >
-              {{'CBM_DETAIL_BUTTON_COPY' | translate}}
-              <i class="fa fa-copy fa-fw"></i>
-            </button>
-          </div>
+          <form-detail-buttons monitoring-detail-controller="monitoringDetailController"></form-detail-buttons>
         </div>
         <span ng-if="monitoringDetailController.data.id" translate>CBM_DETAIL_TITLE_EDIT</span>
         <span ng-if="!monitoringDetailController.data.id" translate>CBM_DETAIL_TITLE_NEW</span>
@@ -35,11 +18,14 @@
   <div class="row" ng-if="monitoringDetailController.hasVisit">
     <div class="col-md-12">
       <div ng-if="!monitoringDetailController.visit"
-           class="alert alert-warning" role="alert" translate translate-values="{strongStart: '<strong>', strongEnd: '</strong>'}">
+           class="alert alert-warning" role="alert" translate
+           translate-values="{strongStart: '<strong>', strongEnd: '</strong>'}">
         CBM_DETAIL_MISSING_INTERVALS_MESSAGE
       </div>
-      <div ng-if="monitoringDetailController.visit && !monitoringDetailController.isEarly && !monitoringDetailController.isLate"
-        class="alert alert-danger" role="alert" translate translate-values="{strongStart: '<strong>', strongEnd: '</strong>'}">
+      <div
+        ng-if="monitoringDetailController.visit && !monitoringDetailController.isEarly && !monitoringDetailController.isLate"
+        class="alert alert-danger" role="alert" translate
+        translate-values="{strongStart: '<strong>', strongEnd: '</strong>'}">
         CBM_DETAIL_DATE_NOT_IN_INTERVAL_MESSAGE
       </div>
     </div>
@@ -181,24 +167,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="pull-right">
-        <div class="btn-group">
-          <button type="button"
-                  class="btn btn-primary"
-                  ng-disabled="smartform.$invalid || smartform.$pristine"
-                  ng-click="monitoringDetailController.save()"
-          >
-            {{'CBM_DETAIL_BUTTON_SAVE' | translate}}
-            <i class="fa fa-save fa-fw"></i>
-          </button>
-          <button type="button"
-                  class="btn btn-default"
-                  ng-disabled="!monitoringDetailController.data.id"
-                  ng-click="monitoringDetailController.copy()"
-          >
-            {{'CBM_DETAIL_BUTTON_COPY' | translate}}
-            <i class="fa fa-copy fa-fw"></i>
-          </button>
-        </div>
+        <form-detail-buttons monitoring-detail-controller="monitoringDetailController"></form-detail-buttons>
       </div>
     </div>
   </div>

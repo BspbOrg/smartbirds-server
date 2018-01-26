@@ -676,5 +676,9 @@
     "NAV_SPECIES": "Видове",
     "DOWNLOAD_TITLE": "Свалени данни",
     "You will be notified by email when your export is ready": "Ще бъдете уведомени с емайл, когато експортът Ви е готов.",
-    "Error during export": "Грешка по време на експорт"
+    "Error during export": "Грешка по време на експорт",
+    "FORM_DETAIL_BUTTON_PREV": "Предишен",
+    "FORM_DETAIL_BUTTON_NEXT": "Следващ",
+    "FORM_DETAIL_BUTTON_SAVE": "Запис",
+    "FORM_DETAIL_BUTTON_COPY": "Копие"
 }

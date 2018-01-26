@@ -271,7 +271,7 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
       // Monitoring Detail //
       /// ////////
       .state('auth.monitoring.' + formName + '.detail', {
-        url: '/{id:int}',
+        url: '/{id:int}?{offset:int}',
         views: {
           'content@auth': {
             templateUrl: '/views/monitorings/' + formName + '.html',
