@@ -1,0 +1,42 @@
+<div class="btn-group">
+  <a role="button"
+     class="btn btn-default"
+     accesskey="p"
+     ng-class="{disabled: !monitoringDetailController.prevParams}"
+     ui-sref="^.detail(monitoringDetailController.prevParams)"
+     translate-attr="{title: 'FORM_DETAIL_BUTTON_PREV'}"
+  >
+    <span class="visible-lg-inline">{{'FORM_DETAIL_BUTTON_PREV' | translate}}</span>
+    <i class="fa fa-chevron-left fa-fw"></i>
+  </a>
+  <button type="button"
+          class="btn btn-primary"
+          accesskey="s"
+          ng-disabled="smartform.$invalid || smartform.$pristine"
+          ng-click="monitoringDetailController.save()"
+          translate-attr="{title: 'FORM_DETAIL_BUTTON_SAVE'}"
+  >
+    <span class="visible-lg-inline">{{'FORM_DETAIL_BUTTON_SAVE' | translate}}</span>
+    <i class="fa fa-save fa-fw"></i>
+  </button>
+  <button type="button"
+          class="btn btn-default"
+          accesskey="c"
+          ng-disabled="!monitoringDetailController.data.id"
+          ng-click="monitoringDetailController.copy()"
+          translate-attr="{title: 'FORM_DETAIL_BUTTON_COPY'}"
+  >
+    <span class="visible-lg-inline">{{'FORM_DETAIL_BUTTON_COPY' | translate}}</span>
+    <i class="fa fa-copy fa-fw"></i>
+  </button>
+  <a role="button"
+     class="btn btn-default"
+     accesskey="n"
+     ng-class="{disabled: !monitoringDetailController.nextParams}"
+     ui-sref="^.detail(monitoringDetailController.nextParams)"
+     translate-attr="{title: 'FORM_DETAIL_BUTTON_NEXT'}"
+  >
+    <span class="visible-lg-inline">{{'FORM_DETAIL_BUTTON_NEXT' | translate}}</span>
+    <i class="fa fa-chevron-right fa-fw"></i>
+  </a>
+</div>

@@ -30,6 +30,32 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
       controller.clearForCopy()
     })
   }
+  if (angular.isDefined($stateParams.offset)) {
+    var q = angular.extend({}, $stateParams, {
+      offset: Math.max(0, $stateParams.offset - 1),
+      limit: $stateParams.offset > 0 ? 3 : 2,
+      id: null
+    })
+    model
+      .query(q).$promise
+      .then(function (neightbours) {
+        var lastIdx = 2
+        if ($stateParams.offset > 0) {
+          controller.prevParams = {
+            offset: $stateParams.offset - 1,
+            id: neightbours[ 0 ].id
+          }
+        } else {
+          lastIdx = 1
+        }
+        if (neightbours.length > lastIdx) {
+          controller.nextParams = {
+            offset: $stateParams.offset + 1,
+            id: neightbours[ lastIdx ].id
+          }
+        }
+      })
+  }
   $scope.$watch(function () {
     return controller.data && controller.data.track
   }, function (track) {
