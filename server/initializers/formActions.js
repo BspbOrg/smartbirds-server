@@ -139,7 +139,8 @@ function generateFormActions (form) {
     user: {},
     limit: { required: false, default: 20 },
     offset: { required: false, default: 0 },
-    outputType: {}
+    outputType: {},
+    selection: {}
   }, form.listInputs || {})
 
   _.forEach(form.fields, (field, fieldName) => {

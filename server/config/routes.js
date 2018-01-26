@@ -99,7 +99,15 @@ exports.default = {
         { path: '/invertebrates/:id', action: 'formInvertebrates:edit' },
 
         { path: '/ciconia', action: 'formCiconia:create' },
-        { path: '/ciconia/:id', action: 'formCiconia:edit' }
+        { path: '/ciconia/:id', action: 'formCiconia:edit' },
+
+        { path: '/export/cbm', action: 'formCBM:list' },
+        { path: '/export/birds', action: 'formBirds:list' },
+        { path: '/export/herp', action: 'formHerps:list' },
+        { path: '/export/herptiles', action: 'formHerptiles:list' },
+        { path: '/export/mammals', action: 'formMammals:list' },
+        { path: '/export/invertebrates', action: 'formInvertebrates:list' },
+        { path: '/export/ciconia', action: 'formCiconia:list' }
 
       ],
 

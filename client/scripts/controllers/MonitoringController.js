@@ -114,10 +114,17 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
   }
 
   controller.export = function (outputType) {
+    var selection = [];
+    if (controller.selectedRows && controller.selectedRows.length > 0 && !controller.allSelected ) {
+      angular.forEach(controller.selectedRows, function (row) {
+        selection.push(row.id)
+      })
+    }
     return model.export(angular.extend({}, controller.filter, {
       limit: -1,
       offset: 0,
-      outputType: outputType
+      outputType: outputType,
+      selection: selection
     })).$promise
       .then(function (res) {
         ngToast.create({
