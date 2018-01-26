@@ -23,6 +23,14 @@ function generatePrepareQuery (form) {
       query = await prepareQuery(api, data, query)
     }
 
+    if (data.params.selection && data.params.selection.length > 0) {
+      query.where = _.extend(query.where || {}, {
+        id: {
+          $in: data.params.selection
+        }
+      })
+    }
+
     // secure access
     if (data.session.user.isAdmin || api.forms.isModerator(data.session.user, form.modelName)) {
       if (data.params.user) {

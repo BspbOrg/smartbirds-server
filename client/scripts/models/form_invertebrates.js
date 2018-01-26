@@ -5,7 +5,7 @@ require('../app').factory('FormInvertebrates', /* @ngInject */function ($resourc
     id: '@id'
   }, {
     // api methods
-    export: {method: 'GET'}
+    export: {method: 'POST', url: ENDPOINT_URL + '/export/invertebrates'}
   })
 
   // instance methods
