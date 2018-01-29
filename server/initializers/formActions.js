@@ -90,26 +90,7 @@ function generateDeleteAction (form) {
 function generateListAction (form) {
   return async function (api, data, next) {
     try {
-      let outputType = data.params.outputType || data.connection.extension
-
       let query = await form.prepareQuery(api, data)
-
-      // export is async
-      switch (outputType) {
-        case 'zip':
-        case 'csv':
-          api.tasks.enqueue('form:export', {
-            query,
-            outputType,
-            user: data.session.user,
-            formName: form.modelName
-          }, 'low', (error, success) => {
-            if (error) return next(error)
-            data.response.success = success
-            next()
-          })
-          return
-      }
 
       // fetch the results
       let result = await api.models[ form.modelName ].findAndCountAll(query)
@@ -119,6 +100,39 @@ function generateListAction (form) {
       data.response.count = result.count
 
       next()
+    } catch (error) {
+      api.log(error, 'error')
+      next(error)
+    }
+  }
+}
+
+function generateExportAction (form) {
+  return async function (api, data, next) {
+    try {
+      let outputType = data.params.outputType
+
+      let query = await form.prepareQuery(api, data)
+
+      switch (outputType) {
+        case 'zip':
+        case 'csv':
+          break
+        default:
+          data.connection.rawConnection.responseHttpCode = 401
+          return next(new Error('Unsupported output type'))
+      }
+
+      api.tasks.enqueue('form:export', {
+        query,
+        outputType,
+        user: data.session.user,
+        formName: form.modelName
+      }, 'low', (error, success) => {
+        if (error) return next(error)
+        data.response.success = success
+        next()
+      })
     } catch (error) {
       api.log(error, 'error')
       next(error)
@@ -138,10 +152,13 @@ function generateFormActions (form) {
   let listInputs = _.extend({
     user: {},
     limit: { required: false, default: 20 },
-    offset: { required: false, default: 0 },
+    offset: { required: false, default: 0 }
+  }, form.listInputs || {})
+
+  let exportInputs = _.extend({}, listInputs, {
     outputType: {},
     selection: {}
-  }, form.listInputs || {})
+  })
 
   _.forEach(form.fields, (field, fieldName) => {
     if (fieldName === 'createdAt' || fieldName === 'updatedAt') return
@@ -192,6 +209,14 @@ function generateFormActions (form) {
     run: generateListAction(form)
   }
 
+  actions.formExport = {
+    name: `${form.modelName}:export`,
+    description: `${form.modelName}:export`,
+    middleware: [ 'auth' ],
+    inputs: exportInputs,
+    run: generateExportAction(form)
+  }
+
   return actions
 }
 
@@ -204,7 +229,9 @@ module.exports = {
       const collection = generateFormActions(form)
       api.log(`Registering actions for ${name} form`, 'info')
       _.forEach(collection, action => {
-        if (action.version === null || action.version === undefined) { action.version = 1.0 }
+        if (action.version === null || action.version === undefined) {
+          action.version = 1.0
+        }
         if (api.actions.actions[ action.name ] === null || api.actions.actions[ action.name ] === undefined) {
           api.actions.actions[ action.name ] = {}
         }
