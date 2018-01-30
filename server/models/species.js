@@ -20,24 +20,29 @@ module.exports = function (sequelize, DataTypes) {
     code: DataTypes.TEXT
   }, {
     indexes: [
-      {unique: true, fields: ['type', 'labelLa']},
-      {fields: ['type', 'labelBg']},
-      {fields: ['type', 'labelEn']},
-      {fields: ['type', 'euring']},
-      {fields: ['type', 'code']}
+      { unique: true, fields: [ 'type', 'labelLa' ] },
+      { fields: [ 'type', 'labelBg' ] },
+      { fields: [ 'type', 'labelEn' ] },
+      { fields: [ 'type', 'euring' ] },
+      { fields: [ 'type', 'code' ] }
     ],
     instanceMethods: {
-      apiData: function (api) {
-        return {
+      apiData: function (api, context) {
+        let res = {
           type: this.type,
           label: {
             la: this.labelLa,
             bg: this.labelBg,
             en: this.labelEn
-          },
-          euring: this.euring,
-          code: this.code
+          }
         }
+        if (context !== 'public') {
+          Object.assign(res, {
+            euring: this.euring,
+            code: this.code
+          })
+        }
+        return res
       },
       apiUpdate: function (data) {
         this.type = data.type || this.type
