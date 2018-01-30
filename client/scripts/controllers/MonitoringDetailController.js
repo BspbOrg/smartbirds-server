@@ -122,8 +122,12 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
   controller.onZoneSelected = function () {
     if (!controller.data.getZone || !controller.data.getZone()) return
     var zoneCenter = controller.data.getZone().getCenter()
-    controller.data.latitude = zoneCenter.latitude
-    controller.data.longitude = zoneCenter.longitude
+
+    if (!controller.data.latitude || !controller.data.longitude) {
+      controller.data.latitude = zoneCenter.latitude
+      controller.data.longitude = zoneCenter.longitude
+    }
+
     controller.updateFromModel()
     // controller.map.center = angular.copy(controller.data.getZone().getCenter());
     // controller.map.refresh = true;
