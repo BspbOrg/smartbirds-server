@@ -23,7 +23,8 @@ exports.userCreate = {
     profile: {required: false},
     language: {required: false},
     role: {default: 'user'},
-    forms: {required: false}
+    forms: {required: false},
+    privacy: {required: false}
   },
 
   run: function (api, data, next) {
@@ -198,7 +199,8 @@ exports.userEdit = {
     phone: {required: false},
     postcode: {required: false},
     profile: {required: false},
-    language: {required: false}
+    language: {required: false},
+    privacy: {required: false}
   },
 
   run: function (api, data, next) {

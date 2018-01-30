@@ -3,6 +3,8 @@ var bcrypt = require('bcrypt')
 var bcryptComplexity = 10
 var crypto = require('crypto')
 
+const privacyTypes = [ 'public', 'private' ]
+
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('User', {
     'email': {
@@ -66,6 +68,14 @@ module.exports = function (sequelize, DataTypes) {
     phone: DataTypes.TEXT,
     postcode: DataTypes.TEXT,
     profile: DataTypes.TEXT,
+    privacy: {
+      type: DataTypes.STRING,
+      defaultValue: 'public',
+      allowNull: false,
+      validate: {
+        isIn: { args: [ privacyTypes ], msg: `Must be one of "${privacyTypes.join('", "')}"` }
+      }
+    },
     forms: {
       type: DataTypes.TEXT,
       get: function () {
@@ -165,13 +175,15 @@ module.exports = function (sequelize, DataTypes) {
           role: this.role,
           isAdmin: this.isAdmin,
           isModerator: this.isModerator,
-          forms: this.forms
+          forms: this.forms,
+          privacy: this.privacy
         }
       },
 
       apiUpdate: function (data) {
         _.assign(this, _.pick(data, 'firstName', 'lastName', 'address', 'birdsKnowledge',
-          'city', 'level', 'mobile', 'notes', 'phone', 'postcode', 'profile', 'language', 'forms'))
+          'city', 'level', 'mobile', 'notes', 'phone', 'postcode', 'profile', 'language', 'forms',
+          'privacy'))
       }
     }
   })

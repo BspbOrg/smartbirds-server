@@ -57,6 +57,11 @@
              model="user.data.language"
              on-select="$ctrl.changeLanguage(model)"></field>
 
+      <field ng-if="$user.getIdentity().id === user.data.id" name="privacy" type="select"
+             choices="[{id: 'public', label: 'PRIVACY_PUBLIC'}, {id: 'private', label: 'PRIVACY_PRIVATE'}]"
+             label="{{'USER_DETAIL_PRIVACY' | translate}}"
+             model="user.data.privacy"></field>
+
       <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
       <input ng-if="!user.hideFake" type="text" name="fakeusernameremembered2"/>
       <input ng-if="!user.hideFake" type="password" name="fakepasswordremembered2"/>
