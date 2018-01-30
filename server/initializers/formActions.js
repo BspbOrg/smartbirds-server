@@ -150,9 +150,10 @@ function generateFormActions (form) {
     outputType: {
       required: true,
       validator: (param) => {
-        if (param !== 'csv' || param !== 'zip') {
+        if (param !== 'csv' && param !== 'zip') {
           return 'Invalid output type'
         }
+        return true
       }
     },
     selection: {}
