@@ -49,7 +49,7 @@ exports[ 'default' ] = {
 
       // When a params for an action is invalid
       invalidParams: function (data, validationErrors) {
-        if (validationErrors && validationErrors.length >= 0) { return validationErrors[ 0 ] }
+        if (validationErrors && validationErrors.length >= 0) { return data.connection.localize(validationErrors[ 0 ]) }
         return data.connection.localize('actionhero.errors.invalidParams')
       },
 

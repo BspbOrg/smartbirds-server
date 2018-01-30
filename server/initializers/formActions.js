@@ -156,7 +156,14 @@ function generateFormActions (form) {
   }, form.listInputs || {})
 
   let exportInputs = _.extend({}, listInputs, {
-    outputType: {},
+    outputType: {
+      required: true,
+      validator: (param) => {
+        if (param !== 'csv' || param !== 'zip') {
+          return 'Invalid output type'
+        }
+      }
+    },
     selection: {}
   })
 
