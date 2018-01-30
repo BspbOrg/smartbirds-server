@@ -59,7 +59,7 @@ module.exports = {
       WHERE "observationDateTime" >= CURRENT_DATE - INTERVAL '1 month'
       AND (NOT confidential OR confidential IS NULL)
       GROUP BY species
-      ORDER BY count DESC
+      ORDER BY COUNT(*) DESC
     `)
   },
 
