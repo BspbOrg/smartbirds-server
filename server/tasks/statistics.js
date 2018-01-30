@@ -13,34 +13,73 @@ module.exports.generateStatistics = {
   // use cronjob to schedule the task
   // npm run enqueue stats:generate
   frequency: 0,
-  run: function (api, params, next) {
-    Promise.resolve(params)
+  run: async function (api, params, next) {
+    try {
+      let stats = await Promise.props({
 
-      .then(function () {
-        return Promise.props({
+        birds_stats: api.models.birds_stats.findAll(),
+        cbm_stats: api.models.cbm_stats.findAll(),
+        ciconia_stats: api.models.ciconia_stats.findAll(),
+        herps_stats: api.models.herps_stats.findAll(),
+        herptiles_stats: api.models.herptiles_stats.findAll(),
+        mammals_stats: api.models.mammals_stats.findAll(),
+        invertebrates_stats: api.models.invertebrates_stats.findAll(),
+        birds_top_stats: Promise.props({
+          top_users_species_month: api.models.birds_top_users_species_month.findAll({
+            limit: 10,
+            include: [ api.models.birds_top_users_species_month.associations.user ]
+          }).then(records => records.map(r => r.apiData(api))),
 
-          birds: api.models.birds_stats.findAll(),
-          cbm: api.models.cbm_stats.findAll(),
-          ciconia: api.models.ciconia_stats.findAll(),
-          herps: api.models.herps_stats.findAll(),
-          herptiles: api.models.herptiles_stats.findAll(),
-          mammals: api.models.mammals_stats.findAll(),
-          invertebrates: api.models.invertebrates_stats.findAll()
+          top_users_species_year: api.models.birds_top_users_species_year.findAll({
+            limit: 10,
+            include: [ api.models.birds_top_users_species_year.associations.user ]
+          }).then(records => records.map(r => r.apiData(api))),
 
+          top_users_records_month: api.models.birds_top_users_records_month.findAll({
+            limit: 10,
+            include: [ api.models.birds_top_users_records_month.associations.user ]
+          }).then(records => records.map(r => r.apiData(api))),
+
+          top_users_records_year: api.models.birds_top_users_records_year.findAll({
+            limit: 10,
+            include: [ api.models.birds_top_users_records_year.associations.user ]
+          }).then(records => records.map(r => r.apiData(api))),
+
+          top_species_month: api.models.birds_top_species_month.findAll({
+            limit: 10,
+            include: [ api.models.birds_top_species_month.associations.speciesInfo ]
+          }).then(records => records.map(r => r.apiData(api))),
+
+          interesting_species: api.models.formBirds.findAll({
+            where: {
+              count: {'$gt': '0'},
+              confidential: { '$or': [ false, null ] },
+              '$speciesInfo.interesting$': true,
+              '$speciesInfo.sensitive$': { '$or': [ false, null ] }
+            },
+            include: [ api.models.formBirds.associations.speciesInfo, api.models.formBirds.associations.user ],
+            order: [ [ 'observationDateTime', 'DESC' ] ],
+            limit: 20
+          }).then(records => Promise.all(records.map(r => {
+            return {
+              species: r.speciesInfo.apiData(api, 'public'),
+              date: r.observationDateTime,
+              location: r.location,
+              count: r.count,
+              observer: r.user.apiData(api, 'public')
+            }
+          })))
         })
+
       })
 
-      .then(function (stats) {
-        return Promise.props(_.mapValues(stats, function (stat, table) {
-          return writeFile(api.config.general.paths.public[0] + '/' + table + '_stats.json', JSON.stringify(stat))
-        }))
-      })
+      await Promise.props(_.mapValues(stats, function (stat, name) {
+        return writeFile(api.config.general.paths.public[ 0 ] + '/' + name + '.json', JSON.stringify(stat))
+      }))
 
-      // final statement
-      .then(function () {
-        next()
-      }, function (error) {
-        next(error)
-      })
+      next()
+    } catch (error) {
+      next(error)
+    }
   }
 }

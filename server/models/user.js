@@ -8,7 +8,7 @@ module.exports = function (sequelize, DataTypes) {
     'email': {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {isEmail: true}
+      validate: { isEmail: true }
     },
     'passwordHash': {
       type: DataTypes.TEXT,
@@ -43,7 +43,7 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       defaultValue: 'user',
       validate: {
-        isIn: [['user', 'admin', 'moderator']]
+        isIn: [ [ 'user', 'admin', 'moderator' ] ]
       }
     },
     imported: {
@@ -79,7 +79,7 @@ module.exports = function (sequelize, DataTypes) {
     indexes: [
       {
         unique: true,
-        fields: ['email']
+        fields: [ 'email' ]
       }
     ],
 
@@ -93,7 +93,7 @@ module.exports = function (sequelize, DataTypes) {
 
     instanceMethods: {
       name: function () {
-        return [this.firstName, this.lastName].join(' ')
+        return [ this.firstName, this.lastName ].join(' ')
       },
 
       updatePassword: function (pw, callback) {
@@ -139,7 +139,13 @@ module.exports = function (sequelize, DataTypes) {
         bcrypt.compare(token, this.forgotPasswordHash, callback)
       },
 
-      apiData: function (api) {
+      apiData: function (api, context) {
+        if (context === 'public') {
+          return {
+            firstName: this.firstName,
+            lastName: this.lastName
+          }
+        }
         return {
           id: this.id,
           email: this.email,
