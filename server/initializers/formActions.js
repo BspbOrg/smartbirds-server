@@ -120,7 +120,7 @@ function generateExportAction (form) {
           break
         default:
           data.connection.rawConnection.responseHttpCode = 401
-          return next(new Error('Unsupported output type'))
+          return next(new Error(api.config.errors.invalidParams(data)))
       }
 
       api.tasks.enqueue('form:export', {
