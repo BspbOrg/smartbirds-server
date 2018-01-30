@@ -114,15 +114,6 @@ function generateExportAction (form) {
 
       let query = await form.prepareQuery(api, data)
 
-      switch (outputType) {
-        case 'zip':
-        case 'csv':
-          break
-        default:
-          data.connection.rawConnection.responseHttpCode = 401
-          return next(new Error(api.config.errors.invalidParams(data)))
-      }
-
       api.tasks.enqueue('form:export', {
         query,
         outputType,
