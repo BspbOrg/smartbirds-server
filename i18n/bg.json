@@ -680,5 +680,9 @@
     "FORM_DETAIL_BUTTON_PREV": "Предишен",
     "FORM_DETAIL_BUTTON_NEXT": "Следващ",
     "FORM_DETAIL_BUTTON_SAVE": "Запис",
-    "FORM_DETAIL_BUTTON_COPY": "Копие"
+    "FORM_DETAIL_BUTTON_COPY": "Копие",
+    "FORM_LIST_FOUND_RECORDS_COUNT_TOOLTIP": "Намерени записи отговарящи на избраните филтри",
+    "FORM_LIST_BUTTON_CSV_EXPORT_TOOLTIP": "Генериране на csv файл с всички намерени записи",
+    "FORM_LIST_BUTTON_ZIP_EXPORT_TOOLTIP": "Генериране на zip файл с всички намерени записи, техните снимки и gpx файлове",
+    "WARNING_EXPORT_LIMIT": "Системата ограничава единичен експорт до 20 000 записа."
 }

@@ -16,7 +16,11 @@ function generatePrepareQuery (form) {
       ],
       offset: offset
     })
-    if (limit !== -1) { query.limit = limit }
+    if (limit !== -1) {
+      query.limit = limit
+    } else {
+      query.limit = 20000
+    }
 
     // form specific filters
     if (prepareQuery) {
