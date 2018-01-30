@@ -31,4 +31,4 @@ Code is in [server](server). To run server in dev use `npm run ah` - to use the 
 
 [AGPL-v3.0](LICENSE)
 
-Copyright (c) 2015-2016 [Bulgarian Society for the Protection of Birds](http://bspb.org)
+Copyright (c) 2015-2018 [Bulgarian Society for the Protection of Birds](http://bspb.org)
