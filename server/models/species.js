@@ -17,7 +17,17 @@ module.exports = function (sequelize, DataTypes) {
     labelBg: DataTypes.TEXT,
     labelEn: DataTypes.TEXT,
     euring: DataTypes.TEXT,
-    code: DataTypes.TEXT
+    code: DataTypes.TEXT,
+    interesting: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
+    },
+    sensitive: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
+    }
   }, {
     indexes: [
       { unique: true, fields: [ 'type', 'labelLa' ] },
@@ -39,7 +49,9 @@ module.exports = function (sequelize, DataTypes) {
         if (context !== 'public') {
           Object.assign(res, {
             euring: this.euring,
-            code: this.code
+            code: this.code,
+            interesting: this.interesting,
+            sensitive: this.sensitive
           })
         }
         return res
@@ -51,6 +63,8 @@ module.exports = function (sequelize, DataTypes) {
         this.labelLa = data.label ? data.label.la : this.labelLa
         this.euring = data.euring || this.euring
         this.code = data.code || this.code
+        this.interesting = data.interesting
+        this.sensitive = data.sensitive
       }
     }
   })

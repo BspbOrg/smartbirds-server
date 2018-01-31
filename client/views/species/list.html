@@ -33,6 +33,8 @@
           <th>LA</th>
           <th>BG</th>
           <th>EN</th>
+          <th translate>SPECIES_COL_INTERESTING</th>
+          <th translate>SPECIES_COL_SENSITIVE</th>
           <th class="btn-group btn-group-xs">
             <button
               type="button"
@@ -68,6 +70,14 @@
                    model="item.label.en"></field>
           </td>
           <td>
+            <field type="bool"
+                   model="item.interesting"></field>
+          </td>
+          <td>
+            <field type="bool"
+                   model="item.sensitive"></field>
+          </td>
+          <td>
             <button type="button" class="btn btn-danger btn-xs visible-hover"
                     ng-click="$ctrl.remove($index)">
               <i class="fa fa-remove fa-fw"></i>
@@ -81,6 +91,8 @@
           <th>LA</th>
           <th>BG</th>
           <th>EN</th>
+          <th translate>SPECIES_COL_INTERESTING</th>
+          <th translate>SPECIES_COL_SENSITIVE</th>
           <th class="btn-group btn-group-xs">
             <button
               type="button"
