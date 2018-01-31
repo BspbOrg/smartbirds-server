@@ -437,6 +437,8 @@
     "SPECIES_UNSAVED_DATA_MESSAGE": "Имате незаписани промени. Сигурни ли сте, че искате да продължите?",
     "SPECIES_BUTTON_ADD": "Добавяне",
     "SPECIES_BUTTON_SAVE": "Запис",
+    "SPECIES_COL_INTERESTING": "Интересен",
+    "SPECIES_COL_SENSITIVE": "Чувствителен",
     "LIST_MAP_SHOW_TRACKS_CHECKBOX": "показване на последните 3 следи",
     "LIST_MAP_MARKER_COUNT": "индивиди:",
     "LIST_MAP_MARKER_DATE": "дата:",
