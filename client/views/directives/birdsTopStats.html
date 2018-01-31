@@ -90,8 +90,8 @@
         </thead>
         <tbody>
         <tr ng-repeat="record in $ctrl.stats.interesting_species">
-          <td>{{record.species.label[$root.$language]}} | {{::record.species.label.la}}</td>
-          <td class="text-right">{{::record.date | date}}</td>
+          <td>{{record.species.label[$root.$language]}}<br>{{::record.species.label.la}}</td>
+          <td class="text-right">{{::record.date | date | replace:" ":"&nbsp;"}}</td>
           <td>{{::record.location}}</td>
           <td class="text-right">{{::record.count}}</td>
           <td>{{::record.observer.firstName}} {{::record.observer.lastName}}</td>
