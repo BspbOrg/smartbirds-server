@@ -7,6 +7,7 @@ var angular = require('angular')
 require('../app').controller('MonitoringController', /* @ngInject */function ($state, $stateParams, $q, $translate, model, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, formName) {
   var controller = this
 
+  controller.maxExportCount = 20000
   controller.formName = formName
   controller.db = db
   controller.filter = angular.copy($stateParams)

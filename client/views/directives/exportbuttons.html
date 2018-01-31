@@ -2,7 +2,7 @@
   <div class="btn-group">
     <button type="button" class="btn btn-default" disabled
             title="{{'FORM_LIST_FOUND_RECORDS_COUNT_TOOLTIP' | translate}}">
-      {{(monitoringController.selectedRows.length ? monitoringController.selectedRows.length : monitoringController.count || 0) | min:20000}}/{{monitoringController.count || 0}}
+      {{(monitoringController.selectedRows.length ? monitoringController.selectedRows.length : monitoringController.count || 0) | min:monitoringController.maxExportCount}}/{{monitoringController.count || 0}}
     </button>
     <a role="button" class="btn btn-default" ng-click="monitoringController.export('csv')"
        title="{{'FORM_LIST_BUTTON_CSV_EXPORT_TOOLTIP' | translate}}">
@@ -13,7 +13,7 @@
       <i class="fa fa-download fa-fw"></i> zip
     </a>
   </div>
-  <div ng-if="(monitoringController.selectedRows.length ? monitoringController.selectedRows.length : monitoringController.count || 0) > 20000" class="text-danger" translate>
+  <div ng-if="(monitoringController.selectedRows.length ? monitoringController.selectedRows.length : monitoringController.count || 0) > monitoringController.maxExportCount" class="text-danger" translate>
     WARNING_EXPORT_LIMIT
   </div>
 </div>
