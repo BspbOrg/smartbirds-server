@@ -27,27 +27,32 @@ module.exports.generateStatistics = {
         birds_top_stats: Promise.props({
           top_users_species_month: api.models.birds_top_users_species_month.findAll({
             limit: 10,
-            include: [ api.models.birds_top_users_species_month.associations.user ]
+            include: [ api.models.birds_top_users_species_month.associations.user ],
+            order: [ [ 'count', 'DESC' ] ]
           }).then(records => records.map(r => r.apiData(api))),
 
           top_users_species_year: api.models.birds_top_users_species_year.findAll({
             limit: 10,
-            include: [ api.models.birds_top_users_species_year.associations.user ]
+            include: [ api.models.birds_top_users_species_year.associations.user ],
+            order: [ [ 'count', 'DESC' ] ]
           }).then(records => records.map(r => r.apiData(api))),
 
           top_users_records_month: api.models.birds_top_users_records_month.findAll({
             limit: 10,
-            include: [ api.models.birds_top_users_records_month.associations.user ]
+            include: [ api.models.birds_top_users_records_month.associations.user ],
+            order: [ [ 'count', 'DESC' ] ]
           }).then(records => records.map(r => r.apiData(api))),
 
           top_users_records_year: api.models.birds_top_users_records_year.findAll({
             limit: 10,
-            include: [ api.models.birds_top_users_records_year.associations.user ]
+            include: [ api.models.birds_top_users_records_year.associations.user ],
+            order: [ [ 'count', 'DESC' ] ]
           }).then(records => records.map(r => r.apiData(api))),
 
           top_species_month: api.models.birds_top_species_month.findAll({
             limit: 10,
-            include: [ api.models.birds_top_species_month.associations.speciesInfo ]
+            include: [ api.models.birds_top_species_month.associations.speciesInfo ],
+            order: [ [ 'count', 'DESC' ] ]
           }).then(records => records.map(r => r.apiData(api))),
 
           interesting_species: api.models.formBirds.findAll({
