@@ -233,6 +233,20 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
     })
 
     /// ////////
+    // User Friends Management //
+    /// ////////
+    .state('auth.users.friends', {
+      url: '/friends',
+      views: {
+        'content@auth': {
+          templateUrl: '/views/users/friends.html',
+          controller: 'FriendsController',
+          controllerAs: '$ctrl'
+        }
+      }
+    })
+
+    /// ////////
     // Monitorings //
     /// ////////
     .state('auth.monitoring', {

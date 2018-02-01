@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1 class="page-header">
+      <div class="pull-right">
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary"
+                  ng-disabled="$ctrl.shareesForm.$pristine || $ctrl.shareesForm.$invalid"
+                  ng-click="$ctrl.save()">
+            {{'FRIENDS_BUTTON_SAVE' | translate}}
+            <i class="fa fa-save fa-fw"></i>
+          </button>
+        </div>
+      </div>
+      <translate>FRIENDS_TITLE</translate>
+    </h1>
+  </div>
+
+  <div class="col-md-12">
+    <form class="form" name="$ctrl.form" role="form" ng-submit="$ctrl.addEmail()">
+      <div class="form-group"
+           ng-class="{
+            'has-error': $ctrl.form.email.$dirty && $ctrl.form.email.$invalid,
+            'has-success': $ctrl.form.email.$dirty && $ctrl.form.email.$valid
+          }">
+        <label class="control-label"
+               for="email" translate>FRIENDS_FIELD_EMAIL_LABEL</label>
+        <div class="input-group">
+          <input type="email" class="form-control" id="email"
+                 name="email" required
+                 translate-attr="{placeholder: ''}"
+                 ng-model="$ctrl.email"
+                 aria-describedby="emailHelpBlock">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">Add</button>
+          </span>
+        </div>
+        <span id="emailHelpBlock" class="help-block" ng-if="'FRIENDS_FIELD_EMAIL_HELP'|translate" translate>FRIENDS_FIELD_EMAIL_HELP</span>
+      </div>
+    </form>
+  </div>
+
+  <div class="col-md-6">
+    <h3 translate>FRIENDS_LIST_SHARED_TO</h3>
+    <form name="$ctrl.shareesForm"
+          confirm-on-exit="$ctrl.shareesForm.$dirty"
+          confirm-message-window="{{'FRIENDS_UNSAVED_DATA_ALERT_TITLE' | translate}}"
+          confirm-message-route="{{'FRIENDS_UNSAVED_DATA_ALERT_MESSAGE' | translate}}">
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="email in $ctrl.sharees">
+          <button type="button" class="btn btn-xs btn-danger pull-right" ng-click="$ctrl.remove($index)">
+            <span class="sr-only" translate>FRIENDS_REMOVE_LABEL</span>
+            <i class="fa fa-remove"></i>
+          </button>
+          {{email}}
+        </li>
+      </ul>
+    </form>
+  </div>
+
+  <div class="col-md-6">
+    <h3 translate>FRIENDS_LIST_SHARED_WITH_ME</h3>
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="email in $ctrl.sharers">
+        {{email}}
+      </li>
+    </ul>
+  </div>
+</div>
