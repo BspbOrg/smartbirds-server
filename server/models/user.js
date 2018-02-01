@@ -98,6 +98,8 @@ module.exports = function (sequelize, DataTypes) {
         // associations can be defined here
         // models.user.hasMany(models.usermeta);
         // models.user.hasMany(models.zone, {foreignKey: 'ownerId', as: 'zones'});
+        models.user.belongsToMany(models.user, {as: 'Sharers', through: 'Shares', foreignKey: 'sharer', otherKey: 'sharee'})
+        models.user.belongsToMany(models.user, {as: 'Sharees', through: 'Shares', foreignKey: 'sharee', otherKey: 'sharer'})
       }
     },
 
