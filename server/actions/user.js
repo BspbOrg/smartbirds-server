@@ -384,7 +384,6 @@ exports.userSharers = {
   },
 
   run: function (api, data, next) {
-
     if (!data.session.user.isAdmin) {
       if (data.params.id === 'me' || parseInt(data.params.id) === data.session.userId) {
         data.params.id = data.session.userId
