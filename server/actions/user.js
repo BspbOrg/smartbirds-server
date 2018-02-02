@@ -369,3 +369,96 @@ exports.userChangePassword = {
       })
   }
 }
+
+exports.userSharers = {
+  name: 'user:sharers',
+  description: 'user:sharers',
+  outputExample: {
+    data: [ { id: 1, email: 'user@example.com', firstName: 'John', lastName: 'Doe', role: 'user' } ],
+    count: 123
+  },
+  middleware: [ 'auth', 'owner' ],
+
+  inputs: {
+    id: { required: true }
+  },
+
+  run: function (api, data, next) {
+
+    if (!data.session.user.isAdmin) {
+      if (data.params.id === 'me' || parseInt(data.params.id) === data.session.userId) {
+        data.params.id = data.session.userId
+      } else {
+        data.connection.rawConnection.responseHttpCode = 403
+        return next(new Error('Admin required'))
+      }
+    }
+
+    var query = {
+      include: [
+        api.models.user.associations.sharers
+      ],
+      where: { id: data.params.id }
+    }
+
+    api.models.user.findOne(query).then(function (user) {
+      if (!user) {
+        data.connection.rawConnection.responseHttpCode = 404
+        return next(new Error('Няма такъв потребител'))
+      }
+
+      data.response.count = user.sharers.length
+      data.response.data = user.sharers.map(function (user) {
+        return user.apiData(api)
+      })
+      next()
+    })
+      .catch(next)
+  }
+}
+
+exports.userSharees = {
+  name: 'user:sharees',
+  description: 'user:sharees',
+  outputExample: {
+    data: [ { id: 1, email: 'user@example.com', firstName: 'John', lastName: 'Doe', role: 'user' } ],
+    count: 123
+  },
+  middleware: [ 'auth', 'owner' ],
+
+  inputs: {
+    id: { required: true }
+  },
+
+  run: function (api, data, next) {
+    if (!data.session.user.isAdmin) {
+      if (data.params.id === 'me' || parseInt(data.params.id) === data.session.userId) {
+        data.params.id = data.session.userId
+      } else {
+        data.connection.rawConnection.responseHttpCode = 403
+        return next(new Error('Admin required'))
+      }
+    }
+
+    var query = {
+      include: [
+        api.models.user.associations.sharees
+      ],
+      where: { id: data.params.id }
+    }
+
+    api.models.user.findOne(query).then(function (user) {
+      if (!user) {
+        data.connection.rawConnection.responseHttpCode = 404
+        return next(new Error('Няма такъв потребител'))
+      }
+
+      data.response.count = user.sharees.length
+      data.response.data = user.sharees.map(function (user) {
+        return user.apiData(api)
+      })
+      next()
+    })
+      .catch(next)
+  }
+}

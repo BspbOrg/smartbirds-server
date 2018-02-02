@@ -5,6 +5,8 @@ exports.default = {
       get: [
         { path: '/user', action: 'user:list' },
         { path: '/user/:id', action: 'user:view' },
+        { path: '/user/:id/sharers', action: 'user:sharers' },
+        { path: '/user/:id/sharees', action: 'user:sharees' },
         { path: '/zone', action: 'zone:list' },
         { path: '/zone/:id([0-9A-Z]+)', action: 'zone:view' },
         { path: '/locations/', action: 'location:list' },

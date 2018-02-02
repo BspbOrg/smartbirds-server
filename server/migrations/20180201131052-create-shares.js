@@ -2,7 +2,7 @@
 
 var Sequelize = require('sequelize')
 
-var tableName = 'shares'
+var tableName = 'Shares'
 
 var schema = {
   id: {
