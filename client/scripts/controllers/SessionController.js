@@ -46,7 +46,7 @@ require('../app').controller('SessionController', /* @ngInject */function ($log,
     User.save(user).$promise.then(function (response) {
       $log.debug('user created', response)
       flashService.success($translate.instant('Profile created successfully'), true)
-      $state.go('login', {email: response.user.email})
+      $state.go('login', {email: user.email})
     }, function (response) {
       $log.debug('error creating user', response)
       flashService.error(response.data.error || $translate.instant('Could not create profile'))
