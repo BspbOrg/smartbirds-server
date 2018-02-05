@@ -23,9 +23,6 @@ exports.fields = assign(exports.fields, {
       filter: { type: 'birds' }
     }
   },
-  confidential: {
-    type: 'boolean'
-  },
   countUnit: {
     type: 'choice',
     required: true,
