@@ -10,7 +10,7 @@ require('../app').factory('User', /* @ngInject */function ($resource, $translate
     id: '@id'
   }, {
     // api methods
-    getSharers: { method: 'GET', url: ENDPOINT_URL + '/user/:id/sharers', isArray: true },
+    getSharers: { method: 'GET', url: ENDPOINT_URL + '/user/:id/sharers', isArray: true, cache: true },
     getSharees: { method: 'GET', url: ENDPOINT_URL + '/user/:id/sharees', isArray: true },
     saveSharees: { method: 'POST', url: ENDPOINT_URL + '/user/:id/sharees', isArray: true }
   })

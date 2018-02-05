@@ -4,17 +4,31 @@
 
 var _ = require('lodash')
 var angular = require('angular')
-require('../app').controller('MonitoringController', /* @ngInject */function ($state, $stateParams, $q, $translate, model, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, formName) {
+require('../app').controller('MonitoringController', /* @ngInject */function ($state, $stateParams, $q, $translate, model, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, formName, user, User) {
   var controller = this
 
   controller.maxExportCount = 20000
   controller.formName = formName
   controller.db = db
   controller.filter = angular.copy($stateParams)
+  if (user.canAccess(formName)) {
+    controller.canFilterByUser = true
+  } else {
+    controller.canFilterByUser = false
+    User.getSharers({ id: user.getIdentity().id }).$promise.then(function (sharers) {
+      if (sharers.length) {
+        controller.canFilterByUser = true
+        if (!controller.filter.user) {
+          controller.filter.user = user.getIdentity().id
+        }
+      }
+    })
+  }
   controller.years = Object.keys(new Int8Array(new Date().getFullYear() - 1979)).map(function (year) {
     return Number(year) + 1980
   }).reverse()
   controller.species = {}
+  controller.sharers = User.getSharers({ id: user.getIdentity().id })
   $q.resolve(db.species.$promise || db.species).then(function (species) {
     return species.$promise || species
   }).then(function (species) {
