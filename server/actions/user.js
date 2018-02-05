@@ -154,19 +154,29 @@ exports.userView = {
   },
 
   run: function (api, data, next) {
+    let q = { where: { } }
+    let scope = 'default'
+
     if (data.params.id === 'me' || parseInt(data.params.id) === data.session.userId) {
-      data.params.id = data.session.userId
+      q.where.id = data.session.userId
     } else if (!data.session.user.isAdmin && !data.session.user.isModerator) {
-      data.connection.rawConnection.responseHttpCode = 403
-      return next(new Error('Admin required'))
+      // data.connection.rawConnection.responseHttpCode = 403
+      // return next(new Error('Admin required'))
+      q.where.id = data.params.id
+      q.include = q.include || []
+      q.include.push(api.models.user.associations.sharees)
+      q.where['$sharees.id$'] = data.session.userId
+      scope = 'sharee'
+    } else {
+      q.where.id = data.params.id
     }
-    api.models.user.findOne({ where: { id: data.params.id } }).then(function (user) {
+    api.models.user.findOne(q).then(function (user) {
       if (!user) {
         data.connection.rawConnection.responseHttpCode = 404
         return next(new Error('Няма такъв потребител'))
       }
 
-      data.response.data = user.apiData(api)
+      data.response.data = user.apiData(api, scope)
       next()
     })
       .catch(next)
@@ -253,12 +263,6 @@ exports.userList = {
       offset: offset
     }
 
-    if (!data.session.user.isAdmin && !data.session.user.isModerator) {
-      q.where = {
-        id: data.session.userId
-      }
-    }
-
     if (limit !== -1) {
       q.limit = limit
     }
@@ -302,16 +306,35 @@ exports.userList = {
       }
     }
 
-    api.models.user.findAndCountAll(q).then(function (result) {
-      data.response.count = result.count
-      data.response.data = result.rows.map(function (user) {
-        return user.apiData(api)
+    Promise
+      .resolve(q)
+      .then(function (q) {
+        if (data.session.user.isAdmin || data.session.user.isModerator) {
+          return api.models.user.findAndCountAll(q)
+        }
+        return api.models.user
+          .findById(data.session.userId)
+          .then(function (user) {
+            if (!user) return { count: 0, rows: [] }
+            return user
+              .getSharers()
+              .then(function (users) {
+                if (!users) users = []
+                users.unshift(user)
+                return { count: users.length, rows: users }
+              })
+          })
       })
-      if (result.count > limit + offset) {
-        data.connection.rawConnection.responseHttpCode = 206
-      }
-      next()
-    }).catch(next)
+      .then(function (result) {
+        data.response.count = result.count
+        data.response.data = result.rows.map(function (user) {
+          return user.apiData(api)
+        })
+        if (result.count > limit + offset) {
+          data.connection.rawConnection.responseHttpCode = 206
+        }
+        next()
+      }).catch(next)
   }
 }
 

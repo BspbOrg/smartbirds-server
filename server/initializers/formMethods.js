@@ -43,8 +43,20 @@ function generatePrepareQuery (form) {
         })
       }
     } else {
+      let userFilter = data.session.userId
+      if (data.params.user) {
+        const share = await api.models.share.findOne({
+          where: {
+            sharer: data.params.user,
+            sharee: data.session.userId
+          }
+        })
+        if (share) {
+          userFilter = data.params.user
+        }
+      }
       query.where = _.extend(query.where || {}, {
-        userId: data.session.userId
+        userId: userFilter
       })
     }
 

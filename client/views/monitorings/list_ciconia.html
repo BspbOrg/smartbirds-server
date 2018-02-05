@@ -41,7 +41,7 @@
 
           <div class="row">
 
-            <div ng-if="$user.canAccess(monitoringController.formName)" class="col-md-4 col-lg-3">
+            <div ng-if="monitoringController.canFilterByUser" class="col-md-4 col-lg-3">
               <field name="user" type="user"
                      label="{{'CICONIA_LIST_FILTER_USER' | translate}}"
                      placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
