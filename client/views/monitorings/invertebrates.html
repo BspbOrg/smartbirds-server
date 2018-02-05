@@ -67,16 +67,21 @@
 
     <div class="col-md-4 col-lg-5">
       <div class="row">
-        <div class="col-md-8 col-lg-8">
+        <div class="col-md-12 col-lg-12">
           <field name="species" type="species" nomenclature="invertebrates" required="true"
                  label="{{'INVERTEBRATES_DETAIL_SPECIES' | translate}}"
                  model="monitoringDetailController.data.species"></field>
         </div>
-        <div class="col-md-4 col-lg-4">
+        <div class="col-md-5 col-lg-6">
           <field name="count" type="int" min="1" required="true"
                  ng-init="monitoringDetailController.data.count=1"
                  label="{{'INVERTEBRATES_DETAIL_COUNT' | translate}}"
                  model="monitoringDetailController.data.count"></field>
+        </div>
+        <div class="col-md-7 col-lg-6">
+          <field name="confidential" type="bool"
+                 label="{{'INVERTEBRATES_DETAIL_CONFIDENTIAL' | translate}}"
+                 model="monitoringDetailController.data.confidential"></field>
         </div>
         <div class="col-md-6 col-lg-6">
           <field name="age" type="single-choice" nomenclature="invertebrates_age"
