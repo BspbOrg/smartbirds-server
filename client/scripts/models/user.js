@@ -8,6 +8,10 @@ var md5 = require('blueimp-md5')
 require('../app').factory('User', /* @ngInject */function ($resource, $translate, BANNER_BASE_URL, ENDPOINT_URL) {
   var User = $resource(ENDPOINT_URL + '/user/:id', {
     id: '@id'
+  }, {
+    // api methods
+    getSharers: { method: 'GET', url: ENDPOINT_URL + '/user/:id/sharers', isArray: true },
+    getSharees: { method: 'GET', url: ENDPOINT_URL + '/user/:id/sharees', isArray:true }
   })
 
   // methods
