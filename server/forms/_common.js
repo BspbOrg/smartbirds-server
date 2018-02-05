@@ -72,6 +72,7 @@ exports.fields = {
   },
   pictures: 'json',
   track: 'text',
+  confidential: 'boolean',
 
   // Internal fields
   user: {
