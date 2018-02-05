@@ -1,6 +1,6 @@
 var angular = require('angular')
 
-require('../app').controller('MonitoringDetailController', /* @ngInject */function ($filter, $http, $scope, $state, $stateParams, $q, $timeout, $translate, model, ngToast, db, Raven, Track, formName) {
+require('../app').controller('MonitoringDetailController', /* @ngInject */function ($filter, $http, $scope, $state, $stateParams, $q, $timeout, $translate, model, ngToast, db, Raven, Track, formName, user) {
   var controller = this
 
   var id = $stateParams.id || $stateParams.fromId
@@ -17,6 +17,10 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
     }
   }
 
+  function checkCanSave () {
+    controller.canSave = !controller.data.user || controller.data.user === user.getIdentity().id || user.canAccess(formName)
+  }
+
   controller.formName = formName
   controller.db = db
   if (id) {
@@ -28,6 +32,11 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
   if (!$stateParams.id && $stateParams.fromId) {
     controller.data.$promise.then(function () {
       controller.clearForCopy()
+    })
+  }
+  if (controller.data && controller.data.$promise) {
+    controller.data.$promise.then(function () {
+      checkCanSave()
     })
   }
   if (angular.isDefined($stateParams.offset)) {
@@ -143,10 +152,12 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
     }
     delete controller.data.id
     delete controller.data.pictures
+    delete controller.data.user
     if (angular.isFunction(model.prototype.postCopy)) {
       model.prototype.postCopy.apply(controller.data)
     }
     $scope.smartform.$setPristine()
+    checkCanSave()
   }
 
   controller.copy = function () {
@@ -155,6 +166,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
   }
 
   controller.save = function () {
+    if (!controller.canSave) return
     var data = new model(controller.data) // eslint-disable-line new-cap
     if (!data.monitoringCode) {
       data.monitoringCode = genSingleObservationCode()
