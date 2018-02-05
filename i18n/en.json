@@ -701,6 +701,7 @@
     "FORM_LIST_BUTTON_CSV_EXPORT_TOOLTIP": "Generating a csv file with all records found",
     "FORM_LIST_BUTTON_ZIP_EXPORT_TOOLTIP": "Generating a zip file with all records found, along with their corresponding pictures and gpx files",
     "WARNING_EXPORT_LIMIT": "The system limits exporting up to 20 000 records at a time",
+    "WARNING_EXPORT_DISABLED": "Exports of other user's data is not allowed",
     "SPECIES_COL_INTERESTING": "Interesting",
     "SPECIES_COL_SENSITIVE": "Sensitive",
     "HERPTILES_DETAIL_CONFIDENTIAL": "Confidential",
