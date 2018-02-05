@@ -11,7 +11,7 @@ require('../app').factory('User', /* @ngInject */function ($resource, $translate
   }, {
     // api methods
     getSharers: { method: 'GET', url: ENDPOINT_URL + '/user/:id/sharers', isArray: true },
-    getSharees: { method: 'GET', url: ENDPOINT_URL + '/user/:id/sharees', isArray:true }
+    getSharees: { method: 'GET', url: ENDPOINT_URL + '/user/:id/sharees', isArray: true }
   })
 
   // methods
