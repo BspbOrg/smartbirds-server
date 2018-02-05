@@ -71,7 +71,22 @@ function generateRetrieveRecord (form) {
       throw new Error(api.config.errors.formNotFound(data.connection, form.modelName, data.params.id))
     }
 
-    if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, form.modelName) && record.userId !== data.session.userId) {
+    let allowedAccess = false
+
+    if (!allowedAccess && data.session.user.isAdmin) allowedAccess = true
+    if (!allowedAccess && api.forms.isModerator(data.session.user, form.modelName)) allowedAccess = true
+    if (!allowedAccess && record.userId === data.session.userId) allowedAccess = true
+    if (!allowedAccess) {
+      const share = await api.models.share.findOne({
+        where: {
+          sharer: record.userId,
+          sharee: data.session.userId
+        }
+      })
+      if (share) allowedAccess = true
+    }
+
+    if (!allowedAccess) {
       data.connection.rawConnection.responseHttpCode = 401
       throw new Error(api.config.errors.sessionNoPermission(data.connection))
     }
