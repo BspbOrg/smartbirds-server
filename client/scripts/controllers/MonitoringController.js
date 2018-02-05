@@ -13,8 +13,10 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
   controller.filter = angular.copy($stateParams)
   if (user.canAccess(formName)) {
     controller.canFilterByUser = true
+    controller.canExport = true
   } else {
     controller.canFilterByUser = false
+    controller.canExport = !controller.filter.user || controller.filter.user === user.getIdentity().id
     User.getSharers({ id: user.getIdentity().id }).$promise.then(function (sharers) {
       if (sharers.length) {
         controller.canFilterByUser = true
@@ -58,8 +60,8 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
     var filter = _.mapValues(controller.filter, function (value) {
       return value && angular.isFunction(value.toJSON) ? value.toJSON() : value
     })
-    console.log($stateParams, '->', filter)
     if (angular.equals(filter, $stateParams)) { return }
+    controller.canExport = !filter.user || filter.user === user.getIdentity().id || user.canAccess(formName)
     $state.go('.', filter, {
       notify: false
     })
@@ -130,7 +132,7 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
 
   controller.export = function (outputType) {
     var selection = []
-    if (controller.selectedRows && controller.selectedRows.length > 0 && !controller.allSelected) {
+    if (controller.selectedRows && controller.selectedRows.length > 0 && !controller.allSelected && controller.canExport) {
       angular.forEach(controller.selectedRows, function (row) {
         selection.push(row.id)
       })

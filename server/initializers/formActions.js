@@ -112,6 +112,12 @@ function generateExportAction (form) {
     try {
       let outputType = data.params.outputType
 
+      if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, form.modelName) && data.session.userId !== data.params.user) {
+        data.response.success = false
+        data.response.error = 'No permission'
+        return next()
+      }
+
       let query = await form.prepareQuery(api, data)
 
       api.tasks.enqueue('form:export', {
