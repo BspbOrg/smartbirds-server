@@ -406,7 +406,7 @@ exports.userSharers = {
 
       data.response.count = user.sharers.length
       data.response.data = user.sharers.map(function (user) {
-        return user.email
+        return user.apiData(api, 'sharee')
       })
       next()
     })
@@ -452,7 +452,7 @@ exports.userSharees = {
 
       data.response.count = user.sharees.length
       data.response.data = user.sharees.map(function (user) {
-        return user.email
+        return user.apiData(api, 'sharer')
       })
       next()
     })
@@ -489,7 +489,12 @@ exports.updateSharees = {
         }
 
         return Promise
-          .all(data.params.sharees.map(function (email) { return api.models.user.findOne({ where: { email: email } }) }))
+          .all(data.params.sharees.map(function (filter) {
+            if (filter.id) {
+              return api.models.user.findById(filter.id)
+            }
+            return api.models.user.findOne({ where: { email: filter.email } })
+          }))
           .then(function (sharees) {
             return {
               user,
@@ -506,7 +511,7 @@ exports.updateSharees = {
       .then(function (sharees) {
         data.response.count = sharees.length
         data.response.data = sharees.map(function (user) {
-          return user.email
+          return user.apiData('sharer')
         })
         next()
       })
