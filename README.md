@@ -1,5 +1,7 @@
 # smartbirds-server
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/BspbOrg/smartbirds-server.svg)](https://greenkeeper.io/)
+
 ## How to help
 
 You can [help translate](https://poeditor.com/join/project/9RT5wSkZCP) the project.
