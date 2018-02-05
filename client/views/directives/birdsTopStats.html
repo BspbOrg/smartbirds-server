@@ -1,82 +1,6 @@
-<div class="container-fluid">
+<div>
   <div class="row">
-    <div class="col-md-6">
-      <h3 translate>PUBLIC_BIRDS_TOP_OBSERVERS_RECORDS_MONTH</h3>
-      <table class="table table-striped table-hover table-condensed">
-        <tbody>
-        <tr ng-repeat="record in $ctrl.stats.top_users_records_month">
-          <td translate translate-values="{
-            index: $index+1,
-            firstName: record.user.firstName,
-            lastName: record.user.lastName,
-            count: record.count
-          }">PUBLIC_BIRDS_TOP_OBSERVERS_RECORDS_ROW</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="col-md-6">
-      <h3 translate>PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_MONTH</h3>
-      <table class="table table-striped table-hover table-condensed">
-        <tbody>
-        <tr ng-repeat="record in $ctrl.stats.top_users_species_month">
-          <td translate translate-values="{
-            index: $index+1,
-            firstName: record.user.firstName,
-            lastName: record.user.lastName,
-            count: record.count
-          }">PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_ROW</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <h3 translate>PUBLIC_BIRDS_TOP_OBSERVERS_RECORDS_YEAR</h3>
-      <table class="table table-striped table-hover table-condensed">
-        <tbody>
-        <tr ng-repeat="record in $ctrl.stats.top_users_records_year">
-          <td translate translate-values="{
-            index: $index+1,
-            firstName: record.user.firstName,
-            lastName: record.user.lastName,
-            count: record.count
-          }">PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_ROW</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="col-md-6">
-      <h3 translate>PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_YEAR</h3>
-      <table class="table table-striped table-hover table-condensed">
-        <tbody>
-        <tr ng-repeat="record in $ctrl.stats.top_users_species_year">
-          <td translate translate-values="{
-            index: $index+1,
-            firstName: record.user.firstName,
-            lastName: record.user.lastName,
-            count: record.count
-          }">PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_ROW</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <h3 translate>PUBLIC_BIRDS_TOP_SPECIES_MONTH</h3>
-      <table class="table table-striped table-hover table-condensed">
-        <tbody>
-        <tr ng-repeat="record in $ctrl.stats.top_species_month">
-          <td class="text-right" style="width: 1px;">{{::$index+1}}.</td>
-          <td>{{record.species.label[$root.$language]}} | {{::record.species.label.la}}</td>
-          <td class="text-right">{{::record.count}}</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="col-md-6">
+    <div class="col-md-12">
       <h3 translate>PUBLIC_BIRDS_LAST_INTERESTING_SPECIES</h3>
       <table class="table table-striped table-hover table-condensed">
         <thead>
@@ -95,6 +19,88 @@
           <td>{{::record.location}}</td>
           <td class="text-right">{{::record.count}}</td>
           <td>{{::record.observer.firstName}} {{::record.observer.lastName}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h3 translate>PUBLIC_BIRDS_TOP_SPECIES_MONTH</h3>
+      <table class="table table-striped table-hover table-condensed">
+        <tbody>
+        <tr ng-repeat="record in $ctrl.stats.top_species_month">
+          <td class="text-right" style="width: 1px;">{{::$index+1}}.</td>
+          <td>{{record.species.label[$root.$language]}} | {{::record.species.label.la}}</td>
+          <td class="text-right">{{::record.count}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 translate>PUBLIC_BIRDS_TOP_OBSERVERS_RECORDS_MONTH</h3>
+      <table class="table table-striped table-hover table-condensed">
+        <tbody>
+        <tr ng-repeat="record in $ctrl.stats.top_users_records_month">
+          <td translate translate-values="{
+            index: $index+1,
+            firstName: record.user.firstName,
+            lastName: record.user.lastName,
+            count: record.count
+          }">PUBLIC_BIRDS_TOP_OBSERVERS_RECORDS_ROW
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-6">
+      <h3 translate>PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_MONTH</h3>
+      <table class="table table-striped table-hover table-condensed">
+        <tbody>
+        <tr ng-repeat="record in $ctrl.stats.top_users_species_month">
+          <td translate translate-values="{
+            index: $index+1,
+            firstName: record.user.firstName,
+            lastName: record.user.lastName,
+            count: record.count
+          }">PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_ROW
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 translate>PUBLIC_BIRDS_TOP_OBSERVERS_RECORDS_YEAR</h3>
+      <table class="table table-striped table-hover table-condensed">
+        <tbody>
+        <tr ng-repeat="record in $ctrl.stats.top_users_records_year">
+          <td translate translate-values="{
+            index: $index+1,
+            firstName: record.user.firstName,
+            lastName: record.user.lastName,
+            count: record.count
+          }">PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_ROW
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-6">
+      <h3 translate>PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_YEAR</h3>
+      <table class="table table-striped table-hover table-condensed">
+        <tbody>
+        <tr ng-repeat="record in $ctrl.stats.top_users_species_year">
+          <td translate translate-values="{
+            index: $index+1,
+            firstName: record.user.firstName,
+            lastName: record.user.lastName,
+            count: record.count
+          }">PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_ROW
+          </td>
         </tr>
         </tbody>
       </table>
