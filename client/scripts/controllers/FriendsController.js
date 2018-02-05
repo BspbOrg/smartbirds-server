@@ -1,15 +1,10 @@
 require('../app').controller('FriendsController', /* @ngInject */function ($q, $translate, user, ngToast, Raven, User) {
   var $ctrl = this
 
-  // TODO: fetch data from server
-  // $ctrl.sharers = [ 'geno@code6.ninja', 'dani@code6.ninja' ]
-  // $ctrl.sharees = [ 'dani@code6.ninja', 'geno@code6.ninja' ]
-
   $ctrl.fetchData = function () {
     $ctrl.sharers = User.getSharers({id: user.getIdentity().id})
     $ctrl.sharees = User.getSharees({id: user.getIdentity().id})
   }
-
   $ctrl.fetchData()
 
   $ctrl.addEmail = function () {

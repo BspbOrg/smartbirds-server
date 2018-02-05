@@ -8,23 +8,23 @@ exports.userCreate = {
   middleware: [],
 
   inputs: {
-    email: {required: true},
-    password: {required: true},
-    firstName: {required: true},
-    lastName: {required: true},
-    address: {required: false},
-    birdsKnowledge: {required: false},
-    city: {required: false},
-    level: {required: false},
-    mobile: {required: false},
-    notes: {required: false},
-    phone: {required: false},
-    postcode: {required: false},
-    profile: {required: false},
-    language: {required: false},
-    role: {default: 'user'},
-    forms: {required: false},
-    privacy: {required: false}
+    email: { required: true },
+    password: { required: true },
+    firstName: { required: true },
+    lastName: { required: true },
+    address: { required: false },
+    birdsKnowledge: { required: false },
+    city: { required: false },
+    level: { required: false },
+    mobile: { required: false },
+    notes: { required: false },
+    phone: { required: false },
+    postcode: { required: false },
+    profile: { required: false },
+    language: { required: false },
+    role: { default: 'user' },
+    forms: { required: false },
+    privacy: { required: false }
   },
 
   run: function (api, data, next) {
@@ -44,7 +44,7 @@ exports.userCreate = {
       user.save()
         .then(function (userObj) {
           api.tasks.enqueue('mail:send', {
-            mail: {to: userObj.email, subject: 'Успешна регистрация'},
+            mail: { to: userObj.email, subject: 'Успешна регистрация' },
             template: 'register',
             locals: {
               name: userObj.name()
@@ -67,10 +67,10 @@ exports.userLost = {
   name: 'user:lost',
   description: 'user:lost',
   inputs: {
-    email: {required: true}
+    email: { required: true }
   },
   run: function (api, data, next) {
-    api.models.user.findOne({where: {email: data.params.email}}).then(function (user) {
+    api.models.user.findOne({ where: { email: data.params.email } }).then(function (user) {
       if (!user) {
         data.connection.rawConnection.responseHttpCode = 404
         return next(new Error('Няма такъв потребител'))
@@ -81,7 +81,7 @@ exports.userLost = {
 
         user.save().then(function (userObj) {
           api.tasks.enqueue('mail:send', {
-            mail: {to: userObj.email, subject: 'Възстановяване на парола'},
+            mail: { to: userObj.email, subject: 'Възстановяване на парола' },
             template: 'lost_password',
             locals: {
               passwordToken: passwordToken,
@@ -90,7 +90,7 @@ exports.userLost = {
           }, 'default', function (error, toRun) {
             if (error) return next(error)
 
-            data.response.data = {success: toRun}
+            data.response.data = { success: toRun }
             next()
           })
         }).catch(next)
@@ -104,12 +104,12 @@ exports.userReset = {
   name: 'user:reset',
   description: 'user:reset',
   inputs: {
-    email: {required: true},
-    token: {required: true},
-    password: {required: true}
+    email: { required: true },
+    token: { required: true },
+    password: { required: true }
   },
   run: function (api, data, next) {
-    api.models.user.findOne({where: {email: data.params.email}}).then(function (user) {
+    api.models.user.findOne({ where: { email: data.params.email } }).then(function (user) {
       if (!user) {
         data.connection.rawConnection.responseHttpCode = 404
         return next(new Error('Няма такъв потребител'))
@@ -147,22 +147,20 @@ exports.userView = {
   name: 'user:view',
   description: 'user:view',
   outputExample: {},
-  middleware: ['auth'],
+  middleware: [ 'auth' ],
 
   inputs: {
-    id: {required: true}
+    id: { required: true }
   },
 
   run: function (api, data, next) {
-    if (!data.session.user.isAdmin && !data.session.user.isModerator) {
-      if (data.params.id === 'me' || parseInt(data.params.id) === data.session.userId) {
-        data.params.id = data.session.userId
-      } else {
-        data.connection.rawConnection.responseHttpCode = 403
-        return next(new Error('Admin required'))
-      }
+    if (data.params.id === 'me' || parseInt(data.params.id) === data.session.userId) {
+      data.params.id = data.session.userId
+    } else if (!data.session.user.isAdmin && !data.session.user.isModerator) {
+      data.connection.rawConnection.responseHttpCode = 403
+      return next(new Error('Admin required'))
     }
-    api.models.user.findOne({where: {id: data.params.id}}).then(function (user) {
+    api.models.user.findOne({ where: { id: data.params.id } }).then(function (user) {
       if (!user) {
         data.connection.rawConnection.responseHttpCode = 404
         return next(new Error('Няма такъв потребител'))
@@ -179,32 +177,32 @@ exports.userEdit = {
   name: 'user:edit',
   description: 'user:edit',
   outputExample: {},
-  middleware: ['auth', 'owner'],
+  middleware: [ 'auth', 'owner' ],
 
   inputs: {
-    id: {required: true},
-    email: {required: false},
-    password: {required: false},
-    firstName: {required: false},
-    lastName: {required: false},
-    role: {required: false},
-    forms: {required: false},
+    id: { required: true },
+    email: { required: false },
+    password: { required: false },
+    firstName: { required: false },
+    lastName: { required: false },
+    role: { required: false },
+    forms: { required: false },
 
-    address: {required: false},
-    birdsKnowledge: {required: false},
-    city: {required: false},
-    level: {required: false},
-    mobile: {required: false},
-    notes: {required: false},
-    phone: {required: false},
-    postcode: {required: false},
-    profile: {required: false},
-    language: {required: false},
-    privacy: {required: false}
+    address: { required: false },
+    birdsKnowledge: { required: false },
+    city: { required: false },
+    level: { required: false },
+    mobile: { required: false },
+    notes: { required: false },
+    phone: { required: false },
+    postcode: { required: false },
+    profile: { required: false },
+    language: { required: false },
+    privacy: { required: false }
   },
 
   run: function (api, data, next) {
-    api.models.user.findOne({where: {id: data.params.id}}).then(function (user) {
+    api.models.user.findOne({ where: { id: data.params.id } }).then(function (user) {
       if (!user) {
         data.connection.rawConnection.responseHttpCode = 404
         return next(new Error('Няма такъв потребител'))
@@ -236,15 +234,15 @@ exports.userList = {
   name: 'user:list',
   description: 'List users. Requires admin role',
   outputExample: {
-    data: [{id: 1, email: 'user@example.com', firstName: 'John', lastName: 'Doe', role: 'user'}],
+    data: [ { id: 1, email: 'user@example.com', firstName: 'John', lastName: 'Doe', role: 'user' } ],
     count: 123
   },
-  middleware: ['auth'],
+  middleware: [ 'auth' ],
 
   inputs: {
-    limit: {required: false, default: 20},
-    offset: {required: false, default: 0},
-    q: {required: false}
+    limit: { required: false, default: 20 },
+    offset: { required: false, default: 0 },
+    q: { required: false }
   },
 
   run: function (api, data, next) {
@@ -275,12 +273,12 @@ exports.userList = {
             $or: [].concat(
               vals.map(function (val) {
                 return {
-                  firstName: {$ilike: val + '%'}
+                  firstName: { $ilike: val + '%' }
                 }
               }),
               vals.map(function (val) {
                 return {
-                  lastName: {$ilike: val + '%'}
+                  lastName: { $ilike: val + '%' }
                 }
               })
             )
@@ -291,13 +289,13 @@ exports.userList = {
             $or: vals.map(function (val, idx, array) {
               return {
                 $and: [
-                  {firstName: {$ilike: array.slice(0, idx).join(' ') + '%'}},
-                  {lastName: {$ilike: array.slice(idx).join(' ') + '%'}}
+                  { firstName: { $ilike: array.slice(0, idx).join(' ') + '%' } },
+                  { lastName: { $ilike: array.slice(idx).join(' ') + '%' } }
                 ]
               }
             }).concat([
-              {firstName: {$ilike: data.params.q + '%'}},
-              {lastName: {$ilike: data.params.q + '%'}}
+              { firstName: { $ilike: data.params.q + '%' } },
+              { lastName: { $ilike: data.params.q + '%' } }
             ])
           })
           break
@@ -320,17 +318,17 @@ exports.userList = {
 exports.userChangePassword = {
   name: 'user:changepw',
   description: 'Change password of user',
-  middleware: ['auth', 'owner'],
+  middleware: [ 'auth', 'owner' ],
   inputs: {
-    id: {required: true},
-    oldPassword: {required: true},
-    newPassword: {required: true}
+    id: { required: true },
+    oldPassword: { required: true },
+    newPassword: { required: true }
   },
 
   run: function (api, data, next) {
     Promise.resolve(data)
       .then(function (data) {
-        return api.models.user.findOne({where: {id: data.params.id}})
+        return api.models.user.findOne({ where: { id: data.params.id } })
       })
       .then(function (user) {
         if (!user) {
@@ -374,7 +372,7 @@ exports.userSharers = {
   name: 'user:sharers',
   description: 'user:sharers',
   outputExample: {
-    data: [ { id: 1, email: 'user@example.com', firstName: 'John', lastName: 'Doe', role: 'user' } ],
+    data: [ 'user@example.com' ],
     count: 123
   },
   middleware: [ 'auth', 'owner' ],
@@ -408,7 +406,7 @@ exports.userSharers = {
 
       data.response.count = user.sharers.length
       data.response.data = user.sharers.map(function (user) {
-        return user.apiData(api)
+        return user.email
       })
       next()
     })
@@ -420,7 +418,7 @@ exports.userSharees = {
   name: 'user:sharees',
   description: 'user:sharees',
   outputExample: {
-    data: [ { id: 1, email: 'user@example.com', firstName: 'John', lastName: 'Doe', role: 'user' } ],
+    data: [ 'user@example.com' ],
     count: 123
   },
   middleware: [ 'auth', 'owner' ],
@@ -454,10 +452,64 @@ exports.userSharees = {
 
       data.response.count = user.sharees.length
       data.response.data = user.sharees.map(function (user) {
-        return user.apiData(api)
+        return user.email
       })
       next()
     })
+      .catch(next)
+  }
+}
+
+exports.updateSharees = {
+  name: 'user:sharees:update',
+  description: 'user:sharees:update',
+  outputExample: {
+    data: [ 'user@example.com' ],
+    count: 123
+  },
+  middleware: [ 'auth' ],
+
+  inputs: {
+    sharees: { required: true }
+  },
+
+  run: function (api, data, next) {
+    let query = {
+      include: [
+        api.models.user.associations.sharees
+      ],
+      where: { id: data.session.userId }
+    }
+
+    api.models.user.findOne(query)
+      .then(function (user) {
+        if (!user) {
+          data.connection.rawConnection.responseHttpCode = 404
+          return next(new Error('Няма такъв потребител'))
+        }
+
+        return Promise
+          .all(data.params.sharees.map(function (email) { return api.models.user.findOne({ where: { email: email } }) }))
+          .then(function (sharees) {
+            return {
+              user,
+              sharees: sharees.filter(function (u) { return u && u.id !== user.id })
+            }
+          })
+      })
+      .then(function ({ user, sharees }) {
+        return user.setSharees(sharees).then(function () { return user })
+      })
+      .then(function (user) {
+        return user.getSharees()
+      })
+      .then(function (sharees) {
+        data.response.count = sharees.length
+        data.response.data = sharees.map(function (user) {
+          return user.email
+        })
+        next()
+      })
       .catch(next)
   }
 }
