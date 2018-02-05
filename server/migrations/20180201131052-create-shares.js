@@ -22,12 +22,10 @@ var schema = {
 
 module.exports = {
   up: async function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
     await queryInterface.createTable(tableName, schema)
   },
 
   down: async function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
     await queryInterface.dropTable(tableName)
   }
 }
