@@ -75,6 +75,7 @@ exports.default = {
         { path: '/session', action: 'session:create' },
         { path: '/user', action: 'user:create' },
         { path: '/user/:id', action: 'user:edit' },
+        { path: '/user/:id/sharees', action: 'user:sharees:update' },
         { path: '/session/:email/resetpw', action: 'user:lost' },
         { path: '/session/:email/resetpw2', action: 'user:reset' },
         { path: '/zone/:id/owner', action: 'zone:requestOwnership' },

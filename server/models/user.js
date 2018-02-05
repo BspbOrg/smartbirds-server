@@ -98,8 +98,18 @@ module.exports = function (sequelize, DataTypes) {
         // associations can be defined here
         // models.user.hasMany(models.usermeta);
         // models.user.hasMany(models.zone, {foreignKey: 'ownerId', as: 'zones'});
-        models.user.belongsToMany(models.user, {as: 'sharers', through: 'Share', foreignKey: 'sharee', otherKey: 'sharer'})
-        models.user.belongsToMany(models.user, {as: 'sharees', through: 'Share', foreignKey: 'sharer', otherKey: 'sharee'})
+        models.user.belongsToMany(models.user, {
+          as: 'sharers',
+          through: 'Share',
+          foreignKey: 'sharee',
+          otherKey: 'sharer'
+        })
+        models.user.belongsToMany(models.user, {
+          as: 'sharees',
+          through: 'Share',
+          foreignKey: 'sharer',
+          otherKey: 'sharee'
+        })
       }
     },
 
@@ -152,33 +162,43 @@ module.exports = function (sequelize, DataTypes) {
       },
 
       apiData: function (api, context) {
-        if (context === 'public') {
-          return {
-            firstName: this.firstName,
-            lastName: this.lastName
-          }
-        }
-        return {
-          id: this.id,
-          email: this.email,
-          firstName: this.firstName,
-          lastName: this.lastName,
-          lastLoginAt: this.lastLoginAt,
-          address: this.address,
-          birdsKnowledge: this.birdsKnowledge,
-          city: this.city,
-          level: this.level,
-          mobile: this.mobile,
-          notes: this.notes,
-          phone: this.phone,
-          postcode: this.postcode,
-          profile: this.profile,
-          language: this.language,
-          role: this.role,
-          isAdmin: this.isAdmin,
-          isModerator: this.isModerator,
-          forms: this.forms,
-          privacy: this.privacy
+        switch (context) {
+          case 'public':
+            return {
+              firstName: this.firstName,
+              lastName: this.lastName
+            }
+          case 'sharer':
+          case 'sharee':
+            return {
+              id: this.id,
+              email: this.email,
+              firstName: this.firstName,
+              lastName: this.lastName
+            }
+          default:
+            return {
+              id: this.id,
+              email: this.email,
+              firstName: this.firstName,
+              lastName: this.lastName,
+              lastLoginAt: this.lastLoginAt,
+              address: this.address,
+              birdsKnowledge: this.birdsKnowledge,
+              city: this.city,
+              level: this.level,
+              mobile: this.mobile,
+              notes: this.notes,
+              phone: this.phone,
+              postcode: this.postcode,
+              profile: this.profile,
+              language: this.language,
+              role: this.role,
+              isAdmin: this.isAdmin,
+              isModerator: this.isModerator,
+              forms: this.forms,
+              privacy: this.privacy
+            }
         }
       },
 

@@ -2,13 +2,13 @@ require('../app').controller('FriendsController', /* @ngInject */function ($q, $
   var $ctrl = this
 
   $ctrl.fetchData = function () {
-    $ctrl.sharers = User.getSharers({id: user.getIdentity().id})
-    $ctrl.sharees = User.getSharees({id: user.getIdentity().id})
+    $ctrl.sharers = User.getSharers({ id: user.getIdentity().id })
+    $ctrl.sharees = User.getSharees({ id: user.getIdentity().id })
   }
   $ctrl.fetchData()
 
   $ctrl.addEmail = function () {
-    $ctrl.sharees.push($ctrl.email)
+    $ctrl.sharees.push({ email: $ctrl.email })
     $ctrl.email = ''
     $ctrl.form.$setPristine()
     $ctrl.shareesForm.$setDirty()
@@ -21,7 +21,8 @@ require('../app').controller('FriendsController', /* @ngInject */function ($q, $
 
   $ctrl.save = function () {
     // TODO: send data to server
-    $q.resolve($ctrl.sharees)
+    User
+      .saveSharees({ id: user.getIdentity().id, sharees: $ctrl.sharees }).$promise
       .then(function (res) {
         $ctrl.shareesForm.$setPristine()
         $ctrl.sharees = res

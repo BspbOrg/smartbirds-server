@@ -46,12 +46,13 @@
           confirm-message-window="{{'FRIENDS_UNSAVED_DATA_ALERT_TITLE' | translate}}"
           confirm-message-route="{{'FRIENDS_UNSAVED_DATA_ALERT_MESSAGE' | translate}}">
       <ul class="list-group">
-        <li class="list-group-item" ng-repeat="email in $ctrl.sharees">
+        <li class="list-group-item" ng-repeat="user in $ctrl.sharees">
           <button type="button" class="btn btn-xs btn-danger pull-right" ng-click="$ctrl.remove($index)">
             <span class="sr-only" translate>FRIENDS_REMOVE_LABEL</span>
             <i class="fa fa-remove"></i>
           </button>
-          {{email}}
+          <span ng-if="user.id">{{user.firstName}} {{user.lastName}} ({{user.email}})</span>
+          <span ng-if="!user.id">{{user.email}}</span>
         </li>
       </ul>
     </form>
@@ -60,8 +61,9 @@
   <div class="col-md-6">
     <h3 translate>FRIENDS_LIST_SHARED_WITH_ME</h3>
     <ul class="list-group">
-      <li class="list-group-item" ng-repeat="email in $ctrl.sharers">
-        {{email}}
+      <li class="list-group-item" ng-repeat="user in $ctrl.sharers">
+        <span ng-if="user.id">{{user.firstName}} {{user.lastName}} ({{user.email}})</span>
+        <span ng-if="!user.id">{{user.email}}</span>
       </li>
     </ul>
   </div>
