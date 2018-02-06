@@ -11,13 +11,14 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
   controller.formName = formName
   controller.db = db
   controller.filter = angular.copy($stateParams)
+  controller.sharers = User.getSharers({ id: user.getIdentity().id })
   if (user.canAccess(formName)) {
     controller.canFilterByUser = true
     controller.canExport = true
   } else {
     controller.canFilterByUser = false
     controller.canExport = !controller.filter.user || controller.filter.user === user.getIdentity().id
-    User.getSharers({ id: user.getIdentity().id }).$promise.then(function (sharers) {
+    controller.sharers.$promise.then(function (sharers) {
       if (sharers.length) {
         controller.canFilterByUser = true
         if (!controller.filter.user) {
@@ -30,7 +31,6 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
     return Number(year) + 1980
   }).reverse()
   controller.species = {}
-  controller.sharers = User.getSharers({ id: user.getIdentity().id })
   $q.resolve(db.species.$promise || db.species).then(function (species) {
     return species.$promise || species
   }).then(function (species) {
