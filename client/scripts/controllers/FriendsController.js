@@ -20,7 +20,6 @@ require('../app').controller('FriendsController', /* @ngInject */function ($q, $
   }
 
   $ctrl.save = function () {
-    // TODO: send data to server
     User
       .saveSharees({ id: user.getIdentity().id, sharees: $ctrl.sharees }).$promise
       .then(function (res) {
