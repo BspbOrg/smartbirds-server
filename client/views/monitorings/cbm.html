@@ -148,15 +148,20 @@
              label="{{'CBM_DETAIL_SPECIES' | translate}}"
              model="monitoringDetailController.data.species"></field>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3 col-lg-4">
       <field name="distance" type="single-choice" nomenclature="cbm_distance" required="true"
              label="{{'CBM_DETAIL_DISTANCE' | translate}}"
              model="monitoringDetailController.data.distance"></field>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2">
       <field name="count" type="int" min="1" required="true"
              label="{{'CBM_DETAIL_COUNT' | translate}}"
              model="monitoringDetailController.data.count"></field>
+    </div>
+    <div class="col-md-3 col-lg-2">
+      <field name="confidential" type="bool"
+             label="{{'CBM_DETAIL_CONFIDENTIAL' | translate}}"
+             model="monitoringDetailController.data.confidential"></field>
     </div>
   </div>
 
