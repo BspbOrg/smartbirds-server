@@ -4,11 +4,14 @@
 
 var _ = require('lodash')
 var angular = require('angular')
-require('../app').controller('MonitoringController', /* @ngInject */function ($state, $stateParams, $q, $translate, model, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, formName, user, User) {
+require('../app').controller('MonitoringController', /* @ngInject */function ($state, $stateParams, $q, $translate, model, ngToast, db, Raven, ENDPOINT_URL, $httpParamSerializer, formName, user, User, formDef, context) {
   var controller = this
 
   controller.maxExportCount = 20000
   controller.formName = formName
+  controller.formTranslatePrefix = formDef.translatePrefix
+  controller.formSpeciesType = formDef.speciesType
+  controller.context = context
   controller.db = db
   controller.filter = angular.copy($stateParams)
   controller.sharers = User.getSharers({ id: user.getIdentity().id })
@@ -113,7 +116,7 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
 
   function fetch (query) {
     controller.loading = true
-    return model.query(query).$promise
+    return model.query(angular.extend({}, query, {context: controller.context})).$promise
       .then(function (rows) {
         controller.count = rows.$$response.data.$$response.count
         Array.prototype.push.apply(controller.rows, rows)

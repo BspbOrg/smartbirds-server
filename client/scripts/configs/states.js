@@ -250,15 +250,58 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
     // Monitorings //
     /// ////////
     .state('auth.monitoring', {
-      url: '/monitoring'
+      url: '/monitoring',
+      resolve: {
+        context: function () {
+          return 'private'
+        }
+      }
+    })
+
+    /// ////////
+    // Monitorings public//
+    /// ////////
+    .state('auth.monitoring.public', {
+      url: '/public',
+      resolve: {
+        context: function () {
+          return 'public'
+        }
+      }
     })
 
   angular.forEach(forms, function (formDef, formName) {
     $stateProvider
 
     /// ////////
-    // Monitoring List //
+    // Monitoring List public //
     /// ////////
+      .state('auth.monitoring.public.' + formName, {
+        url: '/' + formName + '?' + (formDef || []).filters.join('&'),
+        views: {
+          'content@auth': {
+            templateUrl: '/views/monitorings/list_public.html',
+            controller: 'MonitoringController',
+            controllerAs: 'monitoringController'
+          }
+        },
+        resolve: {
+          model: [ formDef.model, function (model) {
+            return model
+          } ],
+          formName: function () {
+            return formName
+          },
+          formDef: function () {
+            return formDef
+          }
+        }
+      })
+
+
+      /// ////////
+      // Monitoring List //
+      /// ////////
       .state('auth.monitoring.' + formName, {
         url: '/' + formName + '?' + (formDef || []).filters.join('&'),
         views: {
