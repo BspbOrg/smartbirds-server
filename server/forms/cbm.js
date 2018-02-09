@@ -7,6 +7,7 @@ exports.modelName = 'formCBM'
 exports.tableName = 'FormCBM'
 
 exports.fields = {
+  confidential: 'boolean',
   plot: {
     type: 'choice',
     required: true,
@@ -183,13 +184,13 @@ exports.filterList = async function (api, data, q) {
     q.where = _.extend(q.where || {}, {
       zoneId: data.params.zone
     })
-  } else if (Number.isInteger(data.params.location / 1)) {
+  } else if (data.params.location) {
     q.where = q.where || {}
     // remove the filter by location string
     delete q.where.location
     q.include = q.include || []
     q.include.push(api.models.zone.associations.zone)
-    q.where[ '$zone.locationId$' ] = data.params.location / 1
+    q.where[ '$zone.locationId$' ] = data.params.location
   }
   if (data.params.visit) {
     q.where = _.extend(q.where || {}, {

@@ -71,8 +71,9 @@ function generatePrepareQuery (form) {
     if (data.params.context === 'public') {
       query.where = query.where || {}
       query.where.confidential = { $or: [ null, false ] }
+      query.include = query.include || []
+      query.include.push(form.model.associations.user)
       if (form.model.associations.speciesInfo) {
-        query.include = query.include || []
         query.include.push(form.model.associations.speciesInfo)
         query.where['$speciesInfo.sensitive$'] = false
       }
