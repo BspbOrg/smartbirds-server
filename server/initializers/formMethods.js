@@ -1,4 +1,5 @@
 const _ = require('lodash')
+const moment = require('moment')
 
 function generatePrepareQuery (form) {
   const prepareQuery = form.filterList
@@ -21,22 +22,61 @@ function generatePrepareQuery (form) {
     } else {
       query.limit = 20000
     }
+    if (data.params.context === 'public') {
+      query.limit = Math.max(query.limit, 1000)
+    }
+
+    // filter by period
+    if (data.params.from_date) {
+      query.where = query.where || {}
+      query.where.observationDateTime = _.extend(query.where.observationDateTime || {}, {
+        $gte: moment(data.params.from_date).toDate()
+      })
+    }
+    if (data.params.to_date) {
+      query.where = query.where || {}
+      query.where.observationDateTime = _.extend(query.where.observationDateTime || {}, {
+        $lte: moment(data.params.to_date).toDate()
+      })
+    }
+
+    // filter by location
+    if (data.params.location) {
+      query.where = _.extend(query.where || {}, {
+        location: api.sequelize.sequelize.options.dialect === 'postgres'
+          ? { ilike: data.params.location }
+          : data.params.location
+      })
+    }
+
+    // filter by species
+    if (form.model.associations.speciesInfo && data.params.species) {
+      query.where = _.extend(query.where || {}, {
+        species: data.params.species
+      })
+    }
 
     // form specific filters
     if (prepareQuery) {
       query = await prepareQuery(api, data, query)
     }
 
+    // selection filter
     if (data.params.selection && data.params.selection.length > 0) {
-      query.where = _.extend(query.where || {}, {
-        id: {
-          $in: data.params.selection
-        }
-      })
+      query.where = query.where || {}
+      query.where.id = { $in: data.params.selection }
     }
 
     // secure access
-    if (data.session.user.isAdmin || api.forms.isModerator(data.session.user, form.modelName)) {
+    if (data.params.context === 'public') {
+      query.where = query.where || {}
+      query.where.confidential = { $or: [ null, false ] }
+      if (form.model.associations.speciesInfo) {
+        query.include = query.include || []
+        query.include.push(form.model.associations.speciesInfo)
+        query.where['$speciesInfo.sensitive$'] = false
+      }
+    } else if (data.session.user.isAdmin || api.forms.isModerator(data.session.user, form.modelName)) {
       if (data.params.user) {
         query.where = _.extend(query.where || {}, {
           userId: data.params.user
@@ -46,12 +86,13 @@ function generatePrepareQuery (form) {
       query.where = query.where || {}
       query.where.userId = data.session.userId
       if (data.params.user && data.params.user !== data.session.userId) {
-        const share = await api.models.share.findOne({
-          where: {
-            sharer: parseInt(data.params.user),
-            sharee: data.session.userId
-          }
-        })
+        const share = await
+          api.models.share.findOne({
+            where: {
+              sharer: parseInt(data.params.user),
+              sharee: data.session.userId
+            }
+          })
         if (share) {
           query.where.userId = data.params.user
           query.include = query.include || []
@@ -60,6 +101,8 @@ function generatePrepareQuery (form) {
         }
       }
     }
+
+    // console.log(data.params, ' => ', query)
 
     return query
   }

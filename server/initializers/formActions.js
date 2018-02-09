@@ -96,7 +96,7 @@ function generateListAction (form) {
       let result = await api.models[ form.modelName ].findAndCountAll(query)
 
       // prepare the output
-      data.response.data = await Promise.all(result.rows.map(async (model) => model.apiData(api)))
+      data.response.data = await Promise.all(result.rows.map(async (model) => model.apiData(api, data.params.context)))
       data.response.count = result.count
 
       next()
@@ -155,9 +155,13 @@ function generateFormActions (form) {
   }
   let listInputs = _.extend({
     user: {},
-    limit: { required: false, default: 20 },
-    offset: { required: false, default: 0 }
-  }, form.listInputs || {})
+    limit: { default: 20 },
+    offset: { default: 0 },
+    location: {},
+    from_date: {},
+    to_date: {},
+    context: {}
+  }, form.model.associations.speciesInfo ? { species: {} } : {}, form.listInputs || {})
 
   let exportInputs = _.extend({}, listInputs, {
     outputType: {
