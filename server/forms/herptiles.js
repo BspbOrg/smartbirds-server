@@ -79,38 +79,3 @@ exports.foreignKeys.push({
 })
 
 exports.indexes.push({ fields: [ 'species' ] })
-
-exports.listInputs = {
-  location: {},
-  species: {},
-  from_date: {},
-  to_date: {}
-}
-
-exports.filterList = async function (api, data, q) {
-  if (data.params.location) {
-    q.where = _.extend(q.where || {}, {
-      location: api.sequelize.sequelize.options.dialect === 'postgres'
-        ? { ilike: data.params.location }
-        : data.params.location
-    })
-  }
-  if (data.params.species) {
-    q.where = _.extend(q.where || {}, {
-      species: data.params.species
-    })
-  }
-  if (data.params.from_date) {
-    q.where = q.where || {}
-    q.where.observationDateTime = _.extend(q.where.observationDateTime || {}, {
-      $gte: moment(data.params.from_date).toDate()
-    })
-  }
-  if (data.params.to_date) {
-    q.where = q.where || {}
-    q.where.observationDateTime = _.extend(q.where.observationDateTime || {}, {
-      $lte: moment(data.params.to_date).toDate()
-    })
-  }
-  return q
-}

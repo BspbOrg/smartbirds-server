@@ -1,9 +1,15 @@
 /* globals describe */
 
-var _ = require('lodash')
-var Promise = require('bluebird')
+const _ = require('lodash')
+const Promise = require('bluebird')
+const path = require('path')
+const fs = require('fs')
 
-var setup = {
+function capitalizeFirstLetter (string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+const setup = {
   ServerPrototype: require('../node_modules/actionhero/actionhero.js'),
   testUrl: 'http://127.0.0.1:18080/api',
 
@@ -100,4 +106,18 @@ var setup = {
   }
 }
 
+function staticInit () {
+  // load forms info
+  setup.forms = {}
+  const dir = path.normalize(path.join(__dirname, '..', 'server', 'forms'))
+  fs.readdirSync(dir).forEach(function (file) {
+    if (file.substr(0, 1) === '_') return
+    const filename = path.join(dir, file)
+    const form = require(filename)
+    form.modelName = form.modelName || `form${capitalizeFirstLetter(filename.split('/').pop().split('.')[ 0 ])}`
+    setup.forms[ form.modelName ] = form
+  })
+}
+
+staticInit()
 module.exports = setup
