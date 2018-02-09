@@ -688,6 +688,8 @@
     "PUBLIC_BIRDS_TOP_OBSERVERS_RECORDS_MONTH": "Most records for the last 30 days",
     "PUBLIC_BIRDS_TOP_OBSERVERS_RECORDS_YEAR": "Most records per calendar year",
     "PUBLIC_BIRDS_TOP_OBSERVERS_RECORDS_ROW": "{{index}}. {{firstName}} {{lastName}} {{count}} records",
+    "PUBLIC_BIRDS_STATISTIC_TABLE_COL_COUNT_SPECIES": "{{count}} species",
+    "PUBLIC_BIRDS_STATISTIC_TABLE_COL_COUNT_RECORDS": "{{count}} records",
     "PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_MONTH": "Most species for the last 30 days",
     "PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_YEAR": "Most species per calendar year",
     "PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_ROW": "{{index}}. {{firstName}} {{lastName}} {{count}} species",
@@ -705,12 +707,8 @@
     "FORM_LIST_BUTTON_CSV_EXPORT_TOOLTIP": "Generating a csv file with all records found",
     "FORM_LIST_BUTTON_ZIP_EXPORT_TOOLTIP": "Generating a zip file with all records found, along with their corresponding pictures and gpx files",
     "WARNING_EXPORT_LIMIT": "The system limits exporting up to 20 000 records at a time",
-    "WARNING_EXPORT_DISABLED": "Exports of other user's data is not allowed",
     "SPECIES_COL_INTERESTING": "Interesting",
     "SPECIES_COL_SENSITIVE": "Sensitive",
-    "HERPTILES_DETAIL_CONFIDENTIAL": "Confidential",
-    "MAMMALS_DETAIL_CONFIDENTIAL": "Confidential",
-    "INVERTEBRATES_DETAIL_CONFIDENTIAL": "Confidential",
     "WARNING_EXPORT_DISABLED": "Exports of other user's data is not allowed",
     "NAV_FRIENDS": "Friends",
     "FRIENDS_TITLE": "Friends Management",
@@ -723,6 +721,5 @@
     "FRIENDS_UNSAVED_DATA_ALERT_TITLE": "There are unsaved changes!",
     "FRIENDS_UNSAVED_DATA_ALERT_MESSAGE": "There are unsaved changes! Are you sure you want to continue?",
     "FRIENDS_SAVE_SUCCESS": "Friends saved successfully",
-    "FRIENDS_SAVE_ERROR": "Error while saving friends",
-    "CBM_DETAIL_CONFIDENTIAL": "Confidential"
+    "FRIENDS_SAVE_ERROR": "Error while saving friends"
 }

@@ -688,6 +688,8 @@
     "PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_MONTH": "Най-много наблюдавани видове за последните 30 дни",
     "PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_YEAR": "Най-много наблюдавани видове за календарна година",
     "PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_ROW": "{{index}}. {{firstName}} {{lastName}} {{count}} вида",
+    "PUBLIC_BIRDS_STATISTIC_TABLE_COL_COUNT_SPECIES": "{{count}} вида",
+    "PUBLIC_BIRDS_STATISTIC_TABLE_COL_COUNT_RECORDS": "{{count}} записа",
     "PUBLIC_BIRDS_TOP_SPECIES_MONTH": "Най-често наблюдавани видове за последните 30 дни",
     "PUBLIC_BIRDS_LAST_INTERESTING_SPECIES": "Наблюдавани интересни видове за последните 30 дни",
     "PUBLIC_BIRDS_LAST_INTERESTING_SPECIES_COL_SPECIES": "Вид",

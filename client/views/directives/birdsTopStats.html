@@ -32,7 +32,7 @@
         <tr ng-repeat="record in $ctrl.stats.top_species_month">
           <td class="text-right" style="width: 1px;">{{::$index+1}}.</td>
           <td>{{record.species.label[$root.$language]}} | {{::record.species.label.la}}</td>
-          <td class="text-right">{{::record.count}}</td>
+          <td class="text-right" translate translate-values="{count: record.count}">PUBLIC_BIRDS_STATISTIC_TABLE_COL_COUNT_RECORDS</td>
         </tr>
         </tbody>
       </table>
@@ -44,13 +44,9 @@
       <table class="table table-striped table-hover table-condensed">
         <tbody>
         <tr ng-repeat="record in $ctrl.stats.top_users_records_month">
-          <td translate translate-values="{
-            index: $index+1,
-            firstName: record.user.firstName,
-            lastName: record.user.lastName,
-            count: record.count
-          }">PUBLIC_BIRDS_TOP_OBSERVERS_RECORDS_ROW
-          </td>
+          <td class="text-right" style="width: 1px;">{{::$index+1}}.</td>
+          <td>{{::record.user.firstName}} {{::record.user.lastName}}
+          <td class="text-right" translate translate-values="{count: record.count}">PUBLIC_BIRDS_STATISTIC_TABLE_COL_COUNT_RECORDS</td>
         </tr>
         </tbody>
       </table>
@@ -60,13 +56,9 @@
       <table class="table table-striped table-hover table-condensed">
         <tbody>
         <tr ng-repeat="record in $ctrl.stats.top_users_species_month">
-          <td translate translate-values="{
-            index: $index+1,
-            firstName: record.user.firstName,
-            lastName: record.user.lastName,
-            count: record.count
-          }">PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_ROW
-          </td>
+          <td class="text-right" style="width: 1px;">{{::$index+1}}.</td>
+          <td>{{::record.user.firstName}} {{::record.user.lastName}}
+          <td class="text-right" translate translate-values="{count: record.count}">PUBLIC_BIRDS_STATISTIC_TABLE_COL_COUNT_SPECIES</td>
         </tr>
         </tbody>
       </table>
@@ -78,13 +70,9 @@
       <table class="table table-striped table-hover table-condensed">
         <tbody>
         <tr ng-repeat="record in $ctrl.stats.top_users_records_year">
-          <td translate translate-values="{
-            index: $index+1,
-            firstName: record.user.firstName,
-            lastName: record.user.lastName,
-            count: record.count
-          }">PUBLIC_BIRDS_TOP_OBSERVERS_RECORDS_ROW
-          </td>
+          <td class="text-right" style="width: 1px;">{{::$index+1}}.</td>
+          <td>{{::record.user.firstName}} {{::record.user.lastName}}
+          <td class="text-right" translate translate-values="{count: record.count}">PUBLIC_BIRDS_STATISTIC_TABLE_COL_COUNT_RECORDS</td>
         </tr>
         </tbody>
       </table>
@@ -94,13 +82,9 @@
       <table class="table table-striped table-hover table-condensed">
         <tbody>
         <tr ng-repeat="record in $ctrl.stats.top_users_species_year">
-          <td translate translate-values="{
-            index: $index+1,
-            firstName: record.user.firstName,
-            lastName: record.user.lastName,
-            count: record.count
-          }">PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_ROW
-          </td>
+          <td class="text-right" style="width: 1px;">{{::$index+1}}.</td>
+          <td>{{::record.user.firstName}} {{::record.user.lastName}}
+          <td class="text-right" translate translate-values="{count: record.count}">PUBLIC_BIRDS_STATISTIC_TABLE_COL_COUNT_SPECIES</td>
         </tr>
         </tbody>
       </table>
