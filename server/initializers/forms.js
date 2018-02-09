@@ -155,7 +155,18 @@ function generateCalcHash (fields) {
 }
 
 function generateApiData (fields) {
-  return async function (api) {
+  return async function (api, context) {
+    if (context === 'public') {
+      return {
+        id: this.id,
+        user: this.user ? this.user.apiData(api, context) : this.user_id,
+        latitude: this.latitude,
+        longitude: this.longitude,
+        observationDateTime: this.observationDateTime,
+        location: this.location,
+        confidential: this.confidential
+      }
+    }
     return Promise
       .props(_.mapValues(fields, (field, name) => {
         if (_.isString(field)) field = { type: field }

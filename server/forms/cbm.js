@@ -173,11 +173,9 @@ exports.indexes.push({ fields: [ 'species' ] })
 exports.indexes.push({ fields: [ 'zoneId' ] })
 
 exports.listInputs = {
-  location: {},
   zone: {},
   visit: {},
-  year: {},
-  species: {}
+  year: {}
 }
 
 exports.filterList = async function (api, data, q) {
@@ -185,16 +183,13 @@ exports.filterList = async function (api, data, q) {
     q.where = _.extend(q.where || {}, {
       zoneId: data.params.zone
     })
-  } else if (data.params.location) {
-    q.include = [].concat(q.include || [], [
-      {
-        model: api.models.zone,
-        as: 'zone',
-        where: {
-          locationId: data.params.location
-        }
-      }
-    ])
+  } else if (Number.isInteger(data.params.location / 1)) {
+    q.where = q.where || {}
+    // remove the filter by location string
+    delete q.where.location
+    q.include = q.include || []
+    q.include.push(api.models.zone.associations.zone)
+    q.where[ '$zone.locationId$' ] = data.params.location / 1
   }
   if (data.params.visit) {
     q.where = _.extend(q.where || {}, {
@@ -210,11 +205,6 @@ exports.filterList = async function (api, data, q) {
         $gte: moment().year(data.params.year).startOf('year').toDate(),
         $lte: moment().year(data.params.year).endOf('year').toDate()
       }
-    })
-  }
-  if (data.params.species) {
-    q.where = _.extend(q.where || {}, {
-      species: data.params.species
     })
   }
   return q
@@ -247,13 +237,13 @@ exports.prepareCsv = async function (api, record) {
     plotSectionBg: record.plotBg,
     plotSectionEn: record.plotEn,
     latitute: record.latitude,
-    species: record['speciesInfo.labelLa'] + ' | ' + record['speciesInfo.labelBg'],
+    species: record[ 'speciesInfo.labelLa' ] + ' | ' + record[ 'speciesInfo.labelBg' ],
     visitBg: record.visitBg,
     visitEn: record.visitEn,
     count: record.count,
     primaryHabitatBg: record.primaryHabitatBg,
     primaryHabitatEn: record.primaryHabitatEn,
-    speciesEuringCode: record['speciesInfo.euring'],
-    speciesCode: record['speciesInfo.code']
+    speciesEuringCode: record[ 'speciesInfo.euring' ],
+    speciesCode: record[ 'speciesInfo.code' ]
   }
 }
