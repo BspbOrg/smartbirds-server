@@ -104,7 +104,7 @@
         ng-repeat="row in monitoringController.rows | orderBy:monitoringController.order.key:monitoringController.order.reverse"
         ng-class="{info: row.$selected}">
         <td>{{::row.id}}</td>
-        <td>{{row.getUser().getName()}}</td>
+        <td>{{::(row.user.firstName + ' ' + row.user.lastName)}}</td>
         <td>{{::row.observationDateTime|date:'d.MM.yyyy HH:mm'}}</td>
         <td ng-if="monitoringController.formSpeciesType">
           {{row.getSpecies().label[$language]}}<br/>
