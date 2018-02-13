@@ -1,0 +1,139 @@
+<div class="navbar-default sidebar" role="navigation">
+  <div class="sidebar-nav navbar-collapse">
+    <ul class="nav" id="side-menu">
+      <li>
+        <a ui-sref="auth.dashboard" ui-sref-active="active">
+          <i class="fa fa-dashboard fa-fw"></i>
+          <translate>NAV_DASHBOARD</translate>
+        </a>
+      </li>
+      <li>
+        <a id="private-forms" href=""
+           ng-click="$ctrl.isPrivateCollapsed=!$ctrl.isPrivateCollapsed">
+          <i class="fa fa-file-text fa-fw"></i>
+          <translate>NAV_PRIVATE_FORMS</translate>
+        </a>
+        <ul class="nav collapse" role="menu" aria-labelledby="private-forms" uib-collapse="$ctrl.isPrivateCollapsed">
+          <li translate-attr="{title: 'FORM_CBM_LONG'}">
+            <a ui-sref="auth.monitoring.private.cbm" ui-sref-active="active">
+              <i class="icon icon-cbm icon-fw"></i>
+              <translate>FORM_CBM_SHORT</translate>
+            </a>
+          </li>
+          <li translate-attr="{title: 'FORM_BIRDS_LONG'}">
+            <a ui-sref="auth.monitoring.private.birds" ui-sref-active="active">
+              <i class="icon icon-birds icon-fw"></i>
+              <translate>FORM_BIRDS_SHORT</translate>
+            </a>
+          </li>
+          <li translate-attr="{title: 'FORM_HERPTILES_LONG'}">
+            <a ui-sref="auth.monitoring.private.herptiles" ui-sref-active="active">
+              <i class="icon icon-herptiles icon-fw"></i>
+              <translate>FORM_HERPTILES_SHORT</translate>
+            </a>
+          </li>
+          <li translate-attr="{title: 'FORM_MAMMALS_LONG'}">
+            <a ui-sref="auth.monitoring.private.mammals" ui-sref-active="active">
+              <i class="icon icon-mammals icon-fw"></i>
+              <translate>FORM_MAMMALS_SHORT</translate>
+            </a>
+          </li>
+          <li translate-attr="{title: 'FORM_INVERTEBRATES_LONG'}">
+            <a ui-sref="auth.monitoring.private.invertebrates" ui-sref-active="active">
+              <i class="icon icon-invertebrates icon-fw"></i>
+              <translate>FORM_INVERTEBRATES_SHORT</translate>
+            </a>
+          </li>
+          <li translate-attr="{title: 'FORM_CICONIA_LONG'}">
+            <a ui-sref="auth.monitoring.private.ciconia" ui-sref-active="active">
+              <i class="icon icon-ciconia icon-fw"></i>
+              <translate>FORM_CICONIA_LONG</translate>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        <a id="public-forms" href=""
+           ng-click="$ctrl.isPublicCollapsed=!$ctrl.isPublicCollapsed">
+          <i class="fa fa-file fa-fw"></i>
+          <translate>NAV_PUBLIC_FORMS</translate>
+        </a>
+        <ul class="nav collapse" role="menu" aria-labelledby="public-forms" uib-collapse="$ctrl.isPublicCollapsed">
+          <li translate-attr="{title: 'FORM_CBM_LONG'}">
+            <a ui-sref="auth.monitoring.public.cbm" ui-sref-active="active">
+              <i class="icon icon-cbm icon-fw"></i>
+              <translate>FORM_CBM_SHORT</translate>
+            </a>
+          </li>
+          <li translate-attr="{title: 'FORM_BIRDS_LONG'}">
+            <a ui-sref="auth.monitoring.public.birds" ui-sref-active="active">
+              <i class="icon icon-birds icon-fw"></i>
+              <translate>FORM_BIRDS_SHORT</translate>
+            </a>
+          </li>
+          <li translate-attr="{title: 'FORM_HERPTILES_LONG'}">
+            <a ui-sref="auth.monitoring.public.herptiles" ui-sref-active="active">
+              <i class="icon icon-herptiles icon-fw"></i>
+              <translate>FORM_HERPTILES_SHORT</translate>
+            </a>
+          </li>
+          <li translate-attr="{title: 'FORM_MAMMALS_LONG'}">
+            <a ui-sref="auth.monitoring.public.mammals" ui-sref-active="active">
+              <i class="icon icon-mammals icon-fw"></i>
+              <translate>FORM_MAMMALS_SHORT</translate>
+            </a>
+          </li>
+          <li translate-attr="{title: 'FORM_INVERTEBRATES_LONG'}">
+            <a ui-sref="auth.monitoring.public.invertebrates" ui-sref-active="active">
+              <i class="icon icon-invertebrates icon-fw"></i>
+              <translate>FORM_INVERTEBRATES_SHORT</translate>
+            </a>
+          </li>
+          <li translate-attr="{title: 'FORM_CICONIA_LONG'}">
+            <a ui-sref="auth.monitoring.public.ciconia" ui-sref-active="active">
+              <i class="icon icon-ciconia icon-fw"></i>
+              <translate>FORM_CICONIA_LONG</translate>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        <a ui-sref="auth.zones({status:['requested','owned'], location: undefined, owner: undefined})"
+           ui-sref-active="active">
+          <i class="fa fa-map-o fa-fw"></i>
+          <translate>NAV_ZONES</translate>
+          <span ng-if="main.zonesIndicator" class="badge" translate-attr="{title: 'NAV_ZONES_REQUESTED'}">
+            {{main.zonesIndicator}}
+          </span>
+        </a>
+      </li>
+      <li ng-if="$user.isAdmin()">
+        <a ui-sref="auth.users" ui-sref-active="active">
+          <i class="fa fa-users fa-fw"></i>
+          <translate>NAV_USERS</translate>
+        </a>
+      </li>
+      <li ng-if="$user.isAdmin() || $user.isModerator('cbm')">
+        <a ui-sref="auth.visits" ui-sref-active="active">
+          <i class="fa fa-calendar fa-fw"></i>
+          <translate>NAV_VISITS</translate>
+        </a>
+      </li>
+      <li ng-if="$user.isAdmin()">
+        <a ui-sref="auth.nomenclatures" ui-sref-active="active">
+          <i class="fa fa-database fa-fw"></i>
+          <translate>NAV_NOMENCLATURES</translate>
+        </a>
+      </li>
+      <li ng-if="$user.isAdmin()">
+        <a ui-sref="auth.species" ui-sref-active="active">
+          <i class="fa fa-database fa-fw"></i>
+          <translate>NAV_SPECIES</translate>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!-- /.sidebar-collapse -->
+</div>

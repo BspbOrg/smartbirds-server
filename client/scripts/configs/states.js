@@ -251,6 +251,10 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
     /// ////////
     .state('auth.monitoring', {
       url: '/monitoring',
+    })
+
+    .state('auth.monitoring.private', {
+      abstract: true,
       resolve: {
         context: function () {
           return 'private'
@@ -302,7 +306,7 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
       /// ////////
       // Monitoring List //
       /// ////////
-      .state('auth.monitoring.' + formName, {
+      .state('auth.monitoring.private.' + formName, {
         url: '/' + formName + '?' + (formDef || []).filters.join('&'),
         views: {
           'content@auth': {
@@ -327,7 +331,7 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
       /// ////////
       // Monitoring Detail //
       /// ////////
-      .state('auth.monitoring.' + formName + '.detail', {
+      .state('auth.monitoring.private.' + formName + '.detail', {
         url: '/{id:int}?{offset:int}',
         views: {
           'content@auth': {
@@ -341,7 +345,7 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
       /// ////////
       // Monitoring New //
       /// ////////
-      .state('auth.monitoring.' + formName + '.new', {
+      .state('auth.monitoring.private.' + formName + '.new', {
         url: '/new',
         views: {
           'content@auth': {
@@ -355,7 +359,7 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
       /// ////////
       // Monitoring Copy //
       /// ////////
-      .state('auth.monitoring.' + formName + '.copy', {
+      .state('auth.monitoring.private.' + formName + '.copy', {
         url: '/copy?{fromId:int}',
         views: {
           'content@auth': {
