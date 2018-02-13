@@ -28,6 +28,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
   } else {
     controller.data = new model() // eslint-disable-line new-cap
     if (angular.isFunction(model.prototype.afterCreate)) { model.prototype.afterCreate.apply(controller.data) }
+    checkCanSave()
   }
   if (!$stateParams.id && $stateParams.fromId) {
     controller.data.$promise.then(function () {
