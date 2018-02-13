@@ -54,7 +54,9 @@ function generatePrepareQuery (form) {
         })
         if (share) {
           query.where.userId = data.params.user
-          query.where.confidential = { $or: [ null, false ] }
+          query.include = query.include || []
+          query.include.push(form.model.associations.speciesInfo)
+          query.where[ '$speciesInfo.sensitive$' ] = false
         }
       }
     }
