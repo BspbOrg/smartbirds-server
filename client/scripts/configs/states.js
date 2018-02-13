@@ -250,7 +250,7 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
     // Monitorings //
     /// ////////
     .state('auth.monitoring', {
-      url: '/monitoring',
+      url: '/monitoring'
     })
 
     .state('auth.monitoring.private', {
@@ -301,7 +301,6 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
           }
         }
       })
-
 
       /// ////////
       // Monitoring List //
