@@ -137,10 +137,6 @@ function generateRetrieveRecord (form) {
       throw new Error(api.config.errors.sessionNoPermission(data.connection))
     }
 
-    if ((!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, form.modelName)) || !data.params.user) {
-      data.params.user = data.session.userId
-    }
-
     return record
   }
 }
