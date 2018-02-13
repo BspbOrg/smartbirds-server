@@ -1,7 +1,6 @@
 /* global describe, before, after, it */
 
 const assert = require('assert')
-const should = require('should')
 const setup = require('./_setup')
 
 describe('Public forms', function () {
@@ -87,7 +86,7 @@ describe('Public forms', function () {
             response.should.have.property('data').and.it.is.Array()
             response.data.length.should.be.greaterThan(1)
             response.data[ 0 ].should.have.only.keys(
-              'id', 'user', 'latitude', 'longitude', 'observationDateTime', 'location'
+              'id', 'user', 'latitude', 'longitude', 'observationDateTime', 'species'
             )
             response.data[ 0 ].user.should.have.only.keys(
               'firstName', 'lastName'

@@ -42,6 +42,11 @@ function generateEditAction (form) {
   return async function (api, data, next) {
     try {
       let record = await form.retrieveRecord(api, data)
+
+      if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, form.modelName)) {
+        data.params.user = data.session.userId
+      }
+
       await record.apiUpdate(data.params)
       await record.save()
       data.response.data = await record.apiData(api)
@@ -154,7 +159,7 @@ function generateFormActions (form) {
     from_date: {},
     to_date: {},
     context: {}
-  }, form.model.associations.speciesInfo ? { species: {} } : {}, form.listInputs || {})
+  }, form.hasSpecies ? { species: {} } : {}, form.listInputs || {})
 
   let exportInputs = _.extend({}, listInputs, {
     outputType: {

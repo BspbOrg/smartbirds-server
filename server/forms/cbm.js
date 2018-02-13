@@ -5,6 +5,7 @@ exports = module.exports = _.cloneDeep(require('./_common'))
 
 exports.modelName = 'formCBM'
 exports.tableName = 'FormCBM'
+exports.hasSpecies = true
 
 exports.fields = {
   confidential: 'boolean',

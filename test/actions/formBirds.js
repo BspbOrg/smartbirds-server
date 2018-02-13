@@ -387,10 +387,10 @@ describe('Action formBirds:', function () {
 
     setup.describeAsAuth(function (runAction) {
       it('filter species', function () {
-        return runAction('formBirds:list', {species: 'Alle alle'}).then(function (response) {
+        return runAction('formBirds:list', {species: 'Accipiter nisus'}).then(function (response) {
           response.should.not.have.property('error')
           for (var i = 0; i < response.data.length; i++) {
-            response.data[i].species.should.be.equal('Alle alle')
+            response.data[i].species.should.be.equal('Accipiter nisus')
           }
         })
       })
