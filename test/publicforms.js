@@ -2,6 +2,7 @@
 
 const assert = require('assert')
 const setup = require('./_setup')
+const should = require('should')
 
 describe('Public forms', function () {
   before(async function () {
@@ -55,7 +56,7 @@ describe('Public forms', function () {
             assert(!recordIncluded, 'not include confidential record')
           })
 
-          if (form.foreignKeys && form.foreignKeys.some(a => a.as === 'speciesInfo')) {
+          if (form.hasSpecies) {
             it(`doesn't include sensitive species`, async function () {
               const record = await setup.api.models[ form.modelName ].findOne({
                 include: [ setup.api.models[ form.modelName ].associations.speciesInfo ]
@@ -91,6 +92,58 @@ describe('Public forms', function () {
             response.data[ 0 ].user.should.have.only.keys(
               'firstName', 'lastName'
             )
+          })
+
+          describe('given lots of records', function () {
+            before(async function () {
+              let now = new Date().getTime()
+              let protoRecord = await setup.api.models[ form.modelName ].findOne()
+              should.exists(protoRecord)
+              protoRecord = protoRecord.toJSON()
+              delete protoRecord.id
+              const records = []
+              for (let i = 0; i < 1000; i++) {
+                records.push(Object.assign({}, protoRecord, {
+                  observationDateTime: now++,
+                  hash: now++
+                }))
+              }
+              await setup.api.models[ form.modelName ].bulkCreate(records)
+            })
+
+            // in case this test crashes for user, it's probably because the records created in the before hook
+            // are for another user
+            it('has more than 1000 records', async function () {
+              const count = await setup.api.models[ form.modelName ].count()
+              count.should.be.greaterThan(1000)
+            })
+
+            it('limits to 1000', async function () {
+              this.slow(1500)
+              const response = await runAction(`${form.modelName}:list`, { context: 'public', limit: 10000 })
+              response.should.not.have.property('error')
+              response.should.have.property('data').and.it.is.Array()
+              response.data.length.should.be.equal(1000)
+            })
+
+            it('offset+limits <= 1000', async function () {
+              this.slow(750)
+              const response = await runAction(`${form.modelName}:list`, {
+                context: 'public',
+                offset: 500,
+                limit: 10000
+              })
+              response.should.not.have.property('error')
+              response.should.have.property('data').and.it.is.Array()
+              response.data.length.should.be.equal(500)
+            })
+
+            it('doesn\'t return after 1000', async function () {
+              const response = await runAction(`${form.modelName}:list`, { context: 'public', offset: 1000 })
+              response.should.not.have.property('error')
+              response.should.have.property('data').and.it.is.Array()
+              response.data.length.should.be.equal(0)
+            })
           })
         })
       }
