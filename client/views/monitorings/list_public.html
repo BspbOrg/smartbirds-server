@@ -74,7 +74,7 @@
     </p>
     <list-map
       rows="monitoringController.selectedRows.length > 0 ? monitoringController.selectedRows : monitoringController.rows"
-      ctrl="monitoringController.map"></list-map>
+      ctrl="monitoringController.map" opts="{haveZones: false, haveTracks: false, haveDetail: false}"></list-map>
   </div>
 </div>
 
@@ -117,12 +117,14 @@
       <tfoot ng-if="monitoringController.loading || !monitoringController.rows.length">
       <tr>
         <th colspan="{{::monitoringController.formSpeciesType?4:3}}" class="text-center">
-          <div ng-if="!monitoringController.loading && monitoringController.db.species[monitoringController.formSpeciesType][monitoringController.filter.species].sensitive"
-             class="lead text-warning" translate>
+          <div
+            ng-if="!monitoringController.loading && monitoringController.db.species[monitoringController.formSpeciesType][monitoringController.filter.species].sensitive"
+            class="lead text-warning" translate>
             PUBLIC_LIST_WARN_SENSITIVE_SPECIES
           </div>
-          <div ng-if="!monitoringController.loading && !monitoringController.db.species[monitoringController.formSpeciesType][monitoringController.filter.species].sensitive"
-             class="lead" translate>
+          <div
+            ng-if="!monitoringController.loading && !monitoringController.db.species[monitoringController.formSpeciesType][monitoringController.filter.species].sensitive"
+            class="lead" translate>
             PUBLIC_LIST_NO_RESULTS
           </div>
           <div ng-if="monitoringController.loading"><i class="fa fa-spinner fa-2x fa-spin"></i></div>
