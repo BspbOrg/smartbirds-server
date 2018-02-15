@@ -1,8 +1,6 @@
 require('../app').directive('sidebar', /* @ngInject */function () {
   return {
-    templateUrl: function (elem, attr) {
-      return '/views/directives/sidebar.html'
-    },
+    templateUrl: '/views/directives/sidebar.html',
     scope: {},
     controller: /* @ngInject */function ($scope, $q, $state, api) {
       this.isPrivateCollapsed = !$state.includes('auth.monitoring.private')
