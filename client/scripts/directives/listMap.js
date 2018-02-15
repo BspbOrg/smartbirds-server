@@ -5,13 +5,19 @@ require('../app').directive('listMap', /* @ngInject */function ($filter, $http, 
     templateUrl: '/views/directives/listmap.html',
     scope: {
       rows: '=?',
-      ctrl: '=?'
+      ctrl: '=?',
+      opts: '<?'
     },
     bindToController: true,
     controller: /* @ngInject */function ($scope, $state) {
       var $ctrl = this
 
       angular.extend($ctrl, {
+        config: angular.extend({}, {
+          haveZones: true,
+          haveTracks: true,
+          haveDetail: true
+        }, $ctrl.opts || {}),
         center: { latitude: 42.744820608, longitude: 25.2151370694 },
         zoom: 8,
         zones: [],
@@ -34,7 +40,11 @@ require('../app').directive('listMap', /* @ngInject */function ($filter, $http, 
           control: {},
           click: function (marker, eventName, model) {
             if ($ctrl.selected && $ctrl.selected.pin === model) {
-              $ctrl.openDetails()
+              if ($ctrl.config.haveDetail) {
+                $ctrl.openDetails()
+              } else {
+                $ctrl.selected = undefined
+              }
             } else {
               $ctrl.selected = { pin: model }
             }
@@ -74,8 +84,12 @@ require('../app').directive('listMap', /* @ngInject */function ($filter, $http, 
           $ctrl.showTracks = $ctrl.tracksWaiting <= 1
         },
         refresh: function (rows) {
-          $ctrl.extractZones(rows)
-          $ctrl.extractTracks(rows)
+          if ($ctrl.config.haveZones) {
+            $ctrl.extractZones(rows)
+          }
+          if ($ctrl.config.haveTracks) {
+            $ctrl.extractTracks(rows)
+          }
           if (angular.isFunction($ctrl.marker.control.newModels)) {
             $ctrl.marker.control.newModels($ctrl.rows)
           }
@@ -90,7 +104,7 @@ require('../app').directive('listMap', /* @ngInject */function ($filter, $http, 
           $ctrl.tracksWaiting = 0
         },
         openDetails: function () {
-          $state.go('.detail', {id: $ctrl.selected.pin.id})
+          $state.go('.detail', { id: $ctrl.selected.pin.id })
         }
       })
 
