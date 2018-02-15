@@ -109,25 +109,25 @@
           </span>
         </a>
       </li>
-      <li ng-if="$user.isAdmin()">
+      <li ng-if="$root.$user.isAdmin()">
         <a ui-sref="auth.users" ui-sref-active="active">
           <i class="fa fa-users fa-fw"></i>
           <translate>NAV_USERS</translate>
         </a>
       </li>
-      <li ng-if="$user.isAdmin() || $user.isModerator('cbm')">
+      <li ng-if="$root.$user.isAdmin() || $root.$user.isModerator('cbm')">
         <a ui-sref="auth.visits" ui-sref-active="active">
           <i class="fa fa-calendar fa-fw"></i>
           <translate>NAV_VISITS</translate>
         </a>
       </li>
-      <li ng-if="$user.isAdmin()">
+      <li ng-if="$root.$user.isAdmin()">
         <a ui-sref="auth.nomenclatures" ui-sref-active="active">
           <i class="fa fa-database fa-fw"></i>
           <translate>NAV_NOMENCLATURES</translate>
         </a>
       </li>
-      <li ng-if="$user.isAdmin()">
+      <li ng-if="$root.$user.isAdmin()">
         <a ui-sref="auth.species" ui-sref-active="active">
           <i class="fa fa-database fa-fw"></i>
           <translate>NAV_SPECIES</translate>
