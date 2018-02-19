@@ -1,0 +1,2417 @@
+type;la;bg
+plants;Abies alba subsp. alba;Бяла ела
+plants;Abies alba subsp. borisii-regis;Цар-борисова ела
+plants;Acanthus balcanicus;Балкански страшник
+plants;Acanthus spinosus;Бодлив страшник
+plants;Acer campestre;Клен
+plants;Acer heldreichii subsp. Heldreichii;Планински клен, Жешля
+plants;Acer heldreichii subsp. visianii;Визианов клен
+plants;Acer hyrcanum;Хиркански ясен
+plants;Acer monspessulanum;Маклен
+plants;Acer platanoides;Шестил
+plants;Acer pseudoplatanus;Явор
+plants;Acer tataricum;Мекиш
+plants;Achillea ageratifolia;Скален равнец
+plants;Achillea clusiana;Планински равнец
+plants;Achillea clypeolata;Жълт равнец
+plants;Achillea coarctata;Сбитовлакнест равнец
+plants;Achillea collina;Хълмов равнец
+plants;Achillea depressa;Крилатолистен равнец
+plants;Achillea grandifolia;Едролистен равнец
+plants;Achillea kotschyi (= Achillea urumoffii);Урумов равнец
+plants;Achillea leptophylla;Прилегналовлакнест равнец
+plants;Achillea lingulata;Езичестолистен равнец
+plants;Achillea millefolium;Обикновен равнец
+plants;Achillea ochroleuca;Бледожълт равнец
+plants;Achillea serbica;Сръбски равнец
+plants;Achillea setacea;Четинолистен равнец
+plants;Achillea thracica;Тракийски равнец
+plants;Achnatherum calamagrostis;Вейников ахнатерум
+plants;Acinos alpinos;Алпийски ацинос
+plants;Acinos arvensis;Полски ацинос
+plants;Aconitum lamarkii;Жълта самакитка
+plants;Aconitum variegatum;Синя самакитка
+plants;Acorus calamus;Блатен аир
+plants;Actaea spicata;Ресник
+plants;Adenostyles alliariae;Белолистен аденостилес
+plants;Adiantum capillus-veneris;Венерин косъм
+plants;Adonis flammea;Огнен горицвет
+plants;Adonis vernalis;Пролетен горицвет
+plants;Adonis volgensis;Волжки горицвет
+plants;Aegilops comosa;Качулесто диво жито
+plants;Aegilops cylindrica;Цилиндрично диво жито
+plants;Aegilops geniculata;Коленчато диво жито
+plants;Aegilops markgrafii;Опашато диво жито
+plants;Aegilops neglecta;Пренебрегнато диво жито
+plants;Aegilops triuncialis;Триунциево диво жито
+plants;Aegopodium podagraria;Благ бъз, седмолист
+plants;Aeluropus littoralis;Крайбрежен елуропус
+plants;Aesculus hippocastanum;Конски кестен
+plants;Aethionema arabicum;Арабска етионема
+plants;Aethionema rhodopaeum;Родопска етионема
+plants;Agropyron brandzae;Бранзов житняк
+plants;Agropyron cristatum;Гребеновиден житняк
+plants;Agrostis canina;Кучешка полевица
+plants;Agrostis capillaris;Обикновена полевица
+plants;Agrostis castellana;Кастилска полевица
+plants;Agrostis gigantea;Гигантска полевица
+plants;Agrostis rupestris;Скална полевица
+plants;Agrostis stolonifera;Издънкова полевица
+plants;Ailanthus altissima;Айлант
+plants;Aira elegantissima;Елегантен брол
+plants;Ajuga chia;Хиоско срещниче
+plants;Ajuga genevensis;Женевско срещниче
+plants;Ajuga laxmannii;Лаксманово срещниче
+plants;Ajuga reptans;Пълзящо срещниче
+plants;Alchemilla achtarovii;Ахтарово шапиче
+plants;Alchemilla asteroantha;Звездоцветно шапиче
+plants;Alchemilla bandericensis;Бъндерицово шапиче
+plants;Alchemilla bulgarica;Българско шапиче
+plants;Alchemilla crinita;Дълговлакнесто шапиче
+plants;Alchemilla erythropoda;Червенодръжково шапиче
+plants;Alchemilla flabellata;Ветриловидно шапиче
+plants;Alchemilla glabra;Голо шапиче
+plants;Alchemilla glaucescens;Сивосинкаво шапиче
+plants;Alchemilla jumrukczalica;Юмрукчалско шапиче
+plants;Alchemilla mollis;Меколистно шапиче
+plants;Alchemilla monticola;Планинско шапиче
+plants;Alchemilla obtusa;Тъполистно шапиче
+plants;Alchemilla pirinica;Пиринско шапиче
+plants;Alchemilla plicatula;Сгънатолистно шапиче
+plants;Alchemilla pyrenaica;Пиренейско шапиче
+plants;Aldrovanda vesiculosa;Жлезиста алдрованда
+plants;Alisma lanceolatum;Ланцетолистна лаваница
+plants;Alisma plantago-aquatica;Жаблекова лаваница
+plants;Alkanna jordanovii;Йорданова айважива
+plants;Alkanna stribrnyi;Стрибърнова айважива
+plants;Alkanna tinctoria;Синя айважива
+plants;Alliaria petiolata;Лъжичина, чеснова трева
+plants;Allium angulosum;Ръбестостъблен лук
+plants;Allium carinatum;Гребенест лук
+plants;Allium cirrhosum;Красив лук
+plants;Allium cupani;Купанов лук
+plants;Allium flavum;Жълт лук
+plants;Allium fuscum;Кафяв лук
+plants;Allium jubatum;Качулест лук
+plants;Allium melanantherum;Чернотичинков лук
+plants;Allium montanum;Планински лук
+plants;Allium moschatum;Мускатов лук
+plants;Allium rhodopaeum;Родопски лук
+plants;Allium saxatile;Скален лук
+plants;Allium schoenoprasum (= Allium sibiricum);Салатен лук
+plants;Allium scorodoprasum;Рокамбол
+plants;Allium sphaerocephalon;Кръглоглав лук
+plants;Allium stojanovii;Стоянов лук
+plants;Allium ursinum;Мечи лук, левурда
+plants;Allium victorialis;Победен лук
+plants;Alnus glutinosa;Черна елша
+plants;Alnus incana;Бяла елша
+plants;Alnus viridis;Планинска елша
+plants;Alopecurus aequalis;Равна лисича опашка
+plants;Alopecurus geniculatus;Коленчата лисича опашка
+plants;Alopecurus gerardii;Жерардова лисича опашка
+plants;Alopecurus myosuroides;Полска лисича опашка
+plants;Alopecurus pratensis;Ливадна лисича опашка
+plants;Alopecurus rendlei (= Alopecurus utriculatus);Мехуреста лисича опашка
+plants;Alopecurus riloensis;Рилска лисича опашка
+plants;Althaea cannabina;Конопена ружа
+plants;Althaea hirsuta;Четинеста ружа
+plants;Althaea officinalis;Лечебна ружа
+plants;Alyssoides bulgarica;Български алисоидес
+plants;Alyssum alyssoides;Чашков игловръх
+plants;Alyssum bertolonii;Южен игловръх
+plants;Alyssum borzaeanum;Борзеанов игловръх
+plants;Alyssum caliacrae;Калиакренски игловръх
+plants;Alyssum corymbosoides;Щитовиден игловръх
+plants;Alyssum cuneifolium subsp. pirinicum;Пирински игловръх
+plants;Alyssum desertorum;Пустинен игловръх
+plants;Alyssum hirsutum;Влакнест игловръх
+plants;Alyssum minutum;Дребен игловръх
+plants;Alyssum murale;Стенен игловръх
+plants;Alyssum orbelicum;Орбелийски игловръх
+plants;Alyssum parviflorum (= Alyssum minus);Дребноцветен игловръх
+plants;Alyssum pulvinare;Туфест игловръх
+plants;Alyssum repens;Пълзящ игловръх
+plants;Alyssum saxatile;Скален игловръх
+plants;Alyssum stribrnyi;Стрибърнов игловръх
+plants;Alyssum tortuosum;Усукан игловръх
+plants;Alyssum umbellatum;Сенниковиден игловръх
+plants;Amaranthus albus;Бял щир
+plants;Amaranthus lividus;Светъл щир
+plants;Amelanchier ovalis;Обикновена ирга
+plants;Ammania verticillata;Прешленолистна амания
+plants;Ammophila arenaria;Пясъчна амофила
+plants;Amorpha fruticosa;Черна акация
+plants;Amygdalus nana;Нисък бадем
+plants;Amygdalus webbii;Вебиев див бадем
+plants;Anacamptis pyramidalis;Обикновен анакамптис
+plants;Anchusa davidovii;Давидово винче
+plants;Anchusa gmelinii;Гмелиново винче
+plants;Anchusa hybrida;Хибридно винче
+plants;Anchusa macedonica;Македонско винче
+plants;Anchusa officinalis;Лечебно винче
+plants;Anchusa stylosa;Дългостълбчесто винче
+plants;Anchusa velenovskyi;Веленовскиево винче
+plants;Andrachne telephioides;Обикновено андрахне
+plants;Androsace obtusifolia;Тъполистен оклоп
+plants;Androsace villosa;Туфест оклоп
+plants;Anemone blanda;Хубава съсънка
+plants;Anemone narcissiflora;Нарцисова съсънка
+plants;Anemone nemorosa;Бяла съсънка
+plants;Anemone pavonina;Червена съсънка
+plants;Anemone ranunculoides;Лютиковидна съсънка
+plants;Anemone sylvestris;Горска съсънка
+plants;Angelica pancicii;Балканска пищялка
+plants;Angelica sylvestris;Горска пищялка
+plants;Antennaria dioica;Витошки еделвайс
+plants;Anthemis argyrophylla;Сребристовлакнесто подрумиче
+plants;Anthemis auriculata;Уховидно подрумче
+plants;Anthemis carpatica;Карпатско подрумче
+plants;Anthemis cretica;Критско подрумче
+plants;Anthemis gaudium-solis;Оранжево подрумиче
+plants;Anthemis jordanovii;Йорданово подрумиче
+plants;Anthemis macrantha;Едрокошничесто подрумиче
+plants;Anthemis orbelica;Рилско подрумиче
+plants;Anthemis regis-borisii;Борисово подрумиче
+plants;Anthemis rumelica;Влакнесто подрумиче
+plants;Anthemis sancti-johanis;Иваново подрумиче
+plants;Anthemis stribrnyi;Стрибърново подрумиче
+plants;Anthemis tinctoria;Жълто подрумче
+plants;Anthemis virescens;Плосколюспесто подрумиче
+plants;Anthericum liliago;Неразклонен венечник
+plants;Anthericum ramosum;Разклонен венечник
+plants;Anthoxanthum aristatum;Осилеста миризливка
+plants;Anthoxanthum ododratum;Обикновена миризливка
+plants;Anthriscus nemorosa;Дъбравен азмацук
+plants;Anthriscus sylvestris;Горски азмацук
+plants;Anthyllis aurea;Златна раменка
+plants;Anthyllis montana;Планинска раменка
+plants;Anthyllis vulneraria;Целебна раменка
+plants;Apera spica-venti;Обикновена ветрушка
+plants;Aphanes arvensis;Полски афанес
+plants;Apium nodiflorum;Възлоцветна целина
+plants;Apium repens;Пълзяща целина
+plants;Aquilegia aurea;Златиста кандилка
+plants;Aquilegia nigricans (= A. vulgaris );Обикновена кандилка
+plants;Arabis collina;Хълмова гъшарка
+plants;Arabis ferdinandi-coburgii;Пиринска гъшарка
+plants;Arabis hirsuta;Влакнеста гъшарка
+plants;Arabis nova;Скална гъшарка
+plants;Arabis recta;Права гъшарка
+plants;Arabis sagittata;Стрелолистна гъшарка
+plants;Arabis turrita;Дългоплодна гъшарка
+plants;Arbutus andrachne;Гола кумарка
+plants;Arbutus unedo;Жлезиста кумарка
+plants;Arctium lappa;Обикновен репей
+plants;Arctostaphylos uva-ursi;Мечо грозде
+plants;Aremonia agrimonoides;Матруня
+plants;Arenaria biflora;Двуцветна песъчарка
+plants;Arenaria ciliata;Ресничеста песъчарка
+plants;Arenaria cretica;Критска песъчарка
+plants;Arenaria gypsophylloides;Азиатска песъчарка
+plants;Arenaria pirinica;Пиринска песъчарка
+plants;Arenaria procera;Висока песъчарка
+plants;Arenaria rhodopaea;Родопска песъчарка
+plants;Arenaria rigida;Твърдолистна песъчарка
+plants;Arenaria serpyllifolia;Полегнала песъчарка
+plants;Argusia sibirica;Сибирска аргузия
+plants;Aristella bromoides (= Stipa bromoides);Късоосилеста аристела
+plants;Aristolochia clematitis;Обикновена вълча ябълка
+plants;Aristolochia rotunda;Кръглолистна вълча ябълка
+plants;Armeria alpina;Високопланинско лъжичниче
+plants;Armeria rumelica;Обикновено лъжичниче
+plants;Armoracia macrocarpa;Хрян
+plants;Arrhenatherum elatius;Висок райграс
+plants;Artemisia alba;Катраника
+plants;Artemisia annua;Едногодишен пелин
+plants;Artemisia austriaca;Австрийски пелин
+plants;Artemisia campestris;Полски пелин
+plants;Artemisia chamaemelifolia;Храстовиден пелин
+plants;Artemisia eriantha;Тъмнолюспест пелин
+plants;Artemisia lerchiana;Тънкожилест пелин
+plants;Artemisia pedemontana;Светлолюспест пелин
+plants;Artemisia santonicum;Сантонинов пелин
+plants;Artemisia scoparia;Метловиден пелин
+plants;Arum alpinum;Алпийски змиярник
+plants;Arum elongatum;Удължен змиярник
+plants;Arum italicum;Италиански змиярник
+plants;Arum maculatum;Петнист змиярник
+plants;Arum orientale;Източен змиярник
+plants;Asarum europaeum;Европейски копитник
+plants;Asparagus acutifolius;Остролистна зайча сянка
+plants;Asparagus officinalis;Лечебна зайча сянка
+plants;Asparagus tenuifolius;Тънколистна зайча сянка
+plants;Asparagus verticillatus;Прешленеста зайча сянка
+plants;Asperula aristata;Дългоцветна лазаркиня
+plants;Asperula capitata;Главеста лазаркиня
+plants;Asperula cynanchica;Обикновена лазаркиня
+plants;Asperula involucrata;Странджанска лазаркиня
+plants;Asperula pirinica;Пиринска лазаркиня
+plants;Asperula purpurea;Червена лазаркиня
+plants;Asperula suberosa;Пиринска лазеркиня
+plants;Asperula taurina;Милосърдниче
+plants;Asphodeline liburnica;Либурнийско асфоделине
+plants;Asphodeline lutea;Жълто асфоделине
+plants;Asphodelus albus;Бял бърдун
+plants;Asplenium adiantum-nigrum;Черно изтравниче
+plants;Asplenium cuneifolium;Клиновидно изтравниче
+plants;Asplenium fissum;Нацепенолистно изтравниче
+plants;Asplenium lepidum;Люспесто изтравниче
+plants;Asplenium ruta-muraria;Стенно изтравниче
+plants;Asplenium septentrionale;Северно изтравниче
+plants;Asplenium trichomanes;Обикновено изтравниче
+plants;Asplenium viride;Зелено изтравниче
+plants;Aster alpinus;Алпийско димитровче
+plants;Aster amellus;Влакнесто димитровче
+plants;Aster linosyris;Бодливо димитровче
+plants;Aster oleifolius;Маслинолистно димитровче
+plants;Aster tripolium;Голо димитровче
+plants;Asteriscus aquaticus;Воден астерискус
+plants;Asterolinon linum-stellatum;Зведолен
+plants;Astracantha aitosensis (= Astragalus aitosensis);Айтоски клин
+plants;Astracantha thracica (= Astragalus thracicus);Тракийски клин
+plants;Astragalus alopecurus;Алпийско сграбиче
+plants;Astragalus angustifolius;Теснолистно сграбиче
+plants;Astragalus austriacus;Австрийско сграбиче
+plants;Astragalus contortuplicatus;Дунавско сграбиче
+plants;Astragalus corniculatus;Рогчесто сграбиче
+plants;Astragalus dasyanthus;Вълнестоцветно сграбиче
+plants;Astragalus depressus;Сплеснато сграбиче
+plants;Astragalus exscapus;Безстъблово сграбиче
+plants;Astragalus gladiatus;Кинжаловидно сграбиче
+plants;Astragalus glaucus;Сивосинкаво сграбиче
+plants;Astragalus glycyphylloides;Лъжесладколистно сграбиче
+plants;Astragalus haarbachii;Хаарбахиево сграбиче
+plants;Astragalus hamosus;Извито сграбиче
+plants;Astragalus monspessulanus;Монпелийско сграбиче
+plants;Astragalus onobrychis;Еспарзетово сграбиче
+plants;Astragalus physocalix;Мехуресточашково сграбиче
+plants;Astragalus ponticus;Черноморско сграбиче
+plants;Astragalus pubiflorus;Мъхнатоцветно сграбиче
+plants;Astragalus spruneri;Спрунерово сграбиче
+plants;Astragalus varius;Пъстро сграбиче
+plants;Astragalus vesicarius ;Подутоплодно сграбиче
+plants;Astragalus wilmottianus;Вилмотиево сграбиче
+plants;Astrodaucus littoralis;Крайбрежен астродаукус
+plants;Asyneuma anthericoides;Антериковидно варниче
+plants;Asyneuma limonifolium;Лимонолистно варниче
+plants;Athyrium distentifolium;Алпийска женска папрат
+plants;Athyrium filix-femina;Обикновена женска папрат
+plants;Atriplex hastata;Копиелистна лобода
+plants;Atriplex nitens;Лъскава лобода
+plants;Atriplex tatarica;Татарска лобода
+plants;Atropa bella-donna;Обикновено лудо биле
+plants;Aubrieta columnae;Стълбчеста аубриета
+plants;Aubrieta gracilis subsp. scardica;Грациозна аубриета
+plants;Aubrieta intermedia;Междинна аубриета
+plants;Aurinia uechtritziana (= Lepidotrichum uechtritzianum);Черноморска ауриния
+plants;Avena clauda;Клаудов овес овес
+plants;Avena eriantha;Добруджански овес
+plants;Avena fatua;Див овес
+plants;Avenula compressa;Сплеснат овесец
+plants;Avenula versicolor;Пъстроцветен овесец
+plants;Azolla filiculoides;Обикновена азола
+plants;Baeothryon caespitosum (= Trichophorum caespitosum);Туфест пухонос
+plants;Barbarea balcana;Балканска злина
+plants;Barbarea bracteosa;Прицветникова злина
+plants;Bartsia alpina;Алпийска язовка
+plants;Bassia hirsuta;Влакнеста басия
+plants;Beckmannia eruciformis;Обикновена биволско просо
+plants;Bellardia trixago;Белардия
+plants;Bellardiochloa variegata (= Bellardiochloa violacea);Пъстра белардиохлоа
+plants;Bellevalia ciliata;Ресничеста белевалия
+plants;Bellis sylvestris;Горска паричка
+plants;Berberis vulgaris;Обикновен кисел трън
+plants;Berteroa incana;Сива турия
+plants;Berula erecta;Теснолистна берула
+plants;Betonica bulgarica;Български ранилист
+plants;Betonica officinalis (= Stachys officinalis);Лечебен ранилист
+plants;Betula pendula;Бяла бреза
+plants;Bidens cernua;Наведен бутрак
+plants;Bidens frondosa;Многолистен бутрак
+plants;Bidens tripartita;Триделен бутрак
+plants;Bisserula pelicinus;Трионче
+plants;Bistorta major (= Polygonum bistorta);Обикновено кървавиче
+plants;Bistorta vivipara (= Polygonum viviparum);Живородно кървавиче
+plants;Blackstonia perfoliata;Пронизанолистна блекстония
+plants;Bolboschoenus maritimus;Морски болбосхьонус
+plants;Bombycilaena erecta;Изправена бомбицилена
+plants;Bothriochloa ischaemum (=Dichanthium ischaemum);Бял бозалък
+plants;Botrychium matricariifolium;Лайкова лунна папрат
+plants;Brachypodium pinnatum;Перест късокрак
+plants;Brachypodium sylvaticum;Горски късокрак
+plants;Brassica elongata;Дългометличесто зеле
+plants;Brassica nivalis subsp. jordanoffii;Пиринско зеле
+plants;Briza humilis;Класовидна сълзица
+plants;Briza maxima;Едра сълзица
+plants;Briza media;Обикновена сълзица
+plants;Bromus arvensis;Полска овсига
+plants;Bromus commutatus;Обикновена овсига
+plants;Bromus erectus;Изправена овсига
+plants;Bromus hordeaceus;Мека овсига
+plants;Bromus inermis;Безосилеста овсига
+plants;Bromus intermedius;Междинна овсига
+plants;Bromus lacmonicus;Лакмонска овсига
+plants;Bromus madritensis;Мадридска овсига
+plants;Bromus moesiacus;Мизийска овсига
+plants;Bromus racemosus;Гроздовидна овсига
+plants;Bromus ramosus;Разклонена овсига
+plants;Bromus riparius;Брегова овсига
+plants;Bromus scoparius;Сбита овсига
+plants;Bromus squarrosus;Разперена овсига
+plants;Bromus sterilis;Дългоосилеста овсига
+plants;Bromus tectorum;Покривна овсига
+plants;Bruckenthalia spiculifolia;Връшняк
+plants;Bryonia alba;Бяла дива тиква
+plants;Buglossoides glandulosa;Жлезиста белоочица
+plants;Buglossoides purpurocaerulea;Виолетова белоочица
+plants;Bunium ferulaceum;Буниум
+plants;Bupleurum apiculatum;Островърха урока
+plants;Bupleurum falcatum;Сърповидна урока
+plants;Bupleurum flavum;Жълта урока
+plants;Bupleurum longifolium;Дълголистна урока
+plants;Bupleurum praealtum;Висока урока
+plants;Bupleurum ranunculoides;Лютиковидна урока
+plants;Bupleurum tenuissimum;Изящна урока
+plants;Butomus umbellatus;Обикновен водолюб
+plants;Cachrys alpina;Алпийски кахрис
+plants;Cakile maritima subsp. euxina;Крайморско какиле
+plants;Calamagrostis arundinacea;Горски вейник
+plants;Calamagrostis canescens;Сив вейник
+plants;Calamagrostis epigejos;Приземен вейник
+plants;Calamagrostis pseudophragmites;Тръстиков вейник
+plants;Calamintha grandiflora;Едроцветно миризливче
+plants;Caldesia parnasifolia;Парнасиева калдезия
+plants;Callitrichae brutia;Крайморско дренче
+plants;Callitriche cophocarpa;Тъпоплодно дренче
+plants;Callitriche palustris;Блатно дренче
+plants;Callitriche stagnalis;Езерно дренче
+plants;Calluna vulgaris;Калуна
+plants;Caltha palustris;Обикновен блатняк
+plants;Calystegia sepium;Обикновено чадърче
+plants;Calystegia soldanella;Дребно чадърче
+plants;Calystegia sylvatica;Горско чадърче
+plants;Campanula alpina;Алпийска камбанка
+plants;Campanula bononiensis;Болонска камбанка
+plants;Campanula cochlearifolia;Дребна камбанка
+plants;Campanula euxina;Евксинска камбанка
+plants;Campanula glomerata;Главеста камбанка
+plants;Campanula jordanovii;Йорданова камбанка
+plants;Campanula lanata;Вълнеста камбанка
+plants;Campanula latifolia;Широколистна камбанка
+plants;Campanula lingulata;Езичеста камбанка
+plants;Campanula moesiaca;Мизийска камбанка
+plants;Campanula orphаnidea (= Petkovia orphanidea);Орфанийска камбанка
+plants;Campanula patula;Разперена камбанка
+plants;Campanula persicifolia;Прасковолистна камбанка
+plants;Campanula phrygia;Фригийска камбанка
+plants;Campanula rapunculoides;Едностранна камбанка
+plants;Campanula rapunculus;Ряповидна камбанка
+plants;Campanula rotundifolia;Кръглолистна камбанка
+plants;Campanula scheuchzeri;Шойхцерова камбанка
+plants;Campanula scutellata;Щитовидна камбанка
+plants;Campanula sibirica;Сибирска камбанка
+plants;Campanula sparsa;Разперена камбанка
+plants;Campanula trachelium;Коприволистна камбанка
+plants;Campanula transsilvanica;Трансилванска камбанка
+plants;Campanula velebitica;Велебитска камбанка
+plants;Campanula versicolor;Променливоцветна камбанка
+plants;Camphorosma annua;Едногодишна камфорка
+plants;Camphorosma monspeliaca;Монпелийска камфорка
+plants;Capsella bursa-pastoris;Овчарска торбичка
+plants;Capsella thracica;Тракийска овчарска торбичка
+plants;Caragana frutex subsp. mollis;Карагана
+plants;Cardamine amara;Горчива горва
+plants;Cardamine barbaraeoides;Балканска горва
+plants;Cardamine flexuosa;Извита горва
+plants;Cardamine graeca;Гръцка горва
+plants;Cardamine hirsuta;Влакнеста горва
+plants;Cardamine impatiens;Нежна горва
+plants;Cardamine parviflora;Дребноцветна горва
+plants;Cardamine pectinata;Гребеновидна горва
+plants;Cardamine penzesii;Пензешова горва
+plants;Cardamine pratensis;Ливадна горва
+plants;Cardamine raphanifolia;Ряполистна горва
+plants;Cardamine rivularis;Крайручейна горва
+plants;Cardaminopsis arenosa;Кардаминопсис
+plants;Carduus acanthoides;Обикновен магарешки бодил
+plants;Carduus candicans;Бял магарешки бодил
+plants;Carduus nutans;Наведен магарешки бодил
+plants;Carduus personata;Маскиран магарешки бодил
+plants;Carduus rhodopaeus (= Carduus adpressus subsp. rhodopaeus);Родопски магарешки бодил
+plants;Carduus thracicus;Тракийски магарешки бодил
+plants;Carex acuta;Остра острица
+plants;Carex acutiformis;Възостра острица
+plants;Carex atrata;Възчерна острица
+plants;Carex brevicollis;Късошийчеста острица
+plants;Carex bulgarica;Българска острица
+plants;Carex buxbaumii;Буксбаумова острица
+plants;Carex caespitosa;Туфеста острица
+plants;Carex caryophyllea;Пролетна острица
+plants;Carex cinerea (= Carex curta);Сивобяла острица
+plants;Carex curvula;Извита острица
+plants;Carex digitata;Длановидна острица
+plants;Carex distans;Разреденокласа острица
+plants;Carex disticha;Двуреда острица
+plants;Carex echinata;Ежовидна острица
+plants;Carex ericetorum;Ерикова острица
+plants;Carex flacca;Повиснала острица
+plants;Carex flava;Жълта острица
+plants;Carex fuliginosa;Тъмнокафява острица
+plants;Carex hallerana;Халерова острица
+plants;Carex heleonastes;Торфена острица
+plants;Carex hirta;Твърдовлакнеста острица
+plants;Carex humilis;Ниска острица
+plants;Carex kitaibeliana;Китайбелова острица
+plants;Carex lasiocarpa;Влакнестоплодна острица
+plants;Carex ligerica ;Лигерийска острица
+plants;Carex limosa;Тинеста острица
+plants;Carex melanostachya;Шаренокласа острица
+plants;Carex michelii;Мишелова острица
+plants;Carex montana;Планинска острица
+plants;Carex muricata;Бодлива острица
+plants;Carex nigra;Черна острица
+plants;Carex ovalis (= Carex leporina);Заешка острица
+plants;Carex pallescens;Бледа острица
+plants;Carex panicea;Просена острица
+plants;Carex paniculata;Метличеста острица
+plants;Carex parviflora;Пиринска острица
+plants;Carex pendula;Увиснала острица
+plants;Carex pilosa;Ресничеста острица
+plants;Carex praecox;Ранна острица
+plants;Carex punctata;Брадавичеста острица
+plants;Carex pyrenaica;Пиренейска острица
+plants;Carex remota;Редкокласа острица
+plants;Carex riparia;Брегова острица
+plants;Carex rostrata;Човчеста острица
+plants;Carex rupestris;Скална острица
+plants;Carex serotina (= Carex viridula);Късна острица
+plants;Carex spicata;Класовидна острица
+plants;Carex sylvatica;Горска острица
+plants;Carex tomentosa;Наплъстена острица
+plants;Carex tricolor;Трицветна острица
+plants;Carex umbrosa;Сенчеста острица
+plants;Carex vesicaria;Мехуреста острица
+plants;Carex vulpina;Лисича острица
+plants;Carex сaryophyllea;Пролетна острица
+plants;Carlina acanthifolia;Безстъблена решетка
+plants;Carlina corymbosa;Щитовидна решетка
+plants;Carlina lanata;Вълнеста решетка
+plants;Carlina vulgaris;Обикновена решетка
+plants;Carpinus betulus;Обикновен габър
+plants;Carpinus orientalis;Келяв габър
+plants;Carthamus lanatus;Вълнест аспур
+plants;Carum carvi;Обикновен кимион
+plants;Carum rigidulum subsp. bulgaricum;Български кимион
+plants;Castanea sativa;Кестен
+plants;Catabrosa aquatica;Воден ручейник
+plants;Caucalis platycarpos;Бабинец
+plants;Celtis australis;Южна копривка
+plants;Celtis glabrata;Оголена копривка
+plants;Centaurea achtarovii;Ахтарова метличина
+plants;Centaurea affinis;Сродна метличина
+plants;Centaurea arenaria;Пясъчна метличина
+plants;Centaurea atropurpurea;Тъмнопурпурна метличина
+plants;Centaurea bovina;Волска метличина
+plants;Centaurea calcitrapa;Бодлива метличина
+plants;Centaurea caliacrae;Калиакренска метличина
+plants;Centaurea chrysolepis;Златиста метличина
+plants;Centaurea diffusa;Рехава метличина
+plants;Centaurea gracilenta;Нежна метличина
+plants;Centaurea immanuelis-loewii;Имануелова метличина
+plants;Centaurea inermis;Дребна метличина
+plants;Centaurea jacea;Ливадна метличина
+plants;Centaurea jankae;Янкева метличина
+plants;Centaurea kernerana;Кернерова метличина
+plants;Centaurea mannagetae subsp. pirinica;Пиринска метличина
+plants;Centaurea marshaliana;Маршалова метличина
+plants;Centaurea napulifera;Ряповидна метличина
+plants;Centaurea nervosa;Едноцветна метличина
+plants;Centaurea nigrescens;Черна метличина
+plants;Centaurea orientalis;Източна метличина
+plants;Centaurea parilica;Парилска метличина
+plants;Centaurea pichleri;Пихлерова метличина
+plants;Centaurea pseudoaxillaris;Лъжливопазвена метличина
+plants;Centaurea rumelica;Румелийска метличина
+plants;Centaurea rupestris;Скална метличина
+plants;Centaurea rutifolia;Седефчелистна метличина
+plants;Centaurea solstitialis;Слънчева метличина
+plants;Centaurea spinulosa;Бодлива метличина
+plants;Centaurea stereophylla;Твърдолистна метличина
+plants;Centaurea thracica;Тракийска метличина
+plants;Centaurea triumfettii;Триумфетова метличина
+plants;Centaurea wagenitziana;Вагеницова метличина
+plants;Centaurium littorale;Крайбрежен червен кантарион
+plants;Centaurium maritimum;Морски червен кантарион
+plants;Centaurium spicatum;Класовиден червен кантарион
+plants;Centaurium turcicum;Турски червен кантарион
+plants;Centranthus kellererii;Келереров кентрантус
+plants;Cephalanthera damasonium;Бял главопрашник
+plants;Cephalanthera epipactoides;Дремников главопрашник
+plants;Cephalanthera longifolia;Дълголистен главопрашник
+plants;Cephalanthera rubra;Червен главопрашник
+plants;Cephalaria laevigata;Лъскава звездоглавка
+plants;Cephalaria transsilvanica;Трансилванска звездоглавка
+plants;Cephalaria uralensis;Уралска звездоглавка
+plants;Cephalorrhynchus tuberosus;Грудков цефалоринхус
+plants;Cerastium alpinum;Алпийски рожец
+plants;Cerastium arvense;Полски рожец
+plants;Cerastium banaticum;Банатски рожец
+plants;Cerastium brachypetalum;Късовенечен рожец
+plants;Cerastium bulgaricum;Български рожец
+plants;Cerastium cerastoides;Тристълбчест рожец
+plants;Cerastium decalvans;Балкански рожец
+plants;Cerastium dubium;Съмнителен рожец
+plants;Cerastium glomeratum;Кълбестосъцветен рожец
+plants;Cerastium lanatum;Вълнест рожец
+plants;Cerastium moesiacum;Мизийски рожец
+plants;Cerastium petricola;Каменист рожец
+plants;Cerastium pumilum;Дребен рожец
+plants;Cerastium semidecandrum;Петтичинков рожец
+plants;Cerastium velenovskyi;Веленовскиев рожец
+plants;Cerasus avium;Череша
+plants;Cerasus fruticosa;Храстовидна вишня
+plants;Cerasus mahaleb (= Prunus mahaleb);Махалебка, дива череша
+plants;Ceratophyllum demersum;Плаващ роголистник
+plants;Ceratophyllum submersum;Потопен роголистник
+plants;Ceterach officinarum;Златиста папрат
+plants;Chaerophyllum aureum;Златист балдаран
+plants;Chaerophyllum byzantinum;Византийски балдаран
+plants;Chaerophyllum hirsutum;Влакнест балдаран
+plants;Chaerophyllum temulentum;Замайващ балдаран
+plants;Chamaecytisus absinthioides;Балкански зановец
+plants;Chamaecytisus albus;Бял зановец
+plants;Chamaecytisus austriacus;Австрийски зановец
+plants;Chamaecytisus calcareus;Скален зановец
+plants;Chamaecytisus frivaldszkyanus;Фривалдскиев зановец
+plants;Chamaecytisus hirsutus;Космат зановец
+plants;Chamaecytisus jankae;Янкев зановец
+plants;Chamaecytisus kovacevii;Ковачев зановец
+plants;Chamaecytisus neicheffii;Нейчев зановец
+plants;Chamaecytisus pygmaeus;Алпийски зановец
+plants;Chamaecytisus ratisbonensis;Регенсбургски зановец
+plants;Chamaecytisus supinus;Главест зановец
+plants;Chamaenerion angustifolium (= Epilobium angustifolium);Теснолистен кипрей
+plants;Chamaespartium sagittale;Прещип
+plants;Cheilanthes persica;Персийски крайспорник
+plants;Chelidonium majus;Змийско мляко
+plants;Chenopodium album;Бяла кучешка лобода
+plants;Chenopodium ambrosioides;Миризлива кучешка лобода
+plants;Chenopodium botrys;Огнивче
+plants;Chenopodium glaucum;Синьозелена кучешка лобода
+plants;Chenopodium polyspermum;Сладък бурен
+plants;Chenopodium rubrum;Червена кучешка лобода
+plants;Chondrilla juncea;Обикновен кривец
+plants;Chondrilla urumoffii;Урумов кривец
+plants;Chrysopogon gryllus;Черна садина
+plants;Chrysosplenium alternifolium;Последователнолистна жълтина
+plants;Cicer montbretii;Цариградски нахут
+plants;Cicerbita alpina;Алпийски млечник
+plants;Cicerbita pancicii;Панчичева цицербита
+plants;Cicerbita plumieri;Крилатолистна цицербита
+plants;Cichorium intybus;Обикновена синя жлъчка
+plants;Cicuta virosa;Отровна цикута
+plants;Cionura erecta;Изправено клинавче
+plants;Circaea alpina;Дребна чаровница
+plants;Circaea lutetiana;Едра чаровница
+plants;Cirsium appendiculatum;Балканска паламида
+plants;Cirsium arvense;Полска паламида
+plants;Cirsium bulgaricum;Българска паламида
+plants;Cirsium canum;Кучешка паламида
+plants;Cirsium heterotrichum;Разновлакнеста паламида
+plants;Cirsium ligulare;Езичестолистна паламида
+plants;Cirsium stojanovii;Стоянова паламида
+plants;Cirsium vulgare;Обикновена паламида
+plants;Cistus incanus;Памуклийка
+plants;Cistus salvifolius;Тамянка
+plants;Cladium mariscus;Режещ кладиум
+plants;Cleistogenes bulgarica;Български клейстогенес
+plants;Cleistogenes serotina;Плетеничест клейстогенес
+plants;Clematis alpina;Алпийски повет
+plants;Clematis flammula;Червен повет
+plants;Clematis integrifolia;Целолистен повет
+plants;Clematis vitalba;Обикновен повет
+plants;Clematis viticella;Лозовиден повет
+plants;Cleome ornithopodioides;Сераделовидно клеоме
+plants;Clinopodium vulgare;Котешка стъпка
+plants;Clypeola jonthlaspi;Клипеола
+plants;Cnicus benedictus;Лечебна пресечка
+plants;Colchicum autumnale;Широколистен мразовец
+plants;Colchicum bivonae;Широколистен мразовец
+plants;Colchicum borisii;Борисов мразовец
+plants;Colchicum davidovii;Давидов мразовец
+plants;Colchicum diampolis;Ямболски мразовец
+plants;Colchicum rhodopaeum;Родопски мразовец
+plants;Colutea arborescens;Плюскач
+plants;Comandra elegans;Изящна командра
+plants;Convallaria majalis;Момина сълза
+plants;Convolvulus althaeoides (= Convolvulus elegantissimum);Нежна поветица
+plants;Convolvulus arvensis;Полска поветица
+plants;Convolvulus boissieri;Скална поветица
+plants;Convolvulus boissieri subsp. parnassicus (= Convolvulus compactus);Парнаска поветица
+plants;Convolvulus boissieri subsp. suendermannii (= Convolvulus suendermannii);Зюндерманова поветица
+plants;Convolvulus cantabrica;Кантабрийска поветица
+plants;Convolvulus holosericeus;Копринестовлакнеста поветица
+plants;Convolvulus lineatus;Теснолистна поветица
+plants;Convolvulus persicus;Персийска поветица
+plants;Conyza canadensis;Канадска кониза
+plants;Corallorhiza trifida;Триделна коралка
+plants;Corispermum nitidum;Лъскава камилска трева
+plants;Cornus mas;Обикновен дрян
+plants;Cornus sanguinea;Кучешки дрян
+plants;Coronilla emerus;Храстовидна зайчина
+plants;Coronilla scorpioides;Скорпионовидна зайчина
+plants;Coronilla varia;Пъстра зайчина
+plants;Cortusa matthioli;Мечо око
+plants;Corydalis bulbosa;Грудеста лисичина
+plants;Corydalis solida;Плътногрудеста лисичина
+plants;Corylus avellana;Обикновена леска
+plants;Corylus colurna;Турска леска
+plants;Cotinus coggygria;Смрадлика
+plants;Cotoneaster integerrimus;Целокраен котонеастер
+plants;Cotoneaster nebrodensis;Наплъстен котонеастер
+plants;Cotoneaster niger;Черноплоден котонеастер
+plants;Crambe maritima;Крайморско диво зеле
+plants;Crambe tataria;Татарско диво зеле
+plants;Crassula tillaea;Дебелолист
+plants;Crataegus microphylla;Дребнолистен глог
+plants;Crataegus monogina;Обикновен глог
+plants;Crataegus pentagyna;Черен глог
+plants;Crataegus stevenii;Ориенталски глог
+plants;Crepis biennis;Двугодишна дрипавка
+plants;Crepis bithynica;Битинска дрипавка
+plants;Crepis paludosa;Блатна дрипавка
+plants;Crepis sancta;Палестинска дрипавка
+plants;Crepis schachtii;Шахтова дрипавка
+plants;Crepis setosa;Четинеста дрипавка
+plants;Crepis stojanovii;Стоянова дрипавка
+plants;Crepis zacintha;Закинтска дрипавка
+plants;Cressa cretica;Критска креса
+plants;Crithmum maritimum;Морски копър
+plants;Crocus biflorus;Двуцветен минзухар
+plants;Crocus flavus;Жълт минзухар
+plants;Crocus olivieri;Оливиеров минзухар
+plants;Crocus pulchellus;Красив минзухар
+plants;Crocus reticulatus;Пъстър минзухар
+plants;Crocus tommasinianus;Томасиниев минзухар
+plants;Crocus veluchensis;Планински минзухар
+plants;Crucianella angustifolia;Теснолистна кръстатка
+plants;Crucianella graeca;Гръцка кръстатка
+plants;Cruciata glabra;Гол кръстец
+plants;Cruciata laevipes;Многоцветен кръстец
+plants;Cruciata pedemontana;Лепкав кръстец
+plants;Crupina crupinastrum;Южна крупина
+plants;Crupina vulgaris;Обикновена крупина
+plants;Crypsis aculeata;Бодливка
+plants;Crypsis alopecuroides;Класовидна скритокласица
+plants;Crypsis schoenoides;Камъшова скритокласица
+plants;Cryptogramma crispa;Къдрав скритолинейник
+plants;Cucubalus baccifer;Гушевица
+plants;Cyclamen coum;Пролетно ботурче
+plants;Cyclamen hederifolium;Бръшлянолистно ботурче
+plants;Cynanchum acutum;Увивен устрел
+plants;Cynodon dactylon;Троскот
+plants;Cynoglossum creticum;Пъстра наумка
+plants;Cynoglossum germanicum;Гололистна наумка
+plants;Cynoglossum rotatum;Кръгла наумка
+plants;Cynosurus cristatus;Обикновен сеноклас
+plants;Cynosurus echinatus;Четинест сеноклас
+plants;Cyperus fuscus;Кафяв циперус
+plants;Cyperus glomeratus;Главест циперус
+plants;Cyperus rotundus;Закръглен циперус
+plants;Cyperus strigosus;Четинеста кисела трева
+plants;Cypripedium calceolus;Венерино пантофче
+plants;Cystopteris alpina;Алпийска крехка папрат
+plants;Cystopteris fragilis;Обикновена крехка папрат
+plants;Cystopteris regia;Алпийска крехка папрат
+plants;Cytinus clusii;Цитинус
+plants;Dactylis glomerata;Ежова главица
+plants;Dactylorhiza cordigera;Сърцевиден дланокоренник
+plants;Dactylorhiza incarnata;Месночервена дактилориза
+plants;Dactylorhiza kalopissii ;Калописиева дактилориза
+plants;Dactylorhiza maculata;Петнист дланокоренник
+plants;Dactylorhiza saccifera;Торбест дланокоренник
+plants;Danthonia alpina;Двузъба дантония
+plants;Daphne blagayana;Благаево бясно дърво
+plants;Daphne cneorum;Ниско бясно дърво
+plants;Daphne laureola;Лаврово бясно дърво
+plants;Daphne mezereum;Обикновено бясно дърво
+plants;Daphne oleoides;Маслиноподобно бясно дърво
+plants;Daphne pontica;Странджанско бясно дърво
+plants;Daucus carota;Обикновен морков
+plants;Daucus guttatus;Четинест морков
+plants;Delphinium balcanicum;Средиземноморски шпорец
+plants;Delphinium fissum subsp. albiflorum;Белоцветен шпорец
+plants;Dentaria bulbifera (= Cardamine bulbifera);Луковичен зъбник
+plants;Deschampsia caespitosa;Туфеста плъстица
+plants;Deschampsia flexuosa;Къдрава плъстица
+plants;Desmazeria rigida;Твърда дезмацерия
+plants;Dianthus armeria;Армериовиден карамфил
+plants;Dianthus campestris;Полски карамфил
+plants;Dianthus carthusianorum;Картузиански карамфил
+plants;Dianthus corymbosus;Щитовиден карамфил
+plants;Dianthus cruentus;Осилест карамфил
+plants;Dianthus deltoides;Делтовиден карамфил
+plants;Dianthus drenowskyanus;Дреновски карамфил
+plants;Dianthus giganteiformis;Гигантовиден карамфил
+plants;Dianthus giganteus;Гигантски карамфил
+plants;Dianthus gracilis;Изящен карамфил
+plants;Dianthus kladovanus (= Dianthus pontederae subsp. kladovanus);Унгарски карамфил
+plants;Dianthus microlepis;Дребнолюспест карамфил
+plants;Dianthus moesiacus;Мизийски карамфил
+plants;Dianthus nardiformis;Картъловиден карамфил
+plants;Dianthus pallens;Бледен карамфил
+plants;Dianthus pallidiflorus;Бледоцветен карамфил
+plants;Dianthus petraeus;Скален карамфил
+plants;Dianthus pinifolius;Иглолистен карамфил
+plants;Dianthus pseudarmeria;Лъжеармериовиден карамфил
+plants;Dianthus stribrnyi;Стрибърнов карамфил
+plants;Dianthus superbus;Превъзходен карамфил
+plants;Dianthus tristis;Мрачен карамфил
+plants;Dianthus urumoffii;Урумов карамфил
+plants;Dichostylis michelianus (= Cyperus michelianus);Михелов дихостилис
+plants;Dictamnus albus;Росен
+plants;Digitalis ferruginea;Ръждив напръстник
+plants;Digitalis laevigata;Гол напръстник
+plants;Digitalis lanata;Вълнест напръстник
+plants;Digitalis viridiflora;Зеленоцветен напръстник
+plants;Digitaria sanguinalis;Кървава росичка
+plants;Diphasiastrum alpinum;Алпийски дифазиаструм
+plants;Diphasiastrum complanatum;Сплескан дифазиаструм
+plants;Diplotaxis muralis;Стенна двуредка
+plants;Dipsacus laciniatus;Нарязанолистна лугачка
+plants;Dittrichia viscosa (= Inula viscosa);Леплива дитрихия (лепкав оман)
+plants;Doronicum austriacum;Австрийски див слънчоглед
+plants;Doronicum columnae;Стълбчест див слънчоглед
+plants;Doronicum hungaricum;Унгарски див слънчоглед
+plants;Doronicum orientale;Източен див слънчоглед
+plants;Dorycnium graecum;Широколистно звездниче
+plants;Dorycnium herbaceum;Тревисто звездниче
+plants;Draba aizoides;Вечнозелена рупа
+plants;Draba athoa;Атоска рупа
+plants;Draba carinthiaca;Каринтийска рупа
+plants;Draba korabensis;Балканска рупа
+plants;Draba lasiocarpa;Влакнестоплодна рупа
+plants;Draba muralis ;Стенна рупа
+plants;Draba scardica;Шарпланинска рупа
+plants;Draba tomentosa;Наплъстена рупа
+plants;Dracunculus vulgaris;Обикновен дракункулус
+plants;Drosera rotundifolia;Кръглолистна росянка
+plants;Dryas octopetala;Сребърник
+plants;Dryopteris carthusiana;Бодлива папрат
+plants;Dryopteris dilatata;Гребенеста мъжка папрат
+plants;Dryopteris filix-mas;Мъжка папрат
+plants;Dryopteris villarii;Вилариев дриоптерис
+plants;Echinaria capitata;Главеста бодливка
+plants;Echinochloa crus-galli;Даражан
+plants;Echinocystis lobata;Ехиноцистис
+plants;Echinops banaticus;Банатски челядник
+plants;Echinops microcephalus;Дребноглав челядник
+plants;Echinops ritro;Бодлив челядник
+plants;Echinops sphaerocephalus;Кръглоглав челядник
+plants;Echium italicum;Италианско усойниче
+plants;Echium plantagineum;Живовлеково усойниче
+plants;Echium russicum;Червено усойниче
+plants;Echium vulgare;Обикновено усойниче
+plants;Edraianthus serbicus;Сръбски едрайант
+plants;Elaeagnus angustifolia;Теснолистна миризлива върба
+plants;Elatine alsinastrum;Прешленолистен наводник
+plants;Elatine triandra;Тритичинков наводник
+plants;Eleocharis acicularis;Иглеста блатница
+plants;Eleocharis carniolica;Карниолска блатница
+plants;Eleocharis palustris;Обикновена блатница
+plants;Eleocharis quinqueflora;Петцветна блатница
+plants;Elodea canadensis;Канадска водна чума
+plants;Elodea nuttallii;Нуталиева водна чума
+plants;Elymus elongatus;Удължен пирей
+plants;Elymus farctus;Бесарабски пирей
+plants;Elymus repens;Обикновен пирей
+plants;Elymus rhodopaeus;Родопски пирей
+plants;Empetrum nigrum;Черен емпетрум
+plants;Ephedra campylopoda;Катерлива ефедра
+plants;Ephedra distachya;Обикновена ефедра
+plants;Epilobium alsinifolium;Мишовколистна върбовка
+plants;Epilobium anagallidifolium;Алпийска върбовка
+plants;Epilobium hirsutum;Влакнеста върбовка
+plants;Epilobium montanum;Планинска върбовка
+plants;Epilobium palustre;Блатна върбовка
+plants;Epimedium pubigerum;Епимедиум
+plants;Epipactis greuterii;Гройтеров дремник
+plants;Epipactis leptochila;Бледоустен дремник
+plants;Epipactis palustris;Блатен дремник
+plants;Epipactis purpurata;Пурпурен дремник
+plants;Epipogium aphyllum;Безлистен епипогиум
+plants;Equisetum fluviatile;Речен хвощ
+plants;Equisetum hiemale;Зимуващ хвощ
+plants;Equisetum palustre;Блатен хвощ
+plants;Equisetum ramosissimum;Разклонен хвощ
+plants;Equisetum sylvaticum;Горски хвощ
+plants;Equisetum telmateia;Голям хвощ
+plants;Eragrostis minor;Дребна власица
+plants;Eranthis bulgaricus;Български ерантис
+plants;Erianthus ravennae;Равенски ериантус
+plants;Erica arborea;Пирен
+plants;Erigeron alpinus;Алпийска злолетница
+plants;Erigeron annuus;Бяла злолетница
+plants;Erigeron vichrensis;Вихренска злолетница
+plants;Eriolobus trilobata;Триразделнолистен ериолобус
+plants;Eriophorum angustifolium;Теснолистна пушица
+plants;Eriophorum gracile;Нежна пушица
+plants;Eriophorum latifolium;Широколистна пушица
+plants;Eriophorum vaginatum;Влагалищна пушица
+plants;Erodium absinthoides;Балканско часовниче
+plants;Erophila verna;Пролетна гладница
+plants;Eryngium campestre;Полски ветрогон
+plants;Eryngium maritimum;Приморски ветрогон
+plants;Eryngium palmatum;Дланевидолистен ветрогон
+plants;Erysimum comatum;Качулата боянка
+plants;Erysimum cuspidatum;Островърха боянка
+plants;Erysimum diffusum;Разклонена боянка
+plants;Erysimum drenowskii;Дреновскиева боянка
+plants;Erysimum odoratum;Благоуханна боянка
+plants;Erysimum quadrangulum (= Syrenia cana auct.);Четириръбеста боянка
+plants;Erysimum slavjankae;Алиботушка боянка
+plants;Erythronium dens-canis;Кучешки зъб
+plants;Euonymus europaeus;Европейски чашкодрян
+plants;Euonymus latifolius;Широколистен чашкодрян
+plants;Euonymus verrucosus;Брадавичест чашкодрян
+plants;Eupatorium cannabinum;Див коноп
+plants;Euphorbia aleppica;Алепска млечка
+plants;Euphorbia amygdaloides;Горска млечка
+plants;Euphorbia apios;Грудкова млечка
+plants;Euphorbia barrelieri;Скална млечка
+plants;Euphorbia chamaesice;Пълзяща млечка
+plants;Euphorbia cyparissias;Обикновена млечка
+plants;Euphorbia falcata;Сърполистна млечка
+plants;Euphorbia lucida;Лъскаволистна млечка
+plants;Euphorbia myrsinites;Мирсинитска млечка
+plants;Euphorbia nicaeensis;Чакълна млечка
+plants;Euphorbia niciciana;Ничичева млечка
+plants;Euphorbia palustris;Блатна млечка
+plants;Euphorbia paralias;Приморска млечка
+plants;Euphorbia peplis;Пясъчна млечка
+plants;Euphorbia polychroma;Многобагрена млечка
+plants;Euphorbia seguierana;Сегиерова млечка
+plants;Euphorbia serrulata;Миризлива млечка
+plants;Euphorbia taurinensis;Гръцка млечка
+plants;Euphrasia liburnica;Либурнийска очанка
+plants;Euphrasia minima;Малка очанка
+plants;Euphrasia salisburgensis;Салисбургска очанка
+plants;Fagus orientalis;Източен бук
+plants;Fagus sylvatica subsp. moesiaca;Мизийски бук
+plants;Fagus sylvatica subsp. sylvatica;Обикновен бук
+plants;Falcaria vulgaris;Обикновен сърпец
+plants;Ferula heuffelii;Хьойфелова тимянка
+plants;Ferula orientalis;Източна тимянка
+plants;Ferulago sylvatica;Горска зимянка
+plants;Festuca airoides;Бролова власатка
+plants;Festuca amethystina subsp. kummeri;Аметистова власатка
+plants;Festuca arenicola;Пясъчна власатка
+plants;Festuca arundinacea;Тръстиковидна власатка
+plants;Festuca balcanica;Старопланинска власатка
+plants;Festuca dalmatica;Далматинска власатка
+plants;Festuca drymeja;Горска власатка
+plants;Festuca heterophylla;Разнолистна власатка
+plants;Festuca hirtovaginata;Влакнестовлагалищна власатка
+plants;Festuca nigrescens;Черна власатка
+plants;Festuca paniculata;Ръждива власатка
+plants;Festuca penzesii;Бодлива власатка
+plants;Festuca picta;Шарена власатка
+plants;Festuca pirinensis;Пиринска власатка
+plants;Festuca pirinica;Малка пиринска власатка
+plants;Festuca pratensis;Ливадна власатка
+plants;Festuca pseudodalmatica;Лъжливодалматинска власатка
+plants;Festuca pseudovina;Лъжлива овча власатка
+plants;Festuca riloensis;Рилска власатка
+plants;Festuca rubra;Червена власатка
+plants;Festuca rupicola;Козя власатка
+plants;Festuca stojanovii;Стоянова власатка
+plants;Festuca thracica;Тракийска власатка
+plants;Festuca vaginata;Влагалищна власатка
+plants;Festuca valesiaca;Валезийска власатка
+plants;Festuca valida;Мощна власатка
+plants;Festuca xanthina;Златиста власатка
+plants;Festucopsis sancta;Фестукопсис
+plants;Fibigia clypeata;Фибигия
+plants;Ficaria verna (= Ranunculus ficaria);Пролетно жълтурче
+plants;Ficus carica;Смокиня
+plants;Filago eriocephala;Родопска свещица
+plants;Filago lutescens;Блестяща свещица
+plants;Filago vulgaris;Обикновена свещица
+plants;Filipendula ulmaria;Брястолистно орехче
+plants;Filipendula vulgaris;Ливадно орехче
+plants;Fragaria moschata;Суница
+plants;Fragaria vesca;Горска ягода
+plants;Fragaria viridis;Планица
+plants;Frangula alnus;Елшовиден зърнастец
+plants;Frangula rupestris;Скален зърнастец
+plants;Frankenia pulverulenta;Франкения
+plants;Fraxinus excelsior;Планински ясен
+plants;Fraxinus ornus;Мъждрян
+plants;Fraxinus oxycarpa;Полски ясен
+plants;Fraxinus pallisiae;Пализиев ясен
+plants;Fritillaria drenovskii;Дряновска ведрица
+plants;Fritillaria gussichiae;Гусихиева ведрица
+plants;Fritillaria meleagroides;Шахматовидна ведрица
+plants;Fritillaria orientalis;Източна ведрица
+plants;Fritillaria pontica;Черноморска ведрица
+plants;Fritillaria stribrnyi;Стрибърнова ведрица
+plants;Fumana arabica;Арабска фумана
+plants;Fumana procumbens;Полегнала фумана
+plants;Gagea chrysantha;Хризантемов жълт гарвански лук
+plants;Gagea heldreichii;Хелдрайхиев жълт гарвански лук
+plants;Gagea lutea;Обикновен гарвански лук
+plants;Gagea minima;Малък гарвански лук
+plants;Gagea saxatilis;Скален гарвански лук
+plants;Galanthus elwesii;Елвезиево кокиче
+plants;Galanthus nivalis;Снежно кокиче
+plants;Galega officinalis;Лечебен жаблек
+plants;Galeopsis speciosa;Красива бударица
+plants;Galiliea mucronata;Островърха галилея
+plants;Galium album;Бяло еньовче
+plants;Galium anisophyllon;Разнолистно еньовче
+plants;Galium aparine;Лепка
+plants;Galium boreale;Северно еньовче
+plants;Galium bulgaricum;Българско еньовче
+plants;Galium debile;Полегнало еньовче
+plants;Galium demissum;Дребно еньовче
+plants;Galium flavescens;Жълтеникаво еньовче
+plants;Galium heldreichii;Хелдрейхово еньовче
+plants;Galium lucidum;Лъскаво еньовче
+plants;Galium macedonicum;Струмско еньовче
+plants;Galium mirum;Необикновено еньовче
+plants;Galium mollugo;Меко еньовче
+plants;Galium octonarium;Източно еньовче
+plants;Galium odoratum;Ароматно еньовче
+plants;Galium palustre;Блатно еньовче
+plants;Galium parisiense;Парижко еньовче
+plants;Galium procurrens;Низбягващо еньовче
+plants;Galium pseudaristatum;Лъжливоосилесто еньовче
+plants;Galium rhodopaeum;Родопско еньовче
+plants;Galium rhodopeum;Родопско еньовче
+plants;Galium rivale;Ручейно еньовче
+plants;Galium rotundifolium;Кръглолистно еньовче
+plants;Galium rubioides;Брошово еньовче
+plants;Galium scabrifolium;Грапаволистно еньовче
+plants;Galium velenovskyi;Веленовскиево еньовче
+plants;Galium verum;Истинско еньовче
+plants;Gastridium ventricosum;Издут гастридиум
+plants;Genista anatolica;Азиатска жълтуга
+plants;Genista carinalis;Балканска жълтуга
+plants;Genista depressa;Ниска жълтуга
+plants;Genista germanica;Немска жълтуга
+plants;Genista januensis;Триръба жълтуга
+plants;Genista lydia;Теснолистна жълтуга
+plants;Genista pilosa;Влакнеста жълтуга
+plants;Genista rumelica;Румелийска жълтуга
+plants;Genista sessilifolia subsp. trifoliata;Трилистна жълтуга
+plants;Genista subcapitata;Главеста жълтуга
+plants;Genista tinctoria;Висока жълтуга
+plants;Gentiana acaulis;Безстъблена тинтява
+plants;Gentiana asclepiadea;Горска тинтява
+plants;Gentiana frigida;Скална тинтява
+plants;Gentiana lutea;Жълта тинтява
+plants;Gentiana pneumonanthe;Блатна тинтява
+plants;Gentiana punctata;Петниста тинтява
+plants;Gentiana utriculosa;Подута тинтява
+plants;Gentiana verna;Пролетна тинтява
+plants;Gentianella amarella;Истинска горчивка
+plants;Gentianella bulgarica;Българска горчивка
+plants;Gentianella ciliata;Ресничеста горчивка
+plants;Gentianella crispata;Къдрава горчивка
+plants;Gentianella engadinensis;Енгадинова горчивка
+plants;Geranium aristatum;Осилест здравец
+plants;Geranium bohemicum;Бохемски здравец
+plants;Geranium dissectum;Насеченолистен здравец
+plants;Geranium lucidum;Блестящ здравец
+plants;Geranium macrorrhizum;Обикновен здравец
+plants;Geranium macrostyllum;Едростълбчест здравец
+plants;Geranium palustre;Блатен здравец
+plants;Geranium phaeum;Кафяв здравец
+plants;Geranium pratense;Ливаден здравец
+plants;Geranium pyrenaicum;Пиренейски здравец
+plants;Geranium robertianum;Зловонен здравец
+plants;Geranium rotundifolium;Кръглолистен здравец
+plants;Geranium sanguineum;Кървав здравец
+plants;Geranium sylvaticum;Горски здравец
+plants;Geum bulgaricum;Българско омайниче
+plants;Geum coccineum;Червено омайниче
+plants;Geum montanum;Планинско омайниче
+plants;Geum reptans;Пълзящо омайниче
+plants;Geum rhodopaeum;Родопско омайниче
+plants;Geum rivale;Ручейно омайниче
+plants;Geum urbanum;Градско омайниче
+plants;Gladiolus communis;Обикновен гладиолус, обикновено петльово перо
+plants;Gladiolus palustris;Блатно петльово перо
+plants;Glaucium flavum;Жълта папаронка
+plants;Glechoma hederacea;Бръшлянова самобайка
+plants;Glechoma hirsuta;Влакнеста самобайка
+plants;Gleditsia triacanthos;Гледичия
+plants;Glinus lotoides;Глинус
+plants;Globularia aphyllanthes;Обикновено гологлавче
+plants;Globularia cordifolia;Сърцевидно гологлавче
+plants;Globularia trichosantha;Равнинно гологлавче
+plants;Glyceria aquatica;Водна росица
+plants;Glyceria fluitans;Речна росица
+plants;Glyceria plicata;Сдиплена росица
+plants;Glycyrrhiza echinata;Бодливоплоден сладник
+plants;Glycyrrhiza glabra;Гол сладник
+plants;Gnaphalium luteo-album;Жълт бял смил
+plants;Gnaphalium supinum (= Omalotheca supina);Полегнал бял смил
+plants;Gnaphalium uliginosum;Благолюбив бял смил
+plants;Goniolimon besseranum;Бесерова змийска трева
+plants;Goniolimon collinum;Бяла змийска трева
+plants;Goniolimon dalmaticum;Далматинска змийска трева
+plants;Goniolimon tataricum;Татарска змийска трева
+plants;Goodyera repens;Пълзяща гудиера
+plants;Gratiola officinalis;Лечебна сиротица
+plants;Groenlandia densa;Гъстолистна гренландия
+plants;Gymnadenia conopsea;Дългорога гимнадения
+plants;Gymnocarpium robertianum;Варовит гимнокарпиум
+plants;Gypsophila glomerata;Сбита мишорка
+plants;Gypsophylla tekirae;Текирска мишорка
+plants;Gypsophylla trichotoma;Тройновилужна мишорка
+plants;Haberlea rhodopensis;Родопски силивряк
+plants;Hainardia cylindrica;Цилиндрична хайнардия
+plants;Halimione pedunculata;Обикновено халимионе
+plants;Halimione portulacoides;Тученичево халимионе
+plants;Hammarbia paludosa;Блатиста хамарбия
+plants;Haplophyllum balcanicum;Балкански цялолист
+plants;Haplophyllum suaveolens;Ароматен целолист
+plants;Haplophyllum thesioides;Ленолистен цялолист
+plants;Hedera helix;Бръшлян
+plants;Hedysarum grandiflorum subsp. bulgaricum;Жълт хедизарум
+plants;Hedysarum tauricum;Черен хедизарум
+plants;Helianthemum nummularium;Обикновен жълтак
+plants;Helianthemum salicifolium;Върболистен жълтак
+plants;Helichrysum arenarium;Пясъчен жълт смил
+plants;Helichrysum plicatum;Планински жълт смил
+plants;Heliotropium europaeum;Обикновена подсунка
+plants;Heliotropium supinum;Пълзяща подсунка
+plants;Helleborus odorus;Миризлив кукуряк
+plants;Hepatica nobilis;Гълъбови очички
+plants;Heptaptera triquetra;Триръбеста хептаптера
+plants;Heracleum angustisectum;Пирински девесил
+plants;Heracleum sibiricum;Сибирски девесил
+plants;Heracleum ternatum;Триделен девесил
+plants;Heracleum verticillatum;Мъхнат девесил
+plants;Herminium monorchis;Едногрудков херминиум
+plants;Hesperis sylvestris;Горски вечерник
+plants;Hesperis theophrasti;Балкански вечерник
+plants;Hesperis tristis;Тъжно вечерниче
+plants;Hieracium alpicola;Алпийска рунянка
+plants;Hieracium belogradcense;Белоградчишка рунянка
+plants;Hieracium hoppeanum;Същинска рунянка
+plants;Hieracium murorum gr.;Стенна рунянка
+plants;Hieracium pannosum;Перестовлакнеста рунянка
+plants;Hieracium pilosella;Солешникова рунянка
+plants;Hieracium praealtum;Висока рунянка
+plants;Hieracium racemosum;Горска рунянка
+plants;Hieracium sabaudum gr.;Сабаудова рунянка
+plants;Hieracium stefanoffii;Стефанова рунянка
+plants;Hieracium vulgatum gr.;Обикновена рунянка
+plants;Himantoglossum caprinum (= Himantoglosum hircinum);Обикновена пърчовка
+plants;Hippocrepis ciliata;Ресничеста конска подкова
+plants;Hippocrepis comosa;Обикновена конска подкова
+plants;Hippocrepis unisiliquosa;Едноцветна конска подкова
+plants;Hippophae rhamnoides;Облепиха
+plants;Hippuris vulgaris;Обикновен хипурис
+plants;Holcus lanatus;Вълнеста медовица
+plants;Holcus mollis;Мека медовица
+plants;Holoschoenus vulgaris;Обикновен холосхьонус
+plants;Holosteum umbellatum;Сенникова висларка
+plants;Homogyne alpina;Алпийско подбелниче
+plants;Hordelymus europaeus;Горски ечемик
+plants;Hordeum bulbosum;Луковичен ечемик
+plants;Hordeum hystrix;Коленчат ечемик
+plants;Hordeum murinum;Крайморски ечемик
+plants;Hordeum secalinum;Ръжевиден ечемик
+plants;Hornungia petraea;Скална хорнунгия
+plants;Hottonia palustris;Блатна перушина
+plants;Huetia cynapioides;Обикновена хуеция
+plants;Humulus lupulus;Обикновен хмел
+plants;Huperzia selago;Иглолистна хуперция
+plants;Hyacinthella leucophaea;Див зюмбюл
+plants;Hydrocharis morsus-ranae;Жабешка водянка
+plants;Hymenocarpus circinatus;Хименокарпус
+plants;Hymenolobus procumbens (= Hornungia procumbens);Полегнал многосеменник
+plants;Hypecoum ponticum;Черноморски хипекоум
+plants;Hypericum androsaemum;Багрилна звъника
+plants;Hypericum boissieri;Боасиерова звъника
+plants;Hypericum calycinum;Чашковидна звъника
+plants;Hypericum cerastoides;Рожецовидна звъника
+plants;Hypericum degenii;Дегенова звъника
+plants;Hypericum maculatum;Петниста звъника
+plants;Hypericum montbretii;Монтбретова звъника
+plants;Hypericum olympicum;Олимпийска звъника
+plants;Hypericum perforatum;Лечебна звъника, жълт кантарион
+plants;Hypericum richeri;Рихерова звъника
+plants;Hypericum rumeliacum;Румелийска звъника
+plants;Hypericum setiferum;Четинеста звъника
+plants;Hypericum tetrapterum;Четирикрила звъника
+plants;Hypericum thasium;Тасоска звъника
+plants;Hypericum umbellatum;Сенниковидна звъника
+plants;Hypochoeris cretensis;Критски свиняк
+plants;Hypochoeris glabra;Гол свиняк
+plants;Hypochoeris maculata;Петнист свиняк
+plants;Hyssopus officinalis;Лечебен исоп
+plants;Iberis saxatilis;Скален иберис
+plants;Iberis sempervirens;Вечнозелен иберис
+plants;Ilex aquifolium;Обикновен джел
+plants;Ilex colchica;Колхидски джел
+plants;Impatiens noli-tangere;Горска слабонога
+plants;Inula aschersoniana;Ашерсонов оман
+plants;Inula britannica;Британски оман
+plants;Inula ensifolia;Мечолистен оман
+plants;Inula helenium;Бял оман
+plants;Inula hirta;Космат оман
+plants;Inula oculus-christi;Божи оман
+plants;Inula salicina;Върболистен оман
+plants;Inula spiraeifolia;Елиптичнолистен оман
+plants;Iris aphylla;Безлистна перуника
+plants;Iris pseudacorus;Блатна перуника
+plants;Iris pumila;Дребна перуника
+plants;Iris reichenbachii;Райхенбахова перуника
+plants;Iris sibirica;Сибирска перуника
+plants;Iris sintenisii;Синтенисова перуника
+plants;Iris suaveolens;Миризлива перуника
+plants;Iris variegata;Пъстра перуника
+plants;Isoetes lacustris;Езерен шилолист
+plants;Isopyrum thalictroides;Кокошка
+plants;Jasione heldreichii;Хелдрейхово вятърче
+plants;Jasione laevis subsp. orbiculata;Високопланинско вятърче
+plants;Jasminum fruticans;Храстовиден смин
+plants;Jasone bulgarica;Българско вятърче
+plants;Jovibarba heuffelii;Хойфелиев нежит
+plants;Juglans regia;Обикновен орех
+plants;Juncellus serotinus (= Cyperus serotinus);Късен юнцелус
+plants;Juncus acutiflorus;Остроцветна дзука
+plants;Juncus alpinus;Алпийска дзука
+plants;Juncus articulatus;Членеста дзука
+plants;Juncus compressus;Сплескана дзука
+plants;Juncus conglomeratus;Сбита дзука
+plants;Juncus effusus;Разперена дзука
+plants;Juncus filiformis;Нишковидна дзука
+plants;Juncus gerardii;Жерардова дзука
+plants;Juncus inflexus;Сивозелена дзука
+plants;Juncus littoralis;Крайбрежна дзука
+plants;Juncus maritimus;Морска дзука
+plants;Juncus ranarius;Жабешка дзука
+plants;Juncus thomasii;Томасов дзука
+plants;Juncus trifidus;Триделна дзука
+plants;Juncus triglumis;Трицветна дзука
+plants;Juniperus communis;Обикновена хвойна
+plants;Juniperus excelsa;Дървовидна хвойна
+plants;Juniperus oxycedrus;Червена хвойна
+plants;Juniperus pygmaea;Дребна хвойна
+plants;Juniperus sabina;Казашка хвойна
+plants;Juniperus sibirica;Сибирска хвойна
+plants;Jurinea albicaulis subsp. Kilaea;Белостъблен миск
+plants;Jurinea glycacantha;Сладникав миск
+plants;Jurinea ledebourii;Ледебуров миск
+plants;Jurinea mollis;Мековлакнест миск
+plants;Jurinea stoechadifolia;Лавандолистен миск
+plants;Jurinea tzar-ferdinandii;Бодлив миск
+plants;Kernera saxatilis;Кернера
+plants;Knautia arvensis;Полско червеноглавче
+plants;Knautia byzantina;Византийско червеноглавче
+plants;Knautia dinarica;Динарско червеноглавче
+plants;Knautia drymeia;Горско червеноглавче
+plants;Knautia midzorensis;Миджурско червеноглавче
+plants;Kobresia myosuroides;Кобрезия
+plants;Kochia prostrata;Полегнала метла
+plants;Koeleria brevis;Къс тънконог
+plants;Koeleria eriostachya;Пухестоклас тънконог
+plants;Koeleria macrantha;Едроцветен тънконог
+plants;Koeleria nitidula;Лъскав тънконог
+plants;Koeleria simonkaii;Шимонкаев тънконог
+plants;Koeleria splendens;Блестящ тънконог
+plants;Lactuca quercina;Дъбова салата
+plants;Lactuca saligna;Соленолюбива салата
+plants;Lactuca tatarica;Татарска салата
+plants;Lagoecia cuminoides;Кимионолистна лагеция
+plants;Lagurus ovatus;Яйцевиден лагурус
+plants;Lamiastrum galeobdolon;Жълта мъртва коприва
+plants;Lamium garganicum;Гарганска мъртва коприва
+plants;Lamium maculatum;Петниста мъртва коприва
+plants;Lappula marginata;Крилатоподобни ушици
+plants;Lapsana communis;Обикновен сгърбун
+plants;Laser trilobum;Триделно загърличе
+plants;Laserpitium archangelica;Архангеликов лазерпициум
+plants;Laserpitium latifolium;Широколистен срамник
+plants;Laserpitium siler;Планински срамник
+plants;Lathraea rhodopaea;Родопска горска майка
+plants;Lathyrus alpestris;Алпийско секирче
+plants;Lathyrus aphaca;Жълто секирче
+plants;Lathyrus aureus;Златисто секирче
+plants;Lathyrus grandiflorus;Едроцветно секирче
+plants;Lathyrus hirsutus;Влакнесто секирче
+plants;Lathyrus latifolius;Широколистно секирче
+plants;Lathyrus laxiflorus;Рехавоцветно секирче
+plants;Lathyrus linifolius;Планинско секирче
+plants;Lathyrus niger;Черно секирче
+plants;Lathyrus palustris;Блатно секирче
+plants;Lathyrus pancicii;Панчичово секирче
+plants;Lathyrus pannonicus;Панонско секирче
+plants;Lathyrus pratensis;Ливадно секирче
+plants;Lathyrus saxatilis;Скално секирче
+plants;Lathyrus sphaericus;Плевелно секирче
+plants;Lathyrus sylvestris;Горско секирче
+plants;Lathyrus tuberosus;Грудково секирче
+plants;Lathyrus venetus;Синьо секирче
+plants;Laurocerasus officinalis;Лечебна лавровишня
+plants;Leersia oryzoides;Оризов троскот
+plants;Legousia pentagonia;Петоъгълно орниче
+plants;Lembotropis nigricans;Лемботропис
+plants;Lemna gibba;Гърбава водна леща
+plants;Lemna minor;Малка водна леща
+plants;Lemna trisulca;Триделна водна леща
+plants;Lens ervoides;Южна леща
+plants;Lens nigricans;Черна леща
+plants;Leontodon autumnalis;Есенна жълтица
+plants;Leontodon crispus;Гребенеста жълтица
+plants;Leontodon hyspidus;Четинеста жълтица
+plants;Leontodon rilaensis;Рилска жълтица
+plants;Leontopodium alpinum;Еделвайс
+plants;Leonurus cardiaca;Сърдечна дяволска уста
+plants;Lepidium perfoliatum;Прободенолистна горуха
+plants;Lepidium ruderale;Буренна горуха
+plants;Lepidotrichum uechtritziаnum (= Aurinia uechtritziana);Лепидотрихум
+plants;Leucanthemum vulgare;Обикновена маргаритка
+plants;Leucojum aestivum;Блатно кокиче
+plants;Leymus racemosus subsp. sabulosus;Пясъчен леимус
+plants;Ligularia glauca;Клинолистен див тютюн
+plants;Ligularia sibirica;Сибирски див тютюн
+plants;Ligusticum mutellina;Планински див магданоз
+plants;Ligustrum vulgare;Обикновено птиче грозде
+plants;Lilium albanicum;Албански крем
+plants;Lilium jankae;Жълт крем
+plants;Lilium martagon;Петров кръст
+plants;Lilium rhodopaeum;Родопски крем
+plants;Limodorum abortivum;Недоразвит лимодорум
+plants;Limonium asterotrichum;Маноловска гърлица
+plants;Limonium bulgaricum;Българска гърлица
+plants;Limonium gmelinii;Гмелинова гърлица
+plants;Limonium latifolium;Широколистна гърлица
+plants;Limonium meyeri;Мейерова гърлица
+plants;Limonium vulgare;Обикновена гърлица
+plants;Linaria brachyphylla;Къса лугачка
+plants;Linaria genistifolia;Жълтуголистна луличка
+plants;Linaria pelisseriana;Лилава луличка
+plants;Linaria peloponesiaca;Гръцка лугачка
+plants;Linaria simplex;Проста луличка
+plants;Lindernia dubia;Съмнителна линдерния
+plants;Lindernia procumbens;Лежаща линдерния
+plants;Linum austriacum;Австрийски лен
+plants;Linum capitatum;Главест лен
+plants;Linum catharticum;Слабитален лен
+plants;Linum corymbulosum;Щитовиден лен
+plants;Linum elegans;Нежен лен
+plants;Linum extraaxilare;Старопланински лен
+plants;Linum tauricum;Кримски лен
+plants;Linum tenuifolium;Тънколистен лен
+plants;Linum tryginum;Френски лен
+plants;Liparis loeseli;Льозелов липарис
+plants;Listera cordata;Сърцевиден тайник
+plants;Listera ovata;Овален тайник
+plants;Lloydia serotina;Късна лойдия
+plants;Logfia arvensis;Полска логфия
+plants;Logfia gallica;Френска логфия
+plants;Logfia minima;Малка логфия
+plants;Lolium perenne;Английски райграс
+plants;Lolium rigidum;Твърда глушина
+plants;Lonicera coerulea;Гълъбов нокът
+plants;Lonicera etrusca;Етруски нокът
+plants;Lonicera nigra;Черен нокът
+plants;Lonicera xylosteum;Мъхнат нокът
+plants;Loranthus europaeus;Европейски черен имел
+plants;Lotus aegaeus;Егейски звездан
+plants;Lotus angustissimus;Дребен звездан
+plants;Lotus corniculatus;Обикновен звездан
+plants;Lotus tenuis;Теснолистен звездан
+plants;Ludwigia palustris;Блатна лудвигия
+plants;Lunaria rediviva;Многогодишна лопатка
+plants;Luzula alpinopilosa;Веленовскиева светлика
+plants;Luzula campestris;Полска светлика
+plants;Luzula deflexa;Разперена светлика
+plants;Luzula forsteri;Форстерова светлика
+plants;Luzula glabrata subsp. deflexa;Разперена светлика
+plants;Luzula italica;Италианска светлика
+plants;Luzula luzuloides;Храсталачна светлика
+plants;Luzula multiflora;Многоцветна светлика
+plants;Luzula pindica;Пиндска светлика
+plants;Luzula spadicea;Кестенява светлика
+plants;Luzula sudetica;Судетска светлика
+plants;Luzula sylvatica;Горска светлика
+plants;Lychnis coronaria;Кървавиче
+plants;Lychnis flos-cuculi;Пурпурна свиларка
+plants;Lycopodiella inundata (= Lepidotis inundata);Блатна ликоподиела
+plants;Lycopodium clavatum;Бухалковиден плаун
+plants;Lycopus europaeus;Европейска катушка
+plants;Lycopus exaltatus;Висока катушка
+plants;Lysimachia nummularia;Кръглолистно ленивче
+plants;Lysimachia thyrsiflora;Европейско ленивче
+plants;Lysimachia vulgaris;Обикновено ленивче
+plants;Lysimachiа punctata;Точковато ленивче
+plants;Lythrum hyssopifolia;Исополистна блатия
+plants;Lythrum salicaria;Обикновена блатия
+plants;Lythrum thymifolia;Мащеркова блатия
+plants;Lythrum virgatum;Пръстена блатия
+plants;Malcolmia orsiniana subsp. angulifolia;Ъглолистна малколмия
+plants;Malcolmia sеrbica;Сръбска малколмия
+plants;Malus sylvestris;Киселица
+plants;Maresia nana;Дребна марезия
+plants;Marrubium frivaldskyanum;Фривалдскиев пчелинок
+plants;Marrubium peregrinum;Сусерка
+plants;Marsilea quadrifolia;Четирилистно разковниче
+plants;Matricaria trichophylla;Тънколистна лайкучка
+plants;Matthiola fruticulosa;Полухрастовидна матиола
+plants;Matthiola odoratissima;Ароматна матиола
+plants;Medicago arabica;Арабска люцерна
+plants;Medicago carstiensis;Карстова люцерна
+plants;Medicago constricta;Кълбоплодна люцерна
+plants;Medicago coronata;Короноплодна люцерна
+plants;Medicago disciformis;Дисковидна люцерна
+plants;Medicago falcata;Сърповидна люцерна
+plants;Medicago lupulina;Хмелна люцерна
+plants;Medicago marina;Крайморска люцерна
+plants;Medicago minima;Дребноплодна люцерна
+plants;Medicago orbicularis;Полска люцерна
+plants;Medicago polymorpha;Изменчива люцерна
+plants;Medicago rhodopea;Родопска люцерна
+plants;Medicago rigidula;Твърда люцерна
+plants;Melampyrum sylvaticum;Горска гайтанка
+plants;Melica ciliata;Ресничеста бисерка
+plants;Melica picta;Пъстра бисерка
+plants;Melica transsilvanica;Трансилванска бисерка
+plants;Melica uniflora;Едноцветна бисерка
+plants;Melilotus officinalis;Лечебна комунига
+plants;Melissa officinalis;Лечебна маточина
+plants;Melittis melissophyllum;Маточинолистна кошутина
+plants;Mentha aquatica;Водна мента
+plants;Mentha longifolia;Дълголистна мента
+plants;Mentha pulegium;Блатна мента
+plants;Mentha spicata;Джоджен, обикновена мента
+plants;Mentha suaveolens;Кръглолистна мента
+plants;Menyanthes trifoliata;Трилистна водна детелина
+plants;Mercurialis ovata;Кръглолистен пролез
+plants;Mercurialis perennis;Многогодишен пролез
+plants;Merendera attica;Атинска мерендера
+plants;Merendera rhodopaea;Родопска мерендера
+plants;Mespilus germanica;Мушмула
+plants;Meum athamanticum;Старопланински див копър
+plants;Micromeria cristata;Гребенеста микромерия
+plants;Micromeria dalmatica;Далматинска микромерия
+plants;Micromeria frivaldszkyana;Фривалдскиева микромерия
+plants;Micromeria juliana;Юлианова микромерия
+plants;Micropyrum tenellum;Тънък микропирум
+plants;Middendorfia borystenica;Мидендорфия
+plants;Milium effusum;Клонесто горско просо
+plants;Minuartia bulgarica;Българска мишовка
+plants;Minuartia caespitosa;Туфеста мишовка
+plants;Minuartia diljanae;Дилянова мишовка
+plants;Minuartia glomerata;Главеста мишовка
+plants;Minuartia hirsuta;Твърдовлакнеста мишовка
+plants;Minuartia hybrida;Хибридна мишовка
+plants;Minuartia recurva;Алпийска мишовка
+plants;Minuartia rhodopaea;Родопска мишовка
+plants;Minuartia rumelica;Румелийска мишовка
+plants;Minuartia saxifraga;Широколистна мишовка
+plants;Minuartia setacea;Четинолистна мишовка
+plants;Minuartia stojanovii;Стоянова мишовка
+plants;Minuartia verna;Пролетна мишовка
+plants;Minuartia viscosa;Лепкава мишовка
+plants;Moehringia grisebachii;Гризебахова кутявка
+plants;Moehringia jankae;Янкева кутявка
+plants;Moehringia pendula;Увиснала кутявка
+plants;Moehringia trinervia;Трижилкова кутявка
+plants;Moenchia erecta;Изправена поревка
+plants;Moenchia graeca;Гръцка поревка
+plants;Moenchia mantica;Обикновена поревка
+plants;Molinia caerulea;Синкава молиния
+plants;Moneses uniflora;Едноцветен монезес
+plants;Montia fontana;Изворна монция
+plants;Morina persica;Персийска морина
+plants;Morus alba;Бяла черница
+plants;Muscari botryoides;Горско кукувиче грозде
+plants;Muscari neglectum;Пренебрегнато кукувиче грозде
+plants;Muscari tenuiflorum;Тесноцветно кукувиче грозде
+plants;Mycelis muralis;Стенна салата
+plants;Myosotis alpestris;Алпийска незабравка
+plants;Myosotis ramosissima;Разклонена незабравка
+plants;Myosotis scorpioides;Блатна незабравка
+plants;Myosotis suaveolens;Балканска незабравка
+plants;Myosotis sylvatica;Горскa незабравка
+plants;Myosoton aquaticum;Водна мокрица
+plants;Myosurus minimus;Малка миша опашка
+plants;Myricaria germanica;Немска мирикария
+plants;Myriophyllum spicatum;Класовиден многолистник
+plants;Myriophyllum verticillatum;Прешленолистен многолистник
+plants;Myrrhoides nodosa;Мироидес
+plants;Mоehringia jankae;Янкева кутявка
+plants;Najas marina;Морска русалка
+plants;Najas minor;Малка русалка
+plants;Nardus stricta;Картъл
+plants;Nasturtium officinale;Лечебна поточарка
+plants;Neatostema apulum;Неатостема
+plants;Nectaroscordum siculum (= Allium siculum);Сицилийска самардала
+plants;Neottia nidus-avis;Истинска гнездовка
+plants;Nepeta cataria;Обикновена коча билка
+plants;Nepeta nuda;Гола коча билка
+plants;Nepeta parviflora;Черноморска коча билка
+plants;Nepeta ucranica;Украинска коча билка
+plants;Nigella arvensis;Полска челебитка
+plants;Nigella damascena;Дамаска челебитка
+plants;Nigella orientalis;Източна челебитка
+plants;Nonea pulla;Тъмно шекерче
+plants;Notholaena maranthae (= Cheilanthes maranthae);Морантова лъжепокривница
+plants;Nuphar lutea;Бърдуче
+plants;Nymphaea alba;Водна роза
+plants;Nymphoides peltata;Щитолистни какички
+plants;Odontites verna;Пролетно зъбарче
+plants;Oenanthe angulosa;Ръбестостъблен воден морач
+plants;Oenanthe aquatica;Същински воден морач
+plants;Oenanthe banatica;Банатски воден морач
+plants;Oenanthe fistulosa;Кухолистен воден морач
+plants;Oenanthe lachenalii;Разделнолистен воден морач
+plants;Oenanthe silaifolia;Обикновен воден морач
+plants;Oenanthe tenuifolia;Странджански воден морач
+plants;Onobrychis alba;Бяла еспарзета
+plants;Onobrychis caput-galli;Шлемовидна еспарзета
+plants;Onobrychis degenii;Дегенова еспарзета
+plants;Onobrychis lasiostachya;Влакнестокласа еспарзета
+plants;Onobrychis montana subsp. scardica;Планинска еспарзета
+plants;Onobrychis pindicola subsp. urumovii;Пиндска еспарзета
+plants;Ononis adenotricha;Жлезист гръмотрън
+plants;Ononis arvensis;Обикновен гръмотрън
+plants;Ononis pusilla;Дребен гръмотрън
+plants;Ononis reclinata;Южен гръмотрън
+plants;Ononis repens;Пълзящ гръмотрън
+plants;Ononis spinosa;Бодлив гръмотрън
+plants;Onopordon bracteatum;Дългободилест онопордум
+plants;Onosma echioides;Усойничево омразниче
+plants;Onosma rhodopaea;Родопско омразниче
+plants;Onosma thracica;Тракийско омразниче
+plants;Onosma visianii;Визианиево омразниче
+plants;Ophioglossum vulgatum;Oбикновен змийски език
+plants;Ophrys apifera;Обикновена пчелица
+plants;Ophrys argolica;Гръцка пчелица
+plants;Ophrys cornuta;Двурого бръмбарче, пчелица
+plants;Ophrys cornuta (= Ophrys scolopax subsp. cornuta;Двурога пчелица
+plants;Ophrys insectifera;Муховидна пчелица
+plants;Ophrys mammosa (=Ophrys sphegodes subsp. mammosa);Паяковидна пчелица
+plants;Ophrys sphegodes;Паяковидно бръмбарче, пчелица
+plants;Opopanax hironium subsp. bulgaricum;Широколистен опопанакс
+plants;Opopanax hispidus;Космат опопанакс
+plants;Opuntia vulgaris;Опунция
+plants;Orchis coriophora;Дървеницов салеп
+plants;Orchis laxiflora;Редкоцветен салеп
+plants;Orchis mascula;Мъжки салеп
+plants;Orchis militaris;Шлемовиден салеп
+plants;Orchis morio;Обикновен салеп
+plants;Orchis pallens;Бледен салеп
+plants;Orchis papilionaceae;Пеперудоцветен салеп
+plants;Orchis provincialis;Провански салеп
+plants;Orchis purpurea;Пурпурен салеп
+plants;Orchis simia;Маймунски салеп
+plants;Orchis spitzelii;Шпитцелов салеп
+plants;Orchis tridentata;Тризъбест салеп
+plants;Orchis ustulata;Опърлен салеп
+plants;Origanum vulgare;Риган
+plants;Orlaya grandiflora;Едроцветно срамливче
+plants;Ornithogalum oreoides;Сив гарвански лук
+plants;Ornithogalum pyrenaicum;Пиренейски гарвански лук
+plants;Ornithogalum refractum;Пречупен гарвански лук
+plants;Ornithogalum sphaerocarpum;Кълбоплоден гарвански лук
+plants;Ornithopus compressus;Сплеснат птичокрак
+plants;Orthilia secunda;Едностранно наваличе
+plants;Osmunda regalis;Царска папрат
+plants;Ostrya carpinifolia;Воден габър
+plants;Osyris alba;Бял озирис
+plants;Otanthus maritimus;Морски отантус
+plants;Oxalis acetosella;Обикновено киселиче
+plants;Oxyria digyna;Обикновен киселичник
+plants;Oxytropis campestris;Полски окситропис
+plants;Oxytropis urumovii;Урумов окситропис
+plants;Paeonia mascula;Розов божур
+plants;Paeonia peregrina;Червен (красив) божур
+plants;Paeonia tenuifolia;Теснолистен божур
+plants;Paliurus spina-christi;Драка
+plants;Pallenis spinosa;Бодлив паленис
+plants;Pancratium maritimum;Пясъчна лилия
+plants;Papaver degenii;Пирински мак
+plants;Papaver rumelicum;Български мак
+plants;Parapholis incurva;Подвит парафолис
+plants;Parentucellia latifolia;Широколистна парентуцелия
+plants;Parietaria erecta (= Parietaria officinalis);Лековита разваленка
+plants;Parietaria lusitanica;Лузитанска разваленка
+plants;Parietaria rhodopaea;Родопска разваленка
+plants;Paris quadrifolia;Четирилистно вранско око
+plants;Parnassia palustris;Блатна росица
+plants;Paronychia cephalotes;Главеста паронихия
+plants;Paronychia kapela;Сребриста паронихия
+plants;Pastinaca argyrophylla;Жлезиствлакнест пащърнак
+plants;Pastinaca hirsuta;Планински пащърнак
+plants;Pastinaca sativa;Градински пащърнак
+plants;Pastinaca umbrosa;Сенколюбив пащърнак
+plants;Pedicularis oederi;Едерево пропадниче
+plants;Pedicularis orthantha;Правоцветно пропадниче
+plants;Pedicularis palustris;Блатно пропадниче
+plants;Pedicularis verticillata;Прешленесто пропадниче
+plants;Peganum harmala;Обикновен зърнеш
+plants;Peplis alternifolia;Теснолистен пеплис
+plants;Periploca graeca;Гръцки гърбач
+plants;Persicaria amphibia;Земноводно пипериче
+plants;Persicaria hydropiper;Водно пипериче
+plants;Persicaria lapathifolia;Лапатолистно пипериче
+plants;Persicaria mitis;Нежно пипериче
+plants;Petasites albus;Бяла чобанка
+plants;Petasites hybridus;Хибридна чобанка
+plants;Petasites kablikianus;Пиринска чобанка
+plants;Petrorhagia alpina;Алпийска мантийка
+plants;Petrorhagia illyrica;Илирийска мантийка
+plants;Petrorhagia prolifera;Обикновена мантийка
+plants;Petrorhagia saxifraga;Каменоломкова мантийка
+plants;Petrorhagia thessala;Тесалска мантийка
+plants;Petrorhagia velutina;Кадифена мантийка
+plants;Petrosimonia brachiata;Петросимония
+plants;Peucedanum alsaticum;Елзаска самодивска трева
+plants;Peucedanum arenarium;Пясъчна самодивска трева
+plants;Peucedanum austriacum;Австрийска самодивска трева
+plants;Peucedanum carvifolia;Кимионолистна самодивска трева
+plants;Peucedanum cervaria;Еленова самодивска трева
+plants;Peucedanum palustre;Блатна самодивска трева
+plants;Peucedanum ruthenicum;Руска самодивска трева
+plants;Phacelurus digitatus (= Rottboellia digitata);Длановиден фацелурус
+plants;Phalaris arundinacea;Разклонена тръстичина
+plants;Phegopteris connectilis;Буков фегоптерис
+plants;Phillyrea latifolia;Грипа
+plants;Phleum alpinum;Алпийска тимотейка
+plants;Phleum graecum;Гръцка тимотейка
+plants;Phleum montanum;Планинска тимотейка
+plants;Phleum phleoides;Степна тимотейка
+plants;Phleum pratense;Ливадна тимотейка
+plants;Phleum subulatum;Тънкокласа тимотейка
+plants;Phlomis hebra-venti;Бодлива руница
+plants;Phlomis tuberosa;Грудеста руница
+plants;Pholiurus pannonicus;Панонски фолиурус
+plants;Phragmites australis;Тръстика
+plants;Phyllitis scolopendrium;Обикновен волски език
+plants;Physalis alkekengi;Мехунка
+plants;Physospermum cornubiense;Физоспермум
+plants;Phyteuma confusum;Смесен дъгоцвет
+plants;Picea abies;Обикновен смърч
+plants;Picris hieracioides;Рунянковидно горчивче
+plants;Pimpinella peregrina;Южен анасон
+plants;Pimpinella saxifraga;Каменоломков анасон
+plants;Pimpinella tragium;Кози анасон
+plants;Pinguicula balcanica;Балканска петлюга
+plants;Pinus brutia;Калабрийски бор
+plants;Pinus heldreichii;Черна мура
+plants;Pinus maritima;Морски бор
+plants;Pinus mugo;Клек
+plants;Pinus nigra;Черен бор
+plants;Pinus peuce;Бяла мура
+plants;Pinus sylvestris;Бял бор
+plants;Piptatherum virescens;Зеленикава оризовка
+plants;Pistacia terebinthus;Кукуч
+plants;Plantago altissima;Висок живовлек, жиловлек
+plants;Plantago atrata;Тъмен живовлек, жиловлек
+plants;Plantago bellardii;Белардиев живовлек, жиловлек
+plants;Plantago cornuti;Рогат живовлек
+plants;Plantago cornutii;Рогат живовлек, жиловлек
+plants;Plantago coronopus;Перестолистен живовлек, жиловлек
+plants;Plantago gentianoides;Тинтявов живовлек, жиловлек
+plants;Plantago lagopus;Мъхест живовлек, жиловлек
+plants;Plantago lanceolata;Ланцетолистен живовлек, жиловлек
+plants;Plantago major;Голям живовлек, жиловлек
+plants;Plantago maxima;Гигантски живовлек
+plants;Plantago media;Среден живовлек, жиловлек
+plants;Plantago scabra;Пясъчен живовлек, жиловлек
+plants;Plantago subulata;Гребенест живовлек, жиловлек
+plants;Plantago tenuiflora;Рядкоцветен живовлек, жиловлек
+plants;Platanthera chlorantha;Зеленоцветна кукувича опашка
+plants;Platanus orientalis;Източен чинар
+plants;Pleurospermum austriacum;Австрийски плеуроспермум
+plants;Poa aitosensis;Айтоска ливадина
+plants;Poa alpina;Алпийска ливадина
+plants;Poa angustifolia;Теснолистна ливадина
+plants;Poa annua;Едногодишна ливадина
+plants;Poa badensis;Баденска ливадина
+plants;Poa bulbosa;Луковична ливадина
+plants;Poa cenisia subsp. contracta;Ценизка ливадина
+plants;Poa compressa;Сплескана ливадина
+plants;Poa laxa;Рехава ливадина
+plants;Poa macedonica;Македонска ливадина
+plants;Poa media;Средна ливадина
+plants;Poa molinerii;Молинерова ливадина
+plants;Poa nemoralis;Горска ливадина
+plants;Poa palustris;Мочурна ливадина
+plants;Poa perconcinna;Южноевропейска ливадина
+plants;Poa pirinica;Пиринска ливадина
+plants;Poa pratensis;Ливадна ливадина
+plants;Poa sylvicola;Броеничеста ливадина
+plants;Poa trivialis;Обикновена ливадина
+plants;Polygala acarnanica;Суха телчарка
+plants;Polygala alpestris;Алпийска телчарка
+plants;Polygala amarella;Горчива телчарка
+plants;Polygala comosa;Качулеста телчарка
+plants;Polygala major;Голяма телчарка
+plants;Polygala monspeliaca;Монпелийска телчарка
+plants;Polygala rhodopea;Родопска телчарка
+plants;Polygala sibirica;Сибирска телчарка
+plants;Polygala supina;Пълзяща телчарка
+plants;Polygala vulgaris;Обикновена телчарка
+plants;Polygonatum latifolium;Широколистна момкова сълза
+plants;Polygonatum odoratum;Миризлива момкова сълза
+plants;Polygonatum verticillatum;Прешленеста момкова сълза
+plants;Polygonum arenastrum;Пясъчна пача трева
+plants;Polygonum aviculare;Обикновена пача трева
+plants;Polygonum maritimum;Морска пача трева
+plants;Polygonum mesembricum;Месемврийска пача трева
+plants;Polygonum pulchellum;Красива пача трева
+plants;Polypodium cambricum;Камбрийска сладка папрат
+plants;Polypodium cambricum (= Polypodium australe);Камбрийска сладка папрат
+plants;Polypodium vulgare;Обикновена сладка папрат
+plants;Polypogon monspeliensis;Монпелийски полипогон
+plants;Polypogon viridis (= Agrostis verticillata);Зеленикав полипогон
+plants;Polystichum lonchitis ;Копиевиден многоредник
+plants;Polystichum setiferum;Четинест многоредник
+plants;Populus alba;Бяла топола
+plants;Populus canescens;Сива топола
+plants;Populus nigra;Черна топола
+plants;Populus tremula;Трепетлика
+plants;Portulaca oleracea;Тученица
+plants;Potamogeton crispus;Къдрав ръждавец
+plants;Potamogeton friesii;Тъполистен ръждавец
+plants;Potamogeton gramineus;Треволистен ръждавец
+plants;Potamogeton lucens;Блестящ ръждавец
+plants;Potamogeton natans;Плаващ ръждавец
+plants;Potamogeton nodosus;Възловат ръждавец
+plants;Potamogeton pectinatus;Гребеновиден ръждавец
+plants;Potamogeton perfoliatus;Стъблеобхващащ ръждавец
+plants;Potamogeton praelongus;Дълъг ръждавец
+plants;Potamogeton pusillus;Дребен ръждавец
+plants;Potamogeton trichoides;Влакновиден ръждавец
+plants;Potentilla anserina;Гъши очиболец
+plants;Potentilla apennina subsp. stojanovii;Апениски очиболец
+plants;Potentilla argentea;Сребристолистен очиболец
+plants;Potentilla astracanica;Астраханов очиболец
+plants;Potentilla bornmuelleri;Борнмюлеров очиболец
+plants;Potentilla chrysantha;Златноцветно прозорче
+plants;Potentilla cinerea;Пепелявосив очиболец
+plants;Potentilla crantzii;Кранциев очиболец
+plants;Potentilla emili-popii;Емилипопово прозорче
+plants;Potentilla erecta;Изправен очиболец
+plants;Potentilla fruticosa;Храстовидно прозорче
+plants;Potentilla haynaldiana;Хайналдиев очиболец
+plants;Potentilla laciniosa;Наделен очиболец
+plants;Potentilla micrantha;Дребноцветен очиболец
+plants;Potentilla montenegrina;Черногорско прозорче
+plants;Potentilla neglecta;Белезникав очиболец
+plants;Potentilla nicicii;Ничичово прозорче
+plants;Potentilla palustris;Мочурно прозорче
+plants;Potentilla pedata;Стъпаловиден очиболец
+plants;Potentilla pilosa;Влакнест очиболец
+plants;Potentilla recta agg.;Прав очиболец
+plants;Potentilla regis-borisii;Български очиболец
+plants;Potentilla reptans;Пълзящ очиболец
+plants;Potentilla rupestris;Скалист очиболец
+plants;Potentilla supina;Лежащ очиболец
+plants;Potentilla ternata;Трилистен очиболец
+plants;Prangos ferulacea;Ферулов прангос
+plants;Prenanthes purpurea;Пурпурен пренантес
+plants;Primula deorum;Рилска иглика
+plants;Primula elatior;Висока иглика
+plants;Primula farinosa;Розова иглика
+plants;Primula frondosa;Старопланинска иглика
+plants;Primula halleri;Дългоцветна иглика
+plants;Primula minima;Малка иглика
+plants;Primula veris;Лечебна иглика
+plants;Primula vulgaris subsp. vulgaris;Безстъблена иглика
+plants;Primula vulgaris susp. sibthorpii;Сибторпиева иглика
+plants;Pritzelago alpina subsp. brevicaulis (= Hutchinsia alpina);Алпийско притцелаго
+plants;Prunella vulgaris;Обикновена пришница
+plants;Prunus cerasifera;Джанка
+plants;Prunus domestica subsp. insititia;Трънкослива
+plants;Prunus padus;Песъкиня
+plants;Prunus spinosa;Трънка
+plants;Pseudolysimachion longifolium (= Veronica longifolia);Дълголистен степник
+plants;Pseudolysimachion orchideum (= Veronica orchidea);Салепов степник
+plants;Pseudolysimachion spurium (= Veronica spuria);Метлицовиден степник
+plants;Pseudorchis albida;Белезникав лъжесалеп
+plants;Pseudorchis frivaldii;Фривалдиев лъжесалеп
+plants;Psilurus incurvus;Крив псилурус
+plants;Pteridium aquilinum;Обикновена орлова папрат
+plants;Pterocephalus papposus;Переста крилоглавка
+plants;Puccinellia convoluta;Сбит изворник
+plants;Puccinellia distans;Разперен изворник
+plants;Puccinellia limosa;Тинест изворник
+plants;Pulicaria dysenterica;Блъшница
+plants;Pulicaria vulgaris;Обикновена блъшница, шумкавиче
+plants;Pulmonaria mollis;Мека медуница
+plants;Pulmonaria obscura;Тъмна медуница
+plants;Pulmonaria officinalis;Лечебна медуница
+plants;Pulmonaria rubra;Червена медуница
+plants;Pulsatilla halleri ;Халерово котенце
+plants;Pulsatilla montana;Планинско котенце
+plants;Pulsatilla pratensis;Полско котенце
+plants;Pulsatilla slavjankae;Славянско котенце
+plants;Pulsatilla vernalis;Пролетно котенце
+plants;Pyracantha coccinea;Червена пираканта
+plants;Pyrola chlorantha;Бледозелена мурава
+plants;Pyrola media;Средна мурава
+plants;Pyrola minor;Малка мурава
+plants;Pyrola rotundifolia;Кръглолистна мурава
+plants;Pyrus amygdaliformis;Бадемовидна круша
+plants;Pyrus bulgarica;Българска круша
+plants;Pyrus elaeagrifolia;Маслинолистна круша
+plants;Pyrus pyraster;Дива трънлива круша
+plants;Quercus cerris;Цер
+plants;Quercus coccifera;Пърнар
+plants;Quercus dalechampii;Обикновен горун
+plants;Quercus frainetto;Благун
+plants;Quercus hartwissiana;Странджански дъб
+plants;Quercus mestensis;Местенски дъб
+plants;Quercus pedunculiflora;Дръжкоцветен дъб
+plants;Quercus petraea;Скален дъб
+plants;Quercus polycarpa;Източен горун
+plants;Quercus protoroburoides;Рилски дъб
+plants;Quercus pubescens;Космат дъб
+plants;Quercus robur;Летен дъб
+plants;Quercus thracica;Тракийски дъб
+plants;Quercus trojana;Троянски дъб
+plants;Quercus virgiliana;Виргилиев дъб
+plants;Queria hispanica;Испанска кверия
+plants;Ramonda serbica;Сръбска рамонда
+plants;Ranunculus acris;Обикновено лютиче
+plants;Ranunculus aquatilis;Водно лютиче
+plants;Ranunculus carinthiacus;Хърватско лютиче
+plants;Ranunculus constantinopolitanus;Цариградско лютиче
+plants;Ranunculus crenatus;Назъбенолистно лютиче
+plants;Ranunculus fontanus;Кладенчево лютиче
+plants;Ranunculus incomparabilis;Несравнимо лютиче
+plants;Ranunculus montanus;Планинско лютиче
+plants;Ranunculus penicillatus;Лъжеплаващо лютиче
+plants;Ranunculus platanifolius;Чинаролистно лютиче
+plants;Ranunculus polyanthemos;Многоцветно лютиче
+plants;Ranunculus repens;Пълзящо лютиче
+plants;Ranunculus rumelicus;Румелийско лютиче
+plants;Ranunculus sardous;Сардинско лютиче
+plants;Ranunculus sceleratus;Отровно лютиче
+plants;Ranunculus sphaerospermus;Кълбосеменно лютиче
+plants;Ranunculus sprunerianus;Шпрунерово лютиче
+plants;Ranunculus stojanovii;Стояново лютиче
+plants;Ranunculus trichophyllus;Нишколистно лютиче
+plants;Reichardia picroides;Горчивчева рейхардия
+plants;Reseda lutea;Жълта резеда
+plants;Rhamnus alpina;Алпийска зърника
+plants;Rhamnus cathartica;Слабителна зърника
+plants;Rhamnus rhodopeus;Родопска зърника
+plants;Rhamnus saxatilis;Скална зърника
+plants;Rheum rhaponticum;Рилски ревен
+plants;Rhinanthus angustifolius;Теснолистна клопачка
+plants;Rhinanthus minor;Малка клопачка
+plants;Rhinanthus rumelicus;Румелийска клопачка
+plants;Rhinanthus wagneri;Вагнерова клопачка
+plants;Rhodax alpestris;Алпийски родакс
+plants;Rhodax canus;Белолистен родакс
+plants;Rhodiola rosea;Розов златовръх
+plants;Rhododendron myrtifolium;Миртолистна зеленика
+plants;Rhododendron ponticum;Странджанска зеленика
+plants;Rhus coriaria;Дъбилен шмак
+plants;Rhynchocorys elephas;Хоботниче
+plants;Ribes alpinum;Алпийско френско грозде
+plants;Ribes nigrum;Черно френско грозде
+plants;Ribes petraeum;Скално френско грозде
+plants;Rindera umbellata;Сенниковидна риндера
+plants;Robinia pseudacacia;Бял салкъм
+plants;Romulea bulbocodium;Луковична пролетка
+plants;Romulea linaresii subsp. graeca;Гръцка пролетка
+plants;Rorippa amphibia;Воден пореч
+plants;Rorippa sylvestris;Горски пореч
+plants;Rosa arvensis;Полска роза
+plants;Rosa canina;Обикновена шипка
+plants;Rosa gallica;Галска (френска) шипка
+plants;Rosa glutinosa;Жлезиста шипка
+plants;Rosa myriacantha;Бодлива шипка
+plants;Rosa pendulina;Алпийска шипка
+plants;Rosa pimpinellifolia;Анасонолистна шипка
+plants;Rostraria cristata;Гребенеста рострария
+plants;Rubia tinctorum;Багрилен брош
+plants;Rubus caesius;Полска къпина
+plants;Rubus hercynicus;Херцинска къпина
+plants;Rubus hirtus;Влакнеста къпина
+plants;Rubus idaeus;Малина
+plants;Rubus saxatilis;Скална къпина
+plants;Rubus thyrsiflorus;Пирамидалносъцветна къпина
+plants;Rubus vepallidus;Вепалидова къпина
+plants;Rumex acetosa;Киселец
+plants;Rumex acetosella;Козя брада
+plants;Rumex alpinus;Алпийски лапад
+plants;Rumex arifоlius;Змиярников лапад
+plants;Rumex conglomeratus;Кълбест лапад
+plants;Rumex crispus;Къдрав лапад
+plants;Rumex maritimus;Морски лапад
+plants;Rumex palustris;Блатен лапад
+plants;Rumex sanguineus;Кървавочервен лапад
+plants;Rumex scutatus;Щитовиден лапад
+plants;Rumex tenuifolius;Тънколистен
+plants;Rumex tuberosus;Грудест лапад
+plants;Ruppia maritima;Морска рупия
+plants;Ruscus aculeatus;Бодлив залист
+plants;Ruscus hypoglossum;Подезичест залист
+plants;Ruta graveolens;Седефче
+plants;Sagina maritima;Приморска мъховка
+plants;Sagina saginoides;Обикновена мъховка
+plants;Sagittaria sagittifolia;Обикновен стрелолист
+plants;Salicornia europaea;Европейска солянка
+plants;Salicornia prostrata;Разперена солянка
+plants;Salix alba;Бяла върба
+plants;Salix appendiculata;Едролистна върба
+plants;Salix caprea;Ива, козя върба
+plants;Salix fragilis;Крехка върба
+plants;Salix hastata;Копиелистна върба
+plants;Salix herbacea;Тревиста върба
+plants;Salix lapponum;Лапландска върба
+plants;Salix pentandra;Петтичинкова върба
+plants;Salix purpurea;Червена върба , ракита
+plants;Salix reticulata;Мрежолистна върба
+plants;Salix retusa;Тъполистна върба
+plants;Salix rosmarinifolia;Розмаринолистна върба
+plants;Salix silesiaca;Силезийска върба
+plants;Salix triandra;Тритичинкова върба
+plants;Salix waldsteiniana;Валдщайнова върба
+plants;Salix xanticola;Ксантийска върба
+plants;Salsola ruthenica;Руско вълмо
+plants;Salsola soda;Содово вълмо
+plants;Salvia aethiopis;Етиопски конски босилек
+plants;Salvia amplexicaulis;Стъблообхващащ конски босилек
+plants;Salvia argentea;Сребрист конски босилек
+plants;Salvia austriaca;Австрийски конски босилек
+plants;Salvia forskaohlei;Форскалева какула
+plants;Salvia glutinosa;Жълт конски босилек
+plants;Salvia nemorosa;Горски конски босилек
+plants;Salvia nutans;Наведен конски босилек
+plants;Salvia pinnata;Переста какула
+plants;Salvia pratensis;Ливаден конски босилек
+plants;Salvia ringens;Отворен конски босилек
+plants;Salvia scabiosifolia;Кримска какула
+plants;Salvia sclarea;Мускатен конски босилек
+plants;Salvia tomentosa;Ердоцветен конски босилек
+plants;Salvia verbenaca;Върбинков конски босилек
+plants;Salvia virgata;Прътовиден конски босилек
+plants;Salvia viridis;Зелен конски босилек
+plants;Salvinia natans;Плаваща лейка
+plants;Sambucus deborensis;Дебърски бъз
+plants;Sambucus nigra;Черен бъз
+plants;Sambucus racemosa;Червен бъз
+plants;Samolus valerandi;Валерандова северница
+plants;Sanguisorba minor;Дребна динка
+plants;Sanguisorba officinalis;Лечебна динка
+plants;Sanicula europaea;Европейска дебрянка
+plants;Saponaria glutinosa;Лепкаво сапунче
+plants;Saponaria stranjensis;Странджанско сапунче
+plants;Satureja coerulea;Синя чубрица
+plants;Satureja montana subsp. kitaibelii;Китайбелова чубрица
+plants;Satureja pilosa;Влакнеста чубрица
+plants;Saussurea discolor;Безцветна саусуреа
+plants;Saxifraga adscendens;Жлезиста каменоломка
+plants;Saxifraga aizoides;Жълта каменоломка
+plants;Saxifraga androsacea;Оклопова каменоломка
+plants;Saxifraga bryoides;Мъховидна каменоломка
+plants;Saxifraga exarata;Набраздена каменоломка
+plants;Saxifraga ferdinandi-coburgi;Македонска каменоломка
+plants;Saxifraga graeca;Гръцка каменоломка
+plants;Saxifraga luteoviridis;Зеленикавожълта каменоломка
+plants;Saxifraga marginata;Рохелова каменоломка
+plants;Saxifraga mollis;Азиатска каменоломка
+plants;Saxifraga oppositifolia;Арктична каменоломка
+plants;Saxifraga paniculata;Метлицовидна каменоломка
+plants;Saxifraga pedemontana subsp. cymosa;Сенчеста каменоломка
+plants;Saxifraga pseudosancta (= Saxifraga juniperifolia);Балканска каменоломка
+plants;Saxifraga retusa;Алпийска каменоломка
+plants;Saxifraga rocheliana;Рохелова каменоломка
+plants;Saxifraga rotundifolia;Кръглолистна каменоломка
+plants;Saxifraga sempervivum;Вечнозелена каменоломка
+plants;Saxifraga spruneri;Шпрунерова каменоломка
+plants;Saxifraga stellaris;Звездеста каменоломка
+plants;Saxifraga stribrnyi;Стрибърниева каменоломка
+plants;Saxifraga tridactylites;Трипръстна каменоломка
+plants;Scabiosa argentea;Сребриста самогризка
+plants;Scabiosa balcanica;Балканска самогризка
+plants;Scabiosa columbaria;Гълъбова самогризка
+plants;Scabiosa micrantha;Дребна самогризка
+plants;Scabiosa ochroleuca;Жълтеникава самогризка
+plants;Scabiosa rhodopensis;Родопска самогризка
+plants;Scabiosa rotata;Кръглоглава самогризка
+plants;Scabiosa sicula;Сицилийска самогризка
+plants;Scabiosa triniifolia;Триниелистна самогризка
+plants;Scabiosa webbiana;Вебиева самогризка
+plants;Scandix australis;Южно чапличе
+plants;Schivereckia doerfleri;Дьорфлерова шиверекия
+plants;Schoenus ferrugineus;Червеникав схьонус
+plants;Schoenus nigricans;Черен схьонус
+plants;Scilla autumnalis;Есенен синчец
+plants;Scilla bifolia;Двулистен синчец
+plants;Scilla bithynica;Битински синчец
+plants;Scilla bulgarica;Български синчец
+plants;Scirpus lacustris (= Schoenoplectus lacustris);Езерен камъш
+plants;Scirpus litoralis (= Schoenoplectus litoralis);Крайбрежен камъш
+plants;Scirpus sylvaticus;Горски камъш
+plants;Scirpus triqueter (= Schoenoplectus triqueter);Триръбест камъш
+plants;Scleranthus annuus;Едногодишна хрущялка
+plants;Scleranthus neglectus;Планинска хрущялка
+plants;Scleranthus perennis;Обикновена хрущялка
+plants;Scleranthus polycarpos;Многоплодна хрущялка
+plants;Scleranthus verticillatus;Дребноплодна хрущялка
+plants;Scolymus hispanicus;Испански сколимус
+plants;Scorzonera hispanica;Испански кокеш
+plants;Scorzonera mollis;Мек кокеш
+plants;Scorzonera parviflora;Дребноцветен кокеш
+plants;Scorzonera rosea;Розов кокеш
+plants;Scrophularia aestivalis;Лятно живениче
+plants;Scrophularia canina;Кучешко живениче
+plants;Scrophularia scopolii;Скополиево живениче
+plants;Scrophularia umbrosa;Сенколюбиво живениче
+plants;Scutellaria alpina;Алпийска превара
+plants;Scutellaria altissima;Високостъблена превара
+plants;Scutellaria columnae;Стълбовидна превара
+plants;Scutellaria galericulata;Обикновена превара
+plants;Scutellaria hastifolia;Копиелистна превара
+plants;Scutellaria orientalis subsp. pinnatifida;Източна превара
+plants;Secale sylvestre;Дива (горска) ръж
+plants;Securigera securidaca;Секуригера
+plants;Sedum acre;Лютива тлъстига
+plants;Sedum album;Бяла тлъстига
+plants;Sedum alpestre;Субалпийска тлъстига
+plants;Sedum annuum;Едногодишна тлъстига
+plants;Sedum atratum;Почервеняваща тлъстига
+plants;Sedum cepaea;Лукова тлъстига
+plants;Sedum dasyphyllum;Гъстолистна тлъстига
+plants;Sedum grisebachii;Гризебахова тлъстига
+plants;Sedum hispanicum;Испанска тлъстига
+plants;Sedum kostovi;Костова тлъстига
+plants;Sedum magellense;Магеланска тлъстига
+plants;Sedum maximum;Голяма тлъстига
+plants;Sedum ochroleucum;Жълтеникава тлъстига
+plants;Sedum stefco;Стефчова тлъстига
+plants;Sedum tschernokolevii;Черноколева тлъстига
+plants;Sedum tuberiferum;Грудеста тлъстига
+plants;Sedum urvillei;Урвилеева тлъстига
+plants;Sedum zollikoferi;Цоликоферова тлъстига
+plants;Selaginella helvetica;Швейцарски бронец
+plants;Sempervivum ciliosum;Четинест дебелец
+plants;Sempervivum erythraeum;Червеникав дебелец
+plants;Sempervivum leucanthum;Белоцветен дебелец
+plants;Sempervivum marmoreum;Мраморен дебелец
+plants;Sempervivum tectorum;Покривен дебелец
+plants;Sempervivum zeleborii;Целебориев дебелец
+plants;Senecio carpathicus;Карпатски спореж
+plants;Senecio glaberrimus;Гладък спореж
+plants;Senecio jacobaea;Якобов спореж
+plants;Senecio nemorensis;Дъбравен спореж
+plants;Senecio paludosus;Блатен спореж
+plants;Senecio pancicii;Панчичев спореж
+plants;Senecio rupestris;Скален спореж
+plants;Senecio subalpinus;Субалпийски спореж
+plants;Senecio vernalis;Пролетен спореж
+plants;Serapias vomeraceae;Палешников серапиас
+plants;Serratula bulgarica;Български сърпец
+plants;Serratula radiata;Лъчист сърпец
+plants;Serratula tinctoria;Щитовиден сърпец
+plants;Seseli bulgaricum;Български порезник
+plants;Seseli degenii;Дегенов порезник
+plants;Seseli rhodopeum;Родопски порезник
+plants;Seseli rigidum;Бодлив порезник
+plants;Seseli tortuosum;Извит порезник
+plants;Sesleria alba;Бяла гъжва
+plants;Sesleria caerulea;Гълъбова гъжва
+plants;Sesleria coerulans;Гълъбовосиня гъжва
+plants;Sesleria comosa;Планинска гъжва
+plants;Sesleria korabensis;Корабска гъжва
+plants;Sesleria latifolia;Широколистна гъжва
+plants;Sesleria rigida subsp. achtarovii;Ахтарова гъжва
+plants;Sherardia arvensis;Полски гръдник
+plants;Sibbaldia parviflora;Дребноцветна сибалдия
+plants;Sibbaldia procumbens;Разпростряна сибалдия
+plants;Sicyos angulatus;Сициос
+plants;Sideritis lanata;Вълнест миризлив бурен
+plants;Sideritis montana;Планински миризлив бурен
+plants;Sideritis scardica;Пирински чай
+plants;Sideritis syriaca (= Sideritis taurica);Кримски миризлив бурен
+plants;Sieglingia decumbens;Полегнала тризъбка
+plants;Silaum silaus;Силаум
+plants;Silene acaulis;Безстъблено плюскавиче
+plants;Silene alpina;Алпийско плюскавиче
+plants;Silene caliacrae;Калиакренско плюскавиче
+plants;Silene ciliata;Ресничесто плюскавиче
+plants;Silene compacta;Кичесто плюскавиче
+plants;Silene conica;Конично плюскавиче
+plants;Silene cretica;Критско плюскавиче
+plants;Silene dioica;Двудомно плюскавиче
+plants;Silene euxina;Черноморско плюскавиче
+plants;Silene fabarioides;Мехуресто плюскавиче
+plants;Silene flavescens;Жълтеникаво плюскавиче
+plants;Silene frivaldszkyana;Фривалдскиево плюскавиче
+plants;Silene gigantea;Гигантско плюскавиче
+plants;Silene graeca;Гръцко плюскавиче
+plants;Silene heuffelii;Бяло плюскавиче
+plants;Silene lerchenfeldiana;Лерхенфелдово плюскавиче
+plants;Silene lydia;Лидиево плюскавиче
+plants;Silene otites;Ушно плюскавиче
+plants;Silene pusilla;Лъчево плюскавиче
+plants;Silene roemeri;Рьомерово плюскавиче
+plants;Silene saxifraga;Скално плюскавиче
+plants;Silene sendtneri;Сендтнерово плюскавиче
+plants;Silene subconica;Младежко плюскавиче
+plants;Silene thymifolia;Мащерколистно плюскавиче
+plants;Silene velcevii;Велчево плюскавиче
+plants;Silene viridiflora;Зеленоцветно плюскавиче
+plants;Silene vulgaris;Обикновено плюскавиче
+plants;Silene waldsteinii;Валдщайново плюскавиче
+plants;Sison amomum;Сисон
+plants;Sisymbrium polymorphum;Изменчива мъдрица
+plants;Sium latifolium;Широколистно ручейниче
+plants;Sium sisarum;Теснолистен ручейник
+plants;Smilax excelsa;Висока скрипка
+plants;Smyrnium perfoliatum;Пронизанолистен трибел
+plants;Smyrnium rotundifolium;Кръглолистен трибел
+plants;Solanum dulcamara;Червено куче грозде
+plants;Soldanella chrysostricta;Унгарско крайснежно звънче
+plants;Soldanella pirinica;Пиринско крайснежно звънче
+plants;Soldanella pusilla;Дребно крайснежно звънче
+plants;Soldanella rhodopaea;Родопско крайснежно звънче
+plants;Solidago virgaurea;Златен енчец
+plants;Sonchus palustris;Блатен спореж
+plants;Sorbus aria;Мукина
+plants;Sorbus aucuparia;Офика
+plants;Sorbus domestica;Скоруша
+plants;Sorbus torminalis;Брекиня
+plants;Sparagnium emersum;Неразклонена ежова главичка
+plants;Sparganium angustifolium;Теснолистна ежова главица
+plants;Sparganium erectum;Изправена ежова главичка
+plants;Sparganium minimum;Малка ежова главица
+plants;Spergularia marina;Морска коленчица
+plants;Spergularia media;Крилатосеменна коленчица
+plants;Spiraea crenata;Нарязанолистен тъжник
+plants;Spiraea hypericifolia;Звънколистен тъжник
+plants;Spiraea media;Средна спирея
+plants;Spiraea salicifolia;Върболистен тъжник
+plants;Spiranthes spiralis;Есенен спиралник
+plants;Spirodela polyrhiza;Многокоренова спиродела
+plants;Stachys angustifolia;Теснолистен чистец
+plants;Stachys arenariaeformis;Пясъчен ранилист
+plants;Stachys atherocalyx;Наклонен чистец
+plants;Stachys balcanica;Балкански ранилист
+plants;Stachys germanica;Германски чистец
+plants;Stachys maritima;Приморски ранилист
+plants;Stachys obliqua;Източен чистец
+plants;Stachys palustris;Блатен чистец
+plants;Stachys recta;Прав чистец
+plants;Stachys scardica;Шарпланински ранилист
+plants;Stachys sylvatica;Горски чистец
+plants;Stachys thracica;Тракийски чистец
+plants;Staphylea pinnata;Переста клокочка
+plants;Stefanoffia daucoides;Морковидна стефанофия
+plants;Stellaria graminea;Тревна звездица
+plants;Stellaria holostea;Едроцветна звездица
+plants;Stellaria media;Врабчови чревца, средна звездица
+plants;Stellaria nemorum;Горска звездица
+plants;Sternbergia colchiciflora;Мразовецоцветно есенниче
+plants;Stipa capillata;Влакновидно коило
+plants;Stipa epilosa;Голо коило
+plants;Stipa joannis;Йоаново коило
+plants;Stipa lessingiana;Лесингово коило
+plants;Stipa pennata;Пересто коило
+plants;Stipa pulcherrima;Красиво коило
+plants;Stipa tirsa;Тирзово коило
+plants;Stratiotes aloides;Алоевиден стратиотес
+plants;Streptopus amplexifolius;Листообхващащ стрептопус
+plants;Suaeda altissima;Висока суеда
+plants;Suaeda maritima;Морска суеда
+plants;Subularia aquatica;Водна шилолистка
+plants;Succisa pratensis;Ливадно синьоглавче
+plants;Sueda heterophylla;Разнолистна суеда
+plants;Swertia punctata;Петниста сверция
+plants;Symphyandra wanneri;Ванерово скалниче
+plants;Symphytum officinale;Черен оман
+plants;Symphytum tauricum;Кримско зарастличе
+plants;Symphytum tuberosum;Грудесто зарастличе
+plants;Syrenia cana (= Erysimum quadrangulum);Сирения
+plants;Syringa vulgaris;Обикновен люляк
+plants;Taeniatherum caput-medusae;Грапав тениатерум
+plants;Tamarix ramosissima;Разклонена ракитовица
+plants;Tamarix tetrandra;Четиритичинкова ракитовица
+plants;Tamus communis;Обикновен брей
+plants;Tanacetum corymbosum;Щитовидна вратига
+plants;Tanacetum millefolium;Хилядолистна вратига
+plants;Tanacetum vulgare;Обикновена вратига
+plants;Taraxacum apenninum;Апенинско глухарче
+plants;Taraxacum bessarabicum;Бесарабско глухарче
+plants;Taraxacum bithynicum;Битинско глухарче
+plants;Taraxacum officinale;Лечебно (обикновено) глухарче
+plants;Taxus baccata;Обикновен тис
+plants;Teesdalia coronopifolia;Горуховидна теесдалия
+plants;Telekia speciosa;Красив чернокос
+plants;Teucrium botrys;Едногодишно подъбиче
+plants;Teucrium chamaedrys;Обикновено подъбиче
+plants;Teucrium lamifolium;Странджанско подъбиче
+plants;Teucrium montanum;Планинско подъбиче
+plants;Teucrium polium;Бяло подъбиче
+plants;Teucrium scordium;Чесъново подъбиче
+plants;Teucruim montanum;Планинско подъбиче
+plants;Thalictrum aquilegifolium;Кандилколистно обичниче
+plants;Thalictrum flavum;Жълто обичниче
+plants;Thalictrum foetidum;Вонящо обичниче
+plants;Thalictrum lucidum;Теснолистно обичниче
+plants;Thalictrum minus;Дребно обичниче
+plants;Thalictrum simplex subsp. rhodopaeum;Просто обичниче
+plants;Theligonum cynocrambe;Телигониум
+plants;Thelypteris palustris;Блатен телиптерис
+plants;Thesium bavarum;Баварски ленолист
+plants;Thesium simplex;Български ленолист
+plants;Thlaspi kovatsii;Ковачева попова лъжичка
+plants;Thlaspi perfoliatum;Прободенолистна попова лъжичка
+plants;Thlaspi praecox;Ранна попова лъжичка
+plants;Thymus albanus;Албанска мащерка
+plants;Thymus atticus;Атикска мащерка
+plants;Thymus bracteosus;Прицветникова мащерка
+plants;Thymus callieri subsp. urumovii;Калиерова мащерка
+plants;Thymus glabrescens;Гола мащерка
+plants;Thymus jankae;Янкиева мащерка
+plants;Thymus longedentatus;Дъгозъбеста мащерка
+plants;Thymus longicaulis;Дългостъблена мащерка
+plants;Thymus moesiacus;Мизийска мащерка
+plants;Thymus pannonicus;Панонска мащерка
+plants;Thymus perinicus;Пиринска мащерка
+plants;Thymus pulegioides;Планинска мащерка
+plants;Thymus sibthorpii;Сибторпиева мащерка
+plants;Thymus stojanovi;Стоянова мащерка
+plants;Thymus stojanovii;Стоянова мащерка
+plants;Thymus striatus;Набраздена мащерка
+plants;Thymus thracicus;Тракийска мащерка
+plants;Thymus vandasii;Вандазиена мащерка
+plants;Thymus zygioides;Турска мащерка
+plants;Tilia cordata;Дребнолистна липа
+plants;Tilia plathyphyllos;Ердолистна липа
+plants;Tilia tomentosa;Сребролистна липа
+plants;Torilis arvensis;Полски торилис
+plants;Torilis japonica;Японски торилис
+plants;Tozzia alpina subsp. carpathica (= Tozzia carpathica);Карпатска тоция
+plants;Trachelium rumelianum (= Trachelium jacquinii);Румелийски трахелиум
+plants;Trachomitum venetum;Синя тойна
+plants;Trachynia distachya (= Brachypodium distachyon);Двуредна трахиния
+plants;Trachystemon orientalis;Източен лопох
+plants;Tragopogon balcanicus;Балканска козя брада
+plants;Tragopogon dubius;Съмнителна
+plants;Tragopogon floccosus;Вълнеста козя брада
+plants;Tragopogon pratensis;Полска козя брада
+plants;Tragopogon stribrnyi;Стрибърнова козя брада
+plants;Tragus racemosus;Ягло
+plants;Trapa natans;Дяволски орех
+plants;Traunsteinera globosa (= Orchis globosa);Кълбеста траунстейнера
+plants;Tremastelma palaestinum;Палестинска тремастелма
+plants;Tribulus terrestris;Стелещи бабини зъби
+plants;Trifolium alpestre;Алпийска детелина
+plants;Trifolium angustifolium;Теснолистна детелина
+plants;Trifolium arvense;Плевелна детелина
+plants;Trifolium aureum;Златиста детелина
+plants;Trifolium balansae;Гръклян
+plants;Trifolium campestre;Полска детелина
+plants;Trifolium cherleri;Херлерова детелина
+plants;Trifolium diffusum;Разпереностъблена детелина
+plants;Trifolium dubium;Съмнителна детелина
+plants;Trifolium echinatum;Бодлива детелина
+plants;Trifolium fragiferum subsp. bonannii;Крехка детелина
+plants;Trifolium hirtum;Влакнеста детелина
+plants;Trifolium hybridum;Хибридна детелина
+plants;Trifolium incarnatum;Инкарнатна детелина
+plants;Trifolium lappaceum;Репейна детелина
+plants;Trifolium leucanthum;Беловлакнеста детелина
+plants;Trifolium medium;Междинна детелина
+plants;Trifolium michelianum;Мишелианова детелина
+plants;Trifolium micranthum;Дребноцветна детелина
+plants;Trifolium montanum;Планинска детелина
+plants;Trifolium ochroleucon;Бледожълта детелина
+plants;Trifolium pallescens;Белезникава детелина
+plants;Trifolium patens;Жълта детелина
+plants;Trifolium pignantii;Пинантиева детелина
+plants;Trifolium pratense;Ливадна детелина
+plants;Trifolium purpureum;Пурпурна детелина
+plants;Trifolium repens;Бяла (пълзяща) детелина
+plants;Trifolium resupinatum;Персийска детелина
+plants;Trifolium scabrum;Грапава детелина
+plants;Trifolium setiferum;Четинеста детелина
+plants;Trifolium smyrnaeum;Смирненска детелина
+plants;Trifolium spadiceum;Кестенява детелина
+plants;Trifolium squarrosum;Разперенозъба детелина
+plants;Trifolium striatum;Жилеста детелина
+plants;Trifolium strictum;Изправена детелина
+plants;Trifolium subterraneum;Подземна детелина
+plants;Trifolium velenovskyi;Веленовскиева детелина
+plants;Triglochin maritima;Приморски триостреник
+plants;Triglochin palustris;Блатен триостреник
+plants;Trigonella gladiata;Мечоносен сминдух
+plants;Trigonella monspeliaca;Монпелийски сминдух
+plants;Trigonella procumbens;Пълзящ сминдух
+plants;Trinia glauca;Синкава триниа
+plants;Trinia glauca subsp. carniolica;Синкава триния
+plants;Trinia ramosissima;Разклонена триниа
+plants;Trisetum flavescens;Жълт заешки овес
+plants;Trollius europaeus;Витошко лале
+plants;Tulipa aureolina;Златисто лале
+plants;Tulipa australis;Южно лале
+plants;Tulipa pirinica;Пиринско лале
+plants;Tulipa rhodopaea;Родопско лале
+plants;Tulipa splendens;Блестящо лале
+plants;Tulipa thracica (= Tulipa hageri);Тракийско лале
+plants;Tulipa urumoffii;Урумово лале
+plants;Turgeniopsis foeniculacea;Тургениопсис
+plants;Turritis glabra;Обикновен козар
+plants;Tussilago farfara;Подбел
+plants;Typha angustifolia;Теснолистен папур
+plants;Typha latifolia;Широколистен папур
+plants;Typha laxmannii;Лаксманов папур
+plants;Typha shuttleworthii;Шутлевортиев папур
+plants;Ulmus glabra;Планински бряст
+plants;Ulmus laevis;Бял бряст
+plants;Ulmus minor;Полски бряст
+plants;Umbilicus erectus;Изправено виделче
+plants;Umbilicus horizontalis;Хоризонтално виделче
+plants;Umbilicus rupestris;Скално виделче
+plants;Urospermum picroides;Пикровиден уроспермум
+plants;Urtica dioica;Обикновена коприва
+plants;Utricularia australis (= Utricularia neglecta);Южна мехурка
+plants;Utricularia minor;Дребна мехурка
+plants;Utricularia vulgaris;Обикновена мехурка
+plants;Vaccinium arctostaphyllos;Кавказка боровинка
+plants;Vaccinium myrtillus;Черна боровинка
+plants;Vaccinium uliginosum;Синя боровинка
+plants;Vaccinium vitis-idaea;Брусница, червена боровинка
+plants;Valeriana montana;Планинска дилянка
+plants;Valeriana officinalis;Лечебна дилянка
+plants;Valeriana simplicifolia;Цялолистна дилянка
+plants;Valeriana tripteris;Трикрила дилянка
+plants;Valerianella carinata;Ръбеста мотовилка
+plants;Valerianella coronata;Увенчана мотовилка
+plants;Valerianella dentata;Зъбчеста мотовилка
+plants;Valerianella discoidea;Дископлодна мотовилка
+plants;Valerianella pumila;Малка мотовилка
+plants;Valerianella turgida;Издута мотовилка
+plants;Velezia rigida;Твърда велеция
+plants;Veratrum album subsp. lobelianum;Бяла чемерика
+plants;Verbascum abietinum;Горски лопен
+plants;Verbascum adrianopolitanum;Одрински лопен
+plants;Verbascum anisophyllum;Анасонов лопен
+plants;Verbascum banaticum;Банатски лопен
+plants;Verbascum blattaria;Обикновен лопен
+plants;Verbascum boevae;Боев лопен
+plants;Verbascum bugulifolium;Винчелистен лопен
+plants;Verbascum chaixii;Шексиев лопен
+plants;Verbascum davidoffii;Давидов лопен
+plants;Verbascum decorum;Декоративен лопен
+plants;Verbascum dieckianum;Диекианов лопен
+plants;Verbascum eriophorum;Пушицов лопен
+plants;Verbascum humile;Нежен лопен
+plants;Verbascum jankaeanum;Янкев лопен
+plants;Verbascum jordanovii;Йорданов лопен
+plants;Verbascum juruk;Юрушки лопен
+plants;Verbascum lagurus;Лагуров лопен
+plants;Verbascum longifolium subsp. pannosum;Дълголистен лопен
+plants;Verbascum minutiflorum;Дребноцветен лопен
+plants;Verbascum nobile;Благороден лопен
+plants;Verbascum orientale;Източен лопен
+plants;Verbascum phoeniceum;Финикийски лопен
+plants;Verbascum pseudonobile;Лъжеблагороден лопен
+plants;Verbascum purpureum;Пурпурен лопен
+plants;Verbascum roripifolium;Поречолистен лопен
+plants;Verbascum rupestre;Скален лопен
+plants;Verbascum spathulisepalum;Родопски лопен
+plants;Verbascum speciosum;Прекрасен лопен
+plants;Verbascum thracicum;Тракийски лопен
+plants;Verbascum tzar-borisii;Цар Борисов лопен
+plants;Verbascum urumovii;Урумов лопен
+plants;Verbena officinalis;Лечебна върбинка
+plants;Veronica anagallis-aquatica;Водно великденче
+plants;Veronica austriaca;Австрийско великденче
+plants;Veronica baumgartenii;Баумгартеново великденче
+plants;Veronica beccabunga;Крайпоточно великденче
+plants;Veronica bellidioides;Паричковидно великденче
+plants;Veronica chamaedrys;Ниско великденче
+plants;Veronica dillenii;Дилениево великденче
+plants;Veronica euxina;Черноморско великденче
+plants;Veronica fruticans;Храстово великденче
+plants;Veronica glauca;Сиво великденче
+plants;Veronica grisebachii;Гризебахово великденче
+plants;Veronica hederifolia;Бръшлянолистно великденче
+plants;Veronica kellererii;Келерерово великденче
+plants;Veronica multifida;Перестолистно великденче
+plants;Veronica officinalis;Лечебно великденче
+plants;Veronica praecox;Ранно великденче
+plants;Veronica prostrata;Полегнало великденче
+plants;Veronica rhodopaea;Родопско великденче
+plants;Veronica serpyllifolia;Мащерколистно великденче
+plants;Veronica teucrium;Подъбичово великденче
+plants;Veronica triphyllos;Трилистно великденче
+plants;Veronica turrilliana;Търилово великденче
+plants;Veronica urticifolia;Коприволистно великденче
+plants;Veronica verna;Пролетно великденче
+plants;Viburnum lantana;Черна калина
+plants;Viburnum opulus;Червена калина
+plants;Vicia angustifolia;Теснолистна глушина
+plants;Vicia bithynica;Битинска глушина
+plants;Vicia cracca;Птича глушина
+plants;Vicia dumetorum;Храсталачна глушина
+plants;Vicia laeta;Южна глушина
+plants;Vicia lathyroides;Секирчева глушина
+plants;Vicia melanops;Трицветна глушина
+plants;Vicia pannonica;Панонска глушина
+plants;Vicia pisiformis;Грахова глушина
+plants;Vicia striata;Набраздена глушина
+plants;Vicia villosa;Вълнеста глушина
+plants;Vinca herbacea;Тревист зимзелен глушина
+plants;Vinca minor;Дребен зимзелен
+plants;Vincetoxicum hirundinaria;Лечебен винцетоксикум
+plants;Viola aetolica;Етолийска теменуга
+plants;Viola alba;Бяла теменуга
+plants;Viola balcanica;Балканска теменуга
+plants;Viola biflora;Двуцветна теменуга
+plants;Viola canina;Кучешка теменуга
+plants;Viola dacica;Дакийска теменуга
+plants;Viola delphinantha;Дългошпореста теменуга
+plants;Viola gracilis;Стройна теменуга
+plants;Viola grisebachiana;Гризебахова теменуга
+plants;Viola hirta;Влакнеста теменуга
+plants;Viola jordanii;Жорданова теменуга
+plants;Viola kitaibeliana;Китайбелова теменуга
+plants;Viola mirabilis;Удивителна теменуга
+plants;Viola odorata;Миризлива теменуга
+plants;Viola orbelica;Рилска теменуга
+plants;Viola palustris;Блатна теменуга
+plants;Viola parvula;Дребна теменуга
+plants;Viola perinensis;Пиринска теменуга
+plants;Viola persicifolia;Прасковолистна теменуга
+plants;Viola pumila;Ниска теменуга
+plants;Viola pyrenaica;Пиренейска теменуга
+plants;Viola reichenbachiana;Райхенбахова теменуга
+plants;Viola rhodopeia;Родопска теменуга
+plants;Viola riviniana;Горска теменуга
+plants;Viola speciosa;Прекрасна теменуга
+plants;Viola stojanovii;Стоянова теменуга
+plants;Viola suavis;Приятна теменуга
+plants;Viola tricolor;Трицветна теменуга
+plants;Viscaria vulgaris;Лепило
+plants;Vitis sylvestris;Горска лоза
+plants;Vulpia ciliata;Ресничеста вулпия
+plants;Vulpia myuros;Обикновена вулпия
+plants;Wolffia arrhiza;Безкоренова волфия
+plants;Xanthium italicum;Италианска рогачица
+plants;Xanthium strumarium;Рогачица
+plants;Xeranthemum annuum;Обикновено безсмъртниче
+plants;Xeranthemum cylindraceum;Цилиндрично безсмъртниче
+plants;Xolanthes guttatus;Капков ксолантес
+plants;Zannichellia palustris;Блатна цаникелия
+plants;Ziziphora capitata;Главеста зизифора
+plants;Zostera marina;Морска трева
+plants;Zostera noltii;Ниска морска трева
