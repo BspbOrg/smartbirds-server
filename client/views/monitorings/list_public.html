@@ -67,15 +67,10 @@
 <div ng-if="monitoringController.tab == 'map'"
      class="row">
   <div class="col-md-12">
-    <p ng-if="monitoringController.count > monitoringController.rows.length" class="text-warning">
-      {{'PUBLIC_LIST_MAP_SHOWN_RECORDS_WARNING' | translate: monitoringController.resultRowsTranslationValues()}}
-      <button ng-if="!monitoringController.loading" type="button" class="btn btn-default btn-xs"
-              ng-click="monitoringController.nextPage(-1)" translate>PUBLIC_LIST_MAP_BUTTON_SHOW_ALL
-      </button>
-    </p>
     <list-map
       rows="monitoringController.selectedRows.length > 0 ? monitoringController.selectedRows : monitoringController.rows"
-      ctrl="monitoringController.map" opts="{haveZones: false, haveTracks: false, haveDetail: false}"></list-map>
+      ctrl="monitoringController.map"
+      opts="{haveZones: false, haveTracks: false, haveDetail: false}"></list-map>
   </div>
 </div>
 
@@ -100,12 +95,14 @@
         <th ng-if="monitoringController.formSpeciesType" sb-sorting="species.label[$language]" translate>
           PUBLIC_LIST_TABLE_SPECIES
         </th>
+        <th sb-sorting="count">
+          PUBLIC_LIST_TABLE_COUNT
+        </th>
       </tr>
       </thead>
       <tbody>
       <tr
-        ng-repeat="row in monitoringController.rows | orderBy:monitoringController.order.key:monitoringController.order.reverse"
-        ng-class="{info: row.$selected}">
+        ng-repeat="row in monitoringController.rows | orderBy:monitoringController.order.key:monitoringController.order.reverse">
         <td>{{::row.id}}</td>
         <td>{{::(row.user.firstName + ' ' + row.user.lastName)}}</td>
         <td>{{::row.observationDateTime|date:'d.MM.yyyy HH:mm'}}</td>
@@ -113,11 +110,12 @@
           {{row.getSpecies().label[$language]}}<br />
           <strong>{{row.getSpecies().label.la}}</strong>
         </td>
+        <td>{{::row.count}}</td>
       </tr>
       </tbody>
       <tfoot ng-if="monitoringController.loading || !monitoringController.rows.length">
       <tr>
-        <th colspan="{{::monitoringController.formSpeciesType?4:3}}" class="text-center">
+        <th colspan="{{::monitoringController.formSpeciesType?5:4}}" class="text-center">
           <div
             ng-if="!monitoringController.loading && monitoringController.db.species[monitoringController.formSpeciesType][monitoringController.filter.species].sensitive"
             class="lead text-warning" translate>
