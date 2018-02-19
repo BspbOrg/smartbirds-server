@@ -79,6 +79,18 @@ module.exports = {
       'to_date'
     ]
   },
+  plants: {
+    model: 'FormPlants',
+    serverModel: 'formPlants',
+    label: 'FORM_LABEL_PLANTS',
+    filters: [
+      'location',
+      '{user:int}',
+      'species',
+      'from_date',
+      'to_date'
+    ]
+  },
   ciconia: {
     model: 'FormCiconia',
     serverModel: 'formCiconia',

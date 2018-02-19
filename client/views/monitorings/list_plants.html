@@ -1,0 +1,187 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header">
+      <div class="pull-right">
+        <div class="btn-group">
+          <button type="button"
+                  class="btn btn-danger"
+                  ng-disabled="!monitoringController.selectedRows.length"
+                  confirm="{{'PLANTS_LIST_BUTTON_DELETE_CONFIRM_MESSAGE' | translate:monitoringController.deleteSelecterRowsTranslationValues()}}"
+                  ng-click="monitoringController.deleteRows(monitoringController.selectedRows)">
+            <i class="fa fa-trash fa-fw"></i>
+            {{'PLANTS_LIST_BUTTON_DELETE' | translate}}
+            <span ng-if="monitoringController.selectedRows.length>1" class="badge">{{monitoringController.selectedRows.length}}</span>
+          </button>
+        </div>
+        <div class="btn-group">
+          <a role="button"
+             class="btn btn-primary"
+             ui-sref=".new"
+          >
+            <i class="fa fa-file-o fa-fw"></i>
+            {{'PLANTS_LIST_BUTTON_NEW_ENTRY' | translate}}
+          </a>
+        </div>
+      </div>
+      {{'PLANTS_LIST_TITLE_MAIN' | translate}}
+      <small translate>PLANTS_LIST_TITLE_SECONDARY</small>
+    </h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <export-buttons monitoring-controller="monitoringController"></export-buttons>
+      </div>
+      <div class="panel-body">
+
+        <form role="form" class="form form-filter">
+
+          <div class="row">
+
+            <div ng-if="monitoringController.canFilterByUser" class="col-md-4 col-lg-3">
+              <field name="user" type="user"
+                     label="{{'PLANTS_LIST_FILTER_USER' | translate}}"
+                     placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
+                     on-select="monitoringController.updateFilter()"
+                     model="monitoringController.filter.user"></field>
+            </div>
+
+            <div class="col-md-4 col-lg-3">
+              <field name="location" type="location"
+                     label="{{'PLANTS_LIST_FILTER_LOCATION' | translate}}"
+                     placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
+                     on-select="monitoringController.updateFilter()"
+                     model="monitoringController.filter.location"></field>
+            </div>
+
+            <div class="col-md-4 col-lg-3">
+              <field name="fromDate" type="date"
+                     label="{{'PLANTS_LIST_FILTER_FROM_DATE' | translate}}"
+                     on-select="monitoringController.updateFilter()"
+                     model="monitoringController.filter.from_date"></field>
+            </div>
+
+            <div class="col-md-4 col-lg-3">
+              <field name="toDate" type="date"
+                     label="{{'PLANTS_LIST_FILTER_TO_DATE' | translate}}"
+                     on-select="monitoringController.updateFilter()"
+                     model="monitoringController.filter.to_date"></field>
+            </div>
+
+            <div class="col-md-4 col-lg-3">
+              <field name="species" type="species" nomenclature="plants"
+                     label="{{'PLANTS_LIST_FILTER_SPECIES' | translate}}"
+                     placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
+                     on-select="monitoringController.updateFilter()"
+                     model="monitoringController.filter.species"></field>
+            </div>
+
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <ul class="nav nav-tabs">
+      <li role="presentation" ng-class="{active: monitoringController.tab == 'list'}">
+        <a href ng-click="monitoringController.tab = 'list'" translate>
+          PLANTS_LIST_TAB_LIST
+        </a>
+      </li>
+      <li role="presentation" ng-class="{active: monitoringController.tab == 'map'}">
+        <a href ng-click="monitoringController.tab = 'map'; monitoringController.nextPage(1000)" translate>
+          PLANTS_LIST_TAB_MAP
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<div ng-if="monitoringController.tab == 'map'"
+     class="row">
+  <div class="col-md-12">
+    <p ng-if="monitoringController.count > monitoringController.rows.length" class="text-warning">
+      {{'PLANTS_LIST_MAP_SHOWN_RECORDS_WARNING' | translate: monitoringController.resultRowsTranslationValues()}}
+      <button ng-if="$user.canAccess(monitoringController.formName) && !monitoringController.loading" type="button" class="btn btn-default btn-xs"
+              ng-click="monitoringController.nextPage(-1)" translate>PLANTS_LIST_MAP_BUTTON_SHOW_ALL
+      </button>
+    </p>
+    <list-map rows="monitoringController.selectedRows.length > 0 ? monitoringController.selectedRows : monitoringController.rows" ctrl="monitoringController.map"></list-map>
+  </div>
+</div>
+<div ng-if="monitoringController.tab == 'list'"
+     class="row"
+     infinite-scroll="monitoringController.nextPage()"
+     infinite-scroll-distance="10"
+     infinite-scroll-disabled="monitoringController.loading || monitoringController.endOfPages"
+     infinite-scroll-listen-for-event="list:filtered">
+  <div class="col-lg-12">
+    <table class="table table-striped table-hover" sb-table="monitoringController.order">
+      <thead>
+      <tr>
+        <th ng-click="monitoringController.toggleSelected()">
+          <input type="checkbox" ng-checked="monitoringController.allSelected">
+        </th>
+        <th sb-sorting="id">#</th>
+        <th ng-if="$user.canAccess(monitoringController.formName)"
+            sb-sorting="getUser().getName()" translate>
+          PLANTS_LIST_TABLE_USER
+        </th>
+        <th
+          sb-sorting="location" translate>
+          PLANTS_LIST_TABLE_LOCATION
+        </th>
+        <th
+          sb-sorting="observationDateTime|date:'yyyyMMddHHmmss'" translate>
+          PLANTS_LIST_TABLE_DATE
+        </th>
+        <th
+          sb-sorting="updatedAt|date:'yyyyMMddHHmmss'" translate>
+          PLANTS_LIST_TABLE_UPDATED
+        </th>
+        <th sb-sorting="species.label[$language]" translate>
+          PLANTS_LIST_TABLE_SPECIES
+        </th>
+        <th
+          sb-sorting="count" translate>
+          PLANTS_LIST_TABLE_COUNT
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr
+        ng-repeat="row in monitoringController.rows | orderBy:monitoringController.order.key:monitoringController.order.reverse"
+        ng-click="$state.go('.detail', {id: row.id, offset: $index})" ng-class="{info: row.$selected}">
+        <td ng-click="$event.stopPropagation(); monitoringController.toggleSelected(row)"><input
+          type="checkbox"
+          ng-checked="row.$selected">
+        </td>
+        <td><a href ui-sref=".detail({id: row.id, offset: $index})">{{::row.id}}</a></td>
+        <td ng-if="::$user.canAccess(monitoringController.formName)">{{row.getUser().getName()}}</td>
+        <td>{{::row.location}}</td>
+        <td>{{::row.observationDateTime|date:'d.MM.yyyy HH:mm'}}</td>
+        <td>{{::row.updatedAt|date:'d.MM.yyyy HH:mm'}}</td>
+        <td>
+          {{row.getSpecies().label[$language]}}<br/>
+          <strong>{{row.getSpecies().label.la}}</strong>
+        </td>
+        <td>{{::row.count}}</td>
+      </tr>
+      </tbody>
+      <tfoot ng-if="monitoringController.loading">
+      <tr>
+        <th colspan="{{::$user.canAccess(monitoringController.formName)?10:9}}" class="text-center">
+          <i class="fa fa-spinner fa-2x fa-spin"></i>
+        </th>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
