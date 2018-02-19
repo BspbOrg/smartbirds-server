@@ -164,15 +164,25 @@ function generatePrepareCsvQuery (form) {
   }
 }
 
+function registerForm (form) {
+  form.retrieveRecord = generateRetrieveRecord(form)
+  form.prepareQuery = generatePrepareQuery(form)
+  form.prepareCsvQuery = generatePrepareCsvQuery(form)
+}
+
 module.exports = {
   // after actions and before params
   loadPriority: 350,
   initialize: function (api, next) {
-    _.forEach(api.forms, form => {
-      form.retrieveRecord = generateRetrieveRecord(form)
-      form.prepareQuery = generatePrepareQuery(form)
-      form.prepareCsvQuery = generatePrepareCsvQuery(form)
-    })
+    _.forEach(api.forms, form => registerForm(form))
+
+    api.forms.register = (function (originalRegister) {
+      return function (form) {
+        const res = originalRegister(form)
+        registerForm(form)
+        return res
+      }
+    })(api.forms.register)
 
     next()
   }

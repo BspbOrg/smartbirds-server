@@ -121,3 +121,15 @@ module.exports = [
     }
   }
 ]
+
+for (let i = 1; i < 10; i++) {
+  module.exports.push({
+      model: 'nomenclature',
+      data: {
+        type: 'testNomenclature',
+        labelBg: `Test Nomenclature Bg ${i}`,
+        labelEn: `Test Nomenclature En ${i}`,
+      }
+    }
+  )
+}

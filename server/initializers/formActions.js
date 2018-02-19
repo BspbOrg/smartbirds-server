@@ -242,31 +242,44 @@ function generateFormActions (form) {
   return actions
 }
 
+function registerForm (api, form) {
+  const name = form.modelName
+  const collection = generateFormActions(form)
+  api.log(`Registering actions for ${name} form`, 'info')
+  _.forEach(collection, action => {
+    if (action.version === null || action.version === undefined) {
+      action.version = 1.0
+    }
+    if (api.actions.actions[ action.name ] === null || api.actions.actions[ action.name ] === undefined) {
+      api.actions.actions[ action.name ] = {}
+    }
+    api.actions.actions[ action.name ][ action.version ] = action
+    if (api.actions.versions[ action.name ] === null || api.actions.versions[ action.name ] === undefined) {
+      api.actions.versions[ action.name ] = []
+    }
+    api.actions.versions[ action.name ].push(action.version)
+    api.actions.versions[ action.name ].sort()
+    api.actions.validateAction(api.actions.actions[ action.name ][ action.version ])
+    api.log(`Registering ${action.name}@${action.version}`, 'info')
+  })
+}
+
 module.exports = {
   // after actions and before params
   loadPriority: 411,
   initialize: function (api, next) {
     api.log('Registering form actions', 'info')
-    _.forEach(api.forms, (form, name) => {
-      const collection = generateFormActions(form)
-      api.log(`Registering actions for ${name} form`, 'info')
-      _.forEach(collection, action => {
-        if (action.version === null || action.version === undefined) {
-          action.version = 1.0
-        }
-        if (api.actions.actions[ action.name ] === null || api.actions.actions[ action.name ] === undefined) {
-          api.actions.actions[ action.name ] = {}
-        }
-        api.actions.actions[ action.name ][ action.version ] = action
-        if (api.actions.versions[ action.name ] === null || api.actions.versions[ action.name ] === undefined) {
-          api.actions.versions[ action.name ] = []
-        }
-        api.actions.versions[ action.name ].push(action.version)
-        api.actions.versions[ action.name ].sort()
-        api.actions.validateAction(api.actions.actions[ action.name ][ action.version ])
-        api.log(`Registering ${action.name}@${action.version}`, 'info')
-      })
+    _.forEach(api.forms, form => {
+      registerForm(api, form)
     })
+
+    api.forms.register = (function (originalRegister) {
+      return function (form) {
+        const res = originalRegister(form)
+        registerForm(api, form)
+        return res
+      }
+    })(api.forms.register)
 
     next()
   }

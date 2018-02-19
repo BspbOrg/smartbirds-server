@@ -182,6 +182,11 @@ function generateApiData (fields) {
                 }
                 return res
               }
+              case 'species': {
+                return this[ name ] ? this[ name ].split('|').map(function (val) {
+                  return val.trim()
+                }) : []
+              }
               default:
                 return Promise.reject(new Error('[' + name + '] Unhandled relation model ' + field.relation.model))
             }
@@ -300,6 +305,19 @@ function generateApiUpdate (fields) {
 
               break
             }
+            case 'species': {
+              if (!_.has(data, name)) return
+
+              let val = data[ name ]
+
+              if (!val) {
+                this[ name ] = null
+              }
+              if (!_.isArray(val)) val = [ val ]
+              this[ name ] = _.reduce(val, (sum, v) => sum + (sum ? ' | ' : '') + v, '')
+
+              break
+            }
             default:
               throw new Error('[' + name + '] Unsupported relation model ' + field.relation.model)
           }
@@ -403,7 +421,7 @@ module.exports = {
 
         form.model = api.models[ form.modelName ] = api.sequelize.sequelize.define(form.tableName, attributes, formOptions(form))
 
-        const hooks = [ 'beforeCreate', 'beforeUpdate', 'beforeSync', 'beforeSave' ]
+        const hooks = [ 'beforeCreate', 'beforeUpdate', 'beforeSave' ]
         hooks.forEach(function (hook) {
           form.model.hook(hook, updateHash)
         })
