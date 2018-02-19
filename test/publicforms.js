@@ -87,7 +87,7 @@ describe('Public forms', function () {
             response.should.have.property('data').and.it.is.Array()
             response.data.length.should.be.greaterThan(1)
             response.data[ 0 ].should.have.only.keys(
-              'id', 'user', 'latitude', 'longitude', 'observationDateTime', 'species'
+              'id', 'user', 'latitude', 'longitude', 'observationDateTime', 'species', 'count'
             )
             response.data[ 0 ].user.should.have.only.keys(
               'firstName', 'lastName'
