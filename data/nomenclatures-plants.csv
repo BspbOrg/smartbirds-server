@@ -1,52 +1,52 @@
 type;en;bg
-plants_habitat;Широколистна гора;Широколистна гора
-plants_habitat;Иглолистна гора;Иглолистна гора
-plants_habitat;Смесена гора;Смесена гора
-plants_habitat;Листопаден храсталак;Листопаден храсталак
-plants_habitat;Вечнозелен храсталак;Вечнозелен храсталак
-plants_habitat;Смесен храсталак;Смесен храсталак
-plants_habitat;Комплекс храсталак-пасище;Комплекс храсталак-пасище
-plants_habitat;Ливада;Ливада
-plants_habitat;Пасище;Пасище
-plants_habitat;Отвесна скала - силикат;Отвесна скала - силикат
-plants_habitat;Отвесна скала - карбонат;Отвесна скала - карбонат
-plants_habitat;Отделна скала - силикат;Отделна скала - силикат
-plants_habitat;Отделна скала - карбонат;Отделна скала - карбонат
-plants_habitat;Сипеи - силикат;Сипеи - силикат
-plants_habitat;Сипеи - карбонат;Сипеи - карбонат
-plants_habitat;Крайморски пясъци;Крайморски пясъци
-plants_habitat;Крайречни пясъци;Крайречни пясъци
-plants_habitat;Мочурище;Мочурище
-plants_habitat;Тресавище;Тресавище
-plants_habitat;Торфище;Торфище
-plants_habitat;Блато;Блато
-plants_habitat;Езеро;Езеро
-plants_habitat;Река;Река
-plants_habitat;Крайбрежен участък на езеро;Крайбрежен участък на езеро
-plants_habitat;Крайбрежен участък на река;Крайбрежен участък на река
-plants_reporting_unit;Дърво;Дърво
-plants_reporting_unit;Храст;Храст
-plants_reporting_unit;Храстче;Храстче
-plants_reporting_unit;Отделно тревисто растение;Отделно тревисто растение
-plants_reporting_unit;Туфа;Туфа
-plants_reporting_unit;Цветоносен стрък;Цветоносен стрък
-plants_reporting_unit;Спороносен лист/стрък;Спороносен лист/стрък
-plants_reporting_unit;Вегетативни листни розетки;Вегетативни листни розетки
-plants_reporting_unit;Вегетативен летораст;Вегетативен летораст
-plants_reporting_unit;Генеративен летораст;Генеративен летораст
-plants_reporting_unit;Млади връхни разклонения-турион;Млади връхни разклонения-турион
-plants_reporting_unit;Група;Група
-plants_phenological_phase;Поява на пъпки / поници;Поява на пъпки / поници
-plants_phenological_phase;Начало на вечетация – набъбване / разпукване на пъпките;Начало на вечетация – набъбване / разпукване на пъпките
-plants_phenological_phase;Пълно разтваряне на пъпките;Пълно разтваряне на пъпките
-plants_phenological_phase;Развитие на листа;Развитие на листа
-plants_phenological_phase;Появяване на съцветия / спорангии;Появяване на съцветия / спорангии
-plants_phenological_phase;Бутонизация / спорообразуване;Бутонизация / спорообразуване
-plants_phenological_phase;Начало на цъфтежа / спорообразуване;Начало на цъфтежа / спорообразуване
-plants_phenological_phase;Пълен цъфтеж / спороносене;Пълен цъфтеж / спороносене
-plants_phenological_phase;Край на цъфтежа / спороносене;Край на цъфтежа / спороносене
-plants_phenological_phase;Зрели плодове / спорангии;Зрели плодове / спорангии
-plants_phenological_phase;Край на вегетация / отмиране;Край на вегетация / отмиране
+plants_habitat;Deciduous forest;Широколистна гора
+plants_habitat;Coniferous forest;Иглолистна гора
+plants_habitat;Mixed forest;Смесена гора
+plants_habitat;Deciduous bushes;Листопаден храсталак
+plants_habitat;Evergreen bushes;Вечнозелен храсталак
+plants_habitat;Mixed bushes;Смесен храсталак
+plants_habitat;Shrub-pasture complex;Комплекс храсталак-пасище
+plants_habitat;Meadow;Ливада
+plants_habitat;Pasture;Пасище
+plants_habitat;Vertical rock – silicate;Отвесна скала – силикат
+plants_habitat;Vertical rock – carbonate;Отвесна скала – карбонат
+plants_habitat;Single rock – silicate;Отделна скала – силикат
+plants_habitat;Single rock – carbonate;Отделна скала – карбонат
+plants_habitat;Scree – silicate;Сипеи - силикат
+plants_habitat;Scree – carbonate;Сипеи - карбонат
+plants_habitat;Seaside sands;Крайморски пясъци
+plants_habitat;Riverside sands;Крайречни пясъци
+plants_habitat;Fen;Мочурище
+plants_habitat;Quagmire;Тресавище
+plants_habitat;Peatland;Торфище
+plants_habitat;Swamp;Блато
+plants_habitat;Lake;Езеро
+plants_habitat;River;Река
+plants_habitat;Coastal area of a lake;Крайбрежен участък на езеро
+plants_habitat;Coastal area of a river;Крайбрежен участък на река
+plants_reporting_unit;Tree;Дърво
+plants_reporting_unit;Bush;Храст
+plants_reporting_unit;Small bush;Храстче
+plants_reporting_unit;Separate herbaceous plant;Отделно тревисто растение
+plants_reporting_unit;Tussock;Туфа
+plants_reporting_unit;Flower-bearing stalk;Цветоносен стрък
+plants_reporting_unit;Spore-bearing leaf / stalk;Спороносен лист / стрък
+plants_reporting_unit;Vegetative leafy rosettes;Вегетативни листни розетки
+plants_reporting_unit;Vegetative shoot;Вегетативен летораст
+plants_reporting_unit;Generative shoot;Генеративен летораст
+plants_reporting_unit;Young tip branches-turion;Млади връхни разклонения-турион
+plants_reporting_unit;Group;Група
+plants_phenological_phase;Appearance of buds;Поява на пъпки / поници
+plants_phenological_phase;Start of vegetation - swelling / bursting of the buds;Начало на вегетация – набъбване / разпукване на пъпките
+plants_phenological_phase;Complete opening of buds;Пълно разтваряне на пъпките
+plants_phenological_phase;Development of leaves;Развитие на листа
+plants_phenological_phase;Appearance of inflorescences / sporangia;Появяване на съцветия / спорангии
+plants_phenological_phase;Budding / spore formation;Бутонизация / спорообразуване
+plants_phenological_phase;Beginning of flowering / spore formation;Начало на цъфтежа / спорообразуване
+plants_phenological_phase;Complete flowering / spore bearing;Пълен цъфтеж / спороносене
+plants_phenological_phase;End of flowering / spore bearing;Край на цъфтежа / спороносене
+plants_phenological_phase;Mature fruits / sporangia;Зрели плодове / спорангии
+plants_phenological_phase;End of vegetation / dying off;Край на вегетация / отмиране
 plants_threats;Fires;Пожари
 plants_threats;Logging;Сечи
 plants_threats;Construction / development;Строежи
@@ -58,7 +58,7 @@ plants_threats;Planting with non-typical species;Залесяване с нет�
 plants_threats;Roads;Пътища
 plants_threats;Wind park;Ветропарк
 plants_threats;Excessive overgrowth of pastures;Прекомерно обрастване на пасища
-plants_threats;Other;Други
+plants_threats;Others;Други
 plants_threats;Solar park;Соларен парк
 plants_threats;Invasive species;Инвазивни видове
 plants_threats;Removal of shrubs;Премахване на храсти
