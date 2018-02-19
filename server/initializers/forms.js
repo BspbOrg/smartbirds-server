@@ -163,7 +163,8 @@ function generateApiData (fields) {
         latitude: this.latitude,
         longitude: this.longitude,
         observationDateTime: this.observationDateTime,
-        species: this.species
+        species: this.species,
+        count: this.count
       }
     }
     return Promise
