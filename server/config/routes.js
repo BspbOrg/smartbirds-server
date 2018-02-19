@@ -67,7 +67,12 @@ exports.default = {
         { path: '/ciconia', action: 'formCiconia:list' },
         { path: '/ciconia.csv', action: 'formCiconia:list' },
         { path: '/ciconia.zip', action: 'formCiconia:list' },
-        { path: '/ciconia/:id', action: 'formCiconia:view' }
+        { path: '/ciconia/:id', action: 'formCiconia:view' },
+
+        { path: '/plants', action: 'formPlants:list' },
+        { path: '/plants.csv', action: 'formPlants:list' },
+        { path: '/plants.zip', action: 'formPlants:list' },
+        { path: '/plants/:id', action: 'formPlants:view' }
 
       ],
 
@@ -104,6 +109,9 @@ exports.default = {
         { path: '/ciconia', action: 'formCiconia:create' },
         { path: '/ciconia/:id', action: 'formCiconia:edit' },
 
+        { path: '/plants', action: 'formPlants:create' },
+        { path: '/plants/:id', action: 'formPlants:edit' },
+
         { path: '/export/cbm', action: 'formCBM:export' },
         { path: '/export/birds', action: 'formBirds:export' },
         { path: '/export/herp', action: 'formHerps:export' },
@@ -135,7 +143,8 @@ exports.default = {
         { path: '/herptiles/:id', action: 'formHerptiles:delete' },
         { path: '/mammals/:id', action: 'formMammals:delete' },
         { path: '/invertebrates/:id', action: 'formInvertebrates:delete' },
-        { path: '/ciconia/:id', action: 'formCiconia:delete' }
+        { path: '/ciconia/:id', action: 'formCiconia:delete' },
+        { path: '/plants/:id', action: 'formPlants:delete' }
       ]
     }
   }
