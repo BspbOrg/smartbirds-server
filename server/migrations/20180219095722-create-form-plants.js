@@ -31,13 +31,8 @@ var schema = {
   cover: Sequelize.FLOAT,
   threatsPlantsEn: Sequelize.TEXT,
   threatsPlantsBg: Sequelize.TEXT,
-  speciesNotes: {
-    type: Sequelize.TEXT
-  },
-  location: {
-    type: Sequelize.TEXT,
-    allowNull: false
-  },
+  speciesNotes: Sequelize.TEXT,
+  location: Sequelize.TEXT,
 
   // Common fields not defined as common in Model.js
   latitude: {
@@ -65,55 +60,22 @@ var schema = {
     type: Sequelize.DATE,
     allowNull: false
   },
-  observers: {
-    type: Sequelize.TEXT,
-    allowNull: true
-  },
-  rainBg: {
-    type: Sequelize.TEXT
-  },
-  rainEn: {
-    type: Sequelize.TEXT
-  },
-  temperature: {
-    type: Sequelize.FLOAT
-  },
-  windDirectionBg: {
-    type: Sequelize.TEXT
-  },
-  windDirectionEn: {
-    type: Sequelize.TEXT
-  },
-  windSpeedBg: {
-    type: Sequelize.TEXT
-  },
-  windSpeedEn: {
-    type: Sequelize.TEXT
-  },
-  cloudinessBg: {
-    type: Sequelize.TEXT
-  },
-  cloudinessEn: {
-    type: Sequelize.TEXT
-  },
-  cloudsType: {
-    type: Sequelize.TEXT
-  },
-  visibility: {
-    type: Sequelize.FLOAT
-  },
-  mto: {
-    type: Sequelize.TEXT
-  },
-  notes: {
-    type: Sequelize.TEXT
-  },
-  threatsBg: {
-    type: Sequelize.TEXT
-  },
-  threatsEn: {
-    type: Sequelize.TEXT
-  },
+  observers: Sequelize.TEXT,
+  rainBg: Sequelize.TEXT,
+  rainEn: Sequelize.TEXT,
+  temperature: Sequelize.FLOAT,
+  windDirectionBg: Sequelize.TEXT,
+  windDirectionEn: Sequelize.TEXT,
+  windSpeedBg: Sequelize.TEXT,
+  windSpeedEn: Sequelize.TEXT,
+  cloudinessBg: Sequelize.TEXT,
+  cloudinessEn: Sequelize.TEXT,
+  cloudsType: Sequelize.TEXT,
+  visibility: Sequelize.FLOAT,
+  mto: Sequelize.TEXT,
+  notes: Sequelize.TEXT,
+  threatsBg: Sequelize.TEXT,
+  threatsEn: Sequelize.TEXT,
 
   // Internal
   userId: {
@@ -128,12 +90,11 @@ var schema = {
     allowNull: false,
     type: Sequelize.DATE
   },
-  imported: {
-    type: Sequelize.INTEGER
-  },
+  imported: Sequelize.INTEGER,
   pictures: Sequelize.BLOB,
   track: Sequelize.TEXT,
-  hash: Sequelize.STRING(64)
+  hash: Sequelize.STRING(64),
+  confidential: Sequelize.BOOLEAN
 }
 
 module.exports = {
