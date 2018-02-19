@@ -1,5 +1,4 @@
 const _ = require('lodash')
-const moment = require('moment')
 const { assign } = Object
 
 exports = module.exports = _.cloneDeep(require('./_common'))

@@ -24,6 +24,7 @@ module.exports.generateStatistics = {
         herptiles_stats: api.models.herptiles_stats.findAll(),
         mammals_stats: api.models.mammals_stats.findAll(),
         invertebrates_stats: api.models.invertebrates_stats.findAll(),
+        plants_stats: api.models.plants_stats.findAll(),
         birds_top_stats: Promise.props({
           top_users_species_month: api.models.birds_top_users_species_month.findAll({
             limit: 10,
