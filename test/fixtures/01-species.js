@@ -131,3 +131,16 @@ module.exports = [
     }
   }
 ]
+
+for (let i = 1; i < 10; i++) {
+  module.exports.push({
+      model: 'species',
+      data: {
+        type: 'testSpecies',
+        labelLa: `Test Species La ${i}`,
+        labelBg: `Test Species Bg ${i}`,
+        labelEn: `Test Species En ${i}`,
+      }
+    }
+  )
+}
