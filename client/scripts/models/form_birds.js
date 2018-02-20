@@ -4,12 +4,12 @@
 
 var angular = require('angular')
 
-require('../app').factory('FormBirds', /* @ngInject */function ($localStorage, $resource, ENDPOINT_URL, db) {
+require('../app').factory('FormBirds', /* @ngInject */function ($localStorage, $resource, $translate, ENDPOINT_URL, db) {
   var FormBirds = $resource(ENDPOINT_URL + '/birds/:id', {
     id: '@id'
   }, {
     // api methods
-    export: {method: 'POST', url: ENDPOINT_URL + '/export/birds'}
+    export: { method: 'POST', url: ENDPOINT_URL + '/export/birds' }
   })
 
   // instance methods
@@ -18,10 +18,29 @@ require('../app').factory('FormBirds', /* @ngInject */function ($localStorage, $
       this.initDefaults()
     },
     getUser: function () {
-      return db.users[this.user]
+      return db.users[ this.user ]
     },
     getSpecies: function () {
-      return db.species.birds && db.species.birds[this.species]
+      return db.species.birds && db.species.birds[ this.species ]
+    },
+    getCount: function (locale) {
+      locale = locale || $translate.$language || 'en'
+      const parts = []
+      parts.push(this.typeUnit.label[ locale ])
+      if (![ 'Min.', 'Max.', 'Range', 'Unspecified number' ].includes(this.typeUnit.label.en)) {
+        parts.push(this.count)
+      }
+      if ([ 'Min.', 'Range' ].includes(this.typeUnit.label.en)) {
+        parts.push(this.countMin)
+      }
+      if ([ 'Range' ].includes(this.typeUnit.label.en)) {
+        parts.push('-')
+      }
+      if ([ 'Max.', 'Range' ].includes(this.typeUnit.label.en)) {
+        parts.push(this.countMax)
+      }
+      parts.push(('' + this.countUnit.label[ locale ]).toLowerCase())
+      return parts.join(' ')
     },
     hasSource: true,
     preSave: function () {
@@ -76,9 +95,7 @@ require('../app').factory('FormBirds', /* @ngInject */function ($localStorage, $
   })
 
   // class methods
-  angular.extend(FormBirds, {
-
-  })
+  angular.extend(FormBirds, {})
 
   return FormBirds
 })

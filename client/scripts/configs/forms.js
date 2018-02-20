@@ -9,6 +9,7 @@ module.exports = {
     label: 'FORM_LABEL_CBM',
     translatePrefix: 'CBM',
     speciesType: 'birds',
+    hasCount: true,
     filters: [
       '{location:int}',
       'zone',
@@ -24,6 +25,7 @@ module.exports = {
     label: 'FORM_LABEL_BIRDS',
     translatePrefix: 'BIRDS',
     speciesType: 'birds',
+    hasCount: true,
     filters: [
       'location',
       '{user:int}',
@@ -38,6 +40,7 @@ module.exports = {
     label: 'FORM_LABEL_HERPTILES',
     translatePrefix: 'HERPTILES',
     speciesType: 'herptiles',
+    hasCount: true,
     filters: [
       'location',
       '{user:int}',
@@ -52,6 +55,7 @@ module.exports = {
     label: 'FORM_LABEL_MAMMALS',
     translatePrefix: 'MAMMALS',
     speciesType: 'mammals',
+    hasCount: true,
     filters: [
       'location',
       '{user:int}',
@@ -66,6 +70,7 @@ module.exports = {
     label: 'FORM_LABEL_INVERTEBRATES',
     translatePrefix: 'INVERTEBRATES',
     speciesType: 'invertebrates',
+    hasCount: true,
     filters: [
       'location',
       '{user:int}',
@@ -79,6 +84,7 @@ module.exports = {
     serverModel: 'formCiconia',
     label: 'FORM_LABEL_CICONIA',
     translatePrefix: 'CICONIA',
+    hasCount: false,
     filters: [
       'location',
       '{user:int}',

@@ -9,6 +9,7 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
 
   controller.maxExportCount = 20000
   controller.formName = formName
+  controller.formDef = formDef
   controller.formTranslatePrefix = formDef.translatePrefix
   controller.formSpeciesType = formDef.speciesType
   controller.context = context

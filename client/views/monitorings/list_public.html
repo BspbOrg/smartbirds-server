@@ -95,7 +95,7 @@
         <th ng-if="monitoringController.formSpeciesType" sb-sorting="species.label[$language]" translate>
           PUBLIC_LIST_TABLE_SPECIES
         </th>
-        <th sb-sorting="count">
+        <th ng-if="::monitoringController.formDef.hasCount" sb-sorting="count">
           PUBLIC_LIST_TABLE_COUNT
         </th>
       </tr>
@@ -106,16 +106,16 @@
         <td>{{::row.id}}</td>
         <td>{{::(row.user.firstName + ' ' + row.user.lastName)}}</td>
         <td>{{::row.observationDateTime|date:'d.MM.yyyy HH:mm'}}</td>
-        <td ng-if="monitoringController.formSpeciesType">
+        <td ng-if="::monitoringController.formSpeciesType">
           {{row.getSpecies().label[$language]}}<br />
           <strong>{{row.getSpecies().label.la}}</strong>
         </td>
-        <td>{{::row.count}}</td>
+        <td ng-if="::monitoringController.formDef.hasCount">{{::row.getCount() || row.count}}</td>
       </tr>
       </tbody>
       <tfoot ng-if="monitoringController.loading || !monitoringController.rows.length">
       <tr>
-        <th colspan="{{::monitoringController.formSpeciesType?5:4}}" class="text-center">
+        <th colspan="{{::3+(monitoringController.formSpeciesType?1:0)+(monitoringController.formDef.hasCount?1:0)}}" class="text-center">
           <div
             ng-if="!monitoringController.loading && monitoringController.db.species[monitoringController.formSpeciesType][monitoringController.filter.species].sensitive"
             class="lead text-warning" translate>
