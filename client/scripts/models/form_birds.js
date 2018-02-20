@@ -25,7 +25,7 @@ require('../app').factory('FormBirds', /* @ngInject */function ($localStorage, $
     },
     getCount: function (locale) {
       locale = locale || $translate.$language || 'en'
-      const parts = []
+      var parts = []
       parts.push(this.typeUnit.label[ locale ])
       if (![ 'Min.', 'Max.', 'Range', 'Unspecified number' ].includes(this.typeUnit.label.en)) {
         parts.push(this.count)
