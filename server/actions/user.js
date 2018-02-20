@@ -154,7 +154,7 @@ exports.userView = {
   },
 
   run: function (api, data, next) {
-    let q = { where: { } }
+    let q = { where: {} }
     let scope = 'default'
 
     if (data.params.id === 'me' || parseInt(data.params.id) === data.session.userId) {
@@ -165,7 +165,7 @@ exports.userView = {
       q.where.id = data.params.id
       q.include = q.include || []
       q.include.push(api.models.user.associations.sharees)
-      q.where['$sharees.id$'] = data.session.userId
+      q.where[ '$sharees.id$' ] = data.session.userId
       scope = 'sharee'
     } else {
       q.where.id = data.params.id
@@ -252,6 +252,7 @@ exports.userList = {
   inputs: {
     limit: { required: false, default: 20 },
     offset: { required: false, default: 0 },
+    context: { required: false, default: 'private' },
     q: { required: false }
   },
 
@@ -306,21 +307,31 @@ exports.userList = {
       }
     }
 
-    const context = (!data.session.user.isAdmin && !data.session.user.isModerator) ? 'public' : null
+    let promise = false
+    if (data.params.context === 'public') {
+      q.where = q.where || {}
+      q.where.privacy = 'public'
+    } else if (!data.session.user.isAdmin && !data.session.user.isModerator) {
+      promise = api.models.user
+        .findById(data.session.userId)
+        .then(function (user) {
+          if (!user) return { count: 0, rows: [] }
+          return user
+            .getSharers(q)
+            .then(function (users) {
+              if (!users) users = []
+              users.unshift(user)
+              return { count: users.length, rows: users }
+            })
+        })
+    }
+    if (!promise) promise = api.models.user.findAndCountAll(q)
 
-    Promise
-      .resolve(q)
-      .then(function (q) {
-        if (context) {
-          q.where = q.where || {}
-          q.where.privacy = context
-        }
-        return api.models.user.findAndCountAll(q)
-      })
+    promise
       .then(function (result) {
         data.response.count = result.count
         data.response.data = result.rows.map(function (user) {
-          return user.apiData(api, context)
+          return user.apiData(api, data.params.context)
         })
         if (result.count > limit + offset) {
           data.connection.rawConnection.responseHttpCode = 206

@@ -21,7 +21,8 @@ require('../app').directive('field', /* @ngInject */function ($q) {
       nomenclature: '@?',
       select: '&?onSelect',
       match: '=?',
-      format: '=?'
+      format: '=?',
+      context: '@?'
     },
     bindToController: true,
     require: '^form',
@@ -116,7 +117,7 @@ require('../app').directive('field', /* @ngInject */function ($q) {
         }
         case 'user': {
           field.values = []
-          angular.forEach(db.users, function (item) {
+          angular.forEach(field.context === 'public' ? db.publicUsers : db.users, function (item) {
             field.values.push(item)
           })
           break
