@@ -22,7 +22,7 @@ exports.default = {
         // Any additional headers you want actionhero to respond with
         httpHeaders: {
           'X-Powered-By': api.config.general.serverName,
-          'Access-Control-Allow-Origin': 'http://192.168.0.105:9966',
+          'Access-Control-Allow-Origin': 'http://localhost:9966',
           'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS, TRACE',
           'Access-Control-Allow-Headers': 'Content-Type, X-SB-CSRF-Token, Language',
           'Access-Control-Allow-Credentials': 'true'
