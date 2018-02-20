@@ -15,7 +15,8 @@ require('../app').directive('userSelector', /* @ngInject */function () {
       confirm: '=?',
       select: '&onSelect',
       cancel: '&onCancel',
-      required: '=?'
+      required: '=?',
+      context: '@?'
     },
     templateUrl: '/views/directives/userselector.html',
     controllerAs: 'field',
@@ -44,7 +45,7 @@ require('../app').directive('userSelector', /* @ngInject */function () {
       })
 
       field.getModels = function (q) {
-        return User.query({q: q}).$promise.then(function (models) {
+        return User.query({q: q, context: $scope.context}).$promise.then(function (models) {
           return filter(models, q)
         })
       }
