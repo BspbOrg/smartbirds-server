@@ -155,20 +155,11 @@ function generateCalcHash (fields) {
 }
 
 function generateApiData (fields) {
+  const publicFields = _.pickBy(fields, field => field.public)
+
   return async function (api, context) {
-    if (context === 'public') {
-      return {
-        id: this.id,
-        user: this.user ? this.user.apiData(api, context) : this.user_id,
-        latitude: this.latitude,
-        longitude: this.longitude,
-        observationDateTime: this.observationDateTime,
-        species: this.species,
-        count: this.count
-      }
-    }
     return Promise
-      .props(_.mapValues(fields, (field, name) => {
+      .props(_.mapValues(context === 'public' ? publicFields : fields, (field, name) => {
         if (_.isString(field)) field = { type: field }
         switch (field.type) {
           case 'multi': {
@@ -225,8 +216,15 @@ function generateApiData (fields) {
       }))
       .then(data => {
         data.id = this.id
-        data.createdAt = this.createdAt
-        data.updatedAt = this.updatedAt
+        switch (context) {
+          case 'public':
+            data.user = this.user ? this.user.apiData(api, context) : this.user_id
+            break
+          default:
+            data.createdAt = this.createdAt
+            data.updatedAt = this.updatedAt
+            break
+        }
         return data
       })
   }

@@ -10,6 +10,7 @@ exports.fields = assign(exports.fields, {
   species: {
     type: 'choice',
     required: true,
+    public: true,
     uniqueHash: true,
     relation: {
       model: 'species',
@@ -48,6 +49,7 @@ exports.fields = assign(exports.fields, {
   },
   count: {
     type: '+int',
+    public: true,
     required: true
   },
   marking: 'text',

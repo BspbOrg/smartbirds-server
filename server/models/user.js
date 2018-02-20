@@ -165,6 +165,7 @@ module.exports = function (sequelize, DataTypes) {
         switch (context) {
           case 'public':
             return {
+              id: this.id,
               firstName: this.firstName,
               lastName: this.lastName
             }

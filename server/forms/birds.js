@@ -17,6 +17,7 @@ exports.fields = assign(exports.fields, {
   species: {
     type: 'choice',
     required: true,
+    public: true,
     uniqueHash: true,
     relation: {
       model: 'species',
@@ -26,6 +27,7 @@ exports.fields = assign(exports.fields, {
   countUnit: {
     type: 'choice',
     required: true,
+    public: true,
     uniqueHash: true,
     relation: {
       model: 'nomenclature',
@@ -34,6 +36,7 @@ exports.fields = assign(exports.fields, {
   },
   typeUnit: {
     type: 'choice',
+    public: true,
     required: true,
     relation: {
       model: 'nomenclature',
@@ -49,14 +52,17 @@ exports.fields = assign(exports.fields, {
   },
   count: {
     type: '+int',
+    public: true,
     required: true
   },
   countMin: {
     type: '+int',
+    public: true,
     required: true
   },
   countMax: {
     type: '+int',
+    public: true,
     required: true
   },
   sex: {

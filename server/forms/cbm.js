@@ -55,6 +55,7 @@ exports.fields = {
     type: 'choice',
     required: true,
     uniqueHash: true,
+    public: true,
     relation: {
       model: 'species',
       filter: { type: 'birds' }
@@ -92,6 +93,7 @@ exports.fields = {
   count: {
     type: '+int',
     required: true,
+    public: true,
     uniqueHash: true
   },
   endDateTime: {
@@ -113,17 +115,20 @@ exports.fields = {
   latitude: {
     type: 'num',
     required: true,
+    public: true,
     uniqueHash: true
   },
   longitude: {
     type: 'num',
     required: true,
+    public: true,
     uniqueHash: true
   },
 
   observationDateTime: {
     type: 'timestamp',
     required: true,
+    public: true,
     uniqueHash: true
   },
   monitoringCode: {
