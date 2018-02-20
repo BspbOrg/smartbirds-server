@@ -70,12 +70,22 @@ function generatePrepareQuery (form) {
     // secure access
     if (data.params.context === 'public') {
       query.where = query.where || {}
-      query.where.confidential = { $or: [ null, false ] }
       query.include = query.include || []
+
+      query.where.confidential = { $or: [ null, false ] }
+
       query.include.push(form.model.associations.user)
+      query.where[ '$user.privacy$' ] = 'public'
+
       if (form.model.associations.speciesInfo) {
         query.include.push(form.model.associations.speciesInfo)
-        query.where['$speciesInfo.sensitive$'] = false
+        query.where[ '$speciesInfo.sensitive$' ] = false
+      }
+
+      if (data.params.user) {
+        query.where = _.extend(query.where || {}, {
+          userId: data.params.user
+        })
       }
     } else if (data.session.user.isAdmin || api.forms.isModerator(data.session.user, form.modelName)) {
       if (data.params.user) {

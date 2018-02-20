@@ -3,16 +3,19 @@ exports.fields = {
   latitude: {
     type: 'num',
     required: true,
+    public: true,
     uniqueHash: true
   },
   longitude: {
     type: 'num',
     required: true,
+    public: true,
     uniqueHash: true
   },
   observationDateTime: {
     type: 'timestamp',
     required: true,
+    public: true,
     uniqueHash: true
   },
   monitoringCode: {

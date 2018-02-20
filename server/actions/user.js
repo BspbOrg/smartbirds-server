@@ -306,29 +306,21 @@ exports.userList = {
       }
     }
 
+    const context = (!data.session.user.isAdmin && !data.session.user.isModerator) ? 'public' : null
+
     Promise
       .resolve(q)
       .then(function (q) {
-        if (data.session.user.isAdmin || data.session.user.isModerator) {
-          return api.models.user.findAndCountAll(q)
+        if (context) {
+          q.where = q.where || {}
+          q.where.privacy = context
         }
-        return api.models.user
-          .findById(data.session.userId)
-          .then(function (user) {
-            if (!user) return { count: 0, rows: [] }
-            return user
-              .getSharers()
-              .then(function (users) {
-                if (!users) users = []
-                users.unshift(user)
-                return { count: users.length, rows: users }
-              })
-          })
+        return api.models.user.findAndCountAll(q)
       })
       .then(function (result) {
         data.response.count = result.count
         data.response.data = result.rows.map(function (user) {
-          return user.apiData(api)
+          return user.apiData(api, context)
         })
         if (result.count > limit + offset) {
           data.connection.rawConnection.responseHttpCode = 206

@@ -1,5 +1,6 @@
 /* global describe, before, after, it */
 
+const _ = require('lodash')
 const assert = require('assert')
 const setup = require('./_setup')
 const should = require('should')
@@ -56,6 +57,25 @@ describe('Public forms', function () {
             assert(!recordIncluded, 'not include confidential record')
           })
 
+          it(`doesn't include records from users with privacy != public`, async function () {
+            const record = await setup.api.models[ form.modelName ].findOne({ include: [ setup.api.models[ form.modelName ].associations.user ] })
+            assert(record, 'have at least one record')
+            const originalPrivacy = record.user.privacy
+            record.user.privacy = 'private'
+            await record.user.save()
+            const response = await runAction(`${form.modelName}:list`, { context: 'public' })
+            record.user.privacy = originalPrivacy
+            await record.user.save()
+            let recordIncluded = false
+            for (let i in response.data) {
+              if (response.data[ i ].user.id === record.user.id) {
+                recordIncluded = true
+                break
+              }
+            }
+            assert(!recordIncluded, 'not include confidential record')
+          })
+
           if (form.hasSpecies) {
             it(`doesn't include sensitive species`, async function () {
               const record = await setup.api.models[ form.modelName ].findOne({
@@ -86,11 +106,12 @@ describe('Public forms', function () {
             response.should.not.have.property('error')
             response.should.have.property('data').and.it.is.Array()
             response.data.length.should.be.greaterThan(1)
-            response.data[ 0 ].should.have.only.keys(
-              'id', 'user', 'latitude', 'longitude', 'observationDateTime', 'species', 'count'
-            )
+            _.difference(Object.keys(response.data[ 0 ]), [
+              'id', 'user', 'latitude', 'longitude', 'observationDateTime', 'species',
+              'count', 'countUnit', 'typeUnit', 'countMin', 'countMax'
+            ]).should.have.length(0)
             response.data[ 0 ].user.should.have.only.keys(
-              'firstName', 'lastName'
+              'id', 'firstName', 'lastName'
             )
           })
 
@@ -144,6 +165,28 @@ describe('Public forms', function () {
               response.should.have.property('data').and.it.is.Array()
               response.data.length.should.be.equal(0)
             })
+          })
+
+          it('can filter by user', async function () {
+            const user = await setup.api.models.user.findOne({ where: { email: 'user2@smartbirds.com' } })
+            should.exists(user)
+
+            const protoRecord = await setup.api.models[ form.modelName ].findOne()
+            should.exists(protoRecord)
+            const record = protoRecord.toJSON()
+            delete record.id
+            record.userId = user.id
+            record.observationDateTime = new Date()
+            await setup.api.models[ form.modelName ].create(record)
+
+            const response = await runAction(`${form.modelName}:list`, {
+              context: 'public',
+              limit: 1000,
+              user: user.id
+            })
+            response.should.not.have.property('error')
+            response.should.have.property('data').and.it.is.Array()
+            response.data.filter(record => record.user.id !== user.id).should.have.length(0)
           })
         })
       }
