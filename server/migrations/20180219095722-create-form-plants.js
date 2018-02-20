@@ -22,11 +22,7 @@ var schema = {
   reportingUnitBg: Sequelize.TEXT,
   phenologicalPhaseEn: Sequelize.TEXT,
   phenologicalPhaseBg: Sequelize.TEXT,
-  count: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    defaultValue: 1
-  },
+  count: Sequelize.INTEGER,
   density: Sequelize.FLOAT,
   cover: Sequelize.FLOAT,
   threatsPlantsEn: Sequelize.TEXT,

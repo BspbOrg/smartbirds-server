@@ -53,8 +53,7 @@ exports.fields = assign(exports.fields, {
   },
   count: {
     type: '+int',
-    uniqueHash: true,
-    required: true
+    uniqueHash: true
   },
   density: {
     type: 'num',
