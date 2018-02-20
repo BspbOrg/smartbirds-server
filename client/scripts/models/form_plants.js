@@ -17,7 +17,9 @@ require('../app').factory('FormPlants', /* @ngInject */function ($resource, ENDP
       return db.species.plants && db.species.plants[ this.species ]
     },
     getAccompanyingSpecies: function () {
-      return db.species.plants && (this.accompanyingSpecies || []).map(species => db.species.plants[ species ])
+      return db.species.plants && (this.accompanyingSpecies || []).map(function (species) {
+        return db.species.plants[ species ]
+      })
     },
     preCopy: function () {
       delete this.species
