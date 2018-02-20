@@ -171,14 +171,7 @@
           {{row.getSpecies().label[$language]}}<br/>
           <strong>{{row.getSpecies().label.la}}</strong>
         </td>
-        <td>
-          {{::row.typeUnit.label[$language]}}
-          <span ng-if="::!['Min.', 'Max.', 'Range', 'Unspecified number'].includes(row.typeUnit.label.en)">{{::row.count}}</span>
-          <span ng-if="::['Min.', 'Range'].includes(row.typeUnit.label.en)">{{::row.countMin}}</span>
-          <span ng-if="::['Range'].includes(row.typeUnit.label.en)">-</span>
-          <span ng-if="::['Max.', 'Range'].includes(row.typeUnit.label.en)">{{::row.countMax}}</span>
-          {{row.countUnit.label[$language]}}
-        </td>
+        <td>{{::row.getCount($language)}}</td>
       </tr>
       </tbody>
       <tfoot ng-if="monitoringController.loading">
