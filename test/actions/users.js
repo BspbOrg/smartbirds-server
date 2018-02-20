@@ -1,6 +1,7 @@
 /* global describe, before, after, afterEach, beforeEach, it */
 
 var _ = require('lodash')
+const assert = require('assert')
 var should = require('should')
 var sinon = require('sinon')
 var setup = require('../_setup')
@@ -252,13 +253,18 @@ describe('Action user:', function () {
     })
 
     setup.describeAsUser(function (runAction) {
-      it('can list only self', function () {
+      it('can list self', function () {
         return runAction('user:list', {}).then(function (response) {
           response.should.not.have.property('error')
           response.should.have.property('data')
-          response.data.should.have.length(1)
-          response.data[ 0 ].should.have.property('id')
-          response.data[ 0 ].id.should.be.equal(1)
+          response.data.should.not.have.length(0)
+          let found = false
+          for (let i in response.data) {
+            if (response.data[i].id === 1) {
+              found = true
+            }
+          }
+          assert(found, 'should include self record')
         })
       })
     })
