@@ -11,10 +11,7 @@ function generatePrepareQuery (form) {
     let offset = parseInt(data.params.offset) || 0
 
     query = _.extend(query, {
-      order: [
-        [ 'updatedAt', 'DESC' ],
-        [ 'id', 'DESC' ]
-      ],
+      order: [ [ 'observationDateTime', 'DESC' ] ],
       offset: offset
     })
     if (limit !== -1) {
