@@ -15,22 +15,33 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
   controller.context = context
   controller.db = db
   controller.filter = angular.copy($stateParams)
-  controller.sharers = User.getSharers({ id: user.getIdentity().id })
-  if (user.canAccess(formName)) {
-    controller.canFilterByUser = true
-    controller.canExport = true
-  } else {
-    controller.canFilterByUser = false
-    controller.canExport = !controller.filter.user || controller.filter.user === user.getIdentity().id
-    controller.sharers.$promise.then(function (sharers) {
-      if (sharers.length) {
+
+  switch (context) {
+    case 'public':
+      controller.canFilterByUser = true
+      controller.canExport = false
+      break
+    case 'private':
+      if (user.canAccess(formName)) {
         controller.canFilterByUser = true
+        controller.canExport = true
+      } else {
+        controller.canFilterByUser = false
+        controller.canExport = !controller.filter.user || controller.filter.user === user.getIdentity().id
+        // set user filter to current user by default
         if (!controller.filter.user) {
           controller.filter.user = user.getIdentity().id
         }
+        $q.resolve(db.users.$promise || db.users).then(function (users) {
+          // if he has sharers
+          if (Object.keys(users).length > 1) {
+            controller.canFilterByUser = true
+          }
+        })
       }
-    })
+      break
   }
+
   controller.years = Object.keys(new Int8Array(new Date().getFullYear() - 1979)).map(function (year) {
     return Number(year) + 1980
   }).reverse()
@@ -117,7 +128,7 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
 
   function fetch (query) {
     controller.loading = true
-    return model.query(angular.extend({}, query, {context: controller.context})).$promise
+    return model.query(angular.extend({}, query, { context: controller.context })).$promise
       .then(function (rows) {
         controller.count = rows.$$response.data.$$response.count
         Array.prototype.push.apply(controller.rows, rows)
