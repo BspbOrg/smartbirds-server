@@ -749,7 +749,7 @@
     "PUBLIC_LIST_TABLE_SPECIES": "Species",
     "PUBLIC_LIST_WARN_SENSITIVE_SPECIES": "Sensitive species",
     "PUBLIC_LIST_NO_RESULTS": "No records",
-    "PUBLIC_LIST_HEADER_WARNING": "Only the last 1000 records are shown!",
+    "PUBLIC_LIST_HEADER_WARNING": "Up to 1000 records can be displayed!",
     "FORM_LABEL_PLANTS": "",
     "DASHBOARD_CARD_PLANTS": "",
     "FORM_PLANTS_LONG": "",

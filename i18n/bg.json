@@ -749,7 +749,7 @@
     "PUBLIC_LIST_TABLE_SPECIES": "Вид",
     "PUBLIC_LIST_WARN_SENSITIVE_SPECIES": "Чувствителен вид",
     "PUBLIC_LIST_NO_RESULTS": "Липсват записи за търсения вид",
-    "PUBLIC_LIST_HEADER_WARNING": "Показани са само последните 1000 записа!",
+    "PUBLIC_LIST_HEADER_WARNING": "Показват се до 1000 записа!",
     "FORM_LABEL_PLANTS": "",
     "DASHBOARD_CARD_PLANTS": "",
     "FORM_PLANTS_LONG": "",
