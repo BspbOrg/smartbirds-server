@@ -18,7 +18,7 @@ require('../app').factory('FormHerptiles', /* @ngInject */function ($resource, E
       return db.users[this.user]
     },
     getSpecies: function () {
-      return db.species.herp && db.species.herp[this.species]
+      return db.species.herptiles && db.species.herptiles[this.species]
     },
     preCopy: function () {
       delete this.species
