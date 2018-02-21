@@ -23,7 +23,7 @@ function generatePrepareQuery (form) {
       query.limit = 20000
     }
     if (data.params.context === 'public') {
-      query.limit = Math.max(0, Math.min(query.limit, 1000) - query.offset)
+      query.limit = Math.max(0, Math.min(query.limit, 1000 - query.offset))
     }
 
     // filter by period

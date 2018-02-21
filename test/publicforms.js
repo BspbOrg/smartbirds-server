@@ -159,6 +159,18 @@ describe('Public forms', function () {
               response.data.length.should.be.equal(500)
             })
 
+            it('provides second page', async function () {
+              this.slow(500)
+              const response = await runAction(`${form.modelName}:list`, {
+                context: 'public',
+                offset: 50,
+                limit: 50
+              })
+              response.should.not.have.property('error')
+              response.should.have.property('data').and.it.is.Array()
+              response.data.length.should.be.equal(50)
+            })
+
             it('doesn\'t return after 1000', async function () {
               const response = await runAction(`${form.modelName}:list`, { context: 'public', offset: 1000 })
               response.should.not.have.property('error')
