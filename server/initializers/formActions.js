@@ -117,18 +117,19 @@ function generateExportAction (form) {
     try {
       let outputType = data.params.outputType
 
-      if (!data.params.user) data.params.user = data.session.userId
-
       let allowed = false
-      if (!allowed && data.session.user.isAdmin) allowed = true
-      if (!allowed && api.forms.isModerator(data.session.user, form.modelName)) allowed = true
-      if (data.session.userId === data.params.user) allowed = true
-
-      if (!allowed) {
-        data.response.success = false
-        data.response.error = 'No permission'
-        return next()
+      if (data.session.user.isAdmin || api.forms.isModerator(data.session.user, form.modelName)) {
+        allowed = true
+      } else if (!data.params.user) {
+        // regular users can only export own data
+        data.params.user = data.session.userId
+        allowed = true
+      } else if (data.session.userId === data.params.user) {
+        // need to have specified own user
+        allowed = true
       }
+
+      if (!allowed) throw new Error(api.config.errors.sessionNoPermission(data.connection))
 
       let query = await form.prepareQuery(api, data)
 

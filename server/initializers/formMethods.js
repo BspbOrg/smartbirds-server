@@ -110,8 +110,6 @@ function generatePrepareQuery (form) {
       }
     }
 
-    // console.log(data.params, ' => ', query)
-
     return query
   }
 }
