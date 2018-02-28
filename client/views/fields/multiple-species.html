@@ -1,13 +1,12 @@
 <sb-include src="/views/fields/container.html">
   <ol
-    class="nya-bs-select form-control"
+    class="nya-bs-select form-control multiple-species"
     id="{{::field.name}}"
     name="{{::field.name}}"
     aria-describedby="{{::field.name}}HelpBlock"
     placeholder="{{::field.placeholder}}"
     ng-model="field.model"
     multiple
-    selected-text-format="count>3"
     live-search="true"
     size="7"
   >
