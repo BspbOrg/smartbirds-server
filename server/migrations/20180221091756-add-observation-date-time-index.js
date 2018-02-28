@@ -13,9 +13,7 @@ module.exports = {
 
   down: async function (queryInterface, Sequelize) {
     await Promise.all(tables.map(table => {
-      return queryInterface.removeIndex(table, {
-        fields: [ 'observationDateTime' ]
-      })
+      return queryInterface.removeIndex(table, 'form_c_b_m_observation_date_time')
     }))
   }
 }
