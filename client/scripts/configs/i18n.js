@@ -27,7 +27,7 @@ require('../app')
       hackProviders.nyaBsConfigProvider.setLocalizedText(language, {
         defaultNoneSelection: $translate.instant('MULTIPLE_CHOICE_DEFAULT_NONE_SELECTION'),
         noSearchResults: $translate.instant('MULTIPLE_CHOICE_NO_SEARCH_RESULTS'),
-        numberItemSelected: $translate('MULTIPLE_CHOICE_NUMBER_ITEM_SELECTED')
+        numberItemSelected: $translate.instant('MULTIPLE_CHOICE_NUMBER_ITEM_SELECTED')
       })
       hackProviders.nyaBsConfigProvider.useLocale(language)
     }
