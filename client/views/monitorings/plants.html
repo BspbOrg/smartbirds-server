@@ -20,25 +20,19 @@
   <div ng-include="'/views/monitorings/common.html'"></div>
 
   <div class="row">
-    <div class="col-md-8 col-lg-7">
+    <div class="col-md-7 col-lg-6">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <field name="latitude" type="float" required="true"
                  label="{{'PLANTS_DETAIL_LATITUDE' | translate}}"
                  on-select="monitoringDetailController.updateFromModel()"
                  model="monitoringDetailController.data.latitude"></field>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
           <field name="longitude" type="float" required="true"
                  label="{{'PLANTS_DETAIL_LONGITUDE' | translate}}"
                  on-select="monitoringDetailController.updateFromModel()"
                  model="monitoringDetailController.data.longitude"></field>
-        </div>
-        <div class="col-md-4">
-          <field name="elevation" type="int"
-                 label="{{'PLANTS_DETAIL_ELEVATION' | translate}}"
-                 on-select="monitoringDetailController.updateFromModel()"
-                 model="monitoringDetailController.data.elevation"></field>
         </div>
         <div class="col-md-12">
           <div class="text-right">
@@ -71,7 +65,7 @@
       </div>
     </div>
 
-    <div class="col-md-4 col-lg-5">
+    <div class="col-md-5 col-lg-6">
       <div class="row">
         <div class="col-md-12">
           <field name="species" type="species" nomenclature="plants" required="true"
@@ -79,9 +73,10 @@
                  model="monitoringDetailController.data.species"></field>
         </div>
         <div class="col-md-5 col-lg-6">
-          <field name="count" type="int" min="1"
-                 label="{{'PLANTS_DETAIL_COUNT' | translate}}"
-                 model="monitoringDetailController.data.count"></field>
+          <field name="elevation" type="int"
+                 label="{{'PLANTS_DETAIL_ELEVATION' | translate}}"
+                 on-select="monitoringDetailController.updateFromModel()"
+                 model="monitoringDetailController.data.elevation"></field>
         </div>
         <div class="col-md-7 col-lg-6">
           <field name="confidential" type="bool"
@@ -92,6 +87,11 @@
           <field name="reportingUnit" type="single-choice" nomenclature="plants_reporting_unit"
                  label="{{'PLANTS_DETAIL_REPORTING_UNIT' | translate}}"
                  model="monitoringDetailController.data.reportingUnit"></field>
+        </div>
+        <div class="col-md-6 col-lg-6">
+          <field name="count" type="int" min="1"
+                 label="{{'PLANTS_DETAIL_COUNT' | translate}}"
+                 model="monitoringDetailController.data.count"></field>
         </div>
         <div class="col-md-6 col-lg-6">
           <field name="density" type="float"
