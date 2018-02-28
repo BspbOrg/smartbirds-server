@@ -72,11 +72,11 @@ require('../app').directive('field', /* @ngInject */function ($q) {
         if (!args) {
           args = {}
         } else if (!angular.isObject(args)) {
-          args = {$arg: args}
+          args = { $arg: args }
         }
         $timeout(function () {
           if (angular.isFunction(field.select)) {
-            field.select(angular.extend({}, args, {model: field.model}))
+            field.select(angular.extend({}, args, { model: field.model }))
           }
         })
       }
@@ -91,9 +91,10 @@ require('../app').directive('field', /* @ngInject */function ($q) {
           })
           break
         }
-        case 'species': {
+        case 'species':
+        case 'multiple-species': {
           field.values = []
-          angular.forEach(db.species[field.nomenclature], function (item) {
+          angular.forEach(db.species[ field.nomenclature ], function (item) {
             field.values.push(item)
           })
 
@@ -102,12 +103,12 @@ require('../app').directive('field', /* @ngInject */function ($q) {
               if (angular.isArray(field.model)) {
                 field.model.forEach(function (item, idx, array) {
                   if (angular.isObject(item) && !(item instanceof Species)) {
-                    array[idx] = db.species[field.nomenclature][item.label.bg] || new Species(item)
+                    array[ idx ] = db.species[ field.nomenclature ][ item.label.bg ] || new Species(item)
                   }
                 })
               } else if (angular.isObject(field.model)) {
                 if (!(field.model instanceof Species)) {
-                  field.model = db.species[field.nomenclature][field.model.label.bg] || new Species(field.model)
+                  field.model = db.species[ field.nomenclature ][ field.model.label.bg ] || new Species(field.model)
                 }
               }
             }
@@ -132,7 +133,7 @@ require('../app').directive('field', /* @ngInject */function ($q) {
         case 'single-choice':
         case 'multiple-choice': {
           field.values = []
-          angular.forEach(db.nomenclatures[field.nomenclature], function (item) {
+          angular.forEach(db.nomenclatures[ field.nomenclature ], function (item) {
             field.values.push(item)
           })
 
@@ -141,12 +142,12 @@ require('../app').directive('field', /* @ngInject */function ($q) {
               if (angular.isArray(field.model)) {
                 field.model.forEach(function (item, idx, array) {
                   if (angular.isObject(item) && !(item instanceof Nomenclature)) {
-                    array[idx] = db.nomenclatures[field.nomenclature][item.label.bg] || new Nomenclature(item)
+                    array[ idx ] = db.nomenclatures[ field.nomenclature ][ item.label.bg ] || new Nomenclature(item)
                   }
                 })
               } else if (angular.isObject(field.model)) {
                 if (!(field.model instanceof Nomenclature)) {
-                  field.model = db.nomenclatures[field.nomenclature][field.model.label.bg] || new Nomenclature(field.model)
+                  field.model = db.nomenclatures[ field.nomenclature ][ field.model.label.bg ] || new Nomenclature(field.model)
                 }
               }
             }
