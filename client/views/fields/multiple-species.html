@@ -1,0 +1,29 @@
+<sb-include src="/views/fields/container.html">
+  <ol
+    class="nya-bs-select form-control"
+    id="{{::field.name}}"
+    name="{{::field.name}}"
+    aria-describedby="{{::field.name}}HelpBlock"
+    placeholder="{{::field.placeholder}}"
+    ng-model="field.model"
+    multiple
+    selected-text-format="count>3"
+    live-search="true"
+    size="7"
+  >
+    <li nya-bs-option="value in field.values | orderBy:field.order"
+        data-value="value.label.la"
+        title="{{::value.label.la}}">
+      <a href>
+        <span>
+          {{::value.localeLabel($root.$language)}}<br />
+          <strong>{{::value.label.la}}</strong>
+        </span>
+        <span class="glyphicon glyphicon-ok check-mark">
+          <span lang="bg" class="hidden">избран</span>
+          <span lang="en" class="hidden">selected</span>
+        </span>
+      </a>
+    </li>
+  </ol>
+</sb-include>

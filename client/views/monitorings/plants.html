@@ -1,0 +1,151 @@
+<form name="smartform"
+      role="form"
+      confirm-on-exit="smartform.$dirty"
+      confirm-message-window="{{'PLANTS_DETAIL_UNSAVED_DATA_ALERT_TITLE' | translate}}"
+      confirm-message-route="{{'PLANTS_DETAIL_UNSAVED_DATA_ALERT_MESSAGE' | translate}}">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">
+        <div class="pull-right">
+          <form-detail-buttons monitoring-detail-controller="monitoringDetailController"></form-detail-buttons>
+        </div>
+        <span ng-if="monitoringDetailController.data.id" translate>PLANTS_DETAIL_TITLE_EDIT</span>
+        <span ng-if="!monitoringDetailController.data.id" translate>PLANTS_DETAIL_TITLE_NEW</span>
+      </h1>
+    </div>
+  </div>
+
+  <div ng-include="'/views/monitorings/common2.html'"></div>
+
+  <div ng-include="'/views/monitorings/common.html'"></div>
+
+  <div class="row">
+    <div class="col-md-8 col-lg-7">
+      <div class="row">
+        <div class="col-md-4">
+          <field name="latitude" type="float" required="true"
+                 label="{{'PLANTS_DETAIL_LATITUDE' | translate}}"
+                 on-select="monitoringDetailController.updateFromModel()"
+                 model="monitoringDetailController.data.latitude"></field>
+        </div>
+        <div class="col-md-4">
+          <field name="longitude" type="float" required="true"
+                 label="{{'PLANTS_DETAIL_LONGITUDE' | translate}}"
+                 on-select="monitoringDetailController.updateFromModel()"
+                 model="monitoringDetailController.data.longitude"></field>
+        </div>
+        <div class="col-md-4">
+          <field name="elevation" type="int"
+                 label="{{'PLANTS_DETAIL_ELEVATION' | translate}}"
+                 on-select="monitoringDetailController.updateFromModel()"
+                 model="monitoringDetailController.data.elevation"></field>
+        </div>
+        <div class="col-md-12">
+          <div class="text-right">
+            <track-edit ng-model="monitoringDetailController.data.track"></track-edit>
+          </div>
+          <ui-gmap-google-map
+            center="monitoringDetailController.map.center"
+            pan="true"
+            zoom="monitoringDetailController.map.zoom"
+            events="{click: monitoringDetailController.map.click}"
+            options="{mapTypeId: 'hybrid', clickableIcons: false}">
+            <ui-gmap-polyline
+              ng-if="monitoringDetailController.track.length"
+              path="monitoringDetailController.track"
+              stroke="{color: '#36c', weight: 3}"
+              editable="false"
+              draggable="false"
+              geodesic="true"
+              visible="true"
+              fit="true"
+              static="true"
+            ></ui-gmap-polyline>
+            <ui-gmap-marker
+              ng-if="monitoringDetailController.map.poi.latitude && monitoringDetailController.map.poi.longitude"
+              coords="monitoringDetailController.map.poi"
+              idKey="'coords'"
+            ></ui-gmap-marker>
+          </ui-gmap-google-map>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-lg-5">
+      <div class="row">
+        <div class="col-md-12">
+          <field name="species" type="species" nomenclature="plants" required="true"
+                 label="{{'PLANTS_DETAIL_SPECIES' | translate}}"
+                 model="monitoringDetailController.data.species"></field>
+        </div>
+        <div class="col-md-5 col-lg-6">
+          <field name="count" type="int" min="1"
+                 label="{{'PLANTS_DETAIL_COUNT' | translate}}"
+                 model="monitoringDetailController.data.count"></field>
+        </div>
+        <div class="col-md-7 col-lg-6">
+          <field name="confidential" type="bool"
+                 label="{{'PLANTS_DETAIL_CONFIDENTIAL' | translate}}"
+                 model="monitoringDetailController.data.confidential"></field>
+        </div>
+        <div class="col-md-12 col-lg-12">
+          <field name="reportingUnit" type="single-choice" nomenclature="plants_reporting_unit"
+                 label="{{'PLANTS_DETAIL_REPORTING_UNIT' | translate}}"
+                 model="monitoringDetailController.data.reportingUnit"></field>
+        </div>
+        <div class="col-md-6 col-lg-6">
+          <field name="density" type="float"
+                 label="{{'PLANTS_DETAIL_DENSITY' | translate}}"
+                 model="monitoringDetailController.data.density"></field>
+        </div>
+        <div class="col-md-6 col-lg-6">
+          <field name="cover" type="float"
+                 label="{{'PLANTS_DETAIL_COVER' | translate}}"
+                 model="monitoringDetailController.data.cover"></field>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <field name="accompanyingSpecies" type="multiple-species" nomenclature="plants"
+             label="{{'PLANTS_DETAIL_ACCOMPANYING_SPECIES' | translate}}"
+             model="monitoringDetailController.data.accompanyingSpecies"></field>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <field name="phenologicalPhase" type="single-choice" nomenclature="plants_phenological_phase"
+             label="{{'PLANTS_DETAIL_PHENOLOGICAL_PHASE' | translate}}"
+             model="monitoringDetailController.data.phenologicalPhase"></field>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <field name="habitat" type="single-choice" nomenclature="plants_habitat"
+             label="{{'PLANTS_DETAIL_HABITAT' | translate}}"
+             model="monitoringDetailController.data.habitat"></field>
+    </div>
+    <div class="col-md-12 col-lg-12">
+      <field name="threatsPlants" type="multiple-choice" nomenclature="plants_threats"
+             label="{{'PLANTS_DETAIL_THREATS' | translate}}"
+             model="monitoringDetailController.data.threatsPlants"></field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <field name="speciesNotes" type="memo"
+             label="{{'PLANTS_DETAIL_SPECIES_NOTES' | translate}}"
+             model="monitoringDetailController.data.speciesNotes"></field>
+    </div>
+  </div>
+
+  <div class="row">
+    <form-pictures ng-model="monitoringDetailController.data.pictures"></form-pictures>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="pull-right">
+        <form-detail-buttons monitoring-detail-controller="monitoringDetailController"></form-detail-buttons>
+      </div>
+    </div>
+  </div>
+</form>
