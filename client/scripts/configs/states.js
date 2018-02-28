@@ -77,6 +77,13 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
       resolve: resolveUser
     })
 
+    .state('plants', {
+      url: '/plants',
+      templateUrl: '/views/home-plants.html',
+      title: 'FORM_PLANTS_SHORT',
+      resolve: resolveUser
+    })
+
     .state('ciconia', {
       url: '/ciconia',
       templateUrl: '/views/home-ciconia.html',
