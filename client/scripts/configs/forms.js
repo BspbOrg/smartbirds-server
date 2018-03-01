@@ -83,6 +83,9 @@ module.exports = {
     model: 'FormPlants',
     serverModel: 'formPlants',
     label: 'FORM_LABEL_PLANTS',
+    translatePrefix: 'PLANTS',
+    speciesType: 'plants',
+    hasCount: true,
     filters: [
       'location',
       '{user:int}',
