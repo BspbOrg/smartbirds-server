@@ -129,6 +129,13 @@ module.exports = [
       type: 'herptiles',
       labelLa: 'Duplicated'
     }
+  },
+  {
+    model: 'species',
+    data: {
+      type: 'plants',
+      labelLa: 'Sternbergia colchiciflora'
+    }
   }
 ]
 

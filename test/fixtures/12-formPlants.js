@@ -4,13 +4,9 @@ var baseModel = {
   latitude: 42.1463749,
   longitude: 24.7492006,
   monitoringCode: 'random_plants_1234',
-  species: 'Seseli bulgaricum',
-  count: 10,
-
+  species: 'Sternbergia colchiciflora',
   endDateTime: '2015-12-10T11:15Z',
-  startDateTime: '2015-12-10T15:15Z',
-  observers: 'Some test observers',
-  notes: 'some notes'
+  startDateTime: '2015-12-10T15:15Z'
 }
 
 module.exports = [
