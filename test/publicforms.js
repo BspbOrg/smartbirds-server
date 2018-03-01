@@ -35,7 +35,7 @@ describe('Public forms', function () {
             const response = await runAction(`${form.modelName}:list`, { context: 'public' })
             response.should.not.have.property('error')
             response.should.have.property('data').and.it.is.Array()
-            response.data.length.should.be.greaterThan(1)
+            response.data.length.should.be.greaterThanOrEqual(1)
           })
 
           it(`doesn't include confidential records`, async function () {
