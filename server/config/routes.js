@@ -118,6 +118,7 @@ exports.default = {
         { path: '/export/herptiles', action: 'formHerptiles:export' },
         { path: '/export/mammals', action: 'formMammals:export' },
         { path: '/export/invertebrates', action: 'formInvertebrates:export' },
+        { path: '/export/plants', action: 'formPlants:export' },
         { path: '/export/ciconia', action: 'formCiconia:export' }
 
       ],
