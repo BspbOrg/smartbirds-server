@@ -33,7 +33,6 @@ require('../app').factory('FormPlants', /* @ngInject */function ($resource, ENDP
       delete this.cover
       delete this.threatsPlants
       delete this.speciesNotes
-      delete this.location
     }
   })
 
