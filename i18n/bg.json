@@ -800,5 +800,6 @@
     "PUBLIC_PLANTS_MAP_INDIVIDUALS": "индивиди",
     "LOGO_NMNHS_ALT": "НПМ-БАН",
     "PLANTS_PUBLIC_LIST_TITLE_MAIN": "Форма Защитени растения",
-    "PLANTS_PUBLIC_LIST_TITLE_SECONDARY": "Наблюдения на защитени растения"
+    "PLANTS_PUBLIC_LIST_TITLE_SECONDARY": "Наблюдения на защитени растения",
+    "PLANTS_DETAIL_SPECIES_HELP": "Видовете отбелязани с * са „защитени“"
 }

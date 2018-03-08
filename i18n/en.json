@@ -800,5 +800,6 @@
     "PUBLIC_PLANTS_MAP_INDIVIDUALS": "Individuals",
     "LOGO_NMNHS_ALT": "NMNHS",
     "PLANTS_PUBLIC_LIST_TITLE_MAIN": "Form Protected plants",
-    "PLANTS_PUBLIC_LIST_TITLE_SECONDARY": "Observations of protected plants"
+    "PLANTS_PUBLIC_LIST_TITLE_SECONDARY": "Observations of protected plants",
+    "PLANTS_DETAIL_SPECIES_HELP": "Species marked with * are \"protected\""
 }
