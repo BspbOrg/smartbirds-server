@@ -53,7 +53,7 @@ describe('Zone ownership:', function () {
         })
       }) // as all roles
 
-      setup.describeAsAdmin(function (runAction) {
+      setup.describeAsRoles(['admin', 'cbm'], function (runAction) {
         it('can list requested zone', function () {
           return runAction('zone:list', {}).then(function (response) {
             response.should.not.have.property('error')
@@ -95,7 +95,7 @@ describe('Zone ownership:', function () {
             response.should.not.have.property('error')
           })
         })
-      }) // as admin
+      }) // as admin, cbm moderator
 
       setup.describeAsRoles(['guest', 'user'], function (runAction) {
         it('cannot approve zone ownership', function () {
