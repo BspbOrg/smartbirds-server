@@ -52,7 +52,7 @@ exports.zoneOwnershipRequest = {
 exports.zoneOwnershipRespond = {
   name: 'zone:respondOwnershipRequest',
   description: 'zone:respondOwnershipRequest',
-  middleware: ['admin'],
+  middleware: ['auth'],
 
   inputs: {
     id: {required: true},
@@ -61,6 +61,11 @@ exports.zoneOwnershipRespond = {
 
   run: function (api, data, next) {
     getZone(api, data, next).then(function (zone) {
+      if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, 'formCBM')) {
+        data.connection.rawConnection.responseHttpCode = 403
+        return next(new Error('Admin required'))
+      }
+
       if (!zone) {
         data.connection.rawConnection.responseHttpCode = 404
         return next(new Error('zone not found'))
@@ -72,10 +77,10 @@ exports.zoneOwnershipRespond = {
       }
 
       if (data.params.response) {
-          // approve ownership
+        // approve ownership
         return zone.update({status: 'owned'})
       } else {
-          // reject ownership
+        // reject ownership
         return zone.update({status: 'free', ownerId: null})
       }
     })
@@ -92,7 +97,7 @@ exports.zoneOwnershipRespond = {
 exports.zoneSetOwner = {
   name: 'zone:setOwner',
   description: 'zone:setOwner',
-  middleware: ['admin'],
+  middleware: ['auth'],
 
   inputs: {
     id: {required: true},
@@ -101,6 +106,11 @@ exports.zoneSetOwner = {
 
   run: function (api, data, next) {
     getZone(api, data, next).then(function (zone) {
+      if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, 'formCBM')) {
+        data.connection.rawConnection.responseHttpCode = 403
+        return next(new Error('Admin required'))
+      }
+
       if (!zone) {
         data.connection.rawConnection.responseHttpCode = 404
         return next(new Error('zone not found'))
@@ -131,7 +141,7 @@ exports.zoneSetOwner = {
 exports.zoneClearOwner = {
   name: 'zone:clearOwner',
   description: 'zone:clearOwner',
-  middleware: ['admin'],
+  middleware: ['auth'],
 
   inputs: {
     id: {required: true}
@@ -139,6 +149,11 @@ exports.zoneClearOwner = {
 
   run: function (api, data, next) {
     getZone(api, data, next).then(function (zone) {
+      if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, 'formCBM')) {
+        data.connection.rawConnection.responseHttpCode = 403
+        return next(new Error('Admin required'))
+      }
+
       if (!zone) {
         data.connection.rawConnection.responseHttpCode = 404
         return next(new Error('zone not found'))
