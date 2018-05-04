@@ -61,7 +61,8 @@ module.exports.generateStatistics = {
               count: {'$gt': '0'},
               confidential: { '$or': [ false, null ] },
               '$speciesInfo.interesting$': true,
-              '$speciesInfo.sensitive$': { '$or': [ false, null ] }
+              '$speciesInfo.sensitive$': { '$or': [ false, null ] },
+              '$user.privacy$': 'public'
             },
             include: [ api.models.formBirds.associations.speciesInfo, api.models.formBirds.associations.user ],
             order: [ [ 'observationDateTime', 'DESC' ] ],
