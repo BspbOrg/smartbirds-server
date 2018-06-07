@@ -65,72 +65,43 @@ module.exports = {
       return usersCache[ email ]
     }
 
-    function genMetas (userId, values) {
-      return Object.keys(values).map(function (key) {
-        var value = values[ key ].trim()
-        if (!value) return
-        return {
-          userId: userId,
-          metaKey: key,
-          metaValue: value,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          imported: true
-        }
-      }).filter(function (rec) {
-        return !!rec
-      })
-    }
-
     var stream = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'users.csv'))
       .pipe(parser)
       .on('readable', function () {
         var rec
         while (rec = parser.read()) { // eslint-disable-line no-cond-assign
           counts.rows++
-          var record = rec
-
-          var email = record[ 'e_mail' ] && record[ 'e_mail' ].trim()
-          if (!validator.isEmail(email)) {
-            email = (record[ 'Квадрат' ] ? record[ 'Квадрат' ].trim() : ('user' + (uniqueId++))) + '@smartbirds.org'
-          }
-
-          inserts.push(findId({
-            email: email,
-            passwordHash: 'imported hash',
-            firstName: record[ 'Име' ] && record[ 'Име' ].trim(),
-            lastName: record[ 'Фамилия' ] && record[ 'Фамилия' ].trim(),
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            imported: true
-          }).then(function (id) {
-            var metas = genMetas(id, {
-              address: record[ 'Адрес' ] && record[ 'Адрес' ].trim(),
-              city: record[ 'Населено място' ] && record[ 'Населено място' ].trim(),
-              postcode: record[ 'Пощ.код' ] && record[ 'Пощ.код' ].trim(),
-              phone: record[ 'телефон' ] && record[ 'телефон' ].trim(),
-              modile: record[ 'мобилен тел.' ] && record[ 'мобилен тел.' ].trim(),
-              first_year: record[ 'година на първо участие' ] && record[ 'година на първо участие' ].trim(),
-              level: record[ 'ниво на участие' ] && record[ 'ниво на участие' ].trim(),
-              birds_knowledge: record[ 'познание на птиците' ] && record[ 'познание на птиците' ].trim(),
-              profile: record[ 'Профил' ] && record[ 'Профил' ].trim(),
-              notes: record[ 'Бележки' ] && record[ 'Бележки' ].trim()
-            })
-            var promises = []
-            if (metas.length) promises.push(queryInterface.bulkInsert('UserMeta', metas))
-            if (record[ 'Квадрат' ]) {
-              promises.push(queryInterface.bulkUpdate('Zones', {
-                ownerId: id,
-                status: 'owned'
-              }, { id: record[ 'Квадрат' ].trim() }).then(function (res) {
-                counts.zones += res[ 1 ].rowCount
-                if (res[ 1 ].rowCount === 0) {
-                  console.warn('Unknown zone ' + record[ 'Квадрат' ])
-                }
-              }))
+          (function (record) {
+            var email = record[ 'e_mail' ] && record[ 'e_mail' ].trim()
+            if (!validator.isEmail(email)) {
+              email = (record[ 'Квадрат' ] ? record[ 'Квадрат' ].trim() : ('user' + (uniqueId++))) + '@smartbirds.org'
             }
-            return Promise.all(promises)
-          }))
+
+            inserts.push(findId({
+              email: email,
+              passwordHash: 'imported hash',
+              firstName: record[ 'Име' ] && record[ 'Име' ].trim(),
+              lastName: record[ 'Фамилия' ] && record[ 'Фамилия' ].trim(),
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              imported: true,
+              notes: record[ 'Бележки' ] && record[ 'Бележки' ].trim()
+            }).then(function (id) {
+              var promises = []
+              if (record[ 'Квадрат' ]) {
+                promises.push(queryInterface.bulkUpdate('Zones', {
+                  ownerId: id,
+                  status: 'owned'
+                }, { id: record[ 'Квадрат' ].trim() }).then(function (res) {
+                  counts.zones += res[ 1 ].rowCount
+                  if (res[ 1 ].rowCount === 0) {
+                    console.warn('Unknown zone ' + record[ 'Квадрат' ])
+                  }
+                }))
+              }
+              return Promise.all(promises)
+            }))
+          })(rec)
         }
       })
 
@@ -164,7 +135,6 @@ module.exports = {
       users = _.pluck(users, 'id')
       return Promise.all([
         queryInterface.bulkUpdate('Zones', { ownerId: null }, { ownerId: { $in: users } }),
-        queryInterface.bulkDelete('UserMeta', { userId: { $in: users } }),
         queryInterface.bulkDelete('Users', { id: { $in: users } })
       ])
     })
