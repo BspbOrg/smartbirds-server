@@ -171,6 +171,10 @@ exports[ 'default' ] = {
 
       invalidLocationFilter: function (connection, filter) {
         return connection.localize('Invalid location filter "{{filter}}"', { filter })
+      },
+
+      missingGDPRconsent: function (connection) {
+        return connection.localize('Missing GDPR consent')
       }
     }
   }

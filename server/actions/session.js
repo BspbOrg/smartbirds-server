@@ -5,34 +5,61 @@ exports.sessionCreate = {
   middleware: [],
 
   inputs: {
-    email: {required: true},
-    password: {required: true}
+    email: { required: true },
+    password: { required: true },
+    gdprConsent: { required: false }
   },
 
   run: function (api, data, next) {
     data.response.success = false
-    api.models.user.findOne({where: {email: data.params.email}}).then(function (user) {
-      if (!user) {
-        return next(new Error(api.config.errors.sessionInvalidCredentials(data.connection)))
-      }
-      user.checkPassword(data.params.password, function (error, match) {
-        if (error) {
-          return next(error)
-        } else if (!match) {
-          return next(new Error(api.config.errors.sessionInvalidCredentials(data.connection)))
-        } else {
+    api.models.user
+      .findOne({ where: { email: data.params.email } })
+      // check that we found a user and password match
+      .then(function (user) {
+        if (!user) {
+          return Promise.reject(new Error(api.config.errors.sessionInvalidCredentials(data.connection)))
+        }
+        return new Promise(function (resolve, reject) {
+          user.checkPassword(data.params.password, function (error, match) {
+            if (error) return reject(error)
+            resolve(match)
+          })
+        })
+          .then(function (match) {
+            if (!match) return Promise.reject(new Error(api.config.errors.sessionInvalidCredentials(data.connection)))
+            return user
+          })
+      })
+      // check GDPR consent
+      .then(function (user) {
+        if (user.gdprConsent) return user
+        if (data.params.gdprConsent) {
+          return user.updateAttributes({ gdprConsent: true })
+            .then(function () { return user })
+        }
+        data.response.require = 'gprs-consent'
+        return false
+      })
+      // create session
+      .then(function (user) {
+        if (!user) return
+        return new Promise(function (resolve, reject) {
           api.session.create(data.connection, user, function (error, sessionData) {
             if (error) {
-              return next(error)
+              return reject(error)
             }
+            return resolve(sessionData)
+          })
+        })
+          .then(function (sessionData) {
             data.response.user = user.apiData(api)
             data.response.success = true
             data.response.csrfToken = sessionData.csrfToken
-            next()
           })
-        }
       })
-    })
+      .then(function () {
+        next()
+      })
       .catch(function (error) {
         console.error('sequelize error: ', error)
         next(error)
@@ -61,11 +88,6 @@ exports.sessionCheck = {
   inputs: {},
 
   run: function (api, data, next) {
-    data.response.req = {
-      headers: data.connection.rawConnection.req.headers,
-      params: data.params,
-      cookies: data.connection.rawConnection.cookies
-    }
     api.session.load(data.connection, function (error, sessionData) {
       if (error) {
         return next(error)
@@ -73,7 +95,7 @@ exports.sessionCheck = {
         data.connection.rawConnection.responseHttpCode = 401
         return next(new Error(api.config.errors.sessionRequireAuthentication(data.connection)))
       } else {
-        api.models.user.findOne({where: {id: sessionData.userId}}).then(function (user) {
+        api.models.user.findOne({ where: { id: sessionData.userId } }).then(function (user) {
           if (!user) {
             data.connection.rawConnection.responseHttpCode = 404
             return next(new Error(api.config.errors.sessionInvalidCredentials(data.connection)))
@@ -92,7 +114,7 @@ exports.sessionWSAuthenticate = {
   name: 'session:wsAuthenticate',
   description: 'session:wsAuthenticate',
   outputExample: {},
-  blockedConnectionTypes: ['web'],
+  blockedConnectionTypes: [ 'web' ],
 
   inputs: {},
 

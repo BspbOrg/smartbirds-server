@@ -1,7 +1,6 @@
-/* global describe, beforeEach, it */
+// eslint-disable-next-line no-unused-vars
+/* global describe, beforeEach, it, before, after */
 
-var _ = require('lodash')
-// var request = require("request");
 var should = require('should')
 var setup = require('../_setup')
 

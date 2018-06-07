@@ -76,6 +76,10 @@ module.exports = function (sequelize, DataTypes) {
       set: function (val) {
         this.setDataValue('forms', JSON.stringify(val))
       }
+    },
+    gdprConsent: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
     }
   }, {
     indexes: [
@@ -126,7 +130,7 @@ module.exports = function (sequelize, DataTypes) {
       },
 
       checkPassword: function (pw, callback) {
-        bcrypt.compare(pw, this.passwordHash, callback)
+        return bcrypt.compare(pw, this.passwordHash, callback)
       },
 
       genPasswordToken: function (callback) {
