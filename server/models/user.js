@@ -59,15 +59,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     forgotPasswordHash: DataTypes.TEXT,
     forgotPasswordTimestamp: DataTypes.DATE,
-    address: DataTypes.TEXT,
-    birdsKnowledge: DataTypes.TEXT,
-    city: DataTypes.TEXT,
-    level: DataTypes.TEXT,
-    mobile: DataTypes.TEXT,
     notes: DataTypes.TEXT,
-    phone: DataTypes.TEXT,
-    postcode: DataTypes.TEXT,
-    profile: DataTypes.TEXT,
     privacy: {
       type: DataTypes.STRING,
       defaultValue: 'public',
@@ -96,7 +88,6 @@ module.exports = function (sequelize, DataTypes) {
     classMethods: {
       associate: function (models) {
         // associations can be defined here
-        // models.user.hasMany(models.usermeta);
         // models.user.hasMany(models.zone, {foreignKey: 'ownerId', as: 'zones'});
         models.user.belongsToMany(models.user, {
           as: 'sharers',
@@ -184,15 +175,7 @@ module.exports = function (sequelize, DataTypes) {
               firstName: this.firstName,
               lastName: this.lastName,
               lastLoginAt: this.lastLoginAt,
-              address: this.address,
-              birdsKnowledge: this.birdsKnowledge,
-              city: this.city,
-              level: this.level,
-              mobile: this.mobile,
               notes: this.notes,
-              phone: this.phone,
-              postcode: this.postcode,
-              profile: this.profile,
               language: this.language,
               role: this.role,
               isAdmin: this.isAdmin,
@@ -204,9 +187,7 @@ module.exports = function (sequelize, DataTypes) {
       },
 
       apiUpdate: function (data) {
-        _.assign(this, _.pick(data, 'firstName', 'lastName', 'address', 'birdsKnowledge',
-          'city', 'level', 'mobile', 'notes', 'phone', 'postcode', 'profile', 'language', 'forms',
-          'privacy'))
+        _.assign(this, _.pick(data, 'firstName', 'lastName', 'notes', 'language', 'forms', 'privacy'))
       }
     }
   })

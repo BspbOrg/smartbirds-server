@@ -66,46 +66,9 @@
       <input ng-if="!user.hideFake" type="text" name="fakeusernameremembered2"/>
       <input ng-if="!user.hideFake" type="password" name="fakepasswordremembered2"/>
 
-      <field name="address" type="text"
-             label="{{'USER_DETAIL_ADDRESS' | translate}}"
-             model="user.data.address"></field>
-
-      <field name="city" type="text"
-             label="{{'USER_DETAIL_CITY' | translate}}"
-             model="user.data.city"></field>
-
-      <field name="postcode" type="text"
-             label="{{'USER_DETAIL_POST_CODE' | translate}}"
-             model="user.data.postcode"></field>
-
-      <field name="phone" type="phone"
-             label="{{'USER_DETAIL_PHONE' | translate}}"
-             model="user.data.phone"></field>
-
-      <field name="mobile" type="phone"
-             label="{{'USER_DETAIL_MOBILE' | translate}}"
-             model="user.data.mobile"></field>
-
-      <field name="birds_knowledge" type="select"
-             choices="[{id: 'beginner', label: 'USER_DETAIL_BIRDS_KNOWLEDGE_BEGINNER'}, {id: 'advanced', label: 'USER_DETAIL_BIRDS_KNOWLEDGE_ADVANCED'}, {id: 'professional', label: 'USER_DETAIL_BIRDS_KNOWLEDGE_PROFESSIONAL'}]"
-             label="{{'USER_DETAIL_BIRDS_KNOWLEDGE' | translate}}"
-             placeholder="- {{'USER_DETAIL_BIRDS_KNOWLEDGE_NONE' | translate}} -"
-             model="user.data.birdsKnowledge"></field>
-
-      <field name="profile" type="text"
-             label="{{'USER_DETAIL_PROFILE' | translate}}"
-             model="user.data.profile"></field>
-
-      <field name="level" type="select"
-             choices="[{id: 'first', label: 'USER_DETAIL_LEVEL_FIRST'}, {id: 'second', label: 'USER_DETAIL_LEVEL_SECOND'}]"
-             label="{{'USER_DETAIL_LEVEL' | translate}}"
-             placeholder="- {{'USER_DETAIL_LEVEL_NONE' | translate}} -"
-             model="user.data.level"></field>
-
       <field name="notes" type="memo"
              label="{{'USER_DETAIL_NOTES' | translate}}"
              model="user.data.notes"></field>
-
 
       <div ng-if="$user.isAdmin()">
         <hr>

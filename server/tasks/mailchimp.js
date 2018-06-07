@@ -44,15 +44,7 @@ module.exports.mailchimp = {
               var fields = {
                 FNAME: user.firstName,
                 LNAME: user.lastName,
-                ADDRESS: user.address,
-                BIRDSKNOW: user.birdsKnowledge,
-                CITY: user.city,
-                CBMLEVEL: user.level,
-                MOBILE: user.mobile,
-                NOTES: user.notes,
-                PHONE: user.phone,
-                POSTCODE: user.postcode,
-                PROFILE: user.profile
+                NOTES: user.notes
               }
 
               for (var key in fields) {
