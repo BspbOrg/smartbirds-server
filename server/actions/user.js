@@ -40,6 +40,7 @@ exports.userCreate = {
 
       user.save()
         .then(function (userObj) {
+          api.tasks.enqueue('mailchimp:create', { userId: userObj.id }, 'default')
           api.tasks.enqueue('mail:send', {
             mail: { to: userObj.email, subject: 'Успешна регистрация' },
             template: 'register',
