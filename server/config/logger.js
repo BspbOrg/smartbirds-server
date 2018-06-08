@@ -54,7 +54,15 @@ exports[ 'default' ] = {
 exports.test = {
   logger: function (api) {
     return {
-      transports: null
+      transports: process.env.LOG_LEVEL ? [
+        function (api, winston) {
+          return new (winston.transports.Console)({
+            colorize: true,
+            level: process.env.LOG_LEVEL,
+            timestamp: function () { return api.id + ' @ ' + new Date().toISOString() }
+          })
+        }
+      ] : null
     }
   }
 }
