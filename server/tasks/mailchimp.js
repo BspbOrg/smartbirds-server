@@ -1,8 +1,38 @@
-/**
- * Created by groupsky on 12.04.16.
- */
+module.exports.mailchimpUpdateAll = {
+  name: 'mailchimp:update-all',
+  description: 'updates mailchimp list with all user data',
+  queue: 'default',
+  // run manually:
+  // npm run enqueue --name=mailchimp:update-all
+  frequency: 0,
+  run: function (api, params, next) {
+    if (!api.config.mailchimp.enabled) {
+      return next()
+    }
+    api.models.user.findAll()
+      .then(api.mailchimp.batchUpdateUsers)
+      .then(r => next(null, r))
+      .catch(e => next(e))
+  }
+}
 
-var Promise = require('bluebird')
+module.exports.mailchimpCreate = {
+  name: 'stats:mailchimp',
+  description: 'updates mailchimp list with a user data',
+  queue: 'default',
+  // manual run:
+  // npm run enqueue --name=mailchimp:create --args='{"userId": 9999}'
+  frequency: 0,
+  run: function (api, { userId }, next) {
+    api.models.user.findById(userId)
+      .then(function (user) {
+        if (!user) return Promise.reject(new Error(`User ${userId} was not found in db`))
+        api.mailchimp.createUser(user)
+      })
+      .then(r => next(null, r))
+      .catch(e => next(e))
+  }
+}
 
 module.exports.mailchimpDelete = {
   name: 'mailchimp:delete',
@@ -11,70 +41,9 @@ module.exports.mailchimpDelete = {
   // manual run:
   // npm run enqueue -- --name=mailchimp:delete --args='{"email": "EMAIL ADDRESS"}'
   frequency: 0,
-  run: function (api, {email}, next) {
+  run: function (api, { email }, next) {
     api.mailchimp.deleteUser(email)
       .then(function (r) { next(null, r) })
       .catch(function (e) { next(e) })
-  }
-}
-
-module.exports.mailchimp = {
-  name: 'stats:mailchimp',
-  description: 'updates mailchimp list with user data',
-  queue: 'default',
-  // use cronjob to schedule the task
-  // npm run enqueue stats:mailchimp
-  frequency: 0,
-  run: function (api, params, next) {
-    if (!api.config.mailchimp.enabled) {
-      return next()
-    }
-    Promise.resolve(params)
-
-      .then(function () {
-        return api.models.user.findAll()
-      })
-
-      .then(function (users) {
-        var res = []
-        while (users.length) {
-          var u = users.splice(0, 250)
-          var p = api.mailchimp.client.post('/lists/' + api.config.mailchimp.list_id, {
-            members: u.map(function (user) {
-              var fields = {
-                FNAME: user.firstName,
-                LNAME: user.lastName,
-                NOTES: user.notes
-              }
-
-              for (var key in fields) {
-                if (!fields.hasOwnProperty(key)) continue
-                if (!fields[ key ]) delete fields[ key ]
-              }
-
-              api.log('update ' + user.email, 'info', fields)
-
-              return {
-                email_address: user.email,
-                status: 'subscribed',
-                merge_fields: fields
-              }
-            }),
-            update_existing: true
-          })
-          res.push(p)
-        }
-        return res
-      })
-      .then(function (res) {
-        api.log('Mailchimp sync result', 'info', res)
-      })
-
-      // final statement
-      .then(function () {
-        next()
-      }, function (error) {
-        next(error)
-      })
   }
 }
