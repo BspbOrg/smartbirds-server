@@ -114,7 +114,7 @@ exports.zoneView = {
     }).then(function () {
       next()
     }).catch(function (error) {
-      console.error(error)
+      api.log(error, 'warn')
       next(error)
     })
   }
