@@ -51,8 +51,14 @@
               </div>
               <div class="checkbox">
                 <label>
-                  <input name="accept_tos" type="checkbox" value="accept_tos" ng-model="sessionController.tos_accepted">
+                  <input name="accept_tos" type="checkbox" value="accept_tos" ng-model="sessionController.tos_accepted" required>
                   <a href role="button" ng-click="showTos()" translate>PROFILE_ACCEPT_TOS</a>
+                </label>
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input name="gdpr_consent" type="checkbox" value="gdpr_consent" ng-model="user.gdprConsent" required>
+                  <a href role="button" ng-click="showGDPR()" translate>PROFILE_GDPR_CONSENT</a>
                 </label>
               </div>
             </fieldset>
@@ -65,7 +71,7 @@
             <a language-switcher class="language" ng-click="$ctrl.changeLanguage('bg')">BG</a>
             </div>
             <button type="submit"
-                    ng-disabled="form.$invalid || sessionController.loading || !sessionController.tos_accepted"
+                    ng-disabled="form.$invalid || sessionController.loading || !sessionController.tos_accepted || !user.gdprConsent"
                     ng-click="sessionController.register(user)"
                     class="btn btn-lg btn-primary" translate>PROFILE_BTN_REGISTER
             </button>

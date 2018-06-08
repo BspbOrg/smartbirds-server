@@ -5,7 +5,7 @@ module.exports = {
     const redis = api.redis.clients.client
 
     api.session = {
-      prefix: 'session:',
+      prefix: 'session2:',
       ttl: 60 * 60 * 24, // 1 day
 
       load: function (connection, callback) {

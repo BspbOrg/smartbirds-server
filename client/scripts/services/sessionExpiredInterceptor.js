@@ -29,10 +29,10 @@ require('../app').factory('sessionExpiredInterceptor', /* @ngInject */function (
     $uibModal = $uibModal || $injector.get('$uibModal')
     return $uibModal
       .open({
-        templateUrl: '/views/login-dialog.html'
-      }).result.then(function (result) {
-        return user.authenticate(result)
-      })
+        templateUrl: '/views/login-dialog.html',
+        controller: 'SessionController',
+        controllerAs: 'sessionController'
+      }).result
   }
 
   return {

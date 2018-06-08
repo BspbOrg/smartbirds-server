@@ -22,17 +22,26 @@ require('../app').controller('SessionController', /* @ngInject */function ($log,
     if ($stateParams.token) { $scope.auth.token = $stateParams.token }
   }
 
-  ctrl.login = function (auth) {
+  ctrl.login = function (auth, callback) {
     ctrl.loading = true
     $scope.form.$setPristine()
     user.authenticate(auth).then(function (identity) {
       $log.debug('auth ok', identity)
-      if ($rootScope.returnToState) {
-        $state.go($rootScope.returnToState.name, $rootScope.returnToStateParams)
+      if (callback) {
+        callback()
       } else {
-        $state.go('auth.dashboard')
+        if ($rootScope.returnToState) {
+          $state.go($rootScope.returnToState.name, $rootScope.returnToStateParams)
+        } else {
+          $state.go('auth.dashboard')
+        }
       }
     }, function (response) {
+      if (response.require === 'gdpr-consent') {
+        ctrl.requireGdprConsent = true
+        flashService.error($translate.instant('Missing GDPR consent'))
+        return
+      }
       $log.debug('auth err', response)
       flashService.error((response && (response.error || (response.data && response.data.error))) || $translate.instant('Invalid credentials'))
     }).finally(function () {

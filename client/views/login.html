@@ -25,6 +25,12 @@
                 <span ng-show="form.password.$dirty && form.password.$error.required"
                       class="help-block" translate>PROFILE_ERROR_PASSWORD_REQUIRED</span>
               </div>
+              <div ng-if="sessionController.requireGdprConsent" class="checkbox">
+                <label>
+                  <input name="gdpr_consent" type="checkbox" value="gdpr_consent" ng-model="auth.gdprConsent" required>
+                  <a href role="button" ng-click="showGDPR()" translate>PROFILE_GDPR_CONSENT</a>
+                </label>
+              </div>
               <!--<div class="checkbox">-->
               <!--<label>-->
               <!--<input name="remember" type="checkbox" value="Remember Me">Remember Me-->

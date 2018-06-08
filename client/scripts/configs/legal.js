@@ -11,4 +11,12 @@ require('../app').run(/* @ngInject */function ($rootScope, $uibModal) {
       size: 'lg'
     })
   }
+  $rootScope.showGDPR = function () {
+    $uibModal.open({
+      ariaLabeledBy: 'modal-title',
+      ariaDescribeBy: 'modal-body',
+      templateUrl: '/views/gdpr.html',
+      size: 'lg'
+    })
+  }
 })
