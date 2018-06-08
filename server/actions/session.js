@@ -37,7 +37,7 @@ exports.sessionCreate = {
           return user.updateAttributes({ gdprConsent: true })
             .then(function () { return user })
         }
-        data.response.require = 'gprs-consent'
+        data.response.require = 'gdpr-consent'
         return false
       })
       // create session

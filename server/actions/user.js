@@ -16,13 +16,18 @@ exports.userCreate = {
     language: { required: false },
     role: { default: 'user' },
     forms: { required: false },
-    privacy: { required: false }
+    privacy: { required: false },
+    gdprConsent: { required: false, default: false }
   },
 
   run: function (api, data, next) {
     var user = api.models.user.build(data.params, this.inputs)
     if (data.session && data.session.user.isAdmin) {
       user.role = data.params.role
+      user.gdprConsent = null
+    } else if (!user.gdprConsent) {
+      data.response.require = 'gdpr-consent'
+      return next(new Error(api.config.errors.missingGDPRconsent(data.connection)))
     } else {
       user.role = 'user'
     }
