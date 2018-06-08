@@ -155,6 +155,5 @@ function checkMetaOldSchema (api) {
   }).catch(Sequelize.DatabaseError, function () {
     var noTableMsg = 'No SequelizeMeta table found - creating new table'
     api.log(noTableMsg)
-    console.log(noTableMsg)
   })
 }
