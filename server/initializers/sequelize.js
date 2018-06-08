@@ -62,11 +62,11 @@ module.exports = {
         fs.readdirSync(dir).forEach(function (file) {
           const filename = path.join(dir, file)
           var nameParts = file.split('/')
-          var name = nameParts[(nameParts.length - 1)].split('.')[0]
-          api.models[name] = api.sequelize.sequelize.import(filename)
+          var name = nameParts[ (nameParts.length - 1) ].split('.')[ 0 ]
+          api.models[ name ] = api.sequelize.sequelize.import(filename)
           api.watchFileAndAct(filename, () => {
             api.log('rebooting due to model change: ' + name, 'info')
-            delete require.cache[require.resolve(filename)]
+            delete require.cache[ require.resolve(filename) ]
             api.commands.restart()
           })
         })
@@ -81,7 +81,7 @@ module.exports = {
       loadFixtures: function (next) {
         if (api.config.sequelize.loadFixtures) {
           var SequelizeFixtures = require('sequelize-fixtures')
-          SequelizeFixtures.loadFile(api.projectRoot + '/test/fixtures/*.{json,yml,js}', api.models)
+          SequelizeFixtures.loadFile(api.projectRoot + '/test/fixtures/*.{json,yml,js}', api.models, { log: m => api.log(m, 'notice') })
             .then(function () {
               next()
             })
