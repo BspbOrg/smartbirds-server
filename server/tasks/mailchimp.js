@@ -4,6 +4,20 @@
 
 var Promise = require('bluebird')
 
+module.exports.mailchimpDelete = {
+  name: 'mailchimp:delete',
+  description: 'removes a user from mailchimp list',
+  queue: 'default',
+  // manual run:
+  // npm run enqueue -- --name=mailchimp:delete --args='{"email": "EMAIL ADDRESS"}'
+  frequency: 0,
+  run: function (api, {email}, next) {
+    api.mailchimp.deleteUser(email)
+      .then(function (r) { next(null, r) })
+      .catch(function (e) { next(e) })
+  }
+}
+
 module.exports.mailchimp = {
   name: 'stats:mailchimp',
   description: 'updates mailchimp list with user data',
@@ -43,7 +57,7 @@ module.exports.mailchimp = {
 
               for (var key in fields) {
                 if (!fields.hasOwnProperty(key)) continue
-                if (!fields[key]) delete fields[key]
+                if (!fields[ key ]) delete fields[ key ]
               }
 
               api.log('update ' + user.email, 'info', fields)

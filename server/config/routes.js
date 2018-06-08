@@ -136,6 +136,7 @@ exports.default = {
 
       delete: [
         { path: '/session', action: 'session:destroy' },
+        { path: '/user/:id', action: 'user:delete' },
         { path: '/zone/:id/owner', action: 'zone:clearOwner' },
         { path: '/cbm/:id', action: 'formCBM:delete' },
         { path: '/visit/:year', action: 'visit:delete' },

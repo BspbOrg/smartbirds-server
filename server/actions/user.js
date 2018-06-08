@@ -544,3 +544,52 @@ exports.updateSharees = {
       .catch(next)
   }
 }
+
+exports.userDelete = {
+  name: 'user:delete',
+  description: 'user:delete',
+  outputExample: {},
+  middleware: [ 'auth', 'admin' ],
+
+  inputs: {
+    id: { required: true }
+  },
+
+  run: async function (api, data, next) {
+    data.response.success = false
+    try {
+      const user = await api.models.user.findOne({ where: { id: data.params.id } })
+      if (!user) {
+        data.connection.rawConnection.responseHttpCode = 404
+        return next(new Error('Няма такъв потребител'))
+      }
+
+      const adopter = api.config.app.orphanRecordsAdopter && await api.models.user.findOne({ where: { email: api.config.app.orphanRecordsAdopter } })
+      if (!adopter) {
+        data.connection.rawConnection.responseHttpCode = 500
+        return next(new Error('orphanRecordsAdopter not defined'))
+      }
+
+      let adoptForms = []
+      _.forEach(api.forms, form => {
+        if (!form.model) return
+        adoptForms.push(form.model.update({ userId: adopter.id }, { where: { userId: user.id } }))
+      })
+      await Promise.all(adoptForms)
+
+      await new Promise(function (resolve, reject) {
+        api.tasks.enqueue('mailchimp:delete', { email: user.email }, 'default', function (error) {
+          if (error) return reject(error)
+          resolve()
+        })
+      })
+
+      await user.destroy()
+
+      data.response.success = true
+      next()
+    } catch (e) {
+      next(e)
+    }
+  }
+}
