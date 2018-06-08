@@ -6,6 +6,7 @@ var sinon = require('sinon')
 var setup = require('../_setup')
 var Promise = require('bluebird')
 require('should-sinon')
+const capitalizeFirstLetter = require('../../server/utils/capitalizeFirstLetter')
 
 describe('Action user:', function () {
   var user = { email: 'user@acme.corp', password: 'secret', firstName: 'User', lastName: 'Model' }
@@ -102,17 +103,21 @@ describe('Action user:', function () {
   }) // given no user
 
   describe('given a user', function () {
-    var userId
-    before(function () {
-      return setup.api.models.user.findOne({ where: { email: user.email } }).then(function (user) {
-        if (user) {
-          return user.destroy()
-        }
-      }).then(function () {
-        return setup.runActionAsGuest('user:create', user).then(function (response) {
-          userId = response.data.id
+    let userId
+    beforeEach(async function () {
+      await setup.api.models.user.destroy({ where: { email: user.email }, force: true })
+      const model = await setup.api.models.user.build(user)
+      await new Promise(function (resolve, reject) {
+        model.updatePassword(user.password, function (error) {
+          if (error) return reject(error)
+          return resolve()
         })
       })
+      await model.save()
+      userId = model.id
+    })
+    afterEach(async function () {
+      await setup.api.models.user.destroy({ where: { id: userId }, force: true })
     })
 
     setup.describeAllRoles(function (runAction) {
@@ -308,6 +313,69 @@ describe('Action user:', function () {
       it('cannot edit user', function () {
         return runAction('user:edit', { id: userId, firstName: 'scam' }).then(function (response) {
           response.should.have.property('error').and.not.be.empty()
+        })
+      })
+    })
+
+    describe('DELETE', function () {
+      setup.describeAsRoles([ 'guest', 'user', 'birds' ], function (runAction) {
+        it('cannot delete user', async function () {
+          const response = await runAction('user:delete', { id: userId })
+          response.should.have.property('error')
+        })
+      })
+
+      setup.describeAsRoles([ 'admin' ], function (runAction) {
+        describe('when deleting user', function () {
+          let deleteResponse
+          beforeEach(async function () {
+            deleteResponse = await runAction('user:delete', { id: userId })
+          })
+          it('response should be success', async function () {
+            deleteResponse.should.not.have.property('error')
+            deleteResponse.should.have.property('success', true)
+          })
+          it('should delete user from db', async function () {
+            const record = await setup.api.models.user.findById(userId)
+            should(record).not.be.ok()
+          })
+          it('should allow registering new user with the same email', async function () {
+            const registerResponse = await setup.runAction('user:create', user)
+            registerResponse.should.not.have.property('error')
+            registerResponse.should.have.property('data')
+          })
+        })
+
+        describe('given user with records', function () {
+          let records = []
+          beforeEach(async function () {
+            const record = await setup.api.models.formBirds.findOne({})
+            record.userId = userId
+            record.save()
+            records.push({ type: 'birds', id: record.id })
+            console.log('created records', records)
+          })
+          afterEach(async function () {
+            await Promise.all(records.map(async function (record) {
+              return setup.api.models[ `form${capitalizeFirstLetter(record.type)}` ].destroy({
+                where: { id: record.id },
+                force: true
+              })
+            }))
+          })
+
+          it('should migrate all records to adopter', async function () {
+            const response = await runAction('user:delete', { id: userId })
+            response.should.not.have.property('error')
+            response.should.have.property('success', true)
+
+            for (let i = 0; i < records.length; i++) {
+              const record = records[ i ]
+              const r = await setup.api.models[ `form${capitalizeFirstLetter(record.type)}` ].findById(record.id)
+              should(r).be.ok()
+              r.userId.should.not.equal(userId)
+            }
+          })
         })
       })
     })

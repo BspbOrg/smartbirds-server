@@ -5,10 +5,7 @@ const moment = require('moment')
 const path = require('path')
 const Promise = require('bluebird')
 const { DataTypes } = require('sequelize')
-
-function capitalizeFirstLetter (string) {
-  return string.charAt(0).toUpperCase() + string.slice(1)
-}
+const capitalizeFirstLetter = require('../utils/capitalizeFirstLetter')
 
 function serialize (obj) {
   if (Array.isArray(obj)) {
