@@ -79,7 +79,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     gdprConsent: {
       type: DataTypes.BOOLEAN,
-      defaultValue: true
+      defaultValue: false
     }
   }, {
     indexes: [

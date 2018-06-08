@@ -10,7 +10,8 @@ module.exports = [
       firstName: 'Regular',
       lastName: 'User',
       role: 'user',
-      passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC' // hash of 'secret'
+      passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC', // hash of 'secret'
+      gdprConsent: true
     }
   },
   {
@@ -20,7 +21,8 @@ module.exports = [
       firstName: 'Admin',
       lastName: 'User',
       role: 'admin',
-      passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC' // hash of 'secret'
+      passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC', // hash of 'secret'
+      gdprConsent: true
     }
   },
   {
@@ -30,7 +32,8 @@ module.exports = [
       firstName: 'Second',
       lastName: 'User',
       role: 'user',
-      passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC' // hash of 'secret'
+      passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC', // hash of 'secret'
+      gdprConsent: true
     }
   },
   {
@@ -41,7 +44,8 @@ module.exports = [
       lastName: 'Birds',
       role: 'moderator',
       forms: { 'formBirds': true },
-      passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC' // hash of 'secret'
+      passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC', // hash of 'secret'
+      gdprConsent: true
     }
   },
   {
@@ -52,7 +56,8 @@ module.exports = [
       lastName: 'CBM',
       role: 'moderator',
       forms: { 'formCBM': true },
-      passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC' // hash of 'secret'
+      passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC', // hash of 'secret'
+      gdprConsent: true
     }
   },
   {
@@ -62,7 +67,8 @@ module.exports = [
       firstName: 'Adopt',
       lastName: 'Orphans',
       role: 'user',
-      passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC' // hash of 'secret'
+      passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC', // hash of 'secret'
+      gdprConsent: true
     }
   }
 ]

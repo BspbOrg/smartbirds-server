@@ -9,7 +9,7 @@ require('should-sinon')
 const capitalizeFirstLetter = require('../../server/utils/capitalizeFirstLetter')
 
 describe('Action user:', function () {
-  var user = { email: 'user@acme.corp', password: 'secret', firstName: 'User', lastName: 'Model' }
+  var user = { email: 'user@acme.corp', password: 'secret', firstName: 'User', lastName: 'Model', gdprConsent: true }
 
   before(function () {
     return setup.init()
