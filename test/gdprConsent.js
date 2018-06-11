@@ -42,7 +42,7 @@ describe('GDPR Consent:', function () {
 
     it('should require consent when logging in', async function () {
       const response = await setup.runAction('session:create', auth)
-      response.should.not.have.property('error')
+      response.should.have.property('error')
       response.should.not.have.property('csrfToken')
       response.should.not.have.property('user')
       response.should.not.have.property('data')
@@ -132,7 +132,7 @@ describe('GDPR Consent:', function () {
       createResponse.should.not.have.property('error')
 
       const response = await setup.runAction('session:create', auth)
-      response.should.not.have.property('error')
+      response.should.have.property('error')
       response.should.not.have.property('csrfToken')
       response.should.not.have.property('user')
       response.should.not.have.property('data')

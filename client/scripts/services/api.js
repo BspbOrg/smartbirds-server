@@ -12,7 +12,8 @@ require('../app').service('api', /* @ngInject */function ($log, $http, $resource
         method: 'POST',
         url: ENDPOINT_URL + '/session',
         data: auth,
-        withCredentials: true
+        withCredentials: true,
+        skipSessionExpiredInterceptor: true
       })
     },
     restore: function (xsrf, opts) {
