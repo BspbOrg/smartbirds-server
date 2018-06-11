@@ -37,7 +37,7 @@ require('../app').controller('SessionController', /* @ngInject */function ($log,
         }
       }
     }, function (response) {
-      if (response.require === 'gdpr-consent') {
+      if (response.require === 'gdpr-consent' || response.data.require === 'gdpr-consent') {
         ctrl.requireGdprConsent = true
         flashService.error($translate.instant('Missing GDPR consent'))
         return

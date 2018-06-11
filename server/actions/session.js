@@ -37,7 +37,9 @@ exports.sessionCreate = {
           return user.updateAttributes({ gdprConsent: true })
             .then(function () { return user })
         }
+        data.connection.rawConnection.responseHttpCode = 401
         data.response.require = 'gdpr-consent'
+        data.response.error = api.config.errors.missingGDPRconsent(data.connection)
         return false
       })
       // create session
