@@ -80,6 +80,7 @@ module.exports = {
         })
       })
       .then(function (res) {
+        if (!res || !res.length) return
         return Promise.all([
           queryInterface.bulkInsert('Nomenclatures', res.map(function (item) {
             return Object.assign({}, item, { type: item.type.replace('herp_', 'herptiles_') })
