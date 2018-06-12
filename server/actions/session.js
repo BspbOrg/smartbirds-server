@@ -17,6 +17,7 @@ exports.sessionCreate = {
       // check that we found a user and password match
       .then(function (user) {
         if (!user) {
+          data.connection.rawConnection.responseHttpCode = 401
           return Promise.reject(new Error(api.config.errors.sessionInvalidCredentials(data.connection)))
         }
         return new Promise(function (resolve, reject) {
@@ -26,7 +27,10 @@ exports.sessionCreate = {
           })
         })
           .then(function (match) {
-            if (!match) return Promise.reject(new Error(api.config.errors.sessionInvalidCredentials(data.connection)))
+            if (!match) {
+              data.connection.rawConnection.responseHttpCode = 401
+              return Promise.reject(new Error(api.config.errors.sessionInvalidCredentials(data.connection)))
+            }
             return user
           })
       })
