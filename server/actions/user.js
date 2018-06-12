@@ -5,7 +5,7 @@ exports.userCreate = {
   name: 'user:create',
   description: 'user:create',
   outputExample: {},
-  middleware: [],
+  middleware: [ 'session' ],
 
   inputs: {
     email: { required: true },
