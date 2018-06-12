@@ -19,6 +19,15 @@ require('../app').controller('UserController', /* @ngInject */function ($scope, 
     controller.moderatorForms.push({ id: formDef.serverModel, label: formDef.label })
   })
 
+  $scope.$watch(function () {
+    return controller.data && controller.data.getName()
+  }, function (name) {
+    $translate('USER_DETAIL_BUTTON_DELETE_CONFIRM_MESSAGE', { confirmText: '<b>' + name + '</b>' })
+      .then(function (message) {
+        controller.deleteConfirmMessage = message
+      })
+  })
+
   controller.save = function () {
     $q.resolve(controller.data)
       .then(function (user) {
@@ -67,9 +76,34 @@ require('../app').controller('UserController', /* @ngInject */function ($scope, 
         })
         return $q.reject(error)
       })
-  };
+  }
 
-  (function () {
+  controller.delete = function () {
+    $q.resolve(controller.data)
+      .then(function (user) {
+        return User.delete({id: user.id}).$promise
+      })
+      .then(function (res) {
+        ngToast.create({
+          className: 'success',
+          content: $translate.instant('Profile deleted successfully')
+        })
+        return res
+      }, function (error) {
+        Raven.captureMessage(JSON.stringify(error))
+        ngToast.create({
+          className: 'danger',
+          content: '<p>' + $translate.instant('Could not delete profile') + '</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
+        })
+        return $q.reject(error)
+      })
+      .then(function (res) {
+        controller.form.$setPristine()
+        $state.go('^')
+      })
+  }
+
+  function hackAutocompletion () {
     var timeout = false
     var deregister = $scope.$watch(function () {
       if (timeout) $timeout.cancel(timeout)
@@ -78,5 +112,7 @@ require('../app').controller('UserController', /* @ngInject */function ($scope, 
         controller.hideFake = true
       })
     }, angular.noop)
-  })()
+  }
+
+  hackAutocompletion()
 })

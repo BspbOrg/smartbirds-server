@@ -3,6 +3,17 @@
     <h1 ng-if="user.data.id" class="page-header">
       <div class="pull-right">
         <div class="btn-group">
+          <button type="button"
+                  class="btn btn-danger"
+                  ng-disabled="!user.data.getName()"
+                  ng-if="$user.isAdmin() && user.data.id"
+                  confirm="{{user.deleteConfirmMessage}}"
+                  confirm-text="{{user.data.getName()}}"
+                  confirm-size="md"
+                  ng-click="user.delete()">
+            <i class="fa fa-trash fa-fw"></i>
+            {{'USER_DETAIL_BUTTON_DELETE'|translate}}
+          </button>
           <button type="button" class="btn btn-primary"
                   ng-disabled="user.form.$pristine || user.form.$invalid"
                   ng-click="user.save()">

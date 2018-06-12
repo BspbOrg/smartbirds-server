@@ -1,10 +1,18 @@
 <div class="modal-header">
-  <h3 class="modal-title" translate>CONFIRM_DIALOG_TITLE</h3>
+  <h3 class="modal-title">{{::'CONFIRM_DIALOG_TITLE'|translate}}</h3>
 </div>
 <div class="modal-body">
-  <p class="lead">{{message}}</p>
+  <p class="lead" ng-bind-html="::message"></p>
+  <div ng-if="::confirmation.confirmText" class="form-group">
+    <input type="text" autocomplete="{{::confirmText}}" class="form-control" ng-model="confirmation.confirmedText">
+  </div>
 </div>
 <div class="modal-footer">
-  <button class="btn btn-primary" type="button" ng-click="$dismiss('cancel')" translate>CONFIRM_DIALOG_BUTTON_CANCEL</button>
-  <button class="btn btn-danger" type="button" ng-click="$close('confirm')" translate>CONFIRM_DIALOG_BUTTON_CONFIRM</button>
+  <button class="btn btn-primary" type="button" ng-click="$dismiss('cancel')">
+    {{::'CONFIRM_DIALOG_BUTTON_CANCEL'|translate}}
+  </button>
+  <button class="btn btn-danger" type="button" ng-disabled="confirmation.confirmText !== confirmation.confirmedText"
+          ng-click="$close('confirm')">
+    {{::'CONFIRM_DIALOG_BUTTON_CONFIRM'|translate}}
+  </button>
 </div>

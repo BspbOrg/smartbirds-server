@@ -14,14 +14,20 @@ require('../app').directive('confirm', /* @ngInject */function () {
         event.preventDefault()
         event.stopImmediatePropagation()
 
+        var size = $attrs.confirmSize || 'sm'
         var modalScope = $scope.$new(true)
         modalScope.message = $attrs.confirm
+
+        modalScope.confirmation = {
+          confirmText: $attrs.confirmText || '',
+          confirmedText: ''
+        }
 
         var modalInstance = $uibModal.open({
           ariaLabelledBy: 'modal-title',
           ariaDescribedBy: 'modal-body',
           templateUrl: '/views/system/confirm-dialog.html',
-          size: 'sm',
+          size: size,
           scope: modalScope
         })
 
