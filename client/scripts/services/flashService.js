@@ -13,6 +13,10 @@ require('../app').service('flashService', /* @ngInject */function ($rootScope) {
     }
   }
 
+  service.clear = function () {
+    $rootScope.flash = false
+  }
+
   service.success = function (message, keep) {
     service.flash('success', message, keep)
   }
