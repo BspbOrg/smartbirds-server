@@ -15,7 +15,7 @@ require('../app').run(/* @ngInject */function ($rootScope, $uibModal) {
     $uibModal.open({
       ariaLabeledBy: 'modal-title',
       ariaDescribeBy: 'modal-body',
-      templateUrl: '/views/gdpr.html',
+      templateUrl: '/views/gdpr/gdpr-dialog.html',
       size: 'lg'
     })
   }

@@ -1,10 +1,4 @@
-<div class="modal-header">
-  <button type="button" class="close" translate-attr="{'aria-label': 'BTN_ARIA_LABEL_CLOSE'}" ng-click="$dismiss()">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <h3 class="modal-title" id="modal-title" translate>GDPR_TITLE</h3>
-</div>
-<div class="modal-body" id="modal-body" ng-init="values = {
+<div ng-init="values = {
   contactStart: '<a href=\'mailto:smartbirds.pro@bspb.org\'>',
   contactEnd: '</a>'
   }">
@@ -66,7 +60,4 @@
 
   <h4 translate="GDPR_SECTION11_TITLE" translate-values="values"></h4>
   <p translate="GDPR_SECTION11_BODY" translate-values="values"></p>
-</div>
-<div class="modal-footer">
-  <button class="btn btn-primary" type="button" ng-click="$dismiss()" translate>BTN_OK</button>
 </div>

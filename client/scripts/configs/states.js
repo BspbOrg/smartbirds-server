@@ -91,6 +91,11 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
       resolve: resolveUser
     })
 
+    .state('gdpr', {
+      url: '/gdpr',
+      templateUrl: '/views/gdpr/gdpr-page.html'
+    })
+
     /// ////////
     // Login //
     /// ////////
