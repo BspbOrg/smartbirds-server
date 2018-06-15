@@ -110,6 +110,7 @@ module.exports = function (sequelize, DataTypes) {
 
     instanceMethods: {
       name: function () {
+        if (!this.gdprConsent) return ''
         return [ this.firstName, this.lastName ].join(' ')
       },
 
@@ -161,8 +162,8 @@ module.exports = function (sequelize, DataTypes) {
           case 'public':
             return {
               id: this.id,
-              firstName: this.firstName,
-              lastName: this.lastName
+              firstName: this.gdprConsent ? this.firstName : '',
+              lastName: this.gdprConsent ? this.lastName : ''
             }
           case 'sharer':
           case 'sharee':
