@@ -113,7 +113,7 @@ module.exports = {
        * @param {User} user
        * @returns {Promise<{FNAME: *, LNAME: *, NOTES: *}>}
        */
-      userFields: async function (user) {
+      userFields: function (user) {
         const fields = {
           FNAME: user.firstName,
           LNAME: user.lastName,
@@ -122,7 +122,7 @@ module.exports = {
 
         for (let key in fields) {
           if (!fields.hasOwnProperty(key)) continue
-          if (!fields[ key ]) delete fields[ key ]
+          if (fields[ key ] === null || typeof fields[ key ] === 'undefined') delete fields[ key ]
         }
 
         return fields
