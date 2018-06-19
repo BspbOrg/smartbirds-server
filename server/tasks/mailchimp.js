@@ -17,8 +17,8 @@ module.exports.mailchimpUpdateAll = {
 }
 
 module.exports.mailchimpCreate = {
-  name: 'stats:mailchimp',
-  description: 'updates mailchimp list with a user data',
+  name: 'mailchimp:create',
+  description: 'add a user in mailchimp list',
   queue: 'default',
   // manual run:
   // npm run enqueue --name=mailchimp:create --args='{"userId": 9999}'
