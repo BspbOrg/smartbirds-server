@@ -843,5 +843,8 @@
     "Profile deleted successfully": "Профилът бе изтрит успешно",
     "Could not delete profile": "Профилът не можа да бъде изтрит",
     "GDPR_LABEL": "GDPR",
-    "GDPR_SUBTITLE": "във връзка с функционирането на SmartBirds, информационната система с биологична информация към БДЗП"
+    "GDPR_SUBTITLE": "във връзка с функционирането на SmartBirds, информационната система с биологична информация към БДЗП",
+    "USER_LIST_TABLE_GDPR_CONSENT": "GDPR",
+    "USER_DETAIL_GDPR_CONSENT_GRANTED": "Разрешено",
+    "USER_DETAIL_GDPR_CONSENT_NOT_GRANTED": "Неразрешено"
 }

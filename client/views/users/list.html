@@ -25,21 +25,21 @@
         <form role="form" class="form form-filter">
 
           <div class="form-group">
-            <label translate>USER_LIST_FILTER_SEARCH</label>
+            <label>{{::'USER_LIST_FILTER_SEARCH' | translate}}</label>
             <input name="search" type="text" class="form-control"
                    ng-model="data.filter.search"
             />
           </div>
 
           <div class="form-group">
-            <label translate>USER_LIST_FILTER_ROLE</label>
+            <label>{{::'USER_LIST_FILTER_ROLE' | translate}}</label>
             <select name="role" class="form-control"
                     ng-model="data.filter.role"
             >
-              <option value="" translate>USER_LIST_FILTER_ROLE_ALL</option>
-              <option value="user" translate>USER_LIST_FILTER_ROLE_USER</option>
-              <option value="moderator" translate>USER_LIST_FILTER_ROLE_MODERATOR</option>
-              <option value="admin" translate>USER_LIST_FILTER_ROLE_ADMINISTRATOR</option>
+              <option value="">{{::'USER_LIST_FILTER_ROLE_ALL' | translate}}</option>
+              <option value="user">{{::'USER_LIST_FILTER_ROLE_USER' | translate}}</option>
+              <option value="moderator">{{::'USER_LIST_FILTER_ROLE_MODERATOR' | translate}}</option>
+              <option value="admin">{{::'USER_LIST_FILTER_ROLE_ADMINISTRATOR' | translate}}</option>
             </select>
           </div>
 
@@ -56,30 +56,40 @@
       <thead>
       <tr>
         <th class="col-md-1" sortable-column="id">#</th>
-        <th class="col-md-3" sortable-column="email" translate>USER_LIST_TABLE_EMAIL</th>
-        <th class="col-md-2" sortable-column="firstName" translate>USER_LIST_TABLE_FIRST_NAME</th>
-        <th class="col-md-2" sortable-column="lastName" translate>USER_LIST_TABLE_LAST_NAME</th>
-        <th class="col-md-2" sortable-column="lastLoginAt|date:'yyyyMMddHHmmss'" translate>USER_LIST_TABLE_LAST_LOGIN</th>
-        <th class="col-md-1 text-center" sortable-column="role" translate>USER_LIST_TABLE_ROLE</th>
+        <th class="col-md-3" sortable-column="email">{{::'USER_LIST_TABLE_EMAIL' | translate}}</th>
+        <th class="col-md-2" sortable-column="firstName">{{::'USER_LIST_TABLE_FIRST_NAME' | translate}}</th>
+        <th class="col-md-2" sortable-column="lastName">{{::'USER_LIST_TABLE_LAST_NAME' | translate}}</th>
+        <th class="col-md-2" sortable-column="lastLoginAt|date:'yyyyMMddHHmmss'">
+          {{::'USER_LIST_TABLE_LAST_LOGIN' | translate}}
+        </th>
+        <th class="col-md-1 text-center" sortable-column="role">{{::'USER_LIST_TABLE_ROLE' | translate}}</th>
+        <th class="col-md-1 text-center" sortable-column="gdprConsent">
+          {{::'USER_LIST_TABLE_GDPR_CONSENT' | translate}}
+        </th>
       </tr>
       </thead>
       <tbody>
       <tr
         ng-repeat="row in rows | filter:usersController.filterRows(data.filter) | orderBy:data.order.key:data.order.reverse"
         ng-click="$state.go('.detail', {id: row.id})">
-        <td>{{row.id}}</td>
-        <td>{{row.email}}</td>
-        <td>{{row.firstName}}</td>
-        <td>{{row.lastName}}</td>
-        <td>{{row.lastLoginAt | date}}</td>
-        <td>
-          <span ng-if="row.role === 'user'" translate>USER_DETAIL_ROLE_USER</span>
-          <span ng-if="row.role === 'admin'" translate>USER_DETAIL_ROLE_ADMIN</span>
-          <span ng-if="row.role === 'moderator'">
-            <translate>USER_DETAIL_ROLE_MODERATOR</translate>
-            <span ng-repeat="form in ::row.forms | formLabels"><span ng-if="!$first">, </span><translate>{{::form}}</translate></span>
+        <td>{{::row.id}}</td>
+        <td>{{::row.email}}</td>
+        <td>{{::row.firstName}}</td>
+        <td>{{::row.lastName}}</td>
+        <td>{{::row.lastLoginAt | date}}</td>
+        <td class="col-md-1 text-center">
+          <span ng-if="::row.role === 'user'">{{::'USER_DETAIL_ROLE_USER' | translate}}</span>
+          <span ng-if="::row.role === 'admin'">{{::'USER_DETAIL_ROLE_ADMIN' | translate}}</span>
+          <span ng-if="::row.role === 'moderator'">
+            {{::'USER_DETAIL_ROLE_MODERATOR' | translate}}
+            <span ng-repeat="form in ::row.forms | formLabels"><span
+              ng-if="::!$first">, </span>{{::form | translate}}</span>
           </span>
 
+        </td>
+        <td class="col-md-1 text-center">
+          <span ng-if="::row.gdprConsent">{{::'USER_DETAIL_GDPR_CONSENT_GRANTED' | translate}}</span>
+          <span ng-if="::!row.gdprConsent">{{::'USER_DETAIL_GDPR_CONSENT_NOT_GRANTED' | translate}}</span>
         </td>
       </tr>
       </tbody>

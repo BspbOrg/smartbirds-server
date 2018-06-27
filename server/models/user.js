@@ -186,7 +186,8 @@ module.exports = function (sequelize, DataTypes) {
               isAdmin: this.isAdmin,
               isModerator: this.isModerator,
               forms: this.forms,
-              privacy: this.privacy
+              privacy: this.privacy,
+              gdprConsent: this.gdprConsent
             }
         }
       },

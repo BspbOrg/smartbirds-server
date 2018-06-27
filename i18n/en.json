@@ -843,5 +843,8 @@
     "Profile deleted successfully": "Account deleted successfully",
     "Could not delete profile": "The profile could not be deleted",
     "GDPR_LABEL": "GDPR",
-    "GDPR_SUBTITLE": "in relation to the functioning of SmartBirds, the information system with biological information of the BSPB"
+    "GDPR_SUBTITLE": "in relation to the functioning of SmartBirds, the information system with biological information of the BSPB",
+    "USER_LIST_TABLE_GDPR_CONSENT": "GDPR",
+    "USER_DETAIL_GDPR_CONSENT_GRANTED": "Granted",
+    "USER_DETAIL_GDPR_CONSENT_NOT_GRANTED": "Not granted"
 }
