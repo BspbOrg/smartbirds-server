@@ -50,7 +50,8 @@
     "x2js": "~1.2.0",
     "angular-bootstrap-lightbox": "~0.12.0",
     "angular-translate": "^2.16.0",
-    "angular-translate-loader-url": "^2.16.0"
+    "angular-translate-loader-url": "^2.16.0",
+    "odometer": "^0.4.8"
   },
   "resolutions": {
     "font-awesome": "~4.5.0",

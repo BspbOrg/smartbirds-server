@@ -132,7 +132,8 @@
     "angular-bootstrap-lightbox": "./bower_components/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.js",
     "debug": "./node_modules/debug/src/debug.js",
     "angular-translate": "./bower_components/angular-translate/angular-translate.js",
-    "angular-translate-loader-url": "./bower_components/angular-translate-loader-url/angular-translate-loader-url.js"
+    "angular-translate-loader-url": "./bower_components/angular-translate-loader-url/angular-translate-loader-url.js",
+    "odometer": "./bower_components/odometer/odometer.js"
   },
   "browserify-shim": {
     "angular": "angular",

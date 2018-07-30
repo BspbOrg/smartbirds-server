@@ -1,0 +1,15 @@
+<div class="intro-section" ng-if="$ctrl.stats.total_count && $ctrl.stats.total_count < 1000000">
+  <hr class="intro-divider">
+
+  <h2 translate>CAMPAIGN1_HEADER</h2>
+  <h3>
+    <sb-odometer value="$ctrl.stats.total_count"></sb-odometer>
+  </h3>
+  <h4 translate>CAMPAIGN1_SUBHEADER</h4>
+  <div class="btn-group">
+    <a ui-sref="register" class="btn btn-primary btn-lg">
+      <translate>CAMPAIGN1_BUTTON</translate>
+    </a>
+  </div>
+  <h4 translate>CAMPAIGN1_TEXT</h4>
+</div>

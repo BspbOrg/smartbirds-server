@@ -846,5 +846,9 @@
     "GDPR_SUBTITLE": "във връзка с функционирането на SmartBirds, информационната система с биологична информация към БДЗП",
     "USER_LIST_TABLE_GDPR_CONSENT": "GDPR",
     "USER_DETAIL_GDPR_CONSENT_GRANTED": "Разрешено",
-    "USER_DETAIL_GDPR_CONSENT_NOT_GRANTED": "Неразрешено"
+    "USER_DETAIL_GDPR_CONSENT_NOT_GRANTED": "Неразрешено",
+    "CAMPAIGN1_HEADER": "Отброяваме заедно до милионния запис!",
+    "CAMPAIGN1_SUBHEADER": "Спечели таблет! Направи милионния запис!",
+    "CAMPAIGN1_BUTTON": "РЕГИСТРИРАЙ СЕ!",
+    "CAMPAIGN1_TEXT": "Записвай данни!"
 }
