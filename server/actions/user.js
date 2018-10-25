@@ -247,7 +247,7 @@ exports.userList = {
   },
 
   run: function (api, data, next) {
-    var limit = Math.min(1000, data.params.limit || 20)
+    var limit = Math.min(5000, data.params.limit || 20)
     var offset = data.params.offset || 0
 
     var q = {
