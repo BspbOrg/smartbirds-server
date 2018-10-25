@@ -7,7 +7,7 @@ require('../app').controller('UsersController', /* @ngInject */function ($filter
   var filter = $filter('filter')
 
   $scope.rows = User.query({
-    limit: 1000
+    limit: 5000
   })
 
   controller.filterRows = function (config) {
