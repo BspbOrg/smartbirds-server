@@ -46,7 +46,7 @@ module.exports = {
         api.log('piping blob', 'info')
         r.pipe(wb)
         wb.on('finish', function () {
-          fs.unlink(file.path)
+          fs.unlink(file.path, function () {})
           var wm = self.storage.createWriteStream()
           wm.on('error', function (err) {
             api.log('write meta stream error', 'error', err)
