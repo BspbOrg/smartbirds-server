@@ -13,7 +13,7 @@ exports.default = {
         }
       },
       mailOptions: {
-        from: 'no-reply@smartbirds.org'
+        from: process.env.FROM_EMAIL || 'no-reply@smartbirds.org'
       },
       templates: path.join(__dirname, '..', 'templates')
     }
