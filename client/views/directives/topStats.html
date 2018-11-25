@@ -1,15 +1,15 @@
 <div>
   <div class="row">
     <div class="col-md-12">
-      <h3 translate>PUBLIC_BIRDS_LAST_INTERESTING_SPECIES</h3>
+      <h3>{{'PUBLIC_'+ $ctrl.translationPrefix+'_LAST_INTERESTING_SPECIES' | translate}}</h3>
       <table class="table table-striped table-hover table-condensed">
         <thead>
         <tr>
-          <th translate>PUBLIC_BIRDS_LAST_INTERESTING_SPECIES_COL_SPECIES</th>
-          <th class="text-right" translate>PUBLIC_BIRDS_LAST_INTERESTING_SPECIES_COL_DATE</th>
-          <th translate>PUBLIC_BIRDS_LAST_INTERESTING_SPECIES_COL_LOCATION</th>
-          <th class="text-right" translate>PUBLIC_BIRDS_LAST_INTERESTING_SPECIES_COL_COUNT</th>
-          <th translate>PUBLIC_BIRDS_LAST_INTERESTING_SPECIES_COL_OBSERVER</th>
+          <th>{{'PUBLIC_' + $ctrl.translationPrefix +'_LAST_INTERESTING_SPECIES_COL_SPECIES' | translate}}</th>
+          <th class="text-right">{{'PUBLIC_' + $ctrl.translationPrefix + '_LAST_INTERESTING_SPECIES_COL_DATE' | translate}}</th>
+          <th>{{'PUBLIC_' + $ctrl.translationPrefix + '_LAST_INTERESTING_SPECIES_COL_LOCATION' | translate}}</th>
+          <th class="text-right">{{'PUBLIC_' + $ctrl.translationPrefix + '_LAST_INTERESTING_SPECIES_COL_COUNT' | translate}}</th>
+          <th>{{'PUBLIC_' + $ctrl.translationPrefix + '_LAST_INTERESTING_SPECIES_COL_OBSERVER' | translate}}</th>
         </tr>
         </thead>
         <tbody>
@@ -26,39 +26,39 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <h3 translate>PUBLIC_BIRDS_TOP_SPECIES_MONTH</h3>
+      <h3>{{'PUBLIC_' + $ctrl.translationPrefix + '_TOP_SPECIES_MONTH' | translate}}</h3>
       <table class="table table-striped table-hover table-condensed">
         <tbody>
         <tr ng-repeat="record in $ctrl.stats.top_species_month">
           <td class="text-right" style="width: 1px;">{{::$index+1}}.</td>
           <td>{{record.species.label[$root.$language]}} | {{::record.species.label.la}}</td>
-          <td class="text-right" translate translate-values="{count: record.count}">PUBLIC_BIRDS_STATISTIC_TABLE_COL_COUNT_RECORDS</td>
+          <td class="text-right" translate translate-values="{count: record.count}">PUBLIC_STATISTIC_TABLE_COL_COUNT_RECORDS</td>
         </tr>
         </tbody>
       </table>
     </div>
   </div>
-  <div class="row">
+  <div class="row" ng-if="$ctrl.stats.top_users_records_month">
     <div class="col-md-6">
-      <h3 translate>PUBLIC_BIRDS_TOP_OBSERVERS_RECORDS_MONTH</h3>
+      <h3>{{'PUBLIC_' + $ctrl.translationPrefix + '_TOP_OBSERVERS_RECORDS_MONTH' | translate}}</h3>
       <table class="table table-striped table-hover table-condensed">
         <tbody>
         <tr ng-repeat="record in $ctrl.stats.top_users_records_month">
           <td class="text-right" style="width: 1px;">{{::$index+1}}.</td>
           <td>{{::record.user.firstName}} {{::record.user.lastName}}
-          <td class="text-right" translate translate-values="{count: record.count}">PUBLIC_BIRDS_STATISTIC_TABLE_COL_COUNT_RECORDS</td>
+          <td class="text-right" translate translate-values="{count: record.count}">PUBLIC_STATISTIC_TABLE_COL_COUNT_RECORDS</td>
         </tr>
         </tbody>
       </table>
     </div>
-    <div class="col-md-6">
-      <h3 translate>PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_MONTH</h3>
+    <div class="col-md-6" ng-if="$ctrl.stats.top_users_species_month">
+      <h3>{{'PUBLIC_' + $ctrl.translationPrefix + '_TOP_OBSERVERS_SPECIES_MONTH' | translate}}</h3>
       <table class="table table-striped table-hover table-condensed">
         <tbody>
         <tr ng-repeat="record in $ctrl.stats.top_users_species_month">
           <td class="text-right" style="width: 1px;">{{::$index+1}}.</td>
           <td>{{::record.user.firstName}} {{::record.user.lastName}}
-          <td class="text-right" translate translate-values="{count: record.count}">PUBLIC_BIRDS_STATISTIC_TABLE_COL_COUNT_SPECIES</td>
+          <td class="text-right" translate translate-values="{count: record.count}">PUBLIC_STATISTIC_TABLE_COL_COUNT_SPECIES</td>
         </tr>
         </tbody>
       </table>
@@ -66,25 +66,25 @@
   </div>
   <div class="row">
     <div class="col-md-6">
-      <h3 translate>PUBLIC_BIRDS_TOP_OBSERVERS_RECORDS_YEAR</h3>
+      <h3>{{'PUBLIC_' + $ctrl.translationPrefix + '_TOP_OBSERVERS_RECORDS_YEAR' | translate}}</h3>
       <table class="table table-striped table-hover table-condensed">
         <tbody>
         <tr ng-repeat="record in $ctrl.stats.top_users_records_year">
           <td class="text-right" style="width: 1px;">{{::$index+1}}.</td>
           <td>{{::record.user.firstName}} {{::record.user.lastName}}
-          <td class="text-right" translate translate-values="{count: record.count}">PUBLIC_BIRDS_STATISTIC_TABLE_COL_COUNT_RECORDS</td>
+          <td class="text-right" translate translate-values="{count: record.count}">PUBLIC_STATISTIC_TABLE_COL_COUNT_RECORDS</td>
         </tr>
         </tbody>
       </table>
     </div>
     <div class="col-md-6">
-      <h3 translate>PUBLIC_BIRDS_TOP_OBSERVERS_SPECIES_YEAR</h3>
+      <h3>{{'PUBLIC_' + $ctrl.translationPrefix + '_TOP_OBSERVERS_SPECIES_YEAR' | translate}}</h3>
       <table class="table table-striped table-hover table-condensed">
         <tbody>
         <tr ng-repeat="record in $ctrl.stats.top_users_species_year">
           <td class="text-right" style="width: 1px;">{{::$index+1}}.</td>
           <td>{{::record.user.firstName}} {{::record.user.lastName}}
-          <td class="text-right" translate translate-values="{count: record.count}">PUBLIC_BIRDS_STATISTIC_TABLE_COL_COUNT_SPECIES</td>
+          <td class="text-right" translate translate-values="{count: record.count}">PUBLIC_STATISTIC_TABLE_COL_COUNT_SPECIES</td>
         </tr>
         </tbody>
       </table>

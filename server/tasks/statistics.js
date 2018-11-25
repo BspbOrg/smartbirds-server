@@ -15,7 +15,7 @@ module.exports.generateStatistics = {
   frequency: 0,
   run: async function (api, params, next) {
     try {
-      let stats = await Promise.props({
+      const stats = await Promise.props({
 
         campaign_stats: api.sequelize.sequelize.query('select last_value as total_count from "FormBirds_id_seq"', { type: api.sequelize.sequelize.QueryTypes.SELECT }).then(rows => rows[0]),
         birds_stats: api.models.birds_stats.findAll(),
@@ -57,28 +57,45 @@ module.exports.generateStatistics = {
             order: [['count', 'DESC']]
           }).then(records => records.map(r => r.apiData(api))),
 
-          interesting_species: api.models.formBirds.findAll({
-            where: {
-              count: { '$gt': '0' },
-              confidential: { '$or': [false, null] },
-              '$speciesInfo.interesting$': true,
-              '$speciesInfo.sensitive$': { '$or': [false, null] },
-              '$user.privacy$': 'public'
-            },
-            include: [api.models.formBirds.associations.speciesInfo, api.models.formBirds.associations.user],
+          interesting_species: api.models.birds_top_interesting_species_month.findAll({
+            include: [
+              api.models.birds_top_interesting_species_month.associations.speciesInfo,
+              api.models.birds_top_interesting_species_month.associations.user
+            ],
             order: [['observationDateTime', 'DESC']],
             limit: 20
-          }).then(records => Promise.all(records.map(r => {
-            return {
-              species: r.speciesInfo.apiData(api, 'public'),
-              date: r.observationDateTime,
-              location: r.location,
-              count: r.count,
-              observer: r.user.apiData(api, 'public')
-            }
-          })))
-        })
+          }).then(records => records.map(r => r.apiData(api)))
+        }),
+        ...(['herptiles', 'mammals', 'plants', 'invertebrates'].map(form => ({
+          [form + '_top_stats']: Promise.props({
+            top_users_species_year: api.models[form + '_top_users_species_year'].findAll({
+              limit: 10,
+              include: [api.models[form + '_top_users_species_year'].associations.user],
+              order: [['count', 'DESC']]
+            }).then(records => records.map(r => r.apiData(api))),
 
+            top_users_records_year: api.models[form + '_top_users_records_year'].findAll({
+              limit: 10,
+              include: [api.models[form + '_top_users_records_year'].associations.user],
+              order: [['count', 'DESC']]
+            }).then(records => records.map(r => r.apiData(api))),
+
+            top_species_month: api.models[form + '_top_species_month'].findAll({
+              limit: 10,
+              include: [api.models[form + '_top_species_month'].associations.speciesInfo],
+              order: [['count', 'DESC']]
+            }).then(records => records.map(r => r.apiData(api))),
+
+            interesting_species: api.models[form + '_top_interesting_species_month'].findAll({
+              include: [
+                api.models[form + '_top_interesting_species_month'].associations.speciesInfo,
+                api.models[form + '_top_interesting_species_month'].associations.user
+              ],
+              order: [['observationDateTime', 'DESC']],
+              limit: 20
+            }).then(records => records.map(r => r.apiData(api)))
+          })
+        })).reduce((a, b) => ({ ...a, ...b })))
       })
 
       await Promise.props(_.mapValues(stats, function (stat, name) {
