@@ -58,9 +58,25 @@ require('../app').service('api', /* @ngInject */function ($log, $http, $resource
     }
   }
 
-  api.stats = {};
+  api.stats = {}
 
-  ['campaign', 'birds', 'cbm', 'ciconia', 'herps', 'herptiles', 'mammals', 'invertebrates', 'plants', 'birds_top'].forEach(function (form) {
+  var forms = [
+    'campaign',
+    'birds',
+    'cbm',
+    'ciconia',
+    'herps',
+    'herptiles',
+    'mammals',
+    'invertebrates',
+    'plants',
+    'birds_top',
+    'herptiles_top',
+    'plants_top',
+    'mammals_top',
+    'invertebrates_top'
+  ]
+  forms.forEach(function (form) {
     api.stats[form + '_stats'] = function () {
       return $http({
         method: 'GET',
