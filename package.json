@@ -11,6 +11,8 @@
     "budo": "latest",
     "disc": "latest",
     "escape-string-regexp": "latest",
+    "husky": "^1.2.0",
+    "lint-staged": "^8.1.0",
     "mocha": "latest",
     "parallelshell": "latest",
     "sequelize-fixtures": "latest",
@@ -283,6 +285,17 @@
     "ignore": [
       "**/test/",
       "/public/"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "standard --fix",
+      "git add"
     ]
   }
 }
