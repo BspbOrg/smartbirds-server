@@ -150,7 +150,7 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
       controller: 'MainController',
       controllerAs: 'main',
       data: {
-        roles: [ 'user' ]
+        roles: ['user']
       },
       resolve: {
         authorize: /* @ngInject */function (authorization, localization) {
@@ -302,9 +302,9 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
           }
         },
         resolve: {
-          model: [ formDef.model, function (model) {
+          model: [formDef.model, function (model) {
             return model
-          } ],
+          }],
           formName: function () {
             return formName
           },
@@ -327,9 +327,9 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
           }
         },
         resolve: {
-          model: [ formDef.model, function (model) {
+          model: [formDef.model, function (model) {
             return model
-          } ],
+          }],
           formName: function () {
             return formName
           },
@@ -470,23 +470,27 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
       url: '/stats'
     })
 
-    .state('auth.stats.birds', {
-      url: '/birds',
-      views: {
-        'content@auth': {
-          templateUrl: 'views/stats/birds.html',
-          controller: 'StatsController as $ctrl'
-        }
-      },
-      resolve: {
-        form: function () {
-          return 'birds'
+  var statForms = ['birds', 'herptiles', 'mammals', 'plants', 'invertebrates']
+  angular.forEach(statForms, function (form) {
+    $stateProvider
+      .state('auth.stats.' + form, {
+        url: '/' + form,
+        views: {
+          'content@auth': {
+            templateUrl: 'views/stats.html',
+            controller: 'StatsController as $ctrl'
+          }
         },
-        prefix: function () {
-          return 'BIRDS'
+        resolve: {
+          form: function () {
+            return form
+          },
+          prefix: function () {
+            return form.toUpperCase()
+          }
         }
-      }
-    })
+      })
+  })
 })
   .run(/* @ngInject */function ($rootScope, $state, $stateParams, authorization, user) {
     $rootScope.$state = $state
