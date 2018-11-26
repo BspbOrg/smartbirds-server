@@ -462,6 +462,31 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
         }
       }
     })
+
+    /// ////////
+    // Stats //
+    /// ////////
+    .state('auth.stats', {
+      url: '/stats'
+    })
+
+    .state('auth.stats.birds', {
+      url: '/birds',
+      views: {
+        'content@auth': {
+          templateUrl: 'views/stats/birds.html',
+          controller: 'StatsController as $ctrl'
+        }
+      },
+      resolve: {
+        form: function () {
+          return 'birds'
+        },
+        prefix: function () {
+          return 'BIRDS'
+        }
+      }
+    })
 })
   .run(/* @ngInject */function ($rootScope, $state, $stateParams, authorization, user) {
     $rootScope.$state = $state
