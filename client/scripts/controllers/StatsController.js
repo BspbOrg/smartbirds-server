@@ -39,5 +39,4 @@ require('../app').controller('StatsController', /* @ngInject */function ($scope,
       tab: 'map'
     })
   }
-
 })
