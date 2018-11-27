@@ -4,14 +4,17 @@ require('../app').directive('sidebar', /* @ngInject */function () {
     scope: {},
     controller: /* @ngInject */function ($scope, $rootScope, $q, $state, api) {
       var ctrl = this
-      ctrl.isPrivateCollapsed = !$state.includes('auth.monitoring.private')
-      ctrl.isPublicCollapsed = !$state.includes('auth.monitoring.public')
-      ctrl.isStatsCollapsed = !$state.includes('auth.stats')
 
-      $rootScope.$on('$stateChangeSuccess', function () {
+      function updateFlags () {
         ctrl.isPrivateCollapsed = !$state.includes('auth.monitoring.private')
         ctrl.isPublicCollapsed = !$state.includes('auth.monitoring.public')
         ctrl.isStatsCollapsed = !$state.includes('auth.stats')
+      }
+
+      updateFlags()
+
+      $rootScope.$on('$stateChangeSuccess', function () {
+        updateFlags()
       })
     },
     controllerAs: '$ctrl'
