@@ -18,8 +18,11 @@ require('../app')
         'bg_*': 'bg',
         '*': 'en'
       })
-      .determinePreferredLanguage()
-      .preferredLanguage('bg')
+      .determinePreferredLanguage(function () {
+        var m = global.location.search.match(/lang=(\w+)/)
+        if (m) return m[1]
+        return $translateProvider.resolveClientLocale() || 'bg'
+      })
   })
   .run(/* @ngInject */function ($translate, $rootScope) {
     function updateLang (language) {
