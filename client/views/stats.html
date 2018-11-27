@@ -61,7 +61,11 @@
       </thead>
       <tbody>
       <tr ng-repeat="record in $ctrl.stats.interesting_species">
-        <td>{{record.species.label[$root.$language]}}<br>{{::record.species.label.la}}</td>
+        <td>
+          <a href ng-href="{{$ctrl.generateInterestingSpeciesUrl(record)}}">
+            {{record.species.label[$root.$language]}}<br>{{::record.species.label.la}}
+          </a>
+        </td>
         <td class="text-right">{{::record.date | date | replace:" ":"&nbsp;"}}</td>
         <td>{{::record.location}}</td>
         <td class="text-right">{{::record.count}}</td>
@@ -79,7 +83,11 @@
       <tbody>
       <tr ng-repeat="record in $ctrl.stats.top_species_month">
         <td class="text-right" style="width: 1px;">{{::$index+1}}.</td>
-        <td>{{record.species.label[$root.$language]}} | {{::record.species.label.la}}</td>
+        <td>
+          <a href ng-href="{{$ctrl.generateTopSpeciesUrl(record)}}">
+            {{record.species.label[$root.$language]}} | {{::record.species.label.la}}
+          </a>
+        </td>
         <td class="text-right" translate translate-values="{count: record.count}">PUBLIC_STATISTIC_TABLE_COL_COUNT_RECORDS</td>
       </tr>
       </tbody>
@@ -99,7 +107,11 @@
       </tr>
       <tr ng-repeat="record in $ctrl.stats.top_users_records_year">
         <td class="text-right" style="width: 1px;">{{::$index+1}}.</td>
-        <td>{{::record.user.firstName}} {{::record.user.lastName}}</td>
+        <td>
+          <a href ng-href="{{$ctrl.generateTopUserUrl(record)}}">
+            {{::record.user.firstName}} {{::record.user.lastName}}
+          </a>
+        </td>
         <td class="text-right" translate translate-values="{count: record.count}">PUBLIC_STATISTIC_TABLE_COL_COUNT_RECORDS</td>
       </tr>
       </tbody>
@@ -119,7 +131,11 @@
       </tr>
       <tr ng-repeat="record in $ctrl.stats.top_users_species_year">
         <td class="text-right" style="width: 1px;">{{::$index+1}}.</td>
-        <td>{{::record.user.firstName}} {{::record.user.lastName}}</td>
+        <td>
+          <a href ng-href="{{$ctrl.generateTopUserUrl(record)}}">
+            {{::record.user.firstName}} {{::record.user.lastName}}
+          </a>
+        </td>
         <td class="text-right" translate translate-values="{count: record.count}">PUBLIC_STATISTIC_TABLE_COL_COUNT_SPECIES</td>
       </tr>
       </tbody>
