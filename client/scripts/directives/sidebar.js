@@ -13,9 +13,7 @@ require('../app').directive('sidebar', /* @ngInject */function () {
 
       updateFlags()
 
-      $rootScope.$on('$stateChangeSuccess', function () {
-        updateFlags()
-      })
+      $scope.$on('$destroy', $rootScope.$on('$stateChangeSuccess', updateFlags))
     },
     controllerAs: '$ctrl'
   }
