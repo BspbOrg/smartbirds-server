@@ -4,11 +4,11 @@
 
 function getZone (api, data, next) {
   var q = {
-    where: {id: data.params.id},
-    include: [{model: api.models.location, as: 'location'}]
+    where: { id: data.params.id },
+    include: [{ model: api.models.location, as: 'location' }]
   }
   if (data.session.user.isAdmin || api.forms.isModerator(data.session.user, 'formCBM')) {
-    q.include.push({model: api.models.user, as: 'owner'})
+    q.include.push({ model: api.models.user, as: 'owner' })
   }
   return api.models.zone.findOne(q)
     .catch(next)
@@ -19,7 +19,7 @@ exports.zoneOwnershipRequest = {
   description: 'zone:requestOwnership',
   middleware: ['auth'],
 
-  inputs: {id: {required: true}},
+  inputs: { id: { required: true } },
 
   run: function (api, data, next) {
     getZone(api, data, next).then(function (zone) {
@@ -55,8 +55,8 @@ exports.zoneOwnershipRespond = {
   middleware: ['auth'],
 
   inputs: {
-    id: {required: true},
-    response: {require: true}
+    id: { required: true },
+    response: { require: true }
   },
 
   run: function (api, data, next) {
@@ -78,10 +78,10 @@ exports.zoneOwnershipRespond = {
 
       if (data.params.response) {
         // approve ownership
-        return zone.update({status: 'owned'})
+        return zone.update({ status: 'owned' })
       } else {
         // reject ownership
-        return zone.update({status: 'free', ownerId: null})
+        return zone.update({ status: 'free', ownerId: null })
       }
     })
       .then(function (zone) {
@@ -100,8 +100,8 @@ exports.zoneSetOwner = {
   middleware: ['auth'],
 
   inputs: {
-    id: {required: true},
-    owner: {require: true}
+    id: { required: true },
+    owner: { require: true }
   },
 
   run: function (api, data, next) {
@@ -144,7 +144,7 @@ exports.zoneClearOwner = {
   middleware: ['auth'],
 
   inputs: {
-    id: {required: true}
+    id: { required: true }
   },
 
   run: function (api, data, next) {

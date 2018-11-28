@@ -2,9 +2,9 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    return queryInterface.addColumn('Users', 'role', {type: Sequelize.STRING, defaultValue: 'user'})
+    return queryInterface.addColumn('Users', 'role', { type: Sequelize.STRING, defaultValue: 'user' })
       .then(function () {
-        return queryInterface.addColumn('Users', 'forms', {type: Sequelize.STRING})
+        return queryInterface.addColumn('Users', 'forms', { type: Sequelize.STRING })
       })
       .then(function () {
         if (queryInterface.sequelize.options.dialect !== 'postgres') return

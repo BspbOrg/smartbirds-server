@@ -20,7 +20,7 @@
     "should-sinon": "^0.0.6",
     "sinon": "^7.1.1",
     "sqlite3": "^4.0.4",
-    "standard": "^10.0.3",
+    "standard": "^12.0.1",
     "watch": "^1.0.2",
     "watchify": "^3.11.0"
   },

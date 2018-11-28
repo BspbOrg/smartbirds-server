@@ -38,16 +38,16 @@ module.exports = {
       typeEn: Sequelize.TEXT
     })
       .then(function () {
-        return queryInterface.addIndex('Locations', {fields: ['nameBg']})
+        return queryInterface.addIndex('Locations', { fields: ['nameBg'] })
       })
       .then(function () {
-        return queryInterface.addIndex('Locations', {fields: ['nameEn']})
+        return queryInterface.addIndex('Locations', { fields: ['nameEn'] })
       })
       .then(function () {
-        return queryInterface.addIndex('Locations', {fields: ['areaBg']})
+        return queryInterface.addIndex('Locations', { fields: ['areaBg'] })
       })
       .then(function () {
-        return queryInterface.addIndex('Locations', {fields: ['areaEn']})
+        return queryInterface.addIndex('Locations', { fields: ['areaEn'] })
       })
       .then(function () {
         return queryInterface.rawSelect('Zones', {
@@ -76,10 +76,10 @@ module.exports = {
         return queryInterface.addColumn('Zones', 'locationId', Sequelize.INTEGER)
       })
       .then(function () {
-        return queryInterface.addIndex('Zones', {fields: ['locationId']}, null)
+        return queryInterface.addIndex('Zones', { fields: ['locationId'] }, null)
       })
       .then(function () {
-        return queryInterface.rawSelect('Locations', {plain: false}, 'id')
+        return queryInterface.rawSelect('Locations', { plain: false }, 'id')
       })
       .then(function (locations) {
         return Promise.map(locations, function (location) {
@@ -87,7 +87,7 @@ module.exports = {
           LocationFields.forEach(function (locationField, idx) {
             where[ZoneFields[idx]] = location[locationField]
           })
-          return queryInterface.bulkUpdate('Zones', {locationId: location.id}, where)
+          return queryInterface.bulkUpdate('Zones', { locationId: location.id }, where)
         })
       })
       .then(function () {
@@ -105,7 +105,7 @@ module.exports = {
       return queryInterface.addColumn('Zones', column, Sequelize.TEXT)
     })
       .then(function () {
-        return queryInterface.rawSelect('Locations', {plain: false}, 'id')
+        return queryInterface.rawSelect('Locations', { plain: false }, 'id')
       })
       .then(function (locations) {
         return Promise.map(locations, function (location) {
@@ -113,7 +113,7 @@ module.exports = {
           LocationFields.forEach(function (locationField, idx) {
             fields[ZoneFields[idx]] = location[locationField]
           })
-          return queryInterface.bulkUpdate('Zones', fields, {locationId: location.id})
+          return queryInterface.bulkUpdate('Zones', fields, { locationId: location.id })
         })
       })
       .then(function () {

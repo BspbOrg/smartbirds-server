@@ -22,8 +22,8 @@ module.exports = {
   up: function (queryInterface, Sequelize, next) {
     var fs = require('fs')
     var parse = require('csv-parse')
-    var parserEn = parse({delimiter: ';', columns: true, skip_empty_lines: true})
-    var parserBg = parse({delimiter: ';', columns: true, skip_empty_lines: true})
+    var parserEn = parse({ delimiter: ';', columns: true, skip_empty_lines: true })
+    var parserBg = parse({ delimiter: ';', columns: true, skip_empty_lines: true })
     var inputEn = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'nomenclatures-en.csv'))
     var inputBg = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'nomenclatures-bg.csv'))
     var inserts = []

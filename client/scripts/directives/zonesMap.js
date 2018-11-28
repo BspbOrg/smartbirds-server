@@ -16,7 +16,7 @@ require('../app').directive('zonesMap', /* @ngInject */function () {
     controllerAs: 'map',
     controller: /* @ngInject */function ($scope) {
       var vc = extend(this, {
-        center: {latitude: 42.744820608, longitude: 25.2151370694},
+        center: { latitude: 42.744820608, longitude: 25.2151370694 },
         zoom: 8,
         zones: {
           all: [],
@@ -80,7 +80,7 @@ require('../app').directive('zonesMap', /* @ngInject */function () {
         angular.forEach(vc.zones, function (zoneList) {
           zoneList.length = 0
         })
-        var center = {latitude: 0, longitude: 0}
+        var center = { latitude: 0, longitude: 0 }
         angular.forEach($scope.zones, function (zone) {
           zone.coordinates = zone.coordinates || zone.path
           zone.center = zone.center || zone.getCenter()

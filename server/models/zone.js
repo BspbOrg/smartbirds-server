@@ -40,15 +40,15 @@ module.exports = function (sequelize, DataTypes) {
       }
     },
     indexes: [
-      {fields: ['ownerId']},
-      {fields: ['locationId']},
-      {fields: ['status']}
+      { fields: ['ownerId'] },
+      { fields: ['locationId'] },
+      { fields: ['status'] }
     ],
     classMethods: {
       associate: function (models) {
         // associations can be defined here
-        models.zone.belongsTo(models.user, {as: 'owner'})
-        models.zone.belongsTo(models.location, {as: 'location'})
+        models.zone.belongsTo(models.user, { as: 'owner' })
+        models.zone.belongsTo(models.location, { as: 'location' })
       }
     },
     instanceMethods: {
@@ -56,10 +56,10 @@ module.exports = function (sequelize, DataTypes) {
         var data = {
           id: this.id,
           coordinates: [
-            {latitude: this.lat1, longitude: this.lon1},
-            {latitude: this.lat2, longitude: this.lon2},
-            {latitude: this.lat3, longitude: this.lon3},
-            {latitude: this.lat4, longitude: this.lon4}
+            { latitude: this.lat1, longitude: this.lon1 },
+            { latitude: this.lat2, longitude: this.lon2 },
+            { latitude: this.lat3, longitude: this.lon3 },
+            { latitude: this.lat4, longitude: this.lon4 }
           ],
           locationId: this.locationId,
           ownerId: this.ownerId,

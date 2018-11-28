@@ -33,17 +33,17 @@ exports['default'] = {
         '_toExpand': false,
         client: {
           konstructor: require('fakeredis').createClient,
-          args: [port, host, {fast: true}],
+          args: [port, host, { fast: true }],
           buildNew: false
         },
         subscriber: {
           konstructor: require('fakeredis').createClient,
-          args: [port, host, {fast: true}],
+          args: [port, host, { fast: true }],
           buildNew: false
         },
         tasks: {
           konstructor: require('fakeredis').createClient,
-          args: [port, host, {fast: true}],
+          args: [port, host, { fast: true }],
           buildNew: false
         }
       }

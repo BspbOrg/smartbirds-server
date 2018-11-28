@@ -10,9 +10,9 @@ module.exports = {
         isIn: [['free', 'requested', 'owned']]
       }
     }).then(function () {
-      return queryInterface.addIndex('Zones', {fields: ['status']})
+      return queryInterface.addIndex('Zones', { fields: ['status'] })
     }).then(function () {
-      return queryInterface.bulkUpdate('Zones', {status: 'owned'}, {ownerId: {$ne: null}})
+      return queryInterface.bulkUpdate('Zones', { status: 'owned' }, { ownerId: { $ne: null } })
     })
   },
 

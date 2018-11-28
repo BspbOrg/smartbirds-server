@@ -153,119 +153,119 @@ module.exports = {
                 var cbmRow = {}
 
                 inserts.push(
-                    Promise.all([
-                      Promise.map(nomenclatureColumns, function (column) {
-                        if (record[column.csvName] === null || record[column.csvName] === '') {
-                          if (column.required) {
-                            console.error('Null value for required field', column.csvName)
-                            return Promise.reject(new Error('Null value for field', column.csvName))
+                  Promise.all([
+                    Promise.map(nomenclatureColumns, function (column) {
+                      if (record[column.csvName] === null || record[column.csvName] === '') {
+                        if (column.required) {
+                          console.error('Null value for required field', column.csvName)
+                          return Promise.reject(new Error('Null value for field', column.csvName))
+                        }
+                        return true
+                      }
+                      return fillNomenclatureValue(cbmRow, record[column.csvName], column, index)
+                    }),
+                    queryInterface.rawSelect('Zones', {
+                      attributes: ['id'],
+                      where: {
+                        id: record.zone.trim()
+                      }
+                    }, 'id').then(function (res) {
+                      if (res != null) {
+                        cbmRow.zoneId = res
+                      } else {
+                        console.error('Missing zone ' + record.zone)
+                        return Promise.reject(new Error('Missing zone ' + record.zone))
+                      }
+                    }),
+                    Promise.resolve(record['species'].trim())
+                      .then(function (species) {
+                        return species.split('|').shift().trim()
+                      })
+                      .then(function (species) {
+                        cbmRow.species = species
+                        return cbmRow.species
+                      })
+                      .then(function (species) {
+                        return queryInterface.rawSelect('Species', {
+                          attributes: ['id'],
+                          where: { labelLa: species }
+                        }, 'id')
+                          .then(function (speciesId) {
+                            if (!speciesId) {
+                              console.error('Missing species ' + species)
+                            }
+                          })
+                      }),
+                    Promise.resolve(record['ЕлПоща'].trim())
+                      .then(function (email) {
+                        if (!validator.isEmail(email)) return
+
+                        return queryInterface.rawSelect('Users', {
+                          attributes: ['id'],
+                          where: {
+                            email: email
                           }
-                          return true
-                        }
-                        return fillNomenclatureValue(cbmRow, record[column.csvName], column, index)
-                      }),
-                      queryInterface.rawSelect('Zones', {
-                        attributes: ['id'],
-                        where: {
-                          id: record.zone.trim()
-                        }
-                      }, 'id').then(function (res) {
-                        if (res != null) {
-                          cbmRow.zoneId = res
-                        } else {
-                          console.error('Missing zone ' + record.zone)
-                          return Promise.reject(new Error('Missing zone ' + record.zone))
-                        }
-                      }),
-                      Promise.resolve(record['species'].trim())
-                          .then(function (species) {
-                            return species.split('|').shift().trim()
-                          })
-                          .then(function (species) {
-                            cbmRow.species = species
-                            return cbmRow.species
-                          })
-                          .then(function (species) {
-                            return queryInterface.rawSelect('Species', {
-                              attributes: ['id'],
-                              where: {labelLa: species}
-                            }, 'id')
-                              .then(function (speciesId) {
-                                if (!speciesId) {
-                                  console.error('Missing species ' + species)
-                                }
-                              })
-                          }),
-                      Promise.resolve(record['ЕлПоща'].trim())
-                          .then(function (email) {
-                            if (!validator.isEmail(email)) return
-
-                            return queryInterface.rawSelect('Users', {
-                              attributes: ['id'],
-                              where: {
-                                email: email
-                              }
-                            }, 'id').then(function (id) {
-                              if (id != null) {
-                                cbmRow.userId = id
-                              } else {
-                                console.error('Missing user ' + email)
-                              }
-                            })
-                          })
-                    ])
-                      .then(function () {
-                        cbmRow.userId = cbmRow.userId || userId
-                        cbmRow.imported = index
-                        cbmRow.count = record.count.trim() || null
-                        cbmRow.notes = record.notes.trim() || null
-                        cbmRow.visibility = record.visibility.trim() || null
-                        cbmRow.mto = record.mto.trim() || null
-                        cbmRow.cloudsType = record.cloudsType.trim() || null
-                        cbmRow.temperature = record.temperature.trim() || null
-                        cbmRow.startDateTime = joinDateTime(record.startDate, record.startTime)
-                        cbmRow.endDateTime = joinDateTime(record.endDate, record.endTime.trim() || record.startTime) || cbmRow.startDateTime
-                        cbmRow.latitude = record.latitute.trim() || null
-                        cbmRow.longitude = record.longitude.trim() || null
-                        cbmRow.observers = record.observers.trim() || null
-                        cbmRow.createdAt = new Date()
-                        cbmRow.updatedAt = new Date()
-
-                        return cbmRow
-                      })
-                      .then(function (cbmRow) {
-                        var threats = record.threats.trim() ? record.threats.trim().split(',') : []
-
-                        if (!threats || !threats.length) {
-                          return cbmRow
-                        }
-
-                        return Promise.map(threats, function (threat) {
-                          return fillNomenclatureValue({}, threat.trim(), {
-                            type: 'main_threats',
-                            fieldName: 'label',
-                            csvName: 'threats'
-                          }, index)
+                        }, 'id').then(function (id) {
+                          if (id != null) {
+                            cbmRow.userId = id
+                          } else {
+                            console.error('Missing user ' + email)
+                          }
                         })
-                          .then(function (threats) {
-                            cbmRow.threatsBg = threats.reduce(function (sum, threat) {
-                              return sum + (sum ? ' | ' : '') + threat.labelBg
-                            }, '')
-                            cbmRow.threatsEn = threats.reduce(function (sum, threat) {
-                              return sum + (sum ? ' | ' : '') + threat.labelEn
-                            }, '')
-                            return cbmRow
-                          })
                       })
-                      .then(function (cbmRow) {
-                        return queryInterface.bulkInsert('FormCBM', [cbmRow])
-                      }, function (err) {
-                        console.error(err)
+                  ])
+                    .then(function () {
+                      cbmRow.userId = cbmRow.userId || userId
+                      cbmRow.imported = index
+                      cbmRow.count = record.count.trim() || null
+                      cbmRow.notes = record.notes.trim() || null
+                      cbmRow.visibility = record.visibility.trim() || null
+                      cbmRow.mto = record.mto.trim() || null
+                      cbmRow.cloudsType = record.cloudsType.trim() || null
+                      cbmRow.temperature = record.temperature.trim() || null
+                      cbmRow.startDateTime = joinDateTime(record.startDate, record.startTime)
+                      cbmRow.endDateTime = joinDateTime(record.endDate, record.endTime.trim() || record.startTime) || cbmRow.startDateTime
+                      cbmRow.latitude = record.latitute.trim() || null
+                      cbmRow.longitude = record.longitude.trim() || null
+                      cbmRow.observers = record.observers.trim() || null
+                      cbmRow.createdAt = new Date()
+                      cbmRow.updatedAt = new Date()
+
+                      return cbmRow
+                    })
+                    .then(function (cbmRow) {
+                      var threats = record.threats.trim() ? record.threats.trim().split(',') : []
+
+                      if (!threats || !threats.length) {
+                        return cbmRow
+                      }
+
+                      return Promise.map(threats, function (threat) {
+                        return fillNomenclatureValue({}, threat.trim(), {
+                          type: 'main_threats',
+                          fieldName: 'label',
+                          csvName: 'threats'
+                        }, index)
                       })
-                      .finally(function () {
-                        completed++
-                      })
-                  )
+                        .then(function (threats) {
+                          cbmRow.threatsBg = threats.reduce(function (sum, threat) {
+                            return sum + (sum ? ' | ' : '') + threat.labelBg
+                          }, '')
+                          cbmRow.threatsEn = threats.reduce(function (sum, threat) {
+                            return sum + (sum ? ' | ' : '') + threat.labelEn
+                          }, '')
+                          return cbmRow
+                        })
+                    })
+                    .then(function (cbmRow) {
+                      return queryInterface.bulkInsert('FormCBM', [cbmRow])
+                    }, function (err) {
+                      console.error(err)
+                    })
+                    .finally(function () {
+                      completed++
+                    })
+                )
 
                 notify()
               }
@@ -273,50 +273,50 @@ module.exports = {
               var scheduled = false
 
               var stream = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'cbm.csv'))
-                  .pipe(parser)
-                  .on('readable', function () {
-                    function f () {
-                      if (scheduled) {
-                        clearTimeout(scheduled)
-                        scheduled = false
-                      }
-
-                      if (inserts.length - completed > 2500) {
-                        scheduled = setTimeout(f, 250)
-                        notify()
-                        return
-                      }
-
-                      var rec
-                      while (rec = parser.read()) { // eslint-disable-line no-cond-assign
-                        counts.rows++
-                        processRecord(rec, counts.rows)
-
-                        if (inserts.length - completed > 2500) { break }
-                      }
-
-                      if (rec) {
-                        scheduled = setTimeout(f, 250)
-                        notify()
-                      }
+                .pipe(parser)
+                .on('readable', function () {
+                  function f () {
+                    if (scheduled) {
+                      clearTimeout(scheduled)
+                      scheduled = false
                     }
 
-                    f()
-                  })
+                    if (inserts.length - completed > 2500) {
+                      scheduled = setTimeout(f, 250)
+                      notify()
+                      return
+                    }
+
+                    var rec
+                    while (rec = parser.read()) { // eslint-disable-line no-cond-assign
+                      counts.rows++
+                      processRecord(rec, counts.rows)
+
+                      if (inserts.length - completed > 2500) { break }
+                    }
+
+                    if (rec) {
+                      scheduled = setTimeout(f, 250)
+                      notify()
+                    }
+                  }
+
+                  f()
+                })
 
               return new Promise(function (resolve, reject) {
                 stream
-                    .on('error', function (err) {
-                      console.error('error', err)
-                      reject(err)
-                    })
-                    .on('end', function () {
-                      notify(true)
-                      Promise.all(inserts).catch(function (err) {
-                        console.log('error', err)
-                        return Promise.reject(err)
-                      }).then(resolve, reject)
-                    })
+                  .on('error', function (err) {
+                    console.error('error', err)
+                    reject(err)
+                  })
+                  .on('end', function () {
+                    notify(true)
+                    Promise.all(inserts).catch(function (err) {
+                      console.log('error', err)
+                      return Promise.reject(err)
+                    }).then(resolve, reject)
+                  })
               }).finally(function () {
                 console.info('Processed ' + counts.rows + ' rows')
                 console.info('Created ' + counts.inserts + ' rows')
@@ -336,17 +336,17 @@ module.exports = {
   down: function (queryInterface, Sequelize, next) {
     return queryInterface.rawSelect('FormCBM', {
       attributes: ['id'],
-      where: {imported: {$not: null}},
+      where: { imported: { $not: null } },
       plain: false
     }, 'id').then(function (ids) {
       var idsArr = []
       ids.forEach(function (id) {
         idsArr.push(id.id)
       })
-      return queryInterface.bulkDelete('FormCBM', {imported: {$not: null}})
+      return queryInterface.bulkDelete('FormCBM', { imported: { $not: null } })
     })
       .then(function () {
-        return queryInterface.bulkDelete('Users', {email: importUserEmail})
+        return queryInterface.bulkDelete('Users', { email: importUserEmail })
       })
       .finally(next)
   }

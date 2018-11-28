@@ -17,7 +17,7 @@ module.exports.generateStatistics = {
     try {
       let stats = await Promise.props({
 
-        campaign_stats: api.sequelize.sequelize.query('select last_value as total_count from "FormBirds_id_seq"', {type: api.sequelize.sequelize.QueryTypes.SELECT}).then(rows => rows[0]),
+        campaign_stats: api.sequelize.sequelize.query('select last_value as total_count from "FormBirds_id_seq"', { type: api.sequelize.sequelize.QueryTypes.SELECT }).then(rows => rows[0]),
         birds_stats: api.models.birds_stats.findAll(),
         cbm_stats: api.models.cbm_stats.findAll(),
         ciconia_stats: api.models.ciconia_stats.findAll(),
@@ -59,10 +59,10 @@ module.exports.generateStatistics = {
 
           interesting_species: api.models.formBirds.findAll({
             where: {
-              count: {'$gt': '0'},
-              confidential: {'$or': [false, null]},
+              count: { '$gt': '0' },
+              confidential: { '$or': [false, null] },
               '$speciesInfo.interesting$': true,
-              '$speciesInfo.sensitive$': {'$or': [false, null]},
+              '$speciesInfo.sensitive$': { '$or': [false, null] },
               '$user.privacy$': 'public'
             },
             include: [api.models.formBirds.associations.speciesInfo, api.models.formBirds.associations.user],

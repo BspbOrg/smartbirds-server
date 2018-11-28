@@ -81,7 +81,7 @@ require('../app').controller('UserController', /* @ngInject */function ($scope, 
   controller.delete = function () {
     $q.resolve(controller.data)
       .then(function (user) {
-        return User.delete({id: user.id}).$promise
+        return User.delete({ id: user.id }).$promise
       })
       .then(function (res) {
         ngToast.create({

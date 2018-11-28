@@ -5,14 +5,14 @@
 require('../app').controller('ZoneController', /* @ngInject */function ($scope, $stateParams, $window, $http, Zone) {
   var controller = this
 
-  $scope.zone = Zone.get({id: $stateParams.id})
+  $scope.zone = Zone.get({ id: $stateParams.id })
 
   controller.print = function () {
     $window.print()
   }
 
   controller.download = function (type) {
-    $http.get($scope.zone.linkUrl() + '.' + type, {responseType: 'text'}).then(function (res) {
+    $http.get($scope.zone.linkUrl() + '.' + type, { responseType: 'text' }).then(function (res) {
       var contentType = res.headers('Content-Type')
       var content = res.data
       console.log(contentType)

@@ -95,12 +95,12 @@ function generatePrepareQuery (form) {
       query.where.userId = data.session.userId
       if (data.params.user && data.params.user !== data.session.userId) {
         const share = await
-          api.models.share.findOne({
-            where: {
-              sharer: parseInt(data.params.user),
-              sharee: data.session.userId
-            }
-          })
+        api.models.share.findOne({
+          where: {
+            sharer: parseInt(data.params.user),
+            sharee: data.session.userId
+          }
+        })
         if (share) {
           query.where.userId = data.params.user
           query.include = query.include || []

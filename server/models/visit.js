@@ -15,7 +15,7 @@ module.exports = function (sequelize, DataTypes) {
     lateEnd: DataTypes.DATEONLY
   }, {
     indexes: [
-      {unique: true, fields: ['year']}
+      { unique: true, fields: ['year'] }
     ],
     instanceMethods: {
       apiData: function (api) {
