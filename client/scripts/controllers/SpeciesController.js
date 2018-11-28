@@ -29,7 +29,7 @@ require('../app').controller('SpeciesController', /* @ngInject */function ($scop
     if (!$ctrl.selected.species.length) {
       return
     }
-    Species.updateGroup({type: $ctrl.selected.type}, {items: $ctrl.selected.species})
+    Species.updateGroup({ type: $ctrl.selected.type }, { items: $ctrl.selected.species })
       .$promise.then(function (items) {
         $scope.editform.$setPristine()
         db.$updateSpecies()

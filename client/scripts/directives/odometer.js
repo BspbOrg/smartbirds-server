@@ -3,7 +3,7 @@ var Odometer = require('odometer')
 require('../app').directive('sbOdometer', /* @ngInject */function () {
   return {
     restrict: 'AE',
-    scope: {value: '='},
+    scope: { value: '=' },
     link: function (scope, element) {
       var odometer = new Odometer({
         el: element[0],

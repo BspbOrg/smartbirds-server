@@ -9,7 +9,7 @@ require('../app').factory('FormMammals', /* @ngInject */function ($resource, END
     id: '@id'
   }, {
     // api methods
-    export: {method: 'POST', url: ENDPOINT_URL + '/export/mammals'}
+    export: { method: 'POST', url: ENDPOINT_URL + '/export/mammals' }
   })
 
   // instance methods

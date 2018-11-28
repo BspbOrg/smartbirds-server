@@ -31,7 +31,7 @@ require('../app').directive('userSelector', /* @ngInject */function () {
           }
         } else if ($scope.modelId) {
           if (!field.value || field.value.id !== $scope.modelId) {
-            field.value = User.get({id: $scope.modelId})
+            field.value = User.get({ id: $scope.modelId })
             field.value.$promise.then(function (value) {
               field.value = false
               $timeout(function () {
@@ -45,7 +45,7 @@ require('../app').directive('userSelector', /* @ngInject */function () {
       })
 
       field.getModels = function (q) {
-        return User.query({q: q, context: $scope.context}).$promise.then(function (models) {
+        return User.query({ q: q, context: $scope.context }).$promise.then(function (models) {
           return filter(models, q)
         })
       }

@@ -21,7 +21,7 @@ require('../app').directive('formPictures', /* @ngInject */function ($cookies, $
         url: ENDPOINT_URL + '/storage',
         autoUpload: true,
         withCredentials: true,
-        headers: {'x-sb-csrf-token': $cookies.get('sb-csrf-token')}
+        headers: { 'x-sb-csrf-token': $cookies.get('sb-csrf-token') }
       })
 
       ctrl.init = function (_ngModel_) {

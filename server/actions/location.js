@@ -40,12 +40,12 @@ exports.locationGet = {
   middleware: ['auth'],
 
   inputs: {
-    id: {required: true}
+    id: { required: true }
   },
 
   run: function (api, data, next) {
     try {
-      return api.models.location.findOne({where: {id: data.params.id}}).then(function (result) {
+      return api.models.location.findOne({ where: { id: data.params.id } }).then(function (result) {
         if (!result) {
           data.connection.rawConnection.responseHttpCode = 404
           return next(new Error(api.config.errors.locationNotFound(data.connection, data.params.id)))
@@ -68,7 +68,7 @@ exports.locationListZones = {
   description: 'location:listZones',
   middleware: ['auth'],
   inputs: paging.declareInputs(incremental.declareInputs({
-    id: {required: true},
+    id: { required: true },
     filter: {}
   })),
 
@@ -78,14 +78,14 @@ exports.locationListZones = {
         where: {
           locationId: data.params.id
         },
-        include: [{model: api.models.location, as: 'location'}]
+        include: [{ model: api.models.location, as: 'location' }]
       }
 
       q = paging.prepareQuery(q, data.params)
       q = incremental.prepareQuery(q, data.params)
 
       if (data.session.user.isAdmin) {
-        q.include.push({model: api.models.user, as: 'owner'})
+        q.include.push({ model: api.models.user, as: 'owner' })
       }
       if (data.params.filter) {
         switch (data.params.filter) {
@@ -121,7 +121,7 @@ exports.areaListZones = {
   description: 'area:listZones',
   middleware: ['auth'],
   inputs: {
-    area: {required: true},
+    area: { required: true },
     filter: {}
   },
 
@@ -133,15 +133,15 @@ exports.areaListZones = {
           as: 'location',
           where: {
             $or: [
-              {areaBg: data.params.area},
-              {areaEn: data.params.area}
+              { areaBg: data.params.area },
+              { areaEn: data.params.area }
             ]
           }
         }]
       }
 
       if (data.session.user.isAdmin) {
-        q.include.push({model: api.models.user, as: 'owner'})
+        q.include.push({ model: api.models.user, as: 'owner' })
       }
       if (data.params.filter) {
         switch (data.params.filter) {

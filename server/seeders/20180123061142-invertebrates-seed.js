@@ -81,12 +81,12 @@ module.exports = {
       .then(function (res) {
         var now = new Date()
         return res.map(function (item) {
-          return Object.assign(item, {createdAt: now, updatedAt: now})
+          return Object.assign(item, { createdAt: now, updatedAt: now })
         })
       })
       .then(function (res) {
         return queryInterface.bulkInsert('Nomenclatures', res.map(function (item) {
-          return Object.assign({}, item, {type: item.type.replace('herptiles_', 'invertebrates_')})
+          return Object.assign({}, item, { type: item.type.replace('herptiles_', 'invertebrates_') })
         }))
       })
       .then(function () {

@@ -13,8 +13,8 @@ exports.zoneList = {
   inputs: {
     status: {},
     owner: {},
-    limit: {required: false, default: 20},
-    offset: {required: false, default: 0},
+    limit: { required: false, default: 20 },
+    offset: { required: false, default: 0 },
     nomenclature: {}
   },
 
@@ -24,7 +24,7 @@ exports.zoneList = {
 
     var q = {
       include: [
-        {model: api.models.location, as: 'location'}
+        { model: api.models.location, as: 'location' }
       ]
       // limit: limit,
       // offset: offset
@@ -35,7 +35,7 @@ exports.zoneList = {
           ownerId: data.session.userId
         })
       } else {
-        (q.include = q.include || []).push({model: api.models.user, as: 'owner'})
+        (q.include = q.include || []).push({ model: api.models.user, as: 'owner' })
         if (data.params.owner) {
           q.where = _.extend(q.where || {}, {
             ownerId: data.params.owner
@@ -72,20 +72,20 @@ exports.zoneView = {
   name: 'zone:view',
   description: 'zone:view',
   middleware: ['auth'],
-  inputs: {id: {required: true}},
+  inputs: { id: { required: true } },
   matchExtensionMimeType: true,
 
   run: function (api, data, next) {
     Promise.resolve(data).then(function (data) {
       return {
-        where: {id: data.params.id.split('.').shift()},
+        where: { id: data.params.id.split('.').shift() },
         include: [
-          {model: api.models.location, as: 'location'}
+          { model: api.models.location, as: 'location' }
         ]
       }
     }).then(function (q) {
       if (data.session.user.isAdmin || api.forms.isModerator(data.session.user, 'formCBM')) {
-        q.include.push({model: api.models.user, as: 'owner'})
+        q.include.push({ model: api.models.user, as: 'owner' })
       }
       return q
     }).then(function (q) {
@@ -104,10 +104,10 @@ exports.zoneView = {
       return zone
     }).then(function (zone) {
       switch (data.connection.extension) {
-        case 'gpx': return api.template.render('/zone.gpx.ejs', {zone: zone})
-        case 'kml': return api.template.render('/zone.kml.ejs', {zone: zone})
+        case 'gpx': return api.template.render('/zone.gpx.ejs', { zone: zone })
+        case 'kml': return api.template.render('/zone.kml.ejs', { zone: zone })
         default:
-          return {data: zone.apiData(api)}
+          return { data: zone.apiData(api) }
       }
     }).then(function (response) {
       data.response = response

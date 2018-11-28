@@ -32,7 +32,7 @@ require('../app').controller('ZonesController', /* @ngInject */function ($scope,
 
   controller.getUsers = function (filter) {
     if (controller.loadingUsers && controller.loadingUsers.cancel) { controller.loadingUsers.cancel() }
-    var users = User.query({q: filter})
+    var users = User.query({ q: filter })
     controller.loadingUsers = users.$promise
     users.$promise.finally(function () {
       controller.loadingUsers = null

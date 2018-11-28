@@ -32,7 +32,7 @@ require('../app').directive('locationSelector', /* @ngInject */function () {
           }
         } else if ($scope.modelId) {
           if (!field.value || field.value.id !== $scope.modelId) {
-            field.value = Location.get({id: $scope.modelId})
+            field.value = Location.get({ id: $scope.modelId })
             field.value.$promise.then(function (value) {
               field.value = false
               $timeout(function () {
@@ -46,7 +46,7 @@ require('../app').directive('locationSelector', /* @ngInject */function () {
       })
 
       field.getModels = function (q) {
-        return Location.query({q: q}).$promise.then(function (models) {
+        return Location.query({ q: q }).$promise.then(function (models) {
           return limitTo(orderBy(filter(models, q), ['name.bg', 'area.bg']), 25)
         })
       }

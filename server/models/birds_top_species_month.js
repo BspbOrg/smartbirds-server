@@ -10,7 +10,7 @@ module.exports = function (sequelize, DataTypes) {
     timestamps: false,
     tableName: 'birds_top_species_month',
     classMethods: {
-      associate: function ({species}) {
+      associate: function ({ species }) {
         this.belongsTo(species, {
           as: 'speciesInfo',
           foreignKey: 'species',

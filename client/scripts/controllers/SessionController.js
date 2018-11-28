@@ -3,16 +3,16 @@
  */
 
 require('../app').controller('SessionController', /* @ngInject */function ($log,
-                                                                           $rootScope,
-                                                                           $scope,
-                                                                           $state,
-                                                                           $stateParams,
-                                                                           $translate,
-                                                                           $uibModal,
-                                                                           api,
-                                                                           flashService,
-                                                                           user,
-                                                                           User) {
+  $rootScope,
+  $scope,
+  $state,
+  $stateParams,
+  $translate,
+  $uibModal,
+  api,
+  flashService,
+  user,
+  User) {
   var ctrl = this
 
   if ($stateParams.email) {

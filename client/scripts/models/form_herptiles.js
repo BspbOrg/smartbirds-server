@@ -9,7 +9,7 @@ require('../app').factory('FormHerptiles', /* @ngInject */function ($resource, E
     id: '@id'
   }, {
     // api methods
-    export: {method: 'POST', url: ENDPOINT_URL + '/export/herptiles'}
+    export: { method: 'POST', url: ENDPOINT_URL + '/export/herptiles' }
   })
 
   // instance methods

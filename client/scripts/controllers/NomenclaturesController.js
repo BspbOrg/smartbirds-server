@@ -41,7 +41,7 @@ require('../app').controller('NomenclaturesController', /* @ngInject */function 
     if (!$ctrl.selected.nomenclature.length) {
       return
     }
-    Nomenclature.updateGroup({type: $ctrl.selected.type}, {items: $ctrl.selected.nomenclature})
+    Nomenclature.updateGroup({ type: $ctrl.selected.type }, { items: $ctrl.selected.nomenclature })
       .$promise.then(function (items) {
         $scope.editform.$setPristine()
         db.$updateNomenclatures()

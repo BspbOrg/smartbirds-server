@@ -23,7 +23,7 @@ module.exports = {
           return queryInterface
             .rawSelect('Locations', {
               attributes: ['id'],
-              where: _.extend({ekatte: {$ne: null}}, _.omit(location, 'id')),
+              where: _.extend({ ekatte: { $ne: null } }, _.omit(location, 'id')),
               plain: false
             }, 'id')
             .then(function (res) {
@@ -33,14 +33,14 @@ module.exports = {
               return res[0].id
             })
             .then(function (newId) {
-              return queryInterface.bulkUpdate('Zones', {locationId: newId}, {locationId: location.id})
+              return queryInterface.bulkUpdate('Zones', { locationId: newId }, { locationId: location.id })
             })
             .then(function (updateRes) {
               console.log('updated ', res[1].rowCount, ' zones for ', location)
               updated += updateRes[1].rowCount
             })
             .then(function () {
-              return queryInterface.bulkDelete('Locations', {id: location.id})
+              return queryInterface.bulkDelete('Locations', { id: location.id })
             })
             .then(function (deleteRes) {
               deleted += deleteRes[1].rowCount

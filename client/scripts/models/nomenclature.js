@@ -8,7 +8,7 @@ require('../app').service('Nomenclature', /* @ngInject */function ($resource, $t
     type: '@type',
     label: '@label'
   }, {
-    updateGroup: {method: 'PUT', url: ENDPOINT_URL + '/nomenclature/:type', isArray: true}
+    updateGroup: { method: 'PUT', url: ENDPOINT_URL + '/nomenclature/:type', isArray: true }
   })
 
   // instance methods

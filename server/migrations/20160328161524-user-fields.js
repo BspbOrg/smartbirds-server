@@ -54,11 +54,11 @@ module.exports = {
   down: function (queryInterface, Sequelize) {
     return sequence(_.map(fields, function (def, column) {
       return queryInterface.sequelize.query(
-          ' INSERT INTO "UserMeta" as m ("userId", "metaKey", "metaValue", "createdAt", "updatedAt", "imported")' +
+        ' INSERT INTO "UserMeta" as m ("userId", "metaKey", "metaValue", "createdAt", "updatedAt", "imported")' +
           ' SELECT id, \'' + def + '\', "' + column + '", NOW(), NOW(), true' +
           ' FROM "Users"' +
           ' WHERE "' + column + '" IS NOT NULL'
-        )
+      )
     }))
       .then(function () {
         return sequence(_.map(fields, function (def, column) {

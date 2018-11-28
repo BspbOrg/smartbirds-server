@@ -9,7 +9,7 @@ require('../app').factory('FormCiconia', /* @ngInject */function ($resource, END
     id: '@id'
   }, {
     // api methods
-    export: {method: 'POST', url: ENDPOINT_URL + '/export/ciconia'}
+    export: { method: 'POST', url: ENDPOINT_URL + '/export/ciconia' }
   })
 
   // instance methods

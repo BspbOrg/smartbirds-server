@@ -34,7 +34,7 @@ module.exports = {
             user: user
           }
 
-          user.update({lastLoginAt: new Date()}).then(function () {
+          user.update({ lastLoginAt: new Date() }).then(function () {
             redis.set(key, JSON.stringify(sessionData), function (error, data) {
               if (error) {
                 return callback(error)
