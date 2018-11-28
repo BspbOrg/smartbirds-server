@@ -53,7 +53,8 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
   })
   controller.visits = {}
   controller.map = {}
-  controller.tab = 'list'
+  controller.tab = controller.filter.tab === 'map' ? 'map' : 'list'
+
   if (formName === 'cbm') {
     $q.resolve(db.nomenclatures.$promise || db.nomenclatures).then(function (nomenclatures) {
       return nomenclatures.cbm_visit_number.$promise || nomenclatures.cbm_visit_number

@@ -112,6 +112,46 @@
       </li>
 
       <li>
+        <a id="stats" href=""
+           ng-click="$ctrl.isStatsCollapsed=!$ctrl.isStatsCollapsed">
+          <i class="fa fa-bar-chart fa-fw"></i>
+          <translate>NAV_STATS</translate>
+        </a>
+        <ul class="nav collapse" role="menu" aria-labelledby="stats" uib-collapse="$ctrl.isStatsCollapsed">
+          <li translate-attr="{title: 'FORM_BIRDS_LONG'}">
+            <a ui-sref="auth.stats.birds" ui-sref-active="active">
+              <i class="icon icon-birds icon-fw"></i>
+              <translate>FORM_BIRDS_SHORT</translate>
+            </a>
+          </li>
+          <li translate-attr="{title: 'FORM_HERPTILES_LONG'}">
+            <a ui-sref="auth.stats.herptiles" ui-sref-active="active">
+              <i class="icon icon-herptiles icon-fw"></i>
+              <translate>FORM_HERPTILES_SHORT</translate>
+            </a>
+          </li>
+          <li translate-attr="{title: 'FORM_MAMMALS_LONG'}">
+            <a ui-sref="auth.stats.mammals" ui-sref-active="active">
+              <i class="icon icon-mammals icon-fw"></i>
+              <translate>FORM_MAMMALS_SHORT</translate>
+            </a>
+          </li>
+          <li translate-attr="{title: 'FORM_INVERTEBRATES_LONG'}">
+            <a ui-sref="auth.stats.invertebrates" ui-sref-active="active">
+              <i class="icon icon-invertebrates icon-fw"></i>
+              <translate>FORM_INVERTEBRATES_SHORT</translate>
+            </a>
+          </li>
+          <li translate-attr="{title: 'FORM_PLANTS_LONG'}">
+            <a ui-sref="auth.stats.plants" ui-sref-active="active">
+              <i class="icon icon-plants icon-fw"></i>
+              <translate>FORM_PLANTS_SHORT</translate>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li>
         <a ui-sref="auth.zones({status:['requested','owned'], location: undefined, owner: undefined})"
            ui-sref-active="active">
           <i class="fa fa-map-o fa-fw"></i>

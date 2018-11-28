@@ -16,7 +16,8 @@ module.exports = {
       '{user:int}',
       'visit',
       '{year:int}',
-      'species'
+      'species',
+      'tab'
     ]
   },
   birds: {
@@ -31,7 +32,8 @@ module.exports = {
       '{user:int}',
       'species',
       'from_date',
-      'to_date'
+      'to_date',
+      'tab'
     ]
   },
   herptiles: {
@@ -46,7 +48,8 @@ module.exports = {
       '{user:int}',
       'species',
       'from_date',
-      'to_date'
+      'to_date',
+      'tab'
     ]
   },
   mammals: {
@@ -61,7 +64,8 @@ module.exports = {
       '{user:int}',
       'species',
       'from_date',
-      'to_date'
+      'to_date',
+      'tab'
     ]
   },
   invertebrates: {
@@ -76,7 +80,8 @@ module.exports = {
       '{user:int}',
       'species',
       'from_date',
-      'to_date'
+      'to_date',
+      'tab'
     ]
   },
   plants: {
@@ -91,7 +96,8 @@ module.exports = {
       '{user:int}',
       'species',
       'from_date',
-      'to_date'
+      'to_date',
+      'tab'
     ]
   },
   ciconia: {
@@ -104,7 +110,8 @@ module.exports = {
       'location',
       '{user:int}',
       'from_date',
-      'to_date'
+      'to_date',
+      'tab'
     ]
   }
 }
