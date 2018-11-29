@@ -10,20 +10,22 @@ module.exports = {
         form."userId" as user_id, COUNT(DISTINCT form.species) as count
       FROM 
         (
-          SELECT "userId", species
+          SELECT "userId", species, "observationDateTime"
           FROM "FormBirds"
-          WHERE "observationDateTime" >= CURRENT_DATE - INTERVAL '1 month'
+          
           UNION ALL
-          SELECT "userId", species
+          
+          SELECT "userId", species, "observationDateTime"
           FROM "FormCBM"
-          WHERE "observationDateTime" >= CURRENT_DATE - INTERVAL '1 month'
+          
           UNION ALL
-          SELECT "userId", 'Ciconia ciconia' species
+          
+          SELECT "userId", 'Ciconia ciconia' species, "observationDateTime"
           FROM "FormCiconia"
-          WHERE "observationDateTime" >= CURRENT_DATE - INTERVAL '1 month'
         ) form
       JOIN "Users" u ON form."userId" = u.id
-      WHERE u.privacy = 'public'
+      WHERE "observationDateTime" >= CURRENT_DATE - INTERVAL '1 month'
+      AND u.privacy = 'public'
       GROUP BY "userId"
       ORDER BY count DESC
     `)
@@ -33,20 +35,22 @@ module.exports = {
       SELECT "userId" as user_id, COUNT(*) as count
       FROM 
         (
-          SELECT "userId"
+          SELECT "userId", "observationDateTime"
           FROM "FormBirds"
-          WHERE "observationDateTime" >= CURRENT_DATE - INTERVAL '1 month'
+          
           UNION ALL
-          SELECT "userId"
+          
+          SELECT "userId", "observationDateTime"
           FROM "FormCBM"
-          WHERE "observationDateTime" >= CURRENT_DATE - INTERVAL '1 month'
+          
           UNION ALL
-          SELECT "userId"
+          
+          SELECT "userId", "observationDateTime"
           FROM "FormCiconia"
-          WHERE "observationDateTime" >= CURRENT_DATE - INTERVAL '1 month'
         ) form
       JOIN "Users" u ON form."userId" = u.id
-      WHERE u.privacy = 'public'
+      WHERE "observationDateTime" >= CURRENT_DATE - INTERVAL '1 month'
+      AND u.privacy = 'public'
       GROUP BY "userId"
       ORDER BY count DESC
     `)
@@ -57,20 +61,22 @@ module.exports = {
         form."userId" as user_id, COUNT(DISTINCT form.species) as count
       FROM 
         (
-          SELECT "userId", species
+          SELECT "userId", species, "observationDateTime"
           FROM "FormBirds"
-          WHERE "observationDateTime" >= DATE_TRUNC('year', NOW())
+          
           UNION ALL
-          SELECT "userId", species
+          
+          SELECT "userId", species, "observationDateTime"
           FROM "FormCBM"
-          WHERE "observationDateTime" >= DATE_TRUNC('year', NOW())
+          
           UNION ALL
-          SELECT "userId", 'Ciconia ciconia' species
+          
+          SELECT "userId", 'Ciconia ciconia' species, "observationDateTime"
           FROM "FormCiconia"
-          WHERE "observationDateTime" >= DATE_TRUNC('year', NOW())
         ) form
       JOIN "Users" u ON form."userId" = u.id
-      WHERE u.privacy = 'public'
+      WHERE "observationDateTime" >= DATE_TRUNC('year', NOW())
+      AND u.privacy = 'public'
       GROUP BY "userId"
       ORDER BY count DESC
     `)
@@ -80,20 +86,22 @@ module.exports = {
       SELECT "userId" as user_id, COUNT(*) as count
       FROM 
         (
-          SELECT "userId"
+          SELECT "userId", "observationDateTime"
           FROM "FormBirds"
-          WHERE "observationDateTime" >= DATE_TRUNC('year', NOW())
+          
           UNION ALL
-          SELECT "userId"
+          
+          SELECT "userId", "observationDateTime"
           FROM "FormCBM"
-          WHERE "observationDateTime" >= DATE_TRUNC('year', NOW())
+          
           UNION ALL
-          SELECT "userId"
+          
+          SELECT "userId", "observationDateTime"
           FROM "FormCiconia"
-          WHERE "observationDateTime" >= DATE_TRUNC('year', NOW())
         ) form
       JOIN "Users" u ON form."userId" = u.id
-      WHERE u.privacy = 'public'
+      WHERE "observationDateTime" >= DATE_TRUNC('year', NOW())
+      AND u.privacy = 'public'
       GROUP BY "userId"
       ORDER BY count DESC
     `)
@@ -103,18 +111,20 @@ module.exports = {
       SELECT species, COUNT(*) AS count
       FROM 
         (
-          SELECT species
+          SELECT species, "observationDateTime"
           FROM "FormBirds"
-          WHERE "observationDateTime" >= CURRENT_DATE - INTERVAL '1 month'
+          
           UNION ALL
-          SELECT species
+          
+          SELECT species, "observationDateTime"
           FROM "FormCBM"
-          WHERE "observationDateTime" >= CURRENT_DATE - INTERVAL '1 month'
+          
           UNION ALL
-          SELECT 'Ciconia ciconia' as species
+          
+          SELECT 'Ciconia ciconia' as species, "observationDateTime"
           FROM "FormCiconia"
-          WHERE "observationDateTime" >= CURRENT_DATE - INTERVAL '1 month'
         ) form
+      WHERE "observationDateTime" >= CURRENT_DATE - INTERVAL '1 month'
       GROUP BY species
       ORDER BY COUNT(*) DESC
     `)
@@ -124,23 +134,22 @@ module.exports = {
           SELECT "userId" as user_id, species, count, "observationDateTime", location, form_name
           FROM 
             (
-              SELECT "userId", species, count, "observationDateTime", location, 'birds' as form_name
+              SELECT "userId", species, count, "observationDateTime", location, confidential, 'birds' as form_name
               FROM "FormBirds"
-              WHERE "observationDateTime" >= CURRENT_DATE - INTERVAL '1 month'
-              AND count > 0
-              AND (NOT confidential OR confidential IS NULL)
+          
               UNION ALL
-              SELECT "userId", species, count, "observationDateTime", l."nameBg" as location, 'cbm' as form_name
+          
+              SELECT "userId", species, count, "observationDateTime", l."nameBg" as location, confidential, 'cbm' as form_name
               FROM "FormCBM"
               LEFT OUTER JOIN "Zones" z ON "zoneId" = z.id
               LEFT OUTER JOIN "Locations" l ON z."locationId" = l.id
-              WHERE "observationDateTime" >= CURRENT_DATE - INTERVAL '1 month'
-              AND count > 0
-              AND (NOT confidential OR confidential IS NULL)
             ) form
           LEFT OUTER JOIN "Users" u ON "userId" = u.id
           LEFT OUTER JOIN "Species" s ON "labelLa" = species AND type = 'birds'
-          WHERE interesting = true
+          WHERE "observationDateTime" >= CURRENT_DATE - INTERVAL '1 month'
+          AND count > 0
+          AND (NOT confidential OR confidential IS NULL)
+          AND interesting = true
           AND (NOT sensitive OR sensitive IS NULL)
           AND u.privacy = 'public'
           ORDER BY "observationDateTime" DESC
