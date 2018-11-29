@@ -7,7 +7,8 @@ module.exports = function (sequelize, DataTypes) {
     },
     count: DataTypes.INTEGER,
     observationDateTime: DataTypes.DATE,
-    location: DataTypes.TEXT
+    location: DataTypes.TEXT,
+    form_name: DataTypes.TEXT
   }, {
     timestamps: false,
     tableName: 'birds_top_interesting_species_month',
@@ -31,7 +32,8 @@ module.exports = function (sequelize, DataTypes) {
           species: this.speciesInfo ? this.speciesInfo.apiData(api, 'public') : null,
           count: this.count,
           date: this.observationDateTime,
-          location: this.location
+          location: this.location,
+          form: this.form_name
         }
       }
     }
