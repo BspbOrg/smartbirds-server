@@ -10,7 +10,7 @@ require('../app').controller('StatsController', /* @ngInject */function ($scope,
   })
 
   controller.generateInterestingSpeciesUrl = function (record) {
-    var formName = record.form ? record.form : controller.form
+    var formName = record.form || controller.form
     return $state.href('auth.monitoring.public.' + formName, {
       user: record.observer.id,
       species: record.species.label.la,
