@@ -26,6 +26,11 @@ module.exports.generateStatistics = {
         mammals_stats: api.models.mammals_stats.findAll(),
         invertebrates_stats: api.models.invertebrates_stats.findAll(),
         plants_stats: api.models.plants_stats.findAll(),
+        total_user_records_stats: api.models.total_users_records_year.findAll({
+          limit: 10,
+          include: [api.models.total_users_records_year.associations.user],
+          order: [['count', 'DESC']]
+        }).then(records => records.map(r => r.apiData(api))),
         birds_top_stats: Promise.props({
           top_users_species_month: api.models.birds_top_users_species_month.findAll({
             limit: 10,
