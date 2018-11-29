@@ -1,16 +1,16 @@
-<div>
-  <div class="row">
-    <div class="col-md-12">
-      <h3>{{'TOTAL_USER_RECORDS_STATS_TITLE' | translate}}</h3>
-      <table class="table table-striped table-hover table-condensed">
-        <tbody>
-        <tr ng-repeat="record in $ctrl.stats">
-          <td class="text-right" style="width: 1px;">{{::$index+1}}.</td>
-          <td>{{::record.user.firstName}} {{::record.user.lastName}}
-          <td class="text-right" translate translate-values="{count: record.count}">PUBLIC_STATISTIC_TABLE_COL_COUNT_RECORDS</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+<div class="row">
+  <div class="col-md-12">
+    <h3>{{'TOTAL_USER_RECORDS_STATS_TITLE' | translate}}</h3>
+    <table class="table table-striped table-hover table-condensed">
+      <tbody>
+      <tr ng-repeat="record in $ctrl.stats">
+        <td class="text-right" style="width: 1px;">{{::$index+1}}.</td>
+        <td>{{::record.user.firstName}} {{::record.user.lastName}}
+        <td class="text-right" translate translate-values="{count: record.count}">
+          PUBLIC_STATISTIC_TABLE_COL_COUNT_RECORDS
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </div>

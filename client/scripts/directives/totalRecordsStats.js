@@ -1,6 +1,7 @@
 require('../app').directive('totalRecordsStats', /* @ngInject */function () {
   return {
     restrict: 'AE',
+    scope: true,
     templateUrl: function (elem, attr) {
       return '/views/directives/totalRecordsStats.html'
     },

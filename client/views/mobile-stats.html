@@ -1,0 +1,40 @@
+<!-- Main Content -->
+<div class="main">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 col-lg-offset-1 col-md-12">
+        <total-records-stats></total-records-stats>
+        <h3 translate>STATS_LAST_INTERESTING_SPECIES</h3>
+        <div class="row" ng-repeat="form in $ctrl.forms">
+          <div class="col-md-12">
+            <h4>{{'STATS_' + form.toUpperCase() + '_TITLE' | translate}}</h4>
+            <table class="table table-striped table-hover table-condensed">
+              <thead>
+              <tr>
+                <th>{{'PUBLIC_' + form.toUpperCase() +'_LAST_INTERESTING_SPECIES_COL_SPECIES' | translate}}</th>
+                <th class="text-right">{{'PUBLIC_' + form.toUpperCase() + '_LAST_INTERESTING_SPECIES_COL_DATE' |
+                  translate}}
+                </th>
+                <th>{{'PUBLIC_' + form.toUpperCase() + '_LAST_INTERESTING_SPECIES_COL_LOCATION' | translate}}</th>
+                <th class="text-right">{{'PUBLIC_' + form.toUpperCase() + '_LAST_INTERESTING_SPECIES_COL_COUNT' |
+                  translate}}
+                </th>
+                <th>{{'PUBLIC_' + form.toUpperCase() + '_LAST_INTERESTING_SPECIES_COL_OBSERVER' | translate}}</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="record in $ctrl.stats[form]">
+                <td>{{record.species.label[$root.$language]}}<br>{{record.species.label.la}}</td>
+                <td class="text-right">{{::record.date | date | replace:" ":"&nbsp;"}}</td>
+                <td>{{record.location}}</td>
+                <td class="text-right">{{::record.count}}</td>
+                <td>{{record.observer.firstName}} {{record.observer.lastName}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
