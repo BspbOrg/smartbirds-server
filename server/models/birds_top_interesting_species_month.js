@@ -21,7 +21,8 @@ module.exports = function (sequelize, DataTypes) {
         this.belongsTo(species, {
           as: 'speciesInfo',
           foreignKey: 'species',
-          targetKey: 'labelLa'
+          targetKey: 'labelLa',
+          scope: { type: 'birds' }
         })
       }
     },
