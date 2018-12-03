@@ -75,7 +75,8 @@ require('../app').service('api', /* @ngInject */function ($log, $http, $resource
     'plants_top',
     'mammals_top',
     'invertebrates_top',
-    'total_user_records'
+    'total_user_records',
+    'user_rank'
   ]
   forms.forEach(function (form) {
     api.stats[form + '_stats'] = function () {
