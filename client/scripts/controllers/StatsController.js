@@ -1,4 +1,4 @@
-require('../app').controller('StatsController', /* @ngInject */function ($scope, $state, api, form, prefix) {
+require('../app').controller('StatsController', /* @ngInject */function ($scope, $state, api, form, prefix, user) {
   var controller = this
   controller.form = form
   controller.translationPrefix = prefix
@@ -7,6 +7,10 @@ require('../app').controller('StatsController', /* @ngInject */function ($scope,
 
   api.stats[controller.form + '_top_stats']().then(function (stats) {
     controller.stats = stats
+  })
+
+  api.stats.user_rank_stats().then(function (stats) {
+    controller.userRanks = stats
   })
 
   controller.generateInterestingSpeciesUrl = function (record) {
@@ -39,5 +43,26 @@ require('../app').controller('StatsController', /* @ngInject */function ($scope,
       from_date: fromDate,
       tab: 'map'
     })
+  }
+
+  controller.userRecordsPosition = function () {
+    var userRank = controller.userRanks[user.getIdentity().id] && controller.userRanks[user.getIdentity().id][controller.form]
+    return userRank && userRank.records.position ? userRank.records.position : '--'
+  }
+
+  controller.userRecordsCount = function () {
+    var userRank = controller.userRanks[user.getIdentity().id] && controller.userRanks[user.getIdentity().id][controller.form]
+    console.log(userRank)
+    return userRank && userRank.records.count ? userRank.records.count : '0'
+  }
+
+  controller.userSpeciesPosition = function () {
+    var userRank = controller.userRanks[user.getIdentity().id] && controller.userRanks[user.getIdentity().id][controller.form]
+    return userRank && userRank.species.position ? userRank.species.position : '--'
+  }
+
+  controller.userSpeciesCount = function () {
+    var userRank = controller.userRanks[user.getIdentity().id] && controller.userRanks[user.getIdentity().id][controller.form]
+    return userRank && userRank.species.count ? userRank.species.count : '0'
   }
 })

@@ -26,6 +26,10 @@ module.exports.generateStatistics = {
         mammals_stats: api.models.mammals_stats.findAll(),
         invertebrates_stats: api.models.invertebrates_stats.findAll(),
         plants_stats: api.models.plants_stats.findAll(),
+        user_rank_stats: api.models.user_rank_stats.findAll({})
+          .then(records => {
+            return records.map(r => r.apiData(api)).reduce((result, current) => ({ ...result, ...current }))
+          }),
         total_user_records_stats: api.models.total_users_records_year.findAll({
           limit: 10,
           include: [api.models.total_users_records_year.associations.user],
