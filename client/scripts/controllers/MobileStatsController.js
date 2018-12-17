@@ -11,7 +11,11 @@ require('../app').controller('MobileStatsController', /* @ngInject */function ($
     })
   })).then(function (result) {
     controller.stats = result.reduce(function (res, current) {
-      return Object.assign(res, current)
+      for (var key in current) {
+        if (!current.hasOwnProperty(key)) continue
+        res[key] = current[key]
+      }
+      return res
     })
   }).catch(function (err) {
     console.log(err)
