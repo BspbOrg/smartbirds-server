@@ -1,7 +1,7 @@
 require('../app').controller('MobileStatsController', /* @ngInject */function ($scope, $state, $q, api) {
   var controller = this
 
-  controller.forms = ['birds', 'herptiles', 'mammals', 'plants', 'invertebrates']
+  controller.forms = ['birds', 'herptiles', 'mammals', 'invertebrates', 'plants']
 
   $q.all(controller.forms.map(function (form) {
     return api.stats[form + '_top_stats']().then(function (res) {
