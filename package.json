@@ -1,6 +1,6 @@
 {
   "name": "smartbirds-server",
-  "version": "0.11.13",
+  "version": "0.11.14",
   "description": "SmartBirds Server",
   "author": "Geno Roupsky",
   "private": true,
