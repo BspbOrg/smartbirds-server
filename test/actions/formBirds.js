@@ -4,6 +4,7 @@ var _ = require('lodash')
 var should = require('should')
 require('sinon')
 var setup = require('../_setup')
+var Promise = require('bluebird')
 require('should-sinon')
 
 describe('Action formBirds:', function () {
@@ -437,6 +438,60 @@ describe('Action formBirds:', function () {
             response.data[i].observationDateTime.should.be.greaterThanOrEqual(new Date('2016-12-20T10:15:00Z'))
             response.data[i].observationDateTime.should.be.lessThanOrEqual(new Date('2016-12-20T10:16:00Z'))
           }
+        })
+      })
+
+      describe('filter by latitude and longitude', function () {
+        // Dimovo (target location)
+        var rec1 = _.extend(_.cloneDeep(birdsRecord), {
+          latitude: 43.7407795,
+          longitude: 22.686693,
+        })
+        // Bela (4 km offset)
+        var rec2 = _.extend(_.cloneDeep(birdsRecord), {
+          latitude: 43.7076945,
+          longitude: 22.7018714,
+        })
+        // Belogradchik (13 km offset)
+        var rec3 = _.extend(_.cloneDeep(birdsRecord), {
+          latitude: 43.6286822,
+          longitude: 22.6783527,
+        })
+
+        before( function () {
+          return runAction('formBirds:create', rec1)
+            .then( function (response) {
+              rec1 = response.data
+              return runAction('formBirds:create', rec2)
+            })
+            .then( function (response) {
+              rec2 = response.data
+              return runAction('formBirds:create', rec3)
+            })
+            .then( function (response) {
+              rec3 = response.data
+            })
+        })
+
+        after( function () {
+          return Promise.all([
+            runAction('formBirds:delete', {id: rec1.id}),
+            runAction('formBirds:delete', {id: rec2.id}),
+            runAction('formBirds:delete', {id: rec3.id})
+          ])
+        })
+
+        it('should match records in given radius', function () {
+          return runAction('formBirds:list', {latitude: 43.7407795, longitude: 22.686693, radius: 5}).then(function (response) {
+            response.should.not.have.property('error')
+            response.data.length.should.be.greaterThan(0)
+            var ids = response.data.map( function (value) {
+                return value.id
+            })
+            ids.should.containEql(rec1.id)
+            ids.should.containEql(rec2.id)
+            ids.should.not.containEql(rec3.id)
+          })
         })
       })
     })

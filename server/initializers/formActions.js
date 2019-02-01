@@ -166,7 +166,10 @@ function generateFormActions (form) {
     location: {},
     from_date: {},
     to_date: {},
-    context: {}
+    context: {},
+    latitude: {},
+    longitude: {},
+    radius: {}
   }, form.hasSpecies ? { species: {} } : {}, form.listInputs || {})
 
   let exportInputs = _.extend({}, listInputs, {

@@ -53,6 +53,26 @@ function generatePrepareQuery (form) {
       })
     }
 
+    // filter by lat lon
+    const lat = parseFloat(data.params.latitude) || 0
+    const lon = parseFloat(data.params.longitude) || 0
+    const radius = parseInt(data.params.radius) || 0
+
+    if (data.params.latitude && data.params.longitude && data.params.radius) {
+      const latOffset = radius / api.config.app.latKilometersPerDegree
+      const lonOffset = radius / api.config.app.lonKilometersPerDegree
+
+      query.where = query.where || {}
+      query.where.latitude = _.extend(query.where.latitude || {}, {
+        $lte: lat + latOffset,
+        $gte: lat - latOffset
+      })
+      query.where.longitude = _.extend(query.where.longitude || {}, {
+        $lte: lon + lonOffset,
+        $gte: lon - lonOffset
+      })
+    }
+
     // form specific filters
     if (prepareQuery) {
       query = await prepareQuery(api, data, query)
