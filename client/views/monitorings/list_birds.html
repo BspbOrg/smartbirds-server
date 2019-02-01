@@ -79,6 +79,34 @@
                      model="monitoringController.filter.species"></field>
             </div>
 
+            <div class="col-md-12 col-lg-12">
+              <div class="row">
+                <div class="col-md-4 col-lg-3">
+                  <field name="latitude" type="float"
+                    label="{{'LIST_FILTER_LATITUDE' | translate}}"
+                    on-select="monitoringController.updateFilter()"
+                    model="monitoringController.filter.latitude"></field>
+                </div>
+
+                <div class="col-md-4 col-lg-3">
+                  <field name="longitude" type="float"
+                    label="{{'LIST_FILTER_LONGITUDE' | translate}}"
+                    on-select="monitoringController.updateFilter()"
+                    model="monitoringController.filter.longitude"></field>
+                </div>
+
+                <div class="col-md-4 col-lg-3">
+                  <field name="radius" type="select"
+                    choices="[{id: '1', label: 'DISTANCE_1_KM'}, {id: '2', label: 'DISTANCE_2_KM'}, {id: '5', label: 'DISTANCE_5_KM'}]"
+                    label="{{'LIST_FILTER_RADIUS' | translate}}"
+                    placeholder="{{'LIST_FILTER_RADIUS_PLACEHOLDER' | translate}}"
+                    on-select="monitoringController.updateFilter()"
+                    model="monitoringController.filter.radius"
+                    ></field>
+                </div>
+              </div>
+            </div>
+
           </div>
 
         </form>

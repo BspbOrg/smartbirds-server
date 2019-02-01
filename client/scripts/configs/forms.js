@@ -17,6 +17,9 @@ module.exports = {
       'visit',
       '{year:int}',
       'species',
+      'latitude',
+      'longitude',
+      'radius',
       'tab'
     ]
   },
@@ -33,6 +36,9 @@ module.exports = {
       'species',
       'from_date',
       'to_date',
+      'latitude',
+      'longitude',
+      'radius',
       'tab'
     ]
   },
@@ -49,6 +55,9 @@ module.exports = {
       'species',
       'from_date',
       'to_date',
+      'latitude',
+      'longitude',
+      'radius',
       'tab'
     ]
   },
@@ -65,6 +74,9 @@ module.exports = {
       'species',
       'from_date',
       'to_date',
+      'latitude',
+      'longitude',
+      'radius',
       'tab'
     ]
   },
@@ -81,6 +93,9 @@ module.exports = {
       'species',
       'from_date',
       'to_date',
+      'latitude',
+      'longitude',
+      'radius',
       'tab'
     ]
   },
@@ -97,6 +112,9 @@ module.exports = {
       'species',
       'from_date',
       'to_date',
+      'latitude',
+      'longitude',
+      'radius',
       'tab'
     ]
   },
@@ -111,6 +129,9 @@ module.exports = {
       '{user:int}',
       'from_date',
       'to_date',
+      'latitude',
+      'longitude',
+      'radius',
       'tab'
     ]
   }
