@@ -928,5 +928,8 @@
     "LIST_FILTER_LATITUDE": "Географска ширина",
     "LIST_FILTER_LONGITUDE": "Географска дължина",
     "LIST_FILTER_RADIUS": "Радиус",
-    "LIST_FILTER_RADIUS_PLACEHOLDER": "Изберете радиус"
+    "LIST_FILTER_RADIUS_PLACEHOLDER": "Изберете радиус",
+    "LIST_FILTER_GEOLOCATION": "Геолокация",
+    "SELECT_GEOLOCATION": "Избор на геолокация",
+    "LIST_FILTER_GEOLOCATION_PLACEHOLDER": "Изберете геолокация"
 }
