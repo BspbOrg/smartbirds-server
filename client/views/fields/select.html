@@ -9,6 +9,6 @@
     ng-change="field.onSelect()"
     ng-options="item.id as item.label for item in ::field.values"
     ng-disabled="::field.disabled">
-    <option ng-if="::field.placeholder" value="">{{::field.placeholder}}</option>
+    <option ng-if="::field.placeholder" value="" disabled selected hidden>{{::field.placeholder}}</option>
   </select>
 </sb-include>
