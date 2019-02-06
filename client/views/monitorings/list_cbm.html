@@ -107,6 +107,15 @@
                      model="monitoringController.filter.species"></field>
             </div>
 
+            <div class="col-md-4 col-lg-3">
+              <filter-map
+                latitude="monitoringController.filter.latitude"
+                longitude="monitoringController.filter.longitude"
+                radius="monitoringController.filter.radius"
+                on-select="monitoringController.updateFilter()">
+              </filter-map>
+            </div>
+
           </div>
         </form>
 
