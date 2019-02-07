@@ -56,7 +56,7 @@ function generatePrepareQuery (form) {
     // filter by lat lon
     const lat = parseFloat(data.params.latitude) || 0
     const lon = parseFloat(data.params.longitude) || 0
-    const radius = parseInt(data.params.radius) || 0
+    const radius = parseFloat(data.params.radius) || 0
 
     if (data.params.latitude && data.params.longitude && data.params.radius) {
       const latOffset = radius / api.config.app.latKilometersPerDegree
