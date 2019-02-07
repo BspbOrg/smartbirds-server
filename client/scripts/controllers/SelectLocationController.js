@@ -1,18 +1,18 @@
-var angular = require('angular')
+var defaults = require('lodash/defaults')
 
 require('../app').controller('SelectLocationController', /* @ngInject */function ($scope, $timeout, $uibModalInstance, location) {
   var $ctrl = this
   var latKilometersPerDegree = 111.195
   var lonKilometersPerDegree = 82.445
 
-  $ctrl.location = angular.extend({}, location, { radius: '5' })
+  $ctrl.location = defaults({}, location, { radius: '5' })
 
   $ctrl.radiusCoordinates = []
   $ctrl.map = {
-    center: {
+    center: defaults({}, $ctrl.location, {
       latitude: 42.765833,
       longitude: 25.238611
-    },
+    }),
     zoom: 8,
     click: function (maps, event, scope, args) {
       if (typeof args === 'undefined') {
@@ -30,20 +30,20 @@ require('../app').controller('SelectLocationController', /* @ngInject */function
   $ctrl.updateRadius = function () {
     $ctrl.radiusCoordinates = [
       {
-        latitude: $ctrl.location.latitude - $ctrl.location.radius / latKilometersPerDegree,
-        longitude: $ctrl.location.longitude - $ctrl.location.radius / lonKilometersPerDegree
+        latitude: parseFloat($ctrl.location.latitude) - parseFloat($ctrl.location.radius) / latKilometersPerDegree,
+        longitude: parseFloat($ctrl.location.longitude) - parseFloat($ctrl.location.radius) / lonKilometersPerDegree
       },
       {
-        latitude: $ctrl.location.latitude - $ctrl.location.radius / latKilometersPerDegree,
-        longitude: $ctrl.location.longitude + $ctrl.location.radius / lonKilometersPerDegree
+        latitude: parseFloat($ctrl.location.latitude) - parseFloat($ctrl.location.radius) / latKilometersPerDegree,
+        longitude: parseFloat($ctrl.location.longitude) + parseFloat($ctrl.location.radius) / lonKilometersPerDegree
       },
       {
-        latitude: $ctrl.location.latitude + $ctrl.location.radius / latKilometersPerDegree,
-        longitude: $ctrl.location.longitude + $ctrl.location.radius / lonKilometersPerDegree
+        latitude: parseFloat($ctrl.location.latitude) + parseFloat($ctrl.location.radius) / latKilometersPerDegree,
+        longitude: parseFloat($ctrl.location.longitude) + parseFloat($ctrl.location.radius) / lonKilometersPerDegree
       },
       {
-        latitude: $ctrl.location.latitude + $ctrl.location.radius / latKilometersPerDegree,
-        longitude: $ctrl.location.longitude - $ctrl.location.radius / lonKilometersPerDegree
+        latitude: parseFloat($ctrl.location.latitude) + parseFloat($ctrl.location.radius) / latKilometersPerDegree,
+        longitude: parseFloat($ctrl.location.longitude) - parseFloat($ctrl.location.radius) / lonKilometersPerDegree
       }
     ]
   }
@@ -51,4 +51,6 @@ require('../app').controller('SelectLocationController', /* @ngInject */function
   $ctrl.locationSelected = function () {
     $uibModalInstance.close($ctrl.location)
   }
+
+  $ctrl.updateRadius()
 })
