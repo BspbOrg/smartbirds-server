@@ -24,7 +24,7 @@
 
                 <div class="col-md-4 col-lg-4">
                     <field name="radius" type="select" required="true"
-                        choices="[{id: '1', label: 'DISTANCE_1_KM'}, {id: '2', label: 'DISTANCE_2_KM'}, {id: '5', label: 'DISTANCE_5_KM'}]"
+                        choices="[{id: '0.5', label: 'DISTANCE_500_M'}, {id: '1', label: 'DISTANCE_1_KM'}, {id: '2', label: 'DISTANCE_2_KM'}, {id: '5', label: 'DISTANCE_5_KM'}, {id: '10', label: 'DISTANCE_10_KM'}]"
                         label="{{ ::'LIST_FILTER_RADIUS' | translate }}" placeholder="{{ ::'LIST_FILTER_RADIUS_PLACEHOLDER' | translate }}"
                         on-select="$ctrl.updateRadius()"
                         model="$ctrl.location.radius"></field>
