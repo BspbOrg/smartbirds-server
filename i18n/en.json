@@ -921,5 +921,17 @@
     "STATS_TOP_OBSERVERS_RECORDS_YEAR_TITLE_TAB": "The most observations",
     "STATS_TOP_OBSERVERS_SPECIES_YEAR_TITLE_TAB": "The most observed species",
     "TOTAL_USER_RECORDS_STATS_TITLE": "Top observers",
-    "STATS_LAST_INTERESTING_SPECIES": "Interesting species for the last 30 days"
+    "STATS_LAST_INTERESTING_SPECIES": "Interesting species for the last 30 days",
+    "DISTANCE_500_M": "500 m",
+    "DISTANCE_1_KM": "1 km",
+    "DISTANCE_2_KM": "2 km",
+    "DISTANCE_5_KM": "5 km",
+    "DISTANCE_10_KM": "10 km",
+    "LIST_FILTER_LATITUDE": "Latitude",
+    "LIST_FILTER_LONGITUDE": "Logitude",
+    "LIST_FILTER_RADIUS": "Radius",
+    "LIST_FILTER_RADIUS_PLACEHOLDER": "Select radius",
+    "LIST_FILTER_GEOLOCATION": "Geolocation",
+    "LIST_FILTER_GEOLOCATION_PLACEHOLDER": "Select geolocation",
+    "LIST_FILTER_GEOLOCATION_BTN_CLEAR_LABEL": "Clear"
 }
