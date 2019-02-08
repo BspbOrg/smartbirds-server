@@ -921,5 +921,17 @@
     "STATS_TOP_OBSERVERS_RECORDS_YEAR_TITLE_TAB": "Най-много наблюдения",
     "STATS_TOP_OBSERVERS_SPECIES_YEAR_TITLE_TAB": "Най-много наблюдавани видове",
     "TOTAL_USER_RECORDS_STATS_TITLE": "Топ наблюдатели",
-    "STATS_LAST_INTERESTING_SPECIES": "Наблюдавани интересни видове за последните 30 дни"
+    "STATS_LAST_INTERESTING_SPECIES": "Наблюдавани интересни видове за последните 30 дни",
+    "DISTANCE_500_M": "500 m",
+    "DISTANCE_1_KM": "1 km",
+    "DISTANCE_2_KM": "2 km",
+    "DISTANCE_5_KM": "5 km",
+    "DISTANCE_10_KM": "10 km",
+    "LIST_FILTER_LATITUDE": "Географска ширина",
+    "LIST_FILTER_LONGITUDE": "Географска дължина",
+    "LIST_FILTER_RADIUS": "Радиус",
+    "LIST_FILTER_RADIUS_PLACEHOLDER": "Изберете радиус",
+    "LIST_FILTER_GEOLOCATION": "Геолокация",
+    "LIST_FILTER_GEOLOCATION_PLACEHOLDER": "Изберете геолокация",
+    "LIST_FILTER_GEOLOCATION_BTN_CLEAR_LABEL": "Изчисти"
 }

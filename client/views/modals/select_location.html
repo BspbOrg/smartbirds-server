@@ -1,0 +1,52 @@
+<div class="modal-header">
+    <button type="button" class="close" translate-attr="{'aria-label': 'BTN_ARIA_LABEL_CLOSE'}" ng-click="$dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h3 class="modal-title" id="modal-title" translate>LIST_FILTER_GEOLOCATION</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <div>
+        <form role="form" class="form form-filter" name="$ctrl.form">
+            <div class="row">
+                <div class="col-md-4 col-lg-4">
+                    <field name="latitude" type="float" required="true" 
+                        label="{{ ::'LIST_FILTER_LATITUDE' | translate }}"
+                        model="$ctrl.location.latitude"
+                        on-select="$ctrl.updateRadius()"></field>
+                </div>
+
+                <div class="col-md-4 col-lg-4">
+                    <field name="longitude" type="float" required="true"
+                        label="{{ ::'LIST_FILTER_LONGITUDE' | translate }}"
+                        model="$ctrl.location.longitude"
+                        on-select="$ctrl.updateRadius()"></field>
+                </div>
+
+                <div class="col-md-4 col-lg-4">
+                    <field name="radius" type="select" required="true"
+                        choices="[{id: '0.5', label: 'DISTANCE_500_M'}, {id: '1', label: 'DISTANCE_1_KM'}, {id: '2', label: 'DISTANCE_2_KM'}, {id: '5', label: 'DISTANCE_5_KM'}, {id: '10', label: 'DISTANCE_10_KM'}]"
+                        label="{{ ::'LIST_FILTER_RADIUS' | translate }}" placeholder="{{ ::'LIST_FILTER_RADIUS_PLACEHOLDER' | translate }}"
+                        on-select="$ctrl.updateRadius()"
+                        model="$ctrl.location.radius"></field>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                        <ui-gmap-google-map center="$ctrl.map.center" pan="true" zoom="$ctrl.map.zoom" events="{click: $ctrl.map.click}"
+                            options="{mapTypeId: 'hybrid', clickableIcons: false}">
+                            <ui-gmap-polygon static="false" path="$ctrl.radiusCoordinates" fill="{color: '#3c3', opacitiy: 0.7}"
+                                stroke="{color: '#3c3', opacity: 0.8, weight: 1}" geodesic="true"></ui-gmap-polygon>
+                                <ui-gmap-marker ng-if="$ctrl.location.latitude && $ctrl.location.longitude" coords="$ctrl.location"
+                                idKey="'coords'">
+                                </ui-gmap-marker>
+                        </ui-gmap-google-map>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" 
+    ng-disabled="$ctrl.form.$invalid"
+    ng-click="$ctrl.locationSelected()" translate>BTN_OK</button>
+</div>

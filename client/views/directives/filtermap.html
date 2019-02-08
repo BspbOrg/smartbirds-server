@@ -1,0 +1,18 @@
+<div class="form-group">
+    <label class="control-label" for="open-map" translate>LIST_FILTER_GEOLOCATION</label>
+    <div class="input-group">
+        <input type="text" disabled class="form-control" 
+            value="{{$ctrl.location.latitude && ($ctrl.location.latitude|number:3) + ' ' + ($ctrl.location.longitude|number:3)}}"
+            placeholder="{{ ::'LIST_FILTER_GEOLOCATION_PLACEHOLDER' | translate }}">
+        <div class="input-group-btn">
+            <button ng-if="$ctrl.location.latitude" type="button" class="btn btn-danger" ng-click="$ctrl.clearCoordinates()">
+                <i class="fa fa-times fa-fw" aria-label="{{ ::'LIST_FILTER_GEOLOCATION_BTN_CLEAR_LABEL' | translate }}"></i>
+            </button>
+            <button type="button" name="open-map" class="btn" 
+                ng-class="$ctrl.location.latitude ? 'btn-primary' : 'btn-default'"
+                ng-click="$ctrl.openModal()">
+                    <i class="fa fa-map-marker fa-fw" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+</div>
