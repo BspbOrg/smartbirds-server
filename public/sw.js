@@ -124,7 +124,31 @@ workbox.routing.registerRoute(
 workbox.routing.registerRoute(
     /^.*\/api\/.*$/,
     new workbox.strategies.StaleWhileRevalidate({
-        cacheName: 'api-cache'
+        cacheName: 'api-cache',
+        plugins: [
+            {
+                fetchDidFail: function () {
+                    return self.clients.matchAll()
+                        .then(function (clients) {
+                            clients.forEach(function (client) {
+                                client.postMessage({
+                                    data: 'SERVER_OFFLINE'
+                                })
+                            })
+                        })
+                },
+                fetchDidSucceed: function () {
+                    return self.clients.matchAll()
+                        .then(function (clients) {
+                            clients.forEach(function (client) {
+                                client.postMessage({
+                                    data: 'SERVER_ONLINE'
+                                })
+                            })
+                        })
+                }
+            }
+        ]
     })
 )
 
@@ -166,3 +190,10 @@ workbox.routing.registerRoute(
 //         ]
 //     })
 // )
+
+// // This "catch" handler is triggered when any of the other routes fail to
+// // generate a response.
+// workbox.routing.setCatchHandler(function (context) {
+//     console.log('catch handler', context)
+//     return Response.error()
+// })
