@@ -12,6 +12,7 @@
       <a class="navbar-brand" ui-sref="auth.dashboard">
         <translate>SITE_NAME</translate>
         <span ng-if="$user.isAdmin()" class="text-danger">ADMIN</span>
+        <span ng-if="!isOnline || !serverOnline" class="text-danger">OFFLINE</span>
       </a>
     </div>
     <!-- /.navbar-header -->
