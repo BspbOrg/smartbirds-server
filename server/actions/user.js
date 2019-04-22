@@ -323,9 +323,6 @@ exports.userList = {
         data.response.data = result.rows.map(function (user) {
           return user.apiData(api, data.params.context)
         })
-        if (result.count > limit + offset) {
-          data.connection.rawConnection.responseHttpCode = 206
-        }
         next()
       }).catch(next)
   }

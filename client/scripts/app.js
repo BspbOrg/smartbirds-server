@@ -92,7 +92,19 @@ app.run(/* @ngInject */function ($rootScope) {
   $rootScope.$system = info
 })
 
+// install service worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker
+      .register('/sw.js')
+      .catch(function (err) {
+        console.warn('ServiceWorker registration failed: ', err)
+      })
+  })
+}
+
 // semicolon is required because bulk is transformed into ({}) and that is evaluated as a function call to above statement
+// noinspection JSUnnecessarySemicolon
 ; // eslint-disable-line semi
 // include all js files
-bulk(__dirname, [ './**/!(app|*.spec).js' ])
+bulk(__dirname, ['./**/!(app|*.spec).js'])
