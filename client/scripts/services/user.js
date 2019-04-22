@@ -13,6 +13,8 @@ require('../app')
 
     var _sessionKey = service.sessionKey = 'sb-csrf-token'
 
+    service.identityCacheKey = 'sb-auth-identity'
+
     service.isResolved = function () {
       return angular.isDefined(_identity)
     }
@@ -75,6 +77,9 @@ require('../app')
         if (response.data.success) {
           $cookies.put(_sessionKey, response.data.csrfToken)
           service.setIdentity(response.data.user)
+          if ('localStorage' in window) {
+            window.localStorage.setItem(service.identityCacheKey, JSON.stringify(_identity))
+          }
           return _identity
         }
 
@@ -85,6 +90,13 @@ require('../app')
     service.logout = function () {
       api.session.logout()
       service.setIdentity(null)
+      service.clearCachedIdentity()
+    }
+
+    service.clearCachedIdentity = function () {
+      if ('localStorage' in window) {
+        window.localStorage.removeItem(service.identityCacheKey)
+      }
     }
 
     service.resolve = function (silent) {
@@ -101,17 +113,38 @@ require('../app')
       }).then(function (response) {
         if (response.data.success) {
           $cookies.put(_sessionKey, response.data.csrfToken)
-          service.setIdentity(response.data.user)
-          deferred.resolve(_identity)
-        } else {
-          deferred.reject(response.data)
+          return response.data.user
         }
+        return $q.reject(response.data)
       }, function (response) {
-        if (response.status === 400) {
-          service.setIdentity(null)
-          return deferred.reject(response.data)
+        switch (response.status) {
+          case -1:
+            if (!('localStorage' in window)) break
+            var cachedIdentity = window.localStorage.getItem(service.identityCacheKey)
+            if (!cachedIdentity) break
+            var parsedIdentity
+            try {
+              parsedIdentity = JSON.parse(cachedIdentity)
+            } catch (e) {
+              console.warn('Failure while parsing cached identity', e)
+              break
+            }
+            if (!parsedIdentity) break
+            return parsedIdentity
+          case 400:
+            service.setIdentity(null)
+            return $q.reject(response.data)
         }
-        deferred.reject(response)
+        $q.reject(response)
+      }).then(function (identity) {
+        service.setIdentity(identity)
+        deferred.resolve(_identity)
+        if ('localStorage' in window) {
+          window.localStorage.setItem(service.identityCacheKey, JSON.stringify(identity))
+        }
+      }, function (error) {
+        service.clearCachedIdentity()
+        deferred.reject(error)
       })
 
       return deferred.promise
