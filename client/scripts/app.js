@@ -3,6 +3,7 @@
 var angular = require('angular')
 var bulk = require('bulk-require')
 var info = require('../../package.json')
+var Workbox = require('workbox-window').Workbox
 
 // include angular dependencies
 require('angular-i18n')
@@ -86,22 +87,18 @@ if (Raven && process.env.NODE_ENV === 'production') {
   })
 }
 
+// install service worker
+if ('serviceWorker' in navigator) {
+  var wb = new Workbox('/sw.js')
+  wb.register()
+  window.SW_STATUS = 'registered'
+}
+
 var app = module.exports = angular.module('sb', dependencies)
 
 app.run(/* @ngInject */function ($rootScope) {
   $rootScope.$system = info
 })
-
-// install service worker
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function () {
-    navigator.serviceWorker
-      .register('/sw.js')
-      .catch(function (err) {
-        console.warn('ServiceWorker registration failed: ', err)
-      })
-  })
-}
 
 // semicolon is required because bulk is transformed into ({}) and that is evaluated as a function call to above statement
 // noinspection JSUnnecessarySemicolon

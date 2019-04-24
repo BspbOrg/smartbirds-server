@@ -101,6 +101,7 @@
     "underscore.string": "^3.3.4",
     "uuid": "^2.0.3",
     "validator": "~4.2.1",
+    "workbox-window": "^4.3.0",
     "ws": "^3.3.2"
   },
   "browser": {
