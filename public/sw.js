@@ -10,7 +10,9 @@ var NETWORK_TIMEOUT_SECONDS = 0.5
 var SINGLE_PAGE_URL = '/index.html'
 
 workbox.precaching.precache([
-    SINGLE_PAGE_URL
+    SINGLE_PAGE_URL,
+    '/js/scripts.js',
+    '/css/main.css'
 ], {
     ignoreURLParametersMatching: true
 })
@@ -23,16 +25,55 @@ workbox.routing.registerNavigationRoute(
     workbox.precaching.getCacheKeyForURL(SINGLE_PAGE_URL)
 )
 
+// the primary resources that are precashed
 workbox.routing.registerRoute(
-    /\/js\/scripts\.js$/,
+    /\/(js\/scripts\.js|css\/main\.css)$/,
     new workbox.strategies.NetworkFirst({
-        cacheName: 'scripts-cache',
+        cacheName: workbox.core.cacheNames.precache,
         networkTimeoutSeconds: NETWORK_TIMEOUT_SECONDS
     })
 )
 
+// nomenclature data
 workbox.routing.registerRoute(
-    /.*\.json$/,
+    /^.*\/api\/(locations|nomenclature|species|user|zone|visit)/,
+    new workbox.strategies.StaleWhileRevalidate({
+        cacheName: 'api-cache',
+        plugins: [
+            // {
+            //     fetchDidFail: function () {
+            //         return self.clients.matchAll()
+            //             .then(function (clients) {
+            //                 clients.forEach(function (client) {
+            //                     client.postMessage({
+            //                         data: 'SERVER_OFFLINE'
+            //                     })
+            //                 })
+            //             })
+            //     },
+            //     fetchDidSucceed: function () {
+            //         return self.clients.matchAll()
+            //             .then(function (clients) {
+            //                 clients.forEach(function (client) {
+            //                     client.postMessage({
+            //                         data: 'SERVER_ONLINE'
+            //                     })
+            //                 })
+            //             })
+            //     }
+            // }
+        ]
+    })
+)
+
+// every other api request
+workbox.routing.registerRoute(
+    /^.*\/api\//,
+    new workbox.strategies.NetworkOnly()
+)
+
+workbox.routing.registerRoute(
+    /\.json$/,
     new workbox.strategies.NetworkFirst({
         cacheName: 'stats-cache',
         networkTimeoutSeconds: NETWORK_TIMEOUT_SECONDS
@@ -121,37 +162,6 @@ workbox.routing.registerRoute(
     })
 )
 
-workbox.routing.registerRoute(
-    /^.*\/api\/.*$/,
-    new workbox.strategies.StaleWhileRevalidate({
-        cacheName: 'api-cache',
-        plugins: [
-            {
-                fetchDidFail: function () {
-                    return self.clients.matchAll()
-                        .then(function (clients) {
-                            clients.forEach(function (client) {
-                                client.postMessage({
-                                    data: 'SERVER_OFFLINE'
-                                })
-                            })
-                        })
-                },
-                fetchDidSucceed: function () {
-                    return self.clients.matchAll()
-                        .then(function (clients) {
-                            clients.forEach(function (client) {
-                                client.postMessage({
-                                    data: 'SERVER_ONLINE'
-                                })
-                            })
-                        })
-                }
-            }
-        ]
-    })
-)
-
 workbox.googleAnalytics.initialize()
 
 workbox.routing.registerRoute(
@@ -197,3 +207,6 @@ workbox.routing.registerRoute(
 //     console.log('catch handler', context)
 //     return Response.error()
 // })
+
+workbox.core.skipWaiting()
+workbox.core.clientsClaim()

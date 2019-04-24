@@ -11,8 +11,11 @@
       </button>
       <a class="navbar-brand" ui-sref="auth.dashboard">
         <translate>SITE_NAME</translate>
+        <span ng-if="main.SW" style="margin-left: 0.25em; font-size: 50%; vertical-align: middle;"
+              ng-style="{color: isOnline ? '#8BC34A' : '#F44336'}">
+          <i class="fa fa-circle"></i>
+        </span>
         <span ng-if="$user.isAdmin()" class="text-danger">ADMIN</span>
-        <span ng-if="!isOnline || !serverOnline" class="text-danger">OFFLINE</span>
       </a>
     </div>
     <!-- /.navbar-header -->
