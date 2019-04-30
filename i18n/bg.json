@@ -934,5 +934,7 @@
     "LIST_FILTER_GEOLOCATION": "Геолокация",
     "LIST_FILTER_GEOLOCATION_PLACEHOLDER": "Изберете геолокация",
     "LIST_FILTER_GEOLOCATION_BTN_CLEAR_LABEL": "Изчисти",
-    "NO_CONNECTION_WITH_SERVER": "Няма връзка със сървъра."
+    "NO_CONNECTION_WITH_SERVER": "Няма връзка със сървъра.",
+    "DETAIL_LATITUDE": "Географска ширина",
+    "DETAIL_LONGITUDE": "Географска дължина"
 }

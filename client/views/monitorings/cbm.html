@@ -33,44 +33,17 @@
 
   <div class="row">
     <div class="col-md-8 col-lg-7">
-      <field name="zone" type="zone" required="true"
-             label="{{'CBM_DETAIL_PLACE' | translate}}"
-             on-select="monitoringDetailController.onZoneSelected()"
-             model="monitoringDetailController.data.zone"></field>
-
-      <div class="text-right">
-        <track-edit ng-model="monitoringDetailController.data.track"></track-edit>
+      <div class="row">
+        <div class="col-md-12">
+        <field name="zone" type="zone" required="true"
+               label="{{'CBM_DETAIL_PLACE' | translate}}"
+               on-select="monitoringDetailController.onZoneSelected()"
+               model="monitoringDetailController.data.zone"></field>
+        </div>
       </div>
-      <ui-gmap-google-map
+      <ng-include
         ng-if="monitoringDetailController.map.poi.latitude && monitoringDetailController.map.poi.longitude"
-        center="monitoringDetailController.map.center"
-        zoom="monitoringDetailController.map.zoom"
-        options="{mapTypeId: 'hybrid', clickableIcons: false}">
-        <ui-gmap-polygon
-          ng-if="monitoringDetailController.data.getZone && monitoringDetailController.data.getZone().coordinates.length"
-          path="monitoringDetailController.data.getZone().coordinates"
-          static="true"
-          fill="{color: '#00f', opacitiy: 0.7}"
-          stroke="{color: '#00f', opacity: 1, weight: 3}"
-          geodesic="true"
-          fit="false"
-          events="{click: monitoringDetailController.map.click}"
-        ></ui-gmap-polygon>
-        <ui-gmap-polyline
-          ng-if="monitoringDetailController.track.length"
-          path="monitoringDetailController.track"
-          stroke="{color: '#36c', weight: 3}"
-          editable="false"
-          draggable="false"
-          geodesic="true"
-          visible="true"
-          fit="true"
-          static="true"
-        ></ui-gmap-polyline>
-        <ui-gmap-marker coords="monitoringDetailController.map.poi"
-                        idKey="'coords'"
-        ></ui-gmap-marker>
-      </ui-gmap-google-map>
+        src="'/views/monitorings/geolocation.html'"></ng-include>
     </div>
 
     <div class="col-md-4 col-lg-5">

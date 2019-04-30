@@ -4,7 +4,7 @@
 var angular = require('angular')
 var moment = require('moment')
 
-require('../app').directive('field', /* @ngInject */function ($q) {
+require('../app').directive('field', /* @ngInject */function ($q, Raven) {
   var cnt = 0
   return {
     restrict: 'AE',
@@ -27,7 +27,7 @@ require('../app').directive('field', /* @ngInject */function ($q) {
     bindToController: true,
     require: '^form',
     templateUrl: function ($element, $attrs) {
-      return '/views/fields/' + ($attrs.type || 'general') + '.html'
+      return '/views/fields/' + ($attrs.type || 'general').split('.', 2)[0] + '.html'
     },
     link: function ($scope, $element, $attrs, formCtrl) {
       $scope.form = formCtrl
@@ -44,9 +44,12 @@ require('../app').directive('field', /* @ngInject */function ($q) {
         field.form = form
       })
       field.$attrs = $attrs
-      field.type = $attrs.type
+      field.type = ($attrs.type || 'general').split('.', 2)[0]
+      field.subtypes = ($attrs.type || 'general').split('.').slice(1)
       field.required = angular.isDefined($attrs.required)
       field.readonly = 'readonly' in $attrs ? (angular.isDefined($attrs.readonly) ? $parse($attrs.readonly)($scope.$parent) : true) : false
+      field.hasGeolocation = 'geolocation' in navigator
+      field.loading = false
 
       if ('disabled' in $attrs) {
         if (angular.isDefined($attrs.disabled)) {
@@ -78,6 +81,38 @@ require('../app').directive('field', /* @ngInject */function ($q) {
           if (angular.isFunction(field.select)) {
             field.select(angular.extend({}, args, { model: field.model }))
           }
+        })
+      }
+
+      var getCurrentPositionSuccess = function (pos) {
+        field.loading = false
+        var args = {
+          timestamp: pos.timestamp,
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude
+        }
+        field.subtypes.forEach(function (subtype) {
+          if (subtype in args) {
+            $timeout(function () {
+              field.model = args[subtype]
+            })
+          }
+        })
+        field.onSelect(args)
+      }
+
+      var getCurrentPositionError = function (err) {
+        field.loading = false
+        Raven.captureMessage(JSON.stringify(err))
+      }
+
+      field.getCurrentLocation = function () {
+        if (!field.hasGeolocation) return
+        field.loading = true
+        navigator.geolocation.getCurrentPosition(getCurrentPositionSuccess, getCurrentPositionError, {
+          enableHighAccuracy: true,
+          timeout: 60 * 1000,
+          maximumAge: 0
         })
       }
 

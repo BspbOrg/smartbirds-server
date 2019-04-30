@@ -934,5 +934,7 @@
     "LIST_FILTER_GEOLOCATION": "Geolocation",
     "LIST_FILTER_GEOLOCATION_PLACEHOLDER": "Select geolocation",
     "LIST_FILTER_GEOLOCATION_BTN_CLEAR_LABEL": "Clear",
-    "NO_CONNECTION_WITH_SERVER": "No connection with server."
+    "NO_CONNECTION_WITH_SERVER": "No connection with server.",
+    "DETAIL_LATITUDE": "Latitude",
+    "DETAIL_LONGITUDE": "Longitude"
 }
