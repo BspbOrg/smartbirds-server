@@ -74,11 +74,16 @@ var dependencies = [
   'pascalprecht.translate'
 ]
 
-if (Raven) {
+if (Raven && process.env.NODE_ENV === 'production') {
   Raven
     .config('https://b17f1c87d9e346a8bd82335294450e57@app.getsentry.com/71564')
     .addPlugin(require('raven-js-angular'), angular)
     .install()
+} else {
+  var noop = function () {}
+  angular.module('ngRaven', []).service('Raven', function () {
+    this.captureMessage = noop
+  })
 }
 
 var app = module.exports = angular.module('sb', dependencies)
