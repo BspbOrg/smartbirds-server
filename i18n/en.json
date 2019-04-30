@@ -933,5 +933,6 @@
     "LIST_FILTER_RADIUS_PLACEHOLDER": "Select radius",
     "LIST_FILTER_GEOLOCATION": "Geolocation",
     "LIST_FILTER_GEOLOCATION_PLACEHOLDER": "Select geolocation",
-    "LIST_FILTER_GEOLOCATION_BTN_CLEAR_LABEL": "Clear"
+    "LIST_FILTER_GEOLOCATION_BTN_CLEAR_LABEL": "Clear",
+    "NO_CONNECTION_WITH_SERVER": "No connection with server."
 }
