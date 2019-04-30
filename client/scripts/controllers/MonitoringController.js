@@ -15,6 +15,7 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
   controller.context = context
   controller.db = db
   controller.filter = angular.copy($stateParams)
+  controller.offline = false
 
   switch (context) {
     case 'public':
@@ -129,12 +130,17 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
 
   function fetch (query) {
     controller.loading = true
+    controller.offline = false
     return model.query(angular.extend({}, query, { context: controller.context })).$promise
       .then(function (rows) {
         controller.count = rows.$$response.data.$$response.count
         Array.prototype.push.apply(controller.rows, rows)
         controller.endOfPages = !rows.length
         return controller.rows
+      }, function (error) {
+        controller.offline = true
+        controller.failedQuery = query
+        return $q.reject(error)
       })
       .then(function (rows) {
         if (angular.isFunction(controller.map.refresh)) {
@@ -144,6 +150,10 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
       .finally(function () {
         controller.loading = false
       })
+  }
+
+  controller.retry = function () {
+    fetch(controller.failedQuery)
   }
 
   controller.export = function (outputType) {

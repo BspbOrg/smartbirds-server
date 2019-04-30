@@ -933,5 +933,6 @@
     "LIST_FILTER_RADIUS_PLACEHOLDER": "Изберете радиус",
     "LIST_FILTER_GEOLOCATION": "Геолокация",
     "LIST_FILTER_GEOLOCATION_PLACEHOLDER": "Изберете геолокация",
-    "LIST_FILTER_GEOLOCATION_BTN_CLEAR_LABEL": "Изчисти"
+    "LIST_FILTER_GEOLOCATION_BTN_CLEAR_LABEL": "Изчисти",
+    "NO_CONNECTION_WITH_SERVER": "Няма връзка със сървъра."
 }
