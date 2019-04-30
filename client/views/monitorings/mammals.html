@@ -20,50 +20,7 @@
   <div ng-include="'/views/monitorings/common.html'"></div>
 
   <div class="row">
-    <div class="col-md-8 col-lg-7">
-      <div class="row">
-        <div class="col-md-6">
-          <field name="latitude" type="float" required="true"
-                 label="{{'MAMMALS_DETAIL_LATITUDE' | translate}}"
-                 on-select="monitoringDetailController.updateFromModel()"
-                 model="monitoringDetailController.data.latitude"></field>
-        </div>
-        <div class="col-md-6">
-          <field name="longitude" type="float" required="true"
-                 label="{{'MAMMALS_DETAIL_LONGITUDE' | translate}}"
-                 on-select="monitoringDetailController.updateFromModel()"
-                 model="monitoringDetailController.data.longitude"></field>
-        </div>
-        <div class="col-md-12">
-          <div class="text-right">
-            <track-edit ng-model="monitoringDetailController.data.track"></track-edit>
-          </div>
-          <ui-gmap-google-map
-            center="monitoringDetailController.map.center"
-            pan="true"
-            zoom="monitoringDetailController.map.zoom"
-            events="{click: monitoringDetailController.map.click}"
-            options="{mapTypeId: 'hybrid', clickableIcons: false}">
-            <ui-gmap-polyline
-              ng-if="monitoringDetailController.track.length"
-              path="monitoringDetailController.track"
-              stroke="{color: '#36c', weight: 3}"
-              editable="false"
-              draggable="false"
-              geodesic="true"
-              visible="true"
-              fit="true"
-              static="true"
-            ></ui-gmap-polyline>
-            <ui-gmap-marker
-              ng-if="monitoringDetailController.map.poi.latitude && monitoringDetailController.map.poi.longitude"
-              coords="monitoringDetailController.map.poi"
-              idKey="'coords'"
-            ></ui-gmap-marker>
-          </ui-gmap-google-map>
-        </div>
-      </div>
-    </div>
+    <div class="col-md-8 col-lg-7" ng-include="'/views/monitorings/geolocation.html'"></div>
 
     <div class="col-md-4 col-lg-5">
       <div class="row">
