@@ -29,6 +29,29 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
     controller.data = new model() // eslint-disable-line new-cap
     if (angular.isFunction(model.prototype.afterCreate)) { model.prototype.afterCreate.apply(controller.data) }
     checkCanSave()
+    // try to fill current location if allowed
+    if ('geolocation' in navigator && 'permissions' in navigator) {
+      navigator.permissions.query({ name: 'geolocation' })
+        .then(function (permission) {
+          if (permission.state !== 'granted') return
+          navigator.geolocation.getCurrentPosition(function (pos) {
+            if (!pos || !pos.coords) return
+            // if already populated by some other means
+            if (controller.data.latitude != null || controller.data.longitude != null) return
+            controller.data.latitude = pos.coords.latitude
+            controller.data.longitude = pos.coords.longitude
+            checkCanSave()
+          }, function (error) {
+            Raven.captureMessage(JSON.stringify(error))
+          }, {
+            enableHighAccuracy: true,
+            // 15 sec
+            timeout: 15 * 1000,
+            // 5 minutes
+            maximumAge: 5 * 60 * 1000
+          })
+        })
+    }
   }
   if (!$stateParams.id && $stateParams.fromId) {
     controller.data.$promise.then(function () {
