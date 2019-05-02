@@ -86,6 +86,7 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven) {
 
       var getCurrentPositionSuccess = function (pos) {
         field.loading = false
+        if (!pos || !pos.coords) return
         var args = {
           timestamp: pos.timestamp,
           latitude: pos.coords.latitude,
