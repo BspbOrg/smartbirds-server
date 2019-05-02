@@ -27,6 +27,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
     controller.data = model.get({ id: id })
   } else {
     controller.data = new model() // eslint-disable-line new-cap
+    controller.data.observationDateTime = new Date()
     if (angular.isFunction(model.prototype.afterCreate)) { model.prototype.afterCreate.apply(controller.data) }
     checkCanSave()
     // try to fill current location if allowed
