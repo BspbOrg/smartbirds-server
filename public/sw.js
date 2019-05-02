@@ -36,7 +36,7 @@ workbox.routing.registerRoute(
 
 // nomenclature data
 workbox.routing.registerRoute(
-    /^.*\/api\/(locations|nomenclature|species|user|zone|visit)/,
+    /^.*\/api\/(i18n|locations|nomenclature|species|user|zone|visit)/,
     new workbox.strategies.StaleWhileRevalidate({
         cacheName: 'api-cache',
         plugins: [
