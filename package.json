@@ -42,7 +42,7 @@
     "build:css": "lessc --clean-css --source-map --source-map-less-inline client/styles/main.less public/css/main.css",
     "build:css:watch": "watch 'npm run build:css' client/styles",
     "build": "npm run build:css && npm run build:js",
-    "postinstall": "bower install --allow-root && npm run build",
+    "postinstall": "bower install --allow-root",
     "prestart": "npm run migrate",
     "migrate": "npm run sq -- db:migrate",
     "seed": "npm run sq -- db:seed",
