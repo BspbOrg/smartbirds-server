@@ -2,7 +2,7 @@ var angular = require('angular')
 
 require('../app').controller('MonitoringDetailController', /* @ngInject */function (
   $filter, $http, $scope, $state, $stateParams, $q, $timeout, $translate, model, ngToast, db,
-  Raven, Track, formName, user, geolocation
+  Raven, Track, formName, user, geolocation, local
 ) {
   var controller = this
 
@@ -27,7 +27,16 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
   controller.formName = formName
   controller.db = db
   if (id) {
-    controller.data = model.get({ id: id })
+    if (local) {
+      controller.data = { id: id }
+      controller.data.$promise = model
+        .localGet(controller.data)
+        .then(function (data) {
+          controller.data = data
+        })
+    } else {
+      controller.data = model.get({ id: id })
+    }
   } else {
     controller.data = new model() // eslint-disable-line new-cap
     controller.data.observationDateTime = new Date()
@@ -69,7 +78,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
         if ($stateParams.offset > 0) {
           controller.prevParams = {
             offset: $stateParams.offset - 1,
-            id: neighbours[ 0 ].id
+            id: neighbours[0].id
           }
         } else {
           lastIdx = 1
@@ -77,7 +86,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
         if (neighbours.length > lastIdx) {
           controller.nextParams = {
             offset: $stateParams.offset + 1,
-            id: neighbours[ lastIdx ].id
+            id: neighbours[lastIdx].id
           }
         }
       })
@@ -112,8 +121,8 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
         args = scope
         scope = undefined
       }
-      controller.data.latitude = args[ 0 ].latLng.lat()
-      controller.data.longitude = args[ 0 ].latLng.lng()
+      controller.data.latitude = args[0].latLng.lat()
+      controller.data.longitude = args[0].latLng.lng()
       controller.updateFromModel()
       $scope.smartform.$setDirty()
     }
@@ -195,6 +204,12 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
 
   controller.save = function () {
     if (!controller.canSave) return
+    var localId
+    if (local) {
+      localId = controller.data.id
+      delete controller.data.id
+    }
+    local = false
     var data = new model(controller.data) // eslint-disable-line new-cap
     if (!data.monitoringCode) {
       data.monitoringCode = genSingleObservationCode()
@@ -203,29 +218,47 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
       data.observationDateTime = data.startDateTime
     }
     if (angular.isFunction(data.preSave)) data.preSave()
-    data.$save().then(function (res) {
-      $scope.smartform.$setPristine()
-      return res
-    }).then(function (res) {
-      controller.data = res
-      clearGeneratedSingleObservationCode()
-      return controller.data
-    }).then(function (res) {
-      ngToast.create({
-        className: 'success',
-        content: $translate.instant('Form saved successfully.')
+    data
+      .$save()
+      .catch(function (error) {
+        if (data.id == null && error && error.status === -1) {
+          local = true
+          if (localId) {
+            data.id = localId
+          }
+          return data.$localSave()
+        }
+        return $q.reject(error)
       })
-      return res
-    }, function (error) {
-      Raven.captureMessage(JSON.stringify(error))
-      ngToast.create({
-        className: 'danger',
-        content: '<p>' + $translate.instant('Could not save form!') + '</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
+      .then(function (res) {
+        $scope.smartform.$setPristine()
+        return res
       })
-      return $q.reject(error)
-    }).then(function (res) {
-      $state.go('^.detail', { id: res.id }, { location: 'replace' })
-    })
+      .then(function (res) {
+        controller.data = res
+        clearGeneratedSingleObservationCode()
+        return controller.data
+      })
+      .then(function (res) {
+        ngToast.create(local ? {
+          className: 'info',
+          content: $translate.instant('Form saved locally.')
+        } : {
+          className: 'success',
+          content: $translate.instant('Form saved successfully.')
+        })
+        return res
+      }, function (error) {
+        Raven.captureMessage(JSON.stringify(error))
+        ngToast.create({
+          className: 'danger',
+          content: '<p>' + $translate.instant('Could not save form!') + '</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
+        })
+        return $q.reject(error)
+      })
+      .then(function (res) {
+        $state.go('^.' + (local ? 'local-' : '') + 'detail', { id: res.id }, { location: 'replace' })
+      })
   }
 
   controller.observationDateChange = function () {
@@ -246,7 +279,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
       controller.visit = null
       if (!date || angular.isString(date)) return
       var year = date.getUTCFullYear()
-      var visit = controller.visit = db.visits[ year ]
+      var visit = controller.visit = db.visits[year]
       controller.isEarly = false
       controller.isLate = false
       if (visit) {

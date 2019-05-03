@@ -1,4 +1,5 @@
 var angular = require('angular')
+var LocalCache = require('./mixins/local_cache')
 
 require('../app').factory('FormInvertebrates', /* @ngInject */function ($resource, ENDPOINT_URL, db) {
   var FormInvertebrates = $resource(ENDPOINT_URL + '/invertebrates/:id', {
@@ -30,7 +31,10 @@ require('../app').factory('FormInvertebrates', /* @ngInject */function ($resourc
 
   // class methods
   angular.extend(FormInvertebrates, {
+  })
 
+  LocalCache.inject(FormInvertebrates, {
+    name: 'invertebrates'
   })
 
   return FormInvertebrates

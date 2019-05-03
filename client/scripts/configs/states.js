@@ -357,6 +357,26 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
             controller: 'MonitoringDetailController',
             controllerAs: 'monitoringDetailController'
           }
+        },
+        resolve: {
+          local: function () { return false }
+        }
+      })
+
+      /// ////////
+      // Monitoring Local Detail //
+      /// ////////
+      .state('auth.monitoring.private.' + formName + '.local-detail', {
+        url: '/local-{id:int}?{offset:int}',
+        views: {
+          'content@auth': {
+            templateUrl: '/views/monitorings/' + formName + '.html',
+            controller: 'MonitoringDetailController',
+            controllerAs: 'monitoringDetailController'
+          }
+        },
+        resolve: {
+          local: function () { return true }
         }
       })
 
@@ -371,6 +391,9 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
             controller: 'MonitoringDetailController',
             controllerAs: 'monitoringDetailController'
           }
+        },
+        resolve: {
+          local: function () { return false }
         }
       })
 
@@ -378,13 +401,16 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
       // Monitoring Copy //
       /// ////////
       .state('auth.monitoring.private.' + formName + '.copy', {
-        url: '/copy?{fromId:int}',
+        url: '/copy?{fromId}',
         views: {
           'content@auth': {
             templateUrl: '/views/monitorings/' + formName + '.html',
             controller: 'MonitoringDetailController',
             controllerAs: 'monitoringDetailController'
           }
+        },
+        resolve: {
+          local: function () { return false }
         }
       })
   })
