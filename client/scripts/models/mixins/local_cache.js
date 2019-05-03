@@ -90,6 +90,9 @@ module.exports = {
       name: opts.name
     })
     target.prototype.$localSave = localSave
+    target.prototype.$localDelete = function () {
+      return target.localDelete(this.id)
+    }
     target.localGet = localGet
     target.localList = localList
     target.localDelete = localDelete

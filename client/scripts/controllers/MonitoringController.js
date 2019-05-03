@@ -105,8 +105,15 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
 
   controller.deleteRows = function (rows) {
     $q.all(rows.map(function (row) {
-      return row.$delete().then(function (res) {
-        var idx = controller.rows.indexOf(row)
+      return (row.$local ? row.$localDelete() : row.$delete()).then(function (res) {
+        var idx
+        if (row.$local) {
+          idx = controller.localRows.indexOf(row)
+          if (idx !== -1) {
+            controller.localRows.splice(idx, 1)
+          }
+        }
+        idx = controller.rows.indexOf(row)
         if (idx !== -1) {
           controller.rows.splice(idx, 1)
         }
