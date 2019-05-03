@@ -220,7 +220,13 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
     if (angular.isFunction(data.preSave)) data.preSave()
     data
       .$save()
-      .catch(function (error) {
+      .then(function (res) {
+        if (localId) {
+          model.localDelete(localId)
+          localId = null
+        }
+        return res
+      }, function (error) {
         if (data.id == null && error && error.status === -1) {
           local = true
           if (localId) {
