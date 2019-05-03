@@ -1,7 +1,7 @@
 /**
  * Created by groupsky on 03.12.15.
  */
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
   var angular = require('angular')
   var bulk = require('bulk-require')
 
