@@ -47,9 +47,9 @@ function localSave () {
 }
 
 function localGet (key) {
+  var Resource = this
+  var storage = Resource.$localStorage
   if (key && key.id) {
-    var Resource = this
-    var storage = Resource.$localStorage
     return storage
       .getItem(ID_PREFIX + key.id)
       .then(function (data) {
@@ -61,6 +61,22 @@ function localGet (key) {
   }
 }
 
+function localList () {
+  var Resource = this
+  var storage = Resource.$localStorage
+  return storage.keys()
+    .then(function (keys) {
+      return Promise.all(keys
+        .filter(function (key) {
+          return key.substr(0, ID_PREFIX.length) === ID_PREFIX
+        })
+        .map(function (key) {
+          return Resource.localGet({ id: key.substr(ID_PREFIX.length) })
+        })
+      )
+    })
+}
+
 module.exports = {
   inject: function (target, opts) {
     target.$localStorage = localforage.createInstance({
@@ -68,5 +84,6 @@ module.exports = {
     })
     target.prototype.$localSave = localSave
     target.localGet = localGet
+    target.localList = localList
   }
 }

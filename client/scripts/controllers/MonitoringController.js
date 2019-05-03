@@ -128,6 +128,16 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
     })
   }
 
+  controller.localRows = []
+  if (context === 'private') {
+    controller.localRows.$promise = model.localList()
+      .then(function (rows) {
+        Array.prototype.push.apply(controller.localRows, rows)
+        Array.prototype.unshift.apply(controller.rows, rows)
+        return controller.localRows
+      })
+  }
+
   function fetch (query) {
     controller.loading = true
     controller.offline = false
@@ -184,7 +194,7 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
   }
 
   controller.requestRows = function () {
-    controller.rows = []
+    controller.rows = [].concat(controller.localRows)
     controller.endOfPages = false
     if (angular.isFunction(controller.map.clear)) {
       controller.map.clear()
@@ -196,7 +206,7 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
 
   controller.nextPage = function (count) {
     fetch(angular.extend({}, controller.filter, {
-      offset: controller.rows.length,
+      offset: controller.rows.length - controller.localRows.length,
       limit: count || (controller.tab === 'list' ? 50 : 1000)
     }))
   }

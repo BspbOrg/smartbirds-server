@@ -145,12 +145,14 @@
     <tbody>
     <tr
       ng-repeat="row in monitoringController.rows | orderBy:monitoringController.order.key:monitoringController.order.reverse"
-      ng-click="$state.go('.detail', {id: row.id, offset: $index})" ng-class="{info: row.$selected}">
+      ng-click="$state.go('.'+(row.$local?'local-':'')+'detail', {id: row.id, offset: $index})"
+      ng-class="{info: row.$selected, danger: row.$local}"
+    >
       <td ng-click="$event.stopPropagation(); monitoringController.toggleSelected(row)"><input
         type="checkbox"
         ng-checked="row.$selected">
       </td>
-      <td><a href ui-sref=".detail({id: row.id, offset: $index})">{{::row.id}}</a></td>
+      <td><a href ui-sref=".{{::(row.$local ? 'local-' : '')}}detail({id: row.id, offset: $index})">{{::row.id}}</a></td>
       <td ng-if="::$user.canAccess(monitoringController.formName)">{{row.getUser().getName()}}</td>
       <td>{{::row.location}}</td>
       <td>{{::row.observationDateTime|date:'d.MM.yyyy HH:mm'}}</td>
