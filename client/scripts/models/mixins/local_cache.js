@@ -77,6 +77,13 @@ function localList () {
     })
 }
 
+function localDelete (id) {
+  var Resource = this
+  var storage = Resource.$localStorage
+
+  return storage.removeItem(ID_PREFIX + id)
+}
+
 module.exports = {
   inject: function (target, opts) {
     target.$localStorage = localforage.createInstance({
@@ -85,5 +92,6 @@ module.exports = {
     target.prototype.$localSave = localSave
     target.localGet = localGet
     target.localList = localList
+    target.localDelete = localDelete
   }
 }
