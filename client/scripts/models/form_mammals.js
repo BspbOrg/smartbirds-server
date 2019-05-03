@@ -1,8 +1,5 @@
-/**
- * Created by groupsky on 08.01.16.
- */
-
 var angular = require('angular')
+var LocalCache = require('./mixins/local_cache')
 
 require('../app').factory('FormMammals', /* @ngInject */function ($resource, ENDPOINT_URL, db) {
   var FormMammals = $resource(ENDPOINT_URL + '/mammals/:id', {
@@ -46,7 +43,10 @@ require('../app').factory('FormMammals', /* @ngInject */function ($resource, END
 
   // class methods
   angular.extend(FormMammals, {
+  })
 
+  LocalCache.inject(FormMammals, {
+    name: 'mammals'
   })
 
   return FormMammals

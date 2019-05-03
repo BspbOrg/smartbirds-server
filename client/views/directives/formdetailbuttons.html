@@ -12,7 +12,7 @@
   <button type="button"
           class="btn btn-primary"
           accesskey="s"
-          ng-disabled="smartform.$invalid || smartform.$pristine || !monitoringDetailController.canSave"
+          ng-disabled="smartform.$invalid || (smartform.$pristine && (!monitoringDetailController.data.$local || !$root.isOnline)) || !monitoringDetailController.canSave"
           ng-click="monitoringDetailController.save()"
           translate-attr="{title: 'FORM_DETAIL_BUTTON_SAVE'}"
   >

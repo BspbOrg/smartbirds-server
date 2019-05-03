@@ -1,8 +1,5 @@
-/**
- * Created by groupsky on 08.01.16.
- */
-
 var angular = require('angular')
+var LocalCache = require('./mixins/local_cache')
 
 require('../app').factory('FormCBM', /* @ngInject */function ($resource, ENDPOINT_URL, db) {
   var FormCBM = $resource(ENDPOINT_URL + '/cbm/:id', {
@@ -37,6 +34,10 @@ require('../app').factory('FormCBM', /* @ngInject */function ($resource, ENDPOIN
 
   // class methods
   angular.extend(FormCBM, {})
+
+  LocalCache.inject(FormCBM, {
+    name: 'cbm'
+  })
 
   return FormCBM
 })

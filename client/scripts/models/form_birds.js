@@ -1,8 +1,5 @@
-/**
- * Created by groupsky on 08.01.16.
- */
-
 var angular = require('angular')
+var LocalCache = require('./mixins/local_cache')
 
 require('../app').factory('FormBirds', /* @ngInject */function ($localStorage, $resource, $translate, ENDPOINT_URL, db) {
   var FormBirds = $resource(ENDPOINT_URL + '/birds/:id', {
@@ -18,28 +15,28 @@ require('../app').factory('FormBirds', /* @ngInject */function ($localStorage, $
       this.initDefaults()
     },
     getUser: function () {
-      return db.users[ this.user ]
+      return db.users[this.user]
     },
     getSpecies: function () {
-      return db.species.birds && db.species.birds[ this.species ]
+      return db.species.birds && db.species.birds[this.species]
     },
     getCount: function (locale) {
       locale = locale || $translate.$language || 'en'
       var parts = []
-      parts.push(this.typeUnit.label[ locale ])
-      if (![ 'Min.', 'Max.', 'Range', 'Unspecified number' ].includes(this.typeUnit.label.en)) {
+      parts.push(this.typeUnit.label[locale])
+      if (!['Min.', 'Max.', 'Range', 'Unspecified number'].includes(this.typeUnit.label.en)) {
         parts.push(this.count)
       }
-      if ([ 'Min.', 'Range' ].includes(this.typeUnit.label.en)) {
+      if (['Min.', 'Range'].includes(this.typeUnit.label.en)) {
         parts.push(this.countMin)
       }
-      if ([ 'Range' ].includes(this.typeUnit.label.en)) {
+      if (['Range'].includes(this.typeUnit.label.en)) {
         parts.push('-')
       }
-      if ([ 'Max.', 'Range' ].includes(this.typeUnit.label.en)) {
+      if (['Max.', 'Range'].includes(this.typeUnit.label.en)) {
         parts.push(this.countMax)
       }
-      parts.push(('' + this.countUnit.label[ locale ]).toLowerCase())
+      parts.push(('' + this.countUnit.label[locale]).toLowerCase())
       return parts.join(' ')
     },
     hasSource: true,
@@ -96,6 +93,10 @@ require('../app').factory('FormBirds', /* @ngInject */function ($localStorage, $
 
   // class methods
   angular.extend(FormBirds, {})
+
+  LocalCache.inject(FormBirds, {
+    name: 'birds'
+  })
 
   return FormBirds
 })
