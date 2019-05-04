@@ -12,48 +12,13 @@
            ng-click="$ctrl.isPrivateCollapsed=!$ctrl.isPrivateCollapsed">
           <i class="fa fa-file-text fa-fw"></i>
           <translate>NAV_PRIVATE_FORMS</translate>
+          <span ng-if="$ctrl.isPrivateCollapsed && (''|sumLocalCount) > 0" class="badge">{{''|sumLocalCount}}</span>
         </a>
         <ul class="nav collapse" role="menu" aria-labelledby="private-forms" uib-collapse="$ctrl.isPrivateCollapsed">
-          <li translate-attr="{title: 'FORM_CBM_LONG'}">
-            <a ui-sref="auth.monitoring.private.cbm" ui-sref-active="active">
-              <i class="icon icon-cbm icon-fw"></i>
-              <translate>FORM_CBM_SHORT</translate>
-            </a>
-          </li>
-          <li translate-attr="{title: 'FORM_BIRDS_LONG'}">
-            <a ui-sref="auth.monitoring.private.birds" ui-sref-active="active">
-              <i class="icon icon-birds icon-fw"></i>
-              <translate>FORM_BIRDS_SHORT</translate>
-            </a>
-          </li>
-          <li translate-attr="{title: 'FORM_HERPTILES_LONG'}">
-            <a ui-sref="auth.monitoring.private.herptiles" ui-sref-active="active">
-              <i class="icon icon-herptiles icon-fw"></i>
-              <translate>FORM_HERPTILES_SHORT</translate>
-            </a>
-          </li>
-          <li translate-attr="{title: 'FORM_MAMMALS_LONG'}">
-            <a ui-sref="auth.monitoring.private.mammals" ui-sref-active="active">
-              <i class="icon icon-mammals icon-fw"></i>
-              <translate>FORM_MAMMALS_SHORT</translate>
-            </a>
-          </li>
-          <li translate-attr="{title: 'FORM_INVERTEBRATES_LONG'}">
-            <a ui-sref="auth.monitoring.private.invertebrates" ui-sref-active="active">
-              <i class="icon icon-invertebrates icon-fw"></i>
-              <translate>FORM_INVERTEBRATES_SHORT</translate>
-            </a>
-          </li>
-          <li translate-attr="{title: 'FORM_PLANTS_LONG'}">
-            <a ui-sref="auth.monitoring.private.plants" ui-sref-active="active">
-              <i class="icon icon-plants icon-fw"></i>
-              <translate>FORM_PLANTS_SHORT</translate>
-            </a>
-          </li>
-          <li translate-attr="{title: 'FORM_CICONIA_LONG'}">
-            <a ui-sref="auth.monitoring.private.ciconia" ui-sref-active="active">
-              <i class="icon icon-ciconia icon-fw"></i>
-              <translate>FORM_CICONIA_LONG</translate>
+          <li ng-repeat="(key, form) in ::$ctrl.forms" translate-attr="::{title: form.longLabel}">
+            <a ui-sref="auth.monitoring.private.{{::key}}" ui-sref-active="active">
+              <i class="icon icon-{{::key}} icon-fw"></i>
+              {{form.shortLabel | translate}} <span ng-if="form.modelRef.localCount > 0" class="badge">{{form.modelRef.localCount}}</span>
             </a>
           </li>
         </ul>
@@ -66,46 +31,10 @@
           <translate>NAV_PUBLIC_FORMS</translate>
         </a>
         <ul class="nav collapse" role="menu" aria-labelledby="public-forms" uib-collapse="$ctrl.isPublicCollapsed">
-          <li translate-attr="{title: 'FORM_CBM_LONG'}">
-            <a ui-sref="auth.monitoring.public.cbm" ui-sref-active="active">
-              <i class="icon icon-cbm icon-fw"></i>
-              <translate>FORM_CBM_SHORT</translate>
-            </a>
-          </li>
-          <li translate-attr="{title: 'FORM_BIRDS_LONG'}">
-            <a ui-sref="auth.monitoring.public.birds" ui-sref-active="active">
-              <i class="icon icon-birds icon-fw"></i>
-              <translate>FORM_BIRDS_SHORT</translate>
-            </a>
-          </li>
-          <li translate-attr="{title: 'FORM_HERPTILES_LONG'}">
-            <a ui-sref="auth.monitoring.public.herptiles" ui-sref-active="active">
-              <i class="icon icon-herptiles icon-fw"></i>
-              <translate>FORM_HERPTILES_SHORT</translate>
-            </a>
-          </li>
-          <li translate-attr="{title: 'FORM_MAMMALS_LONG'}">
-            <a ui-sref="auth.monitoring.public.mammals" ui-sref-active="active">
-              <i class="icon icon-mammals icon-fw"></i>
-              <translate>FORM_MAMMALS_SHORT</translate>
-            </a>
-          </li>
-          <li translate-attr="{title: 'FORM_INVERTEBRATES_LONG'}">
-            <a ui-sref="auth.monitoring.public.invertebrates" ui-sref-active="active">
-              <i class="icon icon-invertebrates icon-fw"></i>
-              <translate>FORM_INVERTEBRATES_SHORT</translate>
-            </a>
-          </li>
-          <li translate-attr="{title: 'FORM_PLANTS_LONG'}">
-            <a ui-sref="auth.monitoring.public.plants" ui-sref-active="active">
-              <i class="icon icon-plants icon-fw"></i>
-              <translate>FORM_PLANTS_SHORT</translate>
-            </a>
-          </li>
-          <li translate-attr="{title: 'FORM_CICONIA_LONG'}">
-            <a ui-sref="auth.monitoring.public.ciconia" ui-sref-active="active">
-              <i class="icon icon-ciconia icon-fw"></i>
-              <translate>FORM_CICONIA_LONG</translate>
+          <li ng-repeat="(key, form) in ::$ctrl.forms" translate-attr="::{title: form.longLabel}">
+            <a ui-sref="auth.monitoring.public.{{::key}}" ui-sref-active="active">
+              <i class="icon icon-{{::key}} icon-fw"></i>
+              {{form.shortLabel | translate}}
             </a>
           </li>
         </ul>
@@ -118,34 +47,10 @@
           <translate>NAV_STATS</translate>
         </a>
         <ul class="nav collapse" role="menu" aria-labelledby="stats" uib-collapse="$ctrl.isStatsCollapsed">
-          <li translate-attr="{title: 'FORM_BIRDS_LONG'}">
-            <a ui-sref="auth.stats.birds" ui-sref-active="active">
-              <i class="icon icon-birds icon-fw"></i>
-              <translate>FORM_BIRDS_SHORT</translate>
-            </a>
-          </li>
-          <li translate-attr="{title: 'FORM_HERPTILES_LONG'}">
-            <a ui-sref="auth.stats.herptiles" ui-sref-active="active">
-              <i class="icon icon-herptiles icon-fw"></i>
-              <translate>FORM_HERPTILES_SHORT</translate>
-            </a>
-          </li>
-          <li translate-attr="{title: 'FORM_MAMMALS_LONG'}">
-            <a ui-sref="auth.stats.mammals" ui-sref-active="active">
-              <i class="icon icon-mammals icon-fw"></i>
-              <translate>FORM_MAMMALS_SHORT</translate>
-            </a>
-          </li>
-          <li translate-attr="{title: 'FORM_INVERTEBRATES_LONG'}">
-            <a ui-sref="auth.stats.invertebrates" ui-sref-active="active">
-              <i class="icon icon-invertebrates icon-fw"></i>
-              <translate>FORM_INVERTEBRATES_SHORT</translate>
-            </a>
-          </li>
-          <li translate-attr="{title: 'FORM_PLANTS_LONG'}">
-            <a ui-sref="auth.stats.plants" ui-sref-active="active">
-              <i class="icon icon-plants icon-fw"></i>
-              <translate>FORM_PLANTS_SHORT</translate>
+          <li ng-repeat="(key, form) in ::$ctrl.forms" ng-if="form.hasStats" translate-attr="::{title: form.longLabel}">
+            <a ui-sref="auth.stats.{{::key}}" ui-sref-active="active">
+              <i class="icon icon-{{::key}} icon-fw"></i>
+              {{form.shortLabel | translate}}
             </a>
           </li>
         </ul>
