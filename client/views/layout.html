@@ -8,6 +8,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
+        <span ng-if="!navbar.collapsed && (''|sumLocalCount) > 0" class="badge">{{''|sumLocalCount}}</span>
       </button>
       <a class="navbar-brand" ui-sref="auth.dashboard">
         <translate>SITE_NAME</translate>

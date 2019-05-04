@@ -28,7 +28,8 @@ function generateId (data) {
 
 function localSave () {
   var data = this
-  var storage = this.constructor.$localStorage
+  var Resource = this.constructor
+  var storage = Resource.$localStorage
   var p = storage
     .ready()
     .then(function () { return data })
@@ -43,6 +44,12 @@ function localSave () {
     .then(function (data) {
       data.$local = true
       return data
+    })
+    .then(function (data) {
+      return Resource.updateLocalCount()
+        .then(function () {
+          return data
+        })
     })
 }
 
@@ -82,6 +89,20 @@ function localDelete (id) {
   var storage = Resource.$localStorage
 
   return storage.removeItem(ID_PREFIX + id)
+    .then(function () {
+      return Resource.updateLocalCount()
+    })
+}
+
+function updateLocalCount () {
+  var Resource = this
+  var storage = Resource.$localStorage
+
+  return storage.length()
+    .then(function (count) {
+      Resource.localCount = count
+      return count
+    })
 }
 
 module.exports = {
@@ -96,5 +117,9 @@ module.exports = {
     target.localGet = localGet
     target.localList = localList
     target.localDelete = localDelete
+    target.updateLocalCount = updateLocalCount
+    target.localCount = 0
+
+    target.updateLocalCount()
   }
 }

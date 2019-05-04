@@ -2,7 +2,7 @@
  * Created by groupsky on 15.08.16.
  */
 
-module.exports = {
+var forms = module.exports = {
   cbm: {
     model: 'FormCBM',
     serverModel: 'formCBM',
@@ -10,6 +10,8 @@ module.exports = {
     translatePrefix: 'CBM',
     speciesType: 'birds',
     hasCount: true,
+    longLabel: 'FORM_CBM_LONG',
+    shortLabel: 'FORM_CBM_SHORT',
     filters: [
       '{location:int}',
       'zone',
@@ -30,6 +32,9 @@ module.exports = {
     translatePrefix: 'BIRDS',
     speciesType: 'birds',
     hasCount: true,
+    longLabel: 'FORM_BIRDS_LONG',
+    shortLabel: 'FORM_BIRDS_SHORT',
+    hasStats: true,
     filters: [
       'location',
       '{user:int}',
@@ -49,6 +54,9 @@ module.exports = {
     translatePrefix: 'HERPTILES',
     speciesType: 'herptiles',
     hasCount: true,
+    longLabel: 'FORM_HERPTILES_LONG',
+    shortLabel: 'FORM_HERPTILES_SHORT',
+    hasStats: true,
     filters: [
       'location',
       '{user:int}',
@@ -68,6 +76,9 @@ module.exports = {
     translatePrefix: 'MAMMALS',
     speciesType: 'mammals',
     hasCount: true,
+    longLabel: 'FORM_MAMMALS_LONG',
+    shortLabel: 'FORM_MAMMALS_SHORT',
+    hasStats: true,
     filters: [
       'location',
       '{user:int}',
@@ -87,6 +98,9 @@ module.exports = {
     translatePrefix: 'INVERTEBRATES',
     speciesType: 'invertebrates',
     hasCount: true,
+    longLabel: 'FORM_INVERTEBRATES_LONG',
+    shortLabel: 'FORM_INVERTEBRATES_SHORT',
+    hasStats: true,
     filters: [
       'location',
       '{user:int}',
@@ -106,6 +120,9 @@ module.exports = {
     translatePrefix: 'PLANTS',
     speciesType: 'plants',
     hasCount: true,
+    longLabel: 'FORM_PLANTS_LONG',
+    shortLabel: 'FORM_PLANTS_SHORT',
+    hasStats: true,
     filters: [
       'location',
       '{user:int}',
@@ -124,6 +141,8 @@ module.exports = {
     label: 'FORM_LABEL_CICONIA',
     translatePrefix: 'CICONIA',
     hasCount: false,
+    longLabel: 'FORM_CICONIA_LONG',
+    shortLabel: 'FORM_CICONIA_SHORT',
     filters: [
       'location',
       '{user:int}',
@@ -136,3 +155,18 @@ module.exports = {
     ]
   }
 }
+
+require('../app')
+  .run(
+    Object
+      .keys(forms)
+      .map(function (key) { return forms[key].model })
+      .concat(function () {
+        var args = arguments
+        Object
+          .keys(forms)
+          .forEach(function (key, idx) {
+            forms[key].modelRef = args[idx]
+          })
+      })
+  )

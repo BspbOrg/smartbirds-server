@@ -1,3 +1,5 @@
+var forms = require('../configs/forms')
+
 require('../app').directive('sidebar', /* @ngInject */function () {
   return {
     templateUrl: '/views/directives/sidebar.html',
@@ -12,6 +14,8 @@ require('../app').directive('sidebar', /* @ngInject */function () {
       }
 
       updateFlags()
+
+      ctrl.forms = forms
 
       $scope.$on('$destroy', $rootScope.$on('$stateChangeSuccess', updateFlags))
     },
