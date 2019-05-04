@@ -6,7 +6,16 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
 ) {
   var controller = this
 
-  var id = $stateParams.id || $stateParams.fromId
+  var id = $stateParams.id
+  var isCopy = false
+  if (!$stateParams.id && $stateParams.fromId) {
+    isCopy = true
+    id = $stateParams.fromId
+    if ($stateParams.fromId.indexOf('local-') === 0) {
+      id = id.replace('local-', '')
+      local = true
+    }
+  }
 
   function genSingleObservationCode () {
     var date = controller.data.observationDateTime || controller.data.startDateTime
@@ -55,7 +64,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
         })
     }
   }
-  if (!$stateParams.id && $stateParams.fromId) {
+  if (isCopy) {
     controller.data.$promise.then(function () {
       controller.clearForCopy()
     })
@@ -198,7 +207,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
   }
 
   controller.copy = function () {
-    $state.go('^.copy', { fromId: controller.data.id }, { notify: false })
+    $state.go('^.copy', { fromId: (controller.data.$local ? 'local-' : '') + controller.data.id }, { notify: false })
     controller.clearForCopy()
   }
 
