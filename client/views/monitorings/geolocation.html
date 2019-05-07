@@ -2,13 +2,13 @@
   <div class="col-md-6">
     <field name="latitude" type="geolocation.latitude" required="true"
            label="{{'DETAIL_LATITUDE' | translate}}"
-           on-select="monitoringDetailController.data.longitude=longitude;monitoringDetailController.updateFromModel()"
+           on-select="monitoringDetailController.updateFromModel(null, {longitude: longitude})"
            model="monitoringDetailController.data.latitude"></field>
   </div>
   <div class="col-md-6">
     <field name="longitude" type="geolocation.longitude" required="true"
            label="{{'DETAIL_LONGITUDE' | translate}}"
-           on-select="monitoringDetailController.data.latitude=latitude;monitoringDetailController.updateFromModel()"
+           on-select="monitoringDetailController.updateFromModel(null, {latitude: latitude})"
            model="monitoringDetailController.data.longitude"></field>
   </div>
   <div class="col-md-12">

@@ -134,8 +134,16 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
     controller.updateFromModel(location)
   }
 
-  controller.updateFromModel = function (data) {
+  controller.updateFromModel = function (data, update) {
     data = data || controller.data
+    if (update) {
+      if (update.latitude != null) {
+        data.latitude = update.latitude
+      }
+      if (update.longitude != null) {
+        data.longitude = update.longitude
+      }
+    }
     controller.map.poi.latitude = data.latitude
     controller.map.poi.longitude = data.longitude
     if (data.getZone) {
