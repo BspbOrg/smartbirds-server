@@ -1,3 +1,5 @@
+/* global EventTarget, CustomEvent */
+
 var localforage = require('localforage')
 
 var ID_GENERATOR_NAME = 'idGenerator'
@@ -101,12 +103,19 @@ function updateLocalCount () {
   return storage.length()
     .then(function (count) {
       Resource.localCount = count
+      Resource.$local.dispatchEvent(new CustomEvent('localCount', {
+        detail: {
+          Resource: Resource,
+          count: count
+        }
+      }))
       return count
     })
 }
 
 module.exports = {
   inject: function (target, opts) {
+    target.$local = new EventTarget()
     target.$localStorage = localforage.createInstance({
       name: opts.name
     })

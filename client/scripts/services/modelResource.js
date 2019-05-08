@@ -1,50 +1,61 @@
-/**
- * Created by groupsky on 18.11.15.
- */
-
 var angular = require('angular')
 
-function extend (Model, obj) {
-  Model.apply(obj)
-}
+require('../app').service('modelResource', /* @ngInject */function ($q, Raven) {
+  var service = this
 
-function modify (Model, original) {
-  return function () {
-    var result = original.apply(this, arguments)
-
-    if (angular.isArray(result)) {
-      angular.forEach(result, function (item) {
-        extend(Model, item)
-      })
-
-      result.push = function () {
-        angular.forEach(arguments, function (item) {
-          extend(Model, item)
-        })
-        Array.prototype.push.apply(this, arguments)
-      }
-    } else {
-      extend(Model, result)
-    }
-
-    return result
+  service.genSingleObservationCode = function (data) {
+    var date = data.observationDateTime || data.startDateTime
+    if (date && date.toJSON) { date = date.toJSON() }
+    return '!SINGLE-' + date
   }
-}
 
-require('../app').factory('modelResource', /* @ngInject */function ($resource, ENDPOINT_URL) {
-  return function (Model, url, paramDefaults, actions, options) {
-    var resource = $resource(ENDPOINT_URL + url, paramDefaults, actions, options)
+  service.clearGeneratedSingleObservationCode = function (data) {
+    if (data.monitoringCode === service.genSingleObservationCode(data)) {
+      data.monitoringCode = null
+    }
+    return data
+  }
 
-    angular.forEach(resource.prototype, function (val, key) {
-      if (key.charAt(0) !== '$') return
-      var name = key.substring(1)
-      if (!angular.isFunction(resource[name])) return
-
-      resource[name] = modify(Model, resource[name])
-    })
-
-    angular.extend(resource.prototype, Model.prototype)
-
+  service.save = function (Resource, data) {
+    var localId
+    if (data.$local) {
+      localId = data.id
+      delete data.id
+    }
+    delete data.$local
+    var resource = new Resource(data)
+    if (!resource.monitoringCode) {
+      resource.monitoringCode = service.genSingleObservationCode()
+    }
+    if (!resource.observationDateTime) {
+      resource.observationDateTime = resource.startDateTime
+    }
+    if (angular.isFunction(resource.preSave)) resource.preSave()
     return resource
+      .$save()
+      .then(function (res) {
+        if (localId) {
+          Resource.localDelete(localId)
+          localId = null
+        }
+        return res
+      }, function (error) {
+        if (resource.id == null && error && error.status === -1) {
+          resource.$local = true
+          if (localId) {
+            resource.id = localId
+          }
+          return resource.$localSave()
+        }
+        return $q.reject(error)
+      })
+      .then(function (res) {
+        service.clearGeneratedSingleObservationCode(res)
+        return res
+      })
+      .catch(function (error) {
+        Raven.captureMessage(JSON.stringify(error))
+        return $q.reject(error)
+      })
   }
 })

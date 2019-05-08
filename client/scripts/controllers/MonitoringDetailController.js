@@ -2,7 +2,7 @@ var angular = require('angular')
 
 require('../app').controller('MonitoringDetailController', /* @ngInject */function (
   $filter, $http, $scope, $state, $stateParams, $q, $timeout, $translate, model, ngToast, db,
-  Raven, Track, formName, user, geolocation, local
+  Raven, Track, formName, user, geolocation, local, modelResource
 ) {
   var controller = this
 
@@ -14,18 +14,6 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
     if ($stateParams.fromId.indexOf('local-') === 0) {
       id = id.replace('local-', '')
       local = true
-    }
-  }
-
-  function genSingleObservationCode () {
-    var date = controller.data.observationDateTime || controller.data.startDateTime
-    if (date && date.toJSON) { date = date.toJSON() }
-    return '!SINGLE-' + date
-  }
-
-  function clearGeneratedSingleObservationCode () {
-    if (controller.data.monitoringCode === genSingleObservationCode()) {
-      controller.data.monitoringCode = null
     }
   }
 
@@ -111,7 +99,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
   })
   if (controller.data.$promise) {
     controller.data.$promise.then(function () {
-      clearGeneratedSingleObservationCode()
+      modelResource.clearGeneratedSingleObservationCode(controller.data)
     })
   }
   controller.hasZone = !!controller.data.getZone
@@ -213,46 +201,11 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
 
   controller.save = function () {
     if (!controller.canSave) return
-    var localId
-    if (local) {
-      localId = controller.data.id
-      delete controller.data.id
-    }
-    local = false
-    var data = new model(controller.data) // eslint-disable-line new-cap
-    if (!data.monitoringCode) {
-      data.monitoringCode = genSingleObservationCode()
-    }
-    if (!data.observationDateTime) {
-      data.observationDateTime = data.startDateTime
-    }
-    if (angular.isFunction(data.preSave)) data.preSave()
-    data
-      .$save()
-      .then(function (res) {
-        if (localId) {
-          model.localDelete(localId)
-          localId = null
-        }
-        return res
-      }, function (error) {
-        if (data.id == null && error && error.status === -1) {
-          local = true
-          if (localId) {
-            data.id = localId
-          }
-          return data.$localSave()
-        }
-        return $q.reject(error)
-      })
+    modelResource.save(model, controller.data)
       .then(function (res) {
         $scope.smartform.$setPristine()
-        return res
-      })
-      .then(function (res) {
         controller.data = res
-        clearGeneratedSingleObservationCode()
-        return controller.data
+        return res
       })
       .then(function (res) {
         ngToast.create(local ? {
@@ -264,7 +217,6 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
         })
         return res
       }, function (error) {
-        Raven.captureMessage(JSON.stringify(error))
         ngToast.create({
           className: 'danger',
           content: '<p>' + $translate.instant('Could not save form!') + '</p><pre>' + (error && error.data ? error.data.error : JSON.stringify(error, null, 2)) + '</pre>'
