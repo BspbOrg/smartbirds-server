@@ -12,7 +12,7 @@
            ng-click="$ctrl.isPrivateCollapsed=!$ctrl.isPrivateCollapsed">
           <i class="fa fa-file-text fa-fw"></i>
           <translate>NAV_PRIVATE_FORMS</translate>
-          <span ng-if="$ctrl.isPrivateCollapsed && (''|sumLocalCount) > 0" class="badge">{{''|sumLocalCount}}</span>
+          <span ng-if="$ctrl.isPrivateCollapsed && $root.localCount > 0" class="badge">{{$root.localCount}}</span>
         </a>
         <ul class="nav collapse" role="menu" aria-labelledby="private-forms" uib-collapse="$ctrl.isPrivateCollapsed">
           <li ng-repeat="(key, form) in ::$ctrl.forms" translate-attr="::{title: form.longLabel}">
