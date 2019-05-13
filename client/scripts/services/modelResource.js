@@ -25,7 +25,7 @@ require('../app').service('modelResource', /* @ngInject */function ($q, Raven) {
     delete data.$local
     var resource = new Resource(data)
     if (!resource.monitoringCode) {
-      resource.monitoringCode = service.genSingleObservationCode()
+      resource.monitoringCode = service.genSingleObservationCode(data)
     }
     if (!resource.observationDateTime) {
       resource.observationDateTime = resource.startDateTime
