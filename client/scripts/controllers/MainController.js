@@ -7,6 +7,8 @@ require('../app').controller('MainController', /* @ngInject */function ($scope, 
   }
 
   ctrl.forms = forms
+  ctrl.navbarCollapsed = true
+
   ctrl.submitLocal = function () {
     Object.keys(forms)
       .forEach(function (key) {
@@ -18,4 +20,8 @@ require('../app').controller('MainController', /* @ngInject */function ($scope, 
         })
       })
   }
+
+  $scope.$on('$destroy', $rootScope.$on('$stateChangeStart', function () {
+    ctrl.navbarCollapsed = true
+  }))
 })
