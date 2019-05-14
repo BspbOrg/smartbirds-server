@@ -40,3 +40,23 @@
 input[type=file] {
   width: 1px;
 }
+
+.actions {
+  position: sticky;
+  top: 0;
+  background: @body-bg;
+  z-index: @zindex-navbar-fixed;
+  float: right;
+}
+
+@media (max-width: @screen-sm-min) {
+  .actions {
+    top: (@navbar-height + 1px);
+  }
+  .navbar-static-top {
+    position: sticky;
+    top: 0;
+    z-index: @zindex-navbar-fixed;
+    width: 100%;
+  }
+}
