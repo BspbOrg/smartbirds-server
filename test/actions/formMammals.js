@@ -36,7 +36,7 @@ describe('Action formMammals:', function () {
         en: 'Range'
       }
     },
-    threatsMammals: {
+    findings: {
       type: 'mammals_danger_observation',
       id: 32,
       label: {

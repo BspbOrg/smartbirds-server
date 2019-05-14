@@ -36,7 +36,7 @@ describe('Action formHerptiles:', function () {
         en: 'Range'
       }
     },
-    threatsHerptiles: {
+    findings: {
       type: 'herptiles_danger_observation',
       id: 32,
       label: {

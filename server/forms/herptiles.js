@@ -40,7 +40,7 @@ exports.fields = assign(exports.fields, {
       filter: { type: 'herptiles_habitat' }
     }
   },
-  threatsHerptiles: {
+  findings: {
     type: 'multi',
     relation: {
       model: 'nomenclature',
