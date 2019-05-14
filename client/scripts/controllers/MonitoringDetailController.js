@@ -205,6 +205,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
       .then(function (res) {
         $scope.smartform.$setPristine()
         controller.data = res
+        local = res.$local
         return res
       })
       .then(function (res) {
