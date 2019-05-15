@@ -1,6 +1,9 @@
 var angular = require('angular')
 
-require('../app').controller('MonitoringDetailController', /* @ngInject */function ($filter, $http, $scope, $state, $stateParams, $q, $timeout, $translate, model, ngToast, db, Raven, Track, formName, user) {
+require('../app').controller('MonitoringDetailController', /* @ngInject */function (
+  $filter, $http, $scope, $state, $stateParams, $q, $timeout, $translate, model, ngToast, db,
+  Raven, Track, formName, user
+) {
   var controller = this
 
   var id = $stateParams.id || $stateParams.fromId
@@ -32,29 +35,6 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
     controller.data.endDateTime = controller.data.observationDateTime
     if (angular.isFunction(model.prototype.afterCreate)) { model.prototype.afterCreate.apply(controller.data) }
     checkCanSave()
-    // try to fill current location if allowed
-    if ('geolocation' in navigator && 'permissions' in navigator) {
-      navigator.permissions.query({ name: 'geolocation' })
-        .then(function (permission) {
-          if (permission.state !== 'granted') return
-          navigator.geolocation.getCurrentPosition(function (pos) {
-            if (!pos || !pos.coords) return
-            // if already populated by some other means
-            if (controller.data.latitude != null || controller.data.longitude != null) return
-            controller.data.latitude = pos.coords.latitude
-            controller.data.longitude = pos.coords.longitude
-            checkCanSave()
-          }, function (error) {
-            Raven.captureMessage(JSON.stringify(error))
-          }, {
-            enableHighAccuracy: true,
-            // 15 sec
-            timeout: 15 * 1000,
-            // 5 minutes
-            maximumAge: 5 * 60 * 1000
-          })
-        })
-    }
   }
   if (!$stateParams.id && $stateParams.fromId) {
     controller.data.$promise.then(function () {

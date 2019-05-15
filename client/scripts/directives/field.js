@@ -4,7 +4,7 @@
 var angular = require('angular')
 var moment = require('moment')
 
-require('../app').directive('field', /* @ngInject */function ($q, Raven) {
+require('../app').directive('field', /* @ngInject */function ($q, Raven, geolocation) {
   var cnt = 0
   return {
     restrict: 'AE',
@@ -47,8 +47,8 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven) {
       field.type = ($attrs.type || 'general').split('.', 2)[0]
       field.subtypes = ($attrs.type || 'general').split('.').slice(1)
       field.required = angular.isDefined($attrs.required)
-      field.readonly = 'readonly' in $attrs ? (angular.isDefined($attrs.readonly) ? $parse($attrs.readonly)($scope.$parent) : true) : false
-      field.hasGeolocation = 'geolocation' in navigator
+      field.readonly = 'readonly' in $attrs ? $attrs.$attr.readonly === 'readonly' || (angular.isDefined($attrs.readonly) ? $parse($attrs.readonly)($scope.$parent) : true) : false
+      field.hasGeolocation = geolocation.isAvailable
       field.loading = false
 
       if ('disabled' in $attrs) {
@@ -65,6 +65,20 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven) {
       }
 
       field.autocomplete = $attrs.autocomplete
+
+      if ('autofill' in $attrs) {
+        if (angular.isDefined($attrs.autofill)) {
+          var autofillGetter = $parse($attrs.autofill).bind(null, $scope.$parent)
+          $scope.$parent.$watch(autofillGetter, function (value) {
+            field.autofill = value
+          })
+        } else {
+          field.autofill = true
+        }
+      } else {
+        field.autofill = false
+      }
+
       field.order = function (item) {
         return item && item.toString().replace(/\d+/g, function (digits) {
           return ((new Array(20).join('0')) + digits).substr(-20, 20)
@@ -85,7 +99,6 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven) {
       }
 
       var getCurrentPositionSuccess = function (pos) {
-        field.loading = false
         if (!pos || !pos.coords) return
         var args = {
           timestamp: pos.timestamp,
@@ -104,21 +117,20 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven) {
       }
 
       var getCurrentPositionError = function (err) {
-        field.loading = false
         Raven.captureMessage(JSON.stringify(err))
       }
 
       field.getCurrentLocation = function () {
-        if (!field.hasGeolocation) return
+        if (!geolocation.isAvailable) return
         field.loading = true
-        navigator.geolocation.getCurrentPosition(getCurrentPositionSuccess, getCurrentPositionError, {
-          enableHighAccuracy: true,
-          timeout: 60 * 1000,
-          maximumAge: 0
-        })
+        geolocation.requestCurrentLocation()
+          .then(getCurrentPositionSuccess, getCurrentPositionError)
+          .finally(function () {
+            field.loading = false
+          })
       }
 
-      switch ($attrs.type) {
+      switch (field.type) {
         case 'date':
         case 'time': {
           $scope.$watch('field.model', function () {
@@ -131,7 +143,7 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven) {
         case 'species':
         case 'multiple-species': {
           field.values = []
-          angular.forEach(db.species[ field.nomenclature ], function (item) {
+          angular.forEach(db.species[field.nomenclature], function (item) {
             field.values.push(item)
           })
 
@@ -140,12 +152,12 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven) {
               if (angular.isArray(field.model)) {
                 field.model.forEach(function (item, idx, array) {
                   if (angular.isObject(item) && !(item instanceof Species)) {
-                    array[ idx ] = db.species[ field.nomenclature ][ item.label.bg ] || new Species(item)
+                    array[idx] = db.species[field.nomenclature][item.label.bg] || new Species(item)
                   }
                 })
               } else if (angular.isObject(field.model)) {
                 if (!(field.model instanceof Species)) {
-                  field.model = db.species[ field.nomenclature ][ field.model.label.bg ] || new Species(field.model)
+                  field.model = db.species[field.nomenclature][field.model.label.bg] || new Species(field.model)
                 }
               }
             }
@@ -170,7 +182,7 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven) {
         case 'single-choice':
         case 'multiple-choice': {
           field.values = []
-          angular.forEach(db.nomenclatures[ field.nomenclature ], function (item) {
+          angular.forEach(db.nomenclatures[field.nomenclature], function (item) {
             field.values.push(item)
           })
 
@@ -179,12 +191,12 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven) {
               if (angular.isArray(field.model)) {
                 field.model.forEach(function (item, idx, array) {
                   if (angular.isObject(item) && !(item instanceof Nomenclature)) {
-                    array[ idx ] = db.nomenclatures[ field.nomenclature ][ item.label.bg ] || new Nomenclature(item)
+                    array[idx] = db.nomenclatures[field.nomenclature][item.label.bg] || new Nomenclature(item)
                   }
                 })
               } else if (angular.isObject(field.model)) {
                 if (!(field.model instanceof Nomenclature)) {
-                  field.model = db.nomenclatures[ field.nomenclature ][ field.model.label.bg ] || new Nomenclature(field.model)
+                  field.model = db.nomenclatures[field.nomenclature][field.model.label.bg] || new Nomenclature(field.model)
                 }
               }
             }
@@ -218,6 +230,30 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven) {
             return el
           })
           break
+        }
+        case 'geolocation': {
+          var unregisterAutofillWatcher = $scope.$watch('field.autofill', function (autofill) {
+            if (field.autofill && geolocation.isAvailable && geolocation.canCheckAllowed && field.model == null) {
+              field.loading = true
+              geolocation.checkAllowed()
+                .then(function (allowed) {
+                  if (!allowed) return
+                  geolocation.requestCurrentLocation()
+                    .then(function (pos) {
+                      if (field.autofill && field.model == null) {
+                        unregisterAutofillWatcher()
+                        return getCurrentPositionSuccess(pos)
+                      }
+                    })
+                    .finally(function () {
+                      field.loading = false
+                    })
+                })
+                .finally(function () {
+                  field.loading = false
+                })
+            }
+          })
         }
       }
     }

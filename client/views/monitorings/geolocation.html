@@ -3,12 +3,14 @@
     <field name="latitude" type="geolocation.latitude" required="true"
            label="{{::'DETAIL_LATITUDE' | translate}}"
            on-select="monitoringDetailController.updateFromModel(null, {longitude: longitude, accuracy: accuracy})"
+           autofill="!monitoringDetailController.data.id"
            model="monitoringDetailController.data.latitude"></field>
   </div>
   <div class="col-md-6">
     <field name="longitude" type="geolocation.longitude" required="true"
            label="{{::'DETAIL_LONGITUDE' | translate}}"
            on-select="monitoringDetailController.updateFromModel(null, {latitude: latitude, accuracy: accuracy})"
+           autofill="!monitoringDetailController.data.id"
            model="monitoringDetailController.data.longitude"></field>
   </div>
   <div class="col-md-12">
