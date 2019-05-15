@@ -139,6 +139,7 @@
         sb-sorting="updatedAt|date:'yyyyMMddHHmmss'" translate>
         CICONIA_LIST_TABLE_UPDATED
       </th>
+      <td>&nbsp;</td>
     </tr>
     </thead>
     <tbody>
@@ -154,6 +155,9 @@
       <td>{{::row.location}}</td>
       <td>{{::row.observationDateTime|date:'d.MM.yyyy HH:mm'}}</td>
       <td>{{::row.updatedAt|date:'d.MM.yyyy HH:mm'}}</td>
+      <td>
+        <i ng-if="row.pictures && row.pictures.length > 0" class="fa fa-image fa-fw text-info" preview-pictures="row.pictures"></i>
+      </td>
     </tr>
     </tbody>
   </table>
