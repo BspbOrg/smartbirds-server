@@ -198,6 +198,7 @@
       sb-sorting="count" translate>
       CBM_LIST_TABLE_COUNT
     </th>
+    <td>&nbsp;</td>
   </tr>
   </thead>
   <tbody>
@@ -222,6 +223,9 @@
     <td>{{::row.plot.label[$language]}}</td>
     <td>{{::row.distance.label[$language]}}</td>
     <td>{{::row.count}}</td>
+    <td>
+      <i ng-if="row.pictures && row.pictures.length > 0" class="fa fa-image fa-fw text-info" preview-pictures="row.pictures"></i>
+    </td>
   </tr>
   </tbody>
   </table>

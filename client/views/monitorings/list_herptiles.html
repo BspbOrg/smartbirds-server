@@ -156,6 +156,7 @@
         sb-sorting="count" translate>
         HERPTILES_LIST_TABLE_COUNT
       </th>
+      <td>&nbsp;</td>
     </tr>
     </thead>
     <tbody>
@@ -176,6 +177,9 @@
         <strong>{{row.getSpecies().label.la}}</strong>
       </td>
       <td>{{::row.count}}</td>
+      <td>
+        <i ng-if="row.pictures && row.pictures.length > 0" class="fa fa-image fa-fw text-info" preview-pictures="row.pictures"></i>
+      </td>
     </tr>
     </tbody>
   </table>
