@@ -73,7 +73,10 @@ exports.fields = {
       filter: { type: 'main_threats' }
     }
   },
-  pictures: 'json',
+  pictures: {
+    type: 'json',
+    public: true
+  },
   track: 'text',
   confidential: 'boolean',
 
