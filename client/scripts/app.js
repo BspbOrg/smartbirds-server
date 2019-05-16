@@ -1,5 +1,3 @@
-/* global Raven */
-
 var angular = require('angular')
 var bulk = require('bulk-require')
 var info = require('../../package.json')
@@ -21,7 +19,6 @@ require('ngAnimate')
 require('ngToast')
 require('ngInfiniteScroll')
 require('angular-loading-bar')
-require('raven-js')
 require('angular-filter')
 require('angulartics')
 require('angulartics-ga')
@@ -32,6 +29,7 @@ require('angular-xml')
 require('angular-bootstrap-lightbox')
 require('angular-translate')
 require('angular-translate-loader-url')
+require('./services/crashReporting')
 
 var dependencies = [
   'ngLocale',
@@ -74,18 +72,6 @@ var dependencies = [
 
   'pascalprecht.translate'
 ]
-
-if (Raven && process.env.NODE_ENV === 'production') {
-  Raven
-    .config('https://b17f1c87d9e346a8bd82335294450e57@app.getsentry.com/71564')
-    .addPlugin(require('raven-js-angular'), angular)
-    .install()
-} else {
-  var noop = function () {}
-  angular.module('ngRaven', []).service('Raven', function () {
-    this.captureMessage = noop
-  })
-}
 
 // install service worker
 if ('serviceWorker' in navigator) {
