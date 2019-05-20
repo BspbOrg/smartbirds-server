@@ -1,9 +1,10 @@
 require('../app').directive('previewPictures', /* @ngInject */function () {
   return {
+    restrict: 'EA',
+    templateUrl: '/views/directives/previewpictures.html',
     scope: {
-      pictures: '=previewPictures'
+      pictures: '='
     },
-    require: 'previewPictures',
     bindToController: true,
     link: function ($scope, $element, $attrs, $ctrl) {
       $element.on('click', $ctrl.preview)
@@ -21,6 +22,7 @@ require('../app').directive('previewPictures', /* @ngInject */function () {
           return picture
         }), 0)
       }
-    }
+    },
+    controllerAs: '$ctrl'
   }
 })
