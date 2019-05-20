@@ -224,7 +224,7 @@
     <td>{{::row.distance.label[$language]}}</td>
     <td>{{::row.count}}</td>
     <td>
-      <i ng-if="row.pictures && row.pictures.length > 0" class="fa fa-image fa-fw text-info" preview-pictures="row.pictures"></i>
+      <preview-pictures pictures="::row.pictures" />
     </td>
   </tr>
   </tbody>
