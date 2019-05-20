@@ -38,7 +38,7 @@ exports.download = {
         !data.session.user.isAdmin &&
         !data.session.user.isModerator &&
         // allow viewing images from public lists
-        !stat.type === 'image/jpeg' &&
+        stat.type !== 'image/jpeg' &&
         stat.custom.userId !== data.session.userId) {
         data.connection.rawConnection.responseHttpCode = 403
         return next(new Error(api.config.errors.sessionNoPermission(data.connection)))
