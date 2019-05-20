@@ -1,3 +1,5 @@
+var angular = require('angular')
+
 require('../app').directive('previewPictures', /* @ngInject */function () {
   return {
     restrict: 'EA',
@@ -18,8 +20,7 @@ require('../app').directive('previewPictures', /* @ngInject */function () {
         event.stopImmediatePropagation()
 
         Lightbox.openModal($ctrl.pictures.map(function (picture) {
-          picture.url = authurl(picture.url)
-          return picture
+          return angular.extend({}, picture, { url: authurl(picture.url) })
         }), 0)
       }
     },
