@@ -108,7 +108,7 @@ describe('Public forms', function () {
             response.data.length.should.be.greaterThan(1)
             _.difference(Object.keys(response.data[ 0 ]), [
               'id', 'user', 'latitude', 'longitude', 'observationDateTime', 'species',
-              'count', 'countUnit', 'typeUnit', 'countMin', 'countMax'
+              'count', 'countUnit', 'typeUnit', 'countMin', 'countMax', 'pictures'
             ]).should.have.length(0)
             response.data[ 0 ].user.should.have.only.keys(
               'id', 'firstName', 'lastName'
