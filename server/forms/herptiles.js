@@ -40,11 +40,18 @@ exports.fields = assign(exports.fields, {
       filter: { type: 'herptiles_habitat' }
     }
   },
-  findings: {
+  threatsHerptiles: {
     type: 'multi',
     relation: {
       model: 'nomenclature',
       filter: { type: 'herptiles_danger_observation' }
+    }
+  },
+  findings: {
+    type: 'multi',
+    relation: {
+      model: 'nomenclature',
+      filter: { type: 'herptiles_findings' }
     }
   },
   count: {
@@ -81,3 +88,7 @@ exports.foreignKeys.push({
 })
 
 exports.indexes.push({ fields: [ 'species' ] })
+
+exports.exportSkipFields = [
+  'threatsHerptiles'
+]

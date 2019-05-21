@@ -22,7 +22,7 @@ require('../app').factory('FormMammals', /* @ngInject */function ($resource, END
       delete this.sex
       delete this.age
       delete this.habitat
-      delete this.threatsHerps
+      delete this.findings
       delete this.count
       delete this.marking
       delete this.axisDistance

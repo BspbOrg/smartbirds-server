@@ -40,11 +40,18 @@ exports.fields = assign(exports.fields, {
       filter: { type: 'mammals_habitat' }
     }
   },
-  findings: {
+  threatsMammals: {
     type: 'multi',
     relation: {
       model: 'nomenclature',
       filter: { type: 'mammals_danger_observation' }
+    }
+  },
+  findings: {
+    type: 'multi',
+    relation: {
+      model: 'nomenclature',
+      filter: { type: 'mammals_findings' }
     }
   },
   count: {
@@ -77,3 +84,7 @@ exports.foreignKeys.push({
 })
 
 exports.indexes.push({ fields: [ 'species' ] })
+
+exports.exportSkipFields = [
+  'threatsMammals'
+]
