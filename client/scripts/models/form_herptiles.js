@@ -38,7 +38,8 @@ require('../app').factory('FormHerptiles', /* @ngInject */function ($resource, E
       delete this.sqCaud
       delete this.sqDors
       delete this.speciesNotes
-    }
+    },
+    hasNotes: true
   })
 
   // class methods

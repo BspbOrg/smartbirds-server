@@ -26,7 +26,8 @@ require('../app').factory('FormInvertebrates', /* @ngInject */function ($resourc
       delete this.count
       delete this.marking
       delete this.speciesNotes
-    }
+    },
+    hasNotes: true
   })
 
   // class methods
