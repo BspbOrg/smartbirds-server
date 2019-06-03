@@ -90,7 +90,8 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven) {
         var args = {
           timestamp: pos.timestamp,
           latitude: pos.coords.latitude,
-          longitude: pos.coords.longitude
+          longitude: pos.coords.longitude,
+          accuracy: pos.coords.accuracy
         }
         field.subtypes.forEach(function (subtype) {
           if (subtype in args) {
