@@ -1,19 +1,28 @@
 <div class="row">
   <div class="col-md-6">
     <field name="latitude" type="geolocation.latitude" required="true"
-           label="{{'DETAIL_LATITUDE' | translate}}"
+           label="{{::'DETAIL_LATITUDE' | translate}}"
            on-select="monitoringDetailController.updateFromModel(null, {longitude: longitude, accuracy: accuracy})"
            model="monitoringDetailController.data.latitude"></field>
   </div>
   <div class="col-md-6">
     <field name="longitude" type="geolocation.longitude" required="true"
-           label="{{'DETAIL_LONGITUDE' | translate}}"
+           label="{{::'DETAIL_LONGITUDE' | translate}}"
            on-select="monitoringDetailController.updateFromModel(null, {latitude: latitude, accuracy: accuracy})"
            model="monitoringDetailController.data.longitude"></field>
   </div>
   <div class="col-md-12">
-    <div class="text-right">
-      <track-edit ng-model="monitoringDetailController.data.track"></track-edit>
+    <div class="row">
+      <div class="form-group col-xs-8">
+        <label class="control-label">{{::'DETAIL_ACCURACY' | translate}}</label>
+        <p class="form-control-static">
+          <span ng-if="monitoringDetailController.data.geolocationAccuracy">{{monitoringDetailController.data.geolocationAccuracy | number:0}}m</span>
+          <span ng-if="!monitoringDetailController.data.geolocationAccuracy">-</span>
+        </p>
+      </div>
+      <div class="text-right col-xs-4">
+        <track-edit ng-model="monitoringDetailController.data.track"></track-edit>
+      </div>
     </div>
   </div>
   <div class="col-md-12">
