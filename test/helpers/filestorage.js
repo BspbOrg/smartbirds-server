@@ -1,9 +1,9 @@
 /* global describe, before, after, it */
 
 const assert = require('assert')
-const isDenied = require('../../server/helpers/filestorage').isDenied
+const isDeniedRead = require('../../server/helpers/filestorage').isDeniedRead
 
-describe('Action filestorage:', function () {
+describe('Filestorage helper:', function () {
 
   describe('Downloader', function () {
     it('allows to download own image file', function () {
@@ -13,7 +13,7 @@ describe('Action filestorage:', function () {
       }
       const user = { userId: 1 }
 
-      const denied = isDenied(user, stat)
+      const denied = isDeniedRead(user, stat)
 
       assert(!denied)
     })
@@ -25,7 +25,7 @@ describe('Action filestorage:', function () {
       }
       const user = { userId: 1 }
 
-      const denied = isDenied(user, stat)
+      const denied = isDeniedRead(user, stat)
 
       assert(!denied)
     })
@@ -36,7 +36,7 @@ describe('Action filestorage:', function () {
       }
       const user = { userId: 1 }
 
-      const denied = isDenied(user, stat)
+      const denied = isDeniedRead(user, stat)
 
       assert(!denied)
     })
@@ -47,7 +47,7 @@ describe('Action filestorage:', function () {
       }
       const user = { userId: 1 }
 
-      const denied = isDenied(user, stat)
+      const denied = isDeniedRead(user, stat)
 
       assert(denied)
     })
