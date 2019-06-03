@@ -35,7 +35,7 @@ exports.download = {
         return next(err)
       }
 
-      if (storageHelper.isDenied({ ...data.session.user, userId: data.session.userId }, stat)) {
+      if (storageHelper.isDeniedRead({ ...data.session.user, userId: data.session.userId }, stat)) {
         data.connection.rawConnection.responseHttpCode = 403
         return next(new Error(api.config.errors.sessionNoPermission(data.connection)))
       }
