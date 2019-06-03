@@ -79,6 +79,7 @@ exports.fields = {
   },
   track: 'text',
   confidential: 'boolean',
+  geolocationAccuracy: 'num',
 
   // Internal fields
   user: {
