@@ -8,9 +8,6 @@ require('../app').directive('previewPictures', /* @ngInject */function () {
       pictures: '='
     },
     bindToController: true,
-    link: function ($scope, $element, $attrs, $ctrl) {
-      $element.on('click', $ctrl.preview)
-    },
     controller: /* @ngInject */function ($filter, Lightbox) {
       var $ctrl = this
       var authurl = $filter('authurl')
