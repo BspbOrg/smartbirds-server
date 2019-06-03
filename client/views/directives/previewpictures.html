@@ -1,4 +1,5 @@
-<i
-  ng-if="$ctrl.pictures.length > 0"
-  class="fa fa-image fa-fw text-info">
-</i>
+<button type="button" class="btn btn-link" ng-if="$ctrl.pictures.length > 0" ng-click="$ctrl.preview($event)">
+  <i
+    class="fa fa-image fa-fw text-info">
+  </i>
+</button>
