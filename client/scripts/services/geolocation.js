@@ -49,4 +49,12 @@ require('../app')
 
       return currentLocationRequest
     }
+
+    service.watchPosition = function (callback) {
+      return navigator.geolocation.watchPosition(callback || function () {})
+    }
+
+    service.clearWatch = function (watchId) {
+      return navigator.geolocation.clearWatch(watchId)
+    }
   })

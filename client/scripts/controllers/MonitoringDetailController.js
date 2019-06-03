@@ -2,7 +2,7 @@ var angular = require('angular')
 
 require('../app').controller('MonitoringDetailController', /* @ngInject */function (
   $filter, $http, $scope, $state, $stateParams, $q, $timeout, $translate, model, ngToast, db,
-  Raven, Track, formName, user
+  Raven, Track, formName, user, geolocation
 ) {
   var controller = this
 
@@ -35,6 +35,16 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
     controller.data.endDateTime = controller.data.observationDateTime
     if (angular.isFunction(model.prototype.afterCreate)) { model.prototype.afterCreate.apply(controller.data) }
     checkCanSave()
+
+    if (geolocation.isAvailable) {
+      geolocation.checkAllowed()
+        .then(function (allowed) {
+          if (!allowed) return
+
+          controller.watchGeoId = geolocation.watchPosition()
+          $scope.$on('$destroy', function () { geolocation.clearWatch(controller.watchGeoId) })
+        })
+    }
   }
   if (!$stateParams.id && $stateParams.fromId) {
     controller.data.$promise.then(function () {
