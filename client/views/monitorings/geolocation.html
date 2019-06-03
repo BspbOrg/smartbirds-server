@@ -2,13 +2,13 @@
   <div class="col-md-6">
     <field name="latitude" type="geolocation.latitude" required="true"
            label="{{'DETAIL_LATITUDE' | translate}}"
-           on-select="monitoringDetailController.updateFromModel(null, {longitude: longitude})"
+           on-select="monitoringDetailController.updateFromModel(null, {longitude: longitude, accuracy: accuracy})"
            model="monitoringDetailController.data.latitude"></field>
   </div>
   <div class="col-md-6">
     <field name="longitude" type="geolocation.longitude" required="true"
            label="{{'DETAIL_LONGITUDE' | translate}}"
-           on-select="monitoringDetailController.updateFromModel(null, {latitude: latitude})"
+           on-select="monitoringDetailController.updateFromModel(null, {latitude: latitude, accuracy: accuracy})"
            model="monitoringDetailController.data.longitude"></field>
   </div>
   <div class="col-md-12">
@@ -27,7 +27,7 @@
         ng-if="monitoringDetailController.data.getZone && monitoringDetailController.data.getZone().coordinates.length"
         path="monitoringDetailController.data.getZone().coordinates"
         static="true"
-        fill="{color: '#00f', opacitiy: 0.7}"
+        fill="{color: '#00f', opacity: 0.7}"
         stroke="{color: '#00f', opacity: 1, weight: 3}"
         geodesic="true"
         fit="false"
@@ -44,6 +44,17 @@
         fit="true"
         static="true"
       ></ui-gmap-polyline>
+      <ui-gmap-circle
+        ng-if="monitoringDetailController.data.geolocationAccuracy && monitoringDetailController.map.poi.latitude && monitoringDetailController.map.poi.longitude"
+        center="monitoringDetailController.map.poi"
+        radius="monitoringDetailController.data.geolocationAccuracy"
+        fill="{color: '#f00', opacity: 0.3}"
+        stroke="{color: '#f00', opacity: 1, weight: 1}"
+        clickable="false"
+        draggable="false"
+        editable="false"
+        visible="true"
+        ></ui-gmap-circle>
       <ui-gmap-marker
         ng-if="monitoringDetailController.map.poi.latitude && monitoringDetailController.map.poi.longitude"
         coords="monitoringDetailController.map.poi"

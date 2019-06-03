@@ -143,6 +143,9 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
       if (update.longitude != null) {
         data.longitude = update.longitude
       }
+      if (update.accuracy != null) {
+        data.geolocationAccuracy = update.accuracy
+      }
     }
     controller.map.poi.latitude = data.latitude
     controller.map.poi.longitude = data.longitude
