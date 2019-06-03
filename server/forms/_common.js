@@ -76,6 +76,7 @@ exports.fields = {
   pictures: 'json',
   track: 'text',
   confidential: 'boolean',
+  geolocationAccuracy: 'num',
 
   // Internal fields
   user: {
