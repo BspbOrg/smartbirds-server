@@ -76,6 +76,8 @@ var nomenclatures = [
 
 module.exports = {
   up: async function (queryInterface, Sequelize) {
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+
     var nomenclatureValues = nomenclatures
       .map(function (nomenclature) {
         return nomenclature.values
@@ -97,6 +99,8 @@ module.exports = {
   },
 
   down: async function (queryInterface, Sequelize) {
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+
     await queryInterface.bulkDelete('Nomenclatures', {
       type: {
         $in: nomenclatures.map(function (nomenclature) { return nomenclature.name })
