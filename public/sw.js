@@ -38,31 +38,7 @@ workbox.routing.registerRoute(
 workbox.routing.registerRoute(
     /^.*\/api\/(i18n|locations|nomenclature|species|user|zone|visit)/,
     new workbox.strategies.StaleWhileRevalidate({
-        cacheName: 'api-cache',
-        plugins: [
-            // {
-            //     fetchDidFail: function () {
-            //         return self.clients.matchAll()
-            //             .then(function (clients) {
-            //                 clients.forEach(function (client) {
-            //                     client.postMessage({
-            //                         data: 'SERVER_OFFLINE'
-            //                     })
-            //                 })
-            //             })
-            //     },
-            //     fetchDidSucceed: function () {
-            //         return self.clients.matchAll()
-            //             .then(function (clients) {
-            //                 clients.forEach(function (client) {
-            //                     client.postMessage({
-            //                         data: 'SERVER_ONLINE'
-            //                     })
-            //                 })
-            //             })
-            //     }
-            // }
-        ]
+        cacheName: 'api-cache'
     })
 )
 
@@ -187,26 +163,6 @@ workbox.routing.registerRoute(
         ]
     })
 )
-
-// Use a stale-while-revalidate strategy for all other requests.
-// workbox.routing.setDefaultHandler(
-//     new workbox.strategies.StaleWhileRevalidate({
-//         cacheName: 'default-cache',
-//         plugins: [
-//             new workbox.expiration.Plugin({
-//                 maxEntries: 30,
-//                 purgeOnQuotaError: true
-//             })
-//         ]
-//     })
-// )
-
-// // This "catch" handler is triggered when any of the other routes fail to
-// // generate a response.
-// workbox.routing.setCatchHandler(function (context) {
-//     console.log('catch handler', context)
-//     return Response.error()
-// })
 
 workbox.core.skipWaiting()
 workbox.core.clientsClaim()
