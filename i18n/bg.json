@@ -936,5 +936,11 @@
     "LIST_FILTER_GEOLOCATION_BTN_CLEAR_LABEL": "Изчисти",
     "NO_CONNECTION_WITH_SERVER": "Няма връзка със сървъра.",
     "DETAIL_LATITUDE": "Географска ширина",
-    "DETAIL_LONGITUDE": "Географска дължина"
+    "DETAIL_LONGITUDE": "Географска дължина",
+    "LOCAL_RECORDS_FOR_SUBMIT": "Има локални записи. Запишете ги на сървъра за да не изчезнат!",
+    "LOCAL_RECORDS_SUBMIT_BUTTON": "Запиши",
+    "COMMON_SPECIES_NOTES": "Бележки вид",
+    "HERPTILES_DETAIL_FINDINGS": "Констатации",
+    "MAMMALS_DETAIL_FINDINGS": "Констатации",
+    "INVERTEBRATES_DETAIL_FINDINGS": "Констатации"
 }
