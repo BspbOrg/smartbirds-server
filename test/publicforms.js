@@ -99,6 +99,21 @@ describe('Public forms', function () {
               }
               assert(!recordIncluded, 'not include sensitive species')
             })
+
+            if (!form.fields.species.required) {
+              it('includes records without species', async function () {
+                const response = await runAction(`${form.modelName}:list`, { context: 'public' })
+                let containsNullSpecies = false
+                for (let i in response.data) {
+                  if (!response.data.hasOwnProperty(i)) continue
+                  if (response.data[ i ].species == null) {
+                    containsNullSpecies = true
+                    break
+                  }
+                }
+                assert(containsNullSpecies, `no record with null species`)
+              })
+            }
           }
 
           it(`include only public fields`, async function () {
