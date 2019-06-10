@@ -4,6 +4,7 @@ const tables = [
   'FormCBM',
   'FormCiconia',
   'FormBirds',
+  'FormHerps',
   'FormHerptiles',
   'FormMammals',
   'FormInvertebrates',
