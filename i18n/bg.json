@@ -232,7 +232,7 @@
     "BIRDS_DETAIL_AGE": "Възраст",
     "BIRDS_DETAIL_SPECIES_STATUS": "Статус на вида",
     "BIRDS_DETAIL_BEHAVIOUR": "Поведение",
-    "BIRDS_DETAIL_BUTTON_ADDITIONAL_FIELDS": "Допълнителни полета",
+    "DETAIL_BUTTON_ADDITIONAL_FIELDS": "Допълнителни полета",
     "BIRDS_DETAIL_DEAD_INDIVIDUAL_CAUSES": "Мъртъв индивид (причини)",
     "BIRDS_DETAIL_MARKING": "Маркировка",
     "BIRDS_DETAIL_NESTING": "Тип гнездене",
