@@ -15,16 +15,16 @@ module.exports = [
   {
     model: 'formThreats',
     data: lodash.extend({}, baseModel, {
-      species: 'Accipiter nisus',
       user: { email: 'user@smartbirds.com' },
-      observationDateTime: '2016-12-10T10:15:01Z'
+      observationDateTime: '2016-12-20T10:15:02Z'
     })
   },
   {
     model: 'formThreats',
     data: lodash.extend({}, baseModel, {
+      species: 'Sternbergia colchiciflora',
       user: { email: 'user@smartbirds.com' },
-      observationDateTime: '2016-12-20T10:15:02Z'
+      observationDateTime: '2016-12-10T10:15:01Z'
     })
   },
   {
