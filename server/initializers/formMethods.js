@@ -96,7 +96,7 @@ function generatePrepareQuery (form) {
 
       if (form.model.associations.speciesInfo) {
         query.include.push(form.model.associations.speciesInfo)
-        query.where[ '$speciesInfo.sensitive$' ] = false
+        query.where[ '$speciesInfo.sensitive$' ] = { $or: [false, null] }
       }
 
       if (data.params.user) {
