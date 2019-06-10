@@ -232,7 +232,7 @@
     "BIRDS_DETAIL_AGE": "Age",
     "BIRDS_DETAIL_SPECIES_STATUS": "Species status",
     "BIRDS_DETAIL_BEHAVIOUR": "Behavior",
-    "BIRDS_DETAIL_BUTTON_ADDITIONAL_FIELDS": "Additional fields",
+    "DETAIL_BUTTON_ADDITIONAL_FIELDS": "Additional fields",
     "BIRDS_DETAIL_DEAD_INDIVIDUAL_CAUSES": "Dead individual (reasons)",
     "BIRDS_DETAIL_MARKING": "Marking",
     "BIRDS_DETAIL_NESTING": "Nesting type",
