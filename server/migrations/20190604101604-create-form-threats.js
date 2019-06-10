@@ -25,21 +25,21 @@ var schema = {
   stateCarcassBg: Sequelize.TEXT,
   stateCarcassEn: Sequelize.TEXT,
   sampleTaken1Bg: Sequelize.TEXT,
-  sampleTaken1Eg: Sequelize.TEXT,
+  sampleTaken1En: Sequelize.TEXT,
   sampleTaken2Bg: Sequelize.TEXT,
   sampleTaken2En: Sequelize.TEXT,
   sampleTaken3Bg: Sequelize.TEXT,
   sampleTaken3En: Sequelize.TEXT,
-  sampleCode1Bg: Sequelize.TEXT,
-  sampleCode1En: Sequelize.TEXT,
-  sampleCode2Bg: Sequelize.TEXT,
-  sampleCode2En: Sequelize.TEXT,
-  sampleCode3Bg: Sequelize.TEXT,
-  sampleCode3En: Sequelize.TEXT,
+  sampleCode1: Sequelize.TEXT,
+  sampleCode2: Sequelize.TEXT,
+  sampleCode3: Sequelize.TEXT,
   class: Sequelize.TEXT,
   count: Sequelize.INTEGER,
   threatsNotes: Sequelize.TEXT,
-  location: Sequelize.TEXT,
+  location: {
+    type: Sequelize.TEXT,
+    allowNull: false
+  },
 
   // Common fields not defined as common in Model.js
   latitude: {

@@ -43,16 +43,16 @@ var nomenclatures = [
   {
     name: 'threats_state_carcass',
     values: [
-      { bg: 'свежо/ново', en: 'Fresh' },
-      { bg: 'подуто', en: 'Bloat' },
-      { bg: 'активно разлагане', en: 'Active decay' },
-      { bg: 'напреднало разлагане', en: 'Advanced decay' },
-      { bg: 'сухо/останки', en: 'Dry/remains' },
-      { bg: 'неизвестно/няма', en: 'Unknown/Not available' }
+      { bg: 'Сежо/ново', en: 'Fresh' },
+      { bg: 'Подуто', en: 'Bloat' },
+      { bg: 'Активно разлагане', en: 'Active decay' },
+      { bg: 'Напреднало разлагане', en: 'Advanced decay' },
+      { bg: 'Сухо/останки', en: 'Dry/remains' },
+      { bg: 'Неизвестно/няма', en: 'Unknown/Not available' }
     ]
   },
   {
-    name: 'threats_sample_taken',
+    name: 'threats_sample',
     values: [
       { bg: 'Цял труп', en: 'Whole body' },
       { bg: 'Стомах', en: 'Stomach' },

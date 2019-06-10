@@ -4,12 +4,11 @@ const { assign } = Object
 exports = module.exports = _.cloneDeep(require('./_common'))
 
 exports.tableName = 'FormThreats'
-exports.hasSpecies = true
+exports.hasSpecies = false
 
 exports.fields = assign(exports.fields, {
   category: {
     type: 'choice',
-    public: true,
     required: true,
     uniqueHash: true,
     relation: {
@@ -44,21 +43,21 @@ exports.fields = assign(exports.fields, {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'threats_sample_taken' }
+      filter: { type: 'threats_sample' }
     }
   },
   sampleTaken2: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'threats_sample_taken' }
+      filter: { type: 'threats_sample' }
     }
   },
   sampleTaken3: {
     type: 'choice',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'threats_sample_taken' }
+      filter: { type: 'threats_sample' }
     }
   },
   location: {
