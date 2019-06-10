@@ -4,6 +4,23 @@
 var angular = require('angular')
 var moment = require('moment')
 
+function watchBoolAttribute ($attrs, $scope, $parse, field) {
+  return function (attribute) {
+    if (attribute in $attrs) {
+      if (angular.isDefined($attrs[attribute])) {
+        var getter = $parse($attrs[attribute]).bind(null, $scope.$parent)
+        $scope.$on('$destroy', $scope.$parent.$watch(getter, function (value) {
+          field[attribute] = value
+        }))
+      } else {
+        field[attribute] = true
+      }
+    } else {
+      field[attribute] = false
+    }
+  }
+}
+
 require('../app').directive('field', /* @ngInject */function ($q, Raven, geolocation) {
   var cnt = 0
   return {
@@ -50,34 +67,11 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
       field.readonly = 'readonly' in $attrs ? $attrs.$attr.readonly === 'readonly' || (angular.isDefined($attrs.readonly) ? $parse($attrs.readonly)($scope.$parent) : true) : false
       field.hasGeolocation = geolocation.isAvailable
       field.loading = false
-
-      if ('disabled' in $attrs) {
-        if (angular.isDefined($attrs.disabled)) {
-          var disabledGetter = $parse($attrs.disabled).bind(null, $scope.$parent)
-          $scope.$parent.$watch(disabledGetter, function (value) {
-            field.disabled = value
-          })
-        } else {
-          field.disabled = true
-        }
-      } else {
-        field.disabled = false
-      }
-
       field.autocomplete = $attrs.autocomplete
 
-      if ('autofill' in $attrs) {
-        if (angular.isDefined($attrs.autofill)) {
-          var autofillGetter = $parse($attrs.autofill).bind(null, $scope.$parent)
-          $scope.$parent.$watch(autofillGetter, function (value) {
-            field.autofill = value
-          })
-        } else {
-          field.autofill = true
-        }
-      } else {
-        field.autofill = false
-      }
+      var boolAttribWatcher = watchBoolAttribute($attrs, $scope, $parse, field)
+      boolAttribWatcher('autofill')
+      boolAttribWatcher('disabled')
 
       field.order = function (item) {
         return item && item.toString().replace(/\d+/g, function (digits) {
