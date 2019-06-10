@@ -936,5 +936,11 @@
     "LIST_FILTER_GEOLOCATION_BTN_CLEAR_LABEL": "Clear",
     "NO_CONNECTION_WITH_SERVER": "No connection with server.",
     "DETAIL_LATITUDE": "Latitude",
-    "DETAIL_LONGITUDE": "Longitude"
+    "DETAIL_LONGITUDE": "Longitude",
+    "LOCAL_RECORDS_FOR_SUBMIT": "There are local records. Submit to server to prevent loss of data!",
+    "LOCAL_RECORDS_SUBMIT_BUTTON": "Submit",
+    "COMMON_SPECIES_NOTES": "Notes, species",
+    "HERPTILES_DETAIL_FINDINGS": "Findings",
+    "MAMMALS_DETAIL_FINDINGS": "Findings",
+    "INVERTEBRATES_DETAIL_FINDINGS": "Findings"
 }
