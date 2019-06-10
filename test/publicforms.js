@@ -79,6 +79,9 @@ describe('Public forms', function () {
           if (form.hasSpecies) {
             it(`doesn't include sensitive species`, async function () {
               const record = await setup.api.models[ form.modelName ].findOne({
+                // handle case where species might not be required
+                where: { species: { $ne: null } },
+                // include the speciesInfo to update it
                 include: [ setup.api.models[ form.modelName ].associations.speciesInfo ]
               })
               assert(record, 'have at least one record')
