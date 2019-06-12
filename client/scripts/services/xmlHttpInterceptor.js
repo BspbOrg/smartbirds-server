@@ -2,7 +2,7 @@ function responseIsXml (response) {
   if (response && response.config && response.config.responseType) {
     return response.config.responseType === 'xml'
   }
-  var contentType = response.headers('content-type')
+  var contentType = response && (typeof response.headers === 'function') && response.headers('content-type')
   if (contentType) {
     return contentType.search(/\Wxml/i) > -1
   } else {
