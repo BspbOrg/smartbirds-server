@@ -232,7 +232,6 @@
     "BIRDS_DETAIL_AGE": "Age",
     "BIRDS_DETAIL_SPECIES_STATUS": "Species status",
     "BIRDS_DETAIL_BEHAVIOUR": "Behavior",
-    "DETAIL_BUTTON_ADDITIONAL_FIELDS": "Additional fields",
     "BIRDS_DETAIL_DEAD_INDIVIDUAL_CAUSES": "Dead individual (reasons)",
     "BIRDS_DETAIL_MARKING": "Marking",
     "BIRDS_DETAIL_NESTING": "Nesting type",
@@ -942,5 +941,7 @@
     "COMMON_SPECIES_NOTES": "Notes, species",
     "HERPTILES_DETAIL_FINDINGS": "Findings",
     "MAMMALS_DETAIL_FINDINGS": "Findings",
-    "INVERTEBRATES_DETAIL_FINDINGS": "Findings"
+    "INVERTEBRATES_DETAIL_FINDINGS": "Findings",
+    "DETAIL_BUTTON_ADDITIONAL_FIELDS": "Additional fields",
+    "DETAIL_ACCURACY": "Accuracy"
 }
