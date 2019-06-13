@@ -22,7 +22,11 @@ workbox.precaching.cleanupOutdatedCaches()
 workbox.routing.registerNavigationRoute(
     // Assuming '/' has been precached,
     // look up its corresponding cache key.
-    workbox.precaching.getCacheKeyForURL(SINGLE_PAGE_URL)
+    workbox.precaching.getCacheKeyForURL(SINGLE_PAGE_URL), {
+        blacklist: [
+            new RegExp('/api/')
+        ]
+    }
 )
 
 // the primary resources that are precashed
