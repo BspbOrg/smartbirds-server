@@ -120,6 +120,7 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
       }
       controller.data.latitude = args[0].latLng.lat()
       controller.data.longitude = args[0].latLng.lng()
+      controller.data.geolocationAccuracy = null
       controller.updateFromModel()
       $scope.smartform.$setDirty()
     }
@@ -141,6 +142,8 @@ require('../app').controller('MonitoringDetailController', /* @ngInject */functi
       }
       if (update.accuracy != null) {
         data.geolocationAccuracy = update.accuracy
+      } else {
+        data.geolocationAccuracy = null
       }
     }
     controller.map.poi.latitude = data.latitude
