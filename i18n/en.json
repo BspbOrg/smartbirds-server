@@ -13,6 +13,8 @@
     "FORM_HERP_SHORT": "ARM",
     "FORM_CICONIA_LONG": "White stork",
     "FORM_CICONIA_SHORT": "White stork",
+    "FORM_THREATS_LONG": "Threats",
+    "FORM_THREATS_SHORT": "Threats",
     "SITE_NAME": "SmartBirds",
     "TOGGLE_NAVIGATION": "Toggle navigation",
     "LOGO_BSPB_ALT": "BSPB",
