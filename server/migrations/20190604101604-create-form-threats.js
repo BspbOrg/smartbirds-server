@@ -10,14 +10,8 @@ var schema = {
     primaryKey: true,
     autoIncrement: true
   },
-  categoryBg: {
-    type: Sequelize.TEXT,
-    allowNull: false
-  },
-  categoryEn: {
-    type: Sequelize.TEXT,
-    allowNull: false
-  },
+  categoryBg: Sequelize.TEXT,
+  categoryEn: Sequelize.TEXT,
   species: Sequelize.TEXT,
   estimateBg: Sequelize.TEXT,
   estimateEn: Sequelize.TEXT,
@@ -36,6 +30,7 @@ var schema = {
   class: Sequelize.TEXT,
   count: Sequelize.INTEGER,
   threatsNotes: Sequelize.TEXT,
+  primaryType: Sequelize.TEXT,
   location: {
     type: Sequelize.TEXT,
     allowNull: false

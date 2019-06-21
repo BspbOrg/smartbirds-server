@@ -9,7 +9,6 @@ exports.hasSpecies = true
 exports.fields = assign(exports.fields, {
   category: {
     type: 'choice',
-    required: true,
     uniqueHash: true,
     relation: {
       model: 'nomenclature',
@@ -69,7 +68,8 @@ exports.fields = assign(exports.fields, {
   sampleCode2: 'text',
   sampleCode3: 'text',
   count: '+int',
-  threatsNotes: 'text'
+  threatsNotes: 'text',
+  primaryType: 'text'
 })
 
 exports.foreignKeys.push({

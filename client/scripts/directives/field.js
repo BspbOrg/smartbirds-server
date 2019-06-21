@@ -39,7 +39,8 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
       select: '&?onSelect',
       match: '=?',
       format: '=?',
-      context: '@?'
+      context: '@?',
+      disabled: '@?'
     },
     bindToController: true,
     require: '^form',
@@ -136,9 +137,11 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
         }
         case 'species':
         case 'multiple-species': {
-          field.values = []
-          angular.forEach(db.species[field.nomenclature], function (item) {
-            field.values.push(item)
+          $scope.$watch('field.nomenclature', function () {
+            field.values = []
+            angular.forEach(db.species[ field.nomenclature ], function (item) {
+              field.values.push(item)
+            })
           })
 
           $scope.$watch('field.model', function () {
