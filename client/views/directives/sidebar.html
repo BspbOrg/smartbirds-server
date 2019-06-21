@@ -21,12 +21,6 @@
               {{form.shortLabel | translate}} <span ng-if="form.modelRef.localCount > 0" class="badge">{{form.modelRef.localCount}}</span>
             </a>
           </li>
-          <li translate-attr="{title: 'FORM_THREATS_LONG'}">
-            <a ui-sref="auth.monitoring.private.threats" ui-sref-active="active">
-              <i class="icon icon-threats icon-fw"></i>
-              <translate>FORM_THREATS_LONG</translate>
-            </a>
-          </li>
         </ul>
       </li>
 
@@ -41,12 +35,6 @@
             <a ui-sref="auth.monitoring.public.{{::key}}" ui-sref-active="active">
               <i class="icon icon-{{::key}} icon-fw"></i>
               {{form.shortLabel | translate}}
-            </a>
-          </li>
-          <li translate-attr="{title: 'FORM_THREATS_LONG'}">
-            <a ui-sref="auth.monitoring.public.threats" ui-sref-active="active">
-              <i class="icon icon-threats icon-fw"></i>
-              <translate>FORM_THREATS_LONG</translate>
             </a>
           </li>
         </ul>

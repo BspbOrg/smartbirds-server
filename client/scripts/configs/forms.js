@@ -160,6 +160,8 @@ var forms = module.exports = {
     label: 'FORM_LABEL_THREATS',
     translatePrefix: 'THREATS',
     hasCount: true,
+    longLabel: 'FORM_THREATS_LONG',
+    shortLabel: 'FORM_THREATS_SHORT',
     filters: [
       'location',
       'from_date',

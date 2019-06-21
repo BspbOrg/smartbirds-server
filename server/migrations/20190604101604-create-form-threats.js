@@ -96,7 +96,8 @@ var schema = {
   pictures: Sequelize.BLOB,
   track: Sequelize.TEXT,
   hash: Sequelize.STRING(64),
-  confidential: Sequelize.BOOLEAN
+  confidential: Sequelize.BOOLEAN,
+  geolocationAccuracy: Sequelize.FLOAT
 }
 
 module.exports = {
