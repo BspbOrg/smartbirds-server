@@ -158,15 +158,17 @@ var forms = module.exports = {
 
 require('../app')
   .run(
+    // this generates an injectable method with injections being the form models
+    // ['FormCBM', 'FormBirds', ..., function () {}]
     Object
       .keys(forms)
       .map(function (key) { return forms[key].model })
-      .concat(function () {
+      .concat([function () {
         var args = arguments
         Object
           .keys(forms)
           .forEach(function (key, idx) {
             forms[key].modelRef = args[idx]
           })
-      })
+      }])
   )

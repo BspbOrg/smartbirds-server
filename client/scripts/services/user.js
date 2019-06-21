@@ -13,6 +13,10 @@ require('../app')
 
     var _sessionKey = service.sessionKey = 'sb-csrf-token'
 
+    var authDeferred = $q.defer()
+
+    service.authPromise = authDeferred.promise
+
     service.identityCacheKey = 'sb-auth-identity'
 
     service.isResolved = function () {
@@ -65,6 +69,8 @@ require('../app')
       _identity = identity
       if (identity == null) {
         $cookies.remove(_sessionKey)
+      } else {
+        authDeferred.resolve(_identity)
       }
     }
 
@@ -102,7 +108,7 @@ require('../app')
     service.resolve = function (silent) {
       var deferred = $q.defer()
 
-      if (angular.isDefined(_identity)) {
+      if (_identity != null) {
         deferred.resolve(_identity)
 
         return deferred.promise
