@@ -1,6 +1,6 @@
-/* global EventTarget, CustomEvent */
-
 var localforage = require('localforage')
+var CustomEvent = require('../../utils/CustomEvent')
+var EventTarget = require('../../utils/EventTarget')
 
 var ID_GENERATOR_NAME = 'idGenerator'
 var INITIAL_ID_GENERATOR = 0
