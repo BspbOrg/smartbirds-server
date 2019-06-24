@@ -3,6 +3,7 @@
  */
 var angular = require('angular')
 var moment = require('moment')
+var formsConfig = require('../../../config/formsConfig')
 
 function watchBoolAttribute ($attrs, $scope, $parse, field) {
   return function (attribute) {
@@ -40,7 +41,8 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
       match: '=?',
       format: '=?',
       context: '@?',
-      disabled: '@?'
+      disabled: '@?',
+      config: '@?'
     },
     bindToController: true,
     require: '^form',
@@ -215,7 +217,18 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
 
         case 'select':
         case 'checkbox-group': {
-          field.values = $parse($attrs.choices)($scope.$parent).map(function (el) {
+          var fieldValues
+
+          if ($attrs.config) {
+            if (!($attrs.config in formsConfig)) {
+              throw new Error('Unsupported config type: "' + $attrs.config + '"\nAvailable values are: ' + Object.keys(formsConfig).join(', '))
+            }
+            fieldValues = Object.values(formsConfig[$attrs.config])
+          } else {
+            fieldValues = $parse($attrs.choices)($scope.$parent)
+          }
+
+          field.values = fieldValues.map(function (el) {
             if (typeof el !== 'object') {
               el = {
                 id: el,
@@ -226,6 +239,7 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
             el.label = $translate.instant(el.label)
             return el
           })
+
           break
         }
         case 'geolocation': {
