@@ -79,4 +79,23 @@ exports.foreignKeys.push({
   targetKey: 'labelLa'
 })
 
+exports.listInputs = {
+  primaryType: {},
+  class: {}
+}
+
+exports.filterList = async function (api, data, q) {
+  if (data.params.primaryType) {
+    q.where = _.extend(q.where || {}, {
+      primaryType: data.params.primaryType
+    })
+  }
+  if (data.params.class) {
+    q.where = _.extend(q.where || {}, {
+      class: data.params.class
+    })
+  }
+  return q
+}
+
 exports.indexes.push({ fields: ['species'] })
