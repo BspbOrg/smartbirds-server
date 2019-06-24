@@ -216,7 +216,8 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
         }
 
         case 'select':
-        case 'checkbox-group': {
+        case 'checkbox-group':
+        case 'single-choice-button': {
           var fieldValues
 
           if ($attrs.config) {
@@ -235,7 +236,7 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
                 label: el
               }
             }
-            $translate(el.label).then(function (val) { el.label = val })
+            $translate(el.label).then(function (val) { el.label = val }).catch(angular.noop)
             el.label = $translate.instant(el.label)
             return el
           })

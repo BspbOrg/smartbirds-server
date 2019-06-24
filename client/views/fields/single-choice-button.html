@@ -1,0 +1,18 @@
+<sb-include src="/views/fields/container.html">
+  <div>
+    <div class="btn-group">
+      <button ng-repeat="value in field.values"
+              type="button"
+              class="btn btn-default"
+              required="{{::field.required}}"
+              name="{{::field.name}}"
+              aria-describedby="{{::field.name}}HelpBlock"
+              ng-disabled="::field.readonly"
+              ng-model="field.model"
+              uib-btn-radio="value.id" translate>
+        {{value.label}}
+      </button>
+    </div>
+  </div>
+  <span ng-if="::field.help" id="{{::field.name}}HelpBlock" class="help-block">{{::field.help}}</span>
+</sb-include>
