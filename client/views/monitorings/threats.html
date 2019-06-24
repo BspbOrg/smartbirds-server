@@ -24,19 +24,9 @@
     <div class="col-md-4 col-lg-5">
       <div class="row">
         <div class="col-md-12">
-          <div class="form-group" ng-class="{'has-error': !monitoringDetailController.data.primaryType}">
-            <label class="control-label" translate>THREATS_DETAIL_PRIMARY_TYPE</label>
-            <div>
-              <div class="btn-group">
-                <button name="primaryType" required="true" type="button" class="btn btn-default"
-                  uib-btn-radio="'threat'" ng-model="monitoringDetailController.data.primaryType"
-                  translate>THREATS_DETAIL_TYPE_THREAT</button>
-                <button name="primaryType" required="true" type="button" class="btn btn-default"
-                  uib-btn-radio="'poison'" ng-model="monitoringDetailController.data.primaryType"
-                  translate>THREATS_DETAIL_TYPE_POISON</button>
-              </div>
-            </div>
-          </div>
+          <field name="primaryType" type="single-choice-button" required="true" config="threatsPrimaryTypes"
+            label="{{'THREATS_DETAIL_PRIMARY_TYPE' | translate}}" model="monitoringDetailController.data.primaryType">
+          </field>
         </div>
       </div>
       <div ng-if="monitoringDetailController.data.primaryType === 'threat'">
@@ -49,10 +39,9 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <field name="class" type="select"
-              choices="[{id: 'birds', label: 'CLASS_BIRDS'}, {id: 'herptiles', label: 'CLASS_HERPTILES'}, {id: 'mammals', label: 'CLASS_MAMMALS'}, {id: 'invertebrates', label: 'CLASS_INVERTEBRATES'}, {id: 'plants', label: 'CLASS_PLANTS'}]"
-              label="{{'THREATS_DETAIL_CLASS' | translate}}" model="monitoringDetailController.data.class"
-              on-select="monitoringDetailController.data.species = null"></field>
+            <field name="class" type="select" config="speciesClasses" label="{{'THREATS_DETAIL_CLASS' | translate}}"
+              model="monitoringDetailController.data.class" on-select="monitoringDetailController.data.species = null">
+            </field>
           </div>
         </div>
         <div class="row">
@@ -77,22 +66,9 @@
       <div ng-if="monitoringDetailController.data.primaryType === 'poison'">
         <div class="row">
           <div class="col-md-12">
-            <div class="form-group" ng-class="{'has-error': !monitoringDetailController.data.poisonedType}">
-              <label class="control-label" translate>THREATS_DETAIL_POISONED_TYPE</label>
-              <div>
-                <div class="btn-group">
-                  <button name="poisonedType" required="true" type="button" class="btn btn-default"
-                    uib-btn-radio="'dead'" ng-model="monitoringDetailController.data.poisonedType"
-                    translate>THREATS_POISONED_TYPE_DEAD</button>
-                  <button name="poisonedType" required="true" type="button" class="btn btn-default"
-                    uib-btn-radio="'alive'" ng-model="monitoringDetailController.data.poisonedType"
-                    translate>THREATS_POISONED_TYPE_ALIVE</button>
-                  <button name="poisonedType" required="true" type="button" class="btn btn-default"
-                    uib-btn-radio="'bait'" ng-model="monitoringDetailController.data.poisonedType"
-                    translate>THREATS_POISONED_TYPE_BAIT</button>
-                </div>
-              </div>
-            </div>
+              <field name="poisonedType" type="single-choice-button" required="true" config="threatsPoisonedType"
+                label="{{'THREATS_DETAIL_POISONED_TYPE' | translate}}" model="monitoringDetailController.data.poisonedType">
+              </field>
           </div>
         </div>
 
