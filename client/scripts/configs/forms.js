@@ -171,7 +171,8 @@ var forms = module.exports = {
       'radius',
       'tab',
       'class',
-      'type'
+      'primaryType',
+      'species'
     ]
   }
 }

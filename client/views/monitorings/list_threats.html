@@ -72,7 +72,23 @@
             </div>
 
             <div class="col-md-4 col-lg-3">
-              <field name="species" type="species" nomenclature="birds"
+              <field name="primaryType" type="select" config="threatsPrimaryTypes"
+                     label="{{'THREATS_LIST_FILTER_PRIMARY_TYPE' | translate}}"
+                     placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
+                     on-select="monitoringController.updateFilter()"
+                     model="monitoringController.filter.primaryType"></field>
+            </div>
+
+            <div class="col-md-4 col-lg-3">
+              <field name="class" type="select" config="speciesClasses"
+                      label="{{'THREATS_LIST_FILTER_CLASS' | translate}}"
+                      placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
+                      on-select="monitoringController.updateFilter(); monitoringController.filter.species = null;"
+                      model="monitoringController.filter.class"></field>
+            </div>
+
+            <div class="col-md-4 col-lg-3">
+              <field name="species" type="species" nomenclature="{{monitoringController.filter.class}}"
                      label="{{'THREATS_LIST_FILTER_SPECIES' | translate}}"
                      placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
                      on-select="monitoringController.updateFilter()"
@@ -148,6 +164,9 @@
         sb-sorting="updatedAt|date:'yyyyMMddHHmmss'" translate>
         THREATS_LIST_TABLE_UPDATED
       </th>
+      <th sb-sorting="primaryType" translate>
+          THREATS_LIST_TABLE_PRIMARY_TYPE
+        </th>
       <th sb-sorting="species.label[$language]" translate>
         THREATS_LIST_TABLE_SPECIES
       </th>
@@ -155,6 +174,7 @@
         sb-sorting="count" translate>
         THREATS_LIST_TABLE_COUNT
       </th>
+      <td>&nbsp;</td>
     </tr>
     </thead>
     <tbody>
@@ -170,11 +190,15 @@
       <td>{{::row.location}}</td>
       <td>{{::row.observationDateTime|date:'d.MM.yyyy HH:mm'}}</td>
       <td>{{::row.updatedAt|date:'d.MM.yyyy HH:mm'}}</td>
+      <td translate>{{::row.primaryType}}</td>
       <td>
         {{row.getSpecies().label[$language]}}<br/>
         <strong>{{row.getSpecies().label.la}}</strong>
       </td>
       <td>{{::row.count}}</td>
+      <td>
+        <preview-pictures pictures="::row.pictures" />
+      </td>
     </tr>
     </tbody>
   </table>

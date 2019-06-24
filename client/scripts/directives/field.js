@@ -224,7 +224,12 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
             if (!($attrs.config in formsConfig)) {
               throw new Error('Unsupported config type: "' + $attrs.config + '"\nAvailable values are: ' + Object.keys(formsConfig).join(', '))
             }
-            fieldValues = Object.values(formsConfig[$attrs.config])
+            fieldValues = Object.values(formsConfig[$attrs.config]).map(function (el) {
+              return {
+                id: el.id,
+                label: el.label
+              }
+            })
           } else {
             fieldValues = $parse($attrs.choices)($scope.$parent)
           }
@@ -236,6 +241,7 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
                 label: el
               }
             }
+
             $translate(el.label).then(function (val) { el.label = val }).catch(angular.noop)
             el.label = $translate.instant(el.label)
             return el

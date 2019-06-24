@@ -14,6 +14,9 @@ require('../app').factory('FormThreats', /* @ngInject */function ($localStorage,
     getUser: function () {
       return db.users[ this.user ]
     },
+    getSpecies: function () {
+      return db.species[this.class] && db.species[this.class][this.species]
+    },
     preCopy: function () {
       delete this.primaryType
       delete this.category
