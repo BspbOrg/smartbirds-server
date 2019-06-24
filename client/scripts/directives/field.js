@@ -41,7 +41,6 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
       match: '=?',
       format: '=?',
       context: '@?',
-      disabled: '@?',
       config: '@?'
     },
     bindToController: true,
@@ -68,6 +67,7 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
       field.subtypes = ($attrs.type || 'general').split('.').slice(1)
       field.required = angular.isDefined($attrs.required)
       field.readonly = 'readonly' in $attrs ? $attrs.$attr.readonly === 'readonly' || (angular.isDefined($attrs.readonly) ? $parse($attrs.readonly)($scope.$parent) : true) : false
+      field.diasbled = 'disabled' in $attrs ? $attrs.$attr.disabled === 'disabled' || (angular.isDefined($attrs.disabled) ? $parse($attrs.disabled)($scope.$parent) : true) : false
       field.hasGeolocation = geolocation.isAvailable
       field.loading = false
       field.autocomplete = $attrs.autocomplete
