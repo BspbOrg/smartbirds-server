@@ -11,6 +11,7 @@ describe('Action formThreats:', function () {
     longitude: 24.7492006,
     observationDateTime: '2015-12-10T10:15Z',
     monitoringCode: 'random_threats_1234',
+    primaryType: 'poison',
     species: 'Accipiter nisus',
     category: {
       type: 'threats_category',
@@ -126,7 +127,7 @@ describe('Action formThreats:', function () {
   setup.describeAsAuth(function (runAction) {
     describe('fails to create without', function () {
       var required = ['latitude', 'longitude', 'observationDateTime', 'monitoringCode',
-        'endDateTime', 'startDateTime', 'location', 'category']
+        'endDateTime', 'startDateTime', 'location']
 
       required.forEach(function (property) {
         it(property, function () {
