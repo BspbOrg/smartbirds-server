@@ -101,7 +101,7 @@ exports.filterList = async function (api, data, q) {
 
 exports.indexes.push({ fields: ['species'] })
 
-const preSave = function (threat, options) {
+const afterApiUpdate = function (threat, options) {
   if (threat.primaryType === formsConfig.threatsPrimaryTypes.threat.id) {
     threat.poisonedType = null
     threat.stateCarcassBg = null
@@ -139,8 +139,5 @@ const preSave = function (threat, options) {
 }
 
 exports.hooks = {
-  beforeCreate: preSave,
-  beforeUpdate: preSave,
-  beforeSave: preSave,
-  beforeUpsert: preSave
+  afterApiUpdate: afterApiUpdate
 }
