@@ -1,12 +1,12 @@
 <form name="smartform" role="form" confirm-on-exit="smartform.$dirty"
   confirm-message-window="{{'THREATS_DETAIL_UNSAVED_DATA_ALERT_TITLE' | translate}}"
   confirm-message-route="{{'THREATS_DETAIL_UNSAVED_DATA_ALERT_MESSAGE' | translate}}">
+  <div class="actions actions-detail">
+    <form-detail-buttons monitoring-detail-controller="monitoringDetailController"></form-detail-buttons>
+  </div>
   <div class="row">
     <div class="col-lg-12">
       <h1 class="page-header">
-        <div class="pull-right">
-          <form-detail-buttons monitoring-detail-controller="monitoringDetailController"></form-detail-buttons>
-        </div>
         <span ng-if="monitoringDetailController.data.id" translate>THREATS_DETAIL_TITLE_EDIT</span>
         <span ng-if="!monitoringDetailController.data.id" translate>THREATS_DETAIL_TITLE_NEW</span>
       </h1>
