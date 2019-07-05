@@ -27,7 +27,6 @@ require('../app').factory('FormThreats', /* @ngInject */function ($localStorage,
       delete this.sampleTaken1
       delete this.sampleTaken2
       delete this.sampleTaken3
-      delete this.location
       delete this.class
       delete this.sampleCode1
       delete this.sampleCode2
@@ -41,7 +40,7 @@ require('../app').factory('FormThreats', /* @ngInject */function ($localStorage,
   angular.extend(FormThreats, {})
 
   LocalCache.inject(FormThreats, {
-    name: 'herptiles'
+    name: 'threats'
   })
 
   return FormThreats
