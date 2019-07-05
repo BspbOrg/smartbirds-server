@@ -387,7 +387,8 @@ function formOptions (form) {
       apiData: generateApiData(form.fields),
       apiUpdate: generateApiUpdate(form.fields),
       exportData: generateExportData(form)
-    }
+    },
+    hooks: form.hooks
   }
 }
 
