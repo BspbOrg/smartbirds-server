@@ -70,7 +70,10 @@ exports.fields = assign(exports.fields, {
   sampleCode3: 'text',
   count: '+int',
   threatsNotes: 'text',
-  primaryType: 'text'
+  primaryType: {
+    type: 'text',
+    required: true
+  }
 })
 
 exports.foreignKeys.push({
@@ -140,4 +143,43 @@ const afterApiUpdate = function (threat, options) {
 
 exports.hooks = {
   afterApiUpdate: afterApiUpdate
+}
+
+exports.validate = {
+  validateTypeThreat: function () {
+    if (this.primaryType === formsConfig.threatsPrimaryTypes.threat.id) {
+      if (!this.categoryBg && !this.categoryEn) {
+        throw new Error('Category is required when primaryType is threat')
+      }
+    }
+  },
+  validateTypePoison: function () {
+    if (this.primaryType === formsConfig.threatsPrimaryTypes.poison.id) {
+      if (!this.poisonedType) {
+        throw new Error('poisonedType is required when primaryType is poison')
+      }
+
+      if (!this.count) {
+        throw new Error('count is required when poisonedType is bait')
+      }
+
+      if (
+        this.poisonedType === formsConfig.threatsPoisonedType.dead.id ||
+        this.poisonedType === formsConfig.threatsPoisonedType.alive.id) {
+        if (!this.class) {
+          throw new Error('class is required when poisonedType is bait')
+        }
+
+        if (!this.species) {
+          throw new Error('species is required when poisonedType is bait')
+        }
+
+        if (this.poisonedType === formsConfig.threatsPoisonedType.dead.id) {
+          if (!this.stateCarcassBg && !this.stateCarcassEn) {
+            throw new Error('stateCarcass is required when poisonedType is dead')
+          }
+        }
+      }
+    }
+  }
 }

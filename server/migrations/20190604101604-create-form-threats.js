@@ -30,7 +30,10 @@ var schema = {
   class: Sequelize.TEXT,
   count: Sequelize.INTEGER,
   threatsNotes: Sequelize.TEXT,
-  primaryType: Sequelize.TEXT,
+  primaryType: {
+    type: Sequelize.TEXT,
+    allowNull: false
+  },
   location: {
     type: Sequelize.TEXT,
     allowNull: false

@@ -3,7 +3,9 @@
 var _ = require('lodash')
 var should = require('should')
 var setup = require('../_setup')
+var formsConfig = require('../../config/formsConfig')
 require('should-sinon')
+
 
 describe('Action formThreats:', function () {
   var threatsRecord = {
@@ -138,6 +140,62 @@ describe('Action formThreats:', function () {
           })
         })
       })
+
+      it('category if primaryType is threat', function () {
+        var reqThreatObj = _.cloneDeep(threatsRecord)
+        reqThreatObj.primaryType = formsConfig.threatsPrimaryTypes.threat.id
+        delete reqThreatObj.category
+        return runAction('formThreats:create', reqThreatObj).then(function (response) {
+          response.error.should.startWith('Error: Validation error')
+        })
+      })
+
+      it('poisonedType if primaryType is poison', function () {
+        var reqThreatObj = _.cloneDeep(threatsRecord)
+        reqThreatObj.primaryType = formsConfig.threatsPrimaryTypes.poison.id
+        delete reqThreatObj.poisonedType
+        return runAction('formThreats:create', reqThreatObj).then(function (response) {
+          response.error.should.startWith('Error: Validation error')
+        })
+      })
+
+      var requiredWhenDead = ['species', 'class', 'count', 'stateCarcass']
+      requiredWhenDead.forEach(function(property){
+        it(property + ' if poisoned type is dead', function() {
+          var reqThreatObj = _.cloneDeep(threatsRecord)
+          reqThreatObj.primaryType = formsConfig.threatsPrimaryTypes.poison.id
+          reqThreatObj.poisonedType = formsConfig.threatsPoisonedType.dead.id
+          delete reqThreatObj[property]
+          return runAction('formThreats:create', reqThreatObj).then(function (response) {
+            response.error.should.startWith('Error: Validation error')
+          })
+        })
+      })
+
+      var requiredWhenAlive = ['species', 'class', 'count']
+      requiredWhenAlive.forEach(function(property){
+        it(property + ' if poisoned type is alive', function() {
+          var reqThreatObj = _.cloneDeep(threatsRecord)
+          reqThreatObj.primaryType = formsConfig.threatsPrimaryTypes.poison.id
+          reqThreatObj.poisonedType = formsConfig.threatsPoisonedType.alive.id
+          delete reqThreatObj[property]
+          return runAction('formThreats:create', reqThreatObj).then(function (response) {
+            response.error.should.startWith('Error: Validation error')
+          })
+        })
+      })
+
+      it('count if poisonedType is bait', function () {
+        var reqThreatObj = _.cloneDeep(threatsRecord)
+        reqThreatObj.primaryType = formsConfig.threatsPrimaryTypes.poison.id
+        reqThreatObj.poisonedType = formsConfig.threatsPoisonedType.bait.id
+        delete reqThreatObj.count
+        return runAction('formThreats:create', reqThreatObj).then(function (response) {
+          response.error.should.startWith('Error: Validation error')
+        })
+      })
+
+
     }) // fails to create without
 
     describe('CREATE', function () {
