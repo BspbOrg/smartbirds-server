@@ -79,6 +79,9 @@ describe('Public forms', function () {
           if (form.hasSpecies) {
             it(`doesn't include sensitive species`, async function () {
               const record = await setup.api.models[ form.modelName ].findOne({
+                // handle case where species might not be required
+                where: { species: { $ne: null } },
+                // include the speciesInfo to update it
                 include: [ setup.api.models[ form.modelName ].associations.speciesInfo ]
               })
               assert(record, 'have at least one record')
@@ -99,6 +102,21 @@ describe('Public forms', function () {
               }
               assert(!recordIncluded, 'not include sensitive species')
             })
+
+            if (!form.fields.species.required) {
+              it('includes records without species', async function () {
+                const response = await runAction(`${form.modelName}:list`, { context: 'public' })
+                let containsNullSpecies = false
+                for (let i in response.data) {
+                  if (!response.data.hasOwnProperty(i)) continue
+                  if (response.data[ i ].species == null) {
+                    containsNullSpecies = true
+                    break
+                  }
+                }
+                assert(containsNullSpecies, `no record with null species`)
+              })
+            }
           }
 
           it(`include only public fields`, async function () {
