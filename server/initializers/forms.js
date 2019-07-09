@@ -4,8 +4,13 @@ const fs = require('fs')
 const moment = require('moment')
 const path = require('path')
 const Promise = require('bluebird')
+const { hooks } = require('sequelize/lib/hooks')
 const { DataTypes } = require('sequelize')
 const capitalizeFirstLetter = require('../utils/capitalizeFirstLetter')
+
+// Add custom hooks to sequelize hooks list
+hooks.beforeApiUpdate = { params: 2 }
+hooks.afterApiUpdate = { params: 2 }
 
 function serialize (obj) {
   if (Array.isArray(obj)) {
@@ -281,7 +286,8 @@ function generateExportData (form) {
 }
 
 function generateApiUpdate (fields) {
-  return function (data) {
+  return async function (data) {
+    await this.Model.runHooks('beforeApiUpdate', this, data)
     _.forEach(fields, (field, name) => {
       if (_.isString(field)) field = { type: field }
       switch (field.type) {
@@ -360,7 +366,7 @@ function generateApiUpdate (fields) {
           break
       }
     })
-
+    await this.Model.runHooks('afterApiUpdate', this, data)
     return this
   }
 }
@@ -387,7 +393,8 @@ function formOptions (form) {
       apiData: generateApiData(form.fields),
       apiUpdate: generateApiUpdate(form.fields),
       exportData: generateExportData(form)
-    }
+    },
+    hooks: form.hooks
   }
 }
 
