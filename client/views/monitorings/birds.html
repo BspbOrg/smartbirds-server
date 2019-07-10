@@ -204,13 +204,7 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-md-12">
-      <field name="speciesNotes" type="memo"
-             label="{{'BIRDS_DETAIL_SPECIES_NOTES' | translate}}"
-             model="monitoringDetailController.data.speciesNotes"></field>
-    </div>
-  </div>
+  <div ng-include="'/views/monitorings/footer.html'"></div>
 
   <div class="row">
     <form-pictures ng-model="monitoringDetailController.data.pictures"></form-pictures>
