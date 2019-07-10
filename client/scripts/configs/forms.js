@@ -153,6 +153,27 @@ var forms = module.exports = {
       'radius',
       'tab'
     ]
+  },
+  threats: {
+    model: 'FormThreats',
+    serverModel: 'formThreats',
+    label: 'FORM_LABEL_THREATS',
+    translatePrefix: 'THREATS',
+    hasCount: true,
+    longLabel: 'FORM_THREATS_LONG',
+    shortLabel: 'FORM_THREATS_SHORT',
+    filters: [
+      'location',
+      'from_date',
+      'to_date',
+      'latitude',
+      'longitude',
+      'radius',
+      'tab',
+      'class',
+      'primaryType',
+      'species'
+    ]
   }
 }
 
