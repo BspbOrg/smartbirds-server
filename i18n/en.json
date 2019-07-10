@@ -118,6 +118,7 @@
     "DASHBOARD_CARD_BIRDS": "Birds",
     "DASHBOARD_CARD_HERP": "ARM",
     "DASHBOARD_CARD_CICONIA": "White stork",
+    "DASHBOARD_CARD_THREATS": "Threats",
     "INPUT_PLACEHOLDER_ALL": "all",
     "ZONES_TITLE": "Plots",
     "ZONES_FILTERS_OWNER": "Observer",
@@ -947,5 +948,7 @@
     "MAMMALS_DETAIL_FINDINGS": "Findings",
     "INVERTEBRATES_DETAIL_FINDINGS": "Findings",
     "DETAIL_BUTTON_ADDITIONAL_FIELDS": "Additional fields",
-    "DETAIL_ACCURACY": "Accuracy"
+    "DETAIL_ACCURACY": "Accuracy",
+    "FORM_THREATS_LONG": "Threats",
+    "FORM_THREATS_SHORT": "Threats"
 }
