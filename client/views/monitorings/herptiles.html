@@ -55,9 +55,9 @@
                  model="monitoringDetailController.data.habitat"></field>
         </div>
         <div class="col-md-12 col-lg-12">
-          <field name="threatsHerptiles" type="multiple-choice" nomenclature="herptiles_danger_observation"
-                 label="{{'HERPTILES_DETAIL_THREATS' | translate}}"
-                 model="monitoringDetailController.data.threatsHerptiles"></field>
+          <field name="findings" type="multiple-choice" nomenclature="herptiles_findings"
+                 label="{{'HERPTILES_DETAIL_FINDINGS' | translate}}"
+                 model="monitoringDetailController.data.findings"></field>
         </div>
       </div>
     </div>
@@ -144,13 +144,7 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-md-12">
-      <field name="speciesNotes" type="memo"
-             label="{{'HERPTILES_DETAIL_SPECIES_NOTES' | translate}}"
-             model="monitoringDetailController.data.speciesNotes"></field>
-    </div>
-  </div>
+  <div ng-include="'/views/monitorings/footer.html'"></div>
 
   <div class="row">
     <form-pictures ng-model="monitoringDetailController.data.pictures"></form-pictures>

@@ -47,6 +47,13 @@ exports.fields = assign(exports.fields, {
       filter: { type: 'invertebrates_danger_observation' }
     }
   },
+  findings: {
+    type: 'multi',
+    relation: {
+      model: 'nomenclature',
+      filter: { type: 'invertebrates_findings' }
+    }
+  },
   count: {
     type: '+int',
     public: true,
@@ -69,3 +76,7 @@ exports.foreignKeys.push({
 })
 
 exports.indexes.push({ fields: [ 'species' ] })
+
+exports.exportSkipFields = [
+  'threatsInvertebrates'
+]

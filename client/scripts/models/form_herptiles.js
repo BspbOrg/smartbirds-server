@@ -22,7 +22,7 @@ require('../app').factory('FormHerptiles', /* @ngInject */function ($resource, E
       delete this.sex
       delete this.age
       delete this.habitat
-      delete this.threatsHerps
+      delete this.findings
       delete this.count
       delete this.marking
       delete this.axisDistance
@@ -38,7 +38,8 @@ require('../app').factory('FormHerptiles', /* @ngInject */function ($resource, E
       delete this.sqCaud
       delete this.sqDors
       delete this.speciesNotes
-    }
+    },
+    hasNotes: true
   })
 
   // class methods

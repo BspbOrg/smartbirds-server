@@ -20,10 +20,6 @@ describe('plants', function () {
     count: 123,
     density: 234.56,
     cover: 345.67,
-    threatsPlants: [
-      { label: { bg: 'Пожари', en: 'Fires' } },
-      { label: { bg: 'Замърсяване', en: 'Pollution' } }
-    ],
     speciesNotes: 'plants species notes',
     location: 'plants location',
 
