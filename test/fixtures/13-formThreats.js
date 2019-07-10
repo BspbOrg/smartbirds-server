@@ -9,9 +9,7 @@ var baseModel = {
   endDateTime: '2015-12-10T11:15Z',
   startDateTime: '2015-12-10T15:15Z',
   location: 'some location',
-  primaryType: 'threat',
-  species: 'Accipiter nisus',
-  class: 'mammals'
+  primaryType: 'threat'
 }
 
 module.exports = [
