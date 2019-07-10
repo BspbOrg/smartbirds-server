@@ -36,12 +36,12 @@ describe('Action formInvertebrates:', function () {
         en: 'Range'
       }
     },
-    threatsInvertebrates: {
-      type: 'invertebrates_danger_observation',
+    findings: {
+      type: 'invertebrates_findings',
       id: 32,
       label: {
-        bg: 'invertebrates_danger_observation',
-        en: 'invertebrates_danger_observation'
+        bg: 'invertebrates_findings',
+        en: 'invertebrates_findings'
       }
     },
     count: 10,
