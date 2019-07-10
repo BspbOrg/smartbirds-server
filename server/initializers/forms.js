@@ -394,7 +394,8 @@ function formOptions (form) {
       apiUpdate: generateApiUpdate(form.fields),
       exportData: generateExportData(form)
     },
-    hooks: form.hooks
+    hooks: form.hooks,
+    validate: form.validate
   }
 }
 

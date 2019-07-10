@@ -3,6 +3,7 @@
  */
 var angular = require('angular')
 var moment = require('moment')
+var formsConfig = require('../../../config/formsConfig')
 
 function watchBoolAttribute ($attrs, $scope, $parse, field) {
   return function (attribute) {
@@ -39,7 +40,8 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
       select: '&?onSelect',
       match: '=?',
       format: '=?',
-      context: '@?'
+      context: '@?',
+      config: '@?'
     },
     bindToController: true,
     require: '^form',
@@ -136,9 +138,11 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
         }
         case 'species':
         case 'multiple-species': {
-          field.values = []
-          angular.forEach(db.species[field.nomenclature], function (item) {
-            field.values.push(item)
+          $scope.$watch('field.nomenclature', function () {
+            field.values = []
+            angular.forEach(db.species[ field.nomenclature ], function (item) {
+              field.values.push(item)
+            })
           })
 
           $scope.$watch('field.model', function () {
@@ -211,7 +215,10 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
         }
 
         case 'select':
-        case 'checkbox-group': {
+        case 'checkbox-group':
+        case 'single-choice-button': {
+          var fieldValues
+
           // set viewModel as empty string for default value, otherwise typeahead filter is not working
           field.viewModel = ''
           $scope.$watch('field.model', function () {
@@ -228,7 +235,21 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
             }
           })
 
-          field.values = $parse($attrs.choices)($scope.$parent).map(function (el) {
+          if ($attrs.config) {
+            if (!($attrs.config in formsConfig)) {
+              throw new Error('Unsupported config type: "' + $attrs.config + '"\nAvailable values are: ' + Object.keys(formsConfig).join(', '))
+            }
+            fieldValues = Object.values(formsConfig[$attrs.config]).map(function (el) {
+              return {
+                id: el.id,
+                label: el.label
+              }
+            })
+          } else {
+            fieldValues = $parse($attrs.choices)($scope.$parent)
+          }
+
+          field.values = fieldValues.map(function (el) {
             if (typeof el !== 'object') {
               el = {
                 id: el,
@@ -240,10 +261,11 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
               field.viewModel = el.label
             }
 
-            $translate(el.label).then(function (val) { el.label = val })
+            $translate(el.label).then(function (val) { el.label = val }).catch(angular.noop)
             el.label = $translate.instant(el.label)
             return el
           })
+
           break
         }
         case 'geolocation': {

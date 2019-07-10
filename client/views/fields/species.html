@@ -10,6 +10,7 @@
            ng-blur="field.onSelect()"
            ng-model="field.model"
            ng-required="::field.required"
+           ng-disabled="field.disabled"
            species="::field.nomenclature"
            typeahead-append-to-body="false"
            typeahead-editable="false"
@@ -23,7 +24,7 @@
       <button ng-if="field.model && !field.required" type="button" class="btn btn-default" ng-click="field.model = null; field.onSelect()">
         <i class="glyphicon glyphicon-remove-circle text-danger"></i>
       </button>
-      <button type="button" class="btn btn-default" uib-dropdown-toggle>
+      <button type="button" ng-disabled="field.disabled" class="btn btn-default" uib-dropdown-toggle>
         <i class="glyphicon glyphicon-chevron-down"></i>
       </button>
     </span>
