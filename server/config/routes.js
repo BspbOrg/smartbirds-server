@@ -72,7 +72,12 @@ exports.default = {
         { path: '/plants', action: 'formPlants:list' },
         { path: '/plants.csv', action: 'formPlants:list' },
         { path: '/plants.zip', action: 'formPlants:list' },
-        { path: '/plants/:id', action: 'formPlants:view' }
+        { path: '/plants/:id', action: 'formPlants:view' },
+
+        { path: '/threats', action: 'formThreats:list' },
+        { path: '/threats.csv', action: 'formThreats:list' },
+        { path: '/threats.zip', action: 'formThreats:list' },
+        { path: '/threats/:id', action: 'formThreats:view' }
 
       ],
 
@@ -112,6 +117,9 @@ exports.default = {
         { path: '/plants', action: 'formPlants:create' },
         { path: '/plants/:id', action: 'formPlants:edit' },
 
+        { path: '/threats', action: 'formThreats:create' },
+        { path: '/threats/:id', action: 'formThreats:edit' },
+
         { path: '/export/cbm', action: 'formCBM:export' },
         { path: '/export/birds', action: 'formBirds:export' },
         { path: '/export/herp', action: 'formHerps:export' },
@@ -119,7 +127,8 @@ exports.default = {
         { path: '/export/mammals', action: 'formMammals:export' },
         { path: '/export/invertebrates', action: 'formInvertebrates:export' },
         { path: '/export/plants', action: 'formPlants:export' },
-        { path: '/export/ciconia', action: 'formCiconia:export' }
+        { path: '/export/ciconia', action: 'formCiconia:export' },
+        { path: '/export/threats', action: 'formThreats:export' }
 
       ],
 
@@ -146,7 +155,8 @@ exports.default = {
         { path: '/mammals/:id', action: 'formMammals:delete' },
         { path: '/invertebrates/:id', action: 'formInvertebrates:delete' },
         { path: '/ciconia/:id', action: 'formCiconia:delete' },
-        { path: '/plants/:id', action: 'formPlants:delete' }
+        { path: '/plants/:id', action: 'formPlants:delete' },
+        { path: '/threats/:id', action: 'formThreats:delete' }
       ]
     }
   }

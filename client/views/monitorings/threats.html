@@ -1,0 +1,157 @@
+<form name="smartform" role="form" confirm-on-exit="smartform.$dirty"
+  confirm-message-window="{{'THREATS_DETAIL_UNSAVED_DATA_ALERT_TITLE' | translate}}"
+  confirm-message-route="{{'THREATS_DETAIL_UNSAVED_DATA_ALERT_MESSAGE' | translate}}">
+  <div class="actions actions-detail">
+    <form-detail-buttons monitoring-detail-controller="monitoringDetailController"></form-detail-buttons>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">
+        <span ng-if="monitoringDetailController.data.id" translate>THREATS_DETAIL_TITLE_EDIT</span>
+        <span ng-if="!monitoringDetailController.data.id" translate>THREATS_DETAIL_TITLE_NEW</span>
+      </h1>
+    </div>
+  </div>
+
+  <div ng-include="'/views/monitorings/common2.html'"></div>
+
+  <div ng-include="'/views/monitorings/common.html'"></div>
+
+
+
+  <div class="row">
+    <div class="col-md-8 col-lg-7" ng-include="'/views/monitorings/geolocation.html'"></div>
+    <div class="col-md-4 col-lg-5">
+      <div class="row">
+        <div class="col-md-12">
+          <field name="primaryType" type="single-choice-button" required="true" config="threatsPrimaryTypes"
+            label="{{'THREATS_DETAIL_PRIMARY_TYPE' | translate}}" model="monitoringDetailController.data.primaryType">
+          </field>
+        </div>
+      </div>
+      <div ng-if="monitoringDetailController.data.primaryType === 'threat'">
+        <div class="row">
+          <div class="col-md-12">
+            <field name="category" type="single-choice" nomenclature="threats_category" required="true"
+              label="{{'THREATS_DETAIL_CATEGORY' | translate}}" model="monitoringDetailController.data.category">
+            </field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <field name="class" type="select" config="speciesClasses" label="{{'THREATS_DETAIL_CLASS' | translate}}"
+              model="monitoringDetailController.data.class" on-select="monitoringDetailController.data.species = null">
+            </field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <field name="species" type="species" nomenclature="{{monitoringDetailController.data.class}}"
+              label="{{'THREATS_DETAIL_SPECIES' | translate}}" model="monitoringDetailController.data.species"
+              disabled="!monitoringDetailController.data.class"></field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <field name="count" type="int" min="1" label="{{'THREATS_DETAIL_COUNT' | translate}}"
+              model="monitoringDetailController.data.count"></field>
+          </div>
+          <div class="col-md-8">
+            <field name="estimate" type="single-choice" nomenclature="threats_estimate"
+              label="{{'THREATS_DETAIL_ESTIMATE' | translate}}" model="monitoringDetailController.data.estimate">
+            </field>
+          </div>
+        </div>
+      </div>
+      <div ng-if="monitoringDetailController.data.primaryType === 'poison'">
+        <div class="row">
+          <div class="col-md-12">
+            <field name="poisonedType" type="single-choice-button" required="true" config="threatsPoisonedType"
+              label="{{'THREATS_DETAIL_POISONED_TYPE' | translate}}"
+              model="monitoringDetailController.data.poisonedType">
+            </field>
+          </div>
+        </div>
+
+        <div
+          ng-if="monitoringDetailController.data.poisonedType === 'dead' || monitoringDetailController.data.poisonedType === 'alive'">
+          <div class="row">
+            <div class="col-md-12">
+              <field name="class" type="select" required="true"
+                choices="[{id: 'birds', label: 'CLASS_BIRDS'}, {id: 'herptiles', label: 'CLASS_HERPTILES'}, {id: 'mammals', label: 'CLASS_MAMMALS'}, {id: 'invertebrates', label: 'CLASS_INVERTEBRATES'}, {id: 'plants', label: 'CLASS_PLANTS'}]"
+                label="{{'THREATS_DETAIL_CLASS' | translate}}" model="monitoringDetailController.data.class"
+                on-select="monitoringDetailController.data.species = null"></field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <field name="species" type="species" required="true"
+                nomenclature="{{monitoringDetailController.data.class}}"
+                label="{{'THREATS_DETAIL_SPECIES' | translate}}" model="monitoringDetailController.data.species"
+                disabled="!monitoringDetailController.data.class"></field>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4" ng-if="monitoringDetailController.data.poisonedType">
+            <field name="count" type="int" min="1" required="true" label="{{'THREATS_DETAIL_COUNT' | translate}}"
+              model="monitoringDetailController.data.count"></field>
+          </div>
+          <div class="col-md-8" ng-if="monitoringDetailController.data.poisonedType === 'dead'">
+            <field name="stateCarcass" required="true" type="single-choice" nomenclature="threats_state_carcass"
+              label="{{'THREATS_DETAIL_STATE_CARCASS' | translate}}"
+              model="monitoringDetailController.data.stateCarcass"></field>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div ng-if="monitoringDetailController.data.primaryType == 'poison'">
+    <div class="row">
+      <div class="col-md-6">
+        <field name="sampleTaken1" type="single-choice" nomenclature="threats_sample"
+          label="{{'THREATS_DETAIL_SAMPLE_TAKEN_1' | translate}}" model="monitoringDetailController.data.sampleTaken1">
+        </field>
+      </div>
+      <div class="col-md-4">
+        <field name="sampeCode1" type="text" label="{{'THREATS_DETAIL_SAMPLE_CODE_1' | translate}}"
+          model="monitoringDetailController.data.sampleCode1"></field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <field name="sampleTaken2" type="single-choice" nomenclature="threats_sample"
+          label="{{'THREATS_DETAIL_SAMPLE_TAKEN_2' | translate}}" model="monitoringDetailController.data.sampleTaken2">
+        </field>
+      </div>
+      <div class="col-md-4">
+        <field name="sampeCode2" type="text" label="{{'THREATS_DETAIL_SAMPLE_CODE_2' | translate}}"
+          model="monitoringDetailController.data.sampleCode2"></field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <field name="sampleTaken3" type="single-choice" nomenclature="threats_sample"
+          label="{{'THREATS_DETAIL_SAMPLE_TAKEN_3' | translate}}" model="monitoringDetailController.data.sampleTaken3">
+        </field>
+      </div>
+      <div class="col-md-4">
+        <field name="sampeCode3" type="text" label="{{'THREATS_DETAIL_SAMPLE_CODE_3' | translate}}"
+          model="monitoringDetailController.data.sampleCode3"></field>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <field name="threatsNotes" type="memo" label="{{'THREATS_DETAIL_NOTES' | translate}}"
+        model="monitoringDetailController.data.threatsNotes"></field>
+    </div>
+  </div>
+  </div>
+
+  <div class="row">
+    <form-pictures ng-model="monitoringDetailController.data.pictures"></form-pictures>
+  </div>
+
+</form>
