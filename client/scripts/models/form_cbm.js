@@ -29,7 +29,8 @@ require('../app').factory('FormCBM', /* @ngInject */function ($resource, ENDPOIN
       delete this.count
       delete this.plot
     },
-    hasVisit: true
+    hasVisit: true,
+    hasNotes: false
   })
 
   // class methods

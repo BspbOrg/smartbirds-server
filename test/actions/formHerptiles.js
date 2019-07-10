@@ -36,12 +36,12 @@ describe('Action formHerptiles:', function () {
         en: 'Range'
       }
     },
-    threatsHerptiles: {
-      type: 'herptiles_danger_observation',
+    findings: {
+      type: 'herptiles_findings',
       id: 32,
       label: {
-        bg: 'herptiles_danger_observation',
-        en: 'herptiles_danger_observation'
+        bg: 'herptiles_findings',
+        en: 'herptiles_findings'
       }
     },
     count: 10,

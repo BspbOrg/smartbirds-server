@@ -34,7 +34,8 @@ require('../app').factory('FormPlants', /* @ngInject */function ($resource, ENDP
       delete this.cover
       delete this.threatsPlants
       delete this.speciesNotes
-    }
+    },
+    hasNotes: true
   })
 
   // class methods

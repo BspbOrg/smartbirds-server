@@ -56,9 +56,9 @@
                  model="monitoringDetailController.data.habitat"></field>
         </div>
         <div class="col-md-12 col-lg-12">
-          <field name="threatsMammals" type="multiple-choice" nomenclature="mammals_danger_observation"
-                 label="{{'MAMMALS_DETAIL_THREATS' | translate}}"
-                 model="monitoringDetailController.data.threatsMammals"></field>
+          <field name="findings" type="multiple-choice" nomenclature="mammals_findings"
+                 label="{{'MAMMALS_DETAIL_FINDINGS' | translate}}"
+                 model="monitoringDetailController.data.findings"></field>
         </div>
       </div>
     </div>
@@ -117,13 +117,7 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-md-12">
-      <field name="speciesNotes" type="memo"
-             label="{{'MAMMALS_DETAIL_SPECIES_NOTES' | translate}}"
-             model="monitoringDetailController.data.speciesNotes"></field>
-    </div>
-  </div>
+  <div ng-include="'/views/monitorings/footer.html'"></div>
 
   <div class="row">
     <form-pictures ng-model="monitoringDetailController.data.pictures"></form-pictures>
