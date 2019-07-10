@@ -194,7 +194,11 @@
       <td>{{::row.location}}</td>
       <td>{{::row.observationDateTime|date:'d.MM.yyyy HH:mm'}}</td>
       <td>{{::row.updatedAt|date:'d.MM.yyyy HH:mm'}}</td>
+<<<<<<< HEAD
       <td><threat-type record="::row"></threat-type></td>
+=======
+      <td><config-label config="threatsPrimaryTypes" value="{{::row.primaryType}}"></config-label></td>
+>>>>>>> Create Threats form (#73)
       <td>
         {{row.getSpecies().label[$language]}}<br/>
         <strong>{{row.getSpecies().label.la}}</strong>
