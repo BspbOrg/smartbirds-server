@@ -80,20 +80,9 @@
              label="{{'PLANTS_DETAIL_HABITAT' | translate}}"
              model="monitoringDetailController.data.habitat"></field>
     </div>
-    <div class="col-md-12 col-lg-12">
-      <field name="threatsPlants" type="multiple-choice" nomenclature="plants_threats"
-             label="{{'PLANTS_DETAIL_THREATS' | translate}}"
-             model="monitoringDetailController.data.threatsPlants"></field>
-    </div>
   </div>
 
-  <div class="row">
-    <div class="col-md-12">
-      <field name="speciesNotes" type="memo"
-             label="{{'PLANTS_DETAIL_SPECIES_NOTES' | translate}}"
-             model="monitoringDetailController.data.speciesNotes"></field>
-    </div>
-  </div>
+  <div ng-include="'/views/monitorings/footer.html'"></div>
 
   <div class="row">
     <form-pictures ng-model="monitoringDetailController.data.pictures"></form-pictures>

@@ -35,7 +35,8 @@ require('../app').factory('FormCiconia', /* @ngInject */function ($resource, END
       delete this.diedOtherReasons
       delete this.reason
       delete this.speciesNotes
-    }
+    },
+    hasNotes: true
   })
 
   // class methods
