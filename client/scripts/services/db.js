@@ -39,7 +39,7 @@ require('../app').service('db', /* @ngInject */function ($q, Location, Nomenclat
         var res = db.nomenclatures
         items.forEach(function (item) {
           res[ item.type ] = res[ item.type ] || {}
-          res[ item.type ][ item.label.bg ] = item
+          res[ item.type ][ item.label.en ] = item
         })
         return res
       })
