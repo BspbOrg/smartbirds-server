@@ -17,6 +17,10 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
   controller.filter = angular.copy($stateParams)
   controller.offline = false
 
+  // transform threat filter to nomenclature object
+  controller.filter.threat = controller.filter.threat && db.nomenclatures.main_threats[controller.filter.threat]
+  controller.filter.category = controller.filter.category && db.nomenclatures.threats_category[controller.filter.category]
+
   switch (context) {
     case 'public':
       controller.canFilterByUser = true
@@ -74,7 +78,11 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
   }
 
   controller.updateFilter = function () {
-    var filter = _.mapValues(controller.filter, function (value) {
+    var filter = _.mapValues(controller.filter, function (value, key) {
+      if (key === 'threat' || key === 'category') {
+        return value && value.label.en
+      }
+
       return value && angular.isFunction(value.toJSON) ? value.toJSON() : value
     })
     if (angular.equals(filter, $stateParams)) { return }
