@@ -73,6 +73,13 @@ function generatePrepareQuery (form) {
       })
     }
 
+    // filter by threat
+    if (data.params.threat) {
+      query.where = _.extend(query.where || {}, {
+        threatsEn: data.params.threat
+      })
+    }
+
     // form specific filters
     if (prepareQuery) {
       query = await prepareQuery(api, data, query)

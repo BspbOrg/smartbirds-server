@@ -1,6 +1,7 @@
 const _ = require('lodash')
 const { assign } = Object
 const formsConfig = require('../../config/formsConfig')
+const inputHelpers = require('../helpers/inputs')
 
 exports = module.exports = _.cloneDeep(require('./_common'))
 
@@ -96,7 +97,10 @@ exports.foreignKeys.push({
 
 exports.listInputs = {
   primaryType: {},
-  class: {}
+  class: {},
+  category: {
+    formatter: inputHelpers.formatter.nomenclatureFilter
+  }
 }
 
 exports.filterList = async function (api, data, q) {
@@ -108,6 +112,11 @@ exports.filterList = async function (api, data, q) {
   if (data.params.class) {
     q.where = _.extend(q.where || {}, {
       class: data.params.class
+    })
+  }
+  if (data.params.category) {
+    q.where = _.extend(q.where || {}, {
+      categoryEn: data.params.category
     })
   }
   return q
