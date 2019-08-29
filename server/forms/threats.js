@@ -194,3 +194,74 @@ exports.validate = {
     }
   }
 }
+
+exports.prepareCsv = async function (api, record, csv) {
+  // define all used fields, so the first record can output proper header
+  csv = {
+    ...csv,
+    id: record.id,
+    categoryThreatsBG: '',
+    categoryThreatsEN: '',
+    speciesThreats: '',
+    countThreats: '',
+    estimateThreatsBG: '',
+    estimateThreatsEN: '',
+    deadSpecies: '',
+    deadSpeciesCount: '',
+    aliveAnimal: 'N',
+    aliveAnimalCount: '',
+    poisonBaits: 'N',
+    poisonBaitsCount: ''
+  }
+  switch (record.primaryType) {
+    case formsConfig.threatsPrimaryTypes.poison.id:
+      csv = {
+        ...csv,
+        categoryThreatsBG: 'Тровене',
+        categoryThreatsEN: 'Poisoning'
+      }
+
+      switch (record.poisonedType) {
+        case formsConfig.threatsPoisonedType.alive.id:
+          csv = {
+            ...csv,
+            aliveAnimal: 'Y',
+            aliveAnimalCount: record.count
+          }
+          break
+        case formsConfig.threatsPoisonedType.bait.id:
+          csv = {
+            ...csv,
+            poisonBaits: 'Y',
+            poisonBaitsCount: record.count
+          }
+          break
+        case formsConfig.threatsPoisonedType.dead.id:
+          csv = {
+            ...csv,
+            aliveAnimal: 'N',
+            deadSpecies: record.speciesInfo.labelLa,
+            deadSpeciesCount: record.count
+          }
+          break
+        default:
+          throw new Error('Unsupported poisoned type: ' + record.poisonedType)
+      }
+
+      break
+    case formsConfig.threatsPrimaryTypes.threat.id:
+      csv = {
+        ...csv,
+        categoryThreatsBG: record.categoryBg,
+        categoryThreatsEN: record.categoryEn,
+        speciesThreats: record.speciesInfo.labelLa,
+        countThreats: record.count,
+        estimateThreatsBG: record.estimateBg,
+        estimateThreatsEN: record.estimateEn
+      }
+      break
+    default:
+      throw new Error('Unsupported primary type: ' + record.primaryType)
+  }
+  return csv
+}
