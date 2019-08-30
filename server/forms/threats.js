@@ -254,7 +254,7 @@ exports.prepareCsv = async function (api, record, csv) {
         ...csv,
         categoryThreatsBG: record.categoryBg,
         categoryThreatsEN: record.categoryEn,
-        speciesThreats: record.speciesInfo.labelLa,
+        speciesThreats: record.speciesInfo && record.speciesInfo.labelLa,
         countThreats: record.count,
         estimateThreatsBG: record.estimateBg,
         estimateThreatsEN: record.estimateEn
