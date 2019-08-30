@@ -164,6 +164,7 @@ var forms = module.exports = {
     shortLabel: 'FORM_THREATS_SHORT',
     filters: [
       'location',
+      '{user:int}',
       'from_date',
       'to_date',
       'latitude',
