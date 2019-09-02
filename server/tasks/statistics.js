@@ -26,6 +26,7 @@ module.exports.generateStatistics = {
         mammals_stats: api.models.mammals_stats.findAll(),
         invertebrates_stats: api.models.invertebrates_stats.findAll(),
         plants_stats: api.models.plants_stats.findAll(),
+        threats_stats: api.models.threats_stats.findAll(),
         user_rank_stats: api.models.user_rank_stats.findAll({})
           .then(records => {
             return records.map(r => r.apiData(api)).reduce((result, current) => ({ ...result, ...current }))
