@@ -255,13 +255,11 @@ function generateExportData (form) {
       pre.firstName = this.user.firstName
       pre.lastName = this.user.lastName
     }
-    let mid = {}
+    let mid = _.omitBy(this.dataValues, function (value, key) {
+      return form.exportSkipFields.indexOf(key.split('.')[ 0 ]) !== -1
+    })
     if (form.prepareCsv) {
-      mid = await form.prepareCsv(api, this)
-    } else {
-      mid = _.omitBy(this.dataValues, function (value, key) {
-        return form.exportSkipFields.indexOf(key.split('.')[ 0 ]) !== -1
-      })
+      mid = await form.prepareCsv(api, this, mid)
     }
     const post = {
       notes: (this.notes || '').replace(/[\n\r]+/g, ' '),
