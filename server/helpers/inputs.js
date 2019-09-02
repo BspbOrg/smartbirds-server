@@ -64,8 +64,7 @@ function formatterNomenclatureFilter (param) {
     if (json.label && json.label.en) {
       return json.label.en
     }
-    return param
-  } catch (err) {
-    return param
-  }
+  } catch (err) {}
+
+  return param
 }
