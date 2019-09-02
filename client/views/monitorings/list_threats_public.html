@@ -1,0 +1,154 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header">
+      {{monitoringController.formTranslatePrefix + '_PUBLIC_LIST_TITLE_MAIN' | translate}}
+      <small>{{monitoringController.formTranslatePrefix + '_PUBLIC_LIST_TITLE_SECONDARY' | translate}}</small>
+    </h1>
+    <p class="text-warning" ng-if="::'PUBLIC_LIST_HEADER_WARNING'|translate" translate>PUBLIC_LIST_HEADER_WARNING</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form role="form" class="form form-filter">
+          <div class="row">
+            <div class="col-md-4 col-lg-3">
+              <field name="user" type="user" context="public"
+                     label="{{'PUBLIC_LIST_FILTER_USER' | translate}}"
+                     placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
+                     on-select="monitoringController.updateFilter()"
+                     model="monitoringController.filter.user"></field>
+            </div>
+            <div ng-if="monitoringController.formSpeciesType" class="col-md-4 col-lg-3">
+              <field name="species" type="species" nomenclature="{{monitoringController.formSpeciesType}}"
+                     label="{{'PUBLIC_LIST_FILTER_SPECIES' | translate}}"
+                     placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
+                     on-select="monitoringController.updateFilter()"
+                     model="monitoringController.filter.species"></field>
+            </div>
+            <div class="col-md-4 col-lg-3">
+              <field name="fromDate" type="date"
+                     label="{{'PUBLIC_LIST_FILTER_FROM_DATE' | translate}}"
+                     on-select="monitoringController.updateFilter()"
+                     model="monitoringController.filter.from_date"></field>
+            </div>
+            <div class="col-md-4 col-lg-3">
+              <field name="toDate" type="date"
+                     label="{{'PUBLIC_LIST_FILTER_TO_DATE' | translate}}"
+                     on-select="monitoringController.updateFilter()"
+                     model="monitoringController.filter.to_date"></field>
+            </div>
+            <div class="col-md-4 col-lg-3">
+              <field name="primaryType" type="select" config="threatsPrimaryTypes"
+                     label="{{'THREATS_LIST_FILTER_PRIMARY_TYPE' | translate}}"
+                     placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
+                     on-select="monitoringController.updateFilter()"
+                     model="monitoringController.filter.primaryType"></field>
+            </div>
+            <div class="col-md-4 col-lg-3">
+              <filter-map
+                latitude="monitoringController.filter.latitude"
+                longitude="monitoringController.filter.longitude"
+                radius="monitoringController.filter.radius"
+                on-select="monitoringController.updateFilter()">
+              </filter-map>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <ul class="nav nav-tabs">
+      <li role="presentation" ng-class="{active: monitoringController.tab == 'list'}">
+        <a href ng-click="monitoringController.tab = 'list'" translate>
+          PUBLIC_LIST_TAB_LIST
+        </a>
+      </li>
+      <li role="presentation" ng-class="{active: monitoringController.tab == 'map'}">
+        <a href ng-click="monitoringController.tab = 'map'; monitoringController.nextPage(1000)" translate>
+          PUBLIC_LIST_TAB_MAP
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div ng-if="monitoringController.tab == 'map'"
+     class="row">
+  <div class="col-md-12">
+    <list-map
+      rows="monitoringController.selectedRows.length > 0 ? monitoringController.selectedRows : monitoringController.rows"
+      ctrl="monitoringController.map"
+      opts="{haveZones: false, haveTracks: false, haveDetail: false}"></list-map>
+  </div>
+</div>
+
+<monitoring-list monitoring-controller="monitoringController">
+  <table class="table table-striped table-hover" sb-table="monitoringController.order">
+    <thead>
+    <tr>
+      <th ng-click="monitoringController.toggleSelected()">
+        <input type="checkbox" ng-checked="monitoringController.allSelected">
+      </th>
+      <th sb-sorting="id">#</th>
+      <th sb-sorting="getUser().getName()" translate>
+        PUBLIC_LIST_TABLE_USER
+      </th>
+      <th
+        sb-sorting="observationDateTime|date:'yyyyMMddHHmmss'" translate>
+        PUBLIC_LIST_TABLE_DATE
+      </th>
+      <th sb-sorting="primaryType" translate>
+        THREATS_LIST_TABLE_PRIMARY_TYPE
+      </th>
+      <th sb-sorting="species.label[$language]" translate>
+        THREATS_LIST_TABLE_SPECIES
+      </th>
+      <th sb-sorting="count" translate>
+        PUBLIC_LIST_TABLE_COUNT
+      </th>
+      <td>&nbsp;</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr
+      ng-click="monitoringController.toggleSelected(row)"
+      ng-repeat="row in monitoringController.rows | orderBy:monitoringController.order.key:monitoringController.order.reverse">
+      <td><input
+        type="checkbox"
+        ng-checked="row.$selected">
+      </td>
+      <td>{{::row.id}}</td>
+      <td>{{::(row.user.firstName + ' ' + row.user.lastName)}}</td>
+      <td>{{::row.observationDateTime|date:'d.MM.yyyy HH:mm'}}</td>
+      <td><threat-type record="::row"></threat-type></td>
+      <td>
+        {{row.getSpecies().label[$language]}}<br/>
+        <strong>{{row.getSpecies().label.la}}</strong>
+      </td>
+      <td>{{::row.getCount() || row.count}}</td>
+      <td>
+        <preview-pictures pictures="::row.pictures" />
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div ng-if="!monitoringController.loading && !monitoringController.offline && !monitoringController.rows.length" class="text-center">
+    <div
+      ng-if="monitoringController.db.species[monitoringController.formSpeciesType][monitoringController.filter.species].sensitive"
+      class="lead text-warning" translate>
+      PUBLIC_LIST_WARN_SENSITIVE_SPECIES
+    </div>
+    <div
+      ng-if="!monitoringController.db.species[monitoringController.formSpeciesType][monitoringController.filter.species].sensitive"
+      class="lead" translate>
+      PUBLIC_LIST_NO_RESULTS
+    </div>
+  </div>
+</monitoring-list>

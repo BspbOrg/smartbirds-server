@@ -303,7 +303,7 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
         url: '/' + formName + '?' + (formDef || []).filters.join('&'),
         views: {
           'content@auth': {
-            templateUrl: '/views/monitorings/list_public.html',
+            templateUrl: formDef.publicTemplate || '/views/monitorings/list_public.html',
             controller: 'MonitoringController',
             controllerAs: 'monitoringController'
           }

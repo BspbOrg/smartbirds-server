@@ -162,6 +162,7 @@ var forms = module.exports = {
     hasCount: true,
     longLabel: 'FORM_THREATS_LONG',
     shortLabel: 'FORM_THREATS_SHORT',
+    publicTemplate: '/views/monitorings/list_threats_public.html',
     filters: [
       'location',
       'from_date',
