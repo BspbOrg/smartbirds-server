@@ -1,0 +1,46 @@
+<ng-include src="'/views/layout/navbar.html'"></ng-include>
+
+<!-- Page Header -->
+<header class="heroimage threats"></header>
+
+<!-- Main Content -->
+<header class="jumbotron">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 col-lg-offset-1 col-md-12">
+        <div class="site-heading">
+          <h1 translate>PUBLIC_THREATS_TITLE</h1>
+          <h2 translate>PUBLIC_THREATS_SUBTITLE</h2>
+          <hr class="small">
+          <div home-map form="threats"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Footer -->
+<footer class="home">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 col-lg-offset-1 col-md-12">
+        <p class="text-muted" translate translate-values="{
+          linkStart: '<a href=\'http://www.eagleforests.org\' target=\'_blank\'>',
+          linkEnd: '</a>'
+          }">
+          PUBLIC_THREATS_TEXT
+        </p>
+      </div>
+      <div class="col-lg-10 col-lg-offset-1 col-md-12">
+        <p class="pull-right">
+          <a class="logo bspb" href="http://bspb.org" target="_blank"></a>
+          <a class="logo iag" href="http://www.iag.bg" target="_blank"></a>
+          <a class="logo life" href="http://ec.europa.eu/environment/life/funding/lifeplus.htm" target="_blank"></a>
+          <a class="logo natura2000" href="http://ec.europa.eu/environment/nature" target="_blank"></a>
+          <a class="logo eagle" href="http://www.eagleforests.org" target="_blank"></a>
+        </p>
+        <ng-include src="'/views/layout/footer-inside.html'"></ng-include>
+      </div>
+    </div>
+  </div>
+</footer>

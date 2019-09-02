@@ -103,6 +103,13 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
       controllerAs: '$ctrl'
     })
 
+    .state('threats', {
+      url: '/threats',
+      templateUrl: '/views/home-threats.html',
+      title: 'FORM_THREATS_SHORT',
+      resolve: resolveUser
+    })
+
     /// ////////
     // Login //
     /// ////////

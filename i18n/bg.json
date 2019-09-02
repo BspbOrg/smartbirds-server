@@ -1004,5 +1004,8 @@
     "CLASS_HERPTILES": "ЗиВ",
     "CLASS_MAMMALS": "Бозайници",
     "CLASS_INVERTEBRATES": "Безгръбначни",
-    "CLASS_PLANTS": "Растения"
+    "CLASS_PLANTS": "Растения",
+    "PUBLIC_THREATS_TITLE": "Форма заплахи",
+    "PUBLIC_THREATS_SUBTITLE": "Наблюдения на заплахи",
+    "PUBLIC_THREATS_TEXT": "Заплахите са част от Smartbirds.org"
 }
