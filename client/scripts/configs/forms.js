@@ -165,6 +165,7 @@ var forms = module.exports = {
     publicTemplate: '/views/monitorings/list_threats_public.html',
     filters: [
       'location',
+      '{user:int}',
       'from_date',
       'to_date',
       'latitude',
