@@ -10,6 +10,7 @@ exports.hasSpecies = true
 exports.fields = assign(exports.fields, {
   category: {
     type: 'choice',
+    public: true,
     uniqueHash: true,
     relation: {
       model: 'nomenclature',
@@ -31,7 +32,10 @@ exports.fields = assign(exports.fields, {
       filter: { type: 'threats_estimate' }
     }
   },
-  poisonedType: 'text',
+  poisonedType: {
+    type: 'text',
+    public: true
+  },
   stateCarcass: {
     type: 'choice',
     relation: {
@@ -64,14 +68,21 @@ exports.fields = assign(exports.fields, {
     type: 'text',
     required: true
   },
-  class: 'text',
+  class: {
+    type: 'text',
+    public: true
+  },
   sampleCode1: 'text',
   sampleCode2: 'text',
   sampleCode3: 'text',
-  count: '+int',
+  count: {
+    type: '+int',
+    public: true
+  },
   threatsNotes: 'text',
   primaryType: {
     type: 'text',
+    public: true,
     required: true
   }
 })
