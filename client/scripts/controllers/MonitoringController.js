@@ -18,8 +18,8 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
   controller.offline = false
 
   // transform threat filter to nomenclature object
-  controller.filter.threat = controller.filter.threat && db.nomenclatures.main_threats[controller.filter.threat]
-  controller.filter.category = controller.filter.category && db.nomenclatures.threats_category[controller.filter.category]
+  controller.filter.threat = db.nomenclatures.main_threats[controller.filter.threat]
+  controller.filter.category = db.nomenclatures.threats_category[controller.filter.category]
 
   switch (context) {
     case 'public':
