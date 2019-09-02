@@ -146,12 +146,12 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
               if (angular.isArray(field.model)) {
                 field.model.forEach(function (item, idx, array) {
                   if (angular.isObject(item) && !(item instanceof Species)) {
-                    array[idx] = db.species[field.nomenclature][item.label.bg] || new Species(item)
+                    array[idx] = db.species[field.nomenclature][item.label.en] || new Species(item)
                   }
                 })
               } else if (angular.isObject(field.model)) {
                 if (!(field.model instanceof Species)) {
-                  field.model = db.species[field.nomenclature][field.model.label.bg] || new Species(field.model)
+                  field.model = db.species[field.nomenclature][field.model.label.en] || new Species(field.model)
                 }
               }
             }
@@ -185,12 +185,12 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
               if (angular.isArray(field.model)) {
                 field.model.forEach(function (item, idx, array) {
                   if (angular.isObject(item) && !(item instanceof Nomenclature)) {
-                    array[idx] = db.nomenclatures[field.nomenclature][item.label.bg] || new Nomenclature(item)
+                    array[idx] = db.nomenclatures[field.nomenclature][item.label.en] || new Nomenclature(item)
                   }
                 })
               } else if (angular.isObject(field.model)) {
                 if (!(field.model instanceof Nomenclature)) {
-                  field.model = db.nomenclatures[field.nomenclature][field.model.label.bg] || new Nomenclature(field.model)
+                  field.model = db.nomenclatures[field.nomenclature][field.model.label.en] || new Nomenclature(field.model)
                 }
               }
             }
