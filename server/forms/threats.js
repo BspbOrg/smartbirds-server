@@ -7,6 +7,7 @@ exports = module.exports = _.cloneDeep(require('./_common'))
 
 exports.tableName = 'FormThreats'
 exports.hasSpecies = true
+exports.hasThreats = false
 
 exports.fields = assign(exports.fields, {
   category: {

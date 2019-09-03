@@ -170,11 +170,14 @@ function generateFormActions (form) {
     context: {},
     latitude: {},
     longitude: {},
-    radius: {},
+    radius: {}
+  },
+  form.hasThreats ? {
     threat: {
       formatter: inputHelpers.formatter.nomenclatureFilter
-    }
-  }, form.hasSpecies ? { species: {} } : {}, form.listInputs || {})
+    } } : {},
+  form.hasSpecies ? { species: {} } : {},
+  form.listInputs || {})
 
   let exportInputs = _.extend({}, listInputs, {
     outputType: {
