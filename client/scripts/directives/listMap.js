@@ -6,7 +6,8 @@ require('../app').directive('listMap', /* @ngInject */function ($filter, $http, 
     scope: {
       rows: '=?',
       ctrl: '=?',
-      opts: '<?'
+      opts: '<?',
+      markerWindowTemplate: '@?'
     },
     bindToController: true,
     controller: /* @ngInject */function ($scope, $state) {

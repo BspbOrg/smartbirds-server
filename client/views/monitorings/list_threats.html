@@ -137,7 +137,11 @@
               ng-click="monitoringController.nextPage(-1)" translate>THREATS_LIST_MAP_BUTTON_SHOW_ALL
       </button>
     </p>
-    <list-map rows="monitoringController.selectedRows.length > 0 ? monitoringController.selectedRows : monitoringController.rows" ctrl="monitoringController.map"></list-map>
+    <list-map
+      rows="monitoringController.selectedRows.length > 0 ? monitoringController.selectedRows : monitoringController.rows"
+      ctrl="monitoringController.map"
+      marker-window-template="/views/directives/mapmarkerthreats.html">
+    </list-map>
   </div>
 </div>
 <monitoring-list monitoring-controller="monitoringController">
