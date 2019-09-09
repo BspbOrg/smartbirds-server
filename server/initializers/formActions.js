@@ -174,7 +174,7 @@ function generateFormActions (form) {
   },
   form.hasThreats ? {
     threat: {
-      formatter: inputHelpers.formatter.nomenclatureFilter
+      formatter: inputHelpers.formatter.nomenclature
     } } : {},
   form.hasSpecies ? { species: {} } : {},
   form.listInputs || {})

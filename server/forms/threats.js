@@ -100,7 +100,7 @@ exports.listInputs = {
   primaryType: {},
   class: {},
   category: {
-    formatter: inputHelpers.formatter.nomenclatureFilter
+    formatter: inputHelpers.formatter.nomenclature
   }
 }
 

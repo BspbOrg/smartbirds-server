@@ -6,7 +6,7 @@ module.exports = {
   formatter: {
     integer: formatterInteger,
     date: formatterDate,
-    nomenclatureFilter: formatterNomenclatureFilter
+    nomenclature: formatterNomenclature
   },
   validator: {
     positive: validatorPositive,
@@ -58,7 +58,7 @@ function validatorDate (param) {
  * with string identifiers for nomenclature.
  * TODO: remove when refactor frontend to work with string identifiers instead of objects
  */
-function formatterNomenclatureFilter (param) {
+function formatterNomenclature (param) {
   try {
     var json = JSON.parse(param)
     if (json.label && json.label.en) {
