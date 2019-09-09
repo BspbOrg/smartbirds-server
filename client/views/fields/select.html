@@ -1,14 +1,36 @@
 <sb-include src="/views/fields/container.html">
-  <select
-    class="form-control"
-    id="{{::field.name}}"
-    name="{{::field.name}}"
-    aria-describedby="{{::field.name}}HelpBlock"
-    ng-model="field.model"
-    ng-required="::field.required"
-    ng-change="field.onSelect()"
-    ng-options="item.id as item.label for item in ::field.values"
-    ng-disabled="::field.disabled">
-    <option ng-if="::field.placeholder" value="" disabled selected hidden>{{::field.placeholder}}</option>
-  </select>
+  <div class="input-group" uib-dropdown dropdown-append-to-body="true">
+    <input type="text"
+           class="form-control"
+           autocomplete="off"
+           id="{{::field.name}}"
+           name="{{::field.name}}"
+           aria-describedby="{{::field.name}}HelpBlock"
+           placeholder="{{::field.placeholder}}"
+           ng-blur="field.onSelect()"
+           ng-model="field.viewModel"
+           ng-required="::field.required"
+           ng-disabled="field.disabled"
+           typeahead-append-to-body="false"
+           typeahead-editable="false"
+           typeahead-focus-first="::field.required"
+           typeahead-min-length="0"
+           typeahead-on-select="field.model = $item.id; field.form[field.name].$setDirty(); field.onSelect();"
+           uib-typeahead="item.label as item.label for item in field.values | filter:$viewValue | orderBy:field.order"
+    >
+    <span class="input-group-btn">
+      <button ng-if="field.model && !field.required" type="button" class="btn btn-default" ng-click="field.model = null; field.form[field.name].$setDirty(); field.onSelect()">
+        <i class="glyphicon glyphicon-remove-circle text-danger"></i>
+      </button>
+      <button type="button" ng-disabled="field.disabled" class="btn btn-default" uib-dropdown-toggle>
+        <i class="glyphicon glyphicon-chevron-down"></i>
+      </button>
+    </span>
+    <ul uib-dropdown-menu aria-labelledby="{{::name}}">
+      <li ng-repeat="value in field.values | orderBy:field.order"
+          ng-class="{active: field.model == value.id }">
+        <a href ng-click="field.model = value.id; field.form[field.name].$setDirty(); field.onSelect()">{{::value.label}}</a>
+      </li>
+    </ul>
+  </div>
 </sb-include>
