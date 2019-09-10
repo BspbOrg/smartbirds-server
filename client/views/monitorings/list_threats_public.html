@@ -21,25 +21,29 @@
                      on-select="monitoringController.updateFilter()"
                      model="monitoringController.filter.user"></field>
             </div>
-            <div ng-if="monitoringController.formSpeciesType" class="col-md-4 col-lg-3">
-              <field name="species" type="species" nomenclature="{{monitoringController.formSpeciesType}}"
-                     label="{{'PUBLIC_LIST_FILTER_SPECIES' | translate}}"
+
+            <div class="col-md-4 col-lg-3">
+              <field name="location" type="location"
+                     label="{{'THREATS_LIST_FILTER_LOCATION' | translate}}"
                      placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
                      on-select="monitoringController.updateFilter()"
-                     model="monitoringController.filter.species"></field>
+                     model="monitoringController.filter.location"></field>
             </div>
+
             <div class="col-md-4 col-lg-3">
               <field name="fromDate" type="date"
-                     label="{{'PUBLIC_LIST_FILTER_FROM_DATE' | translate}}"
+                     label="{{'THREATS_LIST_FILTER_FROM_DATE' | translate}}"
                      on-select="monitoringController.updateFilter()"
                      model="monitoringController.filter.from_date"></field>
             </div>
+
             <div class="col-md-4 col-lg-3">
               <field name="toDate" type="date"
-                     label="{{'PUBLIC_LIST_FILTER_TO_DATE' | translate}}"
+                     label="{{'THREATS_LIST_FILTER_TO_DATE' | translate}}"
                      on-select="monitoringController.updateFilter()"
                      model="monitoringController.filter.to_date"></field>
             </div>
+
             <div class="col-md-4 col-lg-3">
               <field name="primaryType" type="select" config="threatsPrimaryTypes"
                      label="{{'THREATS_LIST_FILTER_PRIMARY_TYPE' | translate}}"
@@ -47,6 +51,23 @@
                      on-select="monitoringController.updateFilter()"
                      model="monitoringController.filter.primaryType"></field>
             </div>
+
+            <div class="col-md-4 col-lg-3">
+              <field name="class" type="select" config="speciesClasses"
+                      label="{{'THREATS_LIST_FILTER_CLASS' | translate}}"
+                      placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
+                      on-select="monitoringController.updateFilter(); monitoringController.filter.species = null;"
+                      model="monitoringController.filter.class"></field>
+            </div>
+
+            <div class="col-md-4 col-lg-3">
+              <field name="species" type="species" nomenclature="{{monitoringController.filter.class}}"
+                     label="{{'THREATS_LIST_FILTER_SPECIES' | translate}}"
+                     placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
+                     on-select="monitoringController.updateFilter()"
+                     model="monitoringController.filter.species"></field>
+            </div>
+
             <div class="col-md-4 col-lg-3">
               <filter-map
                 latitude="monitoringController.filter.latitude"
