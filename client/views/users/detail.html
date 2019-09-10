@@ -63,6 +63,7 @@
       ></field>
 
       <field ng-if="$user.getIdentity().id === user.data.id" language-switcher name="language" type="select"
+             required="true"
              choices="[{id: 'bg', label: 'LANGUAGE_BULGARIAN'}, {id: 'en', label: 'LANGUAGE_ENGLISH'}]"
              label="{{'USER_DETAIL_LANGUAGE' | translate}}"
              model="user.data.language"
