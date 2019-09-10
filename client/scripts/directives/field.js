@@ -235,7 +235,7 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
               }
             }
 
-            if (el.id === field.mdoel) {
+            if (el.id === field.model) {
               field.viewModel = el.label
             }
 
