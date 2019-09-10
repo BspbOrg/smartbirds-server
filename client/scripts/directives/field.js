@@ -220,11 +220,12 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
               return
             }
 
-            field.values.forEach(function (value) {
+            for (var value of field.values) {
               if (value.id === field.model) {
                 field.viewModel = value.label
+                break
               }
-            })
+            }
           })
 
           field.values = $parse($attrs.choices)($scope.$parent).map(function (el) {
