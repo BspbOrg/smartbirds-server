@@ -7,7 +7,7 @@
 <div class="row">
   <div ng-if="$user.isAdmin() || $user.isModerator('cbm')" class="col-lg-4 col-md-6">
     <div class="panel panel-primary">
-      <div class="panel-heading">
+      <div class="panel-heading" ng-click="$state.go('auth.zones', {status:['requested','owned'], location: undefined, owner: undefined})">
         <div class="row">
           <p class="col-xs-3"><i class="fa fa-map-marker fa-5x"></i></p>
           <div class="col-xs-9 text-right">
@@ -28,7 +28,7 @@
 
   <div class="col-lg-4 col-md-6">
     <div class="panel panel-primary">
-      <div class="panel-heading">
+      <div class="panel-heading" ng-click="$state.go('auth.monitoring.private.cbm')">
         <p class="huge text-center">
           <i class="icon icon-cbm"></i>
           {{'DASHBOARD_CARD_CBM' | translate}}
@@ -46,7 +46,7 @@
 
   <div class="col-lg-4 col-md-6">
     <div class="panel panel-primary">
-      <div class="panel-heading">
+      <div class="panel-heading" ng-click="$state.go('auth.monitoring.private.birds')">
         <p class="huge text-center">
           <i class="icon icon-birds"></i>
           {{'DASHBOARD_CARD_BIRDS' | translate}}
@@ -64,7 +64,7 @@
 
   <div class="col-lg-4 col-md-6">
     <div class="panel panel-primary">
-      <div class="panel-heading">
+      <div class="panel-heading" ng-click="$state.go('auth.monitoring.private.herptiles')">
         <p class="huge text-center">
           <i class="icon icon-herptiles"></i>
           {{'DASHBOARD_CARD_HERPTILES' | translate}}
@@ -82,7 +82,7 @@
 
   <div class="col-lg-4 col-md-6">
     <div class="panel panel-primary">
-      <div class="panel-heading">
+      <div class="panel-heading" ng-click="$state.go('auth.monitoring.private.mammals')">
         <p class="huge text-center">
           <i class="icon icon-mammals"></i>
           {{'DASHBOARD_CARD_MAMMALS' | translate}}
@@ -100,7 +100,7 @@
 
   <div class="col-lg-4 col-md-6">
     <div class="panel panel-primary">
-      <div class="panel-heading">
+      <div class="panel-heading" ng-click="$state.go('auth.monitoring.private.invertebrates')">
         <p class="huge text-center">
           <i class="icon icon-invertebrates"></i>
           {{'DASHBOARD_CARD_INVERTEBRATES' | translate}}
@@ -118,7 +118,7 @@
 
   <div class="col-lg-4 col-md-6">
     <div class="panel panel-primary">
-      <div class="panel-heading">
+      <div class="panel-heading" ng-click="$state.go('auth.monitoring.private.plants')">
         <p class="huge text-center">
           <i class="icon icon-plants"></i>
           {{'DASHBOARD_CARD_PLANTS' | translate}}
@@ -136,7 +136,7 @@
 
   <div class="col-lg-4 col-md-6">
     <div class="panel panel-primary">
-      <div class="panel-heading">
+      <div class="panel-heading" ng-click="$state.go('auth.monitoring.private.ciconia')">
         <p class="huge text-center">
           <i class="icon icon-ciconia"></i>
           {{'DASHBOARD_CARD_CICONIA' | translate}}
