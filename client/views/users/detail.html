@@ -69,7 +69,7 @@
              model="user.data.language"
              on-select="$ctrl.changeLanguage(model)"></field>
 
-      <field ng-if="$user.getIdentity().id === user.data.id" name="privacy" type="select"
+      <field ng-if="$user.getIdentity().id === user.data.id" name="privacy" type="select" required="true"
              choices="[{id: 'public', label: 'PRIVACY_PUBLIC'}, {id: 'private', label: 'PRIVACY_PRIVATE'}]"
              label="{{'USER_DETAIL_PRIVACY' | translate}}"
              model="user.data.privacy"></field>
@@ -87,7 +87,7 @@
 
         <h3 translate>USER_DETAIL_RIGHTS</h3>
 
-        <field name="role" type="select" disabled="!$user.isAdmin()"
+        <field name="role" type="select" disabled="!$user.isAdmin()" required="true"
                choices="[{id: 'user', label: 'USER_DETAIL_ROLE_USER'}, {id: 'moderator', label: 'USER_DETAIL_ROLE_MODERATOR'}, {id: 'admin', label: 'USER_DETAIL_ROLE_ADMIN'}]"
                label="{{'USER_DETAIL_ROLE' | translate}}"
                model="user.data.role"></field>
