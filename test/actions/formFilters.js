@@ -70,6 +70,7 @@ describe('Filter form', () => {
               threatsEn: 'Fires',
               threatsBg: 'Пожари'
             }))
+
           return setup.runActionAsUser(`${form}:list`, { threat: 'Fires' }).then((response) => {
             response.should.not.have.property('error')
 
@@ -77,6 +78,23 @@ describe('Filter form', () => {
               record.threats.should.matchAny((value) => {
                 value.should.containDeep({ label: { en: 'Fires' } })
               }, 'Record does not contain filtered threat')
+            })
+          })
+        })
+
+        it('should not match records not containing given threat', async () => {
+          let rec = await setup.api.models[form].create(
+            generators[form]({
+              userId: user.id,
+              threatsEn: 'Hunting',
+              threatsBg: 'Лов'
+            }))
+
+          return setup.runActionAsUser(`${form}:list`, { threat: 'Fires' }).then((response) => {
+            response.should.not.have.property('error')
+
+            response.data.should.not.matchAny((record) => {
+              record.should.containDeep({ id: rec.id })
             })
           })
         })
@@ -119,19 +137,38 @@ describe('Filter form', () => {
   })
 
   describe('formThreats', () => {
-    it('by category', async () => {
-      let rec = await setup.api.models.formThreats.create(
-        generators.formThreats({
-          userId: user.id,
-          categoryEn: 'Fires',
-          categoryBg: 'Пожари'
-        }))
+    describe('by category', () => {
+      it('should match only records with given category', async () => {
+        await setup.api.models.formThreats.create(
+          generators.formThreats({
+            userId: user.id,
+            categoryEn: 'Fires',
+            categoryBg: 'Пожари'
+          }))
 
-      return setup.runActionAsUser(`formThreats:list`, { category: 'Fires' }).then(async (response) => {
-        response.should.not.have.property('error')
+        return setup.runActionAsUser(`formThreats:list`, { category: 'Fires' }).then(async (response) => {
+          response.should.not.have.property('error')
 
-        response.data.should.matchEach((record) => {
-          record.category.should.containDeep({ label: { en: 'Fires' } })
+          response.data.should.matchEach((record) => {
+            record.category.should.containDeep({ label: { en: 'Fires' } })
+          })
+        })
+      })
+
+      it('should not match records with different category', async () => {
+        let rec = await setup.api.models.formThreats.create(
+          generators.formThreats({
+            userId: user.id,
+            categoryEn: 'Hunting',
+            categoryBg: 'Лов'
+          }))
+
+        return setup.runActionAsUser(`formThreats:list`, { category: 'Fires' }).then(async (response) => {
+          response.should.not.have.property('error')
+
+          response.data.should.not.matchAny((record) => {
+            record.should.containDeep({ id: rec.id })
+          })
         })
       })
     })
