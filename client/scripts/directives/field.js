@@ -215,7 +215,7 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
           // set viewModel as empty string for default value, otherwise typeahead filter is not working
           field.viewModel = ''
           $scope.$watch('field.model', function () {
-            if (!field.model) {
+            if (field.model == null || field.model === '') {
               field.viewModel = ''
               return
             }
