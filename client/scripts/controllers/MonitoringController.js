@@ -93,8 +93,8 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
 
   controller.updateFilter = function () {
     var filter = _.mapValues(controller.filter, function (value, key) {
-      if (key === 'threat' || key === 'category') {
-        return value && value.label && value.label.en
+      if (value && value.label) {
+        return value.label.en
       }
 
       return value && angular.isFunction(value.toJSON) ? value.toJSON() : value
