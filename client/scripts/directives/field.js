@@ -212,6 +212,22 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
 
         case 'select':
         case 'checkbox-group': {
+          // set viewModel as empty string for default value, otherwise typeahead filter is not working
+          field.viewModel = ''
+          $scope.$watch('field.model', function () {
+            if (field.model == null || field.model === '') {
+              field.viewModel = ''
+              return
+            }
+
+            for (var value of field.values) {
+              if (value.id === field.model) {
+                field.viewModel = value.label
+                break
+              }
+            }
+          })
+
           field.values = $parse($attrs.choices)($scope.$parent).map(function (el) {
             if (typeof el !== 'object') {
               el = {
@@ -219,6 +235,11 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
                 label: el
               }
             }
+
+            if (el.id === field.model) {
+              field.viewModel = el.label
+            }
+
             $translate(el.label).then(function (val) { el.label = val })
             el.label = $translate.instant(el.label)
             return el
