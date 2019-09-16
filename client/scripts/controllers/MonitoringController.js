@@ -22,17 +22,11 @@ require('../app').controller('MonitoringController', /* @ngInject */function ($s
     return nomenclatures.main_threats.$promise || nomenclatures.main_threats
   }).then(function (threats) {
     controller.filter.threat = threats[controller.filter.threat]
-    if (!controller.filter.threat) {
-      controller.updateFilter()
-    }
   })
   $q.resolve(db.nomenclatures.$promise || db.nomenclatures).then(function (nomenclatures) {
     return nomenclatures.threats_category.$promise || nomenclatures.threats_category
   }).then(function (categories) {
     controller.filter.category = categories[controller.filter.category]
-    if (!controller.filter.category) {
-      controller.updateFilter()
-    }
   })
 
   switch (context) {
