@@ -73,6 +73,17 @@ function generatePrepareQuery (form) {
       })
     }
 
+    // filter by threat
+    if (form.hasThreats && data.params.threat) {
+      query.where = _.extend(query.where || {}, {
+        $and: [
+          { threatsEn: { $not: null } },
+          { threatsEn: { $not: '' } },
+          { threatsEn: { $like: '%' + data.params.threat + '%' } }
+        ]
+      })
+    }
+
     // form specific filters
     if (prepareQuery) {
       query = await prepareQuery(api, data, query)
