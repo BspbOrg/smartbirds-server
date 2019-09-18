@@ -5,6 +5,7 @@ exports = module.exports = _.cloneDeep(require('./_common'))
 
 exports.tableName = 'FormCiconia'
 exports.hasSpecies = false
+exports.hasThreats = true
 
 exports.fields = assign(exports.fields, {
   primarySubstrateType: {

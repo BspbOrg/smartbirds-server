@@ -108,6 +108,14 @@
             </div>
 
             <div class="col-md-4 col-lg-3">
+              <field name="threat" type="single-choice" nomenclature="main_threats"
+                     label="{{::'LIST_FILTER_THREAT' | translate}}"
+                     placeholder="- {{::'INPUT_PLACEHOLDER_ALL' | translate}} -"
+                     on-select="monitoringController.updateFilter()"
+                     model="monitoringController.filter.threat"></field>
+            </div>
+
+            <div class="col-md-4 col-lg-3">
               <filter-map
                 latitude="monitoringController.filter.latitude"
                 longitude="monitoringController.filter.longitude"

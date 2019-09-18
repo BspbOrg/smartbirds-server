@@ -1,4 +1,5 @@
 const _ = require('lodash')
+const inputHelpers = require('../helpers/inputs')
 
 /**
  * @param {{modelName: String}} form
@@ -170,7 +171,13 @@ function generateFormActions (form) {
     latitude: {},
     longitude: {},
     radius: {}
-  }, form.hasSpecies ? { species: {} } : {}, form.listInputs || {})
+  },
+  form.hasThreats ? {
+    threat: {
+      formatter: inputHelpers.formatter.nomenclature
+    } } : {},
+  form.hasSpecies ? { species: {} } : {},
+  form.listInputs || {})
 
   let exportInputs = _.extend({}, listInputs, {
     outputType: {

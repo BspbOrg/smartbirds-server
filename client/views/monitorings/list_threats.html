@@ -75,7 +75,7 @@
               <field name="primaryType" type="select" config="threatsPrimaryTypes"
                      label="{{'THREATS_LIST_FILTER_PRIMARY_TYPE' | translate}}"
                      placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
-                     on-select="monitoringController.updateFilter()"
+                     on-select="monitoringController.updateFilter(); monitoringController.filter.category = null;"
                      model="monitoringController.filter.primaryType"></field>
             </div>
 
@@ -93,6 +93,15 @@
                      placeholder="- {{'INPUT_PLACEHOLDER_ALL' | translate}} -"
                      on-select="monitoringController.updateFilter()"
                      model="monitoringController.filter.species"></field>
+            </div>
+
+            <div class="col-md-4 col-lg-3">
+              <field name="category" type="single-choice" nomenclature="threats_category"
+                     label="{{::'THREATS_LIST_FILTER_CATEGORY' | translate}}"
+                     placeholder="- {{::'INPUT_PLACEHOLDER_ALL' | translate}} -"
+                     on-select="monitoringController.updateFilter()"
+                     model="monitoringController.filter.category"
+                     disabled="monitoringController.filter.primaryType !== 'threat'"></field>
             </div>
 
             <div class="col-md-4 col-lg-3">

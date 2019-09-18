@@ -5,6 +5,7 @@ exports = module.exports = _.cloneDeep(require('./_common'))
 
 exports.tableName = 'FormBirds'
 exports.hasSpecies = true
+exports.hasThreats = true
 
 exports.fields = assign(exports.fields, {
   source: {

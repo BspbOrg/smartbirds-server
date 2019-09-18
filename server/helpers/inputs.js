@@ -5,7 +5,8 @@
 module.exports = {
   formatter: {
     integer: formatterInteger,
-    date: formatterDate
+    date: formatterDate,
+    nomenclature: formatterNomenclature
   },
   validator: {
     positive: validatorPositive,
@@ -49,4 +50,21 @@ function validatorDate (param) {
     return true
   }
   return JSON.stringify(param) + ' must be Date'
+}
+
+/**
+ * Transform threat param to string identifier if passed as object.
+ * Transformation is done here because field directive currently does not work
+ * with string identifiers for nomenclature.
+ * TODO: remove when refactor frontend to work with string identifiers instead of objects
+ */
+function formatterNomenclature (param) {
+  try {
+    var json = JSON.parse(param)
+    if (json.label && json.label.en) {
+      return json.label.en
+    }
+  } catch (err) {}
+
+  return param
 }
