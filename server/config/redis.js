@@ -3,6 +3,12 @@ var port = process.env.REDIS_PORT || 6379
 var db = process.env.REDIS_DB || 0
 var password = process.env.REDIS_PASS || null
 
+if (process.env.REDIS_URL) {
+  password = process.env.REDIS_URL.match(/redis:\/\/.*:(.*)@.*:\d*$/i)[ 1 ]
+  host = process.env.REDIS_URL.match(/redis:\/\/.*:.*@(.*):\d*$/i)[ 1 ]
+  port = parseInt(process.env.REDIS_URL.match(/redis:\/\/.*:.*@.*:(\d*)$/i)[ 1 ])
+}
+
 exports['default'] = {
   redis: function (api) {
     // konstructor: The redis client constructor method
