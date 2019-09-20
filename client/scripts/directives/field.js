@@ -227,9 +227,9 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
               return
             }
 
-            for (var value of field.values) {
-              if (value.id === field.model) {
-                field.viewModel = value.label
+            for (var key in field.values) {
+              if (field.values[key].id === field.model) {
+                field.viewModel = field.values[key].label
                 break
               }
             }
