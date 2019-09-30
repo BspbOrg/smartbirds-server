@@ -597,6 +597,7 @@
     "FORM_LABEL_HERPTILES": "З и В",
     "FORM_LABEL_MAMMALS": "Бозайници",
     "FORM_LABEL_CICONIA": "Бял щъркел",
+    "FORM_LABEL_THREATS": "Заплахи",
     "Invalid credentials": "Невалидни пълномощия",
     "Authentication is required": "Необходимо е удостоверяване",
     "Form {{type}} #{{id}} not found": "Форма {{type}} #{{id}} не е намерена",
