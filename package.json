@@ -78,7 +78,7 @@
     "less": "~3.8.1",
     "less-plugin-clean-css": "~1.5.1",
     "localforage": "^1.7.3",
-    "lodash": "^4.16.6",
+    "lodash": "^4.17.13",
     "mailchimp-api-v3": "^1.8.0",
     "mime-types": "^2.1.17",
     "minifyify": "^7.3.5",
