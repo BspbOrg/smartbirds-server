@@ -6,7 +6,7 @@ require('../app')
     return {
       restrict: 'E',
       template: [
-        '<config-label config="threatsPrimaryTypes" value="{{::record.primaryType}}"></config-label>',
+        '<config-label config="threatsPrimaryTypes" value="{{::record.primaryType}}"></config-label> - ',
         '<span ng-if="::record.category">{{::record.category.label[$root.$language]}}</span>',
         '<config-label ng-if="::record.poisonedType" config="threatsPoisonedType" value="{{::record.poisonedType}}"></config-label>'
       ].join(' '),
