@@ -57,7 +57,7 @@
     "bluebird": "~3.0.5",
     "blueimp-md5": "^2.10.0",
     "bower": "^1.8.2",
-    "browserify": "~12.0.1",
+    "browserify": "~16.5.0",
     "browserify-ngannotate": "^2.0.0",
     "browserify-shim": "~3.8.0",
     "bulk-require": "~0.2.1",
