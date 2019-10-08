@@ -65,7 +65,7 @@
     "concat-stream": "^1.5.2",
     "content-addressable-blob-store": "^4.6.0",
     "cross-env": "^5.1.1",
-    "csv-parse": "~1.0.0",
+    "csv-parse": "~4.6.3",
     "csv-stringify": "^1.1.2",
     "debug": "^2.6.9",
     "ejs": "^2.5.7",
