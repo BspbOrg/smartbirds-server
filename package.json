@@ -72,7 +72,6 @@
     "email-templates": "^2.7.1",
     "envify": "~3.4.0",
     "fakeredis": "^2.0.0",
-    "filestorage": "^1.7.0",
     "form-data": "^2.5.1",
     "ioredis": "^4.9.1",
     "less": "~3.8.1",
