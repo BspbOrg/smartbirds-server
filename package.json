@@ -47,7 +47,8 @@
     "migrate": "npm run sq -- db:migrate",
     "seed": "npm run sq -- db:seed",
     "budo": "budo ./client/scripts/app.js --serve js/scripts.js  -d public/ --live --pushstate",
-    "enqueue": "npm run ah -- task enqueue --name"
+    "enqueue": "npm run ah -- task enqueue --name",
+    "heroku-postbuild": "npm run build && (echo \"api.tasks.tasks['stats:generate'].run(api, {}, (e) => {console.log('DONE', e)})\";sleep 10) | npm run ah console"
   },
   "dependencies": {
     "actionhero": "^17.1.1",
