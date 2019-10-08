@@ -100,7 +100,7 @@
     "stringify": "^3.2.0",
     "uglify-js": "^3.2.1",
     "umzug": "~1.6.0",
-    "underscore.string": "^3.3.4",
+    "underscore.string": "^3.3.5",
     "uuid": "^2.0.3",
     "validator": "~4.2.1",
     "workbox-window": "^4.3.0",
