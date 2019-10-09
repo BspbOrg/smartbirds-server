@@ -63,7 +63,7 @@
     "bulk-require": "~0.2.1",
     "bulkify": "~1.1.1",
     "concat-stream": "^1.6.2",
-    "content-addressable-blob-store": "^4.6.0",
+    "content-addressable-blob-store": "^5.0.1",
     "cross-env": "^5.2.1",
     "csv-parse": "~4.6.3",
     "csv-stringify": "^1.1.2",
