@@ -12,7 +12,7 @@ module.exports = {
     }).then(function () {
       return queryInterface.addIndex('Zones', { fields: ['status'] })
     }).then(function () {
-      return queryInterface.bulkUpdate('Zones', { status: 'owned' }, { ownerId: { $ne: null } })
+      return queryInterface.bulkUpdate('Zones', { status: 'owned' }, { ownerId: { [Sequelize.Op.ne]: null } })
     })
   },
 

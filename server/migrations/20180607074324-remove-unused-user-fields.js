@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect === 'sqlite') return
+    if (queryInterface.sequelize.options.dialect === 'sqlite') return new Promise(resolve => resolve())
     await queryInterface.removeColumn('Users', 'address')
     await queryInterface.removeColumn('Users', 'birdsKnowledge')
     await queryInterface.removeColumn('Users', 'city')
@@ -14,7 +14,7 @@ module.exports = {
   },
 
   down: async function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect === 'sqlite') return
+    if (queryInterface.sequelize.options.dialect === 'sqlite') return new Promise(resolve => resolve())
     await queryInterface.addColumn('Users', 'address', Sequelize.TEXT)
     await queryInterface.addColumn('Users', 'birdsKnowledge', Sequelize.TEXT)
     await queryInterface.addColumn('Users', 'city', Sequelize.TEXT)

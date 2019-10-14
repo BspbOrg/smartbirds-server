@@ -2,7 +2,7 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
     return queryInterface.sequelize.query('DROP VIEW IF EXISTS cbm_stats').then(function () {
       return queryInterface.sequelize.query('CREATE VIEW cbm_stats (' +
         'id, latitude, longitude, species_count, units_count, visits_count, first_name, last_name' +
@@ -29,7 +29,7 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
     return queryInterface.sequelize.query('DROP VIEW IF EXISTS cbm_stats')
   }
 }

@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
 
     await queryInterface.sequelize.query(`
           CREATE OR REPLACE VIEW birds_top_interesting_species_month AS 
@@ -21,7 +21,7 @@ module.exports = {
   },
 
   down: async function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
 
     await queryInterface.sequelize.query(`DROP VIEW IF EXISTS birds_top_interesting_species_month`)
   }

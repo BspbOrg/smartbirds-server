@@ -2,7 +2,7 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
     return queryInterface.sequelize.query('ALTER TABLE "FormBirds" ALTER COLUMN observers DROP NOT NULL;')
       .then(function () {
         return queryInterface.sequelize.query('ALTER TABLE "FormHerps" ALTER COLUMN observers DROP NOT NULL;')
@@ -13,7 +13,7 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
     return queryInterface.sequelize.query('ALTER TABLE "FormBirds" ALTER COLUMN observers SET NOT NULL;')
       .then(function () {
         return queryInterface.sequelize.query('ALTER TABLE "FormHerps" ALTER COLUMN observers SET NOT NULL;')

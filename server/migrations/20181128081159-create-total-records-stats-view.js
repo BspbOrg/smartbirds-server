@@ -4,7 +4,7 @@ let forms = ['FormBirds', 'FormHerptiles', 'FormMammals', 'FormPlants', 'FormInv
 
 module.exports = {
   up: async function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
 
     let subSelect = forms.map(function (form) {
       return `SELECT "userId" as user_id, COUNT(*) as count
@@ -25,7 +25,7 @@ module.exports = {
   },
 
   down: async function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
 
     await queryInterface.sequelize.query(`DROP VIEW IF EXISTS total_users_records_year`)
   }

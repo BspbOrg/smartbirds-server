@@ -13,7 +13,7 @@ const tables = [
 
 module.exports = {
   up: function (queryInterface) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
     return queryInterface.sequelize.query(`
       CREATE OR REPLACE VIEW threats_stats (
         latitude, longitude, "threatsBg", "threatsEn", form
@@ -52,7 +52,7 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
     return queryInterface.sequelize.query('DROP VIEW IF EXISTS threats_stats')
   }
 }

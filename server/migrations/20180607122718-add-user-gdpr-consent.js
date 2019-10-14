@@ -6,7 +6,7 @@ module.exports = {
   },
 
   down: async function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect === 'sqlite') return
+    if (queryInterface.sequelize.options.dialect === 'sqlite') return new Promise(resolve => resolve())
     await queryInterface.removeColumn('Users', 'gdprConsent')
   }
 }

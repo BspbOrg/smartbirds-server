@@ -4,7 +4,7 @@ var Promise = require('bluebird')
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
     return Promise.all([
 
       queryInterface.sequelize.query('CREATE OR REPLACE VIEW birds_stats (' +
@@ -39,7 +39,7 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
     return Promise.all([
 
       queryInterface.sequelize.query('DROP VIEW IF EXISTS birds_stats'),

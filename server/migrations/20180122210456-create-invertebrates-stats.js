@@ -2,7 +2,7 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
     return queryInterface.sequelize.query('CREATE OR REPLACE VIEW invertebrates_stats (' +
       'latitude, longitude, species_count, units_count' +
       ') AS SELECT ' +
@@ -15,7 +15,7 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
     return queryInterface.sequelize.query('DROP VIEW IF EXISTS invertebrates_stats')
   }
 }
