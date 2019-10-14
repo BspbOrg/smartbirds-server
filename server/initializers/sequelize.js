@@ -97,9 +97,22 @@ module.exports = {
       autoMigrate: function (next) {
         if (api.config.sequelize.autoMigrate == null || api.config.sequelize.autoMigrate) {
           checkMetaOldSchema(api, umzug).then(function () {
-            return umzug.up()
+            return umzug.pending()
+          }).then(function (migrations) {
+            return migrations.reduce(function (prev, migration) {
+              return prev.then(function () {
+                console.log('Executing', migration.file)
+                return migration.up(sequelizeInstance.getQueryInterface(), sequelizeInstance.constructor)
+                  .then(function () {
+                    console.log('Finished', migration.file)
+                  })
+              })
+            }, new Promise(resolve => resolve('start')))
           }).then(function () {
             next()
+          }, function (err) {
+            api.log('Fatal error', 'error', err)
+            next(err)
           })
         } else {
           next()
