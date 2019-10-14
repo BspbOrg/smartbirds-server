@@ -426,7 +426,7 @@ module.exports = {
 
         const hooks = [ 'beforeCreate', 'beforeUpdate', 'beforeSave' ]
         hooks.forEach(function (hook) {
-          form.model.hook(hook, updateHash)
+          form.model.addHook(hook, updateHash)
         })
 
         return form.model
