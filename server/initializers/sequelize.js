@@ -13,7 +13,21 @@ module.exports = {
       api.config.sequelize.database,
       api.config.sequelize.username,
       api.config.sequelize.password,
-      api.config.sequelize
+      {
+        ...api.config.sequelize,
+        hooks: {
+          afterDefine (model) {
+            if (model.options.classMethods) {
+              Object.assign(model, model.options.classMethods)
+              delete model.options.classMethods
+            }
+            if (model.options.instanceMethods) {
+              Object.assign(model.prototype, model.options.instanceMethods)
+              delete model.options.instanceMethods
+            }
+          }
+        }
+      }
     )
 
     var umzug = new Umzug({
@@ -22,9 +36,9 @@ module.exports = {
         sequelize: sequelizeInstance
       },
       migrations: {
-        params: [ sequelizeInstance.getQueryInterface(), sequelizeInstance.constructor, function () {
+        params: [sequelizeInstance.getQueryInterface(), sequelizeInstance.constructor, function () {
           throw new Error('Migration tried to use old style "done" callback. Please upgrade to "umzug" and return a promise instead.')
-        } ],
+        }],
         path: api.projectRoot + '/migrations'
       }
     })
@@ -59,18 +73,20 @@ module.exports = {
 
       connect: function (next) {
         var dir = path.normalize(api.projectRoot + '/models')
+        api.log('seq connect - loading...', 'debug')
         fs.readdirSync(dir).forEach(function (file) {
           const filename = path.join(dir, file)
           var nameParts = file.split('/')
-          var name = nameParts[ (nameParts.length - 1) ].split('.')[ 0 ]
-          api.models[ name ] = api.sequelize.sequelize.import(filename)
+          var name = nameParts[(nameParts.length - 1)].split('.')[0]
+          api.models[name] = api.sequelize.sequelize.import(filename)
           api.watchFileAndAct(filename, () => {
             api.log('rebooting due to model change: ' + name, 'info')
-            delete require.cache[ require.resolve(filename) ]
+            delete require.cache[require.resolve(filename)]
             api.commands.restart()
           })
         })
 
+        api.log('seq connect - associations...', 'debug')
         _.forEach(api.models, function (model, name) {
           if (model.associate) { model.associate(api.models) }
         })
@@ -81,7 +97,9 @@ module.exports = {
       loadFixtures: function (next) {
         if (api.config.sequelize.loadFixtures) {
           var SequelizeFixtures = require('sequelize-fixtures')
-          SequelizeFixtures.loadFile(api.projectRoot + '/test/fixtures/*.{json,yml,js}', api.models, { log: m => api.log(m, 'notice') })
+          SequelizeFixtures.loadFile(
+            api.projectRoot + '/test/fixtures/*.{json,yml,js}',
+            api.models)
             .then(function () {
               next()
             })
@@ -101,10 +119,10 @@ module.exports = {
           }).then(function (migrations) {
             return migrations.reduce(function (prev, migration) {
               return prev.then(function () {
-                console.log('Executing', migration.file)
+                api.log('Executing migration ' + migration.file, 'debug')
                 return migration.up(sequelizeInstance.getQueryInterface(), sequelizeInstance.constructor)
                   .then(function () {
-                    console.log('Finished', migration.file)
+                    api.log('Finished migration ' + migration.file, 'debug')
                   })
               })
             }, new Promise(resolve => resolve('start')))
@@ -129,7 +147,6 @@ module.exports = {
           next()
         }).catch(function (err) {
           api.log(err, 'warning')
-          console.log(err)
           next(err)
         })
       }
@@ -161,8 +178,8 @@ module.exports = {
 function checkMetaOldSchema (api) {
   // Check if we need to upgrade from the old sequelize migration format
   return api.sequelize.sequelize.query('SELECT * FROM "SequelizeMeta"', { raw: true }).then(function (raw) {
-    var rows = raw[ 0 ]
-    if (rows.length && rows[ 0 ].hasOwnProperty('id')) {
+    var rows = raw[0]
+    if (rows.length && rows[0].hasOwnProperty('id')) {
       throw new Error('Old-style meta-migration table detected - please use `sequelize-cli`\'s `db:migrate:old_schema` to migrate.')
     }
   }).catch(Sequelize.DatabaseError, function () {
