@@ -15,7 +15,7 @@ describe('Zone ownership:', function () {
   })
 
   beforeEach(function () {
-    return setup.api.models.zone.findById(testZone).then(function (zone) {
+    return setup.api.models.zone.findByPk(testZone).then(function (zone) {
       return zone.update({
         ownerId: null,
         status: 'free'
