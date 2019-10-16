@@ -38,7 +38,7 @@ exports.sessionCreate = {
       .then(function (user) {
         if (user.gdprConsent) return user
         if (data.params.gdprConsent) {
-          return user.updateAttributes({ gdprConsent: true })
+          return user.update({ gdprConsent: true })
             .then(function () { return user })
         }
         data.connection.rawConnection.responseHttpCode = 401
