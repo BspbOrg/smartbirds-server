@@ -1,10 +1,10 @@
 var path = require('path')
 
-exports.default = {
+exports[ 'default' ] = {
   mailer: function (api) {
     return {
       mailOptions: {
-        send: process.env.NODE_ENV === 'production' || false,
+        send: !!process.env.SEND_EMAIL,
         views: {
           root: path.join(__dirname, '..', 'templates'),
           options: {
@@ -14,12 +14,7 @@ exports.default = {
         message: {
           from: process.env.FROM_EMAIL || 'no-reply@smartbirds.org'
         },
-        preview: process.env.PREVIEW_EMAIL ? {
-          open: {
-            app: 'google-chrome',
-            wait: false
-          }
-        } : false
+        preview: false
       },
       transport: {
         type: 'nodemailer-mailgun-transport',
@@ -30,6 +25,35 @@ exports.default = {
           }
         }
       }
+    }
+  }
+}
+
+exports.production = {
+  mailer: {
+    mailOptions: {
+      send: true
+    }
+  }
+}
+
+exports.staging = {
+  mailer: {
+    mailOptions: {
+      send: true
+    }
+  }
+}
+
+exports.development = {
+  mailer: {
+    mailOptions: {
+      preview: process.env.PREVIEW_EMAIL ? {
+        open: {
+          app: 'google-chrome',
+          wait: false
+        }
+      } : false
     }
   }
 }
