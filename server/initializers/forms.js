@@ -285,7 +285,7 @@ function generateExportData (form) {
 
 function generateApiUpdate (fields) {
   return async function (data) {
-    await this.runHooks('beforeApiUpdate', this, data)
+    await this.constructor.runHooks('beforeApiUpdate', this, data)
     _.forEach(fields, (field, name) => {
       if (_.isString(field)) field = { type: field }
       switch (field.type) {
@@ -364,7 +364,7 @@ function generateApiUpdate (fields) {
           break
       }
     })
-    await this.runHooks('afterApiUpdate', this, data)
+    await this.constructor.runHooks('afterApiUpdate', this, data)
     return this
   }
 }
