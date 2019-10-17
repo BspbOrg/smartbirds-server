@@ -70,7 +70,7 @@
     "debug": "^2.6.9",
     "ejs": "^2.7.1",
     "email-templates": "^6.0.3",
-    "envify": "~3.4.0",
+    "envify": "~4.1.0",
     "fakeredis": "^2.0.0",
     "form-data": "^2.5.1",
     "ioredis": "^4.14.1",
