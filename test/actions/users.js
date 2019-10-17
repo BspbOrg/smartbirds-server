@@ -4,7 +4,6 @@ var _ = require('lodash')
 var should = require('should')
 var sinon = require('sinon')
 var setup = require('../_setup')
-var Promise = require('bluebird')
 require('should-sinon')
 const capitalizeFirstLetter = require('../../server/utils/capitalizeFirstLetter')
 

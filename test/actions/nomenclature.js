@@ -3,7 +3,6 @@
 var _ = require('lodash')
 var should = require('should')
 var setup = require('../_setup')
-var Promise = require('bluebird')
 
 describe('Nomenclatures:', function () {
   before(function () {
