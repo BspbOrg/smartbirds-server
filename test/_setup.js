@@ -22,6 +22,7 @@ const setup = {
       console.log('    restarting test server...')
       setup.api = await setup.server.restart()
     }
+    await new Promise(resolve => setTimeout(resolve, 1000))
     return setup.api
   },
   finish: async () => {
