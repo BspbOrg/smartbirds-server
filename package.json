@@ -67,7 +67,7 @@
     "cross-env": "^5.2.1",
     "csv-parse": "~4.6.3",
     "csv-stringify": "^5.3.3",
-    "debug": "^2.6.9",
+    "debug": "^4.1.1",
     "ejs": "^2.7.1",
     "email-templates": "^6.0.3",
     "envify": "~4.1.0",
