@@ -96,7 +96,7 @@
     "simplify-js": "^1.2.1",
     "stringify": "^3.2.0",
     "uglify-js": "^3.6.2",
-    "umzug": "~1.6.0",
+    "umzug": "~2.2.0",
     "underscore.string": "^3.3.5",
     "uuid": "^3.3.3",
     "validator": "~4.2.1",
