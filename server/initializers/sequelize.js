@@ -209,7 +209,12 @@ module.exports = {
   stopPriority: 99999, // aligned with actionhero's redis initializer
   stop: function (api, next) {
     api.sequelize.sequelize.close()
-    next()
+      .then(function () {
+        delete api.sequelize.sequelize
+        next()
+      }, function (err) {
+        next(err)
+      })
   }
 }
 
