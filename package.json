@@ -92,7 +92,7 @@
     "querystring": "^0.2.0",
     "raven": "^0.10.0",
     "sequelize": "^3.35.1",
-    "sequelize-cli": "^3.2.0",
+    "sequelize-cli": "^5.5.1",
     "sharp": "^0.23.1",
     "simplify-js": "^1.2.1",
     "stringify": "^3.2.0",
