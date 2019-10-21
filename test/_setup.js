@@ -25,9 +25,7 @@ const setup = {
 
     return setup.api
   },
-  finish: () => {
-    setup.server.stop()
-  },
+  finish: () => setup.server.stop(),
   runAction: (action, params) => new Promise(resolve => setup.api.specHelper.runAction(action, params, resolve)),
   runActionAs: async (action, params, user) => {
     const conn = new setup.api.specHelper.Connection()
