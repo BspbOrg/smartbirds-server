@@ -22,7 +22,6 @@ const setup = {
       console.log('    restarting test server...')
       setup.api = await setup.server.restart()
     }
-
     return setup.api
   },
   finish: () => setup.server.stop(),
