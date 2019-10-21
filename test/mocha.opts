@@ -1,6 +1,0 @@
---colors
---recursive
---reporter spec
---require should
---timeout 5000
---slow 250
