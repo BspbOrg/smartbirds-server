@@ -18,7 +18,7 @@ var fields = {
 function sequence (tasks) {
   var current = Promise.resolve(true)
   for (var k = 0; k < tasks.length; ++k) {
-    current = current.then(tasks[k])
+    current = current.then(() => tasks[k])
   }
   return current
 }
