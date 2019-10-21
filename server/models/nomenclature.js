@@ -3,26 +3,26 @@ module.exports = function (sequelize, DataTypes) {
   var Nomenclature, attributes, options
 
   attributes = {
-    'type': {
+    type: {
       type: DataTypes.STRING(32),
       allowNull: false
     },
-    'labelBg': DataTypes.TEXT,
-    'labelEn': DataTypes.TEXT
+    labelBg: DataTypes.TEXT,
+    labelEn: DataTypes.TEXT
   }
 
   options = {
-    'indexes': [
+    indexes: [
       {
-        'unique': true,
-        'fields': ['type', 'labelBg']
+        unique: true,
+        fields: ['type', 'labelBg']
       },
       {
-        'unique': true,
-        'fields': ['type', 'labelEn']
+        unique: true,
+        fields: ['type', 'labelEn']
       }
     ],
-    'instanceMethods': {
+    instanceMethods: {
       apiData: function (api) {
         return {
           type: this.type,

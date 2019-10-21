@@ -1,6 +1,6 @@
 var path = require('path')
 
-exports[ 'default' ] = {
+exports.default = {
   general: function (api) {
     var packageJSON = require(path.join(api.projectRoot, 'package.json'))
 
@@ -29,7 +29,7 @@ exports[ 'default' ] = {
       // params you would like hidden from any logs
       filteredParams: [],
       // values that signify missing params
-      missingParamChecks: [ null, '', undefined ],
+      missingParamChecks: [null, '', undefined],
       // The default filetype to server when a user requests a directory
       directoryFileType: 'index.html',
       // The default priority level given to middleware of all types (action, connection, and say)
@@ -40,20 +40,20 @@ exports[ 'default' ] = {
       rpcTimeout: 5000,
       // configuration for your actionhero project structure
       paths: {
-        'action': [ path.join(__dirname, '..', 'actions') ],
-        'task': [ path.join(__dirname, '..', 'tasks') ],
-        'public': [ path.join(__dirname, '..', '..', 'public') ],
-        'pid': [ path.join(__dirname, '..', '..', 'pids') ],
-        'log': [ path.join(__dirname, '..', '..', 'log') ],
-        'server': [ path.join(__dirname, '..', 'servers') ],
-        'cli': [ path.join(__dirname, '..', 'bin') ],
-        'initializer': [ path.join(__dirname, '..', 'initializers') ],
-        'plugin': [ path.join(__dirname, '..', '..', 'node_modules') ],
-        'locale': [ path.join(__dirname, '..', '..', 'i18n') ],
-        'model': [ path.join(__dirname, '..', 'models') ],
-        'view': [ path.join(__dirname, '..', 'views') ],
-        'fileupload': [ path.join(__dirname, '..', '..', 'uploads', 'tmp') ],
-        'monitoring': [ path.join(__dirname, '..', '..', 'uploads', 'files') ]
+        action: [path.join(__dirname, '..', 'actions')],
+        task: [path.join(__dirname, '..', 'tasks')],
+        public: [path.join(__dirname, '..', '..', 'public')],
+        pid: [path.join(__dirname, '..', '..', 'pids')],
+        log: [path.join(__dirname, '..', '..', 'log')],
+        server: [path.join(__dirname, '..', 'servers')],
+        cli: [path.join(__dirname, '..', 'bin')],
+        initializer: [path.join(__dirname, '..', 'initializers')],
+        plugin: [path.join(__dirname, '..', '..', 'node_modules')],
+        locale: [path.join(__dirname, '..', '..', 'i18n')],
+        model: [path.join(__dirname, '..', 'models')],
+        view: [path.join(__dirname, '..', 'views')],
+        fileupload: [path.join(__dirname, '..', '..', 'uploads', 'tmp')],
+        monitoring: [path.join(__dirname, '..', '..', 'uploads', 'files')]
       },
       // hash containing chat rooms you wish to be created at server boot
       startingChatRooms: {
@@ -72,7 +72,7 @@ exports.test = {
       id: 'test-server',
       developmentMode: true,
       paths: {
-        'locale': [
+        locale: [
           // require('os').tmpdir() + require('path').sep + 'locale'
           path.join(__dirname, '..', '..', 'i18n')
         ]
@@ -93,7 +93,7 @@ exports.production = {
   general: function (api) {
     return {
       developmentMode: false,
-      filteredParams: [ 'password', 'oldPassword', 'newPassword' ]
+      filteredParams: ['password', 'oldPassword', 'newPassword']
     }
   }
 }

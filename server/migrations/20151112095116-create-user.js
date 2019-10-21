@@ -8,32 +8,32 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true
       },
-      'email': {
+      email: {
         type: Sequelize.STRING,
         allowNull: false,
         validate: { isEmail: true }
       },
-      'passwordHash': {
+      passwordHash: {
         type: Sequelize.TEXT,
         allowNull: false
       },
-      'passwordSalt': {
+      passwordSalt: {
         type: Sequelize.TEXT,
         allowNull: false
       },
-      'firstName': {
+      firstName: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      'lastName': {
+      lastName: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      'lastLoginAt': {
+      lastLoginAt: {
         type: Sequelize.DATE,
         allowNull: true
       },
-      'isAdmin': {
+      isAdmin: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: false
@@ -49,7 +49,7 @@ module.exports = {
     }).then(function () {
       return queryInterface.addIndex('Users', {
         unique: true,
-        fields: [ 'email' ]
+        fields: ['email']
       })
       // eslint-disable-next-line handle-callback-err
         .catch(err => {})

@@ -1,12 +1,12 @@
 'use strict'
 
-const tables = [ 'FormCBM' ]
+const tables = ['FormCBM']
 
 module.exports = {
   up: async function (queryInterface, Sequelize) {
     await Promise.all(tables.map(async (table) => {
       await queryInterface.addIndex(table, {
-        fields: [ 'observationDateTime' ]
+        fields: ['observationDateTime']
       })
     }))
   },

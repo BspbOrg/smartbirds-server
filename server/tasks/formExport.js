@@ -8,7 +8,7 @@ const uuid = require('uuid')
 
 async function exportCsv (api, records, formName, outputFilename) {
   records = await Promise.all(records.map(async (record) => record.exportData(api)))
-  let convert = new Promise((resolve, reject) => {
+  const convert = new Promise((resolve, reject) => {
     csv(records, { delimiter: ';', header: true }, (err, res) => {
       if (err) return reject(err)
       return resolve(res)
@@ -25,8 +25,8 @@ function appendFile (api, archive, fileMap, filename, id) {
   let idx = filename.lastIndexOf('.')
   if (idx === -1) idx = filename.length
   id = id || filename.substring(0, idx)
-  fileMap[ filename ] = id
-  fileMap[ id ] = filename
+  fileMap[filename] = id
+  fileMap[id] = filename
   api.log(`adding ${id} as ${filename}`, 'debug')
 
   return new Promise(function (resolve, reject) {
@@ -45,13 +45,13 @@ async function exportZip (api, records, formName, outputFilename) {
   const csvOutput = await exportCsv(api, records, formName)
   return new Promise(function (resolve, reject) {
     try {
-      let archive = archiver.create('zip', {})
+      const archive = archiver.create('zip', {})
       archive.on('error', function (err) {
         api.log(`archive error: ${err.message}`, 'error', err)
         return reject(err)
       })
 
-      let output = fs.createWriteStream(outputFilename)
+      const output = fs.createWriteStream(outputFilename)
       output.on('error', function (err) {
         api.log(`output error: ${err.message}`, 'error', err)
         return reject(err)
@@ -64,22 +64,22 @@ async function exportZip (api, records, formName, outputFilename) {
 
       archive.append(csvOutput, { name: formName + '.csv' })
 
-      let fileMap = {}
-      let ops = []
+      const fileMap = {}
+      const ops = []
 
       records.forEach((record) => {
         if (record.pictures) {
-          let pictures = JSON.parse(record.pictures) || []
+          const pictures = JSON.parse(record.pictures) || []
           pictures.forEach((picture) => {
             try {
-              ops.push(appendFile(api, archive, fileMap, `${picture.url.split('/').slice(-1)[ 0 ]}.jpg`))
+              ops.push(appendFile(api, archive, fileMap, `${picture.url.split('/').slice(-1)[0]}.jpg`))
             } catch (error) {
               api.log(`Error appending picture: ${error.message}`, 'notice', error)
             }
           })
         }
         if (record.track) {
-          ops.push(appendFile(api, archive, fileMap, `${record.track.split('/').slice(-1)[ 0 ]}.gpx`))
+          ops.push(appendFile(api, archive, fileMap, `${record.track.split('/').slice(-1)[0]}.gpx`))
         }
       })
 
@@ -109,7 +109,7 @@ exports.task = {
 
   run: async function (api, { query, formName, outputType, user }, next) {
     try {
-      const form = api.forms[ formName ]
+      const form = api.forms[formName]
       if (!form) throw new Error(`Unknown form ${formName}`)
 
       switch (outputType) {
@@ -123,11 +123,11 @@ exports.task = {
       query = await form.prepareCsvQuery(api, {}, query)
 
       // fetch the results
-      let result = await api.models[ form.modelName ].findAndCountAll(query)
+      const result = await api.models[form.modelName].findAndCountAll(query)
 
       api.log(`Fetched ${result.count} ${form.modelName} record`, 'debug')
 
-      const outputFilename = path.join(api.config.general.paths.fileupload[ 0 ], `${uuid.v4()}.${outputType}`)
+      const outputFilename = path.join(api.config.general.paths.fileupload[0], `${uuid.v4()}.${outputType}`)
 
       switch (outputType) {
         case 'csv':

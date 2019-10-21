@@ -3,28 +3,28 @@ var bcrypt = require('bcrypt')
 var bcryptComplexity = 10
 var crypto = require('crypto')
 
-const privacyTypes = [ 'public', 'private' ]
+const privacyTypes = ['public', 'private']
 
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('User', {
-    'email': {
+    email: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: { isEmail: true }
     },
-    'passwordHash': {
+    passwordHash: {
       type: DataTypes.TEXT,
       allowNull: false
     },
-    'firstName': {
+    firstName: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    'lastName': {
+    lastName: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    'lastLoginAt': {
+    lastLoginAt: {
       type: DataTypes.DATE,
       allowNull: true
     },
@@ -45,7 +45,7 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       defaultValue: 'user',
       validate: {
-        isIn: [ [ 'user', 'admin', 'moderator' ] ]
+        isIn: [['user', 'admin', 'moderator']]
       }
     },
     imported: {
@@ -65,7 +65,7 @@ module.exports = function (sequelize, DataTypes) {
       defaultValue: 'public',
       allowNull: false,
       validate: {
-        isIn: { args: [ privacyTypes ], msg: `Must be one of "${privacyTypes.join('", "')}"` }
+        isIn: { args: [privacyTypes], msg: `Must be one of "${privacyTypes.join('", "')}"` }
       }
     },
     forms: {
@@ -85,7 +85,7 @@ module.exports = function (sequelize, DataTypes) {
     indexes: [
       {
         unique: true,
-        fields: [ 'email' ]
+        fields: ['email']
       }
     ],
 
@@ -111,7 +111,7 @@ module.exports = function (sequelize, DataTypes) {
     instanceMethods: {
       name: function () {
         if (!this.gdprConsent) return ''
-        return [ this.firstName, this.lastName ].join(' ')
+        return [this.firstName, this.lastName].join(' ')
       },
 
       updatePassword: function (pw, callback) {

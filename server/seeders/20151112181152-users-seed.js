@@ -33,11 +33,11 @@ module.exports = {
 
     function findId (user) {
       var email = user.email
-      if (email in usersCache) return usersCache[ email ]
-      if (!usersCache[ email ]) {
-        usersCache[ email ] = queryInterface
+      if (email in usersCache) return usersCache[email]
+      if (!usersCache[email]) {
+        usersCache[email] = queryInterface
           .rawSelect('Users', {
-            attributes: [ 'id' ],
+            attributes: ['id'],
             where: {
               email: email
             }
@@ -49,7 +49,7 @@ module.exports = {
               .then(function () {
                 counts.users++
                 return queryInterface.rawSelect('Users', {
-                  attributes: [ 'id' ],
+                  attributes: ['id'],
                   where: {
                     email: email
                   }
@@ -58,11 +58,11 @@ module.exports = {
           })
 
           .then(function (id) {
-            usersCache[ email ] = id
-            return usersCache[ email ]
+            usersCache[email] = id
+            return usersCache[email]
           })
       }
-      return usersCache[ email ]
+      return usersCache[email]
     }
 
     var stream = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'users.csv'))
@@ -72,30 +72,30 @@ module.exports = {
         while (rec = parser.read()) { // eslint-disable-line no-cond-assign
           counts.rows++
           (function (record) {
-            var email = record[ 'e_mail' ] && record[ 'e_mail' ].trim()
+            var email = record.e_mail && record.e_mail.trim()
             if (!validator.isEmail(email)) {
-              email = (record[ 'Квадрат' ] ? record[ 'Квадрат' ].trim() : ('user' + (uniqueId++))) + '@smartbirds.org'
+              email = (record['Квадрат'] ? record['Квадрат'].trim() : ('user' + (uniqueId++))) + '@smartbirds.org'
             }
 
             inserts.push(findId({
               email: email,
               passwordHash: 'imported hash',
-              firstName: record[ 'Име' ] && record[ 'Име' ].trim(),
-              lastName: record[ 'Фамилия' ] && record[ 'Фамилия' ].trim(),
+              firstName: record['Име'] && record['Име'].trim(),
+              lastName: record['Фамилия'] && record['Фамилия'].trim(),
               createdAt: new Date(),
               updatedAt: new Date(),
               imported: true,
-              notes: record[ 'Бележки' ] && record[ 'Бележки' ].trim()
+              notes: record['Бележки'] && record['Бележки'].trim()
             }).then(function (id) {
               var promises = []
-              if (record[ 'Квадрат' ]) {
+              if (record['Квадрат']) {
                 promises.push(queryInterface.bulkUpdate('Zones', {
                   ownerId: id,
                   status: 'owned'
-                }, { id: record[ 'Квадрат' ].trim() }).then(function (res) {
-                  counts.zones += res[ 1 ].rowCount
-                  if (res[ 1 ].rowCount === 0) {
-                    console.warn('Unknown zone ' + record[ 'Квадрат' ])
+                }, { id: record['Квадрат'].trim() }).then(function (res) {
+                  counts.zones += res[1].rowCount
+                  if (res[1].rowCount === 0) {
+                    console.warn('Unknown zone ' + record['Квадрат'])
                   }
                 }))
               }
@@ -128,7 +128,7 @@ module.exports = {
 
   down: function (queryInterface, Sequelize) {
     return queryInterface.rawSelect('Users', {
-      attributes: [ 'id' ],
+      attributes: ['id'],
       where: { imported: true },
       plain: false
     }, 'id').then(function (users) {

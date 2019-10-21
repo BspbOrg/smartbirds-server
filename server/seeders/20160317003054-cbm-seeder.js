@@ -177,7 +177,7 @@ module.exports = {
                         return Promise.reject(new Error('Missing zone ' + record.zone))
                       }
                     }),
-                    Promise.resolve(record['species'].trim())
+                    Promise.resolve(record.species.trim())
                       .then(function (species) {
                         return species.split('|').shift().trim()
                       })

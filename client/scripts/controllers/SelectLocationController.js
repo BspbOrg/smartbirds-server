@@ -20,8 +20,8 @@ require('../app').controller('SelectLocationController', /* @ngInject */function
         scope = undefined
       }
       $timeout(function () {
-        $ctrl.location.latitude = Math.round(args[ 0 ].latLng.lat() * 1000000) / 1000000
-        $ctrl.location.longitude = Math.round(args[ 0 ].latLng.lng() * 1000000) / 1000000
+        $ctrl.location.latitude = Math.round(args[0].latLng.lat() * 1000000) / 1000000
+        $ctrl.location.longitude = Math.round(args[0].latLng.lng() * 1000000) / 1000000
         $ctrl.updateRadius()
       })
     }

@@ -18,10 +18,10 @@ module.exports = function (sequelize, DataTypes) {
     ekatte: DataTypes.TEXT
   }, {
     indexes: [
-      { fields: [ 'nameBg' ] },
-      { fields: [ 'nameEn' ] },
-      { fields: [ 'areaBg' ] },
-      { fields: [ 'areaEn' ] }
+      { fields: ['nameBg'] },
+      { fields: ['nameEn'] },
+      { fields: ['areaBg'] },
+      { fields: ['areaEn'] }
     ],
     classMethods: {
       associate: function (models) {

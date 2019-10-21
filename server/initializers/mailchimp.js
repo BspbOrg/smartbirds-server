@@ -120,9 +120,9 @@ module.exports = {
           NOTES: user.notes
         }
 
-        for (let key in fields) {
-          if (!fields.hasOwnProperty(key)) continue
-          if (fields[ key ] === null || typeof fields[ key ] === 'undefined') delete fields[ key ]
+        for (const key in fields) {
+          if (!Object.hasOwnProperty.call(fields, key)) continue
+          if (fields[key] === null || typeof fields[key] === 'undefined') delete fields[key]
         }
 
         return fields

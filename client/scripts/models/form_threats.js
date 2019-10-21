@@ -12,7 +12,7 @@ require('../app').factory('FormThreats', /* @ngInject */function ($localStorage,
   // instance methods
   angular.extend(FormThreats.prototype, {
     getUser: function () {
-      return db.users[ this.user ]
+      return db.users[this.user]
     },
     getSpecies: function () {
       return db.species[this.class] && db.species[this.class][this.species]

@@ -57,22 +57,22 @@ require('../app').directive('listMap', /* @ngInject */function ($filter, $http, 
         },
         extractZones: function (rows) {
           (rows || $ctrl.rows).forEach(function (row) {
-            if (!row.zone || !db.zones[ row.zone ]) return
-            if ($ctrl.zonesIndex[ row.zone ]) return
-            $ctrl.zonesIndex[ row.zone ] = $ctrl.zones.length
-            $ctrl.zones.push(db.zones[ row.zone ])
+            if (!row.zone || !db.zones[row.zone]) return
+            if ($ctrl.zonesIndex[row.zone]) return
+            $ctrl.zonesIndex[row.zone] = $ctrl.zones.length
+            $ctrl.zones.push(db.zones[row.zone])
           })
         },
         extractTracks: function (rows) {
           (rows || $ctrl.rows).forEach(function (row) {
             if ($ctrl.tracksWaiting >= 3) return
             if (!row.track) return
-            if ($ctrl.tracksIndex[ row.track ]) return
-            $ctrl.tracksIndex[ row.track ] = true
+            if ($ctrl.tracksIndex[row.track]) return
+            $ctrl.tracksIndex[row.track] = true
             $ctrl.tracksWaiting++
             Track.get(row.track).then(function (points) {
               if (!points.length) return
-              $ctrl.tracksIndex[ row.track ] = $ctrl.tracks.length
+              $ctrl.tracksIndex[row.track] = $ctrl.tracks.length
               $ctrl.tracks.push({
                 id: $ctrl.tracks.length,
                 path: points

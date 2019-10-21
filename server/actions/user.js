@@ -5,7 +5,7 @@ exports.userCreate = {
   name: 'user:create',
   description: 'user:create',
   outputExample: {},
-  middleware: [ 'session' ],
+  middleware: ['session'],
 
   inputs: {
     email: { required: true },
@@ -145,14 +145,14 @@ exports.userView = {
   name: 'user:view',
   description: 'user:view',
   outputExample: {},
-  middleware: [ 'auth' ],
+  middleware: ['auth'],
 
   inputs: {
     id: { required: true }
   },
 
   run: function (api, data, next) {
-    let q = { where: {} }
+    const q = { where: {} }
     let scope = 'default'
 
     if (data.params.id === 'me' || parseInt(data.params.id) === data.session.userId) {
@@ -163,7 +163,7 @@ exports.userView = {
       q.where.id = data.params.id
       q.include = q.include || []
       q.include.push(api.models.user.associations.sharees)
-      q.where[ '$sharees.id$' ] = data.session.userId
+      q.where['$sharees.id$'] = data.session.userId
       scope = 'sharee'
     } else {
       q.where.id = data.params.id
@@ -185,7 +185,7 @@ exports.userEdit = {
   name: 'user:edit',
   description: 'user:edit',
   outputExample: {},
-  middleware: [ 'auth', 'owner' ],
+  middleware: ['auth', 'owner'],
 
   inputs: {
     id: { required: true },
@@ -234,10 +234,10 @@ exports.userList = {
   name: 'user:list',
   description: 'List users. Requires admin role',
   outputExample: {
-    data: [ { id: 1, email: 'user@example.com', firstName: 'John', lastName: 'Doe', role: 'user' } ],
+    data: [{ id: 1, email: 'user@example.com', firstName: 'John', lastName: 'Doe', role: 'user' }],
     count: 123
   },
-  middleware: [ 'auth' ],
+  middleware: ['auth'],
 
   inputs: {
     limit: { required: false, default: 20 },
@@ -331,7 +331,7 @@ exports.userList = {
 exports.userChangePassword = {
   name: 'user:changepw',
   description: 'Change password of user',
-  middleware: [ 'auth', 'owner' ],
+  middleware: ['auth', 'owner'],
   inputs: {
     id: { required: true },
     oldPassword: { required: true },
@@ -385,10 +385,10 @@ exports.userSharers = {
   name: 'user:sharers',
   description: 'user:sharers',
   outputExample: {
-    data: [ 'user@example.com' ],
+    data: ['user@example.com'],
     count: 123
   },
-  middleware: [ 'auth', 'owner' ],
+  middleware: ['auth', 'owner'],
 
   inputs: {
     id: { required: true }
@@ -431,10 +431,10 @@ exports.userSharees = {
   name: 'user:sharees',
   description: 'user:sharees',
   outputExample: {
-    data: [ 'user@example.com' ],
+    data: ['user@example.com'],
     count: 123
   },
-  middleware: [ 'auth', 'owner' ],
+  middleware: ['auth', 'owner'],
 
   inputs: {
     id: { required: true }
@@ -477,17 +477,17 @@ exports.updateSharees = {
   name: 'user:sharees:update',
   description: 'user:sharees:update',
   outputExample: {
-    data: [ 'user@example.com' ],
+    data: ['user@example.com'],
     count: 123
   },
-  middleware: [ 'auth' ],
+  middleware: ['auth'],
 
   inputs: {
     sharees: { required: true }
   },
 
   run: function (api, data, next) {
-    let query = {
+    const query = {
       include: [
         api.models.user.associations.sharees
       ],
@@ -536,7 +536,7 @@ exports.userDelete = {
   name: 'user:delete',
   description: 'user:delete',
   outputExample: {},
-  middleware: [ 'auth', 'admin' ],
+  middleware: ['auth', 'admin'],
 
   inputs: {
     id: { required: true }
@@ -557,7 +557,7 @@ exports.userDelete = {
         return next(new Error('orphanRecordsAdopter not defined'))
       }
 
-      let adoptForms = []
+      const adoptForms = []
       _.forEach(api.forms, form => {
         if (!form.model) return
         adoptForms.push(form.model.update({ userId: adopter.id }, { where: { userId: user.id } }))

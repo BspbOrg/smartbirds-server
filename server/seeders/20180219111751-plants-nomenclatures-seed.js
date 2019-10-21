@@ -20,13 +20,13 @@ function notify (force) {
 }
 
 function importRecord (queryInterface, record) {
-  return queryInterface.bulkInsert('Nomenclatures', [ {
+  return queryInterface.bulkInsert('Nomenclatures', [{
     type: record.type.trim() || null,
     labelBg: (record.bg || '').trim(),
     labelEn: (record.en || '').trim(),
     createdAt: new Date(),
     updatedAt: new Date()
-  } ])
+  }])
 }
 
 module.exports = {

@@ -35,8 +35,8 @@ module.exports = {
             updatedAt: new Date()
           }
           for (i = 1; i <= 4; i++) {
-            zone[ 'lat' + i ] = record[ 'Y_' + i ]
-            zone[ 'lon' + i ] = record[ 'X_' + i ]
+            zone['lat' + i] = record['Y_' + i]
+            zone['lon' + i] = record['X_' + i]
           }
           zones.push(zone)
         }

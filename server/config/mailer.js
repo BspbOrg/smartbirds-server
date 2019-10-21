@@ -1,6 +1,6 @@
 var path = require('path')
 
-exports[ 'default' ] = {
+exports.default = {
   mailer: function (api) {
     return {
       mailOptions: {

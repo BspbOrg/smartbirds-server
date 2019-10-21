@@ -8,7 +8,7 @@ if (process.env.REDIS_URL != null) {
   useFakeRedis = false
 
   var url = require('url')
-  var urlParts = url.parse(process.env.REDIS_URL)
+  var urlParts = new url.URL(process.env.REDIS_URL)
   password = null
 
   if (urlParts.pathname) {
@@ -26,7 +26,7 @@ if (process.env.REDIS_URL != null) {
   }
 }
 
-exports['default'] = {
+exports.default = {
   redis: function (api) {
     // konstructor: The redis client constructor method
     // args: The arguments to pass to the constructor
@@ -34,7 +34,7 @@ exports['default'] = {
 
     if (!useFakeRedis) {
       return {
-        '_toExpand': false,
+        _toExpand: false,
         client: {
           konstructor: require('ioredis'),
           args: [{ port: port, host: host, password: password, db: db }],
@@ -53,7 +53,7 @@ exports['default'] = {
       }
     } else {
       return {
-        '_toExpand': false,
+        _toExpand: false,
         client: {
           konstructor: require('fakeredis').createClient,
           args: [port, host, { fast: true }],

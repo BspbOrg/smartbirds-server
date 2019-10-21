@@ -106,7 +106,7 @@ exports.foreignKeys = [
 ]
 
 exports.indexes = [
-  { fields: [ 'userId' ] }
+  { fields: ['userId'] }
 ]
 
 exports.exportSkipFields = [

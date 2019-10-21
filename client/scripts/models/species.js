@@ -17,13 +17,13 @@ require('../app').service('Species', /* @ngInject */function ($resource, $transl
       locale = locale || $translate.$language || 'en'
       var label = (this.label || {})
 
-      return label[ locale ]
+      return label[locale]
     },
     toString: function (locale) {
       locale = locale || $translate.$language || 'en'
       var label = (this.label || {})
 
-      return label.la + ' | ' + label[ locale ]
+      return label.la + ' | ' + label[locale]
     }
   })
 

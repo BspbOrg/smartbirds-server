@@ -36,7 +36,7 @@ require('../app').directive('homeMap', /* @ngInject */function () {
         }
       })
 
-      api.stats[ $scope.form + '_stats' ]().then(function (records) {
+      api.stats[$scope.form + '_stats']().then(function (records) {
         vc.records = records
         angular.forEach(records, function (record) {
           record.id = record.id || ('' + record.latitude + record.longitude)

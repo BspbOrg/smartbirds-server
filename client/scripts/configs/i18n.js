@@ -13,7 +13,7 @@ require('../app')
       $translateProvider.useUrlLoader(ENDPOINT_URL + '/i18n')
     }
     $translateProvider
-      .registerAvailableLanguageKeys([ 'en', 'bg' ], {
+      .registerAvailableLanguageKeys(['en', 'bg'], {
         'en_*': 'en',
         'bg_*': 'bg',
         '*': 'en'

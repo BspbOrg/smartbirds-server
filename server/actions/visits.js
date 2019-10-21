@@ -7,7 +7,7 @@ var Promise = require('bluebird')
 exports.visitList = {
   name: 'visit:list',
   description: 'visit:list',
-  middleware: [ 'auth' ],
+  middleware: ['auth'],
 
   inputs: {},
 
@@ -51,7 +51,7 @@ exports.visitList = {
 exports.visitEdit = {
   name: 'visit:edit',
   description: 'visit:edit',
-  middleware: [ 'admin' ],
+  middleware: ['admin'],
 
   inputs: {
     year: { required: true },
@@ -94,7 +94,7 @@ exports.visitEdit = {
 exports.visitView = {
   name: 'visit:view',
   description: 'visit:view',
-  middleware: [ 'auth' ],
+  middleware: ['auth'],
   inputs: { year: { required: true } },
 
   run: function (api, data, next) {
@@ -136,7 +136,7 @@ exports.visitView = {
 exports.visitDelete = {
   name: 'visit:delete',
   description: 'visit:delete',
-  middleware: [ 'admin' ],
+  middleware: ['admin'],
   inputs: { year: { required: true } },
 
   run: function (api, data, next) {

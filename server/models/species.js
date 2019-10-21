@@ -30,15 +30,15 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     indexes: [
-      { unique: true, fields: [ 'type', 'labelLa' ] },
-      { fields: [ 'type', 'labelBg' ] },
-      { fields: [ 'type', 'labelEn' ] },
-      { fields: [ 'type', 'euring' ] },
-      { fields: [ 'type', 'code' ] }
+      { unique: true, fields: ['type', 'labelLa'] },
+      { fields: ['type', 'labelBg'] },
+      { fields: ['type', 'labelEn'] },
+      { fields: ['type', 'euring'] },
+      { fields: ['type', 'code'] }
     ],
     instanceMethods: {
       apiData: function (api, context) {
-        let res = {
+        const res = {
           type: this.type,
           label: {
             la: this.labelLa,

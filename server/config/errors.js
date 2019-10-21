@@ -1,10 +1,10 @@
 'use strict'
 
 // error messages can be strings of objects
-exports[ 'default' ] = {
+exports.default = {
   errors: function (api) {
     return {
-      '_toExpand': false,
+      _toExpand: false,
 
       // ///////////////
       // SERIALIZERS //
@@ -49,13 +49,13 @@ exports[ 'default' ] = {
 
       // When a params for an action is invalid
       invalidParams: function (data, validationErrors) {
-        if (validationErrors && validationErrors.length >= 0) { return data.connection.localize(validationErrors[ 0 ]) }
+        if (validationErrors && validationErrors.length >= 0) { return data.connection.localize(validationErrors[0]) }
         return data.connection.localize('actionhero.errors.invalidParams')
       },
 
       // When a required param for an action is not provided
       missingParams: function (data, missingParams) {
-        return data.connection.localize([ 'actionhero.errors.missingParams', { param: missingParams[ 0 ] } ])
+        return data.connection.localize(['actionhero.errors.missingParams', { param: missingParams[0] }])
       },
 
       // user requested an unknown action
@@ -65,7 +65,7 @@ exports[ 'default' ] = {
 
       // action not useable by this client/server type
       unsupportedServerType: function (data) {
-        return data.connection.localize([ 'actionhero.errors.unsupportedServerType', { type: data.connection.type } ])
+        return data.connection.localize(['actionhero.errors.unsupportedServerType', { type: data.connection.type }])
       },
 
       // action failed because server is mid-shutdown
@@ -80,10 +80,10 @@ exports[ 'default' ] = {
       },
 
       dataLengthTooLarge: function (maxLength, receivedLength) {
-        return api.i18n.localize([ 'actionhero.errors.dataLengthTooLarge', {
+        return api.i18n.localize(['actionhero.errors.dataLengthTooLarge', {
           maxLength: maxLength,
           receivedLength: receivedLength
-        } ])
+        }])
       },
 
       // ///////////////
@@ -93,7 +93,7 @@ exports[ 'default' ] = {
       // The body message to accompany 404 (file not found) errors regarding flat files
       // You may want to load in the contnet of 404.html or similar
       fileNotFound: function (connection) {
-        return connection.localize([ 'actionhero.errors.fileNotFound' ])
+        return connection.localize(['actionhero.errors.fileNotFound'])
       },
 
       // user didn't request a file
@@ -103,7 +103,7 @@ exports[ 'default' ] = {
 
       // something went wrong trying to read the file
       fileReadError: function (connection, error) {
-        return connection.localize([ 'actionhero.errors.fileReadError', { error: String(error) } ])
+        return connection.localize(['actionhero.errors.fileReadError', { error: String(error) }])
       },
 
       // ///////////////
@@ -111,11 +111,11 @@ exports[ 'default' ] = {
       // ///////////////
 
       verbNotFound: function (connection, verb) {
-        return connection.localize([ 'actionhero.errors.verbNotFound', { verb: verb } ])
+        return connection.localize(['actionhero.errors.verbNotFound', { verb: verb }])
       },
 
       verbNotAllowed: function (connection, verb) {
-        return connection.localize([ 'actionhero.errors.verbNotAllowed', { verb: verb } ])
+        return connection.localize(['actionhero.errors.verbNotAllowed', { verb: verb }])
       },
 
       connectionRoomAndMessage: function (connection) {
@@ -123,11 +123,11 @@ exports[ 'default' ] = {
       },
 
       connectionNotInRoom: function (connection, room) {
-        return connection.localize([ 'actionhero.errors.connectionNotInRoom', { room: room } ])
+        return connection.localize(['actionhero.errors.connectionNotInRoom', { room: room }])
       },
 
       connectionAlreadyInRoom: function (connection, room) {
-        return connection.localize([ 'actionhero.errors.connectionAlreadyInRoom', { room: room } ])
+        return connection.localize(['actionhero.errors.connectionAlreadyInRoom', { room: room }])
       },
 
       connectionRoomHasBeenDeleted: function (room) {

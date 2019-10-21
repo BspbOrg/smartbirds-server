@@ -20,14 +20,14 @@ function notify (force) {
 }
 
 function importRecord (queryInterface, record) {
-  return queryInterface.bulkInsert('Species', [ {
+  return queryInterface.bulkInsert('Species', [{
     type: record.type.trim() || null,
     labelLa: record.la.trim() || null,
     labelBg: (record.bg || '').trim() || null,
     labelEn: (record.en || '').trim() || null,
     createdAt: new Date(),
     updatedAt: new Date()
-  } ])
+  }])
 }
 
 module.exports = {
@@ -64,7 +64,7 @@ module.exports = {
       .then(function () {
         return queryInterface
           .rawSelect('Nomenclatures', {
-            attributes: [ 'type', 'labelBg', 'labelEn' ],
+            attributes: ['type', 'labelBg', 'labelEn'],
             where: {
               type: {
                 $ilike: 'herp_%'
@@ -101,7 +101,7 @@ module.exports = {
 
   down: function (queryInterface, Sequelize, next) {
     return Promise.all([
-      queryInterface.bulkDelete('Species', { type: [ 'herptiles', 'mammals' ] }),
+      queryInterface.bulkDelete('Species', { type: ['herptiles', 'mammals'] }),
       queryInterface.bulkDelete('Nomenclatures', { type: { $ilike: 'herptiles_%' } }),
       queryInterface.bulkDelete('Nomenclatures', { type: { $ilike: 'mammals_%' } })
     ])

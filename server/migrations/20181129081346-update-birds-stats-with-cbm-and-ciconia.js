@@ -163,6 +163,6 @@ module.exports = {
     await queryInterface.sequelize.query('DROP VIEW IF EXISTS birds_top_users_species_year')
     await queryInterface.sequelize.query('DROP VIEW IF EXISTS birds_top_users_records_year')
     await queryInterface.sequelize.query('DROP VIEW IF EXISTS birds_top_species_month')
-    await queryInterface.sequelize.query(`DROP VIEW IF EXISTS birds_top_interesting_species_month`)
+    await queryInterface.sequelize.query('DROP VIEW IF EXISTS birds_top_interesting_species_month')
   }
 }
