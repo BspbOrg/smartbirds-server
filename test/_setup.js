@@ -22,12 +22,11 @@ const setup = {
       console.log('    restarting test server...')
       setup.api = await setup.server.restart()
     }
-    await new Promise(resolve => setTimeout(resolve, 1000))
+
     return setup.api
   },
-  finish: async () => {
+  finish: () => {
     setup.server.stop()
-    await new Promise(resolve => setTimeout(resolve, 1000))
   },
   runAction: (action, params) => new Promise(resolve => setup.api.specHelper.runAction(action, params, resolve)),
   runActionAs: async (action, params, user) => {
