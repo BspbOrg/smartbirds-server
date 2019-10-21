@@ -62,7 +62,7 @@
     "browserify-ngannotate": "^2.0.0",
     "browserify-shim": "~3.8.0",
     "bulk-require": "~1.0.1",
-    "bulkify": "~1.1.1",
+    "bulkify": "~1.4.2",
     "concat-stream": "^2.0.0",
     "content-addressable-blob-store": "^5.0.1",
     "cross-env": "^6.0.3",
