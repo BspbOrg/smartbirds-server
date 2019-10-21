@@ -68,24 +68,35 @@ module.exports = {
       }
     )
 
-    var umzug = new Umzug({
-      storage: 'sequelize',
-      storageOptions: {
-        sequelize: sequelizeInstance
-      },
-      migrations: {
-        params: [sequelizeInstance.getQueryInterface(), sequelizeInstance.constructor, function () {
-          throw new Error('Migration tried to use old style "done" callback. Please upgrade to "umzug" and return a promise instead.')
-        }],
-        path: api.projectRoot + '/migrations'
-      }
-    })
-
     api.sequelize = {
 
       sequelize: sequelizeInstance,
 
-      umzug: umzug,
+      umzug: [],
+
+      importMigrationsFromDirectory (dir) {
+        (Array.isArray(dir) ? dir : [dir])
+          .map(dir => path.normalize(path.join(api.projectRoot, dir)))
+          .forEach(dir => {
+            api.sequelize.umzug.push(new Umzug({
+              storage: 'sequelize',
+              storageOptions: {
+                sequelize: api.sequelize.sequelize
+              },
+              logging: (msg, ...params) => api.log(msg, 'info', ...params),
+              migrations: {
+                params: [
+                  api.sequelize.sequelize.getQueryInterface(),
+                  api.sequelize.sequelize.constructor,
+                  () => {
+                    throw new Error('Migration tried to use old style "done" callback. Please upgrade to "umzug" and return a promise instead.')
+                  }],
+                path: dir,
+                pattern: /\.js$/
+              }
+            }))
+          })
+      },
 
       migrate: function (opts, next) {
         if (typeof opts === 'function') {
@@ -94,18 +105,26 @@ module.exports = {
         }
         opts = opts === null ? { method: 'up' } : opts
 
-        checkMetaOldSchema(api, umzug).then(function () {
-          return umzug.execute(opts)
+        checkMetaOldSchema(api).then(async function () {
+          for (const umzug of api.sequelize.umzug) {
+            await umzug.execute(opts)
+          }
         }).then(function () {
           next()
+        }, function (err) {
+          next(err)
         })
       },
 
       migrateUndo: function (next) {
-        checkMetaOldSchema(api, umzug).then(function () {
-          return umzug.down()
+        checkMetaOldSchema(api).then(async function () {
+          for (const umzug of api.sequelize.umzug) {
+            await umzug.down()
+          }
         }).then(function () {
           next()
+        }, function (err) {
+          next(err)
         })
       },
 
@@ -150,24 +169,17 @@ module.exports = {
         }
       },
 
-      autoMigrate: function (next) {
+      autoMigrate: async (next) => {
         if (api.config.sequelize.autoMigrate == null || api.config.sequelize.autoMigrate) {
-          checkMetaOldSchema(api, umzug).then(function () {
-            return umzug.pending()
-          }).then(function (migrations) {
-            return migrations.reduce(function (prev, migration) {
-              return prev.then(function () {
-                api.log('Executing migration ' + migration.file, 'debug')
-                return migration.up(sequelizeInstance.getQueryInterface(), sequelizeInstance.constructor)
-                  .then(function () {
-                    api.log('Finished migration ' + migration.file, 'debug')
-                  })
-              })
-            }, new Promise(resolve => resolve('start')))
+          checkMetaOldSchema(api).then(async function () {
+            for (const umzug of api.sequelize.umzug) {
+              api.log('Executing migration ' + umzug.file, 'debug')
+              await umzug.up()
+              api.log('Finished migration ' + umzug.file, 'debug')
+            }
           }).then(function () {
             next()
           }, function (err) {
-            api.log('Fatal error', 'error', err)
             next(err)
           })
         } else {
@@ -189,6 +201,8 @@ module.exports = {
         })
       }
     }
+
+    api.sequelize.importMigrationsFromDirectory(api.projectRoot + '/migrations')
 
     next()
   },
