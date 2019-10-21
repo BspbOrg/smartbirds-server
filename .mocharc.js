@@ -6,7 +6,7 @@ module.exports = {
   reporter: 'spec',
   require: ['should'],
   globals: ['config'],
-  timeout: 5000,
+  timeout: 10000,
   slow: 250,
   opts: false
 }
