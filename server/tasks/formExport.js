@@ -5,6 +5,7 @@ const csv = require('csv-stringify')
 const fs = require('fs')
 const path = require('path')
 const uuid = require('uuid')
+const { upgradeTask } = require('../utils/upgrade')
 
 async function exportCsv (api, records, formName, outputFilename) {
   records = await Promise.all(records.map(async (record) => record.exportData(api)))
@@ -100,7 +101,7 @@ async function exportZip (api, records, formName, outputFilename) {
   })
 }
 
-exports.task = {
+exports.task = upgradeTask('ah17', {
   name: 'form:export',
   description: 'form:export',
   frequency: 0,
@@ -171,4 +172,4 @@ exports.task = {
       return next(new Error(error.message))
     }
   }
-}
+})

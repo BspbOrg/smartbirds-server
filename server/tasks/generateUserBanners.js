@@ -1,6 +1,7 @@
 var Promise = require('bluebird')
+const { upgradeTask } = require('../utils/upgrade')
 
-module.exports.generateUserBanners = {
+module.exports.generateUserBanners = upgradeTask('ah17', {
   name: 'banner:generate',
   description: 'banner:generate',
   queue: 'default',
@@ -31,4 +32,4 @@ module.exports.generateUserBanners = {
         next(error)
       })
   }
-}
+})

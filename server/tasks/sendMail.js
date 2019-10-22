@@ -1,8 +1,9 @@
 /**
  * Created by groupsky on 22.11.15.
  */
+const { upgradeTask } = require('../utils/upgrade')
 
-module.exports.mailSend = {
+module.exports.mailSend = upgradeTask('ah17', {
   name: 'mail:send',
   description: 'mail:send',
   queue: 'default',
@@ -18,4 +19,4 @@ module.exports.mailSend = {
       return next(null, response)
     })
   }
-}
+})
