@@ -3,20 +3,6 @@
 const fs = require('fs')
 const winston = require('winston')
 
-const stringifyExtraMessagePropertiesForConsole = info => {
-  const skpippedProperties = ['message', 'timestamp', 'level']
-  let response = ''
-
-  for (const key in info) {
-    const value = info[key]
-    if (skpippedProperties.includes(key)) { continue }
-    if (value === undefined || value === null) { continue }
-    response += `${key}=${value} `
-  }
-
-  return response
-}
-
 const buildConsoleLogger = api => {
   return {
     level: process.env.LOG_LEVEL || 'info',
@@ -25,7 +11,7 @@ const buildConsoleLogger = api => {
       winston.format.timestamp(),
       winston.format.colorize(),
       winston.format.printf(info => {
-        return `${api.id} @ ${info.timestamp} - ${info.level}: ${info.message}}`
+        return `${api.id} @ ${info.timestamp} - ${info.level}: ${info.message}`
       })
     ),
     levels: winston.config.syslog.levels,
@@ -51,7 +37,7 @@ const buildFileLogger = api => {
       winston.format.splat(),
       winston.format.timestamp(),
       winston.format.printf(info => {
-        return `${api.id} @ ${info.timestamp} - ${info.level}: ${info.message} ${stringifyExtraMessagePropertiesForConsole(info)}`
+        return `${api.id} @ ${info.timestamp} - ${info.level}: ${info.message}`
       })),
     transports: [
       new winston.transports.File({
