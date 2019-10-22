@@ -285,7 +285,7 @@ function generateExportData (form) {
 
 function generateApiUpdate (fields) {
   return async function (data) {
-    await this.Model.runHooks('beforeApiUpdate', this, data)
+    await this.constructor.runHooks('beforeApiUpdate', this, data)
     _.forEach(fields, (field, name) => {
       if (_.isString(field)) field = { type: field }
       switch (field.type) {
@@ -364,7 +364,7 @@ function generateApiUpdate (fields) {
           break
       }
     })
-    await this.Model.runHooks('afterApiUpdate', this, data)
+    await this.constructor.runHooks('afterApiUpdate', this, data)
     return this
   }
 }
@@ -426,7 +426,7 @@ module.exports = {
 
         const hooks = [ 'beforeCreate', 'beforeUpdate', 'beforeSave' ]
         hooks.forEach(function (hook) {
-          form.model.hook(hook, updateHash)
+          form.model.addHook(hook, updateHash)
         })
 
         return form.model

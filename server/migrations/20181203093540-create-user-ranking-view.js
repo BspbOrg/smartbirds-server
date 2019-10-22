@@ -4,7 +4,7 @@ let forms = ['birds', 'herptiles', 'mammals', 'invertebrates', 'plants']
 
 module.exports = {
   up: async function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
 
     const selectClause = forms.map(function (form) {
       return `${form}_top_users_species_year.count as "${form}SpeciesCount", ${form}_top_users_species_year.position as "${form}SpeciesPosition",
@@ -27,7 +27,7 @@ module.exports = {
   },
 
   down: async function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
 
     await queryInterface.sequelize.query(`DROP VIEW IF EXISTS user_rank_stats`)
   }

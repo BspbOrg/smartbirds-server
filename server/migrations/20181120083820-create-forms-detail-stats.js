@@ -26,7 +26,7 @@ var tables = [
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
 
     return Promise.map(tables, function (table) {
       return Promise.all([
@@ -77,7 +77,7 @@ module.exports = {
   },
 
   down: async function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
     return Promise.map(tables, function (table) {
       return Promise.all([
         queryInterface.sequelize.query(`DROP VIEW IF EXISTS ${table.viewPrefix}_top_users_species_year`),

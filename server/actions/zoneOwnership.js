@@ -116,7 +116,7 @@ exports.zoneSetOwner = {
         return next(new Error('zone not found'))
       }
 
-      return api.models.user.findById(data.params.owner).then(function (user) {
+      return api.models.user.findByPk(data.params.owner).then(function (user) {
         if (!user) {
           data.connection.rawConnection.responseHttpCode = 404
           return next(new Error('user not found'))

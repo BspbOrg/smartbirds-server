@@ -3,6 +3,43 @@ var fs = require('fs')
 var Sequelize = require('sequelize')
 var Umzug = require('umzug')
 var _ = require('lodash')
+const Op = Sequelize.Op
+const operatorsAliases = {
+  $eq: Op.eq,
+  $ne: Op.ne,
+  $gte: Op.gte,
+  $gt: Op.gt,
+  $lte: Op.lte,
+  $lt: Op.lt,
+  $not: Op.not,
+  $in: Op.in,
+  $notIn: Op.notIn,
+  $is: Op.is,
+  $like: Op.like,
+  $notLike: Op.notLike,
+  $ilike: Op.iLike,
+  $notILike: Op.notILike,
+  $regexp: Op.regexp,
+  $notRegexp: Op.notRegexp,
+  $iRegexp: Op.iRegexp,
+  $notIRegexp: Op.notIRegexp,
+  $between: Op.between,
+  $notBetween: Op.notBetween,
+  $overlap: Op.overlap,
+  $contains: Op.contains,
+  $contained: Op.contained,
+  $adjacent: Op.adjacent,
+  $strictLeft: Op.strictLeft,
+  $strictRight: Op.strictRight,
+  $noExtendRight: Op.noExtendRight,
+  $noExtendLeft: Op.noExtendLeft,
+  $and: Op.and,
+  $or: Op.or,
+  $any: Op.any,
+  $all: Op.all,
+  $values: Op.values,
+  $col: Op.col
+}
 
 module.exports = {
   loadPriority: 310,
@@ -13,7 +50,22 @@ module.exports = {
       api.config.sequelize.database,
       api.config.sequelize.username,
       api.config.sequelize.password,
-      api.config.sequelize
+      {
+        ...api.config.sequelize,
+        operatorsAliases,
+        hooks: {
+          afterDefine (model) {
+            if (model.options.classMethods) {
+              Object.assign(model, model.options.classMethods)
+              delete model.options.classMethods
+            }
+            if (model.options.instanceMethods) {
+              Object.assign(model.prototype, model.options.instanceMethods)
+              delete model.options.instanceMethods
+            }
+          }
+        }
+      }
     )
 
     var umzug = new Umzug({
@@ -21,6 +73,7 @@ module.exports = {
       storageOptions: {
         sequelize: sequelizeInstance
       },
+      logging: (msg, ...params) => api.log(msg, 'info', ...params),
       migrations: {
         params: [ sequelizeInstance.getQueryInterface(), sequelizeInstance.constructor, function () {
           throw new Error('Migration tried to use old style "done" callback. Please upgrade to "umzug" and return a promise instead.')
@@ -46,6 +99,8 @@ module.exports = {
           return umzug.execute(opts)
         }).then(function () {
           next()
+        }, function (err) {
+          next(err)
         })
       },
 
@@ -54,6 +109,8 @@ module.exports = {
           return umzug.down()
         }).then(function () {
           next()
+        }, function (err) {
+          next(err)
         })
       },
 
@@ -100,6 +157,8 @@ module.exports = {
             return umzug.up()
           }).then(function () {
             next()
+          }, function (err) {
+            next(err)
           })
         } else {
           next()
@@ -116,7 +175,6 @@ module.exports = {
           next()
         }).catch(function (err) {
           api.log(err, 'warning')
-          console.log(err)
           next(err)
         })
       }
@@ -141,7 +199,11 @@ module.exports = {
   stopPriority: 99999, // aligned with actionhero's redis initializer
   stop: function (api, next) {
     api.sequelize.sequelize.close()
-    next()
+      .then(function () {
+        next()
+      }, function (err) {
+        next(err)
+      })
   }
 }
 

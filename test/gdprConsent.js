@@ -121,7 +121,7 @@ describe('GDPR Consent:', function () {
       response.should.not.have.property('error')
       response.should.have.property('data')
 
-      const user = await setup.api.models.user.findById(response.data.id)
+      const user = await setup.api.models.user.findByPk(response.data.id)
       // hangs when trying to directly assert
       const consent = user.gdprConsent
       should(consent).not.be.ok()

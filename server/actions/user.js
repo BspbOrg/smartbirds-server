@@ -303,7 +303,7 @@ exports.userList = {
       q.where.privacy = 'public'
     } else if (!data.session.user.isAdmin && !data.session.user.isModerator) {
       promise = api.models.user
-        .findById(data.session.userId)
+        .findByPk(data.session.userId)
         .then(function (user) {
           if (!user) return { count: 0, rows: [] }
           return user
@@ -504,7 +504,7 @@ exports.updateSharees = {
         return Promise
           .all(data.params.sharees.map(function (filter) {
             if (filter.id) {
-              return api.models.user.findById(filter.id)
+              return api.models.user.findByPk(filter.id)
             }
             return api.models.user.findOne({ where: { email: filter.email } })
           }))

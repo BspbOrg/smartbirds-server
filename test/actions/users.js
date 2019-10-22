@@ -335,7 +335,7 @@ describe('Action user:', function () {
             deleteResponse.should.have.property('success', true)
           })
           it('should delete user from db', async function () {
-            const record = await setup.api.models.user.findById(userId)
+            const record = await setup.api.models.user.findByPk(userId)
             should(record).not.be.ok()
           })
           it('should allow registering new user with the same email', async function () {
@@ -370,7 +370,7 @@ describe('Action user:', function () {
 
             for (let i = 0; i < records.length; i++) {
               const record = records[ i ]
-              const r = await setup.api.models[ `form${capitalizeFirstLetter(record.type)}` ].findById(record.id)
+              const r = await setup.api.models[ `form${capitalizeFirstLetter(record.type)}` ].findByPk(record.id)
               should(r).be.ok()
               r.userId.should.not.equal(userId)
             }

@@ -24,7 +24,7 @@ module.exports.mailchimpCreate = {
   // npm run enqueue --name=mailchimp:create --args='{"userId": 9999}'
   frequency: 0,
   run: function (api, { userId }, next) {
-    api.models.user.findById(userId)
+    api.models.user.findByPk(userId)
       .then(function (user) {
         if (!user) return Promise.reject(new Error(`User ${userId} was not found in db`))
         api.mailchimp.createUser(user)

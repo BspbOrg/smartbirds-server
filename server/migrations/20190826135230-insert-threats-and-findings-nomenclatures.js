@@ -87,7 +87,7 @@ function deleteExistingValues (queryInterface) {
 module.exports = {
   up: async function (queryInterface, Sequelize) {
     // we use hard-coded IDs for the nomenclatures in test fixtures and fixtures cannot be applied if the migration is executed
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
 
     await deleteExistingValues(queryInterface)
 
@@ -112,7 +112,7 @@ module.exports = {
   },
 
   down: async function (queryInterface, Sequelize) {
-    if (queryInterface.sequelize.options.dialect !== 'postgres') return
+    if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
 
     await deleteExistingValues(queryInterface)
   }
