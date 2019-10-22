@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const moment = require('moment')
+const { upgradeInitializer } = require('../utils/upgrade')
 
 function generatePrepareQuery (form) {
   const prepareQuery = form.filterList
@@ -201,7 +202,7 @@ function registerForm (form) {
   form.prepareCsvQuery = generatePrepareCsvQuery(form)
 }
 
-module.exports = {
+module.exports = upgradeInitializer('ah17', {
   // after actions and before params
   loadPriority: 350,
   initialize: function (api, next) {
@@ -217,4 +218,4 @@ module.exports = {
 
     next()
   }
-}
+})

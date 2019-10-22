@@ -3,6 +3,7 @@ var fs = require('fs')
 var Sequelize = require('sequelize')
 var Umzug = require('umzug')
 var _ = require('lodash')
+const { upgradeInitializer } = require('../utils/upgrade')
 const Op = Sequelize.Op
 const operatorsAliases = {
   $eq: Op.eq,
@@ -41,7 +42,7 @@ const operatorsAliases = {
   $col: Op.col
 }
 
-module.exports = {
+module.exports = upgradeInitializer('ah17', {
   loadPriority: 310,
   initialize: function (api, next) {
     api.models = {}
@@ -205,7 +206,7 @@ module.exports = {
         next(err)
       })
   }
-}
+})
 
 function checkMetaOldSchema (api) {
   // Check if we need to upgrade from the old sequelize migration format

@@ -1,6 +1,7 @@
 var crypto = require('crypto')
+const { upgradeInitializer } = require('../utils/upgrade')
 
-module.exports = {
+module.exports = upgradeInitializer('ah17', {
   initialize: function (api, next) {
     const redis = api.redis.clients.client
 
@@ -155,4 +156,4 @@ module.exports = {
   stop: function (api, next) {
     next()
   }
-}
+})

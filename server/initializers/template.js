@@ -5,8 +5,9 @@
 var Promise = require('bluebird')
 var readFile = Promise.promisify(require('fs').readFile)
 var ejs = require('ejs')
+const { upgradeInitializer } = require('../utils/upgrade')
 
-module.exports = {
+module.exports = upgradeInitializer('ah17', {
   initialize: function (api, next) {
     api.template = {
       render: function (view, args) {
@@ -20,4 +21,4 @@ module.exports = {
 
     next()
   }
-}
+})

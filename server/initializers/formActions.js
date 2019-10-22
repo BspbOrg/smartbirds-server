@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const inputHelpers = require('../helpers/inputs')
+const { upgradeInitializer } = require('../utils/upgrade')
 
 /**
  * @param {{modelName: String}} form
@@ -275,7 +276,7 @@ function registerForm (api, form) {
   })
 }
 
-module.exports = {
+module.exports = upgradeInitializer('ah17', {
   // after actions and before params
   loadPriority: 411,
   initialize: function (api, next) {
@@ -294,4 +295,4 @@ module.exports = {
 
     next()
   }
-}
+})

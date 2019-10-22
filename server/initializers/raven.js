@@ -1,8 +1,9 @@
 /**
  * Created by groupsky on 23.03.16.
  */
+const { upgradeInitializer } = require('../utils/upgrade')
 
-module.exports = {
+module.exports = upgradeInitializer('ah17', {
   loadPriority: 500,
   initialize: function (api, next) {
     var raven = require('raven')
@@ -62,4 +63,4 @@ module.exports = {
 
     api.actions.addMiddleware(api.raven.middleware.action)
   }
-}
+})

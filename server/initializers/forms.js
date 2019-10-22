@@ -7,6 +7,7 @@ const Promise = require('bluebird')
 const { hooks } = require('sequelize/lib/hooks')
 const { DataTypes } = require('sequelize')
 const capitalizeFirstLetter = require('../utils/capitalizeFirstLetter')
+const { upgradeInitializer } = require('../utils/upgrade')
 
 // Add custom hooks to sequelize hooks list
 hooks.beforeApiUpdate = { params: 2 }
@@ -401,7 +402,7 @@ function updateHash (instance) {
   instance.hash = instance.calculateHash()
 }
 
-module.exports = {
+module.exports = upgradeInitializer('ah17', {
   loadPriority: 320,
   initialize: function (api, next) {
     api.forms = {
@@ -448,4 +449,4 @@ module.exports = {
 
     next()
   }
-}
+})
