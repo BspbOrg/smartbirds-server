@@ -8,8 +8,8 @@ var stream = require('stream')
 
 module.exports = {
   initialize: function (api, next) {
-    api.config.servers.web.formOptions.uploadDir = api.config.servers.web.formOptions.uploadDir || api.config.general.paths.fileupload[ 0 ]
-    api.config.filestorage.path = api.config.filestorage.path || api.config.general.paths.monitoring[ 0 ]
+    api.config.servers.web.formOptions.uploadDir = api.config.servers.web.formOptions.uploadDir || api.config.general.paths.fileupload[0]
+    api.config.filestorage.path = api.config.filestorage.path || api.config.general.paths.monitoring[0]
 
     api.log('initializing filestorage at %s', 'info', api.config.filestorage.path)
     api.filestorage = {

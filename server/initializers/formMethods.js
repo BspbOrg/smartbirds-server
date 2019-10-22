@@ -7,11 +7,11 @@ function generatePrepareQuery (form) {
   return async function (api, data, query) {
     query = query || {}
 
-    let limit = parseInt(data.params.limit) || 20
-    let offset = parseInt(data.params.offset) || 0
+    const limit = parseInt(data.params.limit) || 20
+    const offset = parseInt(data.params.offset) || 0
 
     query = _.extend(query, {
-      order: [ [ 'observationDateTime', 'DESC' ] ],
+      order: [['observationDateTime', 'DESC']],
       offset: offset
     })
     if (limit !== -1) {
@@ -100,14 +100,14 @@ function generatePrepareQuery (form) {
       query.where = query.where || {}
       query.include = query.include || []
 
-      query.where.confidential = { $or: [ null, false ] }
+      query.where.confidential = { $or: [null, false] }
 
       query.include.push(form.model.associations.user)
-      query.where[ '$user.privacy$' ] = 'public'
+      query.where['$user.privacy$'] = 'public'
 
       if (form.model.associations.speciesInfo) {
         query.include.push(form.model.associations.speciesInfo)
-        query.where[ '$speciesInfo.sensitive$' ] = { $or: [false, null] }
+        query.where['$speciesInfo.sensitive$'] = { $or: [false, null] }
       }
 
       if (data.params.user) {
@@ -136,7 +136,7 @@ function generatePrepareQuery (form) {
           query.where.userId = data.params.user
           query.include = query.include || []
           query.include.push(form.model.associations.speciesInfo)
-          query.where[ '$speciesInfo.sensitive$' ] = false
+          query.where['$speciesInfo.sensitive$'] = false
         }
       }
     }
@@ -147,7 +147,7 @@ function generatePrepareQuery (form) {
 
 function generateRetrieveRecord (form) {
   return async function retrieveRecord (api, data) {
-    let record = await api.models[ form.modelName ].findOne({ where: { id: data.params.id } })
+    const record = await api.models[form.modelName].findOne({ where: { id: data.params.id } })
     if (!record) {
       data.connection.rawConnection.responseHttpCode = 404
       throw new Error(api.config.errors.formNotFound(data.connection, form.modelName, data.params.id))
@@ -182,12 +182,12 @@ function generatePrepareCsvQuery (form) {
     query = query || {}
 
     query.include = (query.include || []).concat([
-      api.models[ form.modelName ].associations.user
+      api.models[form.modelName].associations.user
     ])
 
-    if (api.models[ form.modelName ].associations.speciesInfo) {
+    if (api.models[form.modelName].associations.speciesInfo) {
       query.include = query.include.concat([
-        api.models[ form.modelName ].associations.speciesInfo
+        api.models[form.modelName].associations.speciesInfo
       ])
     }
 

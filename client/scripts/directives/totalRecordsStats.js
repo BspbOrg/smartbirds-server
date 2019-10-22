@@ -7,7 +7,7 @@ require('../app').directive('totalRecordsStats', /* @ngInject */function () {
     },
     controller: /* @ngInject */function ($q, api) {
       var $ctrl = this
-      api.stats['total_user_records_stats']().then(function (stats) {
+      api.stats.total_user_records_stats().then(function (stats) {
         $ctrl.stats = stats
       })
     },

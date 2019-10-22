@@ -18,7 +18,7 @@ require('../app').factory('User', /* @ngInject */function ($resource, $translate
   // methods
   angular.extend(User.prototype, {
     getName: function () {
-      return [ this.firstName, this.lastName ].filter(function (s) {
+      return [this.firstName, this.lastName].filter(function (s) {
         return !!s
       }).join(' ')
     },

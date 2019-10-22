@@ -3,7 +3,7 @@ var storageHelper = require('../helpers/filestorage')
 exports.uploader = {
   name: 'uploader',
   description: 'uploader',
-  middleware: [ 'auth' ],
+  middleware: ['auth'],
   inputs: {
     file: { required: true }
   },
@@ -23,7 +23,7 @@ exports.uploader = {
 exports.download = {
   name: 'downloader',
   description: 'downloader',
-  middleware: [ 'auth' ],
+  middleware: ['auth'],
   inputs: {
     id: { required: true }
   },
@@ -42,7 +42,7 @@ exports.download = {
 
       api.log('sending', 'info', stat)
       if (stat.name) {
-        data.connection.rawConnection.responseHeaders.push([ 'Content-Disposition', `attachment; filename="${stat.name}"` ])
+        data.connection.rawConnection.responseHeaders.push(['Content-Disposition', `attachment; filename="${stat.name}"`])
       }
       api.servers.servers.web.sendFile(data.connection, null, stream, stat.type)
       data.toRender = false

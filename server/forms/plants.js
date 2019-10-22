@@ -93,4 +93,4 @@ exports.foreignKeys.push({
   scope: { type: 'plants' }
 })
 
-exports.indexes.push({ fields: [ 'species' ] })
+exports.indexes.push({ fields: ['species'] })

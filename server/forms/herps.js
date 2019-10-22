@@ -81,4 +81,4 @@ exports.foreignKeys.push({
   scope: { type: 'herp' }
 })
 
-exports.indexes.push({ fields: [ 'species' ] })
+exports.indexes.push({ fields: ['species'] })

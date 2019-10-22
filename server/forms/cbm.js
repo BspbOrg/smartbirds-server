@@ -177,8 +177,8 @@ exports.foreignKeys.push({
   scope: { type: 'birds' }
 })
 
-exports.indexes.push({ fields: [ 'species' ] })
-exports.indexes.push({ fields: [ 'zoneId' ] })
+exports.indexes.push({ fields: ['species'] })
+exports.indexes.push({ fields: ['zoneId'] })
 
 exports.listInputs = {
   zone: {},
@@ -197,7 +197,7 @@ exports.filterList = async function (api, data, q) {
     delete q.where.location
     q.include = q.include || []
     q.include.push(api.models.zone.associations.zone)
-    q.where[ '$zone.locationId$' ] = data.params.location
+    q.where['$zone.locationId$'] = data.params.location
   }
   if (data.params.visit) {
     q.where = _.extend(q.where || {}, {
@@ -245,13 +245,13 @@ exports.prepareCsv = async function (api, record) {
     plotSectionBg: record.plotBg,
     plotSectionEn: record.plotEn,
     latitute: record.latitude,
-    species: record[ 'speciesInfo.labelLa' ] + ' | ' + record[ 'speciesInfo.labelBg' ],
+    species: record['speciesInfo.labelLa'] + ' | ' + record['speciesInfo.labelBg'],
     visitBg: record.visitBg,
     visitEn: record.visitEn,
     count: record.count,
     primaryHabitatBg: record.primaryHabitatBg,
     primaryHabitatEn: record.primaryHabitatEn,
-    speciesEuringCode: record[ 'speciesInfo.euring' ],
-    speciesCode: record[ 'speciesInfo.code' ]
+    speciesEuringCode: record['speciesInfo.euring'],
+    speciesCode: record['speciesInfo.code']
   }
 }

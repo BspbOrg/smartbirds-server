@@ -39,7 +39,7 @@ require('../app').directive('sbValidationMatch', /* @ngInject */function ($parse
 
       function getMatchValue () {
         var match = matchGetter(scope)
-        if (angular.isObject(match) && match.hasOwnProperty('$viewValue')) {
+        if (angular.isObject(match) && Object.hasOwnProperty.call(match, '$viewValue')) {
           match = match.$viewValue
         }
         return match

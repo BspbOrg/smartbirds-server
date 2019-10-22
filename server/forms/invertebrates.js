@@ -76,7 +76,7 @@ exports.foreignKeys.push({
   scope: { type: 'invertebrates' }
 })
 
-exports.indexes.push({ fields: [ 'species' ] })
+exports.indexes.push({ fields: ['species'] })
 
 exports.exportSkipFields = [
   'threatsInvertebrates'

@@ -4,7 +4,7 @@ function parseDatabaseUrl (databaseUrl, options) {
 
   var url = require('url')
 
-  var urlParts = url.parse(databaseUrl)
+  var urlParts = new url.URL(databaseUrl)
   // reset username and password to null so we don't pass the options as the username
   options.username = null
   options.password = null
@@ -26,14 +26,14 @@ function parseDatabaseUrl (databaseUrl, options) {
   }
 
   if (urlParts.auth) {
-    options.username = urlParts.auth.split(':')[ 0 ]
-    options.password = urlParts.auth.split(':')[ 1 ]
+    options.username = urlParts.auth.split(':')[0]
+    options.password = urlParts.auth.split(':')[1]
   }
 
   return options
 }
 
-exports[ 'default' ] = {
+exports.default = {
   sequelize: function (api) {
     return parseDatabaseUrl(process.env.DATABASE_URL || 'postgres://smartbirds:secret@localhost:5432/smartbirds', {
       autoMigrate: true,
@@ -80,7 +80,7 @@ exports.test = {
 // For sequelize-cli
 // Add to the exports below, if you have setup additional environment-specific settings
 
-exports.development = exports[ 'default' ].sequelize()
+exports.development = exports.default.sequelize()
 exports.test = merge(exports.test)
 exports.staging = merge(exports.staging)
 exports.production = merge(exports.production)
@@ -88,12 +88,12 @@ exports.production = merge(exports.production)
 function merge (overlayFn) {
   var attrname
   var mergeObj = {}
-  for (attrname in exports[ 'default' ].sequelize()) {
-    mergeObj[ attrname ] = exports[ 'default' ].sequelize()[ attrname ]
+  for (attrname in exports.default.sequelize()) {
+    mergeObj[attrname] = exports.default.sequelize()[attrname]
   }
   if (typeof (overlayFn) !== 'undefined') {
     for (attrname in overlayFn.sequelize()) {
-      mergeObj[ attrname ] = overlayFn.sequelize()[ attrname ]
+      mergeObj[attrname] = overlayFn.sequelize()[attrname]
     }
   }
 

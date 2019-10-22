@@ -22,13 +22,13 @@ function serialize (obj) {
   return '{' +
     Object.keys(obj)
       .sort()
-      .map(key => '"' + key + '":' + serialize(obj[ key ]))
+      .map(key => '"' + key + '":' + serialize(obj[key]))
       .join(',') +
     '}'
 }
 
 function formAttributes (fields) {
-  let fieldsDef = {}
+  const fieldsDef = {}
 
   if (!('hash' in fieldsDef)) {
     fieldsDef.hash = DataTypes.TEXT
@@ -39,7 +39,7 @@ function formAttributes (fields) {
       field = { type: field }
     }
 
-    let fd = {
+    const fd = {
       allowNull: !field.required
     }
 
@@ -48,22 +48,22 @@ function formAttributes (fields) {
       case 'choice': {
         switch (field.relation.model) {
           case 'nomenclature': {
-            fieldsDef[ name + 'Bg' ] = _.extend({
+            fieldsDef[name + 'Bg'] = _.extend({
               type: DataTypes.TEXT
             }, fd)
-            fieldsDef[ name + 'En' ] = _.extend({
+            fieldsDef[name + 'En'] = _.extend({
               type: DataTypes.TEXT
             }, fd)
             break
           }
           case 'species': {
-            fieldsDef[ name ] = _.extend({
+            fieldsDef[name] = _.extend({
               type: DataTypes.TEXT
             }, fd)
             break
           }
           case 'zone': {
-            fieldsDef[ name + 'Id' ] = _.extend({
+            fieldsDef[name + 'Id'] = _.extend({
               type: field.type === 'multi'
                 ? DataTypes.TEXT
                 : DataTypes.STRING(10)
@@ -71,7 +71,7 @@ function formAttributes (fields) {
             break
           }
           case 'user': {
-            fieldsDef[ name + 'Id' ] = _.extend({
+            fieldsDef[name + 'Id'] = _.extend({
               type: field.type === 'multi'
                 ? DataTypes.TEXT
                 : DataTypes.INTEGER
@@ -84,7 +84,7 @@ function formAttributes (fields) {
         break
       }
       case 'timestamp': {
-        fieldsDef[ name ] = _.extend({
+        fieldsDef[name] = _.extend({
           type: DataTypes.DATE
         }, fd)
         break
@@ -92,32 +92,32 @@ function formAttributes (fields) {
       case 'float':
       case '+num':
       case 'num': {
-        fieldsDef[ name ] = _.extend({
+        fieldsDef[name] = _.extend({
           type: DataTypes.FLOAT
         }, fd)
         break
       }
       case '+int':
       case 'int': {
-        fieldsDef[ name ] = _.extend({
+        fieldsDef[name] = _.extend({
           type: DataTypes.INTEGER
         }, fd)
         break
       }
       case 'text': {
-        fieldsDef[ name ] = _.extend({
+        fieldsDef[name] = _.extend({
           type: DataTypes.TEXT
         }, fd)
         break
       }
       case 'boolean': {
-        fieldsDef[ name ] = _.extend({
+        fieldsDef[name] = _.extend({
           type: DataTypes.BOOLEAN
         }, fd)
         break
       }
       case 'json': {
-        fieldsDef[ name ] = _.extend({
+        fieldsDef[name] = _.extend({
           type: DataTypes.TEXT
         }, fd)
         break
@@ -130,7 +130,7 @@ function formAttributes (fields) {
 }
 
 function generateCalcHash (fields) {
-  let hashFields = []
+  const hashFields = []
 
   let schemaFields = formAttributes(_.pickBy(fields, function (field) {
     return field.uniqueHash
@@ -143,14 +143,14 @@ function generateCalcHash (fields) {
   hashFields.sort()
 
   return function () {
-    let serialized =
+    const serialized =
       '{' +
       hashFields
         .filter(key => key in this)
-        .map(key => '"' + key + '":' + serialize(this[ key ]))
+        .map(key => '"' + key + '":' + serialize(this[key]))
         .join(',') +
       '}'
-    let hash = crypto.createHash('sha256')
+    const hash = crypto.createHash('sha256')
     hash.update(serialized)
     return hash.digest('hex')
   }
@@ -167,11 +167,11 @@ function generateApiData (fields) {
           case 'multi': {
             switch (field.relation.model) {
               case 'nomenclature': {
-                let res = []
-                let bg = this[ name + 'Bg' ] ? this[ name + 'Bg' ].split('|').map(function (val) {
+                const res = []
+                const bg = this[name + 'Bg'] ? this[name + 'Bg'].split('|').map(function (val) {
                   return val.trim()
                 }) : []
-                let en = this[ name + 'En' ] ? this[ name + 'En' ].split('|').map(function (val) {
+                const en = this[name + 'En'] ? this[name + 'En'].split('|').map(function (val) {
                   return val.trim()
                 }) : []
                 while (bg.length && en.length) {
@@ -185,7 +185,7 @@ function generateApiData (fields) {
                 return res
               }
               case 'species': {
-                return this[ name ] ? this[ name ].split('|').map(function (val) {
+                return this[name] ? this[name].split('|').map(function (val) {
                   return val.trim()
                 }) : []
               }
@@ -196,29 +196,29 @@ function generateApiData (fields) {
           case 'choice': {
             switch (field.relation.model) {
               case 'nomenclature': {
-                return (this[ name + 'Bg' ] || this[ name + 'En' ]) ? {
+                return (this[name + 'Bg'] || this[name + 'En']) ? {
                   label: {
-                    bg: this[ name + 'Bg' ],
-                    en: this[ name + 'En' ]
+                    bg: this[name + 'Bg'],
+                    en: this[name + 'En']
                   }
                 } : null
               }
               case 'species': {
-                return this[ name ]
+                return this[name]
               }
               case 'user':
               case 'zone': {
-                return this[ name + 'Id' ]
+                return this[name + 'Id']
               }
               default:
                 return Promise.reject(new Error('[' + name + '] Unhandled relation model ' + field.relation.model))
             }
           }
           case 'json': {
-            return this[ name ] && JSON.parse(this[ name ])
+            return this[name] && JSON.parse(this[name])
           }
           default:
-            return this[ name ]
+            return this[name]
         }
       }))
       .then(data => {
@@ -256,7 +256,7 @@ function generateExportData (form) {
       pre.lastName = this.user.lastName
     }
     let mid = _.omitBy(this.dataValues, function (value, key) {
-      return form.exportSkipFields.indexOf(key.split('.')[ 0 ]) !== -1
+      return form.exportSkipFields.indexOf(key.split('.')[0]) !== -1
     })
     if (form.prepareCsv) {
       mid = await form.prepareCsv(api, this, mid)
@@ -265,12 +265,12 @@ function generateExportData (form) {
       notes: (this.notes || '').replace(/[\n\r]+/g, ' '),
       speciesNotes: (this.speciesNotes || '').replace(/[\n\r]+/g, ' '),
       pictures: (this.pictures ? JSON.parse(this.pictures) || [] : []).map(function (pic) {
-        return pic.url && pic.url.split('/').slice(-1)[ 0 ] + '.jpg'
+        return pic.url && pic.url.split('/').slice(-1)[0] + '.jpg'
       }).filter(function (val) {
         return val
       }).join(', ') || '',
       track: this.track && this.monitoringCode + '.gpx',
-      trackId: this.track && this.track.split('/').slice(-1)[ 0 ]
+      trackId: this.track && this.track.split('/').slice(-1)[0]
     }
 
     if (this.speciesInfo) {
@@ -294,28 +294,28 @@ function generateApiUpdate (fields) {
             case 'nomenclature': {
               if (!_.has(data, name)) return
 
-              let val = data[ name ]
+              let val = data[name]
 
               if (!val) {
-                this[ name + 'Bg' ] = null
-                this[ name + 'En' ] = null
+                this[name + 'Bg'] = null
+                this[name + 'En'] = null
               }
-              if (!_.isArray(val)) val = [ val ]
-              this[ name + 'Bg' ] = _.reduce(val, (sum, v) => sum + (sum ? ' | ' : '') + v.label.bg, '')
-              this[ name + 'En' ] = _.reduce(val, (sum, v) => sum + (sum ? ' | ' : '') + v.label.en, '')
+              if (!_.isArray(val)) val = [val]
+              this[name + 'Bg'] = _.reduce(val, (sum, v) => sum + (sum ? ' | ' : '') + v.label.bg, '')
+              this[name + 'En'] = _.reduce(val, (sum, v) => sum + (sum ? ' | ' : '') + v.label.en, '')
 
               break
             }
             case 'species': {
               if (!_.has(data, name)) return
 
-              let val = data[ name ]
+              let val = data[name]
 
               if (!val) {
-                this[ name ] = null
+                this[name] = null
               }
-              if (!_.isArray(val)) val = [ val ]
-              this[ name ] = _.reduce(val, (sum, v) => sum + (sum ? ' | ' : '') + v, '')
+              if (!_.isArray(val)) val = [val]
+              this[name] = _.reduce(val, (sum, v) => sum + (sum ? ' | ' : '') + v, '')
 
               break
             }
@@ -329,21 +329,21 @@ function generateApiUpdate (fields) {
             case 'nomenclature': {
               if (!_.has(data, name)) return
 
-              this[ name + 'Bg' ] = data[ name ] && data[ name ].label.bg
-              this[ name + 'En' ] = data[ name ] && data[ name ].label.en
+              this[name + 'Bg'] = data[name] && data[name].label.bg
+              this[name + 'En'] = data[name] && data[name].label.en
               break
             }
             case 'species': {
               if (!_.has(data, name)) return
 
-              this[ name ] = data[ name ]
+              this[name] = data[name]
               break
             }
             case 'user':
             case 'zone': {
               if (!_.has(data, name)) return
 
-              this[ name + 'Id' ] = data[ name ]
+              this[name + 'Id'] = data[name]
               break
             }
             default: {
@@ -355,12 +355,12 @@ function generateApiUpdate (fields) {
         case 'json':
           if (!_.has(data, name)) return
 
-          this[ name ] = JSON.stringify(data[ name ])
+          this[name] = JSON.stringify(data[name])
           break
         default:
           if (!_.has(data, name)) return
 
-          this[ name ] = data[ name ]
+          this[name] = data[name]
           break
       }
     })
@@ -377,7 +377,7 @@ function formOptions (form) {
       associate: function (models) {
         if (!form.foreignKeys || form.foreignKeys.length <= 0) return
         form.foreignKeys.forEach(foreignKey => {
-          this.belongsTo(models[ foreignKey.targetModelName ], {
+          this.belongsTo(models[foreignKey.targetModelName], {
             as: foreignKey.as,
             foreignKey: foreignKey.foreignKey,
             targetKey: foreignKey.targetKey,
@@ -406,25 +406,25 @@ module.exports = {
   initialize: function (api, next) {
     api.forms = {
       isModerator (user, modelName) {
-        return user.role === 'moderator' && user.forms && user.forms[ modelName ]
+        return user.role === 'moderator' && user.forms && user.forms[modelName]
       },
       import (filename) {
         const form = require(filename)
-        form.modelName = form.modelName || `form${capitalizeFirstLetter(filename.split('/').pop().split('.')[ 0 ])}`
+        form.modelName = form.modelName || `form${capitalizeFirstLetter(filename.split('/').pop().split('.')[0])}`
 
         api.forms.register(form)
         return form
       },
       register (form) {
-        api.forms[ form.modelName ] = form
+        api.forms[form.modelName] = form
 
         const attributes = formAttributes(form.fields)
         delete attributes.createdAt
         delete attributes.updatedAt
 
-        form.model = api.models[ form.modelName ] = api.sequelize.sequelize.define(form.tableName, attributes, formOptions(form))
+        form.model = api.models[form.modelName] = api.sequelize.sequelize.define(form.tableName, attributes, formOptions(form))
 
-        const hooks = [ 'beforeCreate', 'beforeUpdate', 'beforeSave' ]
+        const hooks = ['beforeCreate', 'beforeUpdate', 'beforeSave']
         hooks.forEach(function (hook) {
           form.model.addHook(hook, updateHash)
         })
@@ -441,7 +441,7 @@ module.exports = {
 
       api.watchFileAndAct(filename, () => {
         api.log('rebooting due to form change: ' + form.modelName, 'info')
-        delete require.cache[ require.resolve(filename) ]
+        delete require.cache[require.resolve(filename)]
         api.commands.restart()
       })
     })

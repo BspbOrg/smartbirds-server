@@ -1,6 +1,6 @@
 var path = require('path')
 
-exports['default'] = {
+exports.default = {
   poeditor: function (api) {
     return {
       enabled: process.env.POEDITOR_ENABLED,

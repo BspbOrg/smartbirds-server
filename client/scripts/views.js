@@ -18,6 +18,6 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging')
       }
     }
 
-    registerViews('/views', bulk(__dirname + '/../views', [ '**/*.html' ])) // eslint-disable-line no-path-concat
+    registerViews('/views', bulk(__dirname + '/../views', ['**/*.html'])) // eslint-disable-line no-path-concat
   })
 }

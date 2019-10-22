@@ -32,23 +32,23 @@ module.exports = {
       .on('readable', function () {
         var record
         while (record = parser.read()) { // eslint-disable-line no-cond-assign
-          var zoneId = record[ 'UTMNameFul' ]
+          var zoneId = record.UTMNameFul
           var fields = {
-            nameBg: record[ 'Name_bg_naseleno_myasto' ],
-            nameEn: record[ 'Name_en_naseleno_myasto' ],
-            areaBg: record[ 'NAME_Obshtina' ],
-            areaEn: record[ 'L_NAME_Obshtina' ],
-            typeBg: record[ 'Descr_bg_naseleno_myasto' ],
-            typeEn: record[ 'Descr_en_naseleno_myasto' ],
-            regionBg: record[ 'REG_NAME' ],
-            regionEn: record[ 'REG_LNAME' ],
-            latitude: record[ 'POINT_Y' ],
-            longitude: record[ 'POINT_X' ],
-            ekatte: record[ 'EKATTE' ]
+            nameBg: record.Name_bg_naseleno_myasto,
+            nameEn: record.Name_en_naseleno_myasto,
+            areaBg: record.NAME_Obshtina,
+            areaEn: record.L_NAME_Obshtina,
+            typeBg: record.Descr_bg_naseleno_myasto,
+            typeEn: record.Descr_en_naseleno_myasto,
+            regionBg: record.REG_NAME,
+            regionEn: record.REG_LNAME,
+            latitude: record.POINT_Y,
+            longitude: record.POINT_X,
+            ekatte: record.EKATTE
           }
           inserts.push((function (zoneId, fields) {
             return Promise
-              .resolve(_.pick(fields, [ 'nameBg', 'areaBg' ]))
+              .resolve(_.pick(fields, ['nameBg', 'areaBg']))
               .then(function (keyFields) {
                 return {
                   fields: keyFields,
@@ -59,10 +59,10 @@ module.exports = {
               })
               // find the location id
               .then(function (args) {
-                if (!cache[ args.key ]) {
-                  cache[ args.key ] = queryInterface
+                if (!cache[args.key]) {
+                  cache[args.key] = queryInterface
                     .rawSelect('Locations', {
-                      attributes: [ 'id' ],
+                      attributes: ['id'],
                       where: args.fields
                     }, 'id')
                     .then(function (id) {
@@ -71,7 +71,7 @@ module.exports = {
                       })
                     })
                 }
-                return cache[ args.key ]
+                return cache[args.key]
               })
               // insert or update the location
               .then(function (args) {
@@ -82,13 +82,13 @@ module.exports = {
                   // update
                   return queryInterface.bulkUpdate('Locations', record, { id: args.locationId })
                     .then(function (res) {
-                      if (res[ 1 ].rowCount !== 1) {
+                      if (res[1].rowCount !== 1) {
                         return Promise.reject(new Promise('Something bad happened.\n' +
                           "Couldn't update " + JSON.stringify(record) + '\n' +
                           'Res = ' + JSON.stringify(res) + '\n' +
                           'id = ' + JSON.stringify(args.locationId)))
                       }
-                      updated += res[ 1 ].rowCount
+                      updated += res[1].rowCount
                       return args.locationId
                     })
                 } else {
@@ -108,7 +108,7 @@ module.exports = {
                         '\n\n\n')
                       inserted++
                       return queryInterface.rawSelect('Locations', {
-                        attributes: [ 'id' ],
+                        attributes: ['id'],
                         where: args.fields
                       }, 'id')
                     })
@@ -128,7 +128,7 @@ module.exports = {
               })
 
               .then(function (res) {
-                zoneUpdated += res[ 0 ]
+                zoneUpdated += res[0]
               })
 
               .then(function () {

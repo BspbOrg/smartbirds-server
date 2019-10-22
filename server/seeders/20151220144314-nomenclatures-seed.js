@@ -62,8 +62,8 @@ module.exports = {
 
         for (var i = 0; i < tLen; i++) {
           var type = types[i]
-          var labelEn = recordEn[ type ].trim()
-          var labelBg = recordBg[ type ].trim()
+          var labelEn = recordEn[type].trim()
+          var labelBg = recordBg[type].trim()
           var nomenclature
 
           if (labelEn && labelBg) {

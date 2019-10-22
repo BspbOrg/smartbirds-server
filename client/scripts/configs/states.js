@@ -182,7 +182,7 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
     .state('auth.dashboard', {
       url: '/dashboard',
       views: {
-        'content': {
+        content: {
           templateUrl: '/views/dashboard.html',
           controller: 'DashboardController as dashboard'
         }
@@ -195,7 +195,7 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
     .state('auth.download', {
       url: '/download/{id}',
       views: {
-        'content': {
+        content: {
           templateUrl: '/views/download.html',
           controller: 'DownloadController as $ctrl'
         }
@@ -208,7 +208,7 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
     .state('auth.users', {
       url: '/users',
       views: {
-        'content': {
+        content: {
           templateUrl: '/views/users/list.html',
           controller: 'UsersController',
           controllerAs: 'usersController'
@@ -429,7 +429,7 @@ module.config(/* @ngInject */function ($locationProvider, $stateProvider, $urlRo
     .state('auth.zones', {
       url: '/zones?status&{location:int}&{owner:int}&zone',
       views: {
-        'content': {
+        content: {
           templateUrl: '/views/zones/list.html',
           controller: 'ZonesController',
           controllerAs: 'zonesController'

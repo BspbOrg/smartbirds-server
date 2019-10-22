@@ -23,6 +23,6 @@ module.exports = {
   down: async function (queryInterface, Sequelize) {
     if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
 
-    await queryInterface.sequelize.query(`DROP VIEW IF EXISTS birds_top_interesting_species_month`)
+    await queryInterface.sequelize.query('DROP VIEW IF EXISTS birds_top_interesting_species_month')
   }
 }

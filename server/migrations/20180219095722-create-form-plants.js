@@ -99,33 +99,33 @@ module.exports = {
       .createTable(tableName, schema)
       .then(function () {
         return queryInterface.addIndex(tableName, {
-          fields: [ 'userId' ]
+          fields: ['userId']
         })
       })
       .then(function () {
         return queryInterface.addIndex(tableName, {
-          fields: [ 'observationDateTime' ]
+          fields: ['observationDateTime']
         })
       })
       .then(function () {
         return queryInterface.addIndex(tableName, {
-          fields: [ 'species' ]
+          fields: ['species']
         })
       })
       .then(function () {
         return queryInterface.addIndex(tableName, {
-          fields: [ 'monitoringCode' ]
+          fields: ['monitoringCode']
         })
       })
       .then(function () {
         return queryInterface.addIndex(tableName, {
-          fields: [ 'location' ]
+          fields: ['location']
         })
       })
       .then(function () {
         return queryInterface.addIndex(tableName, {
           unique: true,
-          fields: [ 'hash' ]
+          fields: ['hash']
         })
       })
       .catch(function (e) {

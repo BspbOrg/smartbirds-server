@@ -120,7 +120,7 @@ exports.sessionWSAuthenticate = {
   name: 'session:wsAuthenticate',
   description: 'session:wsAuthenticate',
   outputExample: {},
-  blockedConnectionTypes: [ 'web' ],
+  blockedConnectionTypes: ['web'],
 
   inputs: {},
 

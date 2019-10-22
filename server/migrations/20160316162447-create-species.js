@@ -5,57 +5,57 @@ var tableName = 'Species'
 module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.createTable(tableName, {
-      'id': {
+      id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
       },
-      'type': {
+      type: {
         type: Sequelize.STRING(32),
         allowNull: false
       },
-      'labelLa': {
+      labelLa: {
         type: Sequelize.TEXT,
         allowNull: false
       },
-      'labelBg': {
+      labelBg: {
         type: Sequelize.TEXT
       },
-      'labelEn': {
+      labelEn: {
         type: Sequelize.TEXT
       },
-      'euring': Sequelize.TEXT,
-      'code': Sequelize.TEXT,
-      'createdAt': {
+      euring: Sequelize.TEXT,
+      code: Sequelize.TEXT,
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      'updatedAt': {
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
       }
     }).then(function () {
       return queryInterface.addIndex(tableName, {
-        'unique': true,
-        'fields': ['type', 'labelLa']
+        unique: true,
+        fields: ['type', 'labelLa']
       })
     }).then(function () {
       return queryInterface.addIndex(tableName, {
-        'unique': true,
-        'fields': ['type', 'labelBg']
+        unique: true,
+        fields: ['type', 'labelBg']
       })
     }).then(function () {
       return queryInterface.addIndex(tableName, {
-        'unique': true,
-        'fields': ['type', 'labelEn']
+        unique: true,
+        fields: ['type', 'labelEn']
       })
     }).then(function () {
       return queryInterface.addIndex(tableName, {
-        'fields': ['type', 'euring']
+        fields: ['type', 'euring']
       })
     }).then(function () {
       return queryInterface.addIndex(tableName, {
-        'fields': ['type', 'code']
+        fields: ['type', 'code']
       })
     })
   },

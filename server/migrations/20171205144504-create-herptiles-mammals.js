@@ -181,7 +181,7 @@ var baseSchema = {
   hash: Sequelize.STRING(64)
 }
 
-var tables = [ {
+var tables = [{
   tableName: 'FormHerptiles',
   schema: assign({}, baseSchema, {
     threatsHerptilesEn: Sequelize.TEXT,
@@ -193,7 +193,7 @@ var tables = [ {
     threatsMammalsEn: Sequelize.TEXT,
     threatsMammalsBg: Sequelize.TEXT
   })
-} ]
+}]
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
@@ -203,38 +203,38 @@ module.exports = {
           .createTable(table.tableName, table.schema)
           .then(function () {
             return queryInterface.addIndex(table.tableName, {
-              fields: [ 'userId' ]
+              fields: ['userId']
             })
           })
           .then(function () {
             return queryInterface.addIndex(table.tableName, {
-              fields: [ 'startDateTime' ]
+              fields: ['startDateTime']
             })
           })
           .then(function () {
             return queryInterface.addIndex(table.tableName, {
-              fields: [ 'observationDateTime' ]
+              fields: ['observationDateTime']
             })
           })
           .then(function () {
             return queryInterface.addIndex(table.tableName, {
-              fields: [ 'species' ]
+              fields: ['species']
             })
           })
           .then(function () {
             return queryInterface.addIndex(table.tableName, {
-              fields: [ 'monitoringCode' ]
+              fields: ['monitoringCode']
             })
           })
           .then(function () {
             return queryInterface.addIndex(table.tableName, {
-              fields: [ 'location' ]
+              fields: ['location']
             })
           })
           .then(function () {
             return queryInterface.addIndex(table.tableName, {
               unique: true,
-              fields: [ 'hash' ]
+              fields: ['hash']
             })
           })
       })

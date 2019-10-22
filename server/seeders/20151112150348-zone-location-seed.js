@@ -29,14 +29,14 @@ module.exports = {
       .on('readable', function () {
         var record
         while (record = parser.read()) { // eslint-disable-line no-cond-assign
-          var zoneId = record[ 'UTMNameFul' ]
+          var zoneId = record.UTMNameFul
           var fields = {
-            nameBg: record[ 'Name_bg_naseleno_myasto' ],
-            nameEn: record[ 'Name_en_naseleno_myasto' ],
-            areaBg: record[ 'NAME_Obshtina' ],
-            areaEn: record[ 'L_NAME_Obshtina' ],
-            typeBg: record[ 'Descr_bg_naseleno_myasto' ],
-            typeEn: record[ 'Descr_en_naseleno_myasto' ]
+            nameBg: record.Name_bg_naseleno_myasto,
+            nameEn: record.Name_en_naseleno_myasto,
+            areaBg: record.NAME_Obshtina,
+            areaEn: record.L_NAME_Obshtina,
+            typeBg: record.Descr_bg_naseleno_myasto,
+            typeEn: record.Descr_en_naseleno_myasto
           };
           (function (zoneId, fields) {
             var key = _.reduce(fields, function (sum, val) {
@@ -44,10 +44,10 @@ module.exports = {
             }, '')
             inserts.push(Promise.resolve(fields)
               .then(function (fields) {
-                if (!cache[ key ]) {
-                  cache[ key ] = queryInterface
+                if (!cache[key]) {
+                  cache[key] = queryInterface
                     .rawSelect('Locations', {
-                      attributes: [ 'id' ],
+                      attributes: ['id'],
                       where: fields
                     }, 'id')
 
@@ -58,16 +58,16 @@ module.exports = {
                         createdAt: new Date(),
                         updatedAt: new Date()
                       }, fields)
-                      return queryInterface.bulkInsert('Locations', [ record ])
+                      return queryInterface.bulkInsert('Locations', [record])
                         .then(function () {
                           return queryInterface.rawSelect('Locations', {
-                            attributes: [ 'id' ],
+                            attributes: ['id'],
                             where: fields
                           }, 'id')
                         })
                     })
                 }
-                return cache[ key ]
+                return cache[key]
               })
               .then(function (locationId) {
                 return queryInterface.bulkUpdate('Zones', {

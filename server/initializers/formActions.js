@@ -8,14 +8,14 @@ const inputHelpers = require('../helpers/inputs')
 function generateInsertAction (form) {
   return async function (api, data, next) {
     try {
-      let record = await api.models[ form.modelName ].build({})
+      let record = await api.models[form.modelName].build({})
       if ((!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, form.modelName)) || !data.params.user) {
         data.params.user = data.session.userId
       }
       record = await record.apiUpdate(data.params)
       const hash = record.calculateHash()
       api.log('looking for %s with hash %s', 'info', form.modelName, hash)
-      const existing = await api.models[ form.modelName ].findOne({ where: { hash: hash } })
+      const existing = await api.models[form.modelName].findOne({ where: { hash: hash } })
       if (existing) {
         api.log('found %s with hash %s, updating', 'info', form.modelName, hash)
         data.response.existing = true
@@ -42,7 +42,7 @@ function generateInsertAction (form) {
 function generateEditAction (form) {
   return async function (api, data, next) {
     try {
-      let record = await form.retrieveRecord(api, data)
+      const record = await form.retrieveRecord(api, data)
 
       if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, form.modelName)) {
         data.params.user = data.session.userId
@@ -66,7 +66,7 @@ function generateEditAction (form) {
 function generateViewAction (form) {
   return async function (api, data, next) {
     try {
-      let record = await form.retrieveRecord(api, data)
+      const record = await form.retrieveRecord(api, data)
       data.response.data = await record.apiData(api)
       next()
     } catch (error) {
@@ -83,7 +83,7 @@ function generateViewAction (form) {
 function generateDeleteAction (form) {
   return async function (api, data, next) {
     try {
-      let record = await form.retrieveRecord(api, data)
+      const record = await form.retrieveRecord(api, data)
       await record.destroy()
       next()
     } catch (error) {
@@ -96,10 +96,10 @@ function generateDeleteAction (form) {
 function generateListAction (form) {
   return async function (api, data, next) {
     try {
-      let query = await form.prepareQuery(api, data)
+      const query = await form.prepareQuery(api, data)
 
       // fetch the results
-      let result = await api.models[ form.modelName ].findAndCountAll(query)
+      const result = await api.models[form.modelName].findAndCountAll(query)
 
       // prepare the output
       data.response.data = await Promise.all(result.rows.map(async (model) => model.apiData(api, data.params.context)))
@@ -116,7 +116,7 @@ function generateListAction (form) {
 function generateExportAction (form) {
   return async function (api, data, next) {
     try {
-      let outputType = data.params.outputType
+      const outputType = data.params.outputType
 
       let allowed = false
       if (data.session.user.isAdmin || api.forms.isModerator(data.session.user, form.modelName)) {
@@ -132,7 +132,7 @@ function generateExportAction (form) {
 
       if (!allowed) throw new Error(api.config.errors.sessionNoPermission(data.connection))
 
-      let query = await form.prepareQuery(api, data)
+      const query = await form.prepareQuery(api, data)
 
       api.tasks.enqueue('form:export', {
         query,
@@ -156,11 +156,11 @@ function generateFormActions (form) {
 
   if (!form || !form.modelName) return actions
 
-  let insertInputs = {}
-  let editInputs = {
+  const insertInputs = {}
+  const editInputs = {
     id: { required: true }
   }
-  let listInputs = _.extend({
+  const listInputs = _.extend({
     user: {},
     limit: { default: 20 },
     offset: { default: 0 },
@@ -175,11 +175,12 @@ function generateFormActions (form) {
   form.hasThreats ? {
     threat: {
       formatter: inputHelpers.formatter.nomenclature
-    } } : {},
+    }
+  } : {},
   form.hasSpecies ? { species: {} } : {},
   form.listInputs || {})
 
-  let exportInputs = _.extend({}, listInputs, {
+  const exportInputs = _.extend({}, listInputs, {
     outputType: {
       required: true,
       validator: (param) => {
@@ -195,16 +196,16 @@ function generateFormActions (form) {
   _.forEach(form.fields, (field, fieldName) => {
     if (fieldName === 'createdAt' || fieldName === 'updatedAt') return
     if (field.private) return
-    insertInputs[ fieldName ] = {
+    insertInputs[fieldName] = {
       required: field.required && fieldName !== 'user'
     }
-    editInputs[ fieldName ] = {}
+    editInputs[fieldName] = {}
   })
 
   actions.formAdd = {
     name: `${form.modelName}:create`,
     description: `${form.modelName}:create`,
-    middleware: [ 'auth' ],
+    middleware: ['auth'],
     inputs: insertInputs,
     run: generateInsertAction(form)
   }
@@ -212,7 +213,7 @@ function generateFormActions (form) {
   actions.formEdit = {
     name: `${form.modelName}:edit`,
     description: `${form.modelName}:edit`,
-    middleware: [ 'auth' ],
+    middleware: ['auth'],
     inputs: editInputs,
     run: generateEditAction(form)
   }
@@ -220,7 +221,7 @@ function generateFormActions (form) {
   actions.formView = {
     name: `${form.modelName}:view`,
     description: `${form.modelName}:view`,
-    middleware: [ 'auth' ],
+    middleware: ['auth'],
     inputs: { id: { required: true } },
     run: generateViewAction(form)
   }
@@ -228,7 +229,7 @@ function generateFormActions (form) {
   actions.formDelete = {
     name: `${form.modelName}:delete`,
     description: `${form.modelName}:delete`,
-    middleware: [ 'auth' ],
+    middleware: ['auth'],
     inputs: { id: { required: true } },
     run: generateDeleteAction(form)
   }
@@ -236,7 +237,7 @@ function generateFormActions (form) {
   actions.formList = {
     name: `${form.modelName}:list`,
     description: `${form.modelName}:list`,
-    middleware: [ 'auth' ],
+    middleware: ['auth'],
     inputs: listInputs,
     run: generateListAction(form)
   }
@@ -244,7 +245,7 @@ function generateFormActions (form) {
   actions.formExport = {
     name: `${form.modelName}:export`,
     description: `${form.modelName}:export`,
-    middleware: [ 'auth' ],
+    middleware: ['auth'],
     inputs: exportInputs,
     run: generateExportAction(form)
   }
@@ -260,16 +261,16 @@ function registerForm (api, form) {
     if (action.version === null || action.version === undefined) {
       action.version = 1.0
     }
-    if (api.actions.actions[ action.name ] === null || api.actions.actions[ action.name ] === undefined) {
-      api.actions.actions[ action.name ] = {}
+    if (api.actions.actions[action.name] === null || api.actions.actions[action.name] === undefined) {
+      api.actions.actions[action.name] = {}
     }
-    api.actions.actions[ action.name ][ action.version ] = action
-    if (api.actions.versions[ action.name ] === null || api.actions.versions[ action.name ] === undefined) {
-      api.actions.versions[ action.name ] = []
+    api.actions.actions[action.name][action.version] = action
+    if (api.actions.versions[action.name] === null || api.actions.versions[action.name] === undefined) {
+      api.actions.versions[action.name] = []
     }
-    api.actions.versions[ action.name ].push(action.version)
-    api.actions.versions[ action.name ].sort()
-    api.actions.validateAction(api.actions.actions[ action.name ][ action.version ])
+    api.actions.versions[action.name].push(action.version)
+    api.actions.versions[action.name].sort()
+    api.actions.validateAction(api.actions.actions[action.name][action.version])
     api.log(`Registering ${action.name}@${action.version}`, 'info')
   })
 }

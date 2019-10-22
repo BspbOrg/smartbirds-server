@@ -7,9 +7,9 @@ require('../app').directive('trackEdit', /* @ngInject */function ($cookies, $log
     restrict: 'AE',
     templateUrl: '/views/directives/trackedit.html',
     scope: true,
-    require: [ 'trackEdit', '?ngModel' ],
+    require: ['trackEdit', '?ngModel'],
     link: function ($scope, $elem, $attr, $ctrls) {
-      $ctrls[ 0 ].init($ctrls[ 1 ])
+      $ctrls[0].init($ctrls[1])
     },
     controller: /* @ngInject */function ($filter) {
       var $ctrl = this

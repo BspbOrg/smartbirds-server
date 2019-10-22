@@ -7,8 +7,8 @@ module.exports = {
     return queryInterface.removeIndex(tableName, 'species_type_label_bg')
       .then(function () {
         return queryInterface.addIndex(tableName, {
-          'unique': false,
-          'fields': ['type', 'labelBg']
+          unique: false,
+          fields: ['type', 'labelBg']
         })
       })
       .then(function () {
@@ -16,8 +16,8 @@ module.exports = {
       })
       .then(function () {
         return queryInterface.addIndex(tableName, {
-          'unique': false,
-          'fields': ['type', 'labelEn']
+          unique: false,
+          fields: ['type', 'labelEn']
         })
       })
   },
@@ -26,8 +26,8 @@ module.exports = {
     return queryInterface.removeIndex(tableName, 'species_type_label_bg')
       .then(function () {
         return queryInterface.addIndex(tableName, {
-          'unique': true,
-          'fields': ['type', 'labelBg']
+          unique: true,
+          fields: ['type', 'labelBg']
         })
       })
       .then(function () {
@@ -35,8 +35,8 @@ module.exports = {
       })
       .then(function () {
         return queryInterface.addIndex(tableName, {
-          'unique': true,
-          'fields': ['type', 'labelEn']
+          unique: true,
+          fields: ['type', 'labelEn']
         })
       })
   }

@@ -12,14 +12,14 @@ require('../app').factory('FormPlants', /* @ngInject */function ($resource, ENDP
   // instance methods
   angular.extend(Form.prototype, {
     getUser: function () {
-      return db.users[ this.user ]
+      return db.users[this.user]
     },
     getSpecies: function () {
-      return db.species.plants && db.species.plants[ this.species ]
+      return db.species.plants && db.species.plants[this.species]
     },
     getAccompanyingSpecies: function () {
       return db.species.plants && (this.accompanyingSpecies || []).map(function (species) {
-        return db.species.plants[ species ]
+        return db.species.plants[species]
       })
     },
     preCopy: function () {

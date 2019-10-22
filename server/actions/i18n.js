@@ -28,7 +28,7 @@ function serveDynamic (api, data, next) {
         var term = item.term
         var translation = item.translation && item.translation.content
         if (translation) {
-          data.response[ term ] = translation
+          data.response[term] = translation
         }
       })
     })

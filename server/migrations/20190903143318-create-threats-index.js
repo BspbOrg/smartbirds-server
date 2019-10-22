@@ -15,7 +15,7 @@ module.exports = {
   up: async function (queryInterface, Sequelize) {
     await Promise.all(tables.map(async (table) => {
       await queryInterface.addIndex(table, {
-        fields: [ 'threatsEn' ],
+        fields: ['threatsEn'],
         indexName: table + '_threatsEn'
       })
     }))

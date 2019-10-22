@@ -1,12 +1,12 @@
 'use strict'
 
-let forms = ['FormBirds', 'FormHerptiles', 'FormMammals', 'FormPlants', 'FormInvertebrates', 'FormCBM', 'FormCiconia']
+const forms = ['FormBirds', 'FormHerptiles', 'FormMammals', 'FormPlants', 'FormInvertebrates', 'FormCBM', 'FormCiconia']
 
 module.exports = {
   up: async function (queryInterface, Sequelize) {
     if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
 
-    let subSelect = forms.map(function (form) {
+    const subSelect = forms.map(function (form) {
       return `SELECT "userId" as user_id, COUNT(*) as count
           FROM "${form}" form
           JOIN "Users" u ON "userId" = u.id
@@ -27,6 +27,6 @@ module.exports = {
   down: async function (queryInterface, Sequelize) {
     if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
 
-    await queryInterface.sequelize.query(`DROP VIEW IF EXISTS total_users_records_year`)
+    await queryInterface.sequelize.query('DROP VIEW IF EXISTS total_users_records_year')
   }
 }

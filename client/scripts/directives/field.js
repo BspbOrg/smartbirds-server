@@ -140,7 +140,7 @@ require('../app').directive('field', /* @ngInject */function ($q, Raven, geoloca
         case 'multiple-species': {
           $scope.$watch('field.nomenclature', function () {
             field.values = []
-            angular.forEach(db.species[ field.nomenclature ], function (item) {
+            angular.forEach(db.species[field.nomenclature], function (item) {
               field.values.push(item)
             })
           })

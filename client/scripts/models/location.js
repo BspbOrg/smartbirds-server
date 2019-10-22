@@ -13,19 +13,19 @@ require('../app').factory('Location', /* @ngInject */function ($resource, $trans
   angular.extend(Location.prototype, {
     getArea: function (locale) {
       locale = locale || $translate.$language || 'en'
-      return (this.area || {})[ locale ]
+      return (this.area || {})[locale]
     },
     getName: function (locale) {
       locale = locale || $translate.$language || 'en'
-      return (this.name || {})[ locale ]
+      return (this.name || {})[locale]
     },
     getType: function (locale) {
       locale = locale || $translate.$language || 'en'
-      return (this.type || {})[ locale ]
+      return (this.type || {})[locale]
     },
     toString: function (locale) {
       locale = locale || $translate.$language || 'en'
-      return (this.type || {})[ locale ] + ' ' + (this.name || {})[ locale ] + ', ' + (this.area || {})[ locale ]
+      return (this.type || {})[locale] + ' ' + (this.name || {})[locale] + ', ' + (this.area || {})[locale]
     }
   })
 

@@ -21,7 +21,7 @@ require('../app').service('db', /* @ngInject */function ($q, Location, Nomenclat
     .then(function (locations) {
       var res = db.locations
       locations.forEach(function (location) {
-        res[ location.id ] = location
+        res[location.id] = location
       })
       return res
     })
@@ -38,8 +38,8 @@ require('../app').service('db', /* @ngInject */function ($q, Location, Nomenclat
       .then(function (items) {
         var res = db.nomenclatures
         items.forEach(function (item) {
-          res[ item.type ] = res[ item.type ] || {}
-          res[ item.type ][ item.label.en ] = item
+          res[item.type] = res[item.type] || {}
+          res[item.type][item.label.en] = item
         })
         return res
       })
@@ -57,8 +57,8 @@ require('../app').service('db', /* @ngInject */function ($q, Location, Nomenclat
       .then(function (items) {
         var res = db.species
         items.forEach(function (item) {
-          res[ item.type ] = res[ item.type ] || {}
-          res[ item.type ][ item.label.la ] = item
+          res[item.type] = res[item.type] || {}
+          res[item.type][item.label.la] = item
         })
         return res
       })
@@ -74,7 +74,7 @@ require('../app').service('db', /* @ngInject */function ($q, Location, Nomenclat
     .then(function (users) {
       var res = db.users
       users.forEach(function (user) {
-        res[ user.id ] = user
+        res[user.id] = user
       })
       return res
     })
@@ -95,7 +95,7 @@ require('../app').service('db', /* @ngInject */function ($q, Location, Nomenclat
     .then(function (publicUsers) {
       var res = db.publicUsers
       publicUsers.forEach(function (user) {
-        res[ user.id ] = user
+        res[user.id] = user
       })
       return res
     })
@@ -116,7 +116,7 @@ require('../app').service('db', /* @ngInject */function ($q, Location, Nomenclat
     .then(function (zones) {
       var res = db.zones
       zones.forEach(function (zone) {
-        res[ zone.id ] = zone
+        res[zone.id] = zone
       })
       return res
     })
@@ -131,7 +131,7 @@ require('../app').service('db', /* @ngInject */function ($q, Location, Nomenclat
     .then(function (visits) {
       var res = db.visits
       visits.forEach(function (visit) {
-        res[ visit.year ] = visit
+        res[visit.year] = visit
       })
       return res
     }).finally(function () {

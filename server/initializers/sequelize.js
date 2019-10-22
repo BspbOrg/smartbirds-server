@@ -75,9 +75,9 @@ module.exports = {
       },
       logging: (msg, ...params) => api.log(msg, 'info', ...params),
       migrations: {
-        params: [ sequelizeInstance.getQueryInterface(), sequelizeInstance.constructor, function () {
+        params: [sequelizeInstance.getQueryInterface(), sequelizeInstance.constructor, function () {
           throw new Error('Migration tried to use old style "done" callback. Please upgrade to "umzug" and return a promise instead.')
-        } ],
+        }],
         path: api.projectRoot + '/migrations'
       }
     })
@@ -119,11 +119,11 @@ module.exports = {
         fs.readdirSync(dir).forEach(function (file) {
           const filename = path.join(dir, file)
           var nameParts = file.split('/')
-          var name = nameParts[ (nameParts.length - 1) ].split('.')[ 0 ]
-          api.models[ name ] = api.sequelize.sequelize.import(filename)
+          var name = nameParts[ (nameParts.length - 1) ].split('.')[0]
+          api.models[name] = api.sequelize.sequelize.import(filename)
           api.watchFileAndAct(filename, () => {
             api.log('rebooting due to model change: ' + name, 'info')
-            delete require.cache[ require.resolve(filename) ]
+            delete require.cache[require.resolve(filename)]
             api.commands.restart()
           })
         })
@@ -210,8 +210,8 @@ module.exports = {
 function checkMetaOldSchema (api) {
   // Check if we need to upgrade from the old sequelize migration format
   return api.sequelize.sequelize.query('SELECT * FROM "SequelizeMeta"', { raw: true }).then(function (raw) {
-    var rows = raw[ 0 ]
-    if (rows.length && rows[ 0 ].hasOwnProperty('id')) {
+    var rows = raw[0]
+    if (rows.length && Object.hasOwnProperty.call(rows[0], 'id')) {
       throw new Error('Old-style meta-migration table detected - please use `sequelize-cli`\'s `db:migrate:old_schema` to migrate.')
     }
   }).catch(Sequelize.DatabaseError, function () {

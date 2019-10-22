@@ -1,6 +1,6 @@
 'use strict'
 
-let forms = ['birds', 'herptiles', 'mammals', 'invertebrates', 'plants']
+const forms = ['birds', 'herptiles', 'mammals', 'invertebrates', 'plants']
 
 module.exports = {
   up: async function (queryInterface, Sequelize) {
@@ -29,6 +29,6 @@ module.exports = {
   down: async function (queryInterface, Sequelize) {
     if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
 
-    await queryInterface.sequelize.query(`DROP VIEW IF EXISTS user_rank_stats`)
+    await queryInterface.sequelize.query('DROP VIEW IF EXISTS user_rank_stats')
   }
 }
