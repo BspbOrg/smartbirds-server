@@ -1,6 +1,7 @@
 /**
  * Created by groupsky on 09.12.15.
  */
+const { upgradeAction } = require('../utils/upgrade')
 
 function getZone (api, data, next) {
   var q = {
@@ -14,7 +15,7 @@ function getZone (api, data, next) {
     .catch(next)
 }
 
-exports.zoneOwnershipRequest = {
+exports.zoneOwnershipRequest = upgradeAction('ah17', {
   name: 'zone:requestOwnership',
   description: 'zone:requestOwnership',
   middleware: ['auth'],
@@ -47,9 +48,9 @@ exports.zoneOwnershipRequest = {
       })
   }
 
-}
+})
 
-exports.zoneOwnershipRespond = {
+exports.zoneOwnershipRespond = upgradeAction('ah17', {
   name: 'zone:respondOwnershipRequest',
   description: 'zone:respondOwnershipRequest',
   middleware: ['auth'],
@@ -92,9 +93,9 @@ exports.zoneOwnershipRespond = {
         next()
       })
   }
-}
+})
 
-exports.zoneSetOwner = {
+exports.zoneSetOwner = upgradeAction('ah17', {
   name: 'zone:setOwner',
   description: 'zone:setOwner',
   middleware: ['auth'],
@@ -136,9 +137,9 @@ exports.zoneSetOwner = {
         next()
       })
   }
-}
+})
 
-exports.zoneClearOwner = {
+exports.zoneClearOwner = upgradeAction('ah17', {
   name: 'zone:clearOwner',
   description: 'zone:clearOwner',
   middleware: ['auth'],
@@ -173,4 +174,4 @@ exports.zoneClearOwner = {
         next()
       })
   }
-}
+})

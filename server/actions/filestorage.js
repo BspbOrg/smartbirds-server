@@ -1,6 +1,7 @@
 var storageHelper = require('../helpers/filestorage')
+const { upgradeAction } = require('../utils/upgrade')
 
-exports.uploader = {
+exports.uploader = upgradeAction('ah17', {
   name: 'uploader',
   description: 'uploader',
   middleware: ['auth'],
@@ -18,9 +19,9 @@ exports.uploader = {
       next()
     })
   }
-}
+})
 
-exports.download = {
+exports.download = upgradeAction('ah17', {
   name: 'downloader',
   description: 'downloader',
   middleware: ['auth'],
@@ -49,4 +50,4 @@ exports.download = {
       next()
     })
   }
-}
+})

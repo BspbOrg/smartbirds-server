@@ -1,7 +1,8 @@
 var _ = require('lodash')
 var Promise = require('bluebird')
+const { upgradeAction } = require('../utils/upgrade')
 
-exports.userCreate = {
+exports.userCreate = upgradeAction('ah17', {
   name: 'user:create',
   description: 'user:create',
   outputExample: {},
@@ -59,9 +60,9 @@ exports.userCreate = {
         })
     })
   }
-}
+})
 
-exports.userLost = {
+exports.userLost = upgradeAction('ah17', {
   name: 'user:lost',
   description: 'user:lost',
   inputs: {
@@ -96,9 +97,9 @@ exports.userLost = {
     })
       .catch(next)
   }
-}
+})
 
-exports.userReset = {
+exports.userReset = upgradeAction('ah17', {
   name: 'user:reset',
   description: 'user:reset',
   inputs: {
@@ -139,9 +140,9 @@ exports.userReset = {
     })
       .catch(next)
   }
-}
+})
 
-exports.userView = {
+exports.userView = upgradeAction('ah17', {
   name: 'user:view',
   description: 'user:view',
   outputExample: {},
@@ -179,9 +180,9 @@ exports.userView = {
     })
       .catch(next)
   }
-}
+})
 
-exports.userEdit = {
+exports.userEdit = upgradeAction('ah17', {
   name: 'user:edit',
   description: 'user:edit',
   outputExample: {},
@@ -228,9 +229,9 @@ exports.userEdit = {
     })
       .catch(next)
   }
-}
+})
 
-exports.userList = {
+exports.userList = upgradeAction('ah17', {
   name: 'user:list',
   description: 'List users. Requires admin role',
   outputExample: {
@@ -326,9 +327,9 @@ exports.userList = {
         next()
       }).catch(next)
   }
-}
+})
 
-exports.userChangePassword = {
+exports.userChangePassword = upgradeAction('ah17', {
   name: 'user:changepw',
   description: 'Change password of user',
   middleware: ['auth', 'owner'],
@@ -379,9 +380,9 @@ exports.userChangePassword = {
         next(error)
       })
   }
-}
+})
 
-exports.userSharers = {
+exports.userSharers = upgradeAction('ah17', {
   name: 'user:sharers',
   description: 'user:sharers',
   outputExample: {
@@ -425,9 +426,9 @@ exports.userSharers = {
     })
       .catch(next)
   }
-}
+})
 
-exports.userSharees = {
+exports.userSharees = upgradeAction('ah17', {
   name: 'user:sharees',
   description: 'user:sharees',
   outputExample: {
@@ -471,9 +472,9 @@ exports.userSharees = {
     })
       .catch(next)
   }
-}
+})
 
-exports.updateSharees = {
+exports.updateSharees = upgradeAction('ah17', {
   name: 'user:sharees:update',
   description: 'user:sharees:update',
   outputExample: {
@@ -530,9 +531,9 @@ exports.updateSharees = {
       })
       .catch(next)
   }
-}
+})
 
-exports.userDelete = {
+exports.userDelete = upgradeAction('ah17', {
   name: 'user:delete',
   description: 'user:delete',
   outputExample: {},
@@ -579,4 +580,4 @@ exports.userDelete = {
       next(e)
     }
   }
-}
+})

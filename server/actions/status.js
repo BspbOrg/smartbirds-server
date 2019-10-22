@@ -1,4 +1,6 @@
-exports.status = {
+const { upgradeAction } = require('../utils/upgrade')
+
+exports.status = upgradeAction('ah17', {
   name: 'status',
   description: 'I will return some basic information about the API',
 
@@ -21,4 +23,4 @@ exports.status = {
 
     next()
   }
-}
+})

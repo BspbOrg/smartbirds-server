@@ -4,8 +4,9 @@
 
 var Promise = require('bluebird')
 var _ = require('lodash')
+const { upgradeAction } = require('../utils/upgrade')
 
-exports.zoneList = {
+exports.zoneList = upgradeAction('ah17', {
   name: 'zone:list',
   description: 'zone:list',
   middleware: ['auth'],
@@ -66,9 +67,9 @@ exports.zoneList = {
       next(e)
     }
   }
-}
+})
 
-exports.zoneView = {
+exports.zoneView = upgradeAction('ah17', {
   name: 'zone:view',
   description: 'zone:view',
   middleware: ['auth'],
@@ -118,4 +119,4 @@ exports.zoneView = {
       next(error)
     })
   }
-}
+})

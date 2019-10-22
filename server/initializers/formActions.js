@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const inputHelpers = require('../helpers/inputs')
-const { upgradeInitializer } = require('../utils/upgrade')
+const { upgradeInitializer, upgradeAction } = require('../utils/upgrade')
 
 /**
  * @param {{modelName: String}} form
@@ -258,20 +258,23 @@ function registerForm (api, form) {
   const name = form.modelName
   const collection = generateFormActions(form)
   api.log(`Registering actions for ${name} form`, 'info')
-  _.forEach(collection, action => {
+  _.forEach(collection, async actionDescription => {
+    const ActionClass = upgradeAction('ah17', actionDescription)
+    const action = new ActionClass()
+
+    api.log(`Validating action ${action.name}@${action.version}`, 'debug')
+    await action.validate(api)
+
+    if (!api.actions.actions[action.name]) { api.actions.actions[action.name] = {} }
+    if (!api.actions.versions[action.name]) { api.actions.versions[action.name] = [] }
+
     if (action.version === null || action.version === undefined) {
       action.version = 1.0
     }
-    if (api.actions.actions[action.name] === null || api.actions.actions[action.name] === undefined) {
-      api.actions.actions[action.name] = {}
-    }
+
     api.actions.actions[action.name][action.version] = action
-    if (api.actions.versions[action.name] === null || api.actions.versions[action.name] === undefined) {
-      api.actions.versions[action.name] = []
-    }
     api.actions.versions[action.name].push(action.version)
     api.actions.versions[action.name].sort()
-    api.actions.validateAction(api.actions.actions[action.name][action.version])
     api.log(`Registering ${action.name}@${action.version}`, 'info')
   })
 }

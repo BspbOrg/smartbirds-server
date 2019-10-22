@@ -1,4 +1,6 @@
-exports.sessionCreate = {
+const { upgradeAction } = require('../utils/upgrade')
+
+exports.sessionCreate = upgradeAction('ah17', {
   name: 'session:create',
   description: 'session:create',
   outputExample: {},
@@ -71,9 +73,9 @@ exports.sessionCreate = {
         next(error)
       })
   }
-}
+})
 
-exports.sessionDestroy = {
+exports.sessionDestroy = upgradeAction('ah17', {
   name: 'session:destroy',
   description: 'session:destroy',
   outputExample: {},
@@ -84,9 +86,9 @@ exports.sessionDestroy = {
     data.response.success = true
     api.session.destroy(data.connection, next)
   }
-}
+})
 
-exports.sessionCheck = {
+exports.sessionCheck = upgradeAction('ah17', {
   name: 'session:check',
   description: 'session:check',
   outputExample: {},
@@ -114,9 +116,9 @@ exports.sessionCheck = {
       }
     })
   }
-}
+})
 
-exports.sessionWSAuthenticate = {
+exports.sessionWSAuthenticate = upgradeAction('ah17', {
   name: 'session:wsAuthenticate',
   description: 'session:wsAuthenticate',
   outputExample: {},
@@ -138,4 +140,4 @@ exports.sessionWSAuthenticate = {
       }
     })
   }
-}
+})
