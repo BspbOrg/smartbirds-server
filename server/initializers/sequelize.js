@@ -17,7 +17,7 @@ const operatorsAliases = {
   $is: Op.is,
   $like: Op.like,
   $notLike: Op.notLike,
-  $iLike: Op.iLike,
+  $ilike: Op.iLike,
   $notILike: Op.notILike,
   $regexp: Op.regexp,
   $notRegexp: Op.notRegexp,
