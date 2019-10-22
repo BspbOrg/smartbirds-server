@@ -16,7 +16,7 @@
     "mocha": "^6.2.2",
     "mocha-parallel-tests": "^2.2.2",
     "parallelshell": "^3.0.2",
-    "sequelize-fixtures": "^0.10.0",
+    "sequelize-fixtures": "^1.1.1",
     "should": "^13.2.3",
     "should-sinon": "^0.0.6",
     "sinon": "^7.5.0",
