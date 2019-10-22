@@ -68,35 +68,25 @@ module.exports = {
       }
     )
 
+    var umzug = new Umzug({
+      storage: 'sequelize',
+      storageOptions: {
+        sequelize: sequelizeInstance
+      },
+      logging: (msg, ...params) => api.log(msg, 'info', ...params),
+      migrations: {
+        params: [ sequelizeInstance.getQueryInterface(), sequelizeInstance.constructor, function () {
+          throw new Error('Migration tried to use old style "done" callback. Please upgrade to "umzug" and return a promise instead.')
+        } ],
+        path: api.projectRoot + '/migrations'
+      }
+    })
+
     api.sequelize = {
 
       sequelize: sequelizeInstance,
 
-      umzug: [],
-
-      importMigrationsFromDirectory (dir) {
-        (Array.isArray(dir) ? dir : [dir])
-          .map(dir => path.normalize(path.join(api.projectRoot, dir)))
-          .forEach(dir => {
-            api.sequelize.umzug.push(new Umzug({
-              storage: 'sequelize',
-              storageOptions: {
-                sequelize: api.sequelize.sequelize
-              },
-              logging: (msg, ...params) => api.log(msg, 'info', ...params),
-              migrations: {
-                params: [
-                  api.sequelize.sequelize.getQueryInterface(),
-                  api.sequelize.sequelize.constructor,
-                  () => {
-                    throw new Error('Migration tried to use old style "done" callback. Please upgrade to "umzug" and return a promise instead.')
-                  }],
-                path: dir,
-                pattern: /\.js$/
-              }
-            }))
-          })
-      },
+      umzug: umzug,
 
       migrate: function (opts, next) {
         if (typeof opts === 'function') {
@@ -105,10 +95,8 @@ module.exports = {
         }
         opts = opts === null ? { method: 'up' } : opts
 
-        checkMetaOldSchema(api).then(async function () {
-          for (const umzug of api.sequelize.umzug) {
-            await umzug.execute(opts)
-          }
+        checkMetaOldSchema(api, umzug).then(function () {
+          return umzug.execute(opts)
         }).then(function () {
           next()
         }, function (err) {
@@ -117,10 +105,8 @@ module.exports = {
       },
 
       migrateUndo: function (next) {
-        checkMetaOldSchema(api).then(async function () {
-          for (const umzug of api.sequelize.umzug) {
-            await umzug.down()
-          }
+        checkMetaOldSchema(api, umzug).then(function () {
+          return umzug.down()
         }).then(function () {
           next()
         }, function (err) {
@@ -130,20 +116,18 @@ module.exports = {
 
       connect: function (next) {
         var dir = path.normalize(api.projectRoot + '/models')
-        api.log('seq connect - loading...', 'debug')
         fs.readdirSync(dir).forEach(function (file) {
           const filename = path.join(dir, file)
           var nameParts = file.split('/')
-          var name = nameParts[(nameParts.length - 1)].split('.')[0]
-          api.models[name] = api.sequelize.sequelize.import(filename)
+          var name = nameParts[ (nameParts.length - 1) ].split('.')[ 0 ]
+          api.models[ name ] = api.sequelize.sequelize.import(filename)
           api.watchFileAndAct(filename, () => {
             api.log('rebooting due to model change: ' + name, 'info')
-            delete require.cache[require.resolve(filename)]
+            delete require.cache[ require.resolve(filename) ]
             api.commands.restart()
           })
         })
 
-        api.log('seq connect - associations...', 'debug')
         _.forEach(api.models, function (model, name) {
           if (model.associate) { model.associate(api.models) }
         })
@@ -154,9 +138,7 @@ module.exports = {
       loadFixtures: function (next) {
         if (api.config.sequelize.loadFixtures) {
           var SequelizeFixtures = require('sequelize-fixtures')
-          SequelizeFixtures.loadFile(
-            api.projectRoot + '/test/fixtures/*.{json,yml,js}',
-            api.models)
+          SequelizeFixtures.loadFile(api.projectRoot + '/test/fixtures/*.{json,yml,js}', api.models, { log: m => api.log(m, 'notice') })
             .then(function () {
               next()
             })
@@ -169,14 +151,10 @@ module.exports = {
         }
       },
 
-      autoMigrate: async (next) => {
+      autoMigrate: function (next) {
         if (api.config.sequelize.autoMigrate == null || api.config.sequelize.autoMigrate) {
-          checkMetaOldSchema(api).then(async function () {
-            for (const umzug of api.sequelize.umzug) {
-              api.log('Executing migration ' + umzug.file, 'debug')
-              await umzug.up()
-              api.log('Finished migration ' + umzug.file, 'debug')
-            }
+          checkMetaOldSchema(api, umzug).then(function () {
+            return umzug.up()
           }).then(function () {
             next()
           }, function (err) {
@@ -202,8 +180,6 @@ module.exports = {
       }
     }
 
-    api.sequelize.importMigrationsFromDirectory(api.projectRoot + '/migrations')
-
     next()
   },
 
@@ -224,7 +200,6 @@ module.exports = {
   stop: function (api, next) {
     api.sequelize.sequelize.close()
       .then(function () {
-        delete api.sequelize.sequelize
         next()
       }, function (err) {
         next(err)
@@ -235,8 +210,8 @@ module.exports = {
 function checkMetaOldSchema (api) {
   // Check if we need to upgrade from the old sequelize migration format
   return api.sequelize.sequelize.query('SELECT * FROM "SequelizeMeta"', { raw: true }).then(function (raw) {
-    var rows = raw[0]
-    if (rows.length && rows[0].hasOwnProperty('id')) {
+    var rows = raw[ 0 ]
+    if (rows.length && rows[ 0 ].hasOwnProperty('id')) {
       throw new Error('Old-style meta-migration table detected - please use `sequelize-cli`\'s `db:migrate:old_schema` to migrate.')
     }
   }).catch(Sequelize.DatabaseError, function () {
