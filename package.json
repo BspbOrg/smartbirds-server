@@ -85,7 +85,7 @@
     "mkdirp": "^0.5.1",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.27",
-    "node-fetch": "^1.7.3",
+    "node-fetch": "^2.6.0",
     "nodemailer-mailgun-transport": "^1.4.0",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
