@@ -25,10 +25,9 @@ function parseDatabaseUrl (databaseUrl, options) {
     delete options.port
   }
 
-  if (urlParts.auth) {
-    options.username = urlParts.auth.split(':')[0]
-    options.password = urlParts.auth.split(':')[1]
-  }
+  options.username = urlParts.username || options.username
+
+  options.password = urlParts.password || options.password
 
   return options
 }
