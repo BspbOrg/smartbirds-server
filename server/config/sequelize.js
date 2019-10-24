@@ -1,33 +1,29 @@
+
 function parseDatabaseUrl (databaseUrl, options) {
   options = options || {}
   if (!databaseUrl) return options
 
-  var url = require('url')
+  const { parseUrl } = require('../utils/urlParser')
+  const parsed = parseUrl(databaseUrl)
 
-  var urlParts = new url.URL(databaseUrl)
   // reset username and password to null so we don't pass the options as the username
-  options.username = null
-  options.password = null
+  options.username = parsed.username || null
+  options.password = parsed.password || null
 
   // SQLite don't have DB in connection url
-  if (urlParts.pathname) {
-    options.database = urlParts.pathname.replace(/^\//, '')
+  if (parsed.database) {
+    options.database = parsed.database
   } else {
     delete options.database
   }
 
-  options.dialect = urlParts.protocol.replace(/:$/, '')
-  options.host = urlParts.hostname
+  options.dialect = parsed.protocol
+  options.host = parsed.hostname
 
-  if (urlParts.port) {
-    options.port = urlParts.port
+  if (parsed.port) {
+    options.port = parsed.port
   } else {
     delete options.port
-  }
-
-  if (urlParts.auth) {
-    options.username = urlParts.auth.split(':')[0]
-    options.password = urlParts.auth.split(':')[1]
   }
 
   return options
