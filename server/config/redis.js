@@ -7,22 +7,23 @@ var useFakeRedis = process.env.FAKEREDIS !== 'false' && process.env.REDIS_HOST =
 if (process.env.REDIS_URL != null) {
   useFakeRedis = false
 
-  var url = require('url')
-  var urlParts = new url.URL(process.env.REDIS_URL)
+  const { parseUrl } = require('../utils/urlParser')
+  const parsed = parseUrl(process.env.REDIS_URL)
+
   password = null
 
-  if (urlParts.pathname) {
-    db = urlParts.pathname.replace(/^\//, '')
+  if (parsed.database) {
+    db = parsed.database
   }
 
-  host = urlParts.hostname
+  host = parsed.host
 
-  if (urlParts.port) {
-    port = parseInt(urlParts.port)
+  if (parsed.port) {
+    port = parsed.port
   }
 
-  if (urlParts.auth) {
-    password = urlParts.auth.split(':')[1]
+  if (parsed.password) {
+    password = parsed.password
   }
 }
 
