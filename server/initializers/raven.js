@@ -1,7 +1,7 @@
 /**
  * Created by groupsky on 23.03.16.
  */
-const { upgradeInitializer } = require('../utils/upgrade')
+const { upgradeInitializer, upgradeMiddleware } = require('../utils/upgrade')
 
 module.exports = upgradeInitializer('ah17', {
   loadPriority: 500,
@@ -61,6 +61,6 @@ module.exports = upgradeInitializer('ah17', {
       }
     }
 
-    api.actions.addMiddleware(api.raven.middleware.action)
+    api.actions.addMiddleware(upgradeMiddleware('ah17', api.raven.middleware.action))
   }
 })

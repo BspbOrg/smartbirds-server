@@ -81,8 +81,24 @@ const upgradeTask = (version, legacyTask) => {
   throw new Error(`Unsupported legacy verion ${version}`)
 }
 
+const upgradeMiddleware = (version, legacyMiddleware) => {
+  if (version === 'ah17') {
+    if (legacyMiddleware.preProcessor instanceof Function) {
+      legacyMiddleware.preProcessor = promisify(legacyMiddleware.preProcessor)
+    }
+    if (legacyMiddleware.postProcessor instanceof Function) {
+      legacyMiddleware.postProcessor = promisify(legacyMiddleware.postProcessor)
+    }
+
+    return legacyMiddleware
+  }
+
+  throw new Error(`Unsupported legacy verion ${version}`)
+}
+
 module.exports = {
   upgradeInitializer,
   upgradeAction,
-  upgradeTask
+  upgradeTask,
+  upgradeMiddleware
 }

@@ -1,5 +1,5 @@
 var crypto = require('crypto')
-const { upgradeInitializer } = require('../utils/upgrade')
+const { upgradeInitializer, upgradeMiddleware } = require('../utils/upgrade')
 
 module.exports = upgradeInitializer('ah17', {
   initialize: function (api, next) {
@@ -139,10 +139,10 @@ module.exports = upgradeInitializer('ah17', {
       }
     }
 
-    api.actions.addMiddleware(api.session.middleware.session)
-    api.actions.addMiddleware(api.session.middleware.auth)
-    api.actions.addMiddleware(api.session.middleware.admin)
-    api.actions.addMiddleware(api.session.middleware.owner)
+    api.actions.addMiddleware(upgradeMiddleware('ah17', api.session.middleware.session))
+    api.actions.addMiddleware(upgradeMiddleware('ah17', api.session.middleware.auth))
+    api.actions.addMiddleware(upgradeMiddleware('ah17', api.session.middleware.admin))
+    api.actions.addMiddleware(upgradeMiddleware('ah17', api.session.middleware.owner))
 
     api.params.globalSafeParams.push('csrfToken')
 
