@@ -135,16 +135,13 @@ function generateExportAction (form) {
 
       const query = await form.prepareQuery(api, data)
 
-      api.tasks.enqueue('form:export', {
+      data.response.success = await api.tasks.enqueue('form:export', {
         query,
         outputType,
         user: data.session.user,
         formName: form.modelName
-      }, 'low', (error, success) => {
-        if (error) return next(error)
-        data.response.success = success
-        next()
-      })
+      }, 'low')
+      next()
     } catch (error) {
       api.log(error, 'error')
       next(error)
@@ -280,6 +277,7 @@ function registerForm (api, form) {
 }
 
 module.exports = upgradeInitializer('ah17', {
+  name: 'formActions',
   // after actions and before params
   loadPriority: 411,
   initialize: function (api, next) {

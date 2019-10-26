@@ -4,6 +4,7 @@
 const { upgradeInitializer, upgradeMiddleware } = require('../utils/upgrade')
 
 module.exports = upgradeInitializer('ah17', {
+  name: 'raven',
   loadPriority: 500,
   initialize: function (api, next) {
     var raven = require('raven')

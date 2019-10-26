@@ -8,6 +8,7 @@ var ejs = require('ejs')
 const { upgradeInitializer } = require('../utils/upgrade')
 
 module.exports = upgradeInitializer('ah17', {
+  name: 'template',
   initialize: function (api, next) {
     api.template = {
       render: function (view, args) {

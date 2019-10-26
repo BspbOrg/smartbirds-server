@@ -403,6 +403,7 @@ function updateHash (instance) {
 }
 
 module.exports = upgradeInitializer('ah17', {
+  name: 'forms',
   loadPriority: 320,
   initialize: function (api, next) {
     api.forms = {

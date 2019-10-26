@@ -203,6 +203,7 @@ function registerForm (form) {
 }
 
 module.exports = upgradeInitializer('ah17', {
+  name: 'formMethods',
   // after actions and before params
   loadPriority: 350,
   initialize: function (api, next) {

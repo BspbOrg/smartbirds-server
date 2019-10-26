@@ -5,6 +5,7 @@ var path = require('path')
 const { upgradeInitializer } = require('../utils/upgrade')
 
 module.exports = upgradeInitializer('ah17', {
+  name: 'banner',
   initialize: function (api, next) {
     api.banner = {
       execute: function (generator) {

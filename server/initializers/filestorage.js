@@ -8,6 +8,7 @@ var stream = require('stream')
 const { upgradeInitializer } = require('../utils/upgrade')
 
 module.exports = upgradeInitializer('ah17', {
+  name: 'filestorage',
   initialize: function (api, next) {
     api.config.servers.web.formOptions.uploadDir = api.config.servers.web.formOptions.uploadDir || api.config.general.paths.fileupload[0]
     api.config.filestorage.path = api.config.filestorage.path || api.config.general.paths.monitoring[0]

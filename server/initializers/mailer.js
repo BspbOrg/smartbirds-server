@@ -6,6 +6,7 @@ var Email = require('email-templates')
 const { upgradeInitializer } = require('../utils/upgrade')
 
 module.exports = upgradeInitializer('ah17', {
+  name: 'mailer',
   initialize: function (api, next) {
     api.mailer = {
       send: function (options, next) {

@@ -2,6 +2,7 @@ var crypto = require('crypto')
 const { upgradeInitializer, upgradeMiddleware } = require('../utils/upgrade')
 
 module.exports = upgradeInitializer('ah17', {
+  name: 'session',
   initialize: function (api, next) {
     const redis = api.redis.clients.client
 

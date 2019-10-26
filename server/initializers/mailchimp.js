@@ -3,6 +3,7 @@ const Mailchimp = require('mailchimp-api-v3')
 const { upgradeInitializer } = require('../utils/upgrade')
 
 module.exports = upgradeInitializer('ah17', {
+  name: 'mailchimp',
   initialize: function (api, next) {
     if (!api.config.mailchimp.enabled) {
       return next()

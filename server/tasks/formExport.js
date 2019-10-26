@@ -146,25 +146,15 @@ exports.task = upgradeTask('ah17', {
         })
       })
 
-      const successDelete = await new Promise((resolve, reject) => {
-        api.log('Scheduling delete in 24h', 'notice', { key: key })
-        api.tasks.enqueueIn(1000 * 60 * 60 * 24, 'storage:delete', { key }, 'low', (err, res) => {
-          if (err) return reject(err)
-          return resolve(res)
-        })
-      })
+      api.log('Scheduling delete in 24h', 'notice', { key: key })
+      const successDelete = await api.tasks.enqueueIn(1000 * 60 * 60 * 24, 'storage:delete', { key }, 'low')
 
-      const successEmail = await new Promise((resolve, reject) => {
-        api.log('Sending email notification', 'notice', { key, user })
-        api.tasks.enqueue('mail:send', {
-          mail: { to: user.email, subject: 'Export ready' },
-          template: 'export_ready',
-          locals: { key, user }
-        }, 'default', (err, res) => {
-          if (err) return reject(err)
-          return resolve(res)
-        })
-      })
+      api.log('Sending email notification', 'notice', { key, user })
+      const successEmail = await api.tasks.enqueue('mail:send', {
+        mail: { to: user.email, subject: 'Export ready' },
+        template: 'export_ready',
+        locals: { key, user }
+      }, 'default')
 
       return next(null, { key, successDelete, successEmail })
     } catch (error) {

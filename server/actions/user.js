@@ -48,11 +48,9 @@ exports.userCreate = upgradeAction('ah17', {
             locals: {
               name: userObj.name()
             }
-          }, 'default', function (error) {
-            if (error) return next(error)
-            data.response.data = userObj.apiData(api)
-            next()
-          })
+          }, 'default')
+          data.response.data = userObj.apiData(api)
+          next()
         })
         .catch(function (error) {
           api.log('Error creating user', 'error', error)
@@ -86,11 +84,11 @@ exports.userLost = upgradeAction('ah17', {
               passwordToken: passwordToken,
               email: userObj.email
             }
-          }, 'default', function (error, toRun) {
-            if (error) return next(error)
-
+          }, 'default').then(function (toRun) {
             data.response.data = { success: toRun }
             next()
+          }, function (err) {
+            next(err)
           })
         }).catch(next)
       })
@@ -565,12 +563,7 @@ exports.userDelete = upgradeAction('ah17', {
       })
       await Promise.all(adoptForms)
 
-      await new Promise(function (resolve, reject) {
-        api.tasks.enqueue('mailchimp:delete', { email: user.email }, 'default', function (error) {
-          if (error) return reject(error)
-          resolve()
-        })
-      })
+      await api.tasks.enqueue('mailchimp:delete', { email: user.email }, 'default')
 
       await user.destroy()
 

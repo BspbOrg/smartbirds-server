@@ -43,6 +43,7 @@ const operatorsAliases = {
 }
 
 module.exports = upgradeInitializer('ah17', {
+  name: 'sequelize',
   loadPriority: 310,
   initialize: function (api, next) {
     api.models = {}
