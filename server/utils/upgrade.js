@@ -72,7 +72,8 @@ const upgradeTask = (version, legacyTask) => {
     }
 
     if (legacyTask.run instanceof Function) {
-      clazz.prototype.run = promisify(legacyTask.run).bind(null, api)
+      const legacyRun = promisify(legacyTask.run)
+      clazz.prototype.run = (data, self) => legacyRun.call(self, api, data)
     }
 
     return clazz
