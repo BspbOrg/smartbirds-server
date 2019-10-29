@@ -50,6 +50,7 @@ const upgradeAction = (version, legacyAction) => {
     if (legacyAction.run instanceof Function) {
       const legacyRun = promisify(legacyAction.run)
       clazz.prototype.run = async (data) => {
+        // unfreeze params - used in some actions to set user id to current user
         data.params = { ...data.params }
         return legacyRun(api, data)
       }
