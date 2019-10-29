@@ -49,7 +49,10 @@ const upgradeAction = (version, legacyAction) => {
 
     if (legacyAction.run instanceof Function) {
       const legacyRun = promisify(legacyAction.run)
-      clazz.prototype.run = ({ params, ...data }) => legacyRun(api, { params: { ...params }, ...data })
+      clazz.prototype.run = async (data) => {
+        data.params = { ...data.params }
+        return legacyRun(api, data)
+      }
     }
 
     return clazz
