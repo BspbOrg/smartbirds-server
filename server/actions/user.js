@@ -88,9 +88,7 @@ exports.userLost = upgradeAction('ah17', {
           }, 'default').then(function (toRun) {
             data.response.data = { success: toRun }
             next()
-          }, function (err) {
-            next(err)
-          })
+          }, next)
         }).catch(next)
       })
     })
