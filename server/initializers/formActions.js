@@ -251,11 +251,11 @@ function generateFormActions (form) {
   return actions
 }
 
-function registerForm (api, form) {
+async function registerForm (api, form) {
   const name = form.modelName
   const collection = generateFormActions(form)
   api.log(`Registering actions for ${name} form`, 'info')
-  _.forEach(collection, async actionDescription => {
+  await Promise.all(_.map(collection, async actionDescription => {
     const ActionClass = upgradeAction('ah17', actionDescription)
     const action = new ActionClass()
 
@@ -273,18 +273,20 @@ function registerForm (api, form) {
     api.actions.versions[action.name].push(action.version)
     api.actions.versions[action.name].sort()
     api.log(`Registering ${action.name}@${action.version}`, 'info')
-  })
+  }))
 }
 
 module.exports = upgradeInitializer('ah17', {
   name: 'formActions',
   // after actions and before params
   loadPriority: 411,
-  initialize: function (api, next) {
+  initialize: async function (api, next) {
     api.log('Registering form actions', 'info')
-    _.forEach(api.forms, form => {
-      registerForm(api, form)
-    })
+    try {
+      await Promise.all(_.map(api.forms, form => registerForm(api, form)))
+    } catch (e) {
+      return next(e)
+    }
 
     api.forms.register = (function (originalRegister) {
       return function (form) {
