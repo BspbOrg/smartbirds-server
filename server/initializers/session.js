@@ -55,7 +55,7 @@ module.exports = upgradeInitializer('ah17', {
       },
 
       middleware: {
-        session: {
+        session: upgradeMiddleware('ah17', {
           name: 'session',
           global: true,
           priority: 20,
@@ -85,8 +85,8 @@ module.exports = upgradeInitializer('ah17', {
               }
             })
           }
-        },
-        auth: {
+        }),
+        auth: upgradeMiddleware('ah17', {
           name: 'auth',
           global: false,
           priority: 2000,
@@ -97,8 +97,8 @@ module.exports = upgradeInitializer('ah17', {
             }
             next()
           }
-        },
-        admin: {
+        }),
+        admin: upgradeMiddleware('ah17', {
           name: 'admin',
           global: false,
           priority: 3000,
@@ -114,8 +114,8 @@ module.exports = upgradeInitializer('ah17', {
 
             return next()
           }
-        },
-        owner: {
+        }),
+        owner: upgradeMiddleware('ah17', {
           name: 'owner',
           global: false,
           priority: 3000,
@@ -136,14 +136,14 @@ module.exports = upgradeInitializer('ah17', {
               return next()
             }
           }
-        }
+        })
       }
     }
 
-    api.actions.addMiddleware(upgradeMiddleware('ah17', api.session.middleware.session))
-    api.actions.addMiddleware(upgradeMiddleware('ah17', api.session.middleware.auth))
-    api.actions.addMiddleware(upgradeMiddleware('ah17', api.session.middleware.admin))
-    api.actions.addMiddleware(upgradeMiddleware('ah17', api.session.middleware.owner))
+    api.actions.addMiddleware(api.session.middleware.session)
+    api.actions.addMiddleware(api.session.middleware.auth)
+    api.actions.addMiddleware(api.session.middleware.admin)
+    api.actions.addMiddleware(api.session.middleware.owner)
 
     api.params.globalSafeParams.push('csrfToken')
 

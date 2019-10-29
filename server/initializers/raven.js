@@ -32,7 +32,7 @@ module.exports = upgradeInitializer('ah17', {
   initMiddleware: function (api) {
     var ravenParsers = require('raven/lib/parsers')
 
-    api.raven.middleware = {
+    api.raven.middleware = upgradeMiddleware('ah17', {
       action: {
         name: 'raven:middleware:action',
         global: true,
@@ -60,8 +60,8 @@ module.exports = upgradeInitializer('ah17', {
           }
         }
       }
-    }
+    })
 
-    api.actions.addMiddleware(upgradeMiddleware('ah17', api.raven.middleware.action))
+    api.actions.addMiddleware(api.raven.middleware.action)
   }
 })
