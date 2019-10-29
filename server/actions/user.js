@@ -48,9 +48,10 @@ exports.userCreate = upgradeAction('ah17', {
             locals: {
               name: userObj.name()
             }
-          }, 'default')
-          data.response.data = userObj.apiData(api)
-          next()
+          }, 'default').then(function () {
+            data.response.data = userObj.apiData(api)
+            next()
+          }, next)
         })
         .catch(function (error) {
           api.log('Error creating user', 'error', error)
