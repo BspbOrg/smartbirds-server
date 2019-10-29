@@ -18,7 +18,7 @@ function parseDatabaseUrl (databaseUrl, options) {
   }
 
   options.dialect = parsed.protocol
-  options.host = parsed.hostname
+  options.host = parsed.host
 
   if (parsed.port) {
     options.port = parsed.port
