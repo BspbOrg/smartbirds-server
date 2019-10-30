@@ -3,31 +3,20 @@
 const _ = require('lodash')
 const path = require('path')
 const fs = require('fs')
-const util = require('util')
+const ActionHero = require('actionhero')
 
 const setup = {
-  ServerPrototype: require('../node_modules/actionhero/actionhero.js'),
-  testUrl: 'http://127.0.0.1:18080/api',
+  server: new ActionHero.Process(),
 
   init: async () => {
-    if (!setup.server) {
-      setup.server = new setup.ServerPrototype()
-      setup.server.start = util.promisify(setup.server.start)
-      setup.server.restart = util.promisify(setup.server.restart)
-      setup.server.stop = util.promisify(setup.server.stop)
-
-      console.log('    starting test server...')
-      setup.api = await setup.server.start()
-    } else {
-      console.log('    restarting test server...')
-      setup.api = await setup.server.restart()
-    }
+    console.log('    starting test server...')
+    setup.api = await setup.server.start()
     return setup.api
   },
   finish: () => setup.server.stop(),
-  runAction: (action, params) => new Promise(resolve => setup.api.specHelper.runAction(action, params, resolve)),
+  runAction: (action, params) => setup.api.specHelper.runAction(action, params),
   runActionAs: async (action, params, user) => {
-    const conn = new setup.api.specHelper.Connection()
+    const conn = await setup.api.specHelper.Connection.createAsync()
     conn.params = {
       email: user,
       password: 'secret'

@@ -1,4 +1,7 @@
-module.exports = {
+const { upgradeInitializer } = require('../utils/upgrade')
+
+module.exports = upgradeInitializer('ah17', {
+  name: 'html5',
   initialize: function (api, next) {
     api.staticFile.get = (function (originalGet) {
       return function (connection, callback, counter) {
@@ -18,4 +21,4 @@ module.exports = {
     })(api.staticFile.get)
     next()
   }
-}
+})

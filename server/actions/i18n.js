@@ -2,6 +2,7 @@ var path = require('path')
 var fs = require('fs')
 var fetch = require('node-fetch')
 var FormData = require('form-data')
+const { upgradeAction } = require('../utils/upgrade')
 
 function serveStatic (api, data, next) {
   fs.readFile(path.join(api.config.poeditor.fallbackPath, data.params.lang + '.json'), 'utf8', function (err, input) {
@@ -35,7 +36,7 @@ function serveDynamic (api, data, next) {
     .then(function () { next() }, next)
 }
 
-exports.i18n = {
+exports.i18n = upgradeAction('ah17', {
   name: 'i18n',
   description: 'i18n',
   inputs: { lang: { required: true } },
@@ -46,4 +47,4 @@ exports.i18n = {
       return serveDynamic(api, data, next)
     }
   }
-}
+})

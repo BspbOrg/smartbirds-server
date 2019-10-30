@@ -1,4 +1,7 @@
-module.exports = {
+const { upgradeInitializer } = require('../utils/upgrade')
+
+module.exports = upgradeInitializer('ah17', {
+  name: 'locale',
   initialize: function (api, next) {
     api.i18n.determineConnectionLocale = (function (defaultLocale) {
       return function (connection) {
@@ -13,4 +16,4 @@ module.exports = {
     })(api.i18n.determineConnectionLocale)
     next()
   }
-}
+})

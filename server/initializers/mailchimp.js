@@ -1,7 +1,9 @@
 const crypto = require('crypto')
 const Mailchimp = require('mailchimp-api-v3')
+const { upgradeInitializer } = require('../utils/upgrade')
 
-module.exports = {
+module.exports = upgradeInitializer('ah17', {
+  name: 'mailchimp',
   initialize: function (api, next) {
     if (!api.config.mailchimp.enabled) {
       return next()
@@ -131,4 +133,4 @@ module.exports = {
 
     next()
   }
-}
+})

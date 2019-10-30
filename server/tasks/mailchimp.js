@@ -1,4 +1,6 @@
-module.exports.mailchimpUpdateAll = {
+const { upgradeTask } = require('../utils/upgrade')
+
+module.exports.mailchimpUpdateAll = upgradeTask('ah17', {
   name: 'mailchimp:update-all',
   description: 'updates mailchimp list with all user data',
   queue: 'default',
@@ -14,9 +16,9 @@ module.exports.mailchimpUpdateAll = {
       .then(r => next(null, r))
       .catch(e => next(e))
   }
-}
+})
 
-module.exports.mailchimpCreate = {
+module.exports.mailchimpCreate = upgradeTask('ah17', {
   name: 'mailchimp:create',
   description: 'add a user in mailchimp list',
   queue: 'default',
@@ -32,9 +34,9 @@ module.exports.mailchimpCreate = {
       .then(r => next(null, r))
       .catch(e => next(e))
   }
-}
+})
 
-module.exports.mailchimpDelete = {
+module.exports.mailchimpDelete = upgradeTask('ah17', {
   name: 'mailchimp:delete',
   description: 'removes a user from mailchimp list',
   queue: 'default',
@@ -46,4 +48,4 @@ module.exports.mailchimpDelete = {
       .then(function (r) { next(null, r) })
       .catch(function (e) { next(e) })
   }
-}
+})

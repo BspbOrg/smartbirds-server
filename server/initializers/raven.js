@@ -1,8 +1,10 @@
 /**
  * Created by groupsky on 23.03.16.
  */
+const { upgradeInitializer, upgradeMiddleware } = require('../utils/upgrade')
 
-module.exports = {
+module.exports = upgradeInitializer('ah17', {
+  name: 'raven',
   loadPriority: 500,
   initialize: function (api, next) {
     var raven = require('raven')
@@ -30,7 +32,7 @@ module.exports = {
   initMiddleware: function (api) {
     var ravenParsers = require('raven/lib/parsers')
 
-    api.raven.middleware = {
+    api.raven.middleware = upgradeMiddleware('ah17', {
       action: {
         name: 'raven:middleware:action',
         global: true,
@@ -58,8 +60,8 @@ module.exports = {
           }
         }
       }
-    }
+    })
 
     api.actions.addMiddleware(api.raven.middleware.action)
   }
-}
+})

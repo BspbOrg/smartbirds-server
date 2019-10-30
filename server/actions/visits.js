@@ -3,8 +3,9 @@
  */
 
 var Promise = require('bluebird')
+const { upgradeAction } = require('../utils/upgrade')
 
-exports.visitList = {
+exports.visitList = upgradeAction('ah17', {
   name: 'visit:list',
   description: 'visit:list',
   middleware: ['auth'],
@@ -46,9 +47,9 @@ exports.visitList = {
         next(e)
       })
   }
-}
+})
 
-exports.visitEdit = {
+exports.visitEdit = upgradeAction('ah17', {
   name: 'visit:edit',
   description: 'visit:edit',
   middleware: ['admin'],
@@ -89,9 +90,9 @@ exports.visitEdit = {
         next(error)
       })
   }
-}
+})
 
-exports.visitView = {
+exports.visitView = upgradeAction('ah17', {
   name: 'visit:view',
   description: 'visit:view',
   middleware: ['auth'],
@@ -131,9 +132,9 @@ exports.visitView = {
         next(error)
       })
   }
-}
+})
 
-exports.visitDelete = {
+exports.visitDelete = upgradeAction('ah17', {
   name: 'visit:delete',
   description: 'visit:delete',
   middleware: ['admin'],
@@ -162,4 +163,4 @@ exports.visitDelete = {
         next(error)
       })
   }
-}
+})

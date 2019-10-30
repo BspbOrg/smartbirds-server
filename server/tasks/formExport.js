@@ -5,6 +5,7 @@ const csv = require('csv-stringify')
 const fs = require('fs')
 const path = require('path')
 const uuid = require('uuid')
+const { upgradeTask } = require('../utils/upgrade')
 
 async function exportCsv (api, records, formName, outputFilename) {
   records = await Promise.all(records.map(async (record) => record.exportData(api)))
@@ -100,7 +101,7 @@ async function exportZip (api, records, formName, outputFilename) {
   })
 }
 
-exports.task = {
+exports.task = upgradeTask('ah17', {
   name: 'form:export',
   description: 'form:export',
   frequency: 0,
@@ -145,25 +146,15 @@ exports.task = {
         })
       })
 
-      const successDelete = await new Promise((resolve, reject) => {
-        api.log('Scheduling delete in 24h', 'notice', { key: key })
-        api.tasks.enqueueIn(1000 * 60 * 60 * 24, 'storage:delete', { key }, 'low', (err, res) => {
-          if (err) return reject(err)
-          return resolve(res)
-        })
-      })
+      api.log('Scheduling delete in 24h', 'notice', { key: key })
+      const successDelete = await api.tasks.enqueueIn(1000 * 60 * 60 * 24, 'storage:delete', { key }, 'low')
 
-      const successEmail = await new Promise((resolve, reject) => {
-        api.log('Sending email notification', 'notice', { key, user })
-        api.tasks.enqueue('mail:send', {
-          mail: { to: user.email, subject: 'Export ready' },
-          template: 'export_ready',
-          locals: { key, user }
-        }, 'default', (err, res) => {
-          if (err) return reject(err)
-          return resolve(res)
-        })
-      })
+      api.log('Sending email notification', 'notice', { key, user })
+      const successEmail = await api.tasks.enqueue('mail:send', {
+        mail: { to: user.email, subject: 'Export ready' },
+        template: 'export_ready',
+        locals: { key, user }
+      }, 'default')
 
       return next(null, { key, successDelete, successEmail })
     } catch (error) {
@@ -171,4 +162,4 @@ exports.task = {
       return next(new Error(error.message))
     }
   }
-}
+})

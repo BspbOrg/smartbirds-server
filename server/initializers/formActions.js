@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const inputHelpers = require('../helpers/inputs')
+const { upgradeInitializer, upgradeAction } = require('../utils/upgrade')
 
 /**
  * @param {{modelName: String}} form
@@ -134,16 +135,13 @@ function generateExportAction (form) {
 
       const query = await form.prepareQuery(api, data)
 
-      api.tasks.enqueue('form:export', {
+      data.response.success = await api.tasks.enqueue('form:export', {
         query,
         outputType,
         user: data.session.user,
         formName: form.modelName
-      }, 'low', (error, success) => {
-        if (error) return next(error)
-        data.response.success = success
-        next()
-      })
+      }, 'low')
+      next()
     } catch (error) {
       api.log(error, 'error')
       next(error)
@@ -253,36 +251,42 @@ function generateFormActions (form) {
   return actions
 }
 
-function registerForm (api, form) {
+async function registerForm (api, form) {
   const name = form.modelName
   const collection = generateFormActions(form)
   api.log(`Registering actions for ${name} form`, 'info')
-  _.forEach(collection, action => {
+  await Promise.all(_.map(collection, async actionDescription => {
+    const ActionClass = upgradeAction('ah17', actionDescription)
+    const action = new ActionClass()
+
+    api.log(`Validating action ${action.name}@${action.version}`, 'debug')
+    await action.validate(api)
+
+    if (!api.actions.actions[action.name]) { api.actions.actions[action.name] = {} }
+    if (!api.actions.versions[action.name]) { api.actions.versions[action.name] = [] }
+
     if (action.version === null || action.version === undefined) {
       action.version = 1.0
     }
-    if (api.actions.actions[action.name] === null || api.actions.actions[action.name] === undefined) {
-      api.actions.actions[action.name] = {}
-    }
+
     api.actions.actions[action.name][action.version] = action
-    if (api.actions.versions[action.name] === null || api.actions.versions[action.name] === undefined) {
-      api.actions.versions[action.name] = []
-    }
     api.actions.versions[action.name].push(action.version)
     api.actions.versions[action.name].sort()
-    api.actions.validateAction(api.actions.actions[action.name][action.version])
     api.log(`Registering ${action.name}@${action.version}`, 'info')
-  })
+  }))
 }
 
-module.exports = {
+module.exports = upgradeInitializer('ah17', {
+  name: 'formActions',
   // after actions and before params
   loadPriority: 411,
-  initialize: function (api, next) {
+  initialize: async function (api, next) {
     api.log('Registering form actions', 'info')
-    _.forEach(api.forms, form => {
-      registerForm(api, form)
-    })
+    try {
+      await Promise.all(_.map(api.forms, form => registerForm(api, form)))
+    } catch (e) {
+      return next(e)
+    }
 
     api.forms.register = (function (originalRegister) {
       return function (form) {
@@ -294,4 +298,4 @@ module.exports = {
 
     next()
   }
-}
+})

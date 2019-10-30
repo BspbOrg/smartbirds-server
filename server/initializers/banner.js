@@ -2,8 +2,10 @@ var Promise = require('bluebird')
 var exec = require('child_process').exec
 var md5 = require('blueimp-md5')
 var path = require('path')
+const { upgradeInitializer } = require('../utils/upgrade')
 
-module.exports = {
+module.exports = upgradeInitializer('ah17', {
+  name: 'banner',
   initialize: function (api, next) {
     api.banner = {
       execute: function (generator) {
@@ -32,4 +34,4 @@ module.exports = {
     }
     next()
   }
-}
+})

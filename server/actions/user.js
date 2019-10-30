@@ -1,7 +1,8 @@
 var _ = require('lodash')
 var Promise = require('bluebird')
+const { upgradeAction } = require('../utils/upgrade')
 
-exports.userCreate = {
+exports.userCreate = upgradeAction('ah17', {
   name: 'user:create',
   description: 'user:create',
   outputExample: {},
@@ -47,11 +48,10 @@ exports.userCreate = {
             locals: {
               name: userObj.name()
             }
-          }, 'default', function (error) {
-            if (error) return next(error)
+          }, 'default').then(function () {
             data.response.data = userObj.apiData(api)
             next()
-          })
+          }, next)
         })
         .catch(function (error) {
           api.log('Error creating user', 'error', error)
@@ -59,9 +59,9 @@ exports.userCreate = {
         })
     })
   }
-}
+})
 
-exports.userLost = {
+exports.userLost = upgradeAction('ah17', {
   name: 'user:lost',
   description: 'user:lost',
   inputs: {
@@ -85,20 +85,18 @@ exports.userLost = {
               passwordToken: passwordToken,
               email: userObj.email
             }
-          }, 'default', function (error, toRun) {
-            if (error) return next(error)
-
+          }, 'default').then(function (toRun) {
             data.response.data = { success: toRun }
             next()
-          })
+          }, next)
         }).catch(next)
       })
     })
       .catch(next)
   }
-}
+})
 
-exports.userReset = {
+exports.userReset = upgradeAction('ah17', {
   name: 'user:reset',
   description: 'user:reset',
   inputs: {
@@ -139,9 +137,9 @@ exports.userReset = {
     })
       .catch(next)
   }
-}
+})
 
-exports.userView = {
+exports.userView = upgradeAction('ah17', {
   name: 'user:view',
   description: 'user:view',
   outputExample: {},
@@ -179,9 +177,9 @@ exports.userView = {
     })
       .catch(next)
   }
-}
+})
 
-exports.userEdit = {
+exports.userEdit = upgradeAction('ah17', {
   name: 'user:edit',
   description: 'user:edit',
   outputExample: {},
@@ -228,9 +226,9 @@ exports.userEdit = {
     })
       .catch(next)
   }
-}
+})
 
-exports.userList = {
+exports.userList = upgradeAction('ah17', {
   name: 'user:list',
   description: 'List users. Requires admin role',
   outputExample: {
@@ -326,9 +324,9 @@ exports.userList = {
         next()
       }).catch(next)
   }
-}
+})
 
-exports.userChangePassword = {
+exports.userChangePassword = upgradeAction('ah17', {
   name: 'user:changepw',
   description: 'Change password of user',
   middleware: ['auth', 'owner'],
@@ -379,9 +377,9 @@ exports.userChangePassword = {
         next(error)
       })
   }
-}
+})
 
-exports.userSharers = {
+exports.userSharers = upgradeAction('ah17', {
   name: 'user:sharers',
   description: 'user:sharers',
   outputExample: {
@@ -425,9 +423,9 @@ exports.userSharers = {
     })
       .catch(next)
   }
-}
+})
 
-exports.userSharees = {
+exports.userSharees = upgradeAction('ah17', {
   name: 'user:sharees',
   description: 'user:sharees',
   outputExample: {
@@ -471,9 +469,9 @@ exports.userSharees = {
     })
       .catch(next)
   }
-}
+})
 
-exports.updateSharees = {
+exports.updateSharees = upgradeAction('ah17', {
   name: 'user:sharees:update',
   description: 'user:sharees:update',
   outputExample: {
@@ -530,9 +528,9 @@ exports.updateSharees = {
       })
       .catch(next)
   }
-}
+})
 
-exports.userDelete = {
+exports.userDelete = upgradeAction('ah17', {
   name: 'user:delete',
   description: 'user:delete',
   outputExample: {},
@@ -564,12 +562,7 @@ exports.userDelete = {
       })
       await Promise.all(adoptForms)
 
-      await new Promise(function (resolve, reject) {
-        api.tasks.enqueue('mailchimp:delete', { email: user.email }, 'default', function (error) {
-          if (error) return reject(error)
-          resolve()
-        })
-      })
+      await api.tasks.enqueue('mailchimp:delete', { email: user.email }, 'default')
 
       await user.destroy()
 
@@ -579,4 +572,4 @@ exports.userDelete = {
       next(e)
     }
   }
-}
+})

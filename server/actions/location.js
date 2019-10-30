@@ -4,8 +4,9 @@
 
 var paging = require('../helpers/paging')
 var incremental = require('../helpers/incremental')
+const { upgradeAction } = require('../utils/upgrade')
 
-exports.locationList = {
+exports.locationList = upgradeAction('ah17', {
   name: 'location:list',
   description: 'location:list',
   middleware: ['auth'],
@@ -32,9 +33,9 @@ exports.locationList = {
       return next(e)
     }
   }
-}
+})
 
-exports.locationGet = {
+exports.locationGet = upgradeAction('ah17', {
   name: 'location:get',
   description: 'location:get',
   middleware: ['auth'],
@@ -61,9 +62,9 @@ exports.locationGet = {
       return next(e)
     }
   }
-}
+})
 
-exports.locationListZones = {
+exports.locationListZones = upgradeAction('ah17', {
   name: 'location:listZones',
   description: 'location:listZones',
   middleware: ['auth'],
@@ -114,9 +115,9 @@ exports.locationListZones = {
       return next(e)
     }
   }
-}
+})
 
-exports.areaListZones = {
+exports.areaListZones = upgradeAction('ah17', {
   name: 'area:listZones',
   description: 'area:listZones',
   middleware: ['auth'],
@@ -170,4 +171,4 @@ exports.areaListZones = {
       return next(e)
     }
   }
-}
+})

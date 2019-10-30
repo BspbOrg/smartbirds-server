@@ -5,8 +5,9 @@
 var _ = require('lodash')
 var Promise = require('bluebird')
 var writeFile = Promise.promisify(require('fs').writeFile)
+const { upgradeTask } = require('../utils/upgrade')
 
-module.exports.generateStatistics = {
+module.exports.generateStatistics = upgradeTask('ah17', {
   name: 'stats:generate',
   description: 'generates statistics for homepage',
   queue: 'default',
@@ -117,4 +118,4 @@ module.exports.generateStatistics = {
       next(error)
     }
   }
-}
+})

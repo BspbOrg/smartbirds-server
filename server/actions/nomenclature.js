@@ -3,6 +3,7 @@ var Promise = require('bluebird')
 var paging = require('../helpers/paging')
 var incremental = require('../helpers/incremental')
 var links = require('../helpers/links')
+const { upgradeAction } = require('../utils/upgrade')
 
 _.forOwn({
   nomenclature: {
@@ -15,7 +16,7 @@ _.forOwn({
     keys: 'labelLa'
   }
 }, function (definition, model) {
-  exports[model + 'UpdateType'] = {
+  exports[model + 'UpdateType'] = upgradeAction('ah17', {
     name: model + ':updateType',
     description: model + ':updateType',
     middleware: ['admin'],
@@ -77,9 +78,9 @@ _.forOwn({
           return next(e)
         })
     }
-  }
+  })
 
-  exports[model + 'Types'] = {
+  exports[model + 'Types'] = upgradeAction('ah17', {
     name: model + ':types',
     description: model + ':types',
     middleware: ['auth'],
@@ -126,9 +127,9 @@ _.forOwn({
           return next(e)
         })
     }
-  }
+  })
 
-  exports[model + 'TypeList'] = {
+  exports[model + 'TypeList'] = upgradeAction('ah17', {
     name: model + ':typeList',
     description: model + ':typeList',
     middleware: ['auth'],
@@ -181,12 +182,12 @@ _.forOwn({
           return next(e)
         })
     }
-  };
+  });
 
   (function (define) {
     _.isObject(definition.keys) ? _.forOwn(definition.keys, define) : define(definition.keys)
   })(function (key, label) {
-    exports[model + (label ? _.capitalize(label) : '') + 'View'] = {
+    exports[model + (label ? _.capitalize(label) : '') + 'View'] = upgradeAction('ah17', {
       name: model + (label ? ':' + label : '') + ':view',
       description: model + (label ? ':' + label : '') + ':view',
       middleware: ['auth'],
@@ -230,6 +231,6 @@ _.forOwn({
             return next(e)
           })
       }
-    }
+    })
   })
 })

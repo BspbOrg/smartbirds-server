@@ -1,6 +1,8 @@
 var crypto = require('crypto')
+const { upgradeInitializer, upgradeMiddleware } = require('../utils/upgrade')
 
-module.exports = {
+module.exports = upgradeInitializer('ah17', {
+  name: 'session',
   initialize: function (api, next) {
     const redis = api.redis.clients.client
 
@@ -53,7 +55,7 @@ module.exports = {
       },
 
       middleware: {
-        session: {
+        session: upgradeMiddleware('ah17', {
           name: 'session',
           global: true,
           priority: 20,
@@ -83,8 +85,8 @@ module.exports = {
               }
             })
           }
-        },
-        auth: {
+        }),
+        auth: upgradeMiddleware('ah17', {
           name: 'auth',
           global: false,
           priority: 2000,
@@ -95,8 +97,8 @@ module.exports = {
             }
             next()
           }
-        },
-        admin: {
+        }),
+        admin: upgradeMiddleware('ah17', {
           name: 'admin',
           global: false,
           priority: 3000,
@@ -112,8 +114,8 @@ module.exports = {
 
             return next()
           }
-        },
-        owner: {
+        }),
+        owner: upgradeMiddleware('ah17', {
           name: 'owner',
           global: false,
           priority: 3000,
@@ -134,7 +136,7 @@ module.exports = {
               return next()
             }
           }
-        }
+        })
       }
     }
 
@@ -155,4 +157,4 @@ module.exports = {
   stop: function (api, next) {
     next()
   }
-}
+})

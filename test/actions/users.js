@@ -139,7 +139,7 @@ describe('Action user:', function () {
           stub.restore()
           stub.should.be.calledOnce()
           var call = stub.getCall(0)
-          call.args.should.have.length(4)
+          call.args.length.should.be.greaterThanOrEqual(2)
           call.args[ 0 ].should.be.equal('mail:send')
           call.args[ 1 ].should.have.property('locals')
           call.args[ 1 ].locals.should.have.property('passwordToken').and.not.be.empty()
