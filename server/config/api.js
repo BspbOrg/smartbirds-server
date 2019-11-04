@@ -69,7 +69,8 @@ exports.default = {
 exports.test = {
   general: function (api) {
     return {
-      id: 'test-server',
+      id: `test-server-${process.pid || 0}`,
+      serverToken: `serverToken-${process.pid || 0}`,
       developmentMode: true,
       paths: {
         locale: [
