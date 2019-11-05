@@ -5,9 +5,7 @@ exports.default = {
     return {
       // visit https://github.com/mashpie/i18n-node to see all configuration options
       // locale path can be configired from within ./config/api.js
-      locales: Object.keys(languages).map((key) => {
-        return languages[key].id
-      }),
+      locales: Object.keys(languages),
 
       // how would you like your lanaguages to fall back if a translation string is missing?
       fallbacks: {
