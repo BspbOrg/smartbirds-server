@@ -12,7 +12,7 @@ _.forOwn({
     keys: {
       ...Object.keys(languages).map((key) => {
         return {
-          [languages[key].id]: 'label' + capitalizeFirstLetter(languages[key].id)
+          [key]: 'label' + capitalizeFirstLetter(key)
         }
       }).reduce((result, current) => {
         return {
