@@ -1,3 +1,5 @@
+const languages = require('../../config/languages')
+
 exports.default = {
   routes: function (api) {
     return {
@@ -22,8 +24,9 @@ exports.default = {
 
         { path: '/nomenclature', action: 'nomenclature:types' },
         { path: '/nomenclature/:type', action: 'nomenclature:typeList' },
-        { path: '/nomenclature/:type/bg/:value', action: 'nomenclature:bg:view' },
-        { path: '/nomenclature/:type/en/:value', action: 'nomenclature:en:view' },
+        ...Object.keys(languages).map((langId) => {
+          return { path: `/nomenclature/:type/${langId}/:value`, action: `nomenclature:${langId}:view` }
+        }),
 
         { path: '/species', action: 'species:types' },
         { path: '/species/:type', action: 'species:typeList' },
