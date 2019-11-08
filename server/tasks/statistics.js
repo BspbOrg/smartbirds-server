@@ -22,7 +22,6 @@ module.exports.generateStatistics = upgradeTask('ah17', {
         birds_stats: api.models.birds_stats.findAll(),
         cbm_stats: api.models.cbm_stats.findAll(),
         ciconia_stats: api.models.ciconia_stats.findAll(),
-        herps_stats: api.models.herps_stats.findAll(),
         herptiles_stats: api.models.herptiles_stats.findAll(),
         mammals_stats: api.models.mammals_stats.findAll(),
         invertebrates_stats: api.models.invertebrates_stats.findAll(),
