@@ -9,14 +9,14 @@ module.exports = [
       id: 'userZonePlovdiv',
       status: 'owned',
       owner: {email: 'user@smartbirds.com'},
-      location: {nameBg: 'Plovdiv'}
+      location: {nameLocal: 'Plovdiv'}
     }
   },
   {
     model: 'zone',
     data: {
       id: 'freeZonePlovdiv',
-      location: {nameBg: 'Plovdiv'}
+      location: {nameLocal: 'Plovdiv'}
     }
   },
   {
@@ -25,7 +25,7 @@ module.exports = [
       id: 'adminZonePlovdiv',
       owner: {email: 'admin@smartbirds.com'},
       status: 'owned',
-      location: {nameBg: 'Plovdiv'}
+      location: {nameLocal: 'Plovdiv'}
     }
   },
   {
@@ -36,14 +36,14 @@ module.exports = [
         email: 'user@smartbirds.com'
       },
       status: 'owned',
-      location: {nameBg: 'Sofia'}
+      location: {nameLocal: 'Sofia'}
     }
   },
   {
     model: 'zone',
     data: {
       id: 'freeZoneSofia',
-      location: {nameBg: 'Sofia'}
+      location: {nameLocal: 'Sofia'}
     }
   },
   {
@@ -52,7 +52,7 @@ module.exports = [
       id: 'adminZoneSofia',
       owner: {email: 'admin@smartbirds.com'},
       status: 'owned',
-      location: {nameBg: 'Sofia'}
+      location: {nameLocal: 'Sofia'}
     }
   }
 ]

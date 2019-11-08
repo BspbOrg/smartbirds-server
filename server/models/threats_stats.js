@@ -3,7 +3,7 @@ module.exports = function (sequelize, DataTypes) {
   return sequelize.define('threats_stats', {
     latitude: { type: DataTypes.DOUBLE, primaryKey: true },
     longitude: { type: DataTypes.DOUBLE, primaryKey: true },
-    threatsBg: DataTypes.TEXT,
+    threatsLocal: DataTypes.TEXT,
     threatsEn: DataTypes.TEXT,
     form: DataTypes.TEXT
   }, {

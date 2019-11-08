@@ -16,7 +16,7 @@ describe('Action formHerptiles:', function () {
       type: 'herptiles_gender',
       id: 33,
       label: {
-        bg: 'Женски',
+        local: 'Женски',
         en: 'Female'
       }
     },
@@ -24,7 +24,7 @@ describe('Action formHerptiles:', function () {
       type: 'herptiles_age',
       id: 11,
       label: {
-        bg: 'Imm.',
+        local: 'Imm.',
         en: 'Imm.'
       }
     },
@@ -32,7 +32,7 @@ describe('Action formHerptiles:', function () {
       type: 'herptiles_habitat',
       id: 102,
       label: {
-        bg: 'Диапазон',
+        local: 'Диапазон',
         en: 'Range'
       }
     },
@@ -40,7 +40,7 @@ describe('Action formHerptiles:', function () {
       type: 'herptiles_findings',
       id: 32,
       label: {
-        bg: 'herptiles_findings',
+        local: 'herptiles_findings',
         en: 'herptiles_findings'
       }
     },
@@ -67,7 +67,7 @@ describe('Action formHerptiles:', function () {
     rain: {
       type: 'main_rain',
       label: {
-        bg: 'Ръми',
+        local: 'Ръми',
         en: 'Drizzle'
       }
     },
@@ -75,21 +75,21 @@ describe('Action formHerptiles:', function () {
     windDirection: {
       type: 'main_wind_direction',
       label: {
-        bg: 'ENE',
+        local: 'ENE',
         en: 'ENE'
       }
     },
     windSpeed: {
       type: 'main_wind_force',
       label: {
-        bg: '2 - Лек бриз',
+        local: '2 - Лек бриз',
         en: '2 - Light breeze'
       }
     },
     cloudiness: {
       type: 'main_cloud_level',
       label: {
-        bg: '33-66%',
+        local: '33-66%',
         en: '33-66%'
       }
     },
@@ -100,14 +100,14 @@ describe('Action formHerptiles:', function () {
       {
         type: 'main_threats',
         label: {
-          bg: 'Култивация',
+          local: 'Култивация',
           en: 'Cultivation'
         }
       },
       {
         type: 'main_threats',
         label: {
-          bg: 'Наторяване',
+          local: 'Наторяване',
           en: 'Mulching'
         }
       }

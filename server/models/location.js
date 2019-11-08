@@ -5,22 +5,22 @@
 'use strict'
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Location', {
-    nameBg: DataTypes.TEXT,
+    nameLocal: DataTypes.TEXT,
     nameEn: DataTypes.TEXT,
-    areaBg: DataTypes.TEXT,
+    areaLocal: DataTypes.TEXT,
     areaEn: DataTypes.TEXT,
-    typeBg: DataTypes.TEXT,
+    typeLocal: DataTypes.TEXT,
     typeEn: DataTypes.TEXT,
     regionEn: DataTypes.TEXT,
-    regionBg: DataTypes.TEXT,
+    regionLocal: DataTypes.TEXT,
     longitude: DataTypes.FLOAT,
     latitude: DataTypes.FLOAT,
     ekatte: DataTypes.TEXT
   }, {
     indexes: [
-      { fields: ['nameBg'] },
+      { fields: ['nameLocal'] },
       { fields: ['nameEn'] },
-      { fields: ['areaBg'] },
+      { fields: ['areaLocal'] },
       { fields: ['areaEn'] }
     ],
     classMethods: {
@@ -33,19 +33,19 @@ module.exports = function (sequelize, DataTypes) {
         return {
           id: this.id,
           name: {
-            bg: this.nameBg,
+            local: this.nameLocal,
             en: this.nameEn
           },
           area: {
-            bg: this.areaBg,
+            local: this.areaLocal,
             en: this.areaEn
           },
           type: {
-            bg: this.typeBg,
+            local: this.typeLocal,
             en: this.typeEn
           },
           region: {
-            bg: this.regionBg,
+            local: this.regionLocal,
             en: this.regionEn
           },
           longitude: this.longitude,
