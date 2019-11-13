@@ -79,7 +79,7 @@
     "localforage": "^1.7.3",
     "lodash": "^4.17.15",
     "mailchimp-api-v3": "^1.13.1",
-    "mime-types": "^2.1.24",
+    "mime-types": "^2.1.25",
     "minifyify": "^7.3.5",
     "mkdirp": "^0.5.1",
     "moment": "^2.24.0",
