@@ -65,7 +65,6 @@ require('../app').service('api', /* @ngInject */function ($log, $http, $resource
     'birds',
     'cbm',
     'ciconia',
-    'herps',
     'herptiles',
     'mammals',
     'invertebrates',
