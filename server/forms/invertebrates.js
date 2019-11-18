@@ -78,6 +78,4 @@ exports.foreignKeys.push({
 
 exports.indexes.push({ fields: ['species'] })
 
-exports.exportSkipFields = [
-  'threatsInvertebrates'
-]
+exports.exportSkipFields.push('threatsHerptiles')
