@@ -52,7 +52,7 @@
     "heroku-postbuild": "npm run build && (echo \"api.tasks.tasks['stats:generate'].run(api, {}, (e) => {console.log('DONE', e)})\";sleep 10) | npm run ah console"
   },
   "dependencies": {
-    "actionhero": "^20.0.0",
+    "actionhero": "^21.0.2",
     "archiver": "^3.1.1",
     "bcrypt": "^3.0.7",
     "bluebird": "~3.7.1",
