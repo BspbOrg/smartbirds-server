@@ -95,7 +95,7 @@
     "sharp": "^0.23.3",
     "simplify-js": "^1.2.1",
     "stringify": "^5.2.0",
-    "uglify-js": "^3.6.9",
+    "uglify-js": "^3.7.0",
     "umzug": "~2.2.0",
     "underscore.string": "^3.3.5",
     "uuid": "^3.3.3",
