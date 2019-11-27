@@ -70,7 +70,7 @@
     "csv-stringify": "^5.3.3",
     "debug": "^4.1.1",
     "ejs": "^2.7.4",
-    "email-templates": "^6.0.3",
+    "email-templates": "^6.0.4",
     "envify": "~4.1.0",
     "form-data": "^3.0.0",
     "ioredis": "^4.14.1",
