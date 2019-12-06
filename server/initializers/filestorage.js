@@ -128,9 +128,7 @@ module.exports = upgradeInitializer('ah17', {
           api.log('detected image, will downsample to %d', 'verbose', api.config.filestorage.imageDownsample)
           filters.downsample = api.config.filestorage.imageDownsample
           return sharp()
-            .resize(api.config.filestorage.imageDownsample, api.config.filestorage.imageDownsample)
-            .max()
-            .withoutEnlargement()
+            .resize(api.config.filestorage.imageDownsample, api.config.filestorage.imageDownsample, { fit: 'inside', withoutEnlargement: true })
             .jpeg({ force: false })
         } else if (mime === 'application/gpx+xml') {
           filters.gzip = true
