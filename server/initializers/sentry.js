@@ -1,4 +1,3 @@
-const { upgradeMiddleware } = require('../utils/upgrade')
 const { Initializer, api } = require('actionhero')
 const Sentry = require('@sentry/node')
 
@@ -15,25 +14,34 @@ module.exports = class SentryInit extends Initializer {
 
       api.log('Sentry initialized with', 'info', api.config.sentry)
 
-      this.initMiddleware()
+      // create a custom error reporter that sends error to sentry
+      var sentryErrorReporter = function (err, type, name, objects, severity) {
+        var options = {
+          level: severity,
+          extra: {
+            error_type: type,
+            name: name
+          }
+        }
+
+        if (type === 'action') {
+          var user = { ip: objects.connection.remoteIP }
+          if (objects.connection.user) {
+            user.id = objects.connection.user.id
+            user.email = objects.connection.user.email
+          }
+
+          options.user = user
+          options.params = objects.connection.params
+        }
+
+        Sentry.captureException(err)
+      }
+
+      // add custom reporter
+      api.exceptionHandlers.reporters.push(sentryErrorReporter)
     } else {
       api.log('Sentry is not enabled. Set SENTRY_DSN env to enable')
     }
-  }
-
-  initMiddleware () {
-    api.actions.addMiddleware(upgradeMiddleware('ah17', {
-      name: 'sentry:middleware:action',
-      global: true,
-      priority: 1,
-      preProcessor: function (data, next) {
-        try {
-          next()
-        } catch (err) {
-          api.log('Exception during ' + data.action, 'crit', err)
-          Sentry.captureException(err)
-        }
-      }
-    }))
   }
 }
