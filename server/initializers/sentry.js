@@ -16,25 +16,6 @@ module.exports = class SentryInit extends Initializer {
 
       // create a custom error reporter that sends error to sentry
       var sentryErrorReporter = function (err, type, name, objects, severity) {
-        var options = {
-          level: severity,
-          extra: {
-            error_type: type,
-            name: name
-          }
-        }
-
-        if (type === 'action') {
-          var user = { ip: objects.connection.remoteIP }
-          if (objects.connection.user) {
-            user.id = objects.connection.user.id
-            user.email = objects.connection.user.email
-          }
-
-          options.user = user
-          options.params = objects.connection.params
-        }
-
         Sentry.captureException(err)
       }
 
