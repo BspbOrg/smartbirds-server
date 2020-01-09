@@ -68,7 +68,7 @@
     "content-addressable-blob-store": "^5.0.1",
     "cross-env": "^6.0.3",
     "csv-parse": "~4.8.3",
-    "csv-stringify": "^5.3.5",
+    "csv-stringify": "^5.3.6",
     "debug": "^4.1.1",
     "ejs": "^3.0.1",
     "email-templates": "^6.1.1",
