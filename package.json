@@ -98,7 +98,7 @@
     "uglify-js": "^3.7.2",
     "umzug": "~2.2.0",
     "underscore.string": "^3.3.5",
-    "uuid": "^3.3.3",
+    "uuid": "^3.4.0",
     "validator": "~12.1.0",
     "workbox-window": "^4.3.1"
   },
