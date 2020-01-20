@@ -76,10 +76,10 @@ var nomenclatures = [
   }
 ]
 
-function deleteExistingValues (queryInterface) {
+function deleteExistingValues (queryInterface, Sequelize) {
   return queryInterface.bulkDelete('Nomenclatures', {
     type: {
-      $in: nomenclatures.map(function (nomenclature) { return nomenclature.name })
+      [Sequelize.Op.in]: nomenclatures.map(function (nomenclature) { return nomenclature.name })
     }
   })
 }
@@ -89,7 +89,7 @@ module.exports = {
     // we use hard-coded IDs for the nomenclatures in test fixtures and fixtures cannot be applied if the migration is executed
     if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
 
-    await deleteExistingValues(queryInterface)
+    await deleteExistingValues(queryInterface, Sequelize)
 
     var nomenclatureValues = nomenclatures
       .map(function (nomenclature) {
@@ -114,6 +114,6 @@ module.exports = {
   down: async function (queryInterface, Sequelize) {
     if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
 
-    await deleteExistingValues(queryInterface)
+    await deleteExistingValues(queryInterface, Sequelize)
   }
 }
