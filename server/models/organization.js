@@ -20,7 +20,7 @@ module.exports = function (sequelize, DataTypes) {
     instanceMethods: {
       apiData: function (api, context) {
         const res = {
-          slug: this.type,
+          slug: this.slug,
           label: {
             bg: this.labelBg,
             en: this.labelEn

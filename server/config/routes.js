@@ -72,7 +72,10 @@ exports.default = {
         { path: '/threats', action: 'formThreats:list' },
         { path: '/threats.csv', action: 'formThreats:list' },
         { path: '/threats.zip', action: 'formThreats:list' },
-        { path: '/threats/:id', action: 'formThreats:view' }
+        { path: '/threats/:id', action: 'formThreats:view' },
+
+        { path: '/organization', action: 'organization:list' },
+        { path: '/organization/:slug', action: 'organization:view' }
 
       ],
 
@@ -119,8 +122,9 @@ exports.default = {
         { path: '/export/invertebrates', action: 'formInvertebrates:export' },
         { path: '/export/plants', action: 'formPlants:export' },
         { path: '/export/ciconia', action: 'formCiconia:export' },
-        { path: '/export/threats', action: 'formThreats:export' }
+        { path: '/export/threats', action: 'formThreats:export' },
 
+        { path: '/organization/:slug', action: 'organization:edit' }
       ],
 
       put: [
