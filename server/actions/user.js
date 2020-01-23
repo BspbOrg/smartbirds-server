@@ -196,7 +196,8 @@ exports.userEdit = upgradeAction('ah17', {
 
     notes: { required: false },
     language: { required: false },
-    privacy: { required: false }
+    privacy: { required: false },
+    organization: { required: false }
   },
 
   run: function (api, data, next) {

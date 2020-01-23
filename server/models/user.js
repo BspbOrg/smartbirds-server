@@ -81,10 +81,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
-    organization: {
-      type: DataTypes.STRING,
-      allowNull: false
-    }
+    organizationSlug: DataTypes.STRING
   }, {
     indexes: [
       {
@@ -108,6 +105,11 @@ module.exports = function (sequelize, DataTypes) {
           through: 'Share',
           foreignKey: 'sharer',
           otherKey: 'sharee'
+        })
+        models.user.belongsTo(models.organization, {
+          as: 'organization',
+          foreignKey: 'organizationSlug',
+          targetKey: 'slug'
         })
       }
     },
@@ -190,15 +192,16 @@ module.exports = function (sequelize, DataTypes) {
               isAdmin: this.isAdmin,
               isModerator: this.isModerator,
               forms: this.forms,
-              organization: this.organization,
               privacy: this.privacy,
-              gdprConsent: this.gdprConsent
+              gdprConsent: this.gdprConsent,
+              organization: this.organizationSlug
             }
         }
       },
 
       apiUpdate: function (data) {
         _.assign(this, _.pick(data, 'firstName', 'lastName', 'notes', 'language', 'forms', 'privacy'))
+        this.organizationSlug = data.organization && data.organization.slug
       }
     }
   })
