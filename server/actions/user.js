@@ -18,7 +18,8 @@ exports.userCreate = upgradeAction('ah17', {
     role: { default: 'user' },
     forms: { required: false },
     privacy: { required: false },
-    gdprConsent: { required: false, default: false }
+    gdprConsent: { required: false, default: false },
+    organization: { required: false }
   },
 
   run: function (api, data, next) {
@@ -32,6 +33,11 @@ exports.userCreate = upgradeAction('ah17', {
     } else {
       user.role = 'user'
     }
+
+    if (data.params.organization) {
+      user.organizationSlug = data.params.organization
+    }
+
     user.lastLoginAt = null
     user.imported = false
     user.updatePassword(data.params.password, function (error) {
