@@ -16,7 +16,7 @@ module.exports = {
     await Promise.all(tables.map(async (table) => {
       await queryInterface.addIndex(table, {
         fields: ['threatsEn'],
-        indexName: table + '_threatsEn'
+        name: table + '_threatsEn'
       })
     }))
   },
