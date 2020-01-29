@@ -11,7 +11,8 @@ module.exports = [
       lastName: 'User',
       role: 'user',
       passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC', // hash of 'secret'
-      gdprConsent: true
+      gdprConsent: true,
+      organizationSlug: 'bspb'
     }
   },
   {
@@ -22,7 +23,8 @@ module.exports = [
       lastName: 'User',
       role: 'admin',
       passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC', // hash of 'secret'
-      gdprConsent: true
+      gdprConsent: true,
+      organizationSlug: 'bspb'
     }
   },
   {
@@ -33,7 +35,8 @@ module.exports = [
       lastName: 'User',
       role: 'user',
       passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC', // hash of 'secret'
-      gdprConsent: true
+      gdprConsent: true,
+      organizationSlug: 'bspb'
     }
   },
   {
@@ -45,7 +48,8 @@ module.exports = [
       role: 'moderator',
       forms: { 'formBirds': true },
       passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC', // hash of 'secret'
-      gdprConsent: true
+      gdprConsent: true,
+      organizationSlug: 'bspb'
     }
   },
   {
@@ -57,7 +61,8 @@ module.exports = [
       role: 'moderator',
       forms: { 'formCBM': true },
       passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC', // hash of 'secret'
-      gdprConsent: true
+      gdprConsent: true,
+      organizationSlug: 'bspb'
     }
   },
   {
@@ -68,7 +73,8 @@ module.exports = [
       lastName: 'Orphans',
       role: 'user',
       passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC', // hash of 'secret'
-      gdprConsent: true
+      gdprConsent: true,
+      organizationSlug: 'bspb'
     }
   }
 ]

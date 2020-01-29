@@ -81,7 +81,10 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
-    organizationSlug: DataTypes.STRING
+    organizationSlug: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
   }, {
     indexes: [
       {
@@ -89,6 +92,15 @@ module.exports = function (sequelize, DataTypes) {
         fields: ['email']
       }
     ],
+
+    setterMethods: {
+      organization (value) {
+        if (value) {
+          const organizationSlug = _.isObject(value) ? value.slug : value
+          this.setDataValue('organizationSlug', organizationSlug)
+        }
+      }
+    },
 
     classMethods: {
       associate: function (models) {
@@ -200,8 +212,7 @@ module.exports = function (sequelize, DataTypes) {
       },
 
       apiUpdate: function (data) {
-        _.assign(this, _.pick(data, 'firstName', 'lastName', 'notes', 'language', 'forms', 'privacy'))
-        this.organizationSlug = data.organization && data.organization.slug
+        _.assign(this, _.pick(data, 'firstName', 'lastName', 'notes', 'language', 'forms', 'privacy', 'organization'))
       }
     }
   })
