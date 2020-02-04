@@ -74,9 +74,7 @@ exports.default = {
         { path: '/threats.zip', action: 'formThreats:list' },
         { path: '/threats/:id', action: 'formThreats:view' },
 
-        { path: '/organization', action: 'organization:list' },
-        { path: '/organization/:slug', action: 'organization:view' }
-
+        { path: '/organization', action: 'organization:list' }
       ],
 
       post: [
