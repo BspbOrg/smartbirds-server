@@ -33,6 +33,12 @@ exports.organizationEdit = class OrganizationEdit extends Action {
 
   async run (data) {
     const organization = await api.models.organization.findOne({ where: { slug: data.params.slug } })
+
+    if (!organization) {
+      data.connection.rawConnection.responseHttpCode = 404
+      throw new Error('Няма такава организация')
+    }
+
     organization.apiUpdate(data.params)
     await organization.save()
     data.response.data = organization.apiData(api)
