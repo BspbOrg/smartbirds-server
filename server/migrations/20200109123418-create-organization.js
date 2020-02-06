@@ -36,13 +36,21 @@ module.exports = {
       fields: ['slug']
     })
 
-    await queryInterface.addIndex(tableName, {
-      fields: ['labelEn']
-    })
-
-    await queryInterface.addIndex(tableName, {
-      fields: ['labelBg']
-    })
+    await queryInterface.bulkInsert(tableName, [
+      {
+        slug: 'independent',
+        labelEn: 'Independent',
+        labelBg: 'Независим',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }, {
+        slug: 'bspb',
+        labelEn: 'BSPB',
+        labelBg: 'БДЗП',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    ])
   },
 
   down: async (queryInterface, Sequelize) => {
