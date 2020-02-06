@@ -96,8 +96,7 @@ module.exports = function (sequelize, DataTypes) {
     setterMethods: {
       organization (value) {
         if (value) {
-          const organizationSlug = _.isObject(value) ? value.slug : value
-          this.setDataValue('organizationSlug', organizationSlug)
+          this.setDataValue('organizationSlug', value)
         }
       }
     },
@@ -117,11 +116,6 @@ module.exports = function (sequelize, DataTypes) {
           through: 'Share',
           foreignKey: 'sharer',
           otherKey: 'sharee'
-        })
-        models.user.belongsTo(models.organization, {
-          as: 'organization',
-          foreignKey: 'organizationSlug',
-          targetKey: 'slug'
         })
       }
     },
