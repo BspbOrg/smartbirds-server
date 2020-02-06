@@ -41,6 +41,9 @@ exports.organizationEdit = class OrganizationEdit extends Action {
 
     organization.apiUpdate(data.params)
     await organization.save()
+
+    api.tasks.enqueue('organizations:export')
+
     data.response.data = organization.apiData(api)
   }
 }
