@@ -217,10 +217,20 @@ exports.userEdit = upgradeAction('ah17', {
       //    }).catch(next);
       //  });
       // }
-      user.apiUpdate(data.params)
+
       if (data.session.user.isAdmin && 'role' in data.params) {
         user.role = data.params.role
       }
+
+      if (data.params.organization && data.params.organization !== user.organizationSlug) {
+        if (data.params.id === 'me' || parseInt(data.params.id) === data.session.userId) {
+          user.role = 'user'
+          user.forms = null
+        }
+      }
+
+      user.apiUpdate(data.params)
+
       user.save().then(function () {
         data.response.data = user.apiData(api)
         next()

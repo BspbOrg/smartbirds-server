@@ -493,4 +493,58 @@ describe('Action user:', function () {
       })
     }) // describeAsBirds
   }) // given moderator
+
+  describe('changing organization', function () {
+    var baseUser = {
+      email: 'baseuser@test.test',
+      password: 'secret',
+      firstName: 'userFirstName',
+      lastName: 'userLastName',
+      gdprConsent: true,
+      organization: 'bspb'
+    }
+
+    var targetUser
+
+    beforeEach(async () => {
+      targetUser = (await setup.runActionAsGuest('user:create', baseUser)).data
+    })
+
+    afterEach(async () => {
+      await setup.runActionAsAdmin('user:delete', {id: targetUser.id})
+    })
+
+    it('should set the role to "user" if current is admin', async () => {
+      await makeUserAdmin(targetUser)
+
+      var updatedUser = await setup.runActionAs('user:edit', {id: targetUser.id, organization: 'independent'}, targetUser.email)
+
+      updatedUser.data.should.have.property('role').and.be.equal('user')
+    })
+
+    it('should set the role to "user" if current is moderator', async () => {
+      await makeUserModerator(targetUser)
+
+      var updatedUser = await setup.runActionAs('user:edit', {id: targetUser.id, organization: 'independent'}, targetUser.email)
+
+      updatedUser.data.should.have.property('role').and.be.equal('user')
+      updatedUser.data.should.have.property('forms').and.be.null()
+    })
+
+    it('should not change the role if the user is updated by admin', async () => {
+      await makeUserAdmin(targetUser)
+
+      var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent'})
+
+      updatedUser.data.should.have.property('role').and.be.equal('admin')
+    })
+  }) // changing organization
 }) // Action: user
+
+makeUserAdmin = async (user) => {
+  user = await setup.runActionAsAdmin('user:edit', {id: user.id, role: 'admin'})
+}
+
+makeUserModerator = async (user) => {
+  user = await setup.runActionAsAdmin('user:edit', {id: user.id, role: 'moderator', forms: {formBirds: true}})
+}
