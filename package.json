@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "escape-string-regexp": "^2.0.0",
-    "husky": "^3.1.0",
+    "husky": "^4.2.2",
     "jest": "^24.9.0",
     "jest-runner-mocha": "^0.6.0",
     "lint-staged": "^9.5.0",
