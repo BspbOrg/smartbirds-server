@@ -80,6 +80,10 @@ module.exports = function (sequelize, DataTypes) {
     gdprConsent: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
+    },
+    organizationSlug: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   }, {
     indexes: [
@@ -88,6 +92,14 @@ module.exports = function (sequelize, DataTypes) {
         fields: ['email']
       }
     ],
+
+    setterMethods: {
+      organization (value) {
+        if (value) {
+          this.setDataValue('organizationSlug', value)
+        }
+      }
+    },
 
     classMethods: {
       associate: function (models) {
@@ -187,13 +199,14 @@ module.exports = function (sequelize, DataTypes) {
               isModerator: this.isModerator,
               forms: this.forms,
               privacy: this.privacy,
-              gdprConsent: this.gdprConsent
+              gdprConsent: this.gdprConsent,
+              organization: this.organizationSlug
             }
         }
       },
 
       apiUpdate: function (data) {
-        _.assign(this, _.pick(data, 'firstName', 'lastName', 'notes', 'language', 'forms', 'privacy'))
+        _.assign(this, _.pick(data, 'firstName', 'lastName', 'notes', 'language', 'forms', 'privacy', 'organization'))
       }
     }
   })
