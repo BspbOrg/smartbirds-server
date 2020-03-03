@@ -514,29 +514,209 @@ describe('Action user:', function () {
       await setup.runActionAsAdmin('user:delete', {id: targetUser.id})
     })
 
-    it('should set the role to "user" if current is admin', async () => {
-      await makeUserAdmin(targetUser)
+    describe.only('by administrator', () => {
+      describe('when I am admin', () => {
+        beforeEach(() => makeUserAdmin(targetUser))
 
-      var updatedUser = await setup.runActionAs('user:edit', {id: targetUser.id, organization: 'independent'}, targetUser.email)
+        it('sets role to "user" without providing role', async () => {
+          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent'})
 
-      updatedUser.data.should.have.property('role').and.be.equal('user')
-    })
+          updatedUser.data.should.have.property('role').and.be.equal('user')
+        })
 
-    it('should set the role to "user" if current is moderator', async () => {
-      await makeUserModerator(targetUser)
+        it('sets the provided admin role', async () => {
+          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent', role: 'admin'})
 
-      var updatedUser = await setup.runActionAs('user:edit', {id: targetUser.id, organization: 'independent'}, targetUser.email)
+          updatedUser.data.should.have.property('role').and.be.equal('admin')
+        })
 
-      updatedUser.data.should.have.property('role').and.be.equal('user')
-      updatedUser.data.should.have.property('forms').and.be.null()
-    })
+        it('sets the provided moderator role', async () => {
+          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent', role: 'moderator'})
 
-    it('should not change the role if the user is updated by admin', async () => {
-      await makeUserAdmin(targetUser)
+          updatedUser.data.should.have.property('role').and.be.equal('moderator')
+        })
 
-      var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent'})
+        it('sets the provided user role', async () => {
+          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent', role: 'user'})
 
-      updatedUser.data.should.have.property('role').and.be.equal('admin')
+          updatedUser.data.should.have.property('role').and.be.equal('user')
+        })
+      })
+
+      describe('when I am moderator', () => {
+        beforeEach(() => makeUserModerator(targetUser))
+
+        it('sets role to "user" without providing role', async () => {
+          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent'})
+
+          updatedUser.data.should.have.property('role').and.be.equal('user')
+        })
+
+        it('sets the provided admin role', async () => {
+          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent', role: 'admin'})
+
+          updatedUser.data.should.have.property('role').and.be.equal('admin')
+        })
+
+        it('sets the provided moderator role', async () => {
+          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent', role: 'moderator'})
+
+          updatedUser.data.should.have.property('role').and.be.equal('moderator')
+        })
+
+        it('sets the provided user role', async () => {
+          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent', role: 'user'})
+
+          updatedUser.data.should.have.property('role').and.be.equal('user')
+        })
+      })
+
+      describe('when I am user', () => {
+        beforeEach(() => makeUserModerator(targetUser))
+
+        it('sets role to "user" without providing role', async () => {
+          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent'})
+
+          updatedUser.data.should.have.property('role').and.be.equal('user')
+        })
+
+        it('sets the provided admin role', async () => {
+          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent', role: 'admin'})
+
+          updatedUser.data.should.have.property('role').and.be.equal('admin')
+        })
+
+        it('sets the provided moderator role', async () => {
+          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent', role: 'moderator'})
+
+          updatedUser.data.should.have.property('role').and.be.equal('moderator')
+        })
+
+        it('sets the provided user role', async () => {
+          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent', role: 'user'})
+
+          updatedUser.data.should.have.property('role').and.be.equal('user')
+        })
+      })
+
+      describe('for myself', () => {
+        describe('when I am admin', () => {
+          beforeEach(() => makeUserAdmin(targetUser))
+
+          it('sets the role to "user" without provided role', async () => {
+            var updatedUser = await setup.runActionAs('user:edit', {
+              id: targetUser.id,
+              organization: 'independent'
+            }, targetUser.email)
+
+            updatedUser.data.should.have.property('role').and.be.equal('user')
+          })
+
+          it('sets the role to "user" when provided "admin" role', async () => {
+            var updatedUser = await setup.runActionAs('user:edit', {
+              id: targetUser.id,
+              organization: 'independent',
+              role: 'admin'
+            }, targetUser.email)
+
+            updatedUser.data.should.have.property('role').and.be.equal('user')
+          })
+
+          it('sets the role to "user" when provided "moderator" role', async () => {
+            var updatedUser = await setup.runActionAs('user:edit', {
+              id: targetUser.id,
+              organization: 'independent',
+              role: 'moderator'
+            }, targetUser.email)
+
+            updatedUser.data.should.have.property('role').and.be.equal('user')
+          })
+        })
+
+        describe('when I am moderator', () => {
+          beforeEach(() => makeUserModerator(targetUser))
+
+          it('sets the role to "user" without provided role', async () => {
+            var updatedUser = await setup.runActionAs('user:edit', {
+              id: targetUser.id,
+              organization: 'independent'
+            }, targetUser.email)
+
+            updatedUser.data.should.have.property('role').and.be.equal('user')
+          })
+
+          it('sets the role to "user" when provided "admin" role', async () => {
+            var updatedUser = await setup.runActionAs('user:edit', {
+              id: targetUser.id,
+              organization: 'independent',
+              role: 'admin'
+            }, targetUser.email)
+
+            updatedUser.data.should.have.property('role').and.be.equal('user')
+          })
+
+          it('sets the role to "user" when provided "moderator" role', async () => {
+            var updatedUser = await setup.runActionAs('user:edit', {
+              id: targetUser.id,
+              organization: 'independent',
+              role: 'moderator'
+            }, targetUser.email)
+
+            updatedUser.data.should.have.property('role').and.be.equal('user')
+          })
+
+          it('sets role to "user" when updated by admin without providing role', async () => {
+            var updatedUser = await setup.runActionAsAdmin('user:edit', {
+              id: targetUser.id,
+              organization: 'independent'
+            })
+
+            updatedUser.data.should.have.property('role').and.be.equal('user')
+          })
+        })
+
+        describe('when I am user', () => {
+          beforeEach(() => makeUserModerator(targetUser))
+
+          it('sets the role to "user" without provided role', async () => {
+            var updatedUser = await setup.runActionAs('user:edit', {
+              id: targetUser.id,
+              organization: 'independent'
+            }, targetUser.email)
+
+            updatedUser.data.should.have.property('role').and.be.equal('user')
+          })
+
+          it('sets the role to "user" when provided "admin" role', async () => {
+            var updatedUser = await setup.runActionAs('user:edit', {
+              id: targetUser.id,
+              organization: 'independent',
+              role: 'admin'
+            }, targetUser.email)
+
+            updatedUser.data.should.have.property('role').and.be.equal('user')
+          })
+
+          it('sets the role to "user" when provided "moderator" role', async () => {
+            var updatedUser = await setup.runActionAs('user:edit', {
+              id: targetUser.id,
+              organization: 'independent',
+              role: 'moderator'
+            }, targetUser.email)
+
+            updatedUser.data.should.have.property('role').and.be.equal('user')
+          })
+
+          it('sets role to "user" when updated by admin without providing role', async () => {
+            var updatedUser = await setup.runActionAsAdmin('user:edit', {
+              id: targetUser.id,
+              organization: 'independent'
+            })
+
+            updatedUser.data.should.have.property('role').and.be.equal('user')
+          })
+        })
+      })
     })
   }) // changing organization
 }) // Action: user
@@ -547,4 +727,8 @@ makeUserAdmin = async (user) => {
 
 makeUserModerator = async (user) => {
   user = await setup.runActionAsAdmin('user:edit', {id: user.id, role: 'moderator', forms: {formBirds: true}})
+}
+
+makeUserUser = async (user) => {
+  user = await setup.runActionAsAdmin('user:edit', {id: user.id, role: 'user'})
 }

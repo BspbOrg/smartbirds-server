@@ -218,14 +218,22 @@ exports.userEdit = upgradeAction('ah17', {
       //  });
       // }
 
-      if (data.session.user.isAdmin && 'role' in data.params) {
-        user.role = data.params.role
-      }
+      const isUpdatingSelf = user.id === data.session.userId
 
+      // changing organization
       if (data.params.organization && data.params.organization !== user.organizationSlug) {
-        if (data.params.id === 'me' || parseInt(data.params.id) === data.session.userId) {
+        // only self or if admin
+        if (data.session.user.isAdmin || isUpdatingSelf) {
+          user.organizationSlug = data.params.organization
           user.role = 'user'
           user.forms = null
+        }
+      }
+
+      // changing role is only allowed for admin and not to self
+      if (data.params.role) {
+        if (data.session.user.isAdmin && !isUpdatingSelf) {
+          user.role = data.params.role
         }
       }
 
