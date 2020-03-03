@@ -18,7 +18,8 @@ exports.userCreate = upgradeAction('ah17', {
     role: { default: 'user' },
     forms: { required: false },
     privacy: { required: false },
-    gdprConsent: { required: false, default: false }
+    gdprConsent: { required: false, default: false },
+    organization: { required: true }
   },
 
   run: function (api, data, next) {
@@ -196,7 +197,8 @@ exports.userEdit = upgradeAction('ah17', {
 
     notes: { required: false },
     language: { required: false },
-    privacy: { required: false }
+    privacy: { required: false },
+    organization: { required: false }
   },
 
   run: function (api, data, next) {
@@ -215,10 +217,28 @@ exports.userEdit = upgradeAction('ah17', {
       //    }).catch(next);
       //  });
       // }
-      user.apiUpdate(data.params)
-      if (data.session.user.isAdmin && 'role' in data.params) {
-        user.role = data.params.role
+
+      const isUpdatingSelf = user.id === data.session.userId
+
+      // changing organization
+      if (data.params.organization && data.params.organization !== user.organizationSlug) {
+        // only self or if admin
+        if (data.session.user.isAdmin || isUpdatingSelf) {
+          user.organizationSlug = data.params.organization
+          user.role = 'user'
+          user.forms = null
+        }
       }
+
+      // changing role is only allowed for admin and not to self
+      if (data.params.role) {
+        if (data.session.user.isAdmin && !isUpdatingSelf) {
+          user.role = data.params.role
+        }
+      }
+
+      user.apiUpdate(data.params)
+
       user.save().then(function () {
         data.response.data = user.apiData(api)
         next()

@@ -14,7 +14,8 @@ describe('GDPR Consent:', function () {
   const userData = assign({}, auth, {
     firstName: 'GDPR',
     lastName: 'User',
-    role: 'user'
+    role: 'user',
+    organization: 'bspb'
   })
 
   before(function () {
