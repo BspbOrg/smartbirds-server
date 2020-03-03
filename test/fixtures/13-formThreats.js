@@ -4,7 +4,7 @@ var baseModel = {
   latitude: 42.1463749,
   longitude: 24.7492006,
   monitoringCode: 'random_threats_1234',
-  categoryBg: 'Пожар',
+  categoryLocal: 'Пожар',
   categoryEn: 'Fire',
   endDateTime: '2015-12-10T11:15Z',
   startDateTime: '2015-12-10T15:15Z',

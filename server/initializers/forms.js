@@ -49,7 +49,7 @@ function formAttributes (fields) {
       case 'choice': {
         switch (field.relation.model) {
           case 'nomenclature': {
-            fieldsDef[name + 'Bg'] = _.extend({
+            fieldsDef[name + 'Local'] = _.extend({
               type: DataTypes.TEXT
             }, fd)
             fieldsDef[name + 'En'] = _.extend({
@@ -169,16 +169,16 @@ function generateApiData (fields) {
             switch (field.relation.model) {
               case 'nomenclature': {
                 const res = []
-                const bg = this[name + 'Bg'] ? this[name + 'Bg'].split('|').map(function (val) {
+                const local = this[name + 'Local'] ? this[name + 'Local'].split('|').map(function (val) {
                   return val.trim()
                 }) : []
                 const en = this[name + 'En'] ? this[name + 'En'].split('|').map(function (val) {
                   return val.trim()
                 }) : []
-                while (bg.length && en.length) {
+                while (local.length && en.length) {
                   res.push({
                     label: {
-                      bg: bg.shift(),
+                      local: local.shift(),
                       en: en.shift()
                     }
                   })
@@ -197,9 +197,9 @@ function generateApiData (fields) {
           case 'choice': {
             switch (field.relation.model) {
               case 'nomenclature': {
-                return (this[name + 'Bg'] || this[name + 'En']) ? {
+                return (this[name + 'Local'] || this[name + 'En']) ? {
                   label: {
-                    bg: this[name + 'Bg'],
+                    local: this[name + 'Local'],
                     en: this[name + 'En']
                   }
                 } : null
@@ -298,11 +298,11 @@ function generateApiUpdate (fields) {
               let val = data[name]
 
               if (!val) {
-                this[name + 'Bg'] = null
+                this[name + 'Local'] = null
                 this[name + 'En'] = null
               }
               if (!_.isArray(val)) val = [val]
-              this[name + 'Bg'] = _.reduce(val, (sum, v) => sum + (sum ? ' | ' : '') + v.label.bg, '')
+              this[name + 'Local'] = _.reduce(val, (sum, v) => sum + (sum ? ' | ' : '') + v.label.local, '')
               this[name + 'En'] = _.reduce(val, (sum, v) => sum + (sum ? ' | ' : '') + v.label.en, '')
 
               break
@@ -330,7 +330,7 @@ function generateApiUpdate (fields) {
             case 'nomenclature': {
               if (!_.has(data, name)) return
 
-              this[name + 'Bg'] = data[name] && data[name].label.bg
+              this[name + 'Local'] = data[name] && data[name].label.local
               this[name + 'En'] = data[name] && data[name].label.en
               break
             }

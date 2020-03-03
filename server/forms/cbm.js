@@ -202,7 +202,7 @@ exports.filterList = async function (api, data, q) {
   if (data.params.visit) {
     q.where = _.extend(q.where || {}, {
       $or: {
-        visitBg: data.params.visit,
+        visitLocal: data.params.visit,
         visitEn: data.params.visit
       }
     })
@@ -221,35 +221,35 @@ exports.filterList = async function (api, data, q) {
 exports.prepareCsv = async function (api, record) {
   return {
     temperature: record.temperature,
-    cloudinessBg: record.cloudinessBg,
+    cloudinessLocal: record.cloudinessLocal,
     cloudinessEn: record.cloudinessEn,
     cloudsType: record.cloudsType,
-    threatsBg: record.threatsBg,
+    threatsLocal: record.threatsLocal,
     threatsEn: record.threatsEn,
     observers: record.observers,
     mto: record.mto,
     monitoringCode: record.monitoringCode,
     zone: record.zoneId,
-    rainBg: record.rainBg,
+    rainLocal: record.rainLocal,
     rainEn: record.rainEn,
-    windSpeedBg: record.windSpeedBg,
+    windSpeedLocal: record.windSpeedLocal,
     windSpeedEn: record.windSpeedEn,
     visibility: record.visibility,
-    windDirectionBg: record.windDirectionBg,
+    windDirectionLocal: record.windDirectionLocal,
     windDirectionEn: record.windDirectionEn,
     longitude: record.longitude,
-    distanceBg: record.distanceBg,
+    distanceLocal: record.distanceLocal,
     distanceEn: record.distanceEn,
-    secondaryHabitatBg: record.secondaryHabitatBg,
+    secondaryHabitatLocal: record.secondaryHabitatLocal,
     secondaryHabitatEn: record.secondaryHabitatEn,
-    plotSectionBg: record.plotBg,
+    plotSectionLocal: record.plotLocal,
     plotSectionEn: record.plotEn,
     latitute: record.latitude,
     species: record['speciesInfo.labelLa'] + ' | ' + record['speciesInfo.labelBg'],
-    visitBg: record.visitBg,
+    visitLocal: record.visitLocal,
     visitEn: record.visitEn,
     count: record.count,
-    primaryHabitatBg: record.primaryHabitatBg,
+    primaryHabitatLocal: record.primaryHabitatLocal,
     primaryHabitatEn: record.primaryHabitatEn,
     speciesEuringCode: record['speciesInfo.euring'],
     speciesCode: record['speciesInfo.code']

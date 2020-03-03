@@ -4,12 +4,22 @@ var paging = require('../helpers/paging')
 var incremental = require('../helpers/incremental')
 var links = require('../helpers/links')
 const { upgradeAction } = require('../utils/upgrade')
+const languages = require('../../config/languages')
+const capitalizeFirstLetter = require('../utils/capitalizeFirstLetter')
 
 _.forOwn({
   nomenclature: {
     keys: {
-      bg: 'labelBg',
-      en: 'labelEn'
+      ...Object.keys(languages).map((key) => {
+        return {
+          [key]: 'label' + capitalizeFirstLetter(key)
+        }
+      }).reduce((result, current) => {
+        return {
+          ...result,
+          ...current
+        }
+      })
     }
   },
   species: {

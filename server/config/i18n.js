@@ -1,9 +1,11 @@
+const languages = require('../../config/languages')
+
 exports.default = {
   i18n: function (api) {
     return {
       // visit https://github.com/mashpie/i18n-node to see all configuration options
       // locale path can be configired from within ./config/api.js
-      locales: ['en', 'bg'],
+      locales: Object.keys(languages),
 
       // how would you like your lanaguages to fall back if a translation string is missing?
       fallbacks: {

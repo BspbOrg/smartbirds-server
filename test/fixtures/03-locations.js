@@ -7,9 +7,9 @@ module.exports = [
     model: 'location',
     data: {
       id: 1,
-      nameBg: 'Plovdiv',
+      nameLocal: 'Plovdiv',
       nameEn: 'Plovdiv',
-      areaBg: 'Plovdiv',
+      areaLocal: 'Plovdiv',
       areaEn: 'Plovdiv'
     }
   },
@@ -17,9 +17,9 @@ module.exports = [
     model: 'location',
     data: {
       id: 2,
-      nameBg: 'Sofia',
+      nameLocal: 'Sofia',
       nameEn: 'Sofia',
-      areaBg: 'Sofia',
+      areaLocal: 'Sofia',
       areaEn: 'Sofia'
     }
   }

@@ -35,7 +35,7 @@ describe('Filter form', () => {
             generators[form]({
               userId: user.id,
               threatsEn: 'Fires',
-              threatsBg: 'Пожари'
+              threatsLocal: 'Пожари'
             }))
 
           return setup.runActionAsUser(`${form}:list`, { threat: 'Fires' }).then((response) => {
@@ -52,7 +52,7 @@ describe('Filter form', () => {
             generators[form]({
               userId: user.id,
               threatsEn: 'Fires | Hunting',
-              threatsBg: 'Пожари | Лов'
+              threatsLocal: 'Пожари | Лов'
             }))
           return setup.runActionAsUser(`${form}:list`, { threat: 'Fires' }).then((response) => {
             response.should.not.have.property('error')
@@ -68,7 +68,7 @@ describe('Filter form', () => {
             generators[form]({
               userId: user.id,
               threatsEn: 'Fires',
-              threatsBg: 'Пожари'
+              threatsLocal: 'Пожари'
             }))
 
           return setup.runActionAsUser(`${form}:list`, { threat: 'Fires' }).then((response) => {
@@ -87,7 +87,7 @@ describe('Filter form', () => {
             generators[form]({
               userId: user.id,
               threatsEn: 'Hunting',
-              threatsBg: 'Лов'
+              threatsLocal: 'Лов'
             }))
 
           return setup.runActionAsUser(`${form}:list`, { threat: 'Fires' }).then((response) => {
@@ -104,7 +104,7 @@ describe('Filter form', () => {
             generators[form]({
               userId: user.id,
               threatsEn: 'Forest Fires',
-              threatsBg: 'Горски Пожари'
+              threatsLocal: 'Горски Пожари'
             }))
 
           return setup.runActionAsUser(`${form}:list`, { threat: 'Fires' }).then((response) => {
@@ -116,7 +116,7 @@ describe('Filter form', () => {
           })
         })
 
-        it('should return record without bg value', async () => {
+        it('should return record without local value', async () => {
           let rec = await setup.api.models[form].create(
             generators[form]({
               userId: user.id,
@@ -143,7 +143,7 @@ describe('Filter form', () => {
           generators.formThreats({
             userId: user.id,
             categoryEn: 'Fires',
-            categoryBg: 'Пожари'
+            categoryLocal: 'Пожари'
           }))
 
         return setup.runActionAsUser(`formThreats:list`, { category: 'Fires' }).then(async (response) => {
@@ -160,7 +160,7 @@ describe('Filter form', () => {
           generators.formThreats({
             userId: user.id,
             categoryEn: 'Hunting',
-            categoryBg: 'Лов'
+            categoryLocal: 'Лов'
           }))
 
         return setup.runActionAsUser(`formThreats:list`, { category: 'Fires' }).then(async (response) => {

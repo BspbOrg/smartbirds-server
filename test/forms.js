@@ -48,16 +48,16 @@ describe('Forms', function () {
           it('field presists and restores', async function () {
             const response = await setup.runActionAsAdmin('formTestMultiNomenclature:create', {
               multiNomenclature: [
-                { label: { bg: 'Test Nomenclature Bg 1', en: 'Test Nomenclature En 1' } },
-                { label: { bg: 'Test Nomenclature Bg 2', en: 'Test Nomenclature En 2' } },
+                { label: { local: 'Test Nomenclature Local 1', en: 'Test Nomenclature En 1' } },
+                { label: { local: 'Test Nomenclature Local 2', en: 'Test Nomenclature En 2' } },
               ]
             })
             should.exists(response)
             response.should.not.have.property('error')
             response.should.have.property('data')
             response.data.should.have.property('multiNomenclature').and.it.is.Array().of.length(2)
-            response.data.multiNomenclature.should.containEql({ label: { bg: 'Test Nomenclature Bg 1', en: 'Test Nomenclature En 1' } })
-            response.data.multiNomenclature.should.containEql({ label: { bg: 'Test Nomenclature Bg 2', en: 'Test Nomenclature En 2' } })
+            response.data.multiNomenclature.should.containEql({ label: { local: 'Test Nomenclature Local 1', en: 'Test Nomenclature En 1' } })
+            response.data.multiNomenclature.should.containEql({ label: { local: 'Test Nomenclature Local 2', en: 'Test Nomenclature En 2' } })
           })
         }) // describe nomenclature
 

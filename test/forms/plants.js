@@ -13,10 +13,10 @@ describe('plants', function () {
     monitoringCode: 'random_plant_1234',
     species: 'Seseli bulgaricum',
     elevation: 123.45,
-    habitat: { label: { bg: 'Смесен храсталак', en: 'Mixed shrubs' } },
+    habitat: { label: { local: 'Смесен храсталак', en: 'Mixed shrubs' } },
     accompanyingSpecies: [ 'Scandix australis', 'Rumex acetosa' ],
-    reportingUnit: { label: { bg: 'Туфа', en: 'Tufa' } },
-    phenologicalPhase: { label: { bg: 'Развитие на листа', en: 'Leaf development' } },
+    reportingUnit: { label: { local: 'Туфа', en: 'Tufa' } },
+    phenologicalPhase: { label: { local: 'Развитие на листа', en: 'Leaf development' } },
     count: 123,
     density: 234.56,
     cover: 345.67,
@@ -26,17 +26,17 @@ describe('plants', function () {
     endDateTime: new Date('2015-12-10T10:15Z'),
     startDateTime: new Date('2015-12-09T08:10Z'),
     observers: 'PLants observers',
-    rain: { label: { bg: 'Ръми', en: 'Drizzle' } },
+    rain: { label: { local: 'Ръми', en: 'Drizzle' } },
     temperature: 24.3,
-    windDirection: { label: { bg: 'ENE', en: 'ENE' } },
-    windSpeed: { label: { bg: '2 - Лек бриз', en: '2 - Light breeze' } },
-    cloudiness: { label: { bg: '33-66%', en: '33-66%' } },
+    windDirection: { label: { local: 'ENE', en: 'ENE' } },
+    windSpeed: { label: { local: '2 - Лек бриз', en: '2 - Light breeze' } },
+    cloudiness: { label: { local: '33-66%', en: '33-66%' } },
     cloudsType: 'Light grey clouds',
     visibility: 5.5,
     mto: 'pretty nice weather',
     threats: [
-      { label: { bg: 'Култивация', en: 'Cultivation' } },
-      { label: { bg: 'Наторяване', en: 'Mulching' } }
+      { label: { local: 'Култивация', en: 'Cultivation' } },
+      { label: { local: 'Наторяване', en: 'Mulching' } }
     ],
     notes: 'some notes'
   }
