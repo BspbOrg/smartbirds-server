@@ -123,6 +123,12 @@ function generatePrepareQuery (form) {
         })
       }
     } else if (data.session.user.isAdmin || api.forms.isModerator(data.session.user, form.modelName)) {
+      // filter by same organization
+      query.where = _.extend(query.where || {}, {
+        organization: data.session.user.organizationSlug
+      })
+
+      // allow filter by user
       if (data.params.user) {
         query.where = _.extend(query.where || {}, {
           userId: data.params.user
