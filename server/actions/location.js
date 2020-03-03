@@ -134,7 +134,7 @@ exports.areaListZones = upgradeAction('ah17', {
           as: 'location',
           where: {
             $or: [
-              { areaBg: data.params.area },
+              { areaLocal: data.params.area },
               { areaEn: data.params.area }
             ]
           }

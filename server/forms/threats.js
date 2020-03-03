@@ -128,32 +128,32 @@ exports.indexes.push({ fields: ['species'] })
 const afterApiUpdate = function (threat, options) {
   if (threat.primaryType === formsConfig.threatsPrimaryTypes.threat.id) {
     threat.poisonedType = null
-    threat.stateCarcassBg = null
+    threat.stateCarcassLocal = null
     threat.stateCarcassEn = null
     threat.sampleCode1 = null
     threat.sampleCode2 = null
     threat.sampleCode3 = null
-    threat.sampleTaken1Bg = null
+    threat.sampleTaken1Local = null
     threat.sampleTaken1En = null
-    threat.sampleTaken2Bg = null
+    threat.sampleTaken2Local = null
     threat.sampleTaken2En = null
-    threat.sampleTaken3Bg = null
+    threat.sampleTaken3Local = null
     threat.sampleTaken3En = null
   } else {
-    threat.categoryBg = null
+    threat.categoryLocal = null
     threat.categoryEn = null
-    threat.estimateBg = null
+    threat.estimateLocal = null
     threat.estimateEn = null
     switch (threat.poisonedType) {
       case formsConfig.threatsPoisonedType.alive.id:
-        threat.stateCarcassBg = null
+        threat.stateCarcassLocal = null
         threat.stateCarcassEn = null
         break
       case formsConfig.threatsPoisonedType.bait.id:
-        threat.stateCarcassBg = null
+        threat.stateCarcassLocal = null
         threat.stateCarcassEn = null
         threat.class = null
-        threat.speciesBg = null
+        threat.speciesLocal = null
         threat.speciesEn = null
         break
       default:
@@ -169,7 +169,7 @@ exports.hooks = {
 exports.validate = {
   validateTypeThreat: function () {
     if (this.primaryType === formsConfig.threatsPrimaryTypes.threat.id) {
-      if (!this.categoryBg && !this.categoryEn) {
+      if (!this.categoryLocal && !this.categoryEn) {
         throw new Error('Category is required when primaryType is threat')
       }
     }
@@ -196,7 +196,7 @@ exports.validate = {
         }
 
         if (this.poisonedType === formsConfig.threatsPoisonedType.dead.id) {
-          if (!this.stateCarcassBg && !this.stateCarcassEn) {
+          if (!this.stateCarcassLocal && !this.stateCarcassEn) {
             throw new Error('stateCarcass is required when poisonedType is dead')
           }
         }
@@ -210,11 +210,11 @@ exports.prepareCsv = async function (api, record, csv) {
   csv = {
     ...csv,
     id: record.id,
-    categoryThreatsBG: '',
+    categoryThreatsLocal: '',
     categoryThreatsEN: '',
     speciesThreats: '',
     countThreats: '',
-    estimateThreatsBG: '',
+    estimateThreatsLocal: '',
     estimateThreatsEN: '',
     deadSpecies: '',
     deadSpeciesCount: '',
@@ -262,11 +262,11 @@ exports.prepareCsv = async function (api, record, csv) {
     case formsConfig.threatsPrimaryTypes.threat.id:
       csv = {
         ...csv,
-        categoryThreatsBG: record.categoryBg,
+        categoryThreatsLocal: record.categoryLocal,
         categoryThreatsEN: record.categoryEn,
         speciesThreats: record.speciesInfo && record.speciesInfo.labelLa,
         countThreats: record.count,
-        estimateThreatsBG: record.estimateBg,
+        estimateThreatsLocal: record.estimateLocal,
         estimateThreatsEN: record.estimateEn
       }
       break
