@@ -107,7 +107,7 @@ describe('Forms', function () {
     })
   })
 
-  describe.only('permissions', () => {
+  describe('permissions', () => {
     const requiredUserRegistration = {
       email: 'permissions@forms.test',
       password: 'secret',
