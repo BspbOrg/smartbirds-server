@@ -53,7 +53,7 @@
     "ejs": "^3.0.1",
     "email-templates": "^6.1.1",
     "form-data": "^3.0.0",
-    "ioredis": "^4.14.1",
+    "ioredis": "^4.16.0",
     "lodash": "^4.17.15",
     "mailchimp-api-v3": "^1.13.1",
     "mime-types": "^2.1.26",
