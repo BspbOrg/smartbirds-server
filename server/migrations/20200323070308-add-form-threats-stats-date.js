@@ -16,17 +16,17 @@ module.exports = {
     if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
     return queryInterface.sequelize.query(`
       CREATE OR REPLACE VIEW threats_stats (
-        latitude, longitude, "observationDateTime", "threatsBg", "threatsEn", form
+        latitude, longitude, "observationDateTime", "threatsLocal", "threatsEn", form
       ) AS
       SELECT
-        latitude, longitude, "observationDateTime", "threatsBg", "threatsEn", form
+        latitude, longitude, "observationDateTime", "threatsLocal", "threatsEn", form
       FROM (
         ${tables.map(tableName => `
           (
             SELECT
               latitude, longitude,
               "observationDateTime",
-              unnest(string_to_array("threatsBg", ' | ')) AS "threatsBg",
+              unnest(string_to_array("threatsLocal", ' | ')) AS "threatsLocal",
               unnest(string_to_array("threatsEn", ' | ')) AS "threatsEn",
               '${tableName}' AS form
             FROM "${tableName}"
@@ -57,16 +57,16 @@ module.exports = {
     if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
     return queryInterface.sequelize.query(`
       CREATE OR REPLACE VIEW threats_stats (
-        latitude, longitude, "threatsBg", "threatsEn", form
+        latitude, longitude, "threatsLocal", "threatsEn", form
       ) AS
       SELECT
-        latitude, longitude, "threatsBg", "threatsEn", form
+        latitude, longitude, "threatsLocal", "threatsEn", form
       FROM (
         ${tables.map(tableName => `
           (
             SELECT
               latitude, longitude,
-              unnest(string_to_array("threatsBg", ' | ')) AS "threatsBg",
+              unnest(string_to_array("threatsLocal", ' | ')) AS "threatsLocal",
               unnest(string_to_array("threatsEn", ' | ')) AS "threatsEn",
               '${tableName}' AS form
             FROM "${tableName}"
