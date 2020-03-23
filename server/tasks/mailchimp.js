@@ -26,6 +26,9 @@ module.exports.mailchimpCreate = upgradeTask('ah17', {
   // npm run enqueue --name=mailchimp:create --args='{"userId": 9999}'
   frequency: 0,
   run: function (api, { userId }, next) {
+    if (!api.config.mailchimp.enabled) {
+      return next()
+    }
     api.models.user.findByPk(userId)
       .then(function (user) {
         if (!user) return Promise.reject(new Error(`User ${userId} was not found in db`))
@@ -44,6 +47,9 @@ module.exports.mailchimpDelete = upgradeTask('ah17', {
   // npm run enqueue -- --name=mailchimp:delete --args='{"email": "EMAIL ADDRESS"}'
   frequency: 0,
   run: function (api, { email }, next) {
+    if (!api.config.mailchimp.enabled) {
+      return next()
+    }
     api.mailchimp.deleteUser(email)
       .then(function (r) { next(null, r) })
       .catch(function (e) { next(e) })
