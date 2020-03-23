@@ -1,13 +1,12 @@
 'use strict'
 
 const tables = [
+  'FormBirds',
   'FormCBM',
   'FormCiconia',
-  'FormBirds',
-  'FormHerps',
   'FormHerptiles',
-  'FormMammals',
   'FormInvertebrates',
+  'FormMammals',
   'FormPlants'
 ]
 
@@ -16,10 +15,10 @@ module.exports = {
     if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
     return queryInterface.sequelize.query(`
       CREATE OR REPLACE VIEW threats_stats (
-        latitude, longitude, "observationDateTime", "threatsLocal", "threatsEn", form
+        latitude, longitude, "threatsBg", "threatsEn", form, "threatsLocal", "observationDateTime"
       ) AS
       SELECT
-        latitude, longitude, "observationDateTime", "threatsLocal", "threatsEn", form
+        latitude, longitude, "threatsLocal", "threatsEn", form, "threatsLocal", "observationDateTime"
       FROM (
         ${tables.map(tableName => `
           (
@@ -39,7 +38,7 @@ module.exports = {
             latitude, longitude,
             "observationDateTime",
             CASE
-              WHEN "primaryType" = 'threat' THEN "categoryBg"
+              WHEN "primaryType" = 'threat' THEN "categoryLocal"
               ELSE 'Тровене'
             END AS "threatBg",
             CASE
