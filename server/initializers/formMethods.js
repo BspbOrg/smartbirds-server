@@ -42,7 +42,7 @@ function generatePrepareQuery (form) {
     if (data.params.location) {
       query.where = _.extend(query.where || {}, {
         location: api.sequelize.sequelize.options.dialect === 'postgres'
-          ? { ilike: data.params.location }
+          ? { $ilike: data.params.location }
           : data.params.location
       })
     }
