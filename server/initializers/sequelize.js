@@ -192,7 +192,11 @@ module.exports = upgradeInitializer('ah17', {
         return next(err)
       }
 
-      api.sequelize.autoMigrate(function () {
+      api.sequelize.autoMigrate(function (err) {
+        if (err) {
+          console.error(err)
+          return next(err)
+        }
         api.sequelize.loadFixtures(next)
       })
     })
