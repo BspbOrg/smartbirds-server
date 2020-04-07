@@ -1,8 +1,12 @@
-/**
- * Created by groupsky on 16.03.16.
- */
-
 'use strict'
+
+const { DataTypes } = require('sequelize')
+const languageField = require('../utils/languageField')
+
+const labelField = languageField('label', {
+  dataType: DataTypes.TEXT,
+  requireFallback: false
+})
 
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Species', {
@@ -14,8 +18,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: false
     },
-    labelBg: DataTypes.TEXT,
-    labelEn: DataTypes.TEXT,
+    ...labelField.attributes,
     euring: DataTypes.TEXT,
     code: DataTypes.TEXT,
     interesting: {
@@ -31,8 +34,7 @@ module.exports = function (sequelize, DataTypes) {
   }, {
     indexes: [
       { unique: true, fields: ['type', 'labelLa'] },
-      { fields: ['type', 'labelBg'] },
-      { fields: ['type', 'labelEn'] },
+      ...labelField.fieldNames.map((fieldName) => ({ fields: ['type', fieldName] })),
       { fields: ['type', 'euring'] },
       { fields: ['type', 'code'] }
     ],
@@ -42,8 +44,7 @@ module.exports = function (sequelize, DataTypes) {
           type: this.type,
           label: {
             la: this.labelLa,
-            bg: this.labelBg,
-            en: this.labelEn
+            ...labelField.values(this)
           }
         }
         if (context !== 'public') {
@@ -58,13 +59,14 @@ module.exports = function (sequelize, DataTypes) {
       },
       apiUpdate: function (data) {
         this.type = data.type || this.type
-        this.labelBg = data.label ? data.label.bg : this.labelBg
-        this.labelEn = data.label ? data.label.en : this.labelEn
-        this.labelLa = data.label ? data.label.la : this.labelLa
+        if (data.label) {
+          labelField.update(this, data.label)
+          this.labelLa = data.label ? data.label.la : this.labelLa
+        }
         this.euring = data.euring || this.euring
         this.code = data.code || this.code
-        this.interesting = data.interesting
-        this.sensitive = data.sensitive
+        this.interesting = data.interesting != null ? data.interesting : this.interesting
+        this.sensitive = data.sensitive != null ? data.sensitive : this.sensitive
       }
     }
   })

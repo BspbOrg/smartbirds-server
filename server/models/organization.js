@@ -1,36 +1,36 @@
 'use strict'
 
+const { DataTypes } = require('sequelize')
+const languageField = require('../utils/languageField')
+
+const labelField = languageField('label', {
+  dataType: DataTypes.TEXT
+})
+
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Organization', {
     slug: {
       type: DataTypes.TEXT,
       allowNull: false
     },
-    labelEn: {
-      type: DataTypes.TEXT,
-      allowNull: false
-    },
-    labelBg: DataTypes.TEXT
+    ...labelField.attributes
   }, {
     indexes: [
       { unique: true, fields: ['slug'] },
-      { fields: ['type', 'labelBg'] },
-      { fields: ['type', 'labelEn'] }
+      ...labelField.fieldNames.map((fieldName) => ({ fields: ['type', fieldName] }))
     ],
     instanceMethods: {
       apiData: function (api, context) {
         const res = {
           slug: this.slug,
-          label: {
-            bg: this.labelBg,
-            en: this.labelEn
-          }
+          label: labelField.values(this)
         }
         return res
       },
       apiUpdate: function (data) {
-        this.labelBg = data.label ? data.label.bg : this.labelBg
-        this.labelEn = data.label ? data.label.en : this.labelEn
+        if (data.label) {
+          labelField.update(this, data.label)
+        }
       }
     }
   })
