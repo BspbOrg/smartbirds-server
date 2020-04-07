@@ -7,16 +7,12 @@ module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Location', {
     nameEn: DataTypes.TEXT,
     nameLocal: DataTypes.TEXT,
-    nameLang: DataTypes.STRING(3),
     areaEn: DataTypes.TEXT,
     areaLocal: DataTypes.TEXT,
-    areaLang: DataTypes.STRING(3),
     typeEn: DataTypes.TEXT,
     typeLocal: DataTypes.TEXT,
-    typeLang: DataTypes.STRING(3),
     regionEn: DataTypes.TEXT,
     regionLocal: DataTypes.TEXT,
-    regionLang: DataTypes.STRING(3),
     longitude: DataTypes.FLOAT,
     latitude: DataTypes.FLOAT,
     ekatte: DataTypes.TEXT
