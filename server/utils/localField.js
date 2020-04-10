@@ -1,3 +1,8 @@
+/**
+ * language codes without english
+ * @type {string[]}
+ */
+const languages = Object.keys(require('../../config/languages')).filter((l) => l !== 'en')
 const { DataTypes } = require('sequelize')
 
 /**
@@ -52,10 +57,15 @@ function localField (prefix, {
     if (model[enFieldName] == null) {
       return null
     }
-    return {
-      en: model[enFieldName],
-      [getLocalLang(model, prefix, langFieldName)]: model[localFieldName]
+    const vals = {
+      en: model[enFieldName]
     }
+
+    if (model[localFieldName] != null) {
+      vals[getLocalLang(model, prefix, langFieldName)] = model[localFieldName]
+    }
+
+    return vals
   }
 
   const update = function (model, data, language = 'bg') {
@@ -63,11 +73,28 @@ function localField (prefix, {
       model[enFieldName] = null
       model[localFieldName] = null
       model[langFieldName] = null
-    } else {
-      model[enFieldName] = data.en
+      return
+    }
+
+    model[enFieldName] = data.en
+    if (languages.includes(language) && language in data) {
       model[localFieldName] = data[language]
       model[langFieldName] = language
+      return
     }
+
+    // look for any other language and use the first one found
+    for (language of languages) {
+      if (language in data) {
+        model[localFieldName] = data[language]
+        model[langFieldName] = language
+        return
+      }
+    }
+
+    // no supported language found - nullify
+    model[localFieldName] = null
+    model[langFieldName] = null
   }
 
   return {

@@ -165,19 +165,23 @@ function generateApiData (fields) {
           case 'multi': {
             switch (field.relation.model) {
               case 'nomenclature': {
-                const res = []
-                const values = localField(name).values(this)
+                const field = localField(name)
+                const values = field.values(this)
+                if (values == null) {
+                  return []
+                }
                 const splitValues = mapObject(values, (val = '') => val.split('|').map((v) => v.trim()))
                 const en = splitValues.en
                 const lang = Object.keys(splitValues).filter((lang) => lang !== 'en').pop()
-                const local = splitValues[lang]
-                while (local.length && en.length) {
-                  res.push({
-                    label: {
-                      [lang]: local.shift(),
-                      en: en.shift()
-                    }
-                  })
+                const local = lang != null ? splitValues[lang] : null
+
+                const res = []
+                while (en.length) {
+                  const label = { en: en.shift() }
+                  if (lang != null) {
+                    label[lang] = local.shift()
+                  }
+                  res.push({ label })
                 }
                 return res
               }
@@ -193,7 +197,12 @@ function generateApiData (fields) {
           case 'choice': {
             switch (field.relation.model) {
               case 'nomenclature': {
-                return localField(name).values(this)
+                const label = localField(name).values(this)
+                if (label != null) {
+                  return { label }
+                } else {
+                  return null
+                }
               }
               case 'species': {
                 return this[name]
@@ -290,17 +299,17 @@ function generateApiUpdate (fields) {
 
               // directly set if null or not array
               if (val == null || !Array.isArray(val)) {
-                localField(name).update(this, val, language)
+                localField(name).update(this, val != null ? val.label : null, language)
               } else {
                 const mergedVal = {}
-                val.forEach((v) => forEachObject(v, (label, lang) => {
+                val.forEach((v) => forEachObject(v.label, (label, lang) => {
                   if (mergedVal[lang] == null) {
                     mergedVal[lang] = []
                   }
                   mergedVal[lang].push(label)
                 }))
-                mapObject(mergedVal, (vals) => vals.join(' | '))
-                localField(name).update(this, mergedVal, language)
+                const joinedVal = mapObject(mergedVal, (vals) => vals.join(' | '))
+                localField(name).update(this, joinedVal, language)
               }
               break
             }
@@ -327,7 +336,7 @@ function generateApiUpdate (fields) {
             case 'nomenclature': {
               if (!_.has(data, name)) return
 
-              localField(name).update(this, data[name], language)
+              localField(name).update(this, data[name].label, language)
               break
             }
             case 'species': {
