@@ -166,9 +166,9 @@ module.exports = {
       )
     )
 
-    await queryInterface.addIndex('FormCBM', { fields: ['visitLang', 'visitLocal'] })
-    await queryInterface.addIndex('Locations', { fields: ['areaLang', 'areaLocal'] })
-    await queryInterface.addIndex('Locations', { fields: ['nameLang', 'nameLocal'] })
+    await queryInterface.addIndex('FormCBM', { fields: ['visitLocal', 'visitLang'] })
+    await queryInterface.addIndex('Locations', { fields: ['areaLocal', 'areaLang'] })
+    await queryInterface.addIndex('Locations', { fields: ['nameLocal', 'nameLang'] })
   },
 
   down: async function (queryInterface) {

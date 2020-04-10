@@ -22,9 +22,9 @@ module.exports = function (sequelize, DataTypes) {
     ekatte: DataTypes.TEXT
   }, {
     indexes: [
-      { fields: ['nameLang', 'nameLocal'] },
+      { fields: ['nameLocal', 'nameLang'] },
       { fields: ['nameEn'] },
-      { fields: ['areaLang', 'areaLocal'] },
+      { fields: ['areaLocal', 'areaLang'] },
       { fields: ['areaEn'] }
     ],
     classMethods: {
