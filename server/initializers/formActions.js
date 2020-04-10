@@ -13,14 +13,14 @@ function generateInsertAction (form) {
       if ((!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, form.modelName)) || !data.params.user) {
         data.params.user = data.session.userId
       }
-      record = await record.apiUpdate(data.params)
+      record = await record.apiUpdate(data.params, data.session.user.language)
       const hash = record.calculateHash()
       api.log('looking for %s with hash %s', 'info', form.modelName, hash)
       const existing = await api.models[form.modelName].findOne({ where: { hash: hash } })
       if (existing) {
         api.log('found %s with hash %s, updating', 'info', form.modelName, hash)
         data.response.existing = true
-        await existing.apiUpdate(data.params)
+        await existing.apiUpdate(data.params, data.session.user.language)
         record = await existing.save()
       } else {
         api.log('not found %s with hash %s, creating', 'info', form.modelName, hash)
@@ -49,7 +49,7 @@ function generateEditAction (form) {
         data.params.user = data.session.userId
       }
 
-      await record.apiUpdate(data.params)
+      await record.apiUpdate(data.params, data.session.user.language)
       await record.save()
       data.response.data = await record.apiData(api)
       next()

@@ -8,6 +8,8 @@ const { hooks } = require('sequelize/lib/hooks')
 const { DataTypes } = require('sequelize')
 const capitalizeFirstLetter = require('../utils/capitalizeFirstLetter')
 const { upgradeInitializer } = require('../utils/upgrade')
+const localField = require('../utils/localField')
+const { forEachObject, mapObject } = require('../utils/object')
 
 // Add custom hooks to sequelize hooks list
 hooks.beforeApiUpdate = { params: 2 }
@@ -49,12 +51,7 @@ function formAttributes (fields) {
       case 'choice': {
         switch (field.relation.model) {
           case 'nomenclature': {
-            fieldsDef[name + 'Local'] = _.extend({
-              type: DataTypes.TEXT
-            }, fd)
-            fieldsDef[name + 'En'] = _.extend({
-              type: DataTypes.TEXT
-            }, fd)
+            Object.assign(fieldsDef, localField(name, { required: field.required }).attributes)
             break
           }
           case 'species': {
@@ -169,16 +166,15 @@ function generateApiData (fields) {
             switch (field.relation.model) {
               case 'nomenclature': {
                 const res = []
-                const local = this[name + 'Local'] ? this[name + 'Local'].split('|').map(function (val) {
-                  return val.trim()
-                }) : []
-                const en = this[name + 'En'] ? this[name + 'En'].split('|').map(function (val) {
-                  return val.trim()
-                }) : []
+                const values = localField(name).values(this)
+                const splitValues = mapObject(values, (val = '') => val.split('|').map((v) => v.trim()))
+                const en = splitValues.en
+                const lang = Object.keys(splitValues).filter((lang) => lang !== 'en').pop()
+                const local = splitValues[lang]
                 while (local.length && en.length) {
                   res.push({
                     label: {
-                      local: local.shift(),
+                      [lang]: local.shift(),
                       en: en.shift()
                     }
                   })
@@ -197,12 +193,7 @@ function generateApiData (fields) {
           case 'choice': {
             switch (field.relation.model) {
               case 'nomenclature': {
-                return (this[name + 'Local'] || this[name + 'En']) ? {
-                  label: {
-                    local: this[name + 'Local'],
-                    en: this[name + 'En']
-                  }
-                } : null
+                return localField(name).values(this)
               }
               case 'species': {
                 return this[name]
@@ -285,7 +276,7 @@ function generateExportData (form) {
 }
 
 function generateApiUpdate (fields) {
-  return async function (data) {
+  return async function (data, language) {
     await this.constructor.runHooks('beforeApiUpdate', this, data)
     _.forEach(fields, (field, name) => {
       if (_.isString(field)) field = { type: field }
@@ -295,16 +286,22 @@ function generateApiUpdate (fields) {
             case 'nomenclature': {
               if (!_.has(data, name)) return
 
-              let val = data[name]
+              const val = data[name]
 
-              if (!val) {
-                this[name + 'Local'] = null
-                this[name + 'En'] = null
+              // directly set if null or not array
+              if (val == null || !Array.isArray(val)) {
+                localField(name).update(this, val, language)
+              } else {
+                const mergedVal = {}
+                val.forEach((v) => forEachObject(v, (label, lang) => {
+                  if (mergedVal[lang] == null) {
+                    mergedVal[lang] = []
+                  }
+                  mergedVal[lang].push(label)
+                }))
+                mapObject(mergedVal, (vals) => vals.join(' | '))
+                localField(name).update(this, mergedVal, language)
               }
-              if (!_.isArray(val)) val = [val]
-              this[name + 'Local'] = _.reduce(val, (sum, v) => sum + (sum ? ' | ' : '') + v.label.local, '')
-              this[name + 'En'] = _.reduce(val, (sum, v) => sum + (sum ? ' | ' : '') + v.label.en, '')
-
               break
             }
             case 'species': {
@@ -330,8 +327,7 @@ function generateApiUpdate (fields) {
             case 'nomenclature': {
               if (!_.has(data, name)) return
 
-              this[name + 'Local'] = data[name] && data[name].label.local
-              this[name + 'En'] = data[name] && data[name].label.en
+              localField(name).update(this, data[name], language)
               break
             }
             case 'species': {
