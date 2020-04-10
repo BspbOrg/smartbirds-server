@@ -55,7 +55,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     language: {
       type: DataTypes.STRING,
-      defaultValue: 'bg'
+      defaultValue: 'en'
     },
     forgotPasswordHash: DataTypes.TEXT,
     forgotPasswordTimestamp: DataTypes.DATE,
