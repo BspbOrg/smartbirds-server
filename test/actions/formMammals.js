@@ -16,7 +16,7 @@ describe('Action formMammals:', function () {
       type: 'mammals_gender',
       id: 33,
       label: {
-        local: 'Женски',
+        bg: 'Женски',
         en: 'Female'
       }
     },
@@ -24,7 +24,7 @@ describe('Action formMammals:', function () {
       type: 'mammals_age',
       id: 11,
       label: {
-        local: 'Imm.',
+        bg: 'Imm.',
         en: 'Imm.'
       }
     },
@@ -32,7 +32,7 @@ describe('Action formMammals:', function () {
       type: 'mammals_habitat',
       id: 102,
       label: {
-        local: 'Диапазон',
+        bg: 'Диапазон',
         en: 'Range'
       }
     },
@@ -40,7 +40,7 @@ describe('Action formMammals:', function () {
       type: 'mammals_findings',
       id: 32,
       label: {
-        local: 'mammals_findings',
+        bg: 'mammals_findings',
         en: 'mammals_findings'
       }
     },
@@ -67,7 +67,7 @@ describe('Action formMammals:', function () {
     rain: {
       type: 'main_rain',
       label: {
-        local: 'Ръми',
+        bg: 'Ръми',
         en: 'Drizzle'
       }
     },
@@ -75,21 +75,21 @@ describe('Action formMammals:', function () {
     windDirection: {
       type: 'main_wind_direction',
       label: {
-        local: 'ENE',
+        bg: 'ENE',
         en: 'ENE'
       }
     },
     windSpeed: {
       type: 'main_wind_force',
       label: {
-        local: '2 - Лек бриз',
+        bg: '2 - Лек бриз',
         en: '2 - Light breeze'
       }
     },
     cloudiness: {
       type: 'main_cloud_level',
       label: {
-        local: '33-66%',
+        bg: '33-66%',
         en: '33-66%'
       }
     },
@@ -100,14 +100,14 @@ describe('Action formMammals:', function () {
       {
         type: 'main_threats',
         label: {
-          local: 'Култивация',
+          bg: 'Култивация',
           en: 'Cultivation'
         }
       },
       {
         type: 'main_threats',
         label: {
-          local: 'Наторяване',
+          bg: 'Наторяване',
           en: 'Mulching'
         }
       }

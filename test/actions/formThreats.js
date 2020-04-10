@@ -19,7 +19,7 @@ describe('Action formThreats:', function () {
       type: 'threats_category',
       id: 50,
       label: {
-        local: 'Пожари',
+        bg: 'Пожари',
         en: 'Fires'
       }
     },
@@ -27,7 +27,7 @@ describe('Action formThreats:', function () {
       type: 'threats_estimate',
       id: 70,
       label: {
-        local: 'Високо',
+        bg: 'Високо',
         en: 'High'
       }
     },
@@ -36,7 +36,7 @@ describe('Action formThreats:', function () {
       type: 'threats_state_carcass',
       id: 80,
       label: {
-        local: 'Подуто',
+        bg: 'Подуто',
         en: 'Bloat'
       }
     },
@@ -44,7 +44,7 @@ describe('Action formThreats:', function () {
       type: 'threats_sample',
       id: 90,
       label: {
-        local: 'СЪрце',
+        bg: 'СЪрце',
         en: 'Heart'
       }
     },
@@ -60,7 +60,7 @@ describe('Action formThreats:', function () {
     rain: {
       type: 'main_rain',
       label: {
-        local: 'Ръми',
+        bg: 'Ръми',
         en: 'Drizzle'
       }
     },
@@ -68,21 +68,21 @@ describe('Action formThreats:', function () {
     windDirection: {
       type: 'main_wind_direction',
       label: {
-        local: 'ENE',
+        bg: 'ENE',
         en: 'ENE'
       }
     },
     windSpeed: {
       type: 'main_wind_force',
       label: {
-        local: '2 - Лек бриз',
+        bg: '2 - Лек бриз',
         en: '2 - Light breeze'
       }
     },
     cloudiness: {
       type: 'main_cloud_level',
       label: {
-        local: '33-66%',
+        bg: '33-66%',
         en: '33-66%'
       }
     },
@@ -93,14 +93,14 @@ describe('Action formThreats:', function () {
       {
         type: 'main_threats',
         label: {
-          local: 'Култивация',
+          bg: 'Култивация',
           en: 'Cultivation'
         }
       },
       {
         type: 'main_threats',
         label: {
-          local: 'Наторяване',
+          bg: 'Наторяване',
           en: 'Mulching'
         }
       }

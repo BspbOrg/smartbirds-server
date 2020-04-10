@@ -11,7 +11,7 @@ describe('Action formCBM:', function () {
       type: 'cbm_sector',
       slug: '1',
       label: {
-        local: '1',
+        bg: '1',
         en: '1'
       }
     },
@@ -19,7 +19,7 @@ describe('Action formCBM:', function () {
       type: 'cbm_visit_number',
       slug: 'e-early-visit',
       label: {
-        local: 'E - първо посещение',
+        bg: 'E - първо посещение',
         en: 'E - early visit'
       }
     },
@@ -27,7 +27,7 @@ describe('Action formCBM:', function () {
       type: 'cbm_habitat',
       slug: 'a-1-broadleaved-woodland',
       label: {
-        local: 'A.1 - Широколистни гори',
+        bg: 'A.1 - Широколистни гори',
         en: 'A.1 Broadleaved woodland'
       }
     },
@@ -35,7 +35,7 @@ describe('Action formCBM:', function () {
       type: 'cbm_habitat',
       slug: 'a-2-coniferous-woodland',
       label: {
-        local: 'A.2 - Иглолистни гори',
+        bg: 'A.2 - Иглолистни гори',
         en: 'A.2 Coniferous woodland'
       }
     },
@@ -44,7 +44,7 @@ describe('Action formCBM:', function () {
       type: 'cbm_distance',
       slug: '3-over-100-m',
       label: {
-        local: '3 - (над 100 m)',
+        bg: '3 - (над 100 m)',
         en: '3 - (over 100 m)'
       }
     },
@@ -55,7 +55,7 @@ describe('Action formCBM:', function () {
         type: 'main_threats',
         slug: 'cultivation',
         label: {
-          local: 'Култивация',
+          bg: 'Култивация',
           en: 'Cultivation'
         }
       },
@@ -63,7 +63,7 @@ describe('Action formCBM:', function () {
         type: 'main_threats',
         slug: 'mulching',
         label: {
-          local: 'Наторяване',
+          bg: 'Наторяване',
           en: 'Mulching'
         }
       }
@@ -74,7 +74,7 @@ describe('Action formCBM:', function () {
       type: 'main_cloud_level',
       slug: '33-66',
       label: {
-        local: '33-66%',
+        bg: '33-66%',
         en: '33-66%'
       }
     },
@@ -83,7 +83,7 @@ describe('Action formCBM:', function () {
       type: 'main_wind_direction',
       slug: 'ene',
       label: {
-        local: 'ENE',
+        bg: 'ENE',
         en: 'ENE'
       }
     },
@@ -91,7 +91,7 @@ describe('Action formCBM:', function () {
       type: 'main_wind_force',
       slug: '2-light-breeze',
       label: {
-        local: '2 - Лек бриз',
+        bg: '2 - Лек бриз',
         en: '2 - Light breeze'
       }
     },
@@ -100,7 +100,7 @@ describe('Action formCBM:', function () {
       type: 'main_rain',
       slug: 'drizzle',
       label: {
-        local: 'Ръми',
+        bg: 'Ръми',
         en: 'Drizzle'
       }
     },
