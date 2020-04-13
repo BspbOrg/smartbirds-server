@@ -166,12 +166,13 @@ function generateApiData (fields) {
           case 'multi': {
             switch (field.relation.model) {
               case 'nomenclature': {
+                const res = []
                 const field = localField(name)
 
                 // get the values from model as {en: enJoined, [localLang]: localJoined}
                 const values = field.values(this)
                 if (values == null) {
-                  return []
+                  return res
                 }
 
                 const lang = field.getLocalLanguage(this)
@@ -184,7 +185,6 @@ function generateApiData (fields) {
                   return val.trim()
                 }) : []
 
-                const res = []
                 // en is the primary language
                 for (let idx = 0; idx < en.length; idx++) {
                   const label = { en: en[idx] }
