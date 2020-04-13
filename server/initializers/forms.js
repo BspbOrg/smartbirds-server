@@ -9,7 +9,8 @@ const { DataTypes } = require('sequelize')
 const capitalizeFirstLetter = require('../utils/capitalizeFirstLetter')
 const { upgradeInitializer } = require('../utils/upgrade')
 const localField = require('../utils/localField')
-const { forEachObject, mapObject } = require('../utils/object')
+const { mapObject } = require('../utils/object')
+const languages = Object.keys(require('../../config/languages'))
 
 // Add custom hooks to sequelize hooks list
 hooks.beforeApiUpdate = { params: 2 }
@@ -295,21 +296,28 @@ function generateApiUpdate (fields) {
             case 'nomenclature': {
               if (!_.has(data, name)) return
 
+              // localField works with {bg, en}, while the multi nomenclature use [{label: {bg, en}}, ...]
               const val = data[name]
 
               // directly set if null or not array
               if (val == null || !Array.isArray(val)) {
                 localField(name).update(this, val != null ? val.label : null, language)
               } else {
-                const mergedVal = {}
-                val.forEach((v) => forEachObject(v.label, (label, lang) => {
-                  if (mergedVal[lang] == null) {
-                    mergedVal[lang] = []
+                // convert [{label: {bg, en, ...}}] into {bg: [...], en: [...], ...}
+                const mergedValues = {}
+                val.forEach((v) => {
+                  // iterate over our defined languages, and this is user provided structure and may contain unsafe keys
+                  for (const lang of languages) {
+                    if (lang in v.label) {
+                      if (mergedValues[lang] == null) {
+                        mergedValues[lang] = []
+                      }
+                      mergedValues[lang].push(v.label[lang])
+                    }
                   }
-                  mergedVal[lang].push(label)
-                }))
-                const joinedVal = mapObject(mergedVal, (vals) => vals.join(' | '))
-                localField(name).update(this, joinedVal, language)
+                })
+                const joinedValues = mapObject(mergedValues, (values) => values.join(' | '))
+                localField(name).update(this, joinedValues, language)
               }
               break
             }
