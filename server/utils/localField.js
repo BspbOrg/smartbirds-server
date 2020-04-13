@@ -25,6 +25,7 @@ function getLocalLang (model, fieldName, langFieldName = `${fieldName}Lang`) {
  * @type object
  * @property {{[string]: DataType | ModelAttributeColumnOptions}} attributes - sequelize model definition attributes
  * @property {{en: string, local: string, lang: string}} fieldNames - list of all defined field names
+ * @property {function (model: Model): string} getLocalLanguage - Get the local language code
  * @property {function (model: Model): object} values - Return a map from language code to model's field values
  * @property {function (model: Model, data: object, language: string)} update - Update all provided values to the model
  */
@@ -52,6 +53,10 @@ function localField (prefix, {
   }
 
   const fieldNames = { en: enFieldName, local: localFieldName, lang: langFieldName }
+
+  const getLocalLanguage = function (model) {
+    return getLocalLang(model, prefix, langFieldName)
+  }
 
   const values = function (model) {
     if (model[enFieldName] == null) {
@@ -100,6 +105,7 @@ function localField (prefix, {
   return {
     attributes,
     fieldNames,
+    getLocalLanguage,
     values,
     update
   }

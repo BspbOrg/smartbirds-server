@@ -167,20 +167,29 @@ function generateApiData (fields) {
             switch (field.relation.model) {
               case 'nomenclature': {
                 const field = localField(name)
+
+                // get the values from model as {en: enJoined, [localLang]: localJoined}
                 const values = field.values(this)
                 if (values == null) {
                   return []
                 }
-                const splitValues = mapObject(values, (val = '') => val.split('|').map((v) => v.trim()))
-                const en = splitValues.en
-                const lang = Object.keys(splitValues).filter((lang) => lang !== 'en').pop()
-                const local = lang != null ? splitValues[lang] : null
+
+                const lang = field.getLocalLanguage(this)
+
+                // split the values
+                const local = values[lang] ? values[lang].split('|').map(function (val) {
+                  return val.trim()
+                }) : []
+                const en = values.en ? values.en.split('|').map(function (val) {
+                  return val.trim()
+                }) : []
 
                 const res = []
-                while (en.length > 0) {
-                  const label = { en: en.shift() }
-                  if (lang != null && local != null && local.length > 0) {
-                    label[lang] = local.shift()
+                // en is the primary language
+                for (let idx = 0; idx < en.length; idx++) {
+                  const label = { en: en[idx] }
+                  if (local[idx]) {
+                    label[lang] = local[idx]
                   }
                   res.push({ label })
                 }
