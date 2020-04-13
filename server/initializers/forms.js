@@ -176,9 +176,9 @@ function generateApiData (fields) {
                 const local = lang != null ? splitValues[lang] : null
 
                 const res = []
-                while (en.length) {
+                while (en.length > 0) {
                   const label = { en: en.shift() }
-                  if (lang != null) {
+                  if (lang != null && local != null && local.length > 0) {
                     label[lang] = local.shift()
                   }
                   res.push({ label })
