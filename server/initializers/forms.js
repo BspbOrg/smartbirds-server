@@ -315,7 +315,7 @@ function generateApiUpdate (fields) {
                 // convert [{label: {bg, en, ...}}] into {bg: [...], en: [...], ...}
                 const mergedValues = {}
                 val.forEach((v) => {
-                  // iterate over our defined languages, and this is user provided structure and may contain unsafe keys
+                  // iterate over our defined languages as this is user provided structure and may contain unsafe keys
                   for (const lang of languages) {
                     if (lang in v.label) {
                       if (mergedValues[lang] == null) {
