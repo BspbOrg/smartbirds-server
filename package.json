@@ -68,7 +68,7 @@
     "sharp": "^0.25.2",
     "umzug": "~2.2.0",
     "uuid": "^3.3.3",
-    "validator": "~12.1.0"
+    "validator": "~13.0.0"
   },
   "standard": {
     "ignore": [
