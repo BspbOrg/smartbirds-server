@@ -66,7 +66,7 @@ function localField (prefix, {
       en: model[enFieldName]
     }
 
-    if (model[localFieldName] != null) {
+    if (model[langFieldName] != null && model[localFieldName]) {
       vals[getLocalLang(model, prefix, langFieldName)] = model[localFieldName]
     }
 
@@ -76,13 +76,15 @@ function localField (prefix, {
   const update = function (model, data, language = 'bg') {
     if (data == null) {
       model[enFieldName] = null
-      model[localFieldName] = null
+      // setting to empty string instead of null, because some fields are set as required from before
+      // and changing them is tricky as some views depend on them
+      model[localFieldName] = ''
       model[langFieldName] = null
       return
     }
 
     model[enFieldName] = data.en
-    if (languages.includes(language) && language in data) {
+    if (languages.includes(language) && data[language]) {
       model[localFieldName] = data[language]
       model[langFieldName] = language
       return
@@ -90,7 +92,7 @@ function localField (prefix, {
 
     // look for any other language and use the first one found
     for (language of languages) {
-      if (language in data) {
+      if (data[language]) {
         model[localFieldName] = data[language]
         model[langFieldName] = language
         return
@@ -98,7 +100,7 @@ function localField (prefix, {
     }
 
     // no supported language found - nullify
-    model[localFieldName] = null
+    model[localFieldName] = ''
     model[langFieldName] = null
   }
 
