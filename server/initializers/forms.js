@@ -353,7 +353,7 @@ function generateApiUpdate (fields) {
             case 'nomenclature': {
               if (!_.has(data, name)) return
 
-              localField(name).update(this, data[name].label, language)
+              localField(name).update(this, data[name] != null ? data[name].label : null, language)
               break
             }
             case 'species': {
