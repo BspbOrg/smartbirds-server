@@ -18,7 +18,7 @@ describe('Action formBirds:', function () {
       type: 'birds_count_units',
       id: 8,
       label: {
-        local: 'Гнездо(а)',
+        bg: 'Гнездо(а)',
         en: 'Nests'
       }
     },
@@ -26,7 +26,7 @@ describe('Action formBirds:', function () {
       type: 'birds_count_type',
       id: 102,
       label: {
-        local: 'Диапазон',
+        bg: 'Диапазон',
         en: 'Range'
       }
     },
@@ -34,7 +34,7 @@ describe('Action formBirds:', function () {
       type: 'birds_nesting',
       id: 32,
       label: {
-        local: 'Гнездо',
+        bg: 'Гнездо',
         en: 'Nests'
       }
     },
@@ -45,7 +45,7 @@ describe('Action formBirds:', function () {
       type: 'birds_sex',
       id: 33,
       label: {
-        local: 'Женски',
+        bg: 'Женски',
         en: 'Female'
       }
 
@@ -54,7 +54,7 @@ describe('Action formBirds:', function () {
       type: 'birds_age',
       id: 11,
       label: {
-        local: 'Imm.',
+        bg: 'Imm.',
         en: 'Imm.'
       }
     },
@@ -62,7 +62,7 @@ describe('Action formBirds:', function () {
       type: 'birds_marking',
       id: 12,
       label: {
-        local: 'Крилометка',
+        bg: 'Крилометка',
         en: 'Wing tag'
       }
     },
@@ -70,7 +70,7 @@ describe('Action formBirds:', function () {
       type: 'birds_status',
       id: 13,
       label: {
-        local: 'Вид в гнездови хабитат',
+        bg: 'Вид в гнездови хабитат',
         en: 'Species in nesting habitat'
       }
     },
@@ -78,7 +78,7 @@ describe('Action formBirds:', function () {
       type: 'birds_behaviour',
       id: 14,
       label: {
-        local: 'Строеж на гнездо / гнездова камера',
+        bg: 'Строеж на гнездо / гнездова камера',
         en: 'Building of a nest / nest chamber'
       }
     },
@@ -86,7 +86,7 @@ describe('Action formBirds:', function () {
       type: 'birds_death',
       id: 15,
       label: {
-        local: 'Лов',
+        bg: 'Лов',
         en: 'Hunting'
       }
     },
@@ -94,7 +94,7 @@ describe('Action formBirds:', function () {
       type: 'birds_nest_substrate',
       id: 16,
       label: {
-        local: 'На скали',
+        bg: 'На скали',
         en: 'On cliffs / rocks'
       }
     },
@@ -104,7 +104,7 @@ describe('Action formBirds:', function () {
       type: 'birds_nest_location',
       id: 17,
       label: {
-        local: 'Окрайнина на гора',
+        bg: 'Окрайнина на гора',
         en: 'Forest edge'
       }
     },
@@ -112,7 +112,7 @@ describe('Action formBirds:', function () {
       type: 'birds_nest_height',
       id: 18,
       label: {
-        local: '5-10 м.',
+        bg: '5-10 м.',
         en: '5-10 m.'
       }
     },
@@ -120,7 +120,7 @@ describe('Action formBirds:', function () {
       type: 'birds_nest_position',
       id: 19,
       label: {
-        local: 'На върха',
+        bg: 'На върха',
         en: 'On top'
       }
     },
@@ -134,7 +134,7 @@ describe('Action formBirds:', function () {
       type: 'birds_age_individual',
       id: 20,
       label: {
-        local: 'Imm.',
+        bg: 'Imm.',
         en: 'Imm.'
       }
     },
@@ -142,7 +142,7 @@ describe('Action formBirds:', function () {
       type: 'birds_age_individual',
       id: 20,
       label: {
-        local: 'Imm.',
+        bg: 'Imm.',
         en: 'Imm.'
       }
     },
@@ -150,7 +150,7 @@ describe('Action formBirds:', function () {
       type: 'birds_nest_success',
       id: 21,
       label: {
-        local: 'Pull.',
+        bg: 'Pull.',
         en: 'Pull.'
       }
     },
@@ -163,7 +163,7 @@ describe('Action formBirds:', function () {
     rain: {
       type: 'main_rain',
       label: {
-        local: 'Ръми',
+        bg: 'Ръми',
         en: 'Drizzle'
       }
     },
@@ -171,21 +171,21 @@ describe('Action formBirds:', function () {
     windDirection: {
       type: 'main_wind_direction',
       label: {
-        local: 'ENE',
+        bg: 'ENE',
         en: 'ENE'
       }
     },
     windSpeed: {
       type: 'main_wind_force',
       label: {
-        local: '2 - Лек бриз',
+        bg: '2 - Лек бриз',
         en: '2 - Light breeze'
       }
     },
     cloudiness: {
       type: 'main_cloud_level',
       label: {
-        local: '33-66%',
+        bg: '33-66%',
         en: '33-66%'
       }
     },
@@ -196,14 +196,14 @@ describe('Action formBirds:', function () {
       {
         type: 'main_threats',
         label: {
-          local: 'Култивация',
+          bg: 'Култивация',
           en: 'Cultivation'
         }
       },
       {
         type: 'main_threats',
         label: {
-          local: 'Наторяване',
+          bg: 'Наторяване',
           en: 'Mulching'
         }
       }

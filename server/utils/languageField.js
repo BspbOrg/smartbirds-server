@@ -23,7 +23,7 @@ const capitalizeFirstLetter = require('./capitalizeFirstLetter')
  * @param {string} prefix - prefix for field name
  * @param {object} options
  * @param {DataType | ModelAttributeColumnOptions} options.dataType - data type for the field
- * @param {boolean} [requireFallback = true] - true if the english value must always be provided
+ * @param {boolean} [options.requireFallback = true] - true if the english value must always be provided
  * @returns LanguageField
  */
 function languageField (prefix, {

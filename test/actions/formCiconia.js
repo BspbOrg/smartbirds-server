@@ -14,7 +14,7 @@ describe('Action formCiconia:', function () {
     primarySubstrateType: {
       type: 'ciconia_substratum',
       label: {
-        local: 'ciconia_substratum',
+        bg: 'ciconia_substratum',
         en: 'ciconia_substratum'
       }
 
@@ -22,14 +22,14 @@ describe('Action formCiconia:', function () {
     electricityPole: {
       type: 'ciconia_column',
       label: {
-        local: 'Imm.',
+        bg: 'Imm.',
         en: 'Imm.'
       }
     },
     typeElectricityPole: {
       type: 'ciconia_column_type',
       label: {
-        local: 'ciconia_column_type',
+        bg: 'ciconia_column_type',
         en: 'ciconia_column_type'
       }
     },
@@ -38,7 +38,7 @@ describe('Action formCiconia:', function () {
     nestThisYearNotUtilizedByWhiteStorks: {
       type: 'ciconia_not_occupied',
       label: {
-        local: 'ciconia_not_occupied',
+        bg: 'ciconia_not_occupied',
         en: 'ciconia_not_occupied'
       }
     },
@@ -59,7 +59,7 @@ describe('Action formCiconia:', function () {
     rain: {
       type: 'main_rain',
       label: {
-        local: 'Ръми',
+        bg: 'Ръми',
         en: 'Drizzle'
       }
     },
@@ -67,21 +67,21 @@ describe('Action formCiconia:', function () {
     windDirection: {
       type: 'main_wind_direction',
       label: {
-        local: 'ENE',
+        bg: 'ENE',
         en: 'ENE'
       }
     },
     windSpeed: {
       type: 'main_wind_force',
       label: {
-        local: '2 - Лек бриз',
+        bg: '2 - Лек бриз',
         en: '2 - Light breeze'
       }
     },
     cloudiness: {
       type: 'main_cloud_level',
       label: {
-        local: '33-66%',
+        bg: '33-66%',
         en: '33-66%'
       }
     },
@@ -92,14 +92,14 @@ describe('Action formCiconia:', function () {
       {
         type: 'main_threats',
         label: {
-          local: 'Култивация',
+          bg: 'Култивация',
           en: 'Cultivation'
         }
       },
       {
         type: 'main_threats',
         label: {
-          local: 'Наторяване',
+          bg: 'Наторяване',
           en: 'Mulching'
         }
       }

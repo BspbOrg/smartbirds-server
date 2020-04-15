@@ -1,27 +1,30 @@
 /**
  * Created by groupsky on 04.12.15.
  */
-
 'use strict'
+
+const localField = require('../utils/localField')
+
+const nameField = localField('name')
+const areaField = localField('area')
+const typeField = localField('type')
+const regionField = localField('region')
+
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Location', {
-    nameLocal: DataTypes.TEXT,
-    nameEn: DataTypes.TEXT,
-    areaLocal: DataTypes.TEXT,
-    areaEn: DataTypes.TEXT,
-    typeLocal: DataTypes.TEXT,
-    typeEn: DataTypes.TEXT,
-    regionEn: DataTypes.TEXT,
-    regionLocal: DataTypes.TEXT,
+    ...nameField.attributes,
+    ...areaField.attributes,
+    ...typeField.attributes,
+    ...regionField.attributes,
     longitude: DataTypes.FLOAT,
     latitude: DataTypes.FLOAT,
     ekatte: DataTypes.TEXT
   }, {
     indexes: [
-      { fields: ['nameLocal'] },
-      { fields: ['nameEn'] },
-      { fields: ['areaLocal'] },
-      { fields: ['areaEn'] }
+      { fields: [nameField.fieldNames.local, nameField.fieldNames.lang] },
+      { fields: [nameField.fieldNames.en] },
+      { fields: [areaField.fieldNames.local, areaField.fieldNames.lang] },
+      { fields: [areaField.fieldNames.en] }
     ],
     classMethods: {
       associate: function (models) {
@@ -32,22 +35,10 @@ module.exports = function (sequelize, DataTypes) {
       apiData: function (api) {
         return {
           id: this.id,
-          name: {
-            local: this.nameLocal,
-            en: this.nameEn
-          },
-          area: {
-            local: this.areaLocal,
-            en: this.areaEn
-          },
-          type: {
-            local: this.typeLocal,
-            en: this.typeEn
-          },
-          region: {
-            local: this.regionLocal,
-            en: this.regionEn
-          },
+          name: nameField.values(this),
+          area: areaField.values(this),
+          type: typeField.values(this),
+          region: regionField.values(this),
           longitude: this.longitude,
           latitude: this.latitude,
           ekatte: this.ekatte
