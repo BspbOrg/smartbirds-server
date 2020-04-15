@@ -16,7 +16,7 @@ describe('Forms', function () {
     describe('multi', function () {
       describe('relation', function () {
         describe('nomenclature', function () {
-          let form = {
+          const form = {
             modelName: 'formTestMultiNomenclature',
             tableName: 'testMultiNomenclature',
             fields: {
@@ -45,24 +45,24 @@ describe('Forms', function () {
             should.exists(form.model)
           })
 
-          it('field presists and restores', async function () {
+          it('field persists and restores', async function () {
             const response = await setup.runActionAsAdmin('formTestMultiNomenclature:create', {
               multiNomenclature: [
-                { label: { local: 'Test Nomenclature Local 1', en: 'Test Nomenclature En 1' } },
-                { label: { local: 'Test Nomenclature Local 2', en: 'Test Nomenclature En 2' } },
+                { label: { bg: 'Test Nomenclature BG 1', en: 'Test Nomenclature En 1' } },
+                { label: { bg: 'Test Nomenclature BG 2', en: 'Test Nomenclature En 2' } },
               ]
             })
             should.exists(response)
             response.should.not.have.property('error')
             response.should.have.property('data')
             response.data.should.have.property('multiNomenclature').and.it.is.Array().of.length(2)
-            response.data.multiNomenclature.should.containEql({ label: { local: 'Test Nomenclature Local 1', en: 'Test Nomenclature En 1' } })
-            response.data.multiNomenclature.should.containEql({ label: { local: 'Test Nomenclature Local 2', en: 'Test Nomenclature En 2' } })
+            response.data.multiNomenclature.should.containEql({ label: { bg: 'Test Nomenclature BG 1', en: 'Test Nomenclature En 1' } })
+            response.data.multiNomenclature.should.containEql({ label: { bg: 'Test Nomenclature BG 2', en: 'Test Nomenclature En 2' } })
           })
         }) // describe nomenclature
 
         describe('species', function () {
-          let form = {
+          const form = {
             modelName: 'formTestMultiSpecies',
             tableName: 'testMultiSpecies',
             fields: {
@@ -93,7 +93,7 @@ describe('Forms', function () {
 
           it('field presists and restores', async function () {
             const response = await setup.runActionAsAdmin('formTestMultiSpecies:create', {
-              multiSpecies: [ 'Test Species La 1', 'Test Species La 2' ]
+              multiSpecies: ['Test Species La 1', 'Test Species La 2']
             })
             should.exists(response)
             response.should.not.have.property('error')
