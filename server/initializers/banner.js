@@ -9,7 +9,7 @@ module.exports = upgradeInitializer('ah17', {
   initialize: function (api, next) {
     api.banner = {
       execute: function (generator) {
-        var command = Array.prototype.map.call(arguments, function (p) { return '\'' + p.replace(/'/g, '\'"\'"\'') + '\'' })
+        var command = Array.prototype.map.call(arguments, function (p) { return '\'' + ('' + p).replace(/'/g, '\'"\'"\'') + '\'' })
         command = Array.prototype.join.call(command, ' ')
         return new Promise(function (resolve, reject) {
           try {
