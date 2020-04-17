@@ -36,7 +36,7 @@
     "migrate": "npm run sq -- db:migrate",
     "seed": "npm run sq -- db:seed",
     "enqueue": "npm run ah -- task enqueue --name",
-    "heroku-postbuild": "(echo \"Promise.all(['organizations:export', 'stats:generate'].map(t => api.tasks.tasks[t].run(api, {}))).then(() => console.log('DONE'), (e) => console.error('BAD', e))\";sleep 10) | npm run ah console"
+    "heroku-postbuild": "(echo \"Promise.all(['organizations:export', 'stats:generate', 'banner:generate'].map(t => api.tasks.tasks[t].run(api, {}))).then(() => console.log('DONE'), (e) => console.error('BAD', e))\";sleep 10) | npm run ah console"
   },
   "dependencies": {
     "@sentry/node": "^5.15.4",
