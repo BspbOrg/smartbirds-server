@@ -7,5 +7,8 @@ module.exports = {
   },
   sq: {
     label: 'LANGUAGE_ALBANIAN'
+  },
+  mk: {
+    label: 'LANGUAGE_MACEDONIAN'
   }
 }
