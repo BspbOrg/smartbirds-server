@@ -2,6 +2,9 @@ const _ = require('lodash')
 const { assign } = Object
 const formsConfig = require('../../config/formsConfig')
 const inputHelpers = require('../helpers/inputs')
+const languages = require('../../config/languages')
+const capitalizeFirstLetter = require('../utils/capitalizeFirstLetter')
+const localField = require('../utils/localField')
 
 exports = module.exports = _.cloneDeep(require('./_common'))
 
@@ -212,33 +215,30 @@ exports.validate = {
   }
 }
 
+const categoryThreatsField = localField('categoryThreats')
+const estimateThreatsField = localField('estimateThreats')
+
 exports.prepareCsv = async function (api, record, csv) {
   // define all used fields, so the first record can output proper header
   csv = {
     ...csv,
     id: record.id,
-    categoryThreatsLang: '',
-    categoryThreatsLocal: '',
-    categoryThreatsEN: '',
     speciesThreats: '',
     countThreats: '',
-    estimateThreatsLang: '',
-    estimateThreatsLocal: '',
-    estimateThreatsEN: '',
     deadSpecies: '',
     deadSpeciesCount: '',
     aliveAnimal: 'N',
     aliveAnimalCount: '',
     poisonBaits: 'N',
-    poisonBaitsCount: ''
+    poisonBaitsCount: '',
+    ...categoryThreatsField.values(null, { onlyAvailable: false, keysPrefix: 'categoryThreats' }),
+    ...estimateThreatsField.values(null, { onlyAvailable: false, keysPrefix: 'estimateThreats' })
   }
+
   switch (record.primaryType) {
     case formsConfig.threatsPrimaryTypes.poison.id:
-      csv = {
-        ...csv,
-        categoryThreatsSQ: 'Kërcënimi',
-        categoryThreatsBG: 'Тровене',
-        categoryThreatsEN: 'Poisoning'
+      for (const lang in languages) {
+        csv[`categoryThreats${capitalizeFirstLetter(lang)}`] = languages[lang].threatsPrimaryType
       }
 
       switch (record.poisonedType) {
@@ -272,14 +272,10 @@ exports.prepareCsv = async function (api, record, csv) {
     case formsConfig.threatsPrimaryTypes.threat.id:
       csv = {
         ...csv,
-        categoryThreatsLang: record.categoryLang,
-        categoryThreatsLocal: record.categoryLocal,
-        categoryThreatsEN: record.categoryEn,
+        ...categoryThreatsField.values(record, { keysPrefix: 'categoryThreats' }),
+        ...estimateThreatsField.values(record, { keysPrefix: 'estimateThreats' }),
         speciesThreats: record.speciesInfo && record.speciesInfo.labelLa,
-        countThreats: record.count,
-        estimateThreatsLang: record.estimateLang,
-        estimateThreatsLocal: record.estimateLocal,
-        estimateThreatsEN: record.estimateEn
+        countThreats: record.count
       }
       break
     default:
