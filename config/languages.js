@@ -4,5 +4,8 @@ module.exports = {
   },
   en: {
     label: 'LANGUAGE_ENGLISH'
+  },
+  sq: {
+    label: 'LANGUAGE_ALBANIAN'
   }
 }
