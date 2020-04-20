@@ -90,6 +90,14 @@ exports.fields = {
       model: 'user'
     }
   },
+  organization: {
+    type: 'choice',
+    required: true,
+    relation: {
+      model: 'organization'
+    },
+    default: 'bspb'
+  },
   createdAt: {
     type: 'timestamp',
     required: true
@@ -106,7 +114,8 @@ exports.foreignKeys = [
 ]
 
 exports.indexes = [
-  { fields: ['userId'] }
+  { fields: ['userId'] },
+  { fields: ['organization'] }
 ]
 
 exports.exportSkipFields = [

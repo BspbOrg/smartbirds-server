@@ -116,6 +116,12 @@ function generatePrepareQuery (form) {
           userId: data.params.user
         })
       }
+
+      if (data.params.organization) {
+        query.where = _.extend(query.where || {}, {
+          organization: data.params.organization
+        })
+      }
     } else if (data.session.user.isAdmin || api.forms.isModerator(data.session.user, form.modelName)) {
       if (data.params.user) {
         query.where = _.extend(query.where || {}, {

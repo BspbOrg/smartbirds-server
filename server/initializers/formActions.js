@@ -13,6 +13,7 @@ function generateInsertAction (form) {
       if ((!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, form.modelName)) || !data.params.user) {
         data.params.user = data.session.userId
       }
+      data.params.organization = data.session.user.organizationSlug
       record = await record.apiUpdate(data.params, data.session.user.language)
       const hash = record.calculateHash()
       api.log('looking for %s with hash %s', 'info', form.modelName, hash)
@@ -160,6 +161,7 @@ function generateFormActions (form) {
   }
   const listInputs = _.extend({
     user: {},
+    organization: {},
     limit: { default: 20 },
     offset: { default: 0 },
     location: {},
@@ -193,6 +195,7 @@ function generateFormActions (form) {
 
   _.forEach(form.fields, (field, fieldName) => {
     if (fieldName === 'createdAt' || fieldName === 'updatedAt') return
+    if (fieldName === 'organization') return
     if (field.private) return
     insertInputs[fieldName] = {
       required: field.required && fieldName !== 'user'
