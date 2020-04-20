@@ -47,6 +47,10 @@ function formAttributes (fields) {
       allowNull: !field.required
     }
 
+    if (field.default) {
+      fd.defaultValue = field.default
+    }
+
     switch (field.type) {
       case 'multi':
       case 'choice': {
@@ -55,6 +59,7 @@ function formAttributes (fields) {
             Object.assign(fieldsDef, localField(name, { required: field.required }).attributes)
             break
           }
+          case 'organization':
           case 'species': {
             fieldsDef[name] = _.extend({
               type: DataTypes.TEXT
@@ -195,6 +200,7 @@ function generateApiData (fields) {
                 }
                 return res
               }
+              case 'organization':
               case 'species': {
                 return this[name] ? this[name].split('|').map(function (val) {
                   return val.trim()
@@ -214,6 +220,7 @@ function generateApiData (fields) {
                   return null
                 }
               }
+              case 'organization':
               case 'species': {
                 return this[name]
               }
@@ -332,6 +339,7 @@ function generateApiUpdate (fields) {
               }
               break
             }
+            case 'organization':
             case 'species': {
               if (!_.has(data, name)) return
 
@@ -358,6 +366,7 @@ function generateApiUpdate (fields) {
               localField(name).update(this, data[name] != null ? data[name].label : null, language)
               break
             }
+            case 'organization':
             case 'species': {
               if (!_.has(data, name)) return
 

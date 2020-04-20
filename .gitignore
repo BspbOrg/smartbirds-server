@@ -8,3 +8,4 @@ pids/
 public/css/main.css*
 uploads/
 public/*_stats.json
+public/organizations.json
