@@ -2,6 +2,9 @@ const _ = require('lodash')
 const { assign } = Object
 const formsConfig = require('../../config/formsConfig')
 const inputHelpers = require('../helpers/inputs')
+const languages = require('../../config/languages')
+const capitalizeFirstLetter = require('../utils/capitalizeFirstLetter')
+const localField = require('../utils/localField')
 
 exports = module.exports = _.cloneDeep(require('./_common'))
 
@@ -128,33 +131,40 @@ exports.indexes.push({ fields: ['species'] })
 const afterApiUpdate = function (threat, options) {
   if (threat.primaryType === formsConfig.threatsPrimaryTypes.threat.id) {
     threat.poisonedType = null
+    threat.stateCarcassLang = null
     threat.stateCarcassLocal = null
     threat.stateCarcassEn = null
     threat.sampleCode1 = null
     threat.sampleCode2 = null
     threat.sampleCode3 = null
+    threat.sampleTaken1Lang = null
     threat.sampleTaken1Local = null
     threat.sampleTaken1En = null
+    threat.sampleTaken2Lang = null
     threat.sampleTaken2Local = null
     threat.sampleTaken2En = null
+    threat.sampleTaken3Lang = null
     threat.sampleTaken3Local = null
     threat.sampleTaken3En = null
   } else {
+    threat.categoryLang = null
     threat.categoryLocal = null
     threat.categoryEn = null
+    threat.estimateLang = null
     threat.estimateLocal = null
     threat.estimateEn = null
     switch (threat.poisonedType) {
       case formsConfig.threatsPoisonedType.alive.id:
+        threat.stateCarcassLang = null
         threat.stateCarcassLocal = null
         threat.stateCarcassEn = null
         break
       case formsConfig.threatsPoisonedType.bait.id:
+        threat.stateCarcassLang = null
         threat.stateCarcassLocal = null
         threat.stateCarcassEn = null
         threat.class = null
-        threat.speciesLocal = null
-        threat.speciesEn = null
+        threat.species = null
         break
       default:
         break
@@ -169,7 +179,7 @@ exports.hooks = {
 exports.validate = {
   validateTypeThreat: function () {
     if (this.primaryType === formsConfig.threatsPrimaryTypes.threat.id) {
-      if (!this.categoryLocal && !this.categoryEn) {
+      if (!this.categoryEn) {
         throw new Error('Category is required when primaryType is threat')
       }
     }
@@ -196,7 +206,7 @@ exports.validate = {
         }
 
         if (this.poisonedType === formsConfig.threatsPoisonedType.dead.id) {
-          if (!this.stateCarcassLocal && !this.stateCarcassEn) {
+          if (!this.stateCarcassEn) {
             throw new Error('stateCarcass is required when poisonedType is dead')
           }
         }
@@ -205,30 +215,30 @@ exports.validate = {
   }
 }
 
+const categoryThreatsField = localField('categoryThreats')
+const estimateThreatsField = localField('estimateThreats')
+
 exports.prepareCsv = async function (api, record, csv) {
   // define all used fields, so the first record can output proper header
   csv = {
     ...csv,
     id: record.id,
-    categoryThreatsLocal: '',
-    categoryThreatsEN: '',
     speciesThreats: '',
     countThreats: '',
-    estimateThreatsLocal: '',
-    estimateThreatsEN: '',
     deadSpecies: '',
     deadSpeciesCount: '',
     aliveAnimal: 'N',
     aliveAnimalCount: '',
     poisonBaits: 'N',
-    poisonBaitsCount: ''
+    poisonBaitsCount: '',
+    ...categoryThreatsField.values(null, { onlyAvailable: false, keysPrefix: 'categoryThreats' }),
+    ...estimateThreatsField.values(null, { onlyAvailable: false, keysPrefix: 'estimateThreats' })
   }
+
   switch (record.primaryType) {
     case formsConfig.threatsPrimaryTypes.poison.id:
-      csv = {
-        ...csv,
-        categoryThreatsBG: 'Тровене',
-        categoryThreatsEN: 'Poisoning'
+      for (const lang in languages) {
+        csv[`categoryThreats${capitalizeFirstLetter(lang)}`] = languages[lang].threatsPrimaryType
       }
 
       switch (record.poisonedType) {
@@ -262,12 +272,10 @@ exports.prepareCsv = async function (api, record, csv) {
     case formsConfig.threatsPrimaryTypes.threat.id:
       csv = {
         ...csv,
-        categoryThreatsLocal: record.categoryLocal,
-        categoryThreatsEN: record.categoryEn,
+        ...categoryThreatsField.values(record, { keysPrefix: 'categoryThreats' }),
+        ...estimateThreatsField.values(record, { keysPrefix: 'estimateThreats' }),
         speciesThreats: record.speciesInfo && record.speciesInfo.labelLa,
-        countThreats: record.count,
-        estimateThreatsLocal: record.estimateLocal,
-        estimateThreatsEN: record.estimateEn
+        countThreats: record.count
       }
       break
     default:

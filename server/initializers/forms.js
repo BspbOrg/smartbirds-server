@@ -285,8 +285,10 @@ function generateExportData (form) {
     }
 
     if (this.speciesInfo) {
-      post.species = this.speciesInfo.labelLa + ' | ' + this.speciesInfo.labelBg
-      post.speciesEn = this.speciesInfo.labelLa + ' | ' + this.speciesInfo.labelEn
+      post.species = this.speciesInfo.labelLa
+      for (const lang of languages) {
+        post[`species${capitalizeFirstLetter(lang)}`] = this.speciesInfo.labelLa + ' | ' + this.speciesInfo[`label${capitalizeFirstLetter(lang)}`]
+      }
       post.speciesEuringCode = this.speciesInfo.euring
     }
 
