@@ -4,6 +4,7 @@
  */
 const languages = Object.keys(require('../../config/languages')).filter((l) => l !== 'en')
 const { DataTypes } = require('sequelize')
+const capitalizeFirstLetter = require('./capitalizeFirstLetter')
 
 /**
  * @typedef { import("sequelize").Model } Model
@@ -26,7 +27,7 @@ function getLocalLang (model, fieldName, langFieldName = `${fieldName}Lang`) {
  * @property {{[string]: DataType | ModelAttributeColumnOptions}} attributes - sequelize model definition attributes
  * @property {{en: string, local: string, lang: string}} fieldNames - list of all defined field names
  * @property {function (model: Model): string} getLocalLanguage - Get the local language code
- * @property {function (model: Model): object} values - Return a map from language code to model's field values
+ * @property {function (model: Model, { onlyAvailable: boolean = true, keysPrefix: string = ''} = {}): object} values - Return a map from language code to model's field values
  * @property {function (model: Model, data: object, language: string)} update - Update all provided values to the model
  */
 
@@ -58,16 +59,35 @@ function localField (prefix, {
     return getLocalLang(model, prefix, langFieldName)
   }
 
-  const values = function (model) {
-    if (model[enFieldName] == null) {
+  const values = function (model, {
+    onlyAvailable = true,
+    keysPrefix = ''
+  } = {}) {
+    // break early when onlyAvailable and english is not available
+    if (onlyAvailable && model[enFieldName] == null) {
       return null
     }
-    const vals = {
-      en: model[enFieldName]
+
+    // generate a prefixed key if keysPrefix is supplied
+    function genKey (language) {
+      return keysPrefix ? `${keysPrefix}${capitalizeFirstLetter(language)}` : language
     }
 
+    // the english label
+    const vals = {
+      [genKey('en')]: model[enFieldName] || ''
+    }
+
+    if (!onlyAvailable) {
+      // fill all language keys
+      for (const language of languages) {
+        vals[genKey(language)] = ''
+      }
+    }
+
+    // fill the local label if available
     if (model[langFieldName] != null && model[localFieldName]) {
-      vals[getLocalLang(model, prefix, langFieldName)] = model[localFieldName]
+      vals[genKey(getLocalLang(model, prefix, langFieldName))] = model[localFieldName]
     }
 
     return vals

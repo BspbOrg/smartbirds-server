@@ -6,6 +6,8 @@ var _ = require('lodash')
 var Promise = require('bluebird')
 var writeFile = Promise.promisify(require('fs').writeFile)
 const { upgradeTask } = require('../utils/upgrade')
+const languages = require('../../config/languages')
+const capitalizeFirstLetter = require('../utils/capitalizeFirstLetter')
 
 module.exports.generateStatistics = upgradeTask('ah17', {
   name: 'stats:generate',
@@ -26,7 +28,34 @@ module.exports.generateStatistics = upgradeTask('ah17', {
         mammals_stats: api.models.mammals_stats.findAll(),
         invertebrates_stats: api.models.invertebrates_stats.findAll(),
         plants_stats: api.models.plants_stats.findAll(),
-        threats_stats: api.models.threats_stats.findAll(),
+        threats_stats: api.models.threats_stats.findAll()
+          .then(records => {
+            return records.map(r => {
+              const obj = {
+                latitude: r.latitude,
+                longitude: r.longitude,
+                observationDateTime: r.observationDateTime
+              }
+
+              switch (r.primaryType) {
+                case 'poison':
+                  for (const lang in languages) {
+                    if (languages[lang].threatsPrimaryType.poison) {
+                      obj[`threats${capitalizeFirstLetter(lang)}`] = languages[lang].threatsPrimaryType.poison
+                    }
+                  }
+                  break
+                default:
+                  obj.threatsEn = r.threatsEn
+                  if (r.threatsLocal) {
+                    obj[`threats${capitalizeFirstLetter(r.threatsLang)}`] = r.threatsLocal
+                  }
+                  break
+              }
+
+              return obj
+            })
+          }),
         user_rank_stats: api.models.user_rank_stats.findAll({})
           .then(records => {
             return records.map(r => r.apiData(api)).reduce((result, current) => ({ ...result, ...current }))
