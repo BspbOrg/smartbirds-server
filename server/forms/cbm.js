@@ -164,6 +164,15 @@ exports.fields = {
     }
   },
 
+  organization: {
+    type: 'choice',
+    required: true,
+    relation: {
+      model: 'organization'
+    },
+    default: 'bspb'
+  },
+
   pictures: 'json',
   track: 'text'
 }

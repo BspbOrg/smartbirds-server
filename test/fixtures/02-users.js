@@ -36,7 +36,7 @@ module.exports = [
       role: 'user',
       passwordHash: '$2a$10$32SyvkdyXJNRRAX8PBMHq.cyHDI19vdle/v6zeDhn7SxhgAYyFucC', // hash of 'secret'
       gdprConsent: true,
-      organizationSlug: 'bspb'
+      organizationSlug: 'independent'
     }
   },
   {
