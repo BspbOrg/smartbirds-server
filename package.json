@@ -48,7 +48,7 @@
     "concat-stream": "^2.0.0",
     "content-addressable-blob-store": "^5.0.1",
     "csv-parse": "~4.8.8",
-    "csv-stringify": "^5.3.6",
+    "csv-stringify": "^5.4.0",
     "debug": "^4.1.1",
     "ejs": "^3.0.1",
     "email-templates": "^7.0.4",
