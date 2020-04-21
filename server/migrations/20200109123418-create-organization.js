@@ -39,14 +39,14 @@ module.exports = {
     await queryInterface.bulkInsert(tableName, [
       {
         slug: 'independent',
-        labelEn: 'Independent',
-        labelBg: 'Независим',
+        labelEn: 'Independent observer',
+        labelBg: 'Независим наблюдател',
         createdAt: new Date(),
         updatedAt: new Date()
       }, {
         slug: 'bspb',
-        labelEn: 'BSPB',
-        labelBg: 'БДЗП',
+        labelEn: 'Bulgarian Society for the Protection of Birds',
+        labelBg: 'Българско дружество за защита на птиците',
         createdAt: new Date(),
         updatedAt: new Date()
       }
