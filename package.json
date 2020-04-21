@@ -50,7 +50,7 @@
     "csv-parse": "~4.8.8",
     "csv-stringify": "^5.3.6",
     "debug": "^4.1.1",
-    "ejs": "^3.0.1",
+    "ejs": "^3.0.2",
     "email-templates": "^7.0.4",
     "form-data": "^3.0.0",
     "ioredis": "^4.16.2",
