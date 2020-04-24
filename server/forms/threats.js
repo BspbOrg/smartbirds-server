@@ -231,8 +231,8 @@ exports.prepareCsv = async function (api, record, csv) {
     aliveAnimalCount: '',
     poisonBaits: 'N',
     poisonBaitsCount: '',
-    ...categoryThreatsField.values(null, { onlyAvailable: false, keysPrefix: 'categoryThreats' }),
-    ...estimateThreatsField.values(null, { onlyAvailable: false, keysPrefix: 'estimateThreats' })
+    ...categoryThreatsField.values({}, { onlyAvailable: false, keysPrefix: 'categoryThreats' }),
+    ...estimateThreatsField.values({}, { onlyAvailable: false, keysPrefix: 'estimateThreats' })
   }
 
   switch (record.primaryType) {
