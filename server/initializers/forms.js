@@ -300,7 +300,13 @@ function generateExportData (form) {
       post.speciesEuringCode = this.speciesInfo.euring
     }
 
-    return _.assign(pre, mid, post)
+    const prepared = { ...pre, ...mid, ...post }
+    if ('organization' in prepared) {
+      const organization = prepared.organization
+      delete prepared.organization
+      prepared.organization = organization
+    }
+    return prepared
   }
 }
 
