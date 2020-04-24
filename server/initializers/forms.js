@@ -274,7 +274,8 @@ function generateExportData (form) {
       pre.lastName = this.user.lastName
     }
     let mid = _.omitBy(this.dataValues, function (value, key) {
-      return form.exportSkipFields.indexOf(key.split('.')[0]) !== -1
+      const name = key.split('.')[0]
+      return form.exportSkipFields.indexOf(name) !== -1 || /Lang$/.test(name)
     })
     if (form.prepareCsv) {
       mid = await form.prepareCsv(api, this, mid)
