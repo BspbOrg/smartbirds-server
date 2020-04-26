@@ -166,6 +166,10 @@ exports.userView = upgradeAction('ah17', {
       scope = 'sharee'
     } else {
       q.where.id = data.params.id
+      // only admin can access every user, rest are scoped by organization
+      if (!data.session.user.isAdmin) {
+        q.where.organizationSlug = data.session.user.organizationSlug
+      }
     }
     api.models.user.findOne(q).then(function (user) {
       if (!user) {
@@ -319,7 +323,11 @@ exports.userList = upgradeAction('ah17', {
     if (data.params.context === 'public') {
       q.where = q.where || {}
       q.where.privacy = 'public'
-    } else if (!data.session.user.isAdmin && !data.session.user.isModerator && !data.session.user.isOrgAdmin) {
+    } else if (data.session.user.isModerator || data.session.user.isOrgAdmin) {
+      // limit only to organization users
+      q.where = q.where || {}
+      q.where.organizationSlug = data.session.user.organizationSlug
+    } else if (!data.session.user.isAdmin) {
       promise = api.models.user
         .findByPk(data.session.userId)
         .then(function (user) {
