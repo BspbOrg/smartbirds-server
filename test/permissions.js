@@ -416,7 +416,7 @@ describe('user permissions', () => {
     })
 
     setup.jestEach(it, [
-      ['self', org1Moderator],
+      ['self', org1Moderator]
     ])('can edit %s', async (_, user) => {
       const { id } = await setup.api.models.user.findOne({ where: { email: user } })
       const response = await runTestAction('user:edit', { id })
@@ -516,6 +516,56 @@ describe('user permissions', () => {
     ])('cannot edit %s', async (_, user) => {
       const { id } = await setup.api.models.user.findOne({ where: { email: user } })
       const response = await runTestAction('user:edit', { id })
+
+      response.should.have.property('error')
+      response.should.not.have.property('data')
+    })
+
+    setup.jestEach(it, [
+      ['user', 'moderator'],
+      ['user', 'org-admin'],
+      ['moderator', 'user'],
+      ['moderator', 'org-admin'],
+      ['org-admin', 'user'],
+      ['org-admin', 'moderator']
+    ])('can change %s to %s', async (fromRole, toRole) => {
+      const user = await setup.createUser({
+        ...requiredUserRegistration,
+        email: `${fromRole}.${toRole}@org1.org`,
+        role: fromRole,
+        organization: 'org1'
+      })
+      try {
+        const response = await runTestAction('user:edit', { id: user.id, role: toRole })
+
+        response.should.not.have.property('error')
+        response.should.have.property('data')
+        response.data.should.have.property('role', toRole)
+      } finally {
+        await setup.api.models.user.destroy({ where: { id: user.id } })
+      }
+    })
+
+    setup.jestEach(it, [
+      ['user', org1User],
+      ['moderator', org1Moderator],
+      ['another', org1Admin2],
+    ])('cannot move %s from own org to another', async (_, user) => {
+      const { id } = await setup.api.models.user.findOne({ where: { email: user } })
+      const response = await runTestAction('user:edit', { id, organization: 'org2' })
+
+      response.should.not.have.property('error')
+      response.should.have.property('data')
+      response.data.should.have.property('organization', 'org1')
+    })
+
+    setup.jestEach(it, [
+      ['user', org2User],
+      ['moderator', org2Moderator],
+      ['admin', org2Admin]
+    ])('cannot move %s from another org to own', async (_, user) => {
+      const { id } = await setup.api.models.user.findOne({ where: { email: user } })
+      const response = await runTestAction('user:edit', { id, organization: 'org1' })
 
       response.should.have.property('error')
       response.should.not.have.property('data')
