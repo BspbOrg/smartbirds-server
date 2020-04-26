@@ -4,6 +4,7 @@ const _ = require('lodash')
 const path = require('path')
 const fs = require('fs')
 const ActionHero = require('actionhero')
+const util = require('util')
 
 const setup = {
   server: new ActionHero.Process(),
@@ -46,7 +47,46 @@ const setup = {
   describeAsRoles: (roles, specs) => Promise.all(roles.map((role) =>
     setup[`describeAs${_.capitalize(role.toLowerCase())}`](specs)
   )),
-  describeAllRoles: (specs) => setup.describeAsRoles(['guest', 'user', 'admin', 'birds', 'cbm'], specs)
+  describeAllRoles: (specs) => setup.describeAsRoles(['guest', 'user', 'admin', 'birds', 'cbm'], specs),
+  createUser: async (
+    {
+      role = 'user',
+      forms = {},
+      password = 'secret',
+      gdprConsent = true,
+      ...user
+    }
+  ) => {
+    const response = await setup.runActionAsGuest('user:create', {
+      ...user,
+      gdprConsent,
+      password
+    })
+    if (response.error) {
+      throw new Error(response.error)
+    }
+
+    if (role === 'user') {
+      return response.data
+    }
+
+    const updated = await setup.runActionAsAdmin('user:edit', {
+      id: response.data.id,
+      role,
+      forms
+    })
+
+    if (updated.error) {
+      throw new Error(updated.error)
+    }
+
+    return updated.data
+  },
+  jestEach: (method, parameters) => (name, op) => {
+    parameters.forEach((params) => {
+      method(util.format(name, ...params), () => op(...params))
+    })
+  }
 }
 
 function capitalizeFirstLetter (string) {

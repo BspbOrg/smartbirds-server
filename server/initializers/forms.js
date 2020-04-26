@@ -448,7 +448,7 @@ module.exports = upgradeInitializer('ah17', {
   initialize: function (api, next) {
     api.forms = {
       userCanManage (user, modelName) {
-        return user.role === 'admin' || (user.role === 'moderator' && user.forms && user.forms[modelName])
+        return ['admin', 'org-admin'].includes(user.role) || (user.role === 'moderator' && user.forms && user.forms[modelName])
       },
       import (filename) {
         const form = require(filename)

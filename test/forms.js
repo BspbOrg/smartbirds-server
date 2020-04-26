@@ -120,15 +120,13 @@ describe('Forms', function () {
   describe('permissions', () => {
     const requiredUserRegistration = {
       email: 'permissions@forms.test',
-      password: 'secret',
       firstName: 'User',
-      lastName: 'Model',
-      gdprConsent: true,
+      lastName: 'Model'
     }
     const form = {
       ...require('../server/forms/_common'),
       modelName: 'formTestPermissions',
-      tableName: 'testPermissions',
+      tableName: 'testPermissions'
     }
     const recordData = {
       latitude: 0,
@@ -136,16 +134,19 @@ describe('Forms', function () {
       observationDateTime: 2,
       monitoringCode: '3',
       endDateTime: 4,
-      startDateTime: 5,
-
+      startDateTime: 5
     }
+
     let model
-    let user
+    const user = 'user@test.org'
     let org1Record
     let org2Record
     let org1RecordUpdatedInOrg2
-    let org1Moderator
-    let org2Moderator
+    const org1Moderator = 'mod@old.org'
+    const org2Moderator = 'mod@new.org'
+    const org1Admin = 'admin@old.org'
+    const org2Admin = 'admin@new.org'
+    const admin = 'admin@root.admin'
 
     before(async function () {
       let response
@@ -156,63 +157,70 @@ describe('Forms', function () {
       await form.model.sync()
 
       // create user in first organization
-      response = await setup.runActionAsGuest('user:create', {
+      const { id: userId } = await setup.createUser({
         ...requiredUserRegistration,
-        email: 'user@test.org',
+        email: user,
         organization: 'org1'
       })
-      response.should.not.have.property('error')
-      user = response.data
 
       // create moderator in first organization
-      response = await setup.runActionAsGuest('user:create', {
+      await setup.createUser({
         ...requiredUserRegistration,
-        email: 'mod@old.org',
-        organization: 'org1'
-      })
-      response.should.not.have.property('error')
-      org1Moderator = response.data
-      response = await setup.runActionAsAdmin('user:edit', {
-        id: org1Moderator.id,
+        email: org1Moderator,
+        organization: 'org1',
         role: 'moderator',
         forms: { formTestPermissions: true }
       })
-      response.should.not.have.property('error')
-      org1Moderator = response.data
+
+      // create admin in first organization
+      await setup.createUser({
+        ...requiredUserRegistration,
+        email: org1Admin,
+        organization: 'org1',
+        role: 'org-admin'
+      })
 
       // create moderator in second organization
-      response = await setup.runActionAsGuest('user:create', {
+      await setup.createUser({
         ...requiredUserRegistration,
-        email: 'mod@new.org',
-        organization: 'org2'
-      })
-      response.should.not.have.property('error')
-      org2Moderator = response.data
-      response = await setup.runActionAsAdmin('user:edit', {
-        id: org2Moderator.id,
+        email: org2Moderator,
+        organization: 'org2',
         role: 'moderator',
         forms: { formTestPermissions: true }
       })
-      response.should.not.have.property('error')
-      org2Moderator = response.data
+
+      // create admin in second organization
+      await setup.createUser({
+        ...requiredUserRegistration,
+        email: org2Admin,
+        organization: 'org2',
+        role: 'org-admin'
+      })
+
+      // create global admin
+      await setup.createUser({
+        ...requiredUserRegistration,
+        email: admin,
+        role: 'admin',
+        organization: 'root'
+      })
 
       // create record in first organization
-      response = (await setup.runActionAs('formTestPermissions:create', { ...recordData, latitude: 1 }, user.email))
+      response = (await setup.runActionAs('formTestPermissions:create', { ...recordData, latitude: 1 }, user))
       response.should.not.have.property('error')
       org1Record = response.data
 
       // create record in first organization that will be update in second organization
-      response = (await setup.runActionAs('formTestPermissions:create', { ...recordData, latitude: 3 }, user.email))
+      response = (await setup.runActionAs('formTestPermissions:create', { ...recordData, latitude: 3 }, user))
       response.should.not.have.property('error')
       org1RecordUpdatedInOrg2 = response.data
 
       // change organization
-      response = await setup.runActionAs('user:edit', { id: user.id, organization: 'org2' }, user.email)
+      response = await setup.runActionAs('user:edit', { id: userId, organization: 'org2' }, user)
       response.should.not.have.property('error')
-      user = response.data
 
       // create record in second organization
-      response = (await setup.runActionAs('formTestPermissions:create', { ...recordData, latitude: 2 }, user.email))
+      response = (await setup.runActionAs('formTestPermissions:create', { ...recordData, latitude: 2 }, user))
       response.should.not.have.property('error')
       org2Record = response.data
 
@@ -220,13 +228,13 @@ describe('Forms', function () {
       response = (await setup.runActionAs('formTestPermissions:edit', {
         ...org1RecordUpdatedInOrg2,
         latitude: 4
-      }, user.email))
+      }, user))
       response.should.not.have.property('error')
       org1RecordUpdatedInOrg2 = response.data
     }) // before
 
     describe('user own records', () => {
-      const runTestAction = (action, params) => setup.runActionAs(action, params, user.email)
+      const runTestAction = (action, params) => setup.runActionAs(action, params, user)
 
       it('can list from previous org', async function () {
         const response = await runTestAction('formTestPermissions:list', {})
@@ -289,8 +297,11 @@ describe('Forms', function () {
       })
     }) // user own records
 
-    describe('moderator from old organization', () => {
-      const runTestAction = (action, params) => setup.runActionAs(action, params, org1Moderator.email)
+    setup.jestEach(describe, [
+      ['moderator', org1Moderator],
+      ['administrator', org1Admin]
+    ])('%s from old organization', (_, operator) => {
+      const runTestAction = (action, params) => setup.runActionAs(action, params, operator)
 
       it('can list from own org', async function () {
         const response = await runTestAction('formTestPermissions:list', {})
@@ -360,8 +371,11 @@ describe('Forms', function () {
       })
     })
 
-    describe('moderator from new organization', () => {
-      const runTestAction = (action, params) => setup.runActionAs(action, params, org2Moderator.email)
+    setup.jestEach(describe, [
+      ['moderator', org2Moderator],
+      ['administrator', org2Admin]
+    ])('%s from new organization', (_, operator) => {
+      const runTestAction = (action, params) => setup.runActionAs(action, params, operator)
 
       it('can list from own org', async function () {
         const response = await runTestAction('formTestPermissions:list', {})
