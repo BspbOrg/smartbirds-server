@@ -35,7 +35,6 @@ exports.default = {
           },
           specHelper: function (error) {
             if (error.message) {
-              if (process.env.NODE_ENV === 'test') return `Error: ${error.message}\n${error.stack}`
               return 'Error: ' + String(error.message)
             } else {
               return error
@@ -50,14 +49,12 @@ exports.default = {
 
       // When a params for an action is invalid
       invalidParams: function (data, validationErrors) {
-        if (process.env.NODE_ENV === 'test') return `invalid params: ${JSON.stringify(validationErrors)}`
         if (validationErrors && validationErrors.length >= 0) { return data.connection.localize(validationErrors[0]) }
         return data.connection.localize('actionhero.errors.invalidParams')
       },
 
       // When a required param for an action is not provided
       missingParams: function (data, missingParams) {
-        if (process.env.NODE_ENV === 'test') return `missing params: ${JSON.stringify(missingParams)}`
         return data.connection.localize(['actionhero.errors.missingParams', { param: missingParams[0] }])
       },
 
