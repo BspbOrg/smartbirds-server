@@ -38,6 +38,7 @@ const setup = {
   describeAs: (name, runAction, specs) => describe(name, () => specs(runAction.bind(setup))),
   describeAsGuest: (specs) => setup.describeAs('guest', setup.runActionAsGuest, specs),
   describeAsUser: (specs) => setup.describeAs('user', setup.runActionAsUser, specs),
+  describeAsUser2: (specs) => setup.describeAs('user2', setup.runActionAsUser2, specs),
   describeAsAdmin: (specs) => setup.describeAs('admin', setup.runActionAsAdmin, specs),
   describeAsBirds: (specs) => setup.describeAs('birds moderator', setup.runActionAsBirds, specs),
   describeAsCbm: (specs) => setup.describeAs('cbm moderator', setup.runActionAsCbm, specs),

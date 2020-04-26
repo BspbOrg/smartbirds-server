@@ -267,20 +267,20 @@ describe('Action formBirds:', function () {
     var birdId
 
     before(function () {
-      return setup.runActionAsUser2('formBirds:create', birdsRecord).then(function (response) {
+      return setup.runActionAsUser('formBirds:create', birdsRecord).then(function (response) {
         birdId = response.data.id
       })
     })
 
     it('is allowed if the requester user is the submitter', function () {
-      return setup.runActionAsUser2('formBirds:view', {id: birdId}).then(function (response) {
+      return setup.runActionAsUser('formBirds:view', {id: birdId}).then(function (response) {
         response.should.not.have.property('error')
         response.should.have.property('data')
       })
     })
 
     it('should return the correct row', function () {
-      return setup.runActionAsUser2('formBirds:view', {id: birdId}).then(function (response) {
+      return setup.runActionAsUser('formBirds:view', {id: birdId}).then(function (response) {
         response.should.not.have.property('error')
         response.data.id.should.be.equal(birdId)
       })
@@ -304,7 +304,7 @@ describe('Action formBirds:', function () {
       })
     })
 
-    setup.describeAsRoles(['user', 'cbm'], function (runAction) {
+    setup.describeAsRoles(['user2', 'cbm'], function (runAction) {
       it('is not allowed if the requester user is not the submitter', function () {
         return runAction('formBirds:view', {id: birdId}).then(function (response) {
           response.should.have.property('error').and.not.empty()
@@ -500,13 +500,13 @@ describe('Action formBirds:', function () {
     var birdsId
 
     before(function () {
-      return setup.runActionAsUser2('formBirds:create', birdsRecord).then(function (response) {
+      return setup.runActionAsUser('formBirds:create', birdsRecord).then(function (response) {
         birdsId = response.data.id
       })
     })
 
     it('is allowed if the requester is the submitter', function () {
-      return setup.runActionAsUser2('formBirds:edit', {id: birdsId, notes: 'some new notes'}).then(function (response) {
+      return setup.runActionAsUser('formBirds:edit', {id: birdsId, notes: 'some new notes'}).then(function (response) {
         response.should.not.have.property('error')
         return setup.api.models.formBirds.findOne({where: {id: birdsId}}).then(function (bird) {
           bird.notes.should.be.equal('some new notes')
@@ -522,7 +522,7 @@ describe('Action formBirds:', function () {
       })
     })
 
-    setup.describeAsRoles(['user', 'cbm'], function (runAction) {
+    setup.describeAsRoles(['user2', 'cbm'], function (runAction) {
       it('is not allowed if the requester user is not the submitter', function () {
         return runAction('formBirds:edit', {id: birdsId}).then(function (response) {
           response.should.have.property('error').and.not.empty()
