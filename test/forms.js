@@ -233,8 +233,11 @@ describe('Forms', function () {
       org1RecordUpdatedInOrg2 = response.data
     }) // before
 
-    describe('user own records', () => {
-      const runTestAction = (action, params) => setup.runActionAs(action, params, user)
+    setup.jestEach(describe, [
+      ['user', user],
+      ['admin', admin]
+    ])('%s', (_, operator) => {
+      const runTestAction = (action, params) => setup.runActionAs(action, params, operator)
 
       it('can list from previous org', async function () {
         const response = await runTestAction('formTestPermissions:list', {})
