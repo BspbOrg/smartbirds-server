@@ -348,3 +348,125 @@ describe('form permissions', () => {
     })
   })
 }) // form permission
+
+describe('user permissions', () => {
+  const org1User = 'user@old.org'
+  const org2User = 'user@new.org'
+  const org1Mod2 = 'mod2@old.org'
+  const org1Admin2 = 'admin2@old.org'
+
+  before(async () => {
+    await setup.createUser({ ...requiredUserRegistration, email: org1User, organization: 'org1', role: 'user' })
+    await setup.createUser({ ...requiredUserRegistration, email: org2User, organization: 'org2', role: 'user' })
+    await setup.createUser({ ...requiredUserRegistration, email: org1Mod2, organization: 'org1', role: 'moderator' })
+    await setup.createUser({ ...requiredUserRegistration, email: org1Admin2, organization: 'org1', role: 'org-admin' })
+  })
+
+  describe('organization moderator', () => {
+    const runTestAction = (action, params) => setup.runActionAs(action, params, org1Moderator)
+
+    setup.jestEach(it, [
+      ['user from same org', org1User],
+      ['self', org1Moderator],
+      ['another moderator from same org', org1Mod2],
+      ['administrator from same org', org1Admin]
+    ])('can list %s', async (_, user) => {
+      const response = await runTestAction('user:list', {})
+
+      response.should.not.have.property('error')
+      response.data.should.matchAny((rec) => rec.email === user)
+    })
+
+    setup.jestEach(it, [
+      ['user from another org', org2User],
+      ['moderator from another org', org2Moderator],
+      ['administrator from another org', org2Admin],
+      ['administrator', admin]
+    ])('cannot list %s', async (_, user) => {
+      const response = await runTestAction('user:list', {})
+
+      response.should.not.have.property('error')
+      response.data.should.not.matchAny((rec) => rec.email === user)
+    })
+
+    setup.jestEach(it, [
+      ['user from same org', org1User],
+      ['self', org1Moderator],
+      ['another moderator from same org', org1Mod2],
+      ['administrator from same org', org1Admin]
+    ])('can get %s', async (_, user) => {
+      const { id } = await setup.api.models.user.findOne({ where: { email: user } })
+      const response = await runTestAction('user:view', { id })
+
+      response.should.not.have.property('error')
+      response.data.should.have.property('id', id)
+    })
+
+    setup.jestEach(it, [
+      ['user from another org', org2User],
+      ['moderator from another org', org2Moderator],
+      ['administrator from another org', org2Admin],
+      ['administrator', admin]
+    ])('cannot get %s', async (_, user) => {
+      const { id } = await setup.api.models.user.findOne({ where: { email: user } })
+      const response = await runTestAction('user:view', { id })
+
+      response.should.have.property('error')
+      response.should.not.have.property('data')
+    })
+  }) // org moderator
+
+  describe('organization administrator', () => {
+    const runTestAction = (action, params) => setup.runActionAs(action, params, org1Admin)
+
+    setup.jestEach(it, [
+      ['user from same org', org1User],
+      ['moderator from same org', org1Moderator],
+      ['self', org1Admin],
+      ['administrator from same org', org1Admin2]
+    ])('can list %s', async (_, user) => {
+      const response = await runTestAction('user:list', {})
+
+      response.should.not.have.property('error')
+      response.data.should.matchAny((rec) => rec.email === user)
+    })
+
+    setup.jestEach(it, [
+      ['user from another org', org2User],
+      ['moderator from another org', org2Moderator],
+      ['administrator from another org', org2Admin],
+      ['administrator', admin]
+    ])('cannot list %s', async (_, user) => {
+      const response = await runTestAction('user:list', {})
+
+      response.should.not.have.property('error')
+      response.data.should.not.matchAny((rec) => rec.email === user)
+    })
+
+    setup.jestEach(it, [
+      ['user from same org', org1User],
+      ['moderator from same org', org1Moderator],
+      ['self', org1Admin],
+      ['another administrator from same org', org1Admin2]
+    ])('can get %s', async (_, user) => {
+      const { id } = await setup.api.models.user.findOne({ where: { email: user } })
+      const response = await runTestAction('user:view', { id })
+
+      response.should.not.have.property('error')
+      response.data.should.have.property('id', id)
+    })
+
+    setup.jestEach(it, [
+      ['user from another org', org2User],
+      ['moderator from another org', org2Moderator],
+      ['administrator from another org', org2Admin],
+      ['administrator', admin]
+    ])('cannot get %s', async (_, user) => {
+      const { id } = await setup.api.models.user.findOne({ where: { email: user } })
+      const response = await runTestAction('user:view', { id })
+
+      response.should.have.property('error')
+      response.should.not.have.property('data')
+    })
+  }) // org admin
+})
