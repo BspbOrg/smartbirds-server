@@ -220,6 +220,7 @@ exports.userEdit = upgradeAction('ah17', {
     } else {
       // everybody else can only edit self
       if (data.params.id !== data.session.user.id) {
+        // id is required so looking for null value shouldn't find any record
         q.where.id = null
       }
     }
