@@ -31,7 +31,7 @@ exports.zoneList = upgradeAction('ah17', {
       // offset: offset
     }
     if (!data.params.nomenclature) {
-      if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, 'formCBM')) {
+      if (!api.forms.userCanManage(data.session.user, 'formCBM')) {
         q.where = _.extend(q.where || {}, {
           ownerId: data.session.userId
         })
@@ -85,7 +85,7 @@ exports.zoneView = upgradeAction('ah17', {
         ]
       }
     }).then(function (q) {
-      if (data.session.user.isAdmin || api.forms.isModerator(data.session.user, 'formCBM')) {
+      if (api.forms.userCanManage(data.session.user, 'formCBM')) {
         q.include.push({ model: api.models.user, as: 'owner' })
       }
       return q
@@ -97,7 +97,7 @@ exports.zoneView = upgradeAction('ah17', {
         return Promise.reject(new Error('zone not found'))
       }
 
-      if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, 'formCBM') && zone.ownerId !== data.session.userId) {
+      if (!api.forms.userCanManage(data.session.user, 'formCBM') && zone.ownerId !== data.session.userId) {
         data.connection.rawConnection.responseHttpCode = 401
         return Promise.reject(new Error('no permission'))
       }

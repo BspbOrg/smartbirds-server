@@ -4,6 +4,7 @@ const _ = require('lodash')
 const path = require('path')
 const fs = require('fs')
 const ActionHero = require('actionhero')
+const util = require('util')
 
 const setup = {
   server: new ActionHero.Process(),
@@ -38,6 +39,7 @@ const setup = {
   describeAs: (name, runAction, specs) => describe(name, () => specs(runAction.bind(setup))),
   describeAsGuest: (specs) => setup.describeAs('guest', setup.runActionAsGuest, specs),
   describeAsUser: (specs) => setup.describeAs('user', setup.runActionAsUser, specs),
+  describeAsUser2: (specs) => setup.describeAs('user2', setup.runActionAsUser2, specs),
   describeAsAdmin: (specs) => setup.describeAs('admin', setup.runActionAsAdmin, specs),
   describeAsBirds: (specs) => setup.describeAs('birds moderator', setup.runActionAsBirds, specs),
   describeAsCbm: (specs) => setup.describeAs('cbm moderator', setup.runActionAsCbm, specs),
@@ -45,7 +47,46 @@ const setup = {
   describeAsRoles: (roles, specs) => Promise.all(roles.map((role) =>
     setup[`describeAs${_.capitalize(role.toLowerCase())}`](specs)
   )),
-  describeAllRoles: (specs) => setup.describeAsRoles(['guest', 'user', 'admin', 'birds', 'cbm'], specs)
+  describeAllRoles: (specs) => setup.describeAsRoles(['guest', 'user', 'admin', 'birds', 'cbm'], specs),
+  createUser: async (
+    {
+      role = 'user',
+      forms = {},
+      password = 'secret',
+      gdprConsent = true,
+      ...user
+    }
+  ) => {
+    const response = await setup.runActionAsGuest('user:create', {
+      ...user,
+      gdprConsent,
+      password
+    })
+    if (response.error) {
+      throw new Error(response.error)
+    }
+
+    if (role === 'user') {
+      return response.data
+    }
+
+    const updated = await setup.runActionAsAdmin('user:edit', {
+      id: response.data.id,
+      role,
+      forms
+    })
+
+    if (updated.error) {
+      throw new Error(updated.error)
+    }
+
+    return updated.data
+  },
+  jestEach: (method, parameters) => (name, op) => {
+    parameters.forEach((params) => {
+      method(util.format(name, ...params), () => op(...params))
+    })
+  }
 }
 
 function capitalizeFirstLetter (string) {

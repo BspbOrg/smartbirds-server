@@ -10,6 +10,7 @@ module.exports = {
       stat.custom &&
       stat.custom.userId &&
       !user.isAdmin &&
+      !user.isOrgAdmin &&
       !user.isModerator &&
       // allow viewing images from public lists
       stat.type !== 'image/jpeg' &&
