@@ -25,7 +25,7 @@ describe('Forms', function () {
                 uniqueHash: true,
                 relation: {
                   model: 'nomenclature',
-                  filter: {type: 'testNomenclature'}
+                  filter: { type: 'testNomenclature' }
                 }
               }
             }
@@ -56,8 +56,18 @@ describe('Forms', function () {
             response.should.not.have.property('error')
             response.should.have.property('data')
             response.data.should.have.property('multiNomenclature').and.it.is.Array().of.length(2)
-            response.data.multiNomenclature.should.containEql({ label: { bg: 'Test Nomenclature BG 1', en: 'Test Nomenclature En 1' } })
-            response.data.multiNomenclature.should.containEql({ label: { bg: 'Test Nomenclature BG 2', en: 'Test Nomenclature En 2' } })
+            response.data.multiNomenclature.should.containEql({
+              label: {
+                bg: 'Test Nomenclature BG 1',
+                en: 'Test Nomenclature En 1'
+              }
+            })
+            response.data.multiNomenclature.should.containEql({
+              label: {
+                bg: 'Test Nomenclature BG 2',
+                en: 'Test Nomenclature En 2'
+              }
+            })
           })
         }) // describe nomenclature
 
@@ -71,7 +81,7 @@ describe('Forms', function () {
                 uniqueHash: true,
                 relation: {
                   model: 'species',
-                  filter: {type: 'testSpecies'}
+                  filter: { type: 'testSpecies' }
                 }
               }
             }
@@ -164,7 +174,7 @@ describe('Forms', function () {
       response = await setup.runActionAsAdmin('user:edit', {
         id: oldOrgModerator.id,
         role: 'moderator',
-        forms: {formTestPermissions: true}
+        forms: { formTestPermissions: true }
       })
       response.should.not.have.property('error')
       oldOrgModerator = response.data
@@ -180,7 +190,7 @@ describe('Forms', function () {
       response = await setup.runActionAsAdmin('user:edit', {
         id: moderatorCurOrg.id,
         role: 'moderator',
-        forms: {formTestPermissions: true}
+        forms: { formTestPermissions: true }
       })
       response.should.not.have.property('error')
       moderatorCurOrg = response.data
@@ -191,7 +201,7 @@ describe('Forms', function () {
       oldOrgRecord = response.data
 
       // change organization
-      response = await setup.runActionAs('user:edit', {id: user.id, organization: 'org2'}, user.email)
+      response = await setup.runActionAs('user:edit', { id: user.id, organization: 'org2' }, user.email)
       response.should.not.have.property('error')
       user = response.data
 
@@ -219,14 +229,14 @@ describe('Forms', function () {
       })
 
       it('can get from previous org', async function () {
-        const response = await runTestAction('formTestPermissions:view', {id: oldOrgRecord.id})
+        const response = await runTestAction('formTestPermissions:view', { id: oldOrgRecord.id })
 
         response.should.not.have.property('error')
         response.data.id.should.equal(oldOrgRecord.id)
       })
 
       it('can get from current org', async function () {
-        const response = await runTestAction('formTestPermissions:view', {id: newOrgRecord.id})
+        const response = await runTestAction('formTestPermissions:view', { id: newOrgRecord.id })
 
         response.should.not.have.property('error')
         response.data.id.should.equal(newOrgRecord.id)
@@ -251,14 +261,14 @@ describe('Forms', function () {
       })
 
       it('can get from own org', async function () {
-        const response = await runTestAction('formTestPermissions:view', {id: oldOrgRecord.id})
+        const response = await runTestAction('formTestPermissions:view', { id: oldOrgRecord.id })
 
         response.should.not.have.property('error')
         response.data.id.should.equal(oldOrgRecord.id)
       })
 
       it('cannot get from other org', async function () {
-        const response = await runTestAction('formTestPermissions:view', {id: newOrgRecord.id})
+        const response = await runTestAction('formTestPermissions:view', { id: newOrgRecord.id })
 
         response.should.have.property('error')
         response.should.not.have.property('data')
