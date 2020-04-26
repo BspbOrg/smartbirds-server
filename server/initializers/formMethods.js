@@ -122,43 +122,36 @@ function generatePrepareQuery (form) {
           organization: data.params.organization
         })
       }
-    } else {
-      // admin role
-      if (data.session.user.isAdmin) {
-        // allow filter by user
-        if (data.params.user) {
-          query.where = _.extend(query.where || {}, {
-            userId: data.params.user
-          })
-        }
-      } else if (api.forms.isModerator(data.session.user, form.modelName)) {
+    } else if (data.session.user.isAdmin || api.forms.isModerator(data.session.user, form.modelName)) {
+      // moderators can access only same organization
+      if (api.forms.isModerator(data.session.user, form.modelName)) {
         // limit to same organization
         query.where = _.extend(query.where || {}, {
           organization: data.session.user.organizationSlug
         })
+      }
 
-        // allow filter by user
-        if (data.params.user) {
-          query.where = _.extend(query.where || {}, {
-            userId: data.params.user
-          })
-        }
-      } else {
-        query.where = query.where || {}
-        query.where.userId = data.session.userId
-        if (data.params.user && data.params.user !== data.session.userId) {
-          const share = await api.models.share.findOne({
-            where: {
-              sharer: parseInt(data.params.user),
-              sharee: data.session.userId
-            }
-          })
-          if (share) {
-            query.where.userId = data.params.user
-            query.include = query.include || []
-            query.include.push(form.model.associations.speciesInfo)
-            query.where['$speciesInfo.sensitive$'] = false
+      // allow filter by user
+      if (data.params.user) {
+        query.where = _.extend(query.where || {}, {
+          userId: data.params.user
+        })
+      }
+    } else {
+      query.where = query.where || {}
+      query.where.userId = data.session.userId
+      if (data.params.user && data.params.user !== data.session.userId) {
+        const share = await api.models.share.findOne({
+          where: {
+            sharer: parseInt(data.params.user),
+            sharee: data.session.userId
           }
+        })
+        if (share) {
+          query.where.userId = data.params.user
+          query.include = query.include || []
+          query.include.push(form.model.associations.speciesInfo)
+          query.where['$speciesInfo.sensitive$'] = false
         }
       }
     }
