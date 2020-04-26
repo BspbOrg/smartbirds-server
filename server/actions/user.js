@@ -156,7 +156,7 @@ exports.userView = upgradeAction('ah17', {
 
     if (data.params.id === 'me' || parseInt(data.params.id) === data.session.userId) {
       q.where.id = data.session.userId
-    } else if (!data.session.user.isAdmin && !data.session.user.isModerator) {
+    } else if (!data.session.user.isAdmin && !data.session.user.isModerator && !data.session.user.isOrgAdmin) {
       // data.connection.rawConnection.responseHttpCode = 403
       // return next(new Error('Admin required'))
       q.where.id = data.params.id
@@ -319,7 +319,7 @@ exports.userList = upgradeAction('ah17', {
     if (data.params.context === 'public') {
       q.where = q.where || {}
       q.where.privacy = 'public'
-    } else if (!data.session.user.isAdmin && !data.session.user.isModerator) {
+    } else if (!data.session.user.isAdmin && !data.session.user.isModerator && !data.session.user.isOrgAdmin) {
       promise = api.models.user
         .findByPk(data.session.userId)
         .then(function (user) {
