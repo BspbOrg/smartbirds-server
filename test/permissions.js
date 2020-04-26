@@ -414,6 +414,32 @@ describe('user permissions', () => {
       response.should.have.property('error')
       response.should.not.have.property('data')
     })
+
+    setup.jestEach(it, [
+      ['self', org1Moderator],
+    ])('can edit %s', async (_, user) => {
+      const { id } = await setup.api.models.user.findOne({ where: { email: user } })
+      const response = await runTestAction('user:edit', { id })
+
+      response.should.not.have.property('error')
+      response.data.should.have.property('id', id)
+    })
+
+    setup.jestEach(it, [
+      ['user from same org', org1User],
+      ['another moderator from same org', org1Mod2],
+      ['administrator from same org', org1Admin],
+      ['user from another org', org2User],
+      ['moderator from another org', org2Moderator],
+      ['administrator from another org', org2Admin],
+      ['administrator', admin]
+    ])('cannot edit %s', async (_, user) => {
+      const { id } = await setup.api.models.user.findOne({ where: { email: user } })
+      const response = await runTestAction('user:edit', { id })
+
+      response.should.have.property('error')
+      response.should.not.have.property('data')
+    })
   }) // org moderator
 
   describe('organization administrator', () => {
@@ -464,6 +490,32 @@ describe('user permissions', () => {
     ])('cannot get %s', async (_, user) => {
       const { id } = await setup.api.models.user.findOne({ where: { email: user } })
       const response = await runTestAction('user:view', { id })
+
+      response.should.have.property('error')
+      response.should.not.have.property('data')
+    })
+
+    setup.jestEach(it, [
+      ['user from same org', org1User],
+      ['moderator from same org', org1Moderator],
+      ['self', org1Admin],
+      ['another administrator from same org', org1Admin2]
+    ])('can edit %s', async (_, user) => {
+      const { id } = await setup.api.models.user.findOne({ where: { email: user } })
+      const response = await runTestAction('user:edit', { id })
+
+      response.should.not.have.property('error')
+      response.data.should.have.property('id', id)
+    })
+
+    setup.jestEach(it, [
+      ['user from another org', org2User],
+      ['moderator from another org', org2Moderator],
+      ['administrator from another org', org2Admin],
+      ['administrator', admin]
+    ])('cannot edit %s', async (_, user) => {
+      const { id } = await setup.api.models.user.findOne({ where: { email: user } })
+      const response = await runTestAction('user:edit', { id })
 
       response.should.have.property('error')
       response.should.not.have.property('data')
