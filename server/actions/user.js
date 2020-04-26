@@ -188,7 +188,7 @@ exports.userEdit = upgradeAction('ah17', {
   name: 'user:edit',
   description: 'user:edit',
   outputExample: {},
-  middleware: ['auth', 'owner'],
+  middleware: ['auth'],
 
   inputs: {
     id: { required: true },
@@ -206,7 +206,25 @@ exports.userEdit = upgradeAction('ah17', {
   },
 
   run: function (api, data, next) {
-    api.models.user.findOne({ where: { id: data.params.id } }).then(function (user) {
+    const q = {
+      where: {
+        id: data.params.id
+      }
+    }
+
+    if (data.session.user.isAdmin) {
+      // allow access
+    } else if (data.session.user.isOrgAdmin) {
+      // allow access only to same org users
+      q.where.organizationSlug = data.session.user.organizationSlug
+    } else {
+      // everybody else can only edit self
+      if (data.params.id !== data.session.user.id) {
+        q.where.id = null
+      }
+    }
+
+    api.models.user.findOne(q).then(function (user) {
       if (!user) {
         data.connection.rawConnection.responseHttpCode = 404
         return next(new Error('Няма такъв потребител'))
