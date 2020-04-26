@@ -10,7 +10,7 @@ function generateInsertAction (form) {
   return async function (api, data, next) {
     try {
       let record = await api.models[form.modelName].build({})
-      if ((!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, form.modelName)) || !data.params.user) {
+      if ((!api.forms.userCanManage(data.session.user, form.modelName)) || !data.params.user) {
         data.params.user = data.session.userId
       }
       data.params.organization = data.session.user.organizationSlug
@@ -46,7 +46,7 @@ function generateEditAction (form) {
     try {
       const record = await form.retrieveRecord(api, data)
 
-      if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, form.modelName)) {
+      if (!api.forms.userCanManage(data.session.user, form.modelName)) {
         data.params.user = data.session.userId
       }
 
@@ -121,7 +121,7 @@ function generateExportAction (form) {
       const outputType = data.params.outputType
 
       let allowed = false
-      if (data.session.user.isAdmin || api.forms.isModerator(data.session.user, form.modelName)) {
+      if (api.forms.userCanManage(data.session.user, form.modelName)) {
         allowed = true
       } else if (!data.params.user) {
         // regular users can only export own data

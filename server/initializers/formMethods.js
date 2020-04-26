@@ -122,9 +122,9 @@ function generatePrepareQuery (form) {
           organization: data.params.organization
         })
       }
-    } else if (data.session.user.isAdmin || api.forms.isModerator(data.session.user, form.modelName)) {
-      // moderators can access only same organization
-      if (api.forms.isModerator(data.session.user, form.modelName)) {
+    } else if (api.forms.userCanManage(data.session.user, form.modelName)) {
+      // only admins can access without organization limit
+      if (!data.session.user.isAdmin) {
         // limit to same organization
         query.where = _.extend(query.where || {}, {
           organization: data.session.user.organizationSlug
@@ -173,7 +173,7 @@ function generateRetrieveRecord (form) {
     if (!allowedAccess && data.session.user.isAdmin) allowedAccess = true
     if (!allowedAccess &&
       data.session.user.organizationSlug === record.organization &&
-      api.forms.isModerator(data.session.user, form.modelName)) allowedAccess = true
+      api.forms.userCanManage(data.session.user, form.modelName)) allowedAccess = true
     if (!allowedAccess && record.userId === data.session.userId) allowedAccess = true
     if (!allowedAccess) {
       const share = await api.models.share.findOne({
