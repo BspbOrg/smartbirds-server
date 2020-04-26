@@ -141,10 +141,11 @@ describe('Forms', function () {
     }
     let model
     let user
-    let oldOrgRecord
-    let newOrgRecord
-    let oldOrgModerator
-    let moderatorCurOrg
+    let org1Record
+    let org2Record
+    let org1RecordUpdatedInOrg2
+    let org1Moderator
+    let org2Moderator
 
     before(async function () {
       let response
@@ -170,14 +171,14 @@ describe('Forms', function () {
         organization: 'org1'
       })
       response.should.not.have.property('error')
-      oldOrgModerator = response.data
+      org1Moderator = response.data
       response = await setup.runActionAsAdmin('user:edit', {
-        id: oldOrgModerator.id,
+        id: org1Moderator.id,
         role: 'moderator',
         forms: { formTestPermissions: true }
       })
       response.should.not.have.property('error')
-      oldOrgModerator = response.data
+      org1Moderator = response.data
 
       // create moderator in second organization
       response = await setup.runActionAsGuest('user:create', {
@@ -186,19 +187,24 @@ describe('Forms', function () {
         organization: 'org2'
       })
       response.should.not.have.property('error')
-      moderatorCurOrg = response.data
+      org2Moderator = response.data
       response = await setup.runActionAsAdmin('user:edit', {
-        id: moderatorCurOrg.id,
+        id: org2Moderator.id,
         role: 'moderator',
         forms: { formTestPermissions: true }
       })
       response.should.not.have.property('error')
-      moderatorCurOrg = response.data
+      org2Moderator = response.data
 
       // create record in first organization
       response = (await setup.runActionAs('formTestPermissions:create', { ...recordData, latitude: 1 }, user.email))
       response.should.not.have.property('error')
-      oldOrgRecord = response.data
+      org1Record = response.data
+
+      // create record in first organization that will be update in second organization
+      response = (await setup.runActionAs('formTestPermissions:create', { ...recordData, latitude: 3 }, user.email))
+      response.should.not.have.property('error')
+      org1RecordUpdatedInOrg2 = response.data
 
       // change organization
       response = await setup.runActionAs('user:edit', { id: user.id, organization: 'org2' }, user.email)
@@ -208,7 +214,15 @@ describe('Forms', function () {
       // create record in second organization
       response = (await setup.runActionAs('formTestPermissions:create', { ...recordData, latitude: 2 }, user.email))
       response.should.not.have.property('error')
-      newOrgRecord = response.data
+      org2Record = response.data
+
+      // update record from first organization
+      response = (await setup.runActionAs('formTestPermissions:edit', {
+        ...org1RecordUpdatedInOrg2,
+        latitude: 4
+      }, user.email))
+      response.should.not.have.property('error')
+      org1RecordUpdatedInOrg2 = response.data
     }) // before
 
     describe('user own records', () => {
@@ -218,57 +232,131 @@ describe('Forms', function () {
         const response = await runTestAction('formTestPermissions:list', {})
 
         response.should.not.have.property('error')
-        response.data.should.matchAny((rec) => rec.id === oldOrgRecord.id)
+        response.data.should.matchAny((rec) => rec.id === org1Record.id)
       })
 
       it('can list from current org', async function () {
         const response = await runTestAction('formTestPermissions:list', {})
 
         response.should.not.have.property('error')
-        response.data.should.matchAny((rec) => rec.id === newOrgRecord.id)
+        response.data.should.matchAny((rec) => rec.id === org2Record.id)
+      })
+
+      it('can list created in previous org and updated in current', async function () {
+        const response = await runTestAction('formTestPermissions:list', {})
+
+        response.should.not.have.property('error')
+        response.data.should.matchAny((rec) => rec.id === org1RecordUpdatedInOrg2.id)
       })
 
       it('can get from previous org', async function () {
-        const response = await runTestAction('formTestPermissions:view', { id: oldOrgRecord.id })
+        const response = await runTestAction('formTestPermissions:view', { id: org1Record.id })
 
         response.should.not.have.property('error')
-        response.data.id.should.equal(oldOrgRecord.id)
+        response.data.id.should.equal(org1Record.id)
       })
 
       it('can get from current org', async function () {
-        const response = await runTestAction('formTestPermissions:view', { id: newOrgRecord.id })
+        const response = await runTestAction('formTestPermissions:view', { id: org2Record.id })
 
         response.should.not.have.property('error')
-        response.data.id.should.equal(newOrgRecord.id)
+        response.data.id.should.equal(org2Record.id)
+      })
+
+      it('can get create in previous org and updated in current', async function () {
+        const response = await runTestAction('formTestPermissions:view', { id: org1RecordUpdatedInOrg2.id })
+
+        response.should.not.have.property('error')
+        response.data.id.should.equal(org1RecordUpdatedInOrg2.id)
       })
     }) // user own records
 
     describe('moderator from old organization', () => {
-      const runTestAction = (action, params) => setup.runActionAs(action, params, oldOrgModerator.email)
+      const runTestAction = (action, params) => setup.runActionAs(action, params, org1Moderator.email)
 
       it('can list from own org', async function () {
         const response = await runTestAction('formTestPermissions:list', {})
 
         response.should.not.have.property('error')
-        response.data.should.matchAny((rec) => rec.id === oldOrgRecord.id)
+        response.data.should.matchAny((rec) => rec.id === org1Record.id)
       })
 
       it('cannot list from other org', async function () {
         const response = await runTestAction('formTestPermissions:list', {})
 
         response.should.not.have.property('error')
-        response.data.should.not.matchAny((rec) => rec.id === newOrgRecord.id)
+        response.data.should.not.matchAny((rec) => rec.id === org2Record.id)
+      })
+
+      it('can list created in own org and updated in another', async function () {
+        const response = await runTestAction('formTestPermissions:list', {})
+
+        response.should.not.have.property('error')
+        response.data.should.matchAny((rec) => rec.id === org1RecordUpdatedInOrg2.id)
       })
 
       it('can get from own org', async function () {
-        const response = await runTestAction('formTestPermissions:view', { id: oldOrgRecord.id })
+        const response = await runTestAction('formTestPermissions:view', { id: org1Record.id })
 
         response.should.not.have.property('error')
-        response.data.id.should.equal(oldOrgRecord.id)
+        response.data.id.should.equal(org1Record.id)
       })
 
       it('cannot get from other org', async function () {
-        const response = await runTestAction('formTestPermissions:view', { id: newOrgRecord.id })
+        const response = await runTestAction('formTestPermissions:view', { id: org2Record.id })
+
+        response.should.have.property('error')
+        response.should.not.have.property('data')
+      })
+
+      it('can get created in own org and updated in another', async function () {
+        const response = await runTestAction('formTestPermissions:view', { id: org1RecordUpdatedInOrg2.id })
+
+        response.should.not.have.property('error')
+        response.data.id.should.equal(org1RecordUpdatedInOrg2.id)
+      })
+    })
+
+    describe('moderator from new organization', () => {
+      const runTestAction = (action, params) => setup.runActionAs(action, params, org2Moderator.email)
+
+      it('can list from own org', async function () {
+        const response = await runTestAction('formTestPermissions:list', {})
+
+        response.should.not.have.property('error')
+        response.data.should.matchAny((rec) => rec.id === org2Record.id)
+      })
+
+      it('cannot list from other org', async function () {
+        const response = await runTestAction('formTestPermissions:list', {})
+
+        response.should.not.have.property('error')
+        response.data.should.not.matchAny((rec) => rec.id === org1Record.id)
+      })
+
+      it('cannot list created in other org and updated in own', async function () {
+        const response = await runTestAction('formTestPermissions:list', {})
+
+        response.should.not.have.property('error')
+        response.data.should.not.matchAny((rec) => rec.id === org1RecordUpdatedInOrg2.id)
+      })
+
+      it('can get from own org', async function () {
+        const response = await runTestAction('formTestPermissions:view', { id: org2Record.id })
+
+        response.should.not.have.property('error')
+        response.data.id.should.equal(org2Record.id)
+      })
+
+      it('cannot get from other org', async function () {
+        const response = await runTestAction('formTestPermissions:view', { id: org1Record.id })
+
+        response.should.have.property('error')
+        response.should.not.have.property('data')
+      })
+
+      it('cannot get created in other org and updated in own', async function () {
+        const response = await runTestAction('formTestPermissions:view', { id: org1RecordUpdatedInOrg2.id })
 
         response.should.have.property('error')
         response.should.not.have.property('data')
