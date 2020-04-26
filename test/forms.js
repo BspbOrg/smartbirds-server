@@ -196,7 +196,7 @@ describe('Forms', function () {
       moderatorCurOrg = response.data
 
       // create record in first organization
-      response = (await setup.runActionAs('formTestPermissions:create', recordData, user.email))
+      response = (await setup.runActionAs('formTestPermissions:create', { ...recordData, latitude: 1 }, user.email))
       response.should.not.have.property('error')
       oldOrgRecord = response.data
 
@@ -206,7 +206,7 @@ describe('Forms', function () {
       user = response.data
 
       // create record in second organization
-      response = (await setup.runActionAs('formTestPermissions:create', recordData, user.email))
+      response = (await setup.runActionAs('formTestPermissions:create', { ...recordData, latitude: 2 }, user.email))
       response.should.not.have.property('error')
       newOrgRecord = response.data
     }) // before
