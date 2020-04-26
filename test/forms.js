@@ -263,11 +263,29 @@ describe('Forms', function () {
         response.data.id.should.equal(org2Record.id)
       })
 
-      it('can get create in previous org and updated in current', async function () {
+      it('can get created in previous org and updated in current', async function () {
         const response = await runTestAction('formTestPermissions:view', { id: org1RecordUpdatedInOrg2.id })
 
         response.should.not.have.property('error')
         response.data.id.should.equal(org1RecordUpdatedInOrg2.id)
+      })
+
+      it('can edit from previous org', async function () {
+        const response = await runTestAction('formTestPermissions:edit', { ...org1Record })
+
+        response.should.not.have.property('error')
+      })
+
+      it('can edit from current org', async function () {
+        const response = await runTestAction('formTestPermissions:edit', { ...org2Record })
+
+        response.should.not.have.property('error')
+      })
+
+      it('can edit created in previous org and updated in current', async function () {
+        const response = await runTestAction('formTestPermissions:edit', { ...org1RecordUpdatedInOrg2 })
+
+        response.should.not.have.property('error')
       })
     }) // user own records
 
@@ -315,6 +333,31 @@ describe('Forms', function () {
         response.should.not.have.property('error')
         response.data.id.should.equal(org1RecordUpdatedInOrg2.id)
       })
+
+      it('cannot delete from other org', async function () {
+        const response = await runTestAction('formTestPermissions:delete', { id: org2Record.id })
+
+        response.should.have.property('error')
+        response.should.not.have.property('data')
+      })
+
+      it('can edit from own org', async function () {
+        const response = await runTestAction('formTestPermissions:edit', { ...org1Record })
+
+        response.should.not.have.property('error')
+      })
+
+      it('cannot edit from other org', async function () {
+        const response = await runTestAction('formTestPermissions:edit', { ...org2Record })
+
+        response.should.have.property('error')
+      })
+
+      it('can edit created in own org and updated in another', async function () {
+        const response = await runTestAction('formTestPermissions:edit', { ...org1RecordUpdatedInOrg2 })
+
+        response.should.not.have.property('error')
+      })
     })
 
     describe('moderator from new organization', () => {
@@ -360,6 +403,31 @@ describe('Forms', function () {
 
         response.should.have.property('error')
         response.should.not.have.property('data')
+      })
+
+      it('cannot delete created in other org and updated in own', async function () {
+        const response = await runTestAction('formTestPermissions:delete', { id: org1RecordUpdatedInOrg2.id })
+
+        response.should.have.property('error')
+        response.should.not.have.property('data')
+      })
+
+      it('can edit from own org', async function () {
+        const response = await runTestAction('formTestPermissions:edit', { ...org2Record })
+
+        response.should.not.have.property('error')
+      })
+
+      it('cannot edit from other org', async function () {
+        const response = await runTestAction('formTestPermissions:edit', { ...org1Record })
+
+        response.should.have.property('error')
+      })
+
+      it('cannot edit created in other org and updated in own', async function () {
+        const response = await runTestAction('formTestPermissions:edit', { ...org1RecordUpdatedInOrg2 })
+
+        response.should.have.property('error')
       })
     })
   }) // permission
