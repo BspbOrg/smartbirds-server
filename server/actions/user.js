@@ -156,7 +156,7 @@ exports.userView = upgradeAction('ah17', {
 
     if (data.params.id === 'me' || parseInt(data.params.id) === data.session.userId) {
       q.where.id = data.session.userId
-    } else if (!data.session.user.isAdmin && !data.session.user.isModerator) {
+    } else if (!data.session.user.isAdmin && !data.session.user.isModerator && !data.session.user.isOrgAdmin) {
       // data.connection.rawConnection.responseHttpCode = 403
       // return next(new Error('Admin required'))
       q.where.id = data.params.id
@@ -166,6 +166,10 @@ exports.userView = upgradeAction('ah17', {
       scope = 'sharee'
     } else {
       q.where.id = data.params.id
+      // only admin can access every user, rest are scoped by organization
+      if (!data.session.user.isAdmin) {
+        q.where.organizationSlug = data.session.user.organizationSlug
+      }
     }
     api.models.user.findOne(q).then(function (user) {
       if (!user) {
@@ -184,7 +188,7 @@ exports.userEdit = upgradeAction('ah17', {
   name: 'user:edit',
   description: 'user:edit',
   outputExample: {},
-  middleware: ['auth', 'owner'],
+  middleware: ['auth'],
 
   inputs: {
     id: { required: true },
@@ -201,10 +205,39 @@ exports.userEdit = upgradeAction('ah17', {
     organization: { required: false }
   },
 
-  run: function (api, data, next) {
-    api.models.user.findOne({ where: { id: data.params.id } }).then(function (user) {
+  run: function (api, {
+    connection,
+    params: {
+      id: paramId,
+      organization: paramOrganization,
+      role: paramRole,
+      ...paramsUpdate
+    },
+    response,
+    session: { user: sessionUser }
+  }, next) {
+    const q = {
+      where: {
+        id: paramId
+      }
+    }
+
+    if (sessionUser.isAdmin) {
+      // allow access
+    } else if (sessionUser.isOrgAdmin) {
+      // allow access only to same org users
+      q.where.organizationSlug = sessionUser.organizationSlug
+    } else {
+      // everybody else can only edit self
+      if (paramId !== sessionUser.id) {
+        // id is required so looking for null value shouldn't find any record
+        q.where.id = null
+      }
+    }
+
+    api.models.user.findOne(q).then(function (user) {
       if (!user) {
-        data.connection.rawConnection.responseHttpCode = 404
+        connection.rawConnection.responseHttpCode = 404
         return next(new Error('Няма такъв потребител'))
       }
       // if (data.params.password) {
@@ -218,29 +251,29 @@ exports.userEdit = upgradeAction('ah17', {
       //  });
       // }
 
-      const isUpdatingSelf = user.id === data.session.userId
+      const isUpdatingSelf = user.id === sessionUser.id
 
       // changing organization
-      if (data.params.organization && data.params.organization !== user.organizationSlug) {
+      if (paramOrganization && paramOrganization !== user.organizationSlug) {
         // only self or if admin
-        if (data.session.user.isAdmin || isUpdatingSelf) {
-          user.organizationSlug = data.params.organization
+        if (sessionUser.isAdmin || isUpdatingSelf) {
+          user.organizationSlug = paramOrganization
           user.role = 'user'
           user.forms = null
         }
       }
 
       // changing role is only allowed for admin and not to self
-      if (data.params.role) {
-        if (data.session.user.isAdmin && !isUpdatingSelf) {
-          user.role = data.params.role
+      if (paramRole) {
+        if ((sessionUser.isAdmin || sessionUser.isOrgAdmin) && !isUpdatingSelf) {
+          user.role = paramRole
         }
       }
 
-      user.apiUpdate(data.params)
+      user.apiUpdate(paramsUpdate)
 
       user.save().then(function () {
-        data.response.data = user.apiData(api)
+        response.data = user.apiData(api)
         next()
       }).catch(next)
     })
@@ -319,7 +352,11 @@ exports.userList = upgradeAction('ah17', {
     if (data.params.context === 'public') {
       q.where = q.where || {}
       q.where.privacy = 'public'
-    } else if (!data.session.user.isAdmin && !data.session.user.isModerator) {
+    } else if (data.session.user.isModerator || data.session.user.isOrgAdmin) {
+      // limit only to organization users
+      q.where = q.where || {}
+      q.where.organizationSlug = data.session.user.organizationSlug
+    } else if (!data.session.user.isAdmin) {
       promise = api.models.user
         .findByPk(data.session.userId)
         .then(function (user) {

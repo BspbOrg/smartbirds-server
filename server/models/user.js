@@ -40,12 +40,18 @@ module.exports = function (sequelize, DataTypes) {
         return this.getDataValue('role') === 'moderator'
       }
     },
+    isOrgAdmin: {
+      type: DataTypes.VIRTUAL,
+      get: function () {
+        return this.getDataValue('role') === 'org-admin'
+      }
+    },
     role: {
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: 'user',
       validate: {
-        isIn: [['user', 'admin', 'moderator']]
+        isIn: [['user', 'admin', 'moderator', 'org-admin']]
       }
     },
     imported: {
@@ -197,6 +203,7 @@ module.exports = function (sequelize, DataTypes) {
               role: this.role,
               isAdmin: this.isAdmin,
               isModerator: this.isModerator,
+              isOrgAdmin: this.isOrgAdmin,
               forms: this.forms,
               privacy: this.privacy,
               gdprConsent: this.gdprConsent,

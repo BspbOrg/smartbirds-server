@@ -8,7 +8,7 @@ function getZone (api, data, next) {
     where: { id: data.params.id },
     include: [{ model: api.models.location, as: 'location' }]
   }
-  if (data.session.user.isAdmin || api.forms.isModerator(data.session.user, 'formCBM')) {
+  if (api.forms.userCanManage(data.session.user, 'formCBM')) {
     q.include.push({ model: api.models.user, as: 'owner' })
   }
   return api.models.zone.findOne(q)
@@ -62,7 +62,7 @@ exports.zoneOwnershipRespond = upgradeAction('ah17', {
 
   run: function (api, data, next) {
     getZone(api, data, next).then(function (zone) {
-      if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, 'formCBM')) {
+      if (!api.forms.userCanManage(data.session.user, 'formCBM')) {
         data.connection.rawConnection.responseHttpCode = 403
         return next(new Error('Admin required'))
       }
@@ -107,7 +107,7 @@ exports.zoneSetOwner = upgradeAction('ah17', {
 
   run: function (api, data, next) {
     getZone(api, data, next).then(function (zone) {
-      if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, 'formCBM')) {
+      if (!api.forms.userCanManage(data.session.user, 'formCBM')) {
         data.connection.rawConnection.responseHttpCode = 403
         return next(new Error('Admin required'))
       }
@@ -150,7 +150,7 @@ exports.zoneClearOwner = upgradeAction('ah17', {
 
   run: function (api, data, next) {
     getZone(api, data, next).then(function (zone) {
-      if (!data.session.user.isAdmin && !api.forms.isModerator(data.session.user, 'formCBM')) {
+      if (!api.forms.userCanManage(data.session.user, 'formCBM')) {
         data.connection.rawConnection.responseHttpCode = 403
         return next(new Error('Admin required'))
       }
