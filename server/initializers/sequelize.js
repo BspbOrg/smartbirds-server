@@ -121,7 +121,7 @@ module.exports = upgradeInitializer('ah17', {
         fs.readdirSync(dir).forEach(function (file) {
           const filename = path.join(dir, file)
           var nameParts = file.split('/')
-          var name = nameParts[ (nameParts.length - 1) ].split('.')[0]
+          var name = nameParts[(nameParts.length - 1)].split('.')[0]
           api.models[name] = api.sequelize.sequelize.import(filename)
           api.watchFileAndAct(filename, () => {
             api.log('rebooting due to model change: ' + name, 'info')
