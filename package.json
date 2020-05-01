@@ -52,6 +52,7 @@
     "ejs": "^3.1.2",
     "email-templates": "^7.0.4",
     "form-data": "^3.0.0",
+    "haversine-distance": "^1.2.1",
     "ioredis": "^4.16.3",
     "lodash": "^4.17.15",
     "mailchimp-api-v3": "^1.13.1",

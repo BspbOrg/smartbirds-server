@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const moment = require('moment')
+const extra = require('./_extra')
 
 exports = module.exports = _.cloneDeep(require('./_common'))
 
@@ -174,7 +175,8 @@ exports.fields = {
   },
 
   pictures: 'json',
-  track: 'text'
+  track: 'text',
+  ...extra.fields
 }
 
 exports.foreignKeys.push({ targetModelName: 'zone', as: 'zone' })
