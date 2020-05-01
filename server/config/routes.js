@@ -125,7 +125,9 @@ exports.default = {
         { path: '/export/ciconia', action: 'formCiconia:export' },
         { path: '/export/threats', action: 'formThreats:export' },
 
-        { path: '/organization/:slug', action: 'organization:edit' }
+        { path: '/organization/:slug', action: 'organization:edit' },
+
+        { path: '/tasks/auto-location', action: 'tasks:enqueue:autoLocation' }
       ],
 
       put: [
