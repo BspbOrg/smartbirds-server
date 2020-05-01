@@ -219,6 +219,7 @@ function generatePrepareCsvQuery (form) {
 }
 
 function registerForm (form) {
+  if (!form.$isForm) return
   form.retrieveRecord = generateRetrieveRecord(form)
   form.prepareQuery = generatePrepareQuery(form)
   form.prepareCsvQuery = generatePrepareCsvQuery(form)

@@ -464,6 +464,7 @@ module.exports = upgradeInitializer('ah17', {
         return form
       },
       register (form) {
+        form.$isForm = true
         api.forms[form.modelName] = form
 
         const attributes = formAttributes(form.fields)

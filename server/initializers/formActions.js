@@ -255,6 +255,7 @@ function generateFormActions (form) {
 }
 
 async function registerForm (api, form) {
+  if (!form.$isForm) return
   const name = form.modelName
   const collection = generateFormActions(form)
   api.log(`Registering actions for ${name} form`, 'info')
