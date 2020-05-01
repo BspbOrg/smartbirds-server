@@ -129,6 +129,12 @@ function generatePrepareQuery (form) {
         query.where = _.extend(query.where || {}, {
           organization: data.session.user.organizationSlug
         })
+      } else {
+        if (data.params.organization) {
+          query.where = _.extend(query.where || {}, {
+            organization: data.params.organization
+          })
+        }
       }
 
       // allow filter by user
