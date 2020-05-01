@@ -238,7 +238,7 @@ exports.prepareCsv = async function (api, record, csv) {
   switch (record.primaryType) {
     case formsConfig.threatsPrimaryTypes.poison.id:
       for (const lang in languages) {
-        csv[`categoryThreats${capitalizeFirstLetter(lang)}`] = languages[lang].threatsPrimaryType
+        csv[`categoryThreats${capitalizeFirstLetter(lang)}`] = languages[lang].threatsPrimaryType.poison
       }
 
       switch (record.poisonedType) {
