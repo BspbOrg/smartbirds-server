@@ -4,7 +4,7 @@ const archiver = require('archiver')
 const csv = require('csv-stringify')
 const fs = require('fs')
 const path = require('path')
-const uuid = require('uuid')
+const { v4: uuidv4 } = require('uuid')
 const { upgradeTask } = require('../utils/upgrade')
 
 async function exportCsv (api, records, formName, outputFilename) {
@@ -128,7 +128,7 @@ exports.task = upgradeTask('ah17', {
 
       api.log(`Fetched ${result.count} ${form.modelName} record`, 'debug')
 
-      const outputFilename = path.join(api.config.general.paths.fileupload[0], `${uuid.v4()}.${outputType}`)
+      const outputFilename = path.join(api.config.general.paths.fileupload[0], `${uuidv4()}.${outputType}`)
 
       switch (outputType) {
         case 'csv':
