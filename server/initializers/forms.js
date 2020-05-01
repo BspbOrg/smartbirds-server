@@ -298,6 +298,12 @@ function generateExportData (form) {
         post[`species${capitalizeFirstLetter(lang)}`] = this.speciesInfo.labelLa + ' | ' + this.speciesInfo[`label${capitalizeFirstLetter(lang)}`]
       }
       post.speciesEuringCode = this.speciesInfo.euring
+    } else if (form.hasSpecies) {
+      // when not required we still need to output the field to include in csv header
+      post.species = ''
+      for (const lang of languages) {
+        post[`species${capitalizeFirstLetter(lang)}`] = ''
+      }
     }
 
     const prepared = { ...pre, ...mid, ...post }
