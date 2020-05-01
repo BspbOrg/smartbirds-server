@@ -227,7 +227,10 @@ exports.filterList = async function (api, data, q) {
   return q
 }
 
-exports.prepareCsv = async function (api, record) {
+exports.prepareCsv = async function (api, record, {
+  plotEn, plotLocal, zoneId, userId,
+  ...csv
+}) {
   return {
     temperature: record.temperature,
     cloudinessLocal: record.cloudinessLocal,
@@ -253,14 +256,15 @@ exports.prepareCsv = async function (api, record) {
     secondaryHabitatEn: record.secondaryHabitatEn,
     plotSectionLocal: record.plotLocal,
     plotSectionEn: record.plotEn,
-    latitute: record.latitude,
-    species: record['speciesInfo.labelLa'] + ' | ' + record['speciesInfo.labelBg'],
+    latitude: record.latitude,
+    species: record['speciesInfo.labelLa'],
     visitLocal: record.visitLocal,
     visitEn: record.visitEn,
     count: record.count,
     primaryHabitatLocal: record.primaryHabitatLocal,
     primaryHabitatEn: record.primaryHabitatEn,
     speciesEuringCode: record['speciesInfo.euring'],
-    speciesCode: record['speciesInfo.code']
+    speciesCode: record['speciesInfo.code'],
+    ...csv
   }
 }
