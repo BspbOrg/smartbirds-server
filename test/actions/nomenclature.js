@@ -3,6 +3,7 @@
 var _ = require('lodash')
 var should = require('should')
 var setup = require('../_setup')
+const languages = require('../../config/languages')
 
 describe('Nomenclatures:', function () {
   before(function () {
@@ -127,6 +128,50 @@ describe('Nomenclatures:', function () {
       }) // describe model
     }) // foreach model
   }) // describe given
+
+  setup.describeAsAdmin((runAction) => {
+    it('can create nomenclature with all languages', () => {
+      const data = {
+        type: 'test_nomenclature',
+        items: [{
+          type: 'test_nomenclature',
+          label: {}
+        }]
+      }
+      Object.keys(languages).forEach((key) => {
+        data.items[0].label[key] = `label ${key}`
+      })
+      return runAction('nomenclature:updateType', data)
+        .then((response) => {
+          response.should.not.have.property('error')
+          response.should.have.property('data').not.empty().instanceOf(Array)
+          response.data[0].should.deepEqual(data.items[0])
+        })
+    })
+
+    it('can create species with all languages', () => {
+      const data = {
+        type: 'test_species',
+        items: [{
+          type: 'test_species',
+          label: {
+            la: 'latin'
+          }
+        }]
+      }
+      Object.keys(languages).forEach((key) => {
+        data.items[0].label[key] = `label ${key}`
+      })
+      return runAction('species:updateType', data)
+        .then((response) => {
+          response.should.not.have.property('error')
+          response.should.have.property('data').not.empty().instanceOf(Array)
+          response.data[0].should.have.property('label')
+          response.data[0].should.have.property('type', data.items[0].type)
+          response.data[0].label.should.deepEqual(data.items[0].label)
+        })
+    })
+  })
 })
 
 function itSupportsPaging (runAction, action, params) {

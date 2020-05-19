@@ -67,9 +67,9 @@ function languageField (prefix, {
    * @param {object} data
    */
   const update = function (model, data) {
-    forEachObject.entries(langMap).forEach(([lang, fieldName]) => {
+    forEachObject(langMap, (fieldName, lang) => {
       if (data[lang]) {
-        this[fieldName] = data[lang]
+        model[fieldName] = data[lang]
       }
     })
   }

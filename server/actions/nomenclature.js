@@ -72,7 +72,7 @@ _.forOwn({
               })
               .then(function () {
                 return Promise.map(models, function (item) {
-                  return item.save({ transaction: t })
+                  return item.save({ transaction: t }).then((m) => m.apiData())
                 })
               })
           })
