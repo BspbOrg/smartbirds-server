@@ -47,6 +47,16 @@ function generatePrepareQuery (form) {
       })
     }
 
+    if (data.params.auto_location) {
+      query.where = {
+        ...query.where,
+        autoLocationEn: {
+          [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
+            `${data.params.auto_location}%`
+        }
+      }
+    }
+
     // filter by species
     if (form.model.associations.speciesInfo && data.params.species) {
       query.where = _.extend(query.where || {}, {
