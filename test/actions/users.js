@@ -413,6 +413,13 @@ describe('Action user:', function () {
           response.data.should.have.property('firstName').and.be.equal('scam')
         })
       })
+      it('can edit own user as string', function () {
+        return runAction('user:edit', { id: String(userId), firstName: 'scam' }).then(function (response) {
+          should(response).not.have.property('error')
+          response.should.have.property('data')
+          response.data.should.have.property('firstName').and.be.equal('scam')
+        })
+      })
       it('can edit me user', function () {
         return runAction('user:edit', { id: 'me', firstName: 'scam' }).then(function (response) {
           should(response).not.have.property('error')
@@ -514,7 +521,7 @@ describe('Action user:', function () {
       await setup.runActionAsAdmin('user:delete', {id: targetUser.id})
     })
 
-    describe.only('by administrator', () => {
+    describe('by administrator', () => {
       describe('when I am admin', () => {
         beforeEach(() => makeUserAdmin(targetUser))
 

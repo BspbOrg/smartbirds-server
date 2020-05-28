@@ -216,9 +216,11 @@ exports.userEdit = upgradeAction('ah17', {
     response,
     session: { user: sessionUser }
   }, next) {
+    const userId = paramId === 'me' ? sessionUser.id : parseInt(paramId)
+
     const q = {
       where: {
-        id: paramId
+        id: userId
       }
     }
 
@@ -229,7 +231,7 @@ exports.userEdit = upgradeAction('ah17', {
       q.where.organizationSlug = sessionUser.organizationSlug
     } else {
       // everybody else can only edit self
-      if (paramId !== sessionUser.id) {
+      if (userId !== sessionUser.id) {
         // id is required so looking for null value shouldn't find any record
         q.where.id = null
       }
