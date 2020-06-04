@@ -11,7 +11,7 @@
     "husky": "^4.2.5",
     "jest": "^25.5.4",
     "jest-runner-mocha": "^0.6.0",
-    "lint-staged": "^10.1.6",
+    "lint-staged": "^10.2.9",
     "parallelshell": "^3.0.2",
     "sequelize-fixtures": "^1.1.1",
     "should": "^13.2.3",
