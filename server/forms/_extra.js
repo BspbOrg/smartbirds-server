@@ -1,5 +1,8 @@
 exports.fields = {
-  autoLocationEn: 'text',
-  autoLocationLocal: 'text',
-  autoLocationLang: 'text'
+  autoLocation: {
+    type: 'choice',
+    relation: {
+      model: 'settlement'
+    }
+  }
 }

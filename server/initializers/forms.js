@@ -55,6 +55,7 @@ function formAttributes (fields) {
       case 'multi':
       case 'choice': {
         switch (field.relation.model) {
+          case 'settlement':
           case 'nomenclature': {
             Object.assign(fieldsDef, localField(name, { required: field.required }).attributes)
             break
@@ -212,6 +213,7 @@ function generateApiData (fields) {
           }
           case 'choice': {
             switch (field.relation.model) {
+              case 'settlement':
               case 'nomenclature': {
                 const label = localField(name).values(this)
                 if (label != null) {
@@ -373,6 +375,7 @@ function generateApiUpdate (fields) {
         }
         case 'choice': {
           switch (field.relation.model) {
+            case 'settlement':
             case 'nomenclature': {
               if (!_.has(data, name)) return
 
