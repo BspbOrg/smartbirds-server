@@ -1,4 +1,7 @@
-'use strict'
+const localField = require('../utils/localField')
+
+const autoLocation = localField('autoLocation')
+
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('birds_top_interesting_species_month', {
     user_id: {
@@ -8,7 +11,8 @@ module.exports = function (sequelize, DataTypes) {
     count: DataTypes.INTEGER,
     observationDateTime: DataTypes.DATE,
     location: DataTypes.TEXT,
-    form_name: DataTypes.TEXT
+    form_name: DataTypes.TEXT,
+    ...autoLocation.attributes
   }, {
     timestamps: false,
     tableName: 'birds_top_interesting_species_month',
@@ -34,7 +38,8 @@ module.exports = function (sequelize, DataTypes) {
           count: this.count,
           date: this.observationDateTime,
           location: this.location,
-          form: this.form_name
+          form: this.form_name,
+          autoLocation: autoLocation.values(this)
         }
       }
     }
