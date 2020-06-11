@@ -1,12 +1,13 @@
 const _ = require('lodash')
 const moment = require('moment')
 const { upgradeInitializer } = require('../utils/upgrade')
+const { Op } = require('sequelize')
 
 function generatePrepareQuery (form) {
   const prepareQuery = form.filterList
 
   return async function (api, data, query) {
-    query = query || {}
+    query = query || { where: {} }
 
     const limit = parseInt(data.params.limit) || 20
     const offset = parseInt(data.params.offset) || 0
@@ -50,9 +51,16 @@ function generatePrepareQuery (form) {
     if (data.params.auto_location) {
       query.where = {
         ...query.where,
-        autoLocationEn: {
-          [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
-            `${data.params.auto_location}%`
+        [Op.or]: {
+          ...query.where[Op.or],
+          autoLocationEn: {
+            [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
+              `${data.params.auto_location}%`
+          },
+          autoLocationLocal: {
+            [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
+              `${data.params.auto_location}%`
+          }
         }
       }
     }

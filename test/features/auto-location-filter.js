@@ -84,4 +84,46 @@ describe('Auto location', () => {
       }
     )
   })
+
+  it('can filter on any form by local value', async () => {
+    await forEachForm(
+      async ({ row }) => {
+        const rowMatch = await cloneModel(row)
+        rowMatch.autoLocationLocal = 'auto location local'
+        await rowMatch.save()
+
+        const rowNoMatch = await cloneModel(row)
+        rowNoMatch.autoLocationLocal = 'auto location no local'
+        await rowNoMatch.save()
+
+        return { rowMatch, rowNoMatch }
+      },
+      () => ({ auto_location: 'auto location local' }),
+      ({ response, prepared: { rowMatch, rowNoMatch } }) => {
+        response.data.should.containDeep([{ id: rowMatch.id }])
+        response.data.should.not.containDeep([{ id: rowNoMatch.id }])
+      }
+    )
+  })
+
+  it('can filter on any form by local start value', async () => {
+    await forEachForm(
+      async ({ row }) => {
+        const rowMatch = await cloneModel(row)
+        rowMatch.autoLocationLocal = 'auto location local'
+        await rowMatch.save()
+
+        const rowNoMatch = await cloneModel(row)
+        rowNoMatch.autoLocationLocal = 'no auto location local'
+        await rowNoMatch.save()
+
+        return { rowMatch, rowNoMatch }
+      },
+      () => ({ auto_location: 'auto location' }),
+      ({ response, prepared: { rowMatch, rowNoMatch } }) => {
+        response.data.should.containDeep([{ id: rowMatch.id }])
+        response.data.should.not.containDeep([{ id: rowNoMatch.id }])
+      }
+    )
+  })
 })
