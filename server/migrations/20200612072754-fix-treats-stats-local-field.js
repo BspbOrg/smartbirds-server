@@ -25,7 +25,7 @@ module.exports = {
             SELECT
               latitude, longitude,
               "observationDateTime",
-              "threatsLang",
+              CAST("threatsLang" as TEXT) as "threatsLang",
               unnest(string_to_array("threatsLocal", ' | ')) AS "threatsLocal",
               unnest(string_to_array("threatsEn", ' | ')) AS "threatsEn",
               '${tableName}' AS form,
