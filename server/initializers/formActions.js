@@ -165,6 +165,7 @@ function generateFormActions (form) {
     limit: { default: 20 },
     offset: { default: 0 },
     location: {},
+    auto_location: {},
     from_date: {},
     to_date: {},
     context: {},

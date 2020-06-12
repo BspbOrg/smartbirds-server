@@ -28,6 +28,8 @@ exports.default = {
           return { path: `/nomenclature/:type/${langId}/:value`, action: `nomenclature:${langId}:view` }
         }),
 
+        { path: '/autocomplete', action: 'autocomplete' },
+
         { path: '/species', action: 'species:types' },
         { path: '/species/:type', action: 'species:typeList' },
         { path: '/species/:type/:value', action: 'species:view' },
