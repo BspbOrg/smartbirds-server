@@ -75,10 +75,6 @@ exports.fields = assign(exports.fields, {
   sqCaud: 'num',
   sqDors: 'num',
   speciesNotes: 'text',
-  location: {
-    type: 'text',
-    required: true
-  },
   ...extra.fields
 })
 

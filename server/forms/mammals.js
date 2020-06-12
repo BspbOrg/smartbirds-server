@@ -71,10 +71,6 @@ exports.fields = assign(exports.fields, {
   tempSubstrat: 'num',
   tempAir: 'num',
   speciesNotes: 'text',
-  location: {
-    type: 'text',
-    required: true
-  },
   ...extra.fields
 })
 

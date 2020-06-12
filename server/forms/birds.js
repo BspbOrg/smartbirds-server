@@ -169,10 +169,6 @@ exports.fields = assign(exports.fields, {
     }
   },
   landuse300mRadius: 'text',
-  location: {
-    type: 'text',
-    required: true
-  },
   speciesNotes: 'text',
   ...extra.fields
 })

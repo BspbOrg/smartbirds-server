@@ -124,7 +124,7 @@ describe('Action formInvertebrates:', function () {
   setup.describeAsAuth(function (runAction) {
     describe('fails to create without', function () {
       var required = ['latitude', 'longitude', 'observationDateTime', 'monitoringCode',
-        'species', 'count', 'endDateTime', 'startDateTime', 'location']
+        'species', 'count', 'endDateTime', 'startDateTime']
 
       required.forEach(function (property) {
         it(property, function () {

@@ -1,4 +1,4 @@
-// Common form fields
+// Common form fields - all forms except CBM
 exports.fields = {
   latitude: {
     type: 'num',
@@ -80,6 +80,7 @@ exports.fields = {
   track: 'text',
   confidential: 'boolean',
   geolocationAccuracy: 'num',
+  location: 'text',
 
   // Internal fields
   user: {

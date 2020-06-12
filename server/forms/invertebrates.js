@@ -63,10 +63,6 @@ exports.fields = assign(exports.fields, {
   },
   marking: 'text',
   speciesNotes: 'text',
-  location: {
-    type: 'text',
-    required: true
-  },
   ...extra.fields
 })
 

@@ -70,10 +70,6 @@ exports.fields = assign(exports.fields, {
       filter: { type: 'threats_sample' }
     }
   },
-  location: {
-    type: 'text',
-    required: true
-  },
   class: {
     type: 'text',
     public: true

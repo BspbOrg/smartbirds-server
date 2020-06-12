@@ -80,10 +80,6 @@ exports.fields = assign(exports.fields, {
     type: 'text',
     uniqueHash: true
   },
-  location: {
-    type: 'text',
-    uniqueHash: true
-  },
   ...extra.fields
 })
 

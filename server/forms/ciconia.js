@@ -77,9 +77,5 @@ exports.fields = assign(exports.fields, {
   diedOtherReasons: '+int',
   reason: 'text',
   speciesNotes: 'text',
-  location: {
-    type: 'text',
-    required: true
-  },
   ...extra.fields
 })

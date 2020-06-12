@@ -233,7 +233,7 @@ describe('Action formBirds:', function () {
     describe('fails to create without', function () {
       var required = ['latitude', 'longitude', 'observationDateTime', 'monitoringCode',
         'species', 'countUnit', 'typeUnit', 'count', 'countMin', 'countMax',
-        'endDateTime', 'startDateTime', 'location']
+        'endDateTime', 'startDateTime']
 
       required.forEach(function (property) {
         it(property, function () {
