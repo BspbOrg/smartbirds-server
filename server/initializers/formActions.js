@@ -30,7 +30,6 @@ function generateInsertAction (form) {
       data.response.data = await record.apiData(api)
       next()
     } catch (error) {
-      console.error('insert error', error)
       api.log(error, 'error')
       next(error)
     }
