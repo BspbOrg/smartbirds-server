@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "husky": "^4.2.5",
-    "jest": "^25.5.4",
+    "jest": "^26.0.1",
     "jest-runner-mocha": "^0.6.0",
     "lint-staged": "^10.1.6",
     "parallelshell": "^3.0.2",
