@@ -9,6 +9,13 @@ exports.hasSpecies = false
 exports.hasThreats = true
 
 exports.fields = assign(exports.fields, {
+  source: {
+    type: 'choice',
+    relation: {
+      model: 'nomenclature',
+      filter: { type: 'main_source' }
+    }
+  },
   primarySubstrateType: {
     type: 'choice',
     relation: {
