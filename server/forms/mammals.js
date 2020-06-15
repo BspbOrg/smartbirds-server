@@ -1,5 +1,4 @@
 const _ = require('lodash')
-const extra = require('./_extra')
 const { assign } = Object
 
 exports = module.exports = _.cloneDeep(require('./_common'))
@@ -70,8 +69,7 @@ exports.fields = assign(exports.fields, {
   Pl: 'num',
   tempSubstrat: 'num',
   tempAir: 'num',
-  speciesNotes: 'text',
-  ...extra.fields
+  speciesNotes: 'text'
 })
 
 exports.foreignKeys.push({

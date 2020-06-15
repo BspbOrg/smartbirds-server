@@ -1,5 +1,8 @@
+const extra = require('./_extra')
+
 // Common form fields - all forms except CBM
 exports.fields = {
+  ...extra.fields,
   latitude: {
     type: 'num',
     required: true,
@@ -135,3 +138,7 @@ exports.exportSkipFields = [
   'speciesNotes',
   'track'
 ]
+
+exports.validate = {
+  ...extra.validate
+}
