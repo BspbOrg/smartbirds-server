@@ -103,6 +103,14 @@ function generatePrepareQuery (form) {
       })
     }
 
+    // filter by moderatorReview
+    if (data.params.moderatorReview != null) {
+      query.where = {
+        ...query.where,
+        moderatorReview: data.params.moderatorReview
+      }
+    }
+
     // form specific filters
     if (prepareQuery) {
       query = await prepareQuery(api, data, query)

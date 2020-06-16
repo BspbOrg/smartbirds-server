@@ -1,3 +1,4 @@
+const { boolean } = require('boolean')
 const _ = require('lodash')
 const inputHelpers = require('../helpers/inputs')
 const { upgradeInitializer, upgradeAction } = require('../utils/upgrade')
@@ -170,7 +171,12 @@ function generateFormActions (form) {
     context: {},
     latitude: {},
     longitude: {},
-    radius: {}
+    radius: {},
+    moderatorReview: {
+      formatter: function (value) {
+        return value != null ? boolean(value) : value
+      }
+    }
   },
   form.hasThreats ? {
     threat: {
