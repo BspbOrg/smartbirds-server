@@ -38,7 +38,7 @@
     "heroku-postbuild": "(echo \"Promise.all(['organizations:export', 'stats:generate', 'banner:generate'].map(t => api.tasks.tasks[t].run(api, {}))).then(() => console.log('DONE'), (e) => console.error('BAD', e))\";sleep 10) | npm run ah console"
   },
   "dependencies": {
-    "@sentry/node": "^5.15.5",
+    "@sentry/node": "^5.17.0",
     "actionhero": "^20.0.0",
     "archiver": "^4.0.1",
     "bcrypt": "^4.0.1",
