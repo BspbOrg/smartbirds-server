@@ -67,7 +67,7 @@
     "sequelize-cli": "^5.5.1",
     "sharp": "^0.25.2",
     "umzug": "~2.3.0",
-    "uuid": "^8.0.0",
+    "uuid": "^8.1.0",
     "validator": "~13.1.1"
   },
   "standard": {
