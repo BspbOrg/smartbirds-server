@@ -24,6 +24,34 @@ const org1Admin = 'admin@old.org'
 const org2Admin = 'admin@new.org'
 const admin = 'admin@root.admin'
 
+function runAs (operator) {
+  return (action, params) => setup.runActionAs(action, params, operator)
+}
+
+function promoteAndRunAs (operator, role) {
+  const runAction = runAs(operator)
+  return async (...args) => {
+    // find the user record
+    const user = await setup.api.models.user.findOne({ where: { email: operator } })
+    // save the current role so it can be restored
+    const previousRole = user.role
+
+    // promote
+    user.role = role
+    user.forms = { [testForm]: true }
+    await user.save()
+
+    // execute the action
+    const response = await runAction(...args)
+
+    // demote to previous role
+    user.role = previousRole
+    await user.save()
+
+    return response
+  }
+}
+
 before(async function () {
   // create moderator in first organization
   await setup.createUser({
@@ -133,12 +161,13 @@ describe('form permissions', () => {
     org1RecordUpdatedInOrg2 = response.data
   }) // before
 
+  // own records
   setup.jestEach(describe, [
-    ['user', user],
-    ['admin', admin]
-  ])('%s', (_, operator) => {
-    const runTestAction = (action, params) => setup.runActionAs(action, params, operator)
-
+    ['user', runAs(user)],
+    ['admin', runAs(admin)],
+    ['user promoted to moderator', promoteAndRunAs(user, 'moderator')],
+    ['user promoted to administrator', promoteAndRunAs(user, 'org-admin')]
+  ])('%s', (_, runTestAction) => {
     it('can list from previous org', async function () {
       const response = await runTestAction(`${testForm}:list`, {})
 
@@ -200,12 +229,11 @@ describe('form permissions', () => {
     })
   }) // user own records
 
+  // other user's records
   setup.jestEach(describe, [
-    ['moderator', org1Moderator],
-    ['administrator', org1Admin]
-  ])('%s from old organization', (_, operator) => {
-    const runTestAction = (action, params) => setup.runActionAs(action, params, operator)
-
+    ['moderator', runAs(org1Moderator)],
+    ['administrator', runAs(org1Admin)]
+  ])('%s from old organization', (_, runTestAction) => {
     it('can list from own org', async function () {
       const response = await runTestAction(`${testForm}:list`, {})
 
@@ -274,12 +302,11 @@ describe('form permissions', () => {
     })
   })
 
+  // other user's records
   setup.jestEach(describe, [
-    ['moderator', org2Moderator],
-    ['administrator', org2Admin]
-  ])('%s from new organization', (_, operator) => {
-    const runTestAction = (action, params) => setup.runActionAs(action, params, operator)
-
+    ['moderator', runAs(org2Moderator)],
+    ['administrator', runAs(org2Admin)],
+  ])('%s from new organization', (_, runTestAction) => {
     it('can list from own org', async function () {
       const response = await runTestAction(`${testForm}:list`, {})
 
@@ -363,7 +390,7 @@ describe('user permissions', () => {
   })
 
   describe('organization moderator', () => {
-    const runTestAction = (action, params) => setup.runActionAs(action, params, org1Moderator)
+    const runTestAction = runAs(org1Moderator)
 
     setup.jestEach(it, [
       ['user from same org', org1User],
@@ -443,7 +470,7 @@ describe('user permissions', () => {
   }) // org moderator
 
   describe('organization administrator', () => {
-    const runTestAction = (action, params) => setup.runActionAs(action, params, org1Admin)
+    const runTestAction = runAs(org1Admin)
 
     setup.jestEach(it, [
       ['user from same org', org1User],
@@ -549,7 +576,7 @@ describe('user permissions', () => {
     setup.jestEach(it, [
       ['user', org1User],
       ['moderator', org1Moderator],
-      ['another', org1Admin2],
+      ['another', org1Admin2]
     ])('cannot move %s from own org to another', async (_, user) => {
       const { id } = await setup.api.models.user.findOne({ where: { email: user } })
       const response = await runTestAction('user:edit', { id, organization: 'org2' })

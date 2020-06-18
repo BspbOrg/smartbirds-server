@@ -83,8 +83,8 @@ const setup = {
     return updated.data
   },
   jestEach: (method, parameters) => (name, op) => {
-    parameters.forEach((params) => {
-      method(util.format(name, ...params), () => op(...params))
+    parameters.forEach(([nameParameter, ...params]) => {
+      method(util.format(name, nameParameter), () => op(nameParameter, ...params))
     })
   }
 }

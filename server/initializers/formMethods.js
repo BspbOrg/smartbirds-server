@@ -151,9 +151,14 @@ function generatePrepareQuery (form) {
     } else if (api.forms.userCanManage(data.session.user, form.modelName)) {
       // only admins can access without organization limit
       if (!data.session.user.isAdmin) {
-        // limit to same organization
-        query.where = _.extend(query.where || {}, {
-          organization: data.session.user.organizationSlug
+        query.where = query.where || {}
+        query.where[Op.and] = query.where[Op.and] || []
+        // limit to same organization or own records
+        query.where[Op.and].push({
+          [Op.or]: [
+            { organization: data.session.user.organizationSlug },
+            { userId: data.session.userId }
+          ]
         })
       } else {
         if (data.params.organization) {
