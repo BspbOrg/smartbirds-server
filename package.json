@@ -50,7 +50,7 @@
     "csv-parse": "~4.10.1",
     "csv-stringify": "^5.5.0",
     "debug": "^4.1.1",
-    "ejs": "^3.1.2",
+    "ejs": "^3.1.3",
     "email-templates": "^7.0.5",
     "form-data": "^3.0.0",
     "haversine-distance": "^1.2.1",
