@@ -138,10 +138,8 @@ function generateExportAction (form) {
 
       if (!allowed) throw new Error(api.config.errors.sessionNoPermission(data.connection))
 
-      const query = await form.prepareQuery(api, data)
-
       data.response.success = await api.tasks.enqueue('form:export', {
-        query,
+        params: data.params,
         outputType,
         user: data.session.user,
         formName: form.modelName

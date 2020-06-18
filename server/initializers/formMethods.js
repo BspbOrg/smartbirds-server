@@ -6,11 +6,11 @@ const { Op } = require('sequelize')
 function generatePrepareQuery (form) {
   const prepareQuery = form.filterList
 
-  return async function (api, data, query) {
+  return async function (api, { params, session: { user: sessionUser } = {}, user = sessionUser }, query) {
     query = query || { where: {} }
 
-    const limit = parseInt(data.params.limit) || 20
-    const offset = parseInt(data.params.offset) || 0
+    const limit = parseInt(params.limit) || 20
+    const offset = parseInt(params.offset) || 0
 
     query = _.extend(query, {
       order: [['observationDateTime', 'DESC']],
@@ -21,63 +21,66 @@ function generatePrepareQuery (form) {
     } else {
       query.limit = 20000
     }
-    if (data.params.context === 'public') {
+    if (params.context === 'public') {
       query.limit = Math.max(0, Math.min(query.limit, 1000 - query.offset))
     }
 
     // filter by period
-    if (data.params.from_date) {
+    if (params.from_date) {
       query.where = query.where || {}
       query.where.observationDateTime = _.extend(query.where.observationDateTime || {}, {
-        $gte: moment(data.params.from_date).toDate()
+        $gte: moment(params.from_date).toDate()
       })
     }
-    if (data.params.to_date) {
+    if (params.to_date) {
       query.where = query.where || {}
       query.where.observationDateTime = _.extend(query.where.observationDateTime || {}, {
-        $lte: moment(data.params.to_date).toDate()
+        $lte: moment(params.to_date).toDate()
       })
     }
 
     // filter by location
-    if (data.params.location) {
+    if (params.location) {
       query.where = _.extend(query.where || {}, {
         location: api.sequelize.sequelize.options.dialect === 'postgres'
-          ? { $ilike: data.params.location }
-          : data.params.location
+          ? { $ilike: params.location }
+          : params.location
       })
     }
 
-    if (data.params.auto_location) {
-      query.where = {
-        ...query.where,
-        [Op.or]: {
-          ...query.where[Op.or],
-          autoLocationEn: {
-            [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
-              `${data.params.auto_location}%`
-          },
-          autoLocationLocal: {
-            [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
-              `${data.params.auto_location}%`
+    if (params.auto_location) {
+      query.where = query.where || {}
+      query.where[Op.and] = query.where[Op.and] || []
+      query.where[Op.and] = [
+        ...query.where[Op.and],
+        {
+          [Op.or]: {
+            autoLocationEn: {
+              [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
+                `${params.auto_location}%`
+            },
+            autoLocationLocal: {
+              [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
+                `${params.auto_location}%`
+            }
           }
         }
-      }
+      ]
     }
 
     // filter by species
-    if (form.model.associations.speciesInfo && data.params.species) {
+    if (form.model.associations.speciesInfo && params.species) {
       query.where = _.extend(query.where || {}, {
-        species: data.params.species
+        species: params.species
       })
     }
 
     // filter by lat lon
-    const lat = parseFloat(data.params.latitude) || 0
-    const lon = parseFloat(data.params.longitude) || 0
-    const radius = parseFloat(data.params.radius) || 0
+    const lat = parseFloat(params.latitude) || 0
+    const lon = parseFloat(params.longitude) || 0
+    const radius = parseFloat(params.radius) || 0
 
-    if (data.params.latitude && data.params.longitude && data.params.radius) {
+    if (params.latitude && params.longitude && params.radius) {
       const latOffset = radius / api.config.app.latKilometersPerDegree
       const lonOffset = radius / api.config.app.lonKilometersPerDegree
 
@@ -93,37 +96,37 @@ function generatePrepareQuery (form) {
     }
 
     // filter by threat
-    if (form.hasThreats && data.params.threat) {
+    if (form.hasThreats && params.threat) {
       query.where = _.extend(query.where || {}, {
         $and: [
           { threatsEn: { $not: null } },
           { threatsEn: { $not: '' } },
-          { threatsEn: { $like: '%' + data.params.threat + '%' } }
+          { threatsEn: { $like: '%' + params.threat + '%' } }
         ]
       })
     }
 
     // filter by moderatorReview
-    if (data.params.moderatorReview != null) {
+    if (params.moderatorReview != null) {
       query.where = {
         ...query.where,
-        moderatorReview: data.params.moderatorReview
+        moderatorReview: params.moderatorReview
       }
     }
 
     // form specific filters
     if (prepareQuery) {
-      query = await prepareQuery(api, data, query)
+      query = await prepareQuery(api, { params, user }, query)
     }
 
     // selection filter
-    if (data.params.selection && data.params.selection.length > 0) {
+    if (params.selection && params.selection.length > 0) {
       query.where = query.where || {}
-      query.where.id = { $in: data.params.selection }
+      query.where.id = { $in: params.selection }
     }
 
     // secure access
-    if (data.params.context === 'public') {
+    if (params.context === 'public') {
       query.where = query.where || {}
       query.include = query.include || []
 
@@ -137,55 +140,58 @@ function generatePrepareQuery (form) {
         query.where['$speciesInfo.sensitive$'] = { $or: [false, null] }
       }
 
-      if (data.params.user) {
+      if (params.user) {
         query.where = _.extend(query.where || {}, {
-          userId: data.params.user
+          userId: params.user
         })
       }
 
-      if (data.params.organization) {
+      if (params.organization) {
         query.where = _.extend(query.where || {}, {
-          organization: data.params.organization
+          organization: params.organization
         })
       }
-    } else if (api.forms.userCanManage(data.session.user, form.modelName)) {
+    } else if (api.forms.userCanManage(user, form.modelName)) {
       // only admins can access without organization limit
-      if (!data.session.user.isAdmin) {
+      if (!user.isAdmin) {
         query.where = query.where || {}
         query.where[Op.and] = query.where[Op.and] || []
-        // limit to same organization or own records
-        query.where[Op.and].push({
-          [Op.or]: [
-            { organization: data.session.user.organizationSlug },
-            { userId: data.session.userId }
-          ]
-        })
+        query.where[Op.and] = [
+          ...query.where[Op.and],
+          // limit to same organization or own records
+          {
+            [Op.or]: [
+              { organization: user.organizationSlug },
+              { userId: user.id }
+            ]
+          }
+        ]
       } else {
-        if (data.params.organization) {
+        if (params.organization) {
           query.where = _.extend(query.where || {}, {
-            organization: data.params.organization
+            organization: params.organization
           })
         }
       }
 
       // allow filter by user
-      if (data.params.user) {
+      if (params.user) {
         query.where = _.extend(query.where || {}, {
-          userId: data.params.user
+          userId: params.user
         })
       }
     } else {
       query.where = query.where || {}
-      query.where.userId = data.session.userId
-      if (data.params.user && data.params.user !== data.session.userId) {
+      query.where.userId = user.id
+      if (params.user && params.user !== user.id) {
         const share = await api.models.share.findOne({
           where: {
-            sharer: parseInt(data.params.user),
-            sharee: data.session.userId
+            sharer: parseInt(params.user),
+            sharee: user.id
           }
         })
         if (share) {
-          query.where.userId = data.params.user
+          query.where.userId = params.user
           query.include = query.include || []
           query.include.push(form.model.associations.speciesInfo)
           query.where['$speciesInfo.sensitive$'] = false
@@ -233,6 +239,8 @@ function generateRetrieveRecord (form) {
 
 function generatePrepareCsvQuery (form) {
   return async function (api, data, query) {
+    query = await form.prepareQuery(api, data, query)
+
     query = query || {}
 
     query.include = (query.include || []).concat([

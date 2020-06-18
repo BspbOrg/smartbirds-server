@@ -108,7 +108,7 @@ exports.task = upgradeTask('ah17', {
   queue: 'low',
   middleware: [],
 
-  run: async function (api, { query, formName, outputType, user }, next) {
+  run: async function (api, { params, formName, outputType, user }, next) {
     try {
       const form = api.forms[formName]
       if (!form) throw new Error(`Unknown form ${formName}`)
@@ -121,7 +121,7 @@ exports.task = upgradeTask('ah17', {
           throw new Error(`Unsupported export type ${outputType}`)
       }
 
-      query = await form.prepareCsvQuery(api, {}, query)
+      const query = await form.prepareCsvQuery(api, { params, user })
 
       // fetch the results
       const result = await api.models[form.modelName].findAndCountAll(query)

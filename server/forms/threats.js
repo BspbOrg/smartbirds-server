@@ -103,20 +103,20 @@ exports.listInputs = {
   }
 }
 
-exports.filterList = async function (api, data, q) {
-  if (data.params.primaryType) {
+exports.filterList = async function (api, { params }, q) {
+  if (params.primaryType) {
     q.where = _.extend(q.where || {}, {
-      primaryType: data.params.primaryType
+      primaryType: params.primaryType
     })
   }
-  if (data.params.class) {
+  if (params.class) {
     q.where = _.extend(q.where || {}, {
-      class: data.params.class
+      class: params.class
     })
   }
-  if (data.params.category) {
+  if (params.category) {
     q.where = _.extend(q.where || {}, {
-      categoryEn: data.params.category
+      categoryEn: params.category
     })
   }
   return q

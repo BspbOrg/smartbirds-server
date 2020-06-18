@@ -197,32 +197,32 @@ exports.listInputs = {
   year: {}
 }
 
-exports.filterList = async function (api, data, q) {
-  if (data.params.zone) {
+exports.filterList = async function (api, { params }, q) {
+  if (params.zone) {
     q.where = _.extend(q.where || {}, {
-      zoneId: data.params.zone
+      zoneId: params.zone
     })
-  } else if (data.params.location) {
+  } else if (params.location) {
     q.where = q.where || {}
     // remove the filter by location string
     delete q.where.location
     q.include = q.include || []
     q.include.push(api.models.zone.associations.zone)
-    q.where['$zone.locationId$'] = data.params.location
+    q.where['$zone.locationId$'] = params.location
   }
-  if (data.params.visit) {
+  if (params.visit) {
     q.where = _.extend(q.where || {}, {
       $or: {
-        visitLocal: data.params.visit,
-        visitEn: data.params.visit
+        visitLocal: params.visit,
+        visitEn: params.visit
       }
     })
   }
-  if (data.params.year) {
+  if (params.year) {
     q.where = _.extend(q.where || {}, {
       startDateTime: {
-        $gte: moment().year(data.params.year).startOf('year').toDate(),
-        $lte: moment().year(data.params.year).endOf('year').toDate()
+        $gte: moment().year(params.year).startOf('year').toDate(),
+        $lte: moment().year(params.year).endOf('year').toDate()
       }
     })
   }
