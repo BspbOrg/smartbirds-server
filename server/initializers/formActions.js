@@ -1,3 +1,4 @@
+const { boolean } = require('boolean')
 const _ = require('lodash')
 const inputHelpers = require('../helpers/inputs')
 const { upgradeInitializer, upgradeAction } = require('../utils/upgrade')
@@ -100,11 +101,15 @@ function generateListAction (form) {
       const query = await form.prepareQuery(api, data)
 
       // fetch the results
-      const result = await api.models[form.modelName].findAndCountAll(query)
+      if (data.params.context !== 'count') {
+        const result = await api.models[form.modelName].findAndCountAll(query)
 
-      // prepare the output
-      data.response.data = await Promise.all(result.rows.map(async (model) => model.apiData(api, data.params.context)))
-      data.response.count = result.count
+        // prepare the output
+        data.response.data = await Promise.all(result.rows.map(async (model) => model.apiData(api, data.params.context)))
+        data.response.count = result.count
+      } else {
+        data.response.count = await api.models[form.modelName].count(query)
+      }
 
       next()
     } catch (error) {
@@ -170,7 +175,12 @@ function generateFormActions (form) {
     context: {},
     latitude: {},
     longitude: {},
-    radius: {}
+    radius: {},
+    moderatorReview: {
+      formatter: function (value) {
+        return value != null ? boolean(value) : value
+      }
+    }
   },
   form.hasThreats ? {
     threat: {

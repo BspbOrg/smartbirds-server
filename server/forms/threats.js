@@ -5,7 +5,6 @@ const inputHelpers = require('../helpers/inputs')
 const languages = require('../../config/languages')
 const capitalizeFirstLetter = require('../utils/capitalizeFirstLetter')
 const localField = require('../utils/localField')
-const extra = require('./_extra')
 
 exports = module.exports = _.cloneDeep(require('./_common'))
 
@@ -86,8 +85,7 @@ exports.fields = assign(exports.fields, {
     type: 'text',
     public: true,
     required: true
-  },
-  ...extra.fields
+  }
 })
 
 exports.foreignKeys.push({
@@ -175,6 +173,7 @@ exports.hooks = {
 }
 
 exports.validate = {
+  ...exports.validate,
   validateTypeThreat: function () {
     if (this.primaryType === formsConfig.threatsPrimaryTypes.threat.id) {
       if (!this.categoryEn) {
