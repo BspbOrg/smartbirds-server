@@ -27,18 +27,24 @@ module.exports = class AutoLocation extends Task {
       order: [['id', 'DESC']]
     })
     await Promise.all(records.map(async (record) => {
-      const settlement = await api.models.settlement.findOne({
-        order: sequelize.literal(`(latitude-${api.sequelize.sequelize.escape(record.latitude)})*(latitude-${api.sequelize.sequelize.escape(record.latitude)}) + (longitude-${api.sequelize.sequelize.escape(record.longitude)})*(longitude-${api.sequelize.sequelize.escape(record.longitude)})`)
-      })
-      if (settlement) {
-        const dist = haversine(settlement, record)
-        if (dist <= api.config.app.location.maxDistance) {
-          // en is not required, so it may be null, default to empty string to prevent duplicate processing
-          record.autoLocationEn = settlement.nameEn || ''
-          record.autoLocationLocal = settlement.nameLocal
-          record.autoLocationLang = settlement.nameLang
-          await record.save()
-          return
+      if (record.latitude != null && record.longitude != null) {
+        const settlement = await api.models.settlement.findOne({
+          order: sequelize.literal(`
+          (latitude-(${api.sequelize.sequelize.escape(record.latitude)}))*(latitude-(${api.sequelize.sequelize.escape(record.latitude)}))
+           +
+          (longitude-(${api.sequelize.sequelize.escape(record.longitude)}))*(longitude-(${api.sequelize.sequelize.escape(record.longitude)}))
+          `)
+        })
+        if (settlement) {
+          const dist = haversine(settlement, record)
+          if (dist <= api.config.app.location.maxDistance) {
+            // en is not required, so it may be null, default to empty string to prevent duplicate processing
+            record.autoLocationEn = settlement.nameEn || ''
+            record.autoLocationLocal = settlement.nameLocal
+            record.autoLocationLang = settlement.nameLang
+            await record.save()
+            return
+          }
         }
       }
 
