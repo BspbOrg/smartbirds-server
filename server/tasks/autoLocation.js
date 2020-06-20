@@ -4,6 +4,23 @@ const haversine = require('haversine-distance')
 
 const { Op } = sequelize
 
+async function trySave (record, form) {
+  try {
+    await record.save()
+  } catch (e) {
+    const duplicated = await api.forms[form].model.findOne({
+      attributes: ['id'],
+      where: { hash: record.hash }
+    })
+    if (duplicated) {
+      api.log(`[${form}] Duplicate records ${record.id} and ${duplicated.id}`, 'error')
+    } else {
+      api.log(`Could not update record ${form}.${record.id} (hash: ${record.hash})`, 'error', e)
+      throw e
+    }
+  }
+}
+
 async function process (record, form) {
   if (record.latitude == null || record.longitude == null) {
     return
@@ -26,20 +43,8 @@ async function process (record, form) {
   record.autoLocationEn = settlement.nameEn || ''
   record.autoLocationLocal = settlement.nameLocal
   record.autoLocationLang = settlement.nameLang
-  try {
-    await record.save()
-  } catch (e) {
-    const duplicated = await api.forms[form].model.findOne({
-      attributes: ['id'],
-      where: { hash: record.hash }
-    })
-    if (duplicated) {
-      api.log(`[${form}] Duplicate records ${record.id} and ${duplicated.id}`, 'error')
-    } else {
-      api.log(`Could not update record ${form}.${record.id} (hash: ${record.hash})`, 'error', e)
-      throw e
-    }
-  }
+
+  await trySave(record, form)
 
   return true
 }
@@ -54,7 +59,7 @@ module.exports = class AutoLocation extends Task {
     this.frequency = 0
   }
 
-  async run ({ form, id, limit = api.config.app.location.maxRecords } = {}, worker) {
+  async run ({ form, id, limit = api.config.app.location.maxRecords, lastId = null } = {}, worker) {
     if (!form) {
       return Promise.all(Object.values(api.forms).map(async (form) => {
         if (!form.$isForm) return
@@ -63,7 +68,6 @@ module.exports = class AutoLocation extends Task {
       }))
     }
 
-    let lastId = null
     let records
     do {
       records = await api.forms[form].model.findAll({
@@ -82,7 +86,7 @@ module.exports = class AutoLocation extends Task {
         if (!await process(record, form)) {
           // mark as empty string so we don't repeat it
           record.autoLocationEn = ''
-          await record.save()
+          await trySave(record, form)
         }
       }))
       if (records.length === 0) limit = 0
