@@ -41,6 +41,20 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false
     }
   }, {
+    instanceMethods: {
+      apiData: function () {
+        return {
+          gridId: this.gridId,
+          cellId: this.cellId,
+          vertexes: [
+            { lat: this.v1Latitude, lon: this.v1Longitude },
+            { lat: this.v2Latitude, lon: this.v2Longitude },
+            { lat: this.v3Latitude, lon: this.v3Longitude },
+            { lat: this.v4Latitude, lon: this.v4Longitude }
+          ]
+        }
+      }
+    },
     timestamps: false,
     underscored: true
   })
