@@ -13,7 +13,7 @@
     "jest-runner-mocha": "^0.6.0",
     "lint-staged": "^10.1.6",
     "parallelshell": "^3.0.2",
-    "sequelize-fixtures": "^1.1.1",
+    "sequelize-fixtures": "^1.2.0",
     "should": "^13.2.3",
     "should-sinon": "^0.0.6",
     "sinon": "^9.0.2",
