@@ -1,7 +1,7 @@
 /* global describe, before, after, it */
 
-const setup = require('./_setup')
-const should = require('should')
+const setup = require('../_setup')
+require('should')
 
 before(async function () {
   await setup.init()
@@ -12,14 +12,14 @@ after(async function () {
 })
 
 const defaultCoords = {
-  v1Latitude: 1,
-  v1Longitude: 2,
-  v2Latitude: 3,
-  v2Longitude: 4,
-  v3Latitude: 5,
-  v3Longitude: 6,
-  v4Latitude: 7,
-  v4Longitude: 8
+  lat1: 1,
+  lon1: 2,
+  lat2: 3,
+  lon2: 4,
+  lat3: 5,
+  lon3: 6,
+  lat4: 7,
+  lon4: 8
 }
 
 describe('grid cells', () => {

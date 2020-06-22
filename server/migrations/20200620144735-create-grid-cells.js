@@ -14,36 +14,36 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false
       },
-      v1_longitude: {
-        type: Sequelize.FLOAT,
+      lat1: {
+        type: Sequelize.DOUBLE,
         allowNull: false
       },
-      v1_latitude: {
-        type: Sequelize.FLOAT,
+      lon1: {
+        type: Sequelize.DOUBLE,
         allowNull: false
       },
-      v2_longitude: {
-        type: Sequelize.FLOAT,
+      lat2: {
+        type: Sequelize.DOUBLE,
         allowNull: false
       },
-      v2_latitude: {
-        type: Sequelize.FLOAT,
+      lon2: {
+        type: Sequelize.DOUBLE,
         allowNull: false
       },
-      v3_longitude: {
-        type: Sequelize.FLOAT,
+      lat3: {
+        type: Sequelize.DOUBLE,
         allowNull: false
       },
-      v3_latitude: {
-        type: Sequelize.FLOAT,
+      lon3: {
+        type: Sequelize.DOUBLE,
         allowNull: false
       },
-      v4_longitude: {
-        type: Sequelize.FLOAT,
+      lat4: {
+        type: Sequelize.DOUBLE,
         allowNull: false
       },
-      v4_latitude: {
-        type: Sequelize.FLOAT,
+      lon4: {
+        type: Sequelize.DOUBLE,
         allowNull: false
       }
     })
@@ -52,6 +52,14 @@ module.exports = {
       fields: ['grid_id', 'cell_id'],
       unique: true
     })
+    await queryInterface.addIndex('grid_cells', { fields: ['lat1'] })
+    await queryInterface.addIndex('grid_cells', { fields: ['lat2'] })
+    await queryInterface.addIndex('grid_cells', { fields: ['lat3'] })
+    await queryInterface.addIndex('grid_cells', { fields: ['lat4'] })
+    await queryInterface.addIndex('grid_cells', { fields: ['lon1'] })
+    await queryInterface.addIndex('grid_cells', { fields: ['lon2'] })
+    await queryInterface.addIndex('grid_cells', { fields: ['lon3'] })
+    await queryInterface.addIndex('grid_cells', { fields: ['lon4'] })
   },
 
   down: async function (queryInterface, Sequelize) {
