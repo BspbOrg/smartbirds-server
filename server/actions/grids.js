@@ -45,26 +45,26 @@ class ListGridCells extends Action {
       query.where[Op.or] = [
         {
           [Op.and]: {
-            v1Latitude: { [Op.between]: latRange },
-            v1Longitude: { [Op.between]: lonRange }
+            lat1: { [Op.between]: latRange },
+            lon1: { [Op.between]: lonRange }
           }
         },
         {
           [Op.and]: {
-            v2Latitude: { [Op.between]: latRange },
-            v2Longitude: { [Op.between]: lonRange }
+            lat2: { [Op.between]: latRange },
+            lon2: { [Op.between]: lonRange }
           }
         },
         {
           [Op.and]: {
-            v3Latitude: { [Op.between]: latRange },
-            v3Longitude: { [Op.between]: lonRange }
+            lat3: { [Op.between]: latRange },
+            lon3: { [Op.between]: lonRange }
           }
         },
         {
           [Op.and]: {
-            v4Latitude: { [Op.between]: latRange },
-            v4Longitude: { [Op.between]: lonRange }
+            lat4: { [Op.between]: latRange },
+            lon4: { [Op.between]: lonRange }
           }
         }
       ]

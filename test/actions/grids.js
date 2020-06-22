@@ -21,31 +21,31 @@ describe('Action grids:cells:list', () => {
     // 4 locations each within range with different vertex
     await setup.api.models.grid_cell.create({ // eslint-disable-next-line object-property-newline
       gridId, cellId: 'DR', // eslint-disable-next-line object-property-newline
-      v1Latitude: 1.01, v1Longitude: 1.02, // eslint-disable-next-line object-property-newline
-      v2Latitude: 2.01, v2Longitude: 1.02, // eslint-disable-next-line object-property-newline
-      v3Latitude: 2.01, v3Longitude: 2.02, // eslint-disable-next-line object-property-newline
-      v4Latitude: 1.01, v4Longitude: 2.02
+      lat1: 1.01, lon1: 1.02, // eslint-disable-next-line object-property-newline
+      lat2: 2.01, lon2: 1.02, // eslint-disable-next-line object-property-newline
+      lat3: 2.01, lon3: 2.02, // eslint-disable-next-line object-property-newline
+      lat4: 1.01, lon4: 2.02
     })
     await setup.api.models.grid_cell.create({ // eslint-disable-next-line object-property-newline
       gridId, cellId: 'DL', // eslint-disable-next-line object-property-newline
-      v1Latitude: 0.01, v1Longitude: 1.02, // eslint-disable-next-line object-property-newline
-      v2Latitude: 1.01, v2Longitude: 1.02, // eslint-disable-next-line object-property-newline
-      v3Latitude: 1.01, v3Longitude: 2.02, // eslint-disable-next-line object-property-newline
-      v4Latitude: 0.01, v4Longitude: 2.02
+      lat1: 0.01, lon1: 1.02, // eslint-disable-next-line object-property-newline
+      lat2: 1.01, lon2: 1.02, // eslint-disable-next-line object-property-newline
+      lat3: 1.01, lon3: 2.02, // eslint-disable-next-line object-property-newline
+      lat4: 0.01, lon4: 2.02
     })
     await setup.api.models.grid_cell.create({ // eslint-disable-next-line object-property-newline
       gridId, cellId: 'UR', // eslint-disable-next-line object-property-newline
-      v1Latitude: 1.01, v1Longitude: 0.02, // eslint-disable-next-line object-property-newline
-      v2Latitude: 2.01, v2Longitude: 0.02, // eslint-disable-next-line object-property-newline
-      v3Latitude: 2.01, v3Longitude: 1.02, // eslint-disable-next-line object-property-newline
-      v4Latitude: 1.01, v4Longitude: 1.02
+      lat1: 1.01, lon1: 0.02, // eslint-disable-next-line object-property-newline
+      lat2: 2.01, lon2: 0.02, // eslint-disable-next-line object-property-newline
+      lat3: 2.01, lon3: 1.02, // eslint-disable-next-line object-property-newline
+      lat4: 1.01, lon4: 1.02
     })
     await setup.api.models.grid_cell.create({ // eslint-disable-next-line object-property-newline
       gridId, cellId: 'UL', // eslint-disable-next-line object-property-newline
-      v1Latitude: 0.01, v1Longitude: 0.02, // eslint-disable-next-line object-property-newline
-      v2Latitude: 1.01, v2Longitude: 0.02, // eslint-disable-next-line object-property-newline
-      v3Latitude: 1.01, v3Longitude: 1.02, // eslint-disable-next-line object-property-newline
-      v4Latitude: 0.01, v4Longitude: 1.02
+      lat1: 0.01, lon1: 0.02, // eslint-disable-next-line object-property-newline
+      lat2: 1.01, lon2: 0.02, // eslint-disable-next-line object-property-newline
+      lat3: 1.01, lon3: 1.02, // eslint-disable-next-line object-property-newline
+      lat4: 0.01, lon4: 1.02
     })
   })
 

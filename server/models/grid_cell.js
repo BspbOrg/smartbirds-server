@@ -8,36 +8,36 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: false
     },
-    v1Longitude: {
-      type: DataTypes.FLOAT,
+    lat1: {
+      type: DataTypes.DOUBLE,
       allowNull: false
     },
-    v1Latitude: {
-      type: DataTypes.FLOAT,
+    lon1: {
+      type: DataTypes.DOUBLE,
       allowNull: false
     },
-    v2Longitude: {
-      type: DataTypes.FLOAT,
+    lat2: {
+      type: DataTypes.DOUBLE,
       allowNull: false
     },
-    v2Latitude: {
-      type: DataTypes.FLOAT,
+    lon2: {
+      type: DataTypes.DOUBLE,
       allowNull: false
     },
-    v3Longitude: {
-      type: DataTypes.FLOAT,
+    lat3: {
+      type: DataTypes.DOUBLE,
       allowNull: false
     },
-    v3Latitude: {
-      type: DataTypes.FLOAT,
+    lon3: {
+      type: DataTypes.DOUBLE,
       allowNull: false
     },
-    v4Longitude: {
-      type: DataTypes.FLOAT,
+    lat4: {
+      type: DataTypes.DOUBLE,
       allowNull: false
     },
-    v4Latitude: {
-      type: DataTypes.FLOAT,
+    lon4: {
+      type: DataTypes.DOUBLE,
       allowNull: false
     }
   }, {
@@ -46,11 +46,11 @@ module.exports = function (sequelize, DataTypes) {
         return {
           gridId: this.gridId,
           cellId: this.cellId,
-          vertexes: [
-            { lat: this.v1Latitude, lon: this.v1Longitude },
-            { lat: this.v2Latitude, lon: this.v2Longitude },
-            { lat: this.v3Latitude, lon: this.v3Longitude },
-            { lat: this.v4Latitude, lon: this.v4Longitude }
+          coordinates: [
+            { latitude: this.lat1, longitude: this.lon1 },
+            { latitude: this.lat2, longitude: this.lon2 },
+            { latitude: this.lat3, longitude: this.lon3 },
+            { latitude: this.lat4, longitude: this.lon4 }
           ]
         }
       }
