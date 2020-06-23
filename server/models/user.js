@@ -183,6 +183,12 @@ module.exports = function (sequelize, DataTypes) {
               firstName: this.gdprConsent ? this.firstName : '',
               lastName: this.gdprConsent ? this.lastName : ''
             }
+          case 'foreign':
+            return {
+              id: this.id,
+              firstName: this.firstName,
+              lastName: this.lastName
+            }
           case 'sharer':
           case 'sharee':
             return {

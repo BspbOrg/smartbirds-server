@@ -156,7 +156,11 @@ exports.userView = upgradeAction('ah17', {
 
     if (data.params.id === 'me' || parseInt(data.params.id) === data.session.userId) {
       q.where.id = data.session.userId
-    } else if (!data.session.user.isAdmin && !data.session.user.isModerator && !data.session.user.isOrgAdmin) {
+    } else if (data.session.user.isAdmin || data.session.user.isModerator || data.session.user.isOrgAdmin) {
+      // need access to all users because they may be accessing a record in their own organization of
+      // user who already switched to another
+      q.where.id = data.params.id
+    } else {
       // data.connection.rawConnection.responseHttpCode = 403
       // return next(new Error('Admin required'))
       q.where.id = data.params.id
@@ -164,12 +168,6 @@ exports.userView = upgradeAction('ah17', {
       q.include.push(api.models.user.associations.sharees)
       q.where['$sharees.id$'] = data.session.userId
       scope = 'sharee'
-    } else {
-      q.where.id = data.params.id
-      // only admin can access every user, rest are scoped by organization
-      if (!data.session.user.isAdmin) {
-        q.where.organizationSlug = data.session.user.organizationSlug
-      }
     }
     api.models.user.findOne(q).then(function (user) {
       if (!user) {
@@ -177,6 +175,9 @@ exports.userView = upgradeAction('ah17', {
         return next(new Error('Няма такъв потребител'))
       }
 
+      if (scope === 'default' && !data.session.user.isAdmin && user.organizationSlug !== data.session.user.organizationSlug) {
+        scope = 'foreign'
+      }
       data.response.data = user.apiData(api, scope)
       next()
     })

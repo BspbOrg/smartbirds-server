@@ -420,26 +420,35 @@ describe('user permissions', () => {
       ['user from same org', org1User],
       ['self', org1Moderator],
       ['another moderator from same org', org1Mod2],
-      ['administrator from same org', org1Admin]
-    ])('can get %s', async (_, user) => {
+      ['administrator from same org', org1Admin],
+    ])('can get details for %s', async (_, user) => {
       const { id } = await setup.api.models.user.findOne({ where: { email: user } })
       const response = await runTestAction('user:view', { id })
 
       response.should.not.have.property('error')
       response.data.should.have.property('id', id)
+      response.data.should.have.property('firstName')
+      response.data.should.have.property('lastName')
+      response.data.should.have.property('email')
+      response.data.should.have.property('role')
     })
 
+    // when editing record need to get user regardless of his/her current organization/role but need only name
     setup.jestEach(it, [
       ['user from another org', org2User],
       ['moderator from another org', org2Moderator],
       ['administrator from another org', org2Admin],
       ['administrator', admin]
-    ])('cannot get %s', async (_, user) => {
+    ])('can get only name for %s', async (_, user) => {
       const { id } = await setup.api.models.user.findOne({ where: { email: user } })
       const response = await runTestAction('user:view', { id })
 
-      response.should.have.property('error')
-      response.should.not.have.property('data')
+      response.should.not.have.property('error')
+      response.data.should.have.property('id', id)
+      response.data.should.have.property('firstName')
+      response.data.should.have.property('lastName')
+      response.data.should.not.have.property('email')
+      response.data.should.not.have.property('role')
     })
 
     setup.jestEach(it, [
@@ -500,26 +509,35 @@ describe('user permissions', () => {
       ['user from same org', org1User],
       ['moderator from same org', org1Moderator],
       ['self', org1Admin],
-      ['another administrator from same org', org1Admin2]
-    ])('can get %s', async (_, user) => {
+      ['another administrator from same org', org1Admin2],
+    ])('can get details for %s', async (_, user) => {
       const { id } = await setup.api.models.user.findOne({ where: { email: user } })
       const response = await runTestAction('user:view', { id })
 
       response.should.not.have.property('error')
       response.data.should.have.property('id', id)
+      response.data.should.have.property('firstName')
+      response.data.should.have.property('lastName')
+      response.data.should.have.property('email')
+      response.data.should.have.property('role')
     })
 
+    // when editing record need to get user regardless of his/her current organization/role
     setup.jestEach(it, [
       ['user from another org', org2User],
       ['moderator from another org', org2Moderator],
       ['administrator from another org', org2Admin],
       ['administrator', admin]
-    ])('cannot get %s', async (_, user) => {
+    ])('can get only name for %s', async (_, user) => {
       const { id } = await setup.api.models.user.findOne({ where: { email: user } })
       const response = await runTestAction('user:view', { id })
 
-      response.should.have.property('error')
-      response.should.not.have.property('data')
+      response.should.not.have.property('error')
+      response.data.should.have.property('id', id)
+      response.data.should.have.property('firstName')
+      response.data.should.have.property('lastName')
+      response.data.should.not.have.property('email')
+      response.data.should.not.have.property('role')
     })
 
     setup.jestEach(it, [
@@ -549,13 +567,13 @@ describe('user permissions', () => {
     })
 
     setup.jestEach(it, [
-      ['user', 'moderator'],
-      ['user', 'org-admin'],
-      ['moderator', 'user'],
-      ['moderator', 'org-admin'],
-      ['org-admin', 'user'],
-      ['org-admin', 'moderator']
-    ])('can change %s to %s', async (fromRole, toRole) => {
+      ['user to moderator', 'user', 'moderator'],
+      ['user to org-admin', 'user', 'org-admin'],
+      ['moderator to user', 'moderator', 'user'],
+      ['moderator to org-admin', 'moderator', 'org-admin'],
+      ['org-admin to user', 'org-admin', 'user'],
+      ['org-admin to moderator', 'org-admin', 'moderator']
+    ])('can change %s', async (_, fromRole, toRole) => {
       const user = await setup.createUser({
         ...requiredUserRegistration,
         email: `${fromRole}.${toRole}@org1.org`,
