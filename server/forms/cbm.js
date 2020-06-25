@@ -31,6 +31,7 @@ exports.fields = {
   },
   secondaryHabitat: {
     type: 'choice',
+    uniqueHash: true,
     relation: {
       model: 'nomenclature',
       filter: { type: 'cbm_habitat' }
@@ -39,6 +40,7 @@ exports.fields = {
   primaryHabitat: {
     type: 'choice',
     required: true,
+    uniqueHash: true,
     relation: {
       model: 'nomenclature',
       filter: { type: 'cbm_habitat' }
@@ -135,7 +137,8 @@ exports.fields = {
   },
   monitoringCode: {
     type: 'text',
-    required: true
+    required: true,
+    uniqueHash: true
   },
 
   zone: {
