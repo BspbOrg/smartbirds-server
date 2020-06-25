@@ -1,6 +1,6 @@
 const { Task, api } = require('actionhero')
 const sequelize = require('sequelize')
-const haversine = require('haversine-distance')
+const { getBoundsOfDistance, getDistance } = require('geolib')
 
 const { Op } = sequelize
 
@@ -25,7 +25,24 @@ async function process (record, form) {
   if (record.latitude == null || record.longitude == null) {
     return
   }
+
+  const bounds = getBoundsOfDistance({
+    latitude: record.latitude,
+    longitude: record.longitude
+  }, api.config.app.location.maxDistance)
+
   const settlement = await api.models.settlement.findOne({
+    where: {
+      latitude: { [Op.between]: [bounds[0].latitude, bounds[1].latitude] },
+      longitude: bounds[0].longitude <= bounds[1].longitude
+        ? { [Op.between]: [bounds[0].longitude, bounds[1].longitude] }
+        : {
+          [Op.or]: [
+            { [Op.gte]: bounds[0].longitude },
+            { [Op.lte]: bounds[1].longitude }
+          ]
+        }
+    },
     order: sequelize.literal(`
           (latitude-(${api.sequelize.sequelize.escape(record.latitude)}))*(latitude-(${api.sequelize.sequelize.escape(record.latitude)}))
            +
@@ -35,7 +52,7 @@ async function process (record, form) {
   if (!settlement) {
     return
   }
-  const dist = haversine(settlement, record)
+  const dist = getDistance(settlement, record)
   if (dist > api.config.app.location.maxDistance) {
     return
   }
