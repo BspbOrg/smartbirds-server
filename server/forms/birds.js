@@ -39,6 +39,7 @@ exports.fields = assign(exports.fields, {
     type: 'choice',
     public: true,
     required: true,
+    uniqueHash: true,
     relation: {
       model: 'nomenclature',
       filter: { type: 'birds_count_type' }
@@ -54,17 +55,20 @@ exports.fields = assign(exports.fields, {
   count: {
     type: '+int',
     public: true,
-    required: true
+    required: true,
+    uniqueHash: true
   },
   countMin: {
     type: '+int',
     public: true,
-    required: true
+    required: true,
+    uniqueHash: true
   },
   countMax: {
     type: '+int',
     public: true,
-    required: true
+    required: true,
+    uniqueHash: true
   },
   sex: {
     type: 'choice',
@@ -91,6 +95,7 @@ exports.fields = assign(exports.fields, {
   },
   speciesStatus: {
     type: 'choice',
+    uniqueHash: true,
     relation: {
       model: 'nomenclature',
       filter: { type: 'birds_status' }
@@ -98,6 +103,7 @@ exports.fields = assign(exports.fields, {
   },
   behaviour: {
     type: 'multi',
+    uniqueHash: true,
     relation: {
       model: 'nomenclature',
       filter: { type: 'birds_behaviour' }
@@ -168,7 +174,10 @@ exports.fields = assign(exports.fields, {
     }
   },
   landuse300mRadius: 'text',
-  speciesNotes: 'text'
+  speciesNotes: {
+    type: 'text',
+    uniqueHash: true
+  }
 })
 
 exports.foreignKeys.push({

@@ -50,6 +50,7 @@ exports.fields = assign(exports.fields, {
   },
   findings: {
     type: 'multi',
+    uniqueHash: true,
     relation: {
       model: 'nomenclature',
       filter: { type: 'invertebrates_findings' }
@@ -58,10 +59,14 @@ exports.fields = assign(exports.fields, {
   count: {
     type: '+int',
     public: true,
-    required: true
+    required: true,
+    uniqueHash: true
   },
   marking: 'text',
-  speciesNotes: 'text'
+  speciesNotes: {
+    type: 'text',
+    uniqueHash: true
+  }
 })
 
 exports.foreignKeys.push({

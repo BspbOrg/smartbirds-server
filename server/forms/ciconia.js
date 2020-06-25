@@ -17,6 +17,7 @@ exports.fields = assign(exports.fields, {
   },
   primarySubstrateType: {
     type: 'choice',
+    uniqueHash: true,
     relation: {
       model: 'nomenclature',
       filter: { type: 'ciconia_substratum' }
@@ -55,6 +56,7 @@ exports.fields = assign(exports.fields, {
   nestIsOnAnotherTypeOfSubstrate: 'text',
   nestThisYearNotUtilizedByWhiteStorks: {
     type: 'choice',
+    uniqueHash: true,
     relation: {
       model: 'nomenclature',
       filter: { type: 'ciconia_not_occupied' }
@@ -76,11 +78,17 @@ exports.fields = assign(exports.fields, {
       filter: { type: 'ciconia_new_birds' }
     }
   },
-  countJuvenilesInNest: '+int',
+  countJuvenilesInNest: {
+    type: '+int',
+    uniqueHash: true
+  },
   nestNotUsedForOverOneYear: '+int',
   dataOnJuvenileMortalityFromElectrocutions: '+int',
   dataOnJuvenilesExpelledFromParents: '+int',
   diedOtherReasons: '+int',
   reason: 'text',
-  speciesNotes: 'text'
+  speciesNotes: {
+    type: 'text',
+    uniqueHash: true
+  }
 })

@@ -23,18 +23,22 @@ exports.fields = {
   },
   monitoringCode: {
     type: 'text',
-    required: true
+    required: true,
+    uniqueHash: true
   },
   endDateTime: {
     type: 'timestamp',
-    required: true
+    required: true,
+    uniqueHash: true
   },
   startDateTime: {
     type: 'timestamp',
-    required: true
+    required: true,
+    uniqueHash: true
   },
   observers: {
-    type: 'text'
+    type: 'text',
+    uniqueHash: true
   },
   rain: {
     type: 'choice',

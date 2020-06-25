@@ -50,6 +50,7 @@ exports.fields = assign(exports.fields, {
   },
   findings: {
     type: 'multi',
+    uniqueHash: true,
     relation: {
       model: 'nomenclature',
       filter: { type: 'herptiles_findings' }
@@ -58,7 +59,8 @@ exports.fields = assign(exports.fields, {
   count: {
     type: '+int',
     public: true,
-    required: true
+    required: true,
+    uniqueHash: true
   },
   marking: 'text',
   axisDistance: 'num',
@@ -73,7 +75,10 @@ exports.fields = assign(exports.fields, {
   sqVentr: 'num',
   sqCaud: 'num',
   sqDors: 'num',
-  speciesNotes: 'text'
+  speciesNotes: {
+    type: 'text',
+    uniqueHash: true
+  }
 })
 
 exports.foreignKeys.push({
