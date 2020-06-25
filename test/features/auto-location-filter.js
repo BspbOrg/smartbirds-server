@@ -126,4 +126,56 @@ describe('Auto location', () => {
       }
     )
   })
+
+  it('can filter on any form for EMPTY', async () => {
+    await forEachForm(
+      async ({ row }) => {
+        const rowMatch = await cloneModel(row)
+        rowMatch.autoLocationEn = ''
+        await rowMatch.save()
+
+        const rowNoMatch = await cloneModel(row)
+        rowNoMatch.autoLocationEn = 'EMPTY'
+        await rowNoMatch.save()
+
+        const rowNoMatch2 = await cloneModel(row)
+        rowNoMatch.autoLocationEn = null
+        await rowNoMatch.save()
+
+        return { rowMatch, rowNoMatch, rowNoMatch2 }
+      },
+      () => ({ auto_location: 'EMPTY' }),
+      ({ response, prepared: { rowMatch, rowNoMatch, rowNoMatch2 } }) => {
+        response.data.should.containDeep([{ id: rowMatch.id }])
+        response.data.should.not.containDeep([{ id: rowNoMatch.id }])
+        response.data.should.not.containDeep([{ id: rowNoMatch2.id }])
+      }
+    )
+  })
+
+  it('can filter on any form for NULL', async () => {
+    await forEachForm(
+      async ({ row }) => {
+        const rowMatch = await cloneModel(row)
+        rowMatch.autoLocationEn = null
+        await rowMatch.save()
+
+        const rowNoMatch = await cloneModel(row)
+        rowNoMatch.autoLocationEn = 'NULL'
+        await rowNoMatch.save()
+
+        const rowNoMatch2 = await cloneModel(row)
+        rowNoMatch.autoLocationEn = ''
+        await rowNoMatch.save()
+
+        return { rowMatch, rowNoMatch, rowNoMatch2 }
+      },
+      () => ({ auto_location: 'NULL' }),
+      ({ response, prepared: { rowMatch, rowNoMatch, rowNoMatch2 } }) => {
+        response.data.should.containDeep([{ id: rowMatch.id }])
+        response.data.should.not.containDeep([{ id: rowNoMatch.id }])
+        response.data.should.not.containDeep([{ id: rowNoMatch2.id }])
+      }
+    )
+  })
 })
