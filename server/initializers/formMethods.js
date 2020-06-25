@@ -53,18 +53,21 @@ function generatePrepareQuery (form) {
       query.where[Op.and] = query.where[Op.and] || []
       query.where[Op.and] = [
         ...query.where[Op.and],
-        {
-          [Op.or]: {
-            autoLocationEn: {
-              [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
-                `${params.auto_location}%`
-            },
-            autoLocationLocal: {
-              [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
-                `${params.auto_location}%`
+        params.auto_location === 'EMPTY' ? { autoLocationEn: '' }
+          : (params.auto_location === 'NULL' ? { autoLocationEn: null }
+            : {
+              [Op.or]: {
+                autoLocationEn: {
+                  [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
+                    `${params.auto_location}%`
+                },
+                autoLocationLocal: {
+                  [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
+                    `${params.auto_location}%`
+                }
+              }
             }
-          }
-        }
+          )
       ]
     }
 
