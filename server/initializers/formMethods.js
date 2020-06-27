@@ -2,6 +2,7 @@ const _ = require('lodash')
 const moment = require('moment')
 const { upgradeInitializer } = require('../utils/upgrade')
 const { Op } = require('sequelize')
+const { getBoundsOfDistance } = require('geolib')
 
 function generatePrepareQuery (form) {
   const prepareQuery = form.filterList
@@ -79,23 +80,33 @@ function generatePrepareQuery (form) {
     }
 
     // filter by lat lon
-    const lat = parseFloat(params.latitude) || 0
-    const lon = parseFloat(params.longitude) || 0
-    const radius = parseFloat(params.radius) || 0
+    if (params.latitude != null && params.longitude != null && params.radius != null) {
+      const lat = parseFloat(params.latitude)
+      const lon = parseFloat(params.longitude)
+      const radius = parseFloat(params.radius)
+      if (!(isNaN(lat) || isNaN(lon) || isNaN(radius))) {
+        const bounds = getBoundsOfDistance({
+          latitude: lat,
+          longitude: lon
+        }, radius)
 
-    if (params.latitude && params.longitude && params.radius) {
-      const latOffset = radius / api.config.app.latKilometersPerDegree
-      const lonOffset = radius / api.config.app.lonKilometersPerDegree
-
-      query.where = query.where || {}
-      query.where.latitude = _.extend(query.where.latitude || {}, {
-        $lte: lat + latOffset,
-        $gte: lat - latOffset
-      })
-      query.where.longitude = _.extend(query.where.longitude || {}, {
-        $lte: lon + lonOffset,
-        $gte: lon - lonOffset
-      })
+        query.where = query.where || {}
+        query.where[Op.and] = query.where[Op.and] || []
+        query.where[Op.and] = [
+          ...query.where[Op.and],
+          {
+            latitude: { [Op.between]: [bounds[0].latitude, bounds[1].latitude] },
+            longitude: bounds[0].longitude <= bounds[1].longitude
+              ? { [Op.between]: [bounds[0].longitude, bounds[1].longitude] }
+              : {
+                [Op.or]: [
+                  { [Op.gte]: bounds[0].longitude },
+                  { [Op.lte]: bounds[1].longitude }
+                ]
+              }
+          }
+        ]
+      }
     }
 
     // filter by threat
