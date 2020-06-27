@@ -1,13 +1,11 @@
 exports.default = {
   app: {
     orphanRecordsAdopter: process.env.ORPHAN_OWNER,
-    latKilometersPerDegree: 111.195,
-    lonKilometersPerDegree: 82.445,
     location: {
       // max distance to consider a point belonging to a city
-      maxDistance: 50000,
+      maxDistance: process.env.AUTO_LOCATION_MAX_DISTANCE || 100000,
       // max records per task
-      maxRecords: 10
+      maxRecords: process.env.AUTO_LOCATION_MAX_RECORDS || 10
     }
   }
 }
