@@ -8,12 +8,23 @@ async function trySave (record, form) {
   try {
     await record.save()
   } catch (e) {
+    // if we already know it's duplicate do nothing
+    if (await api.models.duplicate.findOne({ where: { form, id1: record.id } })) {
+      return
+    }
+    // find the duplicated
     const duplicated = await api.forms[form].model.findOne({
       attributes: ['id'],
       where: { hash: record.hash }
     })
     if (duplicated) {
       api.log(`[${form}] Duplicate records ${record.id} and ${duplicated.id}`, 'error')
+      await api.models.duplicate.create({
+        form,
+        id1: record.id,
+        id2: duplicated.id,
+        hash: record.hash
+      })
     } else {
       api.log(`Could not update record ${form}.${record.id} (hash: ${record.hash})`, 'error', e)
       throw e
