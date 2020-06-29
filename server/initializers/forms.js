@@ -414,6 +414,9 @@ function generateApiUpdate (fields) {
           break
       }
     })
+    if (this.changed('latitude') || this.changed('longitude')) {
+      localField('autoLocation').update(this, null)
+    }
     await this.constructor.runHooks('afterApiUpdate', this, data)
     return this
   }

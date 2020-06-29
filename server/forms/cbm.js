@@ -1,6 +1,8 @@
 const _ = require('lodash')
 const moment = require('moment')
 const extra = require('./_extra')
+const latitude = require('./_fields/latitude')
+const longitude = require('./_fields/longitude')
 
 exports = module.exports = _.cloneDeep(require('./_common'))
 
@@ -116,18 +118,8 @@ exports.fields = {
   cloudsType: 'text',
   temperature: 'num',
   observers: 'text',
-  latitude: {
-    type: 'num',
-    required: true,
-    public: true,
-    uniqueHash: true
-  },
-  longitude: {
-    type: 'num',
-    required: true,
-    public: true,
-    uniqueHash: true
-  },
+  ...latitude.fields,
+  ...longitude.fields,
 
   observationDateTime: {
     type: 'timestamp',
