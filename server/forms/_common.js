@@ -1,20 +1,12 @@
 const extra = require('./_extra')
+const latitude = require('./_fields/latitude')
+const longitude = require('./_fields/longitude')
 
 // Common form fields - all forms except CBM
 exports.fields = {
   ...extra.fields,
-  latitude: {
-    type: 'num',
-    required: true,
-    public: true,
-    uniqueHash: true
-  },
-  longitude: {
-    type: 'num',
-    required: true,
-    public: true,
-    uniqueHash: true
-  },
+  ...latitude.fields,
+  ...longitude.fields,
   observationDateTime: {
     type: 'timestamp',
     required: true,

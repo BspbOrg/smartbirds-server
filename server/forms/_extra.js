@@ -1,10 +1,7 @@
+const autoLocation = require('./_fields/autoLocation')
+
 exports.fields = {
-  autoLocation: {
-    type: 'choice',
-    relation: {
-      model: 'settlement'
-    }
-  },
+  ...autoLocation.fields,
   moderatorReview: 'boolean'
 }
 
