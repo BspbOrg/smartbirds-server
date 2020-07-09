@@ -22,7 +22,7 @@ const defaultCoords = {
   lon4: 8
 }
 
-describe('grid cells', () => {
+describe('bg atlas 2008 cells', () => {
   it('creates records', async () => {
     await setup.api.models.bgatlas2008_cells.create({
       utm_code: 'AA01',

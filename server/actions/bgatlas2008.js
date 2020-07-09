@@ -74,5 +74,5 @@ class ListCells extends Action {
 }
 
 module.exports = {
-  ListGridCells: ListCells
+  ListCells
 }
