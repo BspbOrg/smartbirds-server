@@ -8,9 +8,8 @@ const testModels = []
 before(async function () {
   await setup.init()
 
-  testModels.push(await setup.api.models.grid_cell.create({
-    gridId: 'utmGridBg10km',
-    cellId: 'test-cell',
+  testModels.push(await setup.api.models.bgatlas2008_cells.create({
+    utm_code: 'TEST',
     lat1: 1,
     lon1: 1,
     lat2: 2,
@@ -48,39 +47,39 @@ after(async function () {
   await setup.finish()
 })
 
-describe('bg atlas 2008', () => {
+describe('bg atlas 2008 species', () => {
   it('creates records', async () => {
-    await setup.api.models.bgAtlas2008.create({
-      cellId: 'test-cell',
+    await setup.api.models.bgatlas2008_species.create({
+      utm_code: 'TEST',
       species: 'test-bird-1'
     }).should.be.resolved()
   })
 
-  it('forbids same cellId and same species', async () => {
-    await setup.api.models.bgAtlas2008.create({
-      cellId: 'test-cell',
+  it('forbids same utm_code and same species', async () => {
+    await setup.api.models.bgatlas2008_species.create({
+      utm_code: 'TEST',
       species: 'test-bird-2'
     }).should.be.resolved()
 
-    await setup.api.models.bgAtlas2008.create({
-      cellId: 'test-cell',
+    await setup.api.models.bgatlas2008_species.create({
+      utm_code: 'TEST',
       species: 'test-bird-2'
     }).should.rejected()
   })
 
-  it('loads grid cell', async () => {
-    const model = await setup.api.models.bgAtlas2008.create({
-      cellId: 'test-cell',
+  it('loads cell coordinates', async () => {
+    const model = await setup.api.models.bgatlas2008_species.create({
+      utm_code: 'TEST',
       species: 'test-bird-3'
     })
 
-    const cell = await model.getCell()
+    const cell = await model.getUtmCoordinates()
     should(cell).not.equal(null)
   })
 
   it('loads species info', async () => {
-    const model = await setup.api.models.bgAtlas2008.create({
-      cellId: 'test-cell',
+    const model = await setup.api.models.bgatlas2008_species.create({
+      utm_code: 'TEST',
       species: 'test-bird-4'
     })
 
