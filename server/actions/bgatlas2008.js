@@ -3,13 +3,12 @@ const { Op } = require('sequelize')
 const paging = require('../helpers/paging')
 const inputs = require('../helpers/inputs')
 
-class ListGridCells extends Action {
+class ListCells extends Action {
   constructor () {
     super()
-    this.name = 'grids:cells:list'
+    this.name = 'bgatlas2008_cells_list'
     this.description = this.name
     this.inputs = {
-      gridId: { required: true },
       fromLat: { format: inputs.formatter.float },
       fromLon: { format: inputs.formatter.float },
       toLat: { format: inputs.formatter.float },
@@ -22,7 +21,6 @@ class ListGridCells extends Action {
   async run (
     {
       params: {
-        gridId,
         offset,
         limit,
         fromLat,
@@ -33,11 +31,7 @@ class ListGridCells extends Action {
       response
     }
   ) {
-    const query = {
-      where: {
-        gridId
-      }
-    }
+    const query = { where: {} }
 
     if (fromLat != null && toLat != null && fromLon != null && toLon != null) {
       const latRange = [Math.min(fromLat, toLat), Math.max(fromLat, toLat)]
@@ -72,7 +66,7 @@ class ListGridCells extends Action {
 
     paging.prepareQuery(query, { offset, limit })
 
-    const { count, rows } = await api.models.grid_cell.findAndCountAll(query)
+    const { count, rows } = await api.models.bgatlas2008_cells.findAndCountAll(query)
 
     response.count = count
     response.data = rows.map((row) => row.apiData())
@@ -80,5 +74,5 @@ class ListGridCells extends Action {
 }
 
 module.exports = {
-  ListGridCells
+  ListGridCells: ListCells
 }

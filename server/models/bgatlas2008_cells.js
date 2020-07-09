@@ -1,12 +1,8 @@
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define('GridCell', {
-    gridId: {
+  return sequelize.define('bgatlas2008_cells', {
+    utm_code: {
       type: DataTypes.TEXT,
-      allowNull: false
-    },
-    cellId: {
-      type: DataTypes.TEXT,
-      allowNull: false
+      primaryKey: true
     },
     lat1: {
       type: DataTypes.DOUBLE,
@@ -41,11 +37,13 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false
     }
   }, {
+    tableName: 'bgatlas2008_cells',
+    timestamps: false,
+    underscored: true,
     instanceMethods: {
       apiData: function () {
         return {
-          gridId: this.gridId,
-          cellId: this.cellId,
+          utm_code: this.utm_code,
           coordinates: [
             { latitude: this.lat1, longitude: this.lon1 },
             { latitude: this.lat2, longitude: this.lon2 },
@@ -54,8 +52,6 @@ module.exports = function (sequelize, DataTypes) {
           ]
         }
       }
-    },
-    timestamps: false,
-    underscored: true
+    }
   })
 }

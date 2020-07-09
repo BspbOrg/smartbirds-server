@@ -81,7 +81,7 @@ exports.default = {
 
         { path: '/organization', action: 'organization:list' },
 
-        { path: '/grids/:gridId', action: 'grids:cells:list' }
+        { path: '/bgatlas/2008/', action: 'bgatlas2008_cells_list' }
       ],
 
       post: [
