@@ -4,44 +4,42 @@ const should = require('should')
 
 const setup = require('../_setup')
 
-const gridId = 'testGrid'
+function isDR (rec) { return rec.utm_code === 'DR' }
 
-function isDR (rec) { return rec.cellId === 'DR' }
+function isDL (rec) { return rec.utm_code === 'DL' }
 
-function isDL (rec) { return rec.cellId === 'DL' }
+function isUR (rec) { return rec.utm_code === 'UR' }
 
-function isUR (rec) { return rec.cellId === 'UR' }
+function isUL (rec) { return rec.utm_code === 'UL' }
 
-function isUL (rec) { return rec.cellId === 'UL' }
-
-describe('Action grids:cells:list', () => {
+describe('Action bgatlas2008_cells_list', () => {
   before(async () => {
     await setup.init()
 
     // 4 locations each within range with different vertex
-    await setup.api.models.grid_cell.create({ // eslint-disable-next-line object-property-newline
-      gridId, cellId: 'DR', // eslint-disable-next-line object-property-newline
+    await setup.api.models.bgatlas2008_cells.create({ // eslint-disable-next-line object-property-newline
+      utm_code: 'DR', // eslint-disable-next-line object-property-newline
       lat1: 1.01, lon1: 1.02, // eslint-disable-next-line object-property-newline
       lat2: 2.01, lon2: 1.02, // eslint-disable-next-line object-property-newline
       lat3: 2.01, lon3: 2.02, // eslint-disable-next-line object-property-newline
       lat4: 1.01, lon4: 2.02
     })
-    await setup.api.models.grid_cell.create({ // eslint-disable-next-line object-property-newline
-      gridId, cellId: 'DL', // eslint-disable-next-line object-property-newline
+    await setup.api.models.bgatlas2008_cells.create({ // eslint-disable-next-line object-property-newline
+      utm_code: 'DL', // eslint-disable-next-line object-property-newline
       lat1: 0.01, lon1: 1.02, // eslint-disable-next-line object-property-newline
       lat2: 1.01, lon2: 1.02, // eslint-disable-next-line object-property-newline
       lat3: 1.01, lon3: 2.02, // eslint-disable-next-line object-property-newline
       lat4: 0.01, lon4: 2.02
     })
-    await setup.api.models.grid_cell.create({ // eslint-disable-next-line object-property-newline
-      gridId, cellId: 'UR', // eslint-disable-next-line object-property-newline
+    await setup.api.models.bgatlas2008_cells.create({ // eslint-disable-next-line object-property-newline
+      utm_code: 'UR', // eslint-disable-next-line object-property-newline
       lat1: 1.01, lon1: 0.02, // eslint-disable-next-line object-property-newline
       lat2: 2.01, lon2: 0.02, // eslint-disable-next-line object-property-newline
       lat3: 2.01, lon3: 1.02, // eslint-disable-next-line object-property-newline
       lat4: 1.01, lon4: 1.02
     })
-    await setup.api.models.grid_cell.create({ // eslint-disable-next-line object-property-newline
-      gridId, cellId: 'UL', // eslint-disable-next-line object-property-newline
+    await setup.api.models.bgatlas2008_cells.create({ // eslint-disable-next-line object-property-newline
+      utm_code: 'UL', // eslint-disable-next-line object-property-newline
       lat1: 0.01, lon1: 0.02, // eslint-disable-next-line object-property-newline
       lat2: 1.01, lon2: 0.02, // eslint-disable-next-line object-property-newline
       lat3: 1.01, lon3: 1.02, // eslint-disable-next-line object-property-newline
@@ -54,8 +52,7 @@ describe('Action grids:cells:list', () => {
   })
 
   it('lists locations within range', async () => {
-    const response = await setup.runActionAsAdmin('grids:cells:list', {
-      gridId,
+    const response = await setup.runActionAsAdmin('bgatlas2008_cells_list', {
       fromLat: '-10',
       toLat: '10',
       fromLon: '-10',
@@ -71,8 +68,7 @@ describe('Action grids:cells:list', () => {
   })
 
   it('excludes locations above range', async () => {
-    const response = await setup.runActionAsAdmin('grids:cells:list', {
-      gridId,
+    const response = await setup.runActionAsAdmin('bgatlas2008_cells_list', {
       fromLat: '0.5',
       toLat: '1.5',
       fromLon: '1.75',
@@ -88,8 +84,7 @@ describe('Action grids:cells:list', () => {
   })
 
   it('excludes locations bellow range', async () => {
-    const response = await setup.runActionAsAdmin('grids:cells:list', {
-      gridId,
+    const response = await setup.runActionAsAdmin('bgatlas2008_cells_list', {
       fromLat: '0.5',
       toLat: '1.5',
       fromLon: '-0.75',
@@ -105,8 +100,7 @@ describe('Action grids:cells:list', () => {
   })
 
   it('excludes locations left of range', async () => {
-    const response = await setup.runActionAsAdmin('grids:cells:list', {
-      gridId,
+    const response = await setup.runActionAsAdmin('bgatlas2008_cells_list', {
       fromLat: '1.5',
       toLat: '2.5',
       fromLon: '0.75',
@@ -122,8 +116,7 @@ describe('Action grids:cells:list', () => {
   })
 
   it('excludes locations right of range', async () => {
-    const response = await setup.runActionAsAdmin('grids:cells:list', {
-      gridId,
+    const response = await setup.runActionAsAdmin('bgatlas2008_cells_list', {
       fromLat: '-0.5',
       toLat: '0.5',
       fromLon: '0.75',
@@ -136,18 +129,5 @@ describe('Action grids:cells:list', () => {
     response.data.should.matchAny(isDL)
     response.data.should.not.matchAny(isUR)
     response.data.should.matchAny(isUL)
-  })
-
-  it('excludes locations from different grid', async () => {
-    const response = await setup.runActionAsAdmin('grids:cells:list', {
-      gridId: `not-${gridId}`,
-      fromLat: '-0.5',
-      toLat: '0.5',
-      fromLon: '0.75',
-      toLon: '1.12'
-    })
-
-    response.should.not.have.property('error')
-    response.should.have.property('data').which.is.an.Array().and.is.empty()
   })
 })
