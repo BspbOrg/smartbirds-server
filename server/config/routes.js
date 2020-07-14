@@ -129,7 +129,8 @@ exports.default = {
 
         { path: '/organization/:slug', action: 'organization:edit' },
 
-        { path: '/tasks/auto-location', action: 'tasks:enqueue:autoLocation' }
+        { path: '/tasks/auto-location', action: 'tasks:enqueue:autoLocation' },
+        { path: '/tasks/bgatlas2008', action: 'tasks:enqueue:bgatlas2008' }
       ],
 
       put: [

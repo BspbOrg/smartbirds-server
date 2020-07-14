@@ -3,6 +3,8 @@ const moment = require('moment')
 const extra = require('./_extra')
 const latitude = require('./_fields/latitude')
 const longitude = require('./_fields/longitude')
+const observationDateTime = require('./_fields/observationDateTime')
+const bgatlas2008 = require('./_fields/bgatlas2008')
 
 exports = module.exports = _.cloneDeep(require('./_common'))
 
@@ -10,8 +12,10 @@ exports.modelName = 'formCBM'
 exports.tableName = 'FormCBM'
 exports.hasSpecies = true
 exports.hasThreats = true
+exports.hasBgAtlas2008 = true
 
 exports.fields = {
+  ...bgatlas2008.fields,
   confidential: 'boolean',
   plot: {
     type: 'choice',
@@ -121,12 +125,7 @@ exports.fields = {
   ...latitude.fields,
   ...longitude.fields,
 
-  observationDateTime: {
-    type: 'timestamp',
-    required: true,
-    public: true,
-    uniqueHash: true
-  },
+  ...observationDateTime.fields,
   monitoringCode: {
     type: 'text',
     required: true,

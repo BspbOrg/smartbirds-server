@@ -4,8 +4,8 @@ const fs = require('fs')
 const moment = require('moment')
 const path = require('path')
 const Promise = require('bluebird')
+const { DataTypes, Op } = require('sequelize')
 const { hooks } = require('sequelize/lib/hooks')
-const { DataTypes } = require('sequelize')
 const capitalizeFirstLetter = require('../utils/capitalizeFirstLetter')
 const { upgradeInitializer } = require('../utils/upgrade')
 const localField = require('../utils/localField')
@@ -111,7 +111,7 @@ function formAttributes (fields) {
       }
       case 'text': {
         fieldsDef[name] = _.extend({
-          type: DataTypes.TEXT
+          type: field.length ? DataTypes.STRING(field.length) : DataTypes.TEXT
         }, fd)
         break
       }
@@ -417,6 +417,9 @@ function generateApiUpdate (fields) {
     if (this.changed('latitude') || this.changed('longitude')) {
       localField('autoLocation').update(this, null)
     }
+    if (this.changed('latitude') || this.changed('longitude') || this.changed('observationDateTime')) {
+      this.bgatlas2008UtmCode = null
+    }
     await this.constructor.runHooks('afterApiUpdate', this, data)
     return this
   }
@@ -485,6 +488,41 @@ module.exports = upgradeInitializer('ah17', {
         })
 
         return form.model
+      },
+      /**
+       * A utility method to update a form record useful for tasks.
+       * Handles duplicates that may arise from the change
+       * @param {Model} record - the record to be saved
+       * @param form - a form reference from api.forms
+       * @return {Promise<boolean>} true if all went well, false if duplicate was discovered
+       */
+      async trySave (record, form) {
+        try {
+          await record.save()
+          return true
+        } catch (e) {
+          // if we already know it's duplicate do nothing
+          if (await api.models.duplicate.findOne({ where: { form: form.modelName, id1: record.id } })) {
+            return false
+          }
+          // find the duplicated
+          const duplicated = await form.model.findOne({
+            attributes: ['id'],
+            where: { hash: record.hash, id: { [Op.ne]: record.id } }
+          })
+          if (duplicated) {
+            api.log(`[${form.modelName}] Duplicate records ${record.id} and ${duplicated.id}`, 'error')
+            await api.models.duplicate.create({
+              form: form.modelName,
+              id1: record.id,
+              id2: duplicated.id,
+              hash: record.hash
+            })
+          } else {
+            api.log(`Could not update record ${form.modelName}.${record.id} (hash: ${record.hash})`, 'error', e)
+            throw e
+          }
+        }
       }
     }
 
