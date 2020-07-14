@@ -30,6 +30,7 @@ describe('Forms:bgatlas2008', () => {
   })
 
   const form = {
+    hasBgAtlas2008: true,
     modelName,
     tableName,
     fields: {

@@ -70,6 +70,10 @@ module.exports = class FormsFillBgAtlas2008UtmCode extends FormsTask {
     this.defaultLimit = api.config.app.bgatlas2008.maxRecords
   }
 
+  getForms () {
+    return super.getForms().filter((form) => form.hasBgAtlas2008)
+  }
+
   filterRecords ({ force }) {
     return {
       ...(force ? {} : { bgatlas2008UtmCode: null }),

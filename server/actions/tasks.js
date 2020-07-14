@@ -19,7 +19,7 @@ class BaseAction extends Action {
   async run ({ params: { form, id, limit, force }, response }) {
     if (form) {
       if (typeof form !== 'string') throw new Error('form must be string')
-      if (!api.forms[form] || !api.forms[form].$isForm) throw new Error(`Unknown form ${form}. Available ${Object.keys(api.forms).join(', ')}`)
+      if (!api.forms[form] || !api.forms[form].$isForm) throw new Error(`Unknown form ${form}. Available ${Object.keys(api.forms.filter(f => f.$isForm)).join(', ')}`)
     }
     if (id) {
       if (typeof id !== 'number') throw new Error('id must be number')
@@ -53,6 +53,9 @@ module.exports.bgAtlas2008 = class EnqueueBgAtlas2008 extends BaseAction {
   }
 
   async enqueue ({ form, id, limit, force }) {
+    if (form) {
+      if (!api.forms[form].hasBgAtlas2008) throw new Error(`Form ${form} is not part of bg atlas 2008. Available ${Object.keys(api.forms.filter(f => f.hasBgAtlas2008)).join(', ')}`)
+    }
     return await api.tasks.enqueue('forms_fill_bgatlas2008_utmcode', { form, id, limit, force })
   }
 }

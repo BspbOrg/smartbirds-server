@@ -10,6 +10,10 @@ module.exports = class FormsTask extends Task {
     this.queue = 'default'
   }
 
+  getForms () {
+    return Object.values(api.forms).filter((form) => form.$isForm)
+  }
+
   filterRecords ({ force = false }) {
     throw new Error(`You need to implement filterRecords in ${this.name} to return a sequelize where filter`)
   }
@@ -19,12 +23,15 @@ module.exports = class FormsTask extends Task {
   }
 
   async run ({ form, id, limit = this.defaultLimit, lastId = null, force = false } = {}, worker) {
+    const forms = this.getForms()
     if (!form) {
-      return Promise.all(Object.values(api.forms).map(async (form) => {
-        if (!form.$isForm) return
-
-        await api.tasks.enqueue(this.name, { form: form.modelName, id, limit, lastId, force }, this.queue)
-      }))
+      return Promise.all(forms.map((form) =>
+        api.tasks.enqueue(this.name, { form: form.modelName, id, limit, lastId, force }, this.queue)
+      ))
+    } else {
+      if (forms.every((f) => f.modelName !== form)) {
+        throw new Error(`${form} is not a valid form name. Available ${forms.map((f) => f.modelName).join(', ')}`)
+      }
     }
 
     let records

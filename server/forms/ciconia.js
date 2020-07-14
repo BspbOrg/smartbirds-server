@@ -1,13 +1,16 @@
 const _ = require('lodash')
 const { assign } = Object
+const bgatlas2008 = require('./_fields/bgatlas2008')
 
 exports = module.exports = _.cloneDeep(require('./_common'))
 
 exports.tableName = 'FormCiconia'
 exports.hasSpecies = false
 exports.hasThreats = true
+exports.hasBgAtlas2008 = true
 
 exports.fields = assign(exports.fields, {
+  ...bgatlas2008.fields,
   source: {
     type: 'choice',
     relation: {

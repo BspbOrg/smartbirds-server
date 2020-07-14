@@ -3,12 +3,7 @@
 const tables = [
   'FormBirds',
   'FormCBM',
-  'FormCiconia',
-  'FormHerptiles',
-  'FormInvertebrates',
-  'FormMammals',
-  'FormPlants',
-  'FormThreats'
+  'FormCiconia'
 ]
 
 module.exports = {

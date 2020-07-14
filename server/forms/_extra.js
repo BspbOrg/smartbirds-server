@@ -1,9 +1,7 @@
 const autoLocation = require('./_fields/autoLocation')
-const bgatlas2008 = require('./_fields/bgatlas2008')
 
 exports.fields = {
   ...autoLocation.fields,
-  ...bgatlas2008.fields,
   moderatorReview: 'boolean'
 }
 
