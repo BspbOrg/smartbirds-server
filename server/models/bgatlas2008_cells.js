@@ -44,13 +44,16 @@ module.exports = function (sequelize, DataTypes) {
       apiData: function () {
         return {
           utm_code: this.utm_code,
-          coordinates: [
-            { latitude: this.lat1, longitude: this.lon1 },
-            { latitude: this.lat2, longitude: this.lon2 },
-            { latitude: this.lat3, longitude: this.lon3 },
-            { latitude: this.lat4, longitude: this.lon4 }
-          ]
+          coordinates: this.coordinates()
         }
+      },
+      coordinates: function () {
+        return [
+          { latitude: this.lat1, longitude: this.lon1 },
+          { latitude: this.lat2, longitude: this.lon2 },
+          { latitude: this.lat3, longitude: this.lon3 },
+          { latitude: this.lat4, longitude: this.lon4 }
+        ]
       }
     }
   })
