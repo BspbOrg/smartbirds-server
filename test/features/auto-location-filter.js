@@ -6,7 +6,7 @@ const should = require('should')
 const forEachForm = (prepare, act, assert) =>
   Object
     .keys(setup.api.forms)
-    .filter((formKey, idx) => idx === 4 && setup.api.forms[formKey].$isForm)
+    .filter((formKey, idx) => setup.api.forms[formKey].$isForm)
     .reduce(async (prev, formKey) => {
       await prev
       const form = setup.api.forms[formKey]
@@ -26,10 +26,13 @@ const forEachForm = (prepare, act, assert) =>
       await assert({ formKey, form, model, action, prepared, params, response })
     }, Promise.resolve())
 
+let uniqueCounter = 1
+
 const cloneModel = async (model) => {
   const clone = model.constructor.build({})
   await clone.apiUpdate(await model.apiData(), 'lng')
   clone.id = null
+  clone.observationDateTime = clone.observationDateTime.getTime() + (uniqueCounter++)
   return clone
 }
 
@@ -39,7 +42,6 @@ describe('Auto location', () => {
   })
 
   after(async () => {
-    console.log('\n\n\n\n\n\n')
     await setup.finish()
   })
 
