@@ -7,6 +7,7 @@ const { getBoundsOfDistance, getCenter } = require('geolib')
 const bgatlas2008 = require('../../server/forms/_fields/bgatlas2008')
 const latitudeField = require('../../server/forms/_fields/latitude')
 const longitudeField = require('../../server/forms/_fields/longitude')
+const observationDateTime = require('../../server/forms/_fields/observationDateTime')
 
 const modelName = 'formTestBgAtlas2008'
 const tableName = 'testBgAtlas2008'
@@ -34,7 +35,8 @@ describe('Forms:bgatlas2008', () => {
     fields: {
       ...latitudeField.fields,
       ...longitudeField.fields,
-      ...bgatlas2008.fields
+      ...bgatlas2008.fields,
+      ...observationDateTime.fields
     }
   }
 
@@ -113,6 +115,7 @@ describe('Forms:bgatlas2008', () => {
 
   it('can create', async function () {
     const response = await setup.runActionAsAdmin(`${modelName}:create`, {
+      observationDateTime: Date.now(),
       latitude: 1.23,
       longitude: 2.34
     })
@@ -121,8 +124,37 @@ describe('Forms:bgatlas2008', () => {
     response.should.have.property('data')
   })
 
-  it('task fills utm code', async function () {
-    const { data: { id, bgatlas2008UtmCode: initialUtmCode } } = await setup.runActionAsAdmin(`${modelName}:create`, { ...center })
+  it('task fills utm code when observation is newer', async function () {
+    const { data: { id, bgatlas2008UtmCode: initialUtmCode } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+      observationDateTime: setup.api.config.app.bgatlas2008.startTimestamp + 1,
+      ...center
+    })
+    should(initialUtmCode).equalOneOf([null, undefined])
+
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: modelName })
+    const { data: { bgatlas2008UtmCode: utmCode } } = await setup.runActionAsAdmin(`${modelName}:view`, { id })
+
+    should(utmCode).not.equal(null)
+  })
+
+  it('task skips when observation is older', async function () {
+    const { data: { id, bgatlas2008UtmCode: initialUtmCode } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+      observationDateTime: setup.api.config.app.bgatlas2008.startTimestamp - 1,
+      ...center
+    })
+    should(initialUtmCode).equalOneOf([null, undefined])
+
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: modelName })
+    const { data: { bgatlas2008UtmCode: utmCode } } = await setup.runActionAsAdmin(`${modelName}:view`, { id })
+
+    should(utmCode).equal(null)
+  })
+
+  it('task updates utm code when observation is older but forced by id', async function () {
+    const { data: { id, bgatlas2008UtmCode: initialUtmCode } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+      observationDateTime: setup.api.config.app.bgatlas2008.startTimestamp - 1,
+      ...center
+    })
     should(initialUtmCode).equalOneOf([null, undefined])
 
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: modelName, id })
@@ -132,7 +164,10 @@ describe('Forms:bgatlas2008', () => {
   })
 
   it('resets utm code when latitude changes', async function () {
-    const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, { ...center })
+    const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+      observationDateTime: Date.now(),
+      ...center
+    })
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: modelName, id })
     const { data: { bgatlas2008UtmCode: utmCode } } = await setup.runActionAsAdmin(`${modelName}:edit`, {
       id,
@@ -142,7 +177,10 @@ describe('Forms:bgatlas2008', () => {
   })
 
   it('resets utm code when longitude changes', async function () {
-    const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, { ...center })
+    const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+      observationDateTime: Date.now(),
+      ...center
+    })
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: modelName, id })
     const { data: { bgatlas2008UtmCode: utmCode } } = await setup.runActionAsAdmin(`${modelName}:edit`, {
       id,
@@ -151,11 +189,28 @@ describe('Forms:bgatlas2008', () => {
     should(utmCode).equal(null)
   })
 
+  it('resets utm code when observation timestamp changes', async function () {
+    const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+      observationDateTime: Date.now(),
+      ...center
+    })
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: modelName, id })
+    const { data: { bgatlas2008UtmCode: utmCode } } = await setup.runActionAsAdmin(`${modelName}:edit`, {
+      id,
+      observationDateTime: Date.now()
+    })
+    should(utmCode).equal(null)
+  })
+
   it('task fills utm code after reset', async function () {
-    const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, { ...center })
+    const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+      observationDateTime: Date.now(),
+      ...center
+    })
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: modelName, id })
     await setup.runActionAsAdmin(`${modelName}:edit`, {
       id,
+      observationDateTime: Date.now(),
       latitude: center.latitude + 0.00001,
       longitude: center.longitude + 0.00001
     })
@@ -167,7 +222,9 @@ describe('Forms:bgatlas2008', () => {
 
   describe('task map utm code', () => {
     it('center point', async function () {
-      const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, { ...center })
+      const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+        observationDateTime: Date.now(),
+        ...center })
 
       await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: modelName, id })
       const { data: { bgatlas2008UtmCode: utmCode } } = await setup.runActionAsAdmin(`${modelName}:view`, { id })
@@ -177,6 +234,7 @@ describe('Forms:bgatlas2008', () => {
 
     it('top geo center point', async function () {
       const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+        observationDateTime: Date.now(),
         ...getCenter([centerCell.coordinates()[1], centerCell.coordinates()[2]])
       })
 
@@ -188,6 +246,7 @@ describe('Forms:bgatlas2008', () => {
 
     it('top center point', async function () {
       const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+        observationDateTime: Date.now(),
         latitude: bounds[1].latitude,
         longitude: center.longitude
       })
@@ -200,6 +259,7 @@ describe('Forms:bgatlas2008', () => {
 
     it('bottom geo center point', async function () {
       const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+        observationDateTime: Date.now(),
         ...getCenter([centerCell.coordinates()[3], centerCell.coordinates()[0]])
       })
 
@@ -211,6 +271,7 @@ describe('Forms:bgatlas2008', () => {
 
     it('bottom center point', async function () {
       const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+        observationDateTime: Date.now(),
         latitude: bounds[0].latitude,
         longitude: center.longitude
       })
@@ -223,6 +284,7 @@ describe('Forms:bgatlas2008', () => {
 
     it('left geo center point', async function () {
       const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+        observationDateTime: Date.now(),
         ...getCenter([centerCell.coordinates()[0], centerCell.coordinates()[1]])
       })
 
@@ -234,6 +296,7 @@ describe('Forms:bgatlas2008', () => {
 
     it('left center point', async function () {
       const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+        observationDateTime: Date.now(),
         latitude: center.latitude,
         longitude: bounds[0].longitude
       })
@@ -246,6 +309,7 @@ describe('Forms:bgatlas2008', () => {
 
     it('right geo center point', async function () {
       const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+        observationDateTime: Date.now(),
         ...getCenter([centerCell.coordinates()[2], centerCell.coordinates()[3]])
       })
 
@@ -257,6 +321,7 @@ describe('Forms:bgatlas2008', () => {
 
     it('right center point', async function () {
       const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+        observationDateTime: Date.now(),
         latitude: center.latitude,
         longitude: bounds[1].longitude
       })
@@ -269,6 +334,7 @@ describe('Forms:bgatlas2008', () => {
 
     it('top left point', async function () {
       const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+        observationDateTime: Date.now(),
         ...centerCell.coordinates()[1]
       })
 
@@ -280,6 +346,7 @@ describe('Forms:bgatlas2008', () => {
 
     it('top right point', async function () {
       const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+        observationDateTime: Date.now(),
         ...centerCell.coordinates()[2]
       })
 
@@ -291,6 +358,7 @@ describe('Forms:bgatlas2008', () => {
 
     it('bottom left point', async function () {
       const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+        observationDateTime: Date.now(),
         ...centerCell.coordinates()[0]
       })
 
@@ -302,6 +370,7 @@ describe('Forms:bgatlas2008', () => {
 
     it('bottom right point', async function () {
       const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+        observationDateTime: Date.now(),
         ...centerCell.coordinates()[3]
       })
 
