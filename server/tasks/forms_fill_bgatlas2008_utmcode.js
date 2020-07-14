@@ -71,7 +71,10 @@ module.exports = class FormsFillBgAtlas2008UtmCode extends FormsTask {
   }
 
   filterRecords () {
-    return { bgatlas2008UtmCode: null }
+    return {
+      bgatlas2008UtmCode: null,
+      observationDateTime: { [Op.gte]: api.config.app.bgatlas2008.startTimestamp }
+    }
   }
 
   async processRecord (record, form) {

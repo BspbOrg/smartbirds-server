@@ -3,6 +3,7 @@ const moment = require('moment')
 const extra = require('./_extra')
 const latitude = require('./_fields/latitude')
 const longitude = require('./_fields/longitude')
+const observationDateTime = require('./_fields/observationDateTime')
 
 exports = module.exports = _.cloneDeep(require('./_common'))
 
@@ -121,12 +122,7 @@ exports.fields = {
   ...latitude.fields,
   ...longitude.fields,
 
-  observationDateTime: {
-    type: 'timestamp',
-    required: true,
-    public: true,
-    uniqueHash: true
-  },
+  ...observationDateTime.fields,
   monitoringCode: {
     type: 'text',
     required: true,

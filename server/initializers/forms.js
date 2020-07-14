@@ -416,6 +416,8 @@ function generateApiUpdate (fields) {
     })
     if (this.changed('latitude') || this.changed('longitude')) {
       localField('autoLocation').update(this, null)
+    }
+    if (this.changed('latitude') || this.changed('longitude') || this.changed('observationDateTime')) {
       this.bgatlas2008UtmCode = null
     }
     await this.constructor.runHooks('afterApiUpdate', this, data)
