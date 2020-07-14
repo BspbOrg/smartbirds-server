@@ -52,8 +52,8 @@ module.exports = class AutoLocation extends FormsTask {
     this.defaultLimit = api.config.app.location.maxRecords
   }
 
-  filterRecords () {
-    return { autoLocationEn: null }
+  filterRecords ({ force }) {
+    return force ? {} : { autoLocationEn: null }
   }
 
   async processRecord (record, form) {
