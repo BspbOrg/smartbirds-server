@@ -7,7 +7,8 @@ class BaseAction extends Action {
     this.inputs = {
       form: {},
       id: {},
-      limit: {}
+      limit: {},
+      force: {}
     }
   }
 
@@ -15,7 +16,7 @@ class BaseAction extends Action {
     throw new Error('must implement enqueue!')
   }
 
-  async run ({ params: { form, id, limit }, response }) {
+  async run ({ params: { form, id, limit, force }, response }) {
     if (form) {
       if (typeof form !== 'string') throw new Error('form must be string')
       if (!api.forms[form] || !api.forms[form].$isForm) throw new Error(`Unknown form ${form}. Available ${Object.keys(api.forms).join(', ')}`)
@@ -28,30 +29,30 @@ class BaseAction extends Action {
       if (typeof limit !== 'number') throw new Error('limit must be number')
       if (limit <= 0 && limit !== -1) throw new Error('limit must be positive or -1')
     }
-    response.result = await this.enqueue({ form, id, limit })
+    response.result = await this.enqueue({ form, id, limit, force: Boolean(force) })
   }
 }
 
-module.exports = class EnqueueAutoLocation extends BaseAction {
+module.exports.autoLocation = class EnqueueAutoLocation extends BaseAction {
   constructor () {
     super()
     this.name = 'tasks:enqueue:autoLocation'
     this.description = 'Trigger auto location'
   }
 
-  async enqueue ({ form, id, limit }) {
-    return await api.tasks.enqueue('autoLocation', { form, id, limit })
+  async enqueue ({ form, id, limit, force }) {
+    return await api.tasks.enqueue('autoLocation', { form, id, limit, force })
   }
 }
 
-module.exports = class EnqueueBgAtlas2008 extends BaseAction {
+module.exports.bgAtlas2008 = class EnqueueBgAtlas2008 extends BaseAction {
   constructor () {
     super()
     this.name = 'tasks:enqueue:bgatlas2008'
     this.description = 'Trigger bg atlas 2008 utm code'
   }
 
-  async enqueue ({ form, id, limit }) {
-    return await api.tasks.enqueue('forms_fill_bgatlas2008_utmcode', { form, id, limit })
+  async enqueue ({ form, id, limit, force }) {
+    return await api.tasks.enqueue('forms_fill_bgatlas2008_utmcode', { form, id, limit, force })
   }
 }

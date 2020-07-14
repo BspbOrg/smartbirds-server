@@ -10,7 +10,7 @@ module.exports = class FormsTask extends Task {
     this.queue = 'default'
   }
 
-  filterRecords () {
+  filterRecords ({ force = false }) {
     throw new Error(`You need to implement filterRecords in ${this.name} to return a sequelize where filter`)
   }
 
@@ -18,12 +18,12 @@ module.exports = class FormsTask extends Task {
     throw new Error(`You need to implement processRecord in ${this.name}!`)
   }
 
-  async run ({ form, id, limit = this.defaultLimit, lastId = null } = {}, worker) {
+  async run ({ form, id, limit = this.defaultLimit, lastId = null, force = false } = {}, worker) {
     if (!form) {
       return Promise.all(Object.values(api.forms).map(async (form) => {
         if (!form.$isForm) return
 
-        await api.tasks.enqueue(this.name, { form: form.modelName, limit }, this.queue)
+        await api.tasks.enqueue(this.name, { form: form.modelName, id, limit, lastId, force }, this.queue)
       }))
     }
 
@@ -32,8 +32,8 @@ module.exports = class FormsTask extends Task {
       records = await api.forms[form].model.findAll({
         where: id ? { id } : {
           [Op.and]: [
-            (lastId != null ? { id: { [Op.lt]: lastId } } : {}),
-            this.filterRecords()
+            lastId != null ? { id: { [Op.lt]: lastId } } : {},
+            this.filterRecords({ force })
           ]
         },
         limit: limit === -1 ? this.defaultLimit : limit,

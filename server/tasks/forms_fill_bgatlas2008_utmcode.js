@@ -70,9 +70,9 @@ module.exports = class FormsFillBgAtlas2008UtmCode extends FormsTask {
     this.defaultLimit = api.config.app.bgatlas2008.maxRecords
   }
 
-  filterRecords () {
+  filterRecords ({ force }) {
     return {
-      bgatlas2008UtmCode: null,
+      ...(force ? {} : { bgatlas2008UtmCode: null }),
       observationDateTime: { [Op.gte]: api.config.app.bgatlas2008.startTimestamp }
     }
   }
