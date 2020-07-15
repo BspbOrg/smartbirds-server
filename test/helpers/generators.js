@@ -1,20 +1,21 @@
-const addDays = require('date-fns/add_days')
+const addDays = require('date-fns/addDays')
 const format = require('date-fns/format')
+const parse = require('date-fns/parseISO')
 
 const baseModelFields = {
-    latitude: 42.1463749,
-    longitude: 24.7492006,
-    endDateTime: '2015-12-10T11:15Z',
-    startDateTime: '2015-12-10T09:15Z',
-    observationDateTime: '2015-12-10T10:15:01Z',
-    location: 'some location',
-    observers: 'Some test observers'
+  latitude: 42.1463749,
+  longitude: 24.7492006,
+  endDateTime: '2015-12-10T11:15Z',
+  startDateTime: '2015-12-10T09:15Z',
+  observationDateTime: '2015-12-10T10:15:01Z',
+  location: 'some location',
+  observers: 'Some test observers'
 }
 exports.formCBM = (opts) => {
   const i = exports.formCBM.index++
   return {
     ...baseModelFields,
-    observationDateTime:format(addDays('2015-12-10T10:15:01', i), 'YYYY-MM-DDTHH:mm:ss[Z]'),
+    observationDateTime: format(addDays(parse('2015-12-10T10:15:01'), i), 'yyyy-MM-ddTHH:mm:ssX'),
     monitoringCode: `random_CBM_${i}`,
     zoneId: 1,
     plotLocal: `${i}`,
@@ -35,7 +36,7 @@ exports.formBirds = (opts) => {
   const i = exports.formBirds.index++
   return {
     ...baseModelFields,
-    observationDateTime:format(addDays('2015-12-10T10:15:01', i), 'YYYY-MM-DDTHH:mm:ss[Z]'),
+    observationDateTime: format(addDays(parse('2015-12-10T10:15:01'), i), 'yyyy-MM-ddTHH:mm:ssX'),
     monitoringCode: `random_birds_${i}`,
     countUnitLocal: 'Индивиди',
     countUnitEn: 'Individuals',
@@ -53,7 +54,7 @@ exports.formCiconia = (opts) => {
   const i = exports.formCiconia.index++
   return {
     ...baseModelFields,
-    observationDateTime:format(addDays('2015-12-10T10:15:01', i), 'YYYY-MM-DDTHH:mm:ss[Z]'),
+    observationDateTime: format(addDays(parse('2015-12-10T10:15:01'), i), 'yyyy-MM-ddTHH:mm:ssX'),
     monitoringCode: `random_ciconia_${i}`,
     nestThisYearNotUtilizedByWhiteStorksEn: 'ciconia_not_occupied',
     nestThisYearNotUtilizedByWhiteStorksLocal: 'ciconia_not_occupied',
@@ -76,7 +77,7 @@ exports.formHerptiles = (opts) => {
   const i = exports.formHerptiles.index++
   return {
     ...baseModelFields,
-    observationDateTime:format(addDays('2015-12-10T10:15:01', i), 'YYYY-MM-DDTHH:mm:ss[Z]'),
+    observationDateTime: format(addDays(parse('2015-12-10T10:15:01'), i), 'yyyy-MM-ddTHH:mm:ssX'),
     monitoringCode: `random_herptile_${i}`,
     species: 'Accipiter nisus',
     count: i,
@@ -101,7 +102,7 @@ exports.formMammals = (opts) => {
   const i = exports.formMammals.index++
   return {
     ...baseModelFields,
-    observationDateTime:format(addDays('2015-12-10T10:15:01', i), 'YYYY-MM-DDTHH:mm:ss[Z]'),
+    observationDateTime: format(addDays(parse('2015-12-10T10:15:01'), i), 'yyyy-MM-ddTHH:mm:ssX'),
     monitoringCode: `random_mammal_${i}`,
     species: 'Accipiter nisus',
     count: i,
@@ -122,7 +123,7 @@ exports.formPlants = (opts) => {
   const i = exports.formPlants.index++
   return {
     ...baseModelFields,
-    observationDateTime:format(addDays('2015-12-10T10:15:01', i), 'YYYY-MM-DDTHH:mm:ss[Z]'),
+    observationDateTime: format(addDays(parse('2015-12-10T10:15:01'), i), 'yyyy-MM-ddTHH:mm:ssX'),
     monitoringCode: `random_plants_${i}`,
     species: 'Sternbergia colchiciflora',
     ...opts
@@ -133,7 +134,7 @@ exports.formInvertebrates = (opts) => {
   const i = exports.formInvertebrates.index++
   return {
     ...baseModelFields,
-    observationDateTime:format(addDays('2015-12-10T10:15:01', i), 'YYYY-MM-DDTHH:mm:ss[Z]'),
+    observationDateTime: format(addDays(parse('2015-12-10T10:15:01'), i), 'yyyy-MM-ddTHH:mm:ssX'),
     monitoringCode: `random_invertebrates_${i}`,
     species: 'Lucanus cervus',
     count: i,
@@ -146,7 +147,7 @@ exports.formThreats = (opts) => {
   const i = exports.formThreats.index++
   return {
     ...baseModelFields,
-    observationDateTime:format(addDays('2015-12-10T10:15:01', i), 'YYYY-MM-DDTHH:mm:ss[Z]'),
+    observationDateTime: format(addDays(parse('2015-12-10T10:15:01'), i), 'yyyy-MM-ddTHH:mm:ssX'),
     monitoringCode: `random_threats_${i}`,
     categoryLocal: 'Пожар',
     categoryEn: 'Fire',
