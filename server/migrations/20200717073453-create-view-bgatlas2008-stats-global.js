@@ -8,12 +8,20 @@ module.exports = {
     await queryInterface.sequelize.query(`
       CREATE OR REPLACE VIEW ${tableName} AS
       SELECT
-        utm_code,
-        sum(case when existing then 1 else 0 end) as spec_known,
-        sum(case when existing then 0 else 1 end) as spec_unknown,
-        (SELECT count(e.species) FROM bgatlas2008_species e WHERE o.utm_code = e.utm_code) as spec_old
-      FROM bgatlas2008_observed_species o
-      GROUP BY o.utm_code
+        c.utm_code,
+        COALESCE(spec_known, 0) as spec_known,
+        COALESCE(spec_unknown, 0) as spec_unknown,
+        COALESCE(spec_old, 0) as spec_old
+      FROM bgatlas2008_cells c
+      LEFT JOIN (
+        SELECT
+          utm_code,
+          sum(case when existing then 1 else 0 end) as spec_known,
+          sum(case when existing then 0 else 1 end) as spec_unknown,
+          (SELECT count(e.species) FROM bgatlas2008_species e WHERE o.utm_code = e.utm_code) as spec_old
+        FROM bgatlas2008_observed_species o
+        GROUP BY o.utm_code
+      ) s ON (c.utm_code = s.utm_code)
     `)
   },
 
