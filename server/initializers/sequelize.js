@@ -60,7 +60,8 @@ module.exports = upgradeInitializer('ah17', {
         host: api.config.sequelize.host,
         port: api.config.sequelize.port,
         user: api.config.sequelize.username,
-        password: api.config.sequelize.password
+        password: api.config.sequelize.password,
+        database: 'postgres'
       })
       createDb = async () => {
         api.log(`connecting to ${api.config.sequelize.database}`, 'debug')

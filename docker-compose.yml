@@ -25,8 +25,8 @@ db:
 testdb:
   image: postgres:9.4
   environment:
-    POSTGRES_PASSWORD: 'test'
-    POSTGRES_USER: 'test'
+    POSTGRES_PASSWORD: 'testpass'
+    POSTGRES_USER: 'testuser'
   ports:
     - "5434:5432"
 
