@@ -43,15 +43,16 @@ jobs:
       matrix:
         node-version: [10.x, 12.x]
         redis-version: [3, 5]
-#        postgresql-version: [9.4-alpine, latest]
+        postgresql-version: [9.4-alpine, latest]
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Start Postgres ${{ matrix.postgres-version }}
+      - name: Start Postgres ${{ matrix.postgresql-version }}
         uses: harmon758/postgresql-action@v1
         with:
-#          postgresql version: ${{ matrix.postgres-version }}
+          postgresql version: ${{ matrix.postgresql-version }}
+          postgresql db: test
           postgresql user: testuser
           postgresql password: testpass
 
