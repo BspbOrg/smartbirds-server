@@ -13,5 +13,13 @@ env:
 before_script:
   - psql --version
   - psql -c "CREATE ROLE testuser LOGIN CREATEDB PASSWORD 'testpassword';" -U postgres
-  - psql -c "CREATE DATABASE test;" ${TEST_DATABASE_URL/testdb/postgres}
-script: npm test || npm test
+  - psql -c "CREATE DATABASE testdb;" ${TEST_DATABASE_URL/testdb/postgres}
+  - echo $TEST_DATABASE_URL
+jobs:
+  include:
+    - stage: 'test'
+      name: 'PostgreSQL tests'
+      script: npm run test:pg
+    - stage: 'test'
+      name: 'SQLite tests'
+      script: npm run test:sq
