@@ -1,4 +1,3 @@
-
 function parseDatabaseUrl (databaseUrl, options) {
   options = options || {}
   if (!databaseUrl) return options
@@ -58,15 +57,19 @@ exports.production = {
 
 exports.test = {
   sequelize: function (api) {
-    var config = {
+    var config = parseDatabaseUrl(process.env.TEST_DATABASE_URL, {
       autoMigrate: true,
       loadFixtures: true,
       dialect: 'sqlite',
-      storage: ':memory:',
       host: 'localhost',
       port: undefined,
       username: null,
       password: null
+    })
+    if (config.dialect === 'sqlite') {
+      config.storage = ':memory:'
+    } else {
+      config.testing = true
     }
     if (!process.env.LOG_DB) { config.logging = null }
     return config

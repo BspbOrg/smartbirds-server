@@ -22,10 +22,19 @@ db:
   ports:
     - "5432:5432"
 
+testdb:
+  image: postgres:9.4
+  environment:
+    POSTGRES_PASSWORD: 'test'
+    POSTGRES_USER: 'test'
+  ports:
+    - "5434:5432"
+
 dbadmin:
   image: adminer
   links:
     - db
+    - testdb
   ports:
     - "8080:8080"
 
