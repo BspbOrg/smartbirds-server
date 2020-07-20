@@ -23,4 +23,4 @@ jobs:
       script: npm run test:pg
     - stage: 'test'
       name: 'SQLite tests'
-      script: npm run test:sq
+      script: npm run test:sqlite

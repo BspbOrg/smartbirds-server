@@ -59,7 +59,9 @@ exports.test = {
   sequelize: function (api) {
     console.log('\n\n\n\n==========')
     console.log('DB', process.env.TEST_DATABASE_URL)
-    console.log('parsed', require('../utils/urlParser').parseUrl(process.env.TEST_DATABASE_URL))
+    if (process.env.TEST_DATABASE_URL) {
+      console.log('parsed', require('../utils/urlParser').parseUrl(process.env.TEST_DATABASE_URL))
+    }
     console.log('processed', parseDatabaseUrl(process.env.TEST_DATABASE_URL))
 
     var config = parseDatabaseUrl(process.env.TEST_DATABASE_URL, {
