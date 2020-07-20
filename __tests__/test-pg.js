@@ -1,6 +1,5 @@
 /* eslint-env node, jest */
-
-const setup = require('../test/_setup')
+/* globals setup */
 
 describe('PG Tests', function () {
   it('should have booted into the test env', function () {
