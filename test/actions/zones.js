@@ -12,7 +12,7 @@ describe('Zones:', function () {
     return setup.finish()
   })
 
-  var testZones = [ 'userZonePlovdiv', 'freeZonePlovdiv', 'adminZonePlovdiv' ]
+  var testZones = [ 'userPlov', 'freePlov', 'adminPlov' ]
 
   describe('given some zones', function () {
     setup.describeAsGuest(function (runAction) {

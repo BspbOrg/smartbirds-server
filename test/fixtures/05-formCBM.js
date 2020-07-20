@@ -43,7 +43,7 @@ module.exports = [
     model: 'formCBM',
     data: lodash.extend({}, baseModel, {
       observationDateTime: '2016-12-30T10:15:01Z',
-      zone: {id: 'freeZonePlovdiv'},
+      zone: {id: 'freePlov'},
       user: {email: 'user@smartbirds.com'}
     })
   },
@@ -51,7 +51,7 @@ module.exports = [
     model: 'formCBM',
     data: lodash.extend({}, baseModel, {
       observationDateTime: '2016-12-30T10:15:02Z',
-      zone: {id: 'freeZonePlovdiv'},
+      zone: {id: 'freePlov'},
       user: {email: 'admin@smartbirds.com'}
     })
   },
@@ -59,7 +59,7 @@ module.exports = [
     model: 'formCBM',
     data: lodash.extend({}, baseModel, {
       observationDateTime: '2016-12-30T10:15:03Z',
-      zone: {id: 'freeZonePlovdiv'},
+      zone: {id: 'freePlov'},
       user: {email: 'admin@smartbirds.com'}
     })
   },
@@ -67,7 +67,7 @@ module.exports = [
     model: 'formCBM',
     data: lodash.extend({}, baseModel, {
       observationDateTime: '2016-12-30T10:15:04Z',
-      zone: {id: 'freeZoneSofia'},
+      zone: {id: 'freeSofia'},
       user: {email: 'admin@smartbirds.com'}
     })
   }

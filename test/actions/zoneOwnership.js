@@ -1,10 +1,10 @@
-/* global describe, before, after, it */
+/* global describe, before, after, it, beforeEach */
 
 require('should')
 var setup = require('../_setup')
 
 describe('Zone ownership:', function () {
-  var testZone = 'freeZonePlovdiv'
+  var testZone = 'freePlov'
 
   before(function () {
     return setup.init()
