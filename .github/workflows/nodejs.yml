@@ -32,7 +32,7 @@ jobs:
           redis-version: ${{ matrix.redis-version }}
 
       - run: npm ci
-      - run: npm test:sqlite
+      - run: npm run test:sqlite
         env:
           CI: true
 
@@ -64,6 +64,6 @@ jobs:
           postgresql version: ${{ matrix.postgres-version }}
 
       - run: npm ci
-      - run: npm test:pg
+      - run: npm run test:pg
         env:
           CI: true
