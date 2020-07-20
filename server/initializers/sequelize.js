@@ -42,8 +42,6 @@ const operatorsAliases = {
   $col: Op.col
 }
 
-let sequencer = 0
-
 module.exports = upgradeInitializer('ah17', {
   name: 'sequelize',
   loadPriority: 310,
@@ -54,7 +52,7 @@ module.exports = upgradeInitializer('ah17', {
     let dropDb
 
     if (api.config.sequelize.testing) {
-      api.config.sequelize.database = `${api.config.sequelize.database}_${process.pid}_${(sequencer++)}`
+      api.config.sequelize.database = `${api.config.sequelize.database}_${process.pid}`
       const { Client } = require('pg')
       const client = new Client({
         host: api.config.sequelize.host,
@@ -226,15 +224,6 @@ module.exports = upgradeInitializer('ah17', {
           .then(() => api.log('Creating database... done', 'debug'))
       })
       .then(() => new Promise((resolve, reject) => api.sequelize.connect((err) => err ? reject(err) : resolve())))
-      .then(() => {
-        if (!api.config.sequelize.testing) return
-        api.log('Starting global transaction...', 'debug')
-        return api.sequelize.sequelize.transaction()
-          .then(function (tx) {
-            api.log('Starting global transaction... done', 'debug')
-            api.sequelize.sequelize.options.query.transaction = tx
-          })
-      })
       .then(() => new Promise((resolve, reject) => { api.sequelize.autoMigrate((err) => err ? reject(err) : resolve()) }))
       .then(() => new Promise((resolve, reject) => { api.sequelize.loadFixtures((err) => err ? reject(err) : resolve()) }))
       .then(() => api.log(`Connected to ${api.config.sequelize.dialect}://${api.config.sequelize.host}:${api.config.sequelize.port}/${api.config.sequelize.database}`, 'info'))
@@ -247,14 +236,6 @@ module.exports = upgradeInitializer('ah17', {
   stopPriority: 99999, // aligned with actionhero's redis initializer
   stop: function (api, next) {
     Promise.resolve()
-      .then(() => {
-        if (!api.config.sequelize.testing) return
-        api.log('Rolling back global transaction...', 'debug')
-        return api.sequelize.sequelize.options.query.transaction.rollback()
-          .then(() => {
-            api.log('Rolling back global transaction... done', 'debug')
-          })
-      })
       .then(() => api.sequelize.sequelize.close())
       .then(() => {
         if (!api.config.sequelize.testing) return
@@ -268,7 +249,6 @@ module.exports = upgradeInitializer('ah17', {
 })
 
 function checkMetaOldSchema (api) {
-  if (api.config.sequelize.testing) return Promise.resolve()
   // Check if we need to upgrade from the old sequelize migration format
   return api.sequelize.sequelize.query('SELECT * FROM "SequelizeMeta"', { raw: true }).then(function (raw) {
     var rows = raw[0]
