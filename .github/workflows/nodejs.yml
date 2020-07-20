@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, latest]
+        node-version: [10.x]
         redis-version: [3, latest]
 
     steps:
@@ -41,8 +41,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
-        redis-version: [3, 5]
+        node-version: [10.x]
+        redis-version: [3, latest]
         postgresql-version: [9.4-alpine, latest]
 
     steps:
@@ -71,3 +71,4 @@ jobs:
         env:
           CI: true
           TEST_DATABASE_URL: 'postgres://testuser:testpass@localhost/testdb'
+          LOG_LEVEL: debug
