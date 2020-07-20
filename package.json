@@ -34,7 +34,7 @@
     "less": "lessc",
     "pretest": "standard",
     "test": "npm run test:sqlite && npm run test:pg",
-    "test:sqlite": "DATABASE_URL='' npm run jest --",
+    "test:sqlite": "TEST_DATABASE_URL='' npm run jest --",
     "test:pg": "TEST_DATABASE_URL=${TEST_DATABASE_URL:=postgres://test:test@localhost:5434/test} npm run jest -- --config jest.pg.config.js",
     "test:watch": "npm run jest -- --watch",
     "dev": "docker-compose start",
