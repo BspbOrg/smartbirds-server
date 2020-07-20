@@ -29,7 +29,7 @@ jobs:
       - name: Start Redis ${{ matrix.redis-version }}
         uses: zhulik/redis-action@1.1.0
         with:
-          redis-version: ${{ matrix.redis-version }}
+          redis version: ${{ matrix.redis-version }}
 
       - run: npm ci
       - run: npm run test:sqlite
@@ -43,10 +43,17 @@ jobs:
       matrix:
         node-version: [10.x, 12.x]
         redis-version: [3, 5]
-        postgresql-version: [9.4, latest]
+        postgresql-version: [9.4-alpine, latest]
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: Start Postgres ${{ matrix.postgres-version }}
+        uses: harmon758/postgresql-action@v1
+        with:
+          postgresql version: ${{ matrix.postgres-version }}
+          postgresql user: testuser
+          postgresql password: testpass
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -56,14 +63,10 @@ jobs:
       - name: Start Redis ${{ matrix.redis-version }}
         uses: zhulik/redis-action@1.1.0
         with:
-          redis-version: ${{ matrix.redis-version }}
-
-      - name: Start Postgres ${{ matrix.postgres-version }}
-        uses: harmon758/postgresql-action@v1
-        with:
-          postgresql version: ${{ matrix.postgres-version }}
+          redis version: ${{ matrix.redis-version }}
 
       - run: npm ci
       - run: npm run test:pg
         env:
           CI: true
+          TEST_DATABASE_URL: postgresql://testuser:testpass@localhost/test
