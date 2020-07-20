@@ -12,5 +12,6 @@ env:
     - TEST_DATABASE_URL="postgresql://testuser:testpassword@localhost/test
 before_script:
   - psql --version
+  - cat /etc/postgresql/9.4/main/pg_hba.conf
   - psql -c "CREATE ROLE testuser LOGIN CREATEDB PASSWORD 'testpassword';" -U postgres
 script: npm test || npm test
