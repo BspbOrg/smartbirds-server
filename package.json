@@ -7,10 +7,6 @@
   "engines": {
     "node": "10"
   },
-  "standard": {
-    "envs": ["node", "mocha", "jest"],
-    "globals": ["setup", "api"]
-  },
   "devDependencies": {
     "husky": "^4.2.5",
     "jest": "^26.1.0",

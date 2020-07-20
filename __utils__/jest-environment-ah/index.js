@@ -11,7 +11,6 @@ class ActionheroEnvironment extends NodeEnvironment {
 
   async teardown () {
     await setup.finish()
-    console.log('server should be down')
     await super.teardown()
   }
 }

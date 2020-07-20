@@ -71,4 +71,3 @@ jobs:
         env:
           CI: true
           TEST_DATABASE_URL: 'postgres://testuser:testpass@localhost/testdb'
-          LOG_LEVEL: debug

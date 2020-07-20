@@ -10,7 +10,6 @@ services:
 env:
   global:
     - TEST_DATABASE_URL="postgresql://testuser:testpassword@localhost/testdb"
-    - LOG_LEVEL="debug"
 before_script:
   - psql --version
   - psql -c "CREATE ROLE testuser LOGIN CREATEDB PASSWORD 'testpassword';" -U postgres
