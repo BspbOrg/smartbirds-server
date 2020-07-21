@@ -23,7 +23,9 @@ const setup = {
       password: 'secret'
     }
     const response = await setup.runAction('session:create', conn)
-    response.should.have.property('csrfToken').and.not.be.empty()
+    if (!response.csrfToken) {
+      throw new Error(`Missing csrfToken in response of ${action}`)
+    }
     conn.params = _.assign({}, params)
     conn.rawConnection.req = { headers: { 'x-sb-csrf-token': response.csrfToken } }
     const actionResponse = await setup.runAction(action, conn)

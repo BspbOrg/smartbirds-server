@@ -2,6 +2,24 @@ language: node_js
 node_js:
   - "10"
 cache: npm
+addons:
+  postgresql: "9.4"
 services:
   - redis-server
-script: npm test || npm test
+  - postgresql
+env:
+  global:
+    - TEST_DATABASE_URL="postgresql://testuser:testpassword@localhost/testdb"
+before_script:
+  - psql --version
+  - psql -c "CREATE ROLE testuser LOGIN CREATEDB PASSWORD 'testpassword';" -U postgres
+  - psql -c "CREATE DATABASE testdb;" ${TEST_DATABASE_URL/testdb/postgres}
+  - echo $TEST_DATABASE_URL
+jobs:
+  include:
+    - stage: 'test'
+      name: 'PostgreSQL tests'
+      script: npm run test:pg
+    - stage: 'test'
+      name: 'SQLite tests'
+      script: npm run test:sqlite

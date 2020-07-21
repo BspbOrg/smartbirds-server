@@ -2,7 +2,6 @@ module.exports = [
   {
     model: 'species',
     data: {
-      id: 1,
       type: 'birds',
       labelLa: 'Accipiter nisus',
       labelBg: 'Малък ястреб',
@@ -12,7 +11,6 @@ module.exports = [
   {
     model: 'species',
     data: {
-      id: 2,
       type: 'birds',
       labelLa: 'Aix sponsa',
       labelBg: 'Каролинка',
@@ -22,7 +20,6 @@ module.exports = [
   {
     model: 'species',
     data: {
-      id: 3,
       type: 'birds',
       labelLa: 'Alle alle',
       labelBg: 'Малка гагарка',
@@ -32,7 +29,6 @@ module.exports = [
   {
     model: 'species',
     data: {
-      id: 4,
       type: 'birds',
       labelLa: 'Acrocephalus agricola',
       labelBg: 'Индийско шаварче',
@@ -42,7 +38,6 @@ module.exports = [
   {
     model: 'species',
     data: {
-      id: 5,
       type: 'invertebrates',
       labelLa: 'Lucanus cervus'
     }
@@ -50,7 +45,6 @@ module.exports = [
   {
     model: 'species',
     data: {
-      id: 6,
       type: 'mammals',
       labelLa: 'Accipiter nisus'
     }
@@ -58,7 +52,6 @@ module.exports = [
   {
     model: 'species',
     data: {
-      id: 7,
       type: 'mammals',
       labelLa: 'Aix sponsa'
     }
@@ -66,7 +59,6 @@ module.exports = [
   {
     model: 'species',
     data: {
-      id: 8,
       type: 'mammals',
       labelLa: 'Acrocephalus agricola'
     }
@@ -74,7 +66,6 @@ module.exports = [
   {
     model: 'species',
     data: {
-      id: 9,
       type: 'herptiles',
       labelLa: 'Accipiter nisus'
     }
@@ -82,7 +73,6 @@ module.exports = [
   {
     model: 'species',
     data: {
-      id: 10,
       type: 'herptiles',
       labelLa: 'Aix sponsa'
     }
@@ -90,7 +80,6 @@ module.exports = [
   {
     model: 'species',
     data: {
-      id: 11,
       type: 'herptiles',
       labelLa: 'Acrocephalus agricola'
     }
@@ -140,13 +129,14 @@ module.exports = [
 ]
 
 for (let i = 1; i < 10; i++) {
-  module.exports.push({
+  module.exports.push(
+    {
       model: 'species',
       data: {
         type: 'testSpecies',
         labelLa: `Test Species La ${i}`,
         labelBg: `Test Species Bg ${i}`,
-        labelEn: `Test Species En ${i}`,
+        labelEn: `Test Species En ${i}`
       }
     }
   )

@@ -1,0 +1,9 @@
+{
+  "name": "jest-environment-ah",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "peerDependencies": {
+    "jest-environment-node": "*"
+  }
+}

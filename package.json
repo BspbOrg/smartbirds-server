@@ -10,6 +10,7 @@
   "devDependencies": {
     "husky": "^4.2.5",
     "jest": "^26.1.0",
+    "jest-environment-ah": "file:./__utils__/jest-environment-ah",
     "jest-runner-mocha": "^0.6.0",
     "lint-staged": "^10.2.11",
     "parallelshell": "^3.0.2",
@@ -28,7 +29,9 @@
     "jest": "NODE_ENV=test PROJECT_ROOT=`pwd`/server jest",
     "less": "lessc",
     "pretest": "standard",
-    "test": "npm run jest --",
+    "test": "npm run test:sqlite && npm run test:pg",
+    "test:sqlite": "TEST_DATABASE_URL='' npm run jest --",
+    "test:pg": "TEST_DATABASE_URL=${TEST_DATABASE_URL:=postgres://testuser:testpass@localhost:5434/testdb} npm run jest -- --config jest.pg.config.js",
     "test:watch": "npm run jest -- --watch",
     "dev": "docker-compose start",
     "prestart": "npm run migrate",

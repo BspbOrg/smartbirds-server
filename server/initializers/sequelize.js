@@ -48,6 +48,32 @@ module.exports = upgradeInitializer('ah17', {
   initialize: function (api, next) {
     api.models = {}
 
+    let createDb
+    let dropDb
+
+    if (api.config.sequelize.testing) {
+      api.config.sequelize.database = `${api.config.sequelize.database}_${process.pid}`
+      const { Client } = require('pg')
+      const client = new Client({
+        host: api.config.sequelize.host,
+        port: api.config.sequelize.port,
+        user: api.config.sequelize.username,
+        password: api.config.sequelize.password,
+        database: 'postgres'
+      })
+      createDb = async () => {
+        api.log(`connecting to ${api.config.sequelize.database}`, 'debug')
+        await client.connect()
+        const res = await client.query('CREATE DATABASE ' + api.config.sequelize.database)
+        api.log('created db', 'debug', res)
+      }
+      dropDb = async () => {
+        const res = await client.query('DROP DATABASE ' + api.config.sequelize.database)
+        api.log('dropped db', 'debug', res)
+        await client.end()
+      }
+    }
+
     var sequelizeInstance = new Sequelize(
       api.config.sequelize.database,
       api.config.sequelize.username,
@@ -85,6 +111,9 @@ module.exports = upgradeInitializer('ah17', {
     })
 
     api.sequelize = {
+
+      createDb,
+      dropDb,
 
       sequelize: sequelizeInstance,
 
@@ -187,27 +216,33 @@ module.exports = upgradeInitializer('ah17', {
 
   startPriority: 101, // aligned with actionhero's redis initializer
   start: function (api, next) {
-    api.sequelize.connect(function (err) {
-      if (err) {
-        return next(err)
-      }
-
-      api.sequelize.autoMigrate(function (err) {
-        if (err) {
-          console.error(err)
-          return next(err)
-        }
-        api.sequelize.loadFixtures(next)
+    Promise.resolve()
+      .then(() => {
+        if (!api.config.sequelize.testing) return
+        api.log('Creating database...', 'debug')
+        return api.sequelize.createDb()
+          .then(() => api.log('Creating database... done', 'debug'))
       })
-    })
+      .then(() => new Promise((resolve, reject) => api.sequelize.connect((err) => err ? reject(err) : resolve())))
+      .then(() => new Promise((resolve, reject) => { api.sequelize.autoMigrate((err) => err ? reject(err) : resolve()) }))
+      .then(() => new Promise((resolve, reject) => { api.sequelize.loadFixtures((err) => err ? reject(err) : resolve()) }))
+      .then(() => api.log(`Connected to ${api.config.sequelize.dialect}://${api.config.sequelize.host}:${api.config.sequelize.port}/${api.config.sequelize.database}`, 'info'))
+      .then(() => next(), (err) => {
+        console.error(err)
+        next(err)
+      })
   },
 
   stopPriority: 99999, // aligned with actionhero's redis initializer
   stop: function (api, next) {
-    api.sequelize.sequelize.close()
-      .then(function () {
-        next()
-      }, function (err) {
+    Promise.resolve()
+      .then(() => api.sequelize.sequelize.close())
+      .then(() => {
+        if (!api.config.sequelize.testing) return
+        return api.sequelize.dropDb()
+      })
+      .then(() => next(), (err) => {
+        console.error(err)
         next(err)
       })
   }
