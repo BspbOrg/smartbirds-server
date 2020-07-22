@@ -11,7 +11,7 @@ module.exports = {
         bgatlas2008_utm_code as utm_code,
         user_id,
         o.species,
-        SUM(count) as count,
+        SUM(count)::integer as count,
         (count(e.species) > 0) as existing
       FROM birds_observations o
       LEFT JOIN bgatlas2008_species e ON (e.utm_code = o.bgatlas2008_utm_code AND e.species = o.species)

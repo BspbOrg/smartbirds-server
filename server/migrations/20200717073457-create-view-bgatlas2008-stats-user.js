@@ -18,9 +18,9 @@ module.exports = {
         SELECT
           utm_code,
           user_id,
-          sum(case when existing then 1 else 0 end) as spec_known,
-          sum(case when existing then 0 else 1 end) as spec_unknown,
-          (SELECT count(e.species) FROM bgatlas2008_species e WHERE o.utm_code = e.utm_code) as spec_old
+          sum(case when existing then 1 else 0 end)::integer as spec_known,
+          sum(case when existing then 0 else 1 end)::integer as spec_unknown,
+          (SELECT count(e.species)::integer FROM bgatlas2008_species e WHERE o.utm_code = e.utm_code) as spec_old
         FROM bgatlas2008_observed_user_species o
         GROUP BY utm_code, user_id
       ) s ON (c.utm_code = s.utm_code AND c.user_id = s.user_id)
