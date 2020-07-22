@@ -1,7 +1,7 @@
 let monitoringSequence = 0
 
 async function formCommonFactory (api,
-  {
+  { // lgtm[js/insecure-randomness]
     user = 'user@smartbirds.com',
     userId = api.models.user.findOne({ where: { email: user } }),
     organization = 'bspb',
@@ -11,7 +11,7 @@ async function formCommonFactory (api,
     monitoringCode = `monitoring ${monitoringSequence++}`,
     startDateTime = observationDateTime,
     endDateTime = observationDateTime
-  } // lgtm[js/insecure-randomness]
+  }
 ) {
   userId = await userId
   return {
