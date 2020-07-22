@@ -6,7 +6,8 @@ module.exports = {
   formatter: {
     integer: formatterInteger,
     date: formatterDate,
-    nomenclature: formatterNomenclature
+    nomenclature: formatterNomenclature,
+    float: formatterFloat
   },
   validator: {
     positive: validatorPositive,
@@ -25,6 +26,12 @@ function formatterDate (param, actionTemplate) {
   var timestamp = formatterInteger(param)
   if (typeof timestamp !== 'number') return
   return new Date(timestamp)
+}
+
+function formatterFloat (param) {
+  var f = parseFloat(param)
+  if (('' + f) !== ('' + param)) return
+  return f
 }
 
 function validatorPositive (param) {
