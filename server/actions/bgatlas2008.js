@@ -8,11 +8,8 @@ class ListCells extends Action {
     this.middleware = ['auth']
   }
 
-  async run ({ session: { userId }, response }) {
+  async run ({ response }) {
     const query = {
-      where: {
-        // user_id: userId
-      },
       include: [
         api.models.bgatlas2008_stats_global.associations.utmCoordinates
       ]
