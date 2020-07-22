@@ -19,7 +19,7 @@ module.exports = {
             'FormBirds' as form_name, id,
             latitude, longitude,
             "userId", organization,
-            "observationDateTime", species, count,
+            "observationDateTime", species, GREATEST(count, "countMin", "countMax") as count,
             "monitoringCode", "startDateTime", "endDateTime", confidential,
             "autoLocationEn", "autoLocationLocal", "autoLocationLang",
             "bgatlas2008UtmCode"
