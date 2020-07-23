@@ -1,12 +1,15 @@
 let monitoringSequence = 0
 
+const rnd = (min, max) =>
+  Math.random() * (max - min) - min // lgtm [js/insecure-randomness]
+
 async function formCommonFactory (api,
-  { // lgtm [js/insecure-randomness]
+  {
     user = 'user@smartbirds.com',
     userId = api.models.user.findOne({ where: { email: user } }),
     organization = 'bspb',
-    latitude = Math.random() * 180 - 90,
-    longitude = Math.random() * 360 - 180,
+    latitude = rnd(-90, 90),
+    longitude = rnd(-180, 180),
     observationDateTime = Date.now(),
     monitoringCode = `monitoring ${monitoringSequence++}`,
     startDateTime = observationDateTime,
