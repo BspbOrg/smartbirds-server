@@ -8,6 +8,8 @@
     "node": "10"
   },
   "devDependencies": {
+    "commitizen": "^4.1.2",
+    "cz-conventional-changelog": "^3.2.0",
     "husky": "^4.2.5",
     "jest": "^26.1.0",
     "jest-environment-ah": "file:./__utils__/jest-environment-ah",
@@ -22,6 +24,7 @@
     "standard": "^14.3.4"
   },
   "scripts": {
+    "commit": "git-cz",
     "help": "npm run ah -- help",
     "start": "npm run ah -- start cluster",
     "ah": "/usr/bin/env PROJECT_ROOT=`pwd`/server node --max_old_space_size=2048 node_modules/.bin/actionhero",
@@ -83,6 +86,7 @@
   },
   "husky": {
     "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && git-cz --hook || true",
       "pre-commit": "lint-staged"
     }
   },
@@ -90,5 +94,10 @@
     "*.js": [
       "standard --fix"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

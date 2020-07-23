@@ -1,4 +1,7 @@
 # smartbirds-server
+[![Build Status](https://travis-ci.org/BspbOrg/smartbirds-server.svg?branch=master)](https://travis-ci.org/BspbOrg/smartbirds-server)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+
 
 ## How to help
 
