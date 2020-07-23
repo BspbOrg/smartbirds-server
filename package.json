@@ -86,7 +86,7 @@
   },
   "husky": {
     "hooks": {
-      "prepare-commit-msg": "exec < /dev/tty && git-cz --hook || true",
+      "prepare-commit-msg": "exec < /dev/tty && git-cz --hook --subject=$1 || true",
       "pre-commit": "lint-staged"
     }
   },
