@@ -8,14 +8,21 @@ async function formCommonFactory (api,
     user = 'user@smartbirds.com',
     userId = api.models.user.findOne({ where: { email: user } }),
     organization = 'bspb',
-    latitude = rnd(-90, 90),
-    longitude = rnd(-180, 180),
+    latitude,
+    longitude,
     observationDateTime = Date.now(),
     monitoringCode = `monitoring ${monitoringSequence++}`,
     startDateTime = observationDateTime,
     endDateTime = observationDateTime
   }
 ) {
+  if (latitude == null) {
+    latitude = rnd(-90, 90) // lgtm [js/insecure-randomness]
+  }
+  if (longitude == null) {
+    longitude = rnd(-180, 180) // lgtm [js/insecure-randomness]
+  }
+
   userId = await userId
   return {
     userId: userId.id || userId,
