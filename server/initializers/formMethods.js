@@ -225,9 +225,8 @@ function generateRetrieveRecord (form) {
       throw new Error(api.config.errors.formNotFound(data.connection, form.modelName, data.params.id))
     }
 
-    let allowedAccess = false
+    let allowedAccess = data.session.user.isAdmin
 
-    if (!allowedAccess && data.session.user.isAdmin) allowedAccess = true
     if (!allowedAccess &&
       data.session.user.organizationSlug === record.organization &&
       api.forms.userCanManage(data.session.user, form.modelName)) allowedAccess = true

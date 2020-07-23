@@ -126,7 +126,7 @@ module.exports = upgradeInitializer('ah17', {
         }
         opts = opts === null ? { method: 'up' } : opts
 
-        checkMetaOldSchema(api, umzug).then(function () {
+        checkMetaOldSchema(api).then(function () {
           return umzug.execute(opts)
         }).then(function () {
           next()
@@ -136,7 +136,7 @@ module.exports = upgradeInitializer('ah17', {
       },
 
       migrateUndo: function (next) {
-        checkMetaOldSchema(api, umzug).then(function () {
+        checkMetaOldSchema(api).then(function () {
           return umzug.down()
         }).then(function () {
           next()
@@ -184,7 +184,7 @@ module.exports = upgradeInitializer('ah17', {
 
       autoMigrate: function (next) {
         if (api.config.sequelize.autoMigrate == null || api.config.sequelize.autoMigrate) {
-          checkMetaOldSchema(api, umzug).then(function () {
+          checkMetaOldSchema(api).then(function () {
             return umzug.up()
           }).then(function () {
             next()
