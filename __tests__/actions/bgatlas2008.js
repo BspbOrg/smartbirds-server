@@ -339,5 +339,23 @@ describe('Action: bgatlas2008_set_user_selection', () => {
         error: expect.any(String)
       }))
     })
+
+    it('set fails on unknown cell id', async () => {
+      const response = await setup.runActionAs(actionSet, { cells: ['----'] }, userEmail)
+
+      expect(response).toEqual(expect.objectContaining({
+        error: expect.any(String)
+      }))
+    })
+
+    it('clears cells', async () => {
+      await setup.runActionAs(actionSet, { cells: [utmCode] }, userEmail)
+      await setup.runActionAs(actionSet, { cells: [] }, userEmail)
+      const response = await setup.runActionAs(actionGet, {}, userEmail)
+
+      expect(response).toEqual(expect.objectContaining({
+        data: []
+      }))
+    })
   })
 })

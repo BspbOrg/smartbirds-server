@@ -44,8 +44,12 @@ class SetUserSelection extends Action {
   }
 
   async run ({ params: { cells }, session: { userId }, response }) {
+    const existsCount = await api.models.bgatlas2008_cells.count({ where: { utm_code: cells } })
+    if (existsCount !== cells.length) {
+      throw new Error('Invalid cells provided!')
+    }
     const user = await api.models.user.findByPk(userId)
-    const res = await user.setBgatlas2008Cells(cells)
+    const res = await user.setBgatlas2008Cells(cells, { validate: true })
     response.data = res.pop().map(({ utm_code: utmCode }) => utmCode)
   }
 }
