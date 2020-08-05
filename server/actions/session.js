@@ -9,7 +9,28 @@ exports.sessionCreate = upgradeAction('ah17', {
   inputs: {
     email: { required: true },
     password: { required: true },
-    gdprConsent: { required: false }
+    gdprConsent: { required: false },
+    include: {
+      require: false,
+      validator: (param) => {
+        const includeOptions = ['bgatlasCells']
+
+        const invalidOptions = Object.keys(param).filter((option) => !includeOptions.includes(option))
+        if (invalidOptions.length > 0) {
+          return `Invalid "include" options: ${invalidOptions.join(', ')}`
+        }
+      },
+      formatter: (param) => {
+        const options = {}
+        if (!param) return options
+        if (!Array.isArray(param)) {
+          throw new Error('"include" must be an array')
+        }
+        param.forEach((option) => { options[option] = true })
+        return options
+      },
+      default: []
+    }
   },
 
   run: function (api, data, next) {
@@ -59,8 +80,11 @@ exports.sessionCreate = upgradeAction('ah17', {
             return resolve(sessionData)
           })
         })
-          .then(function (sessionData) {
+          .then(async (sessionData) => {
             data.response.user = user.apiData(api)
+            if (data.params.include.bgatlasCells) {
+              data.response.user.bgatlasCells = (await user.getBgatlas2008Cells()).map((cell) => cell.apiData())
+            }
             data.response.success = true
             data.response.csrfToken = sessionData.csrfToken
           })

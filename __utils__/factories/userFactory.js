@@ -9,6 +9,7 @@ async function userFactory (
     password = 'secret',
     organizationSlug = 'test',
     gdprConsent = true,
+    role = 'user',
     ...propOverrides
   } = {}
 ) {
@@ -18,6 +19,7 @@ async function userFactory (
     lastName,
     organizationSlug,
     gdprConsent,
+    role,
     ...propOverrides
   })
   await user.updatePassword(password)
