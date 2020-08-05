@@ -81,7 +81,8 @@ exports.default = {
 
         { path: '/organization', action: 'organization:list' },
 
-        { path: '/bgatlas/2008', action: 'bgatlas2008_cells_list' }
+        { path: '/bgatlas/2008', action: 'bgatlas2008_cells_list' },
+        { path: '/bgatlas/user/selected', action: 'bgatlas2008_get_user_selection' }
       ],
 
       post: [
@@ -132,7 +133,9 @@ exports.default = {
         { path: '/organization/:slug', action: 'organization:edit' },
 
         { path: '/tasks/auto-location', action: 'tasks:enqueue:autoLocation' },
-        { path: '/tasks/bgatlas2008', action: 'tasks:enqueue:bgatlas2008' }
+        { path: '/tasks/bgatlas2008', action: 'tasks:enqueue:bgatlas2008' },
+
+        { path: '/bgatlas/user/selected', action: 'bgatlas2008_set_user_selection' }
       ],
 
       put: [

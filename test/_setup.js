@@ -24,7 +24,7 @@ const setup = {
     }
     const response = await setup.runAction('session:create', conn)
     if (!response.csrfToken) {
-      throw new Error(`Missing csrfToken in response of ${action}`)
+      throw new Error(`Missing csrfToken in response of session:create. Got:\n${JSON.stringify(response, null, '\t')}`)
     }
     conn.params = _.assign({}, params)
     conn.rawConnection.req = { headers: { 'x-sb-csrf-token': response.csrfToken } }

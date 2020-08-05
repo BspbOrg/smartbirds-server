@@ -123,6 +123,13 @@ module.exports = function (sequelize, DataTypes) {
           foreignKey: 'sharer',
           otherKey: 'sharee'
         })
+        models.user.belongsToMany(models.bgatlas2008_cells, {
+          as: 'bgatlas2008Cells',
+          through: 'bgatlas2008_user_selected',
+          timestamps: false,
+          foreignKey: 'user_id',
+          otherKey: 'utm_code'
+        })
       }
     },
 
@@ -133,6 +140,17 @@ module.exports = function (sequelize, DataTypes) {
       },
 
       updatePassword: function (pw, callback) {
+        if (callback == null) {
+          return new Promise((resolve, reject) => {
+            this.updatePassword(pw, (error, res) => {
+              if (error) {
+                return reject(error)
+              }
+              resolve(res)
+            })
+          })
+        }
+
         var self = this
         bcrypt.genSalt(bcryptComplexity, function (error, salt) {
           if (error) {

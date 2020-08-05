@@ -7,9 +7,11 @@ const bgatlas2008CellsFactory = require('../../__utils__/factories/bgatlas2008Ce
 const bgatlas2008SpeciesFactory = require('../../__utils__/factories/bgatlas2008SpeciesFactory')
 const formBirdsFactory = require('../../__utils__/factories/formBirdsFactory')
 const speciesFactory = require('../../__utils__/factories/speciesFactory')
+const userFactory = require('../../__utils__/factories/userFactory')
 
-const action = 'bgatlas2008_cells_list'
 describe('Action: bgatlas2008_cells_list', () => {
+  const action = 'bgatlas2008_cells_list'
+
   describe('cell without species from atlas and no observations', () => {
     let cell
     let response
@@ -295,6 +297,64 @@ describe('Action: bgatlas2008_cells_list', () => {
             spec_unknown: 0
           })
         ])
+      }))
+    })
+  })
+})
+
+describe('Action: bgatlas2008_set_user_selection', () => {
+  const actionGet = 'bgatlas2008_get_user_selection'
+  const actionSet = 'bgatlas2008_set_user_selection'
+
+  describe('setting new cell on empty selection', () => {
+    const utmCode = 'test'
+    const userEmail = 'test@test.test'
+
+    beforeAll(async () => {
+      await bgatlas2008CellsFactory(setup.api, { utm_code: utmCode })
+      await userFactory(setup.api, { email: userEmail })
+    })
+
+    it('set returns provided cell', async () => {
+      const response = await setup.runActionAs(actionSet, { cells: [utmCode] }, userEmail)
+
+      expect(response).toEqual(expect.objectContaining({
+        data: [utmCode]
+      }))
+    })
+
+    it('saves provided cell', async () => {
+      await setup.runActionAs(actionSet, { cells: [utmCode] }, userEmail)
+      const response = await setup.runActionAs(actionGet, {}, userEmail)
+
+      expect(response).toEqual(expect.objectContaining({
+        data: [utmCode]
+      }))
+    })
+
+    it('set fails on invalid cell', async () => {
+      const response = await setup.runActionAs(actionSet, { cells: [{ }] }, userEmail)
+
+      expect(response).toEqual(expect.objectContaining({
+        error: expect.any(String)
+      }))
+    })
+
+    it('set fails on unknown cell id', async () => {
+      const response = await setup.runActionAs(actionSet, { cells: ['----'] }, userEmail)
+
+      expect(response).toEqual(expect.objectContaining({
+        error: expect.any(String)
+      }))
+    })
+
+    it('clears cells', async () => {
+      await setup.runActionAs(actionSet, { cells: [utmCode] }, userEmail)
+      await setup.runActionAs(actionSet, { cells: [] }, userEmail)
+      const response = await setup.runActionAs(actionGet, {}, userEmail)
+
+      expect(response).toEqual(expect.objectContaining({
+        data: []
       }))
     })
   })
