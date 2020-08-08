@@ -66,7 +66,10 @@ describe('Action session', () => {
         user: expect.objectContaining({
           bgatlasCells: [expect.objectContaining({
             utm_code: cell.utm_code,
-            coordinates: cell.coordinates()
+            coordinates: cell.coordinates(),
+            spec_known: expect.any(Number),
+            spec_unknown: expect.any(Number),
+            spec_old: expect.any(Number)
           })]
         })
       }))
@@ -114,7 +117,10 @@ describe('Action session', () => {
         user: expect.objectContaining({
           bgatlasCells: [expect.objectContaining({
             utm_code: cell.utm_code,
-            coordinates: cell.coordinates()
+            coordinates: cell.coordinates(),
+            spec_known: expect.any(Number),
+            spec_unknown: expect.any(Number),
+            spec_old: expect.any(Number)
           })]
         })
       }))

@@ -123,7 +123,7 @@ module.exports = function (sequelize, DataTypes) {
           foreignKey: 'sharer',
           otherKey: 'sharee'
         })
-        models.user.belongsToMany(models.bgatlas2008_cells, {
+        models.user.belongsToMany(models.bgatlas2008_stats_global, {
           as: 'bgatlas2008Cells',
           through: 'bgatlas2008_user_selected',
           timestamps: false,
