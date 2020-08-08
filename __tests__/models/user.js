@@ -26,10 +26,28 @@ describe('user model', () => {
     await user.setBgatlas2008Cells([cell.utm_code])
 
     const saved = await user.getBgatlas2008Cells()
-    expect(saved).toEqual([expect.objectContaining(cellData)])
+    expect(saved).toEqual([expect.objectContaining({
+      utm_code: cellData.utm_code,
+      spec_old: expect.any(Number),
+      spec_known: expect.any(Number),
+      spec_unknown: expect.any(Number)
+    })])
   })
 
-  it('can load with bgatlas2008 cells', async () => {
+  it('can set bgatlas2008 cells and load cells', async () => {
+    await user.setBgatlas2008Cells([cell.utm_code])
+
+    const saved = await user.getBgatlas2008Cells({ include: ['utmCoordinates'] })
+    expect(saved).toEqual([expect.objectContaining({
+      utm_code: cellData.utm_code,
+      utmCoordinates: expect.objectContaining(cellData),
+      spec_old: expect.any(Number),
+      spec_known: expect.any(Number),
+      spec_unknown: expect.any(Number)
+    })])
+  })
+
+  it('can load with bgatlas2008 stats cells', async () => {
     await user.setBgatlas2008Cells([cell.utm_code])
 
     const loadedUser = await api.models.user.findOne({
@@ -37,6 +55,27 @@ describe('user model', () => {
       include: [api.models.user.associations.bgatlas2008Cells]
     })
 
-    expect(loadedUser.bgatlas2008Cells).toEqual([expect.objectContaining(cellData)])
+    expect(loadedUser.bgatlas2008Cells).toEqual([expect.objectContaining({
+      utm_code: cellData.utm_code,
+      spec_old: expect.any(Number),
+      spec_known: expect.any(Number),
+      spec_unknown: expect.any(Number)
+    })])
+  })
+
+  it('can load with bgatlas2008 stats and cells', async () => {
+    await user.setBgatlas2008Cells([cell.utm_code])
+
+    const loadedUser = await api.models.user.findOne({
+      where: { id: user.id },
+      include: [{
+        association: 'bgatlas2008Cells',
+        include: 'utmCoordinates'
+      }]
+    })
+
+    expect(loadedUser.bgatlas2008Cells).toEqual([expect.objectContaining({
+      utmCoordinates: expect.objectContaining(cellData)
+    })])
   })
 })
