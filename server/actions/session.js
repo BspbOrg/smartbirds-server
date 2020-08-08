@@ -1,5 +1,27 @@
 const { upgradeAction } = require('../utils/upgrade')
 
+const includeInput = {
+  require: false,
+  validator: (param) => {
+    const includeOptions = ['bgatlasCells']
+
+    const invalidOptions = Object.keys(param).filter((option) => !includeOptions.includes(option))
+    if (invalidOptions.length > 0) {
+      return `Invalid "include" options: ${invalidOptions.join(', ')}`
+    }
+  },
+  formatter: (param) => {
+    const options = {}
+    if (!param) return options
+    if (!Array.isArray(param)) {
+      throw new Error('"include" must be an array')
+    }
+    param.forEach((option) => { options[option] = true })
+    return options
+  },
+  default: []
+}
+
 exports.sessionCreate = upgradeAction('ah17', {
   name: 'session:create',
   description: 'session:create',
@@ -10,27 +32,7 @@ exports.sessionCreate = upgradeAction('ah17', {
     email: { required: true },
     password: { required: true },
     gdprConsent: { required: false },
-    include: {
-      require: false,
-      validator: (param) => {
-        const includeOptions = ['bgatlasCells']
-
-        const invalidOptions = Object.keys(param).filter((option) => !includeOptions.includes(option))
-        if (invalidOptions.length > 0) {
-          return `Invalid "include" options: ${invalidOptions.join(', ')}`
-        }
-      },
-      formatter: (param) => {
-        const options = {}
-        if (!param) return options
-        if (!Array.isArray(param)) {
-          throw new Error('"include" must be an array')
-        }
-        param.forEach((option) => { options[option] = true })
-        return options
-      },
-      default: []
-    }
+    include: includeInput
   },
 
   run: function (api, data, next) {
@@ -116,29 +118,38 @@ exports.sessionCheck = upgradeAction('ah17', {
   name: 'session:check',
   description: 'session:check',
   outputExample: {},
-
-  inputs: {},
+  inputs: {
+    include: includeInput
+  },
 
   run: function (api, data, next) {
-    api.session.load(data.connection, function (error, sessionData) {
-      if (error) {
-        return next(error)
-      } else if (!sessionData) {
-        data.connection.rawConnection.responseHttpCode = 401
-        return next(new Error(api.config.errors.sessionRequireAuthentication(data.connection)))
-      } else {
-        api.models.user.findOne({ where: { id: sessionData.userId } }).then(function (user) {
-          if (!user) {
-            data.connection.rawConnection.responseHttpCode = 404
-            return next(new Error(api.config.errors.sessionInvalidCredentials(data.connection)))
-          }
-          data.response.user = user.apiData(api)
-          data.response.csrfToken = sessionData.csrfToken
-          data.response.success = true
-          next()
-        }).catch(next)
-      }
-    })
+    Promise
+      .resolve(new Promise((resolve, reject) => {
+        api.session.load(data.connection, (error, result) => {
+          if (error) return reject(error)
+          resolve(result)
+        })
+      }))
+      .then(async (sessionData) => {
+        if (!sessionData) {
+          data.connection.rawConnection.responseHttpCode = 401
+          throw new Error(api.config.errors.sessionRequireAuthentication(data.connection))
+        }
+
+        const user = await api.models.user.findOne({ where: { id: sessionData.userId } })
+        if (!user) {
+          data.connection.rawConnection.responseHttpCode = 404
+          throw new Error(api.config.errors.sessionInvalidCredentials(data.connection))
+        }
+
+        data.response.user = user.apiData(api)
+        if (data.params.include.bgatlasCells) {
+          data.response.user.bgatlasCells = (await user.getBgatlas2008Cells()).map((cell) => cell.apiData())
+        }
+        data.response.csrfToken = sessionData.csrfToken
+        data.response.success = true
+      })
+      .then((res) => next(null, res), next)
   }
 })
 
