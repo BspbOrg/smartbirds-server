@@ -323,6 +323,15 @@ describe('Action: bgatlas2008_set_user_selection', () => {
       }))
     })
 
+    it('set returns provided cell when no change', async () => {
+      await setup.runActionAs(actionSet, { cells: [utmCode] }, userEmail)
+      const response = await setup.runActionAs(actionSet, { cells: [utmCode] }, userEmail)
+
+      expect(response).toEqual(expect.objectContaining({
+        data: [utmCode]
+      }))
+    })
+
     it('saves provided cell', async () => {
       await setup.runActionAs(actionSet, { cells: [utmCode] }, userEmail)
       const response = await setup.runActionAs(actionGet, {}, userEmail)

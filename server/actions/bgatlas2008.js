@@ -49,8 +49,9 @@ class SetUserSelection extends Action {
       throw new Error('Invalid cells provided!')
     }
     const user = await api.models.user.findByPk(userId, { attributes: ['id'] })
-    const res = await user.setBgatlas2008Cells(cells, { validate: true })
-    response.data = res.pop().map(({ utm_code: utmCode }) => utmCode)
+    await user.setBgatlas2008Cells(cells, { validate: true })
+    const res = await user.getBgatlas2008Cells()
+    response.data = res.map(({ utm_code: utmCode }) => utmCode)
   }
 }
 
