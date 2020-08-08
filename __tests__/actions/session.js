@@ -72,4 +72,52 @@ describe('Action session', () => {
       }))
     })
   })
+
+  describe.each(roles)('restore %s', (role) => {
+    let response
+    let cell
+    let user
+    let csrfToken
+    let conn
+
+    beforeAll(async () => {
+      user = await userFactory(setup.api, { role, password })
+      cell = await bgatlas2008CellsFactory(setup.api)
+      await user.setBgatlas2008Cells([cell.utm_code])
+
+      conn = await setup.api.specHelper.Connection.createAsync()
+      conn.params = {
+        email: user.email,
+        password: password
+      }
+
+      csrfToken = await setup.runAction('session:create', conn)
+
+      conn.params = {}
+      conn.rawConnection.req = { headers: { 'x-sb-csrf-token': csrfToken } }
+    })
+
+    it('does not have bg atlas selected cells by default', async () => {
+      conn.params = {}
+      response = await setup.runAction('session:check', conn)
+      expect(response).not.toEqual(expect.objectContaining({
+        user: expect.objectContaining({
+          bgatlasCells: expect.anything()
+        })
+      }))
+    })
+
+    it('has bg atlas selected cells when asked', async () => {
+      conn.params = { include: ['bgatlasCells'] }
+      response = await setup.runAction('session:check', conn)
+      expect(response).toEqual(expect.objectContaining({
+        user: expect.objectContaining({
+          bgatlasCells: [expect.objectContaining({
+            utm_code: cell.utm_code,
+            coordinates: cell.coordinates()
+          })]
+        })
+      }))
+    })
+  })
 })
