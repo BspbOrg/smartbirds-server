@@ -85,7 +85,11 @@ exports.sessionCreate = upgradeAction('ah17', {
           .then(async (sessionData) => {
             data.response.user = user.apiData(api)
             if (data.params.include.bgatlasCells) {
-              data.response.user.bgatlasCells = (await user.getBgatlas2008Cells()).map((cell) => cell.apiData())
+              data.response.user.bgatlasCells = (await user.getBgatlas2008Cells({
+                include: [
+                  api.models.bgatlas2008_stats_global.associations.utmCoordinates
+                ]
+              })).map((cell) => cell.apiData())
             }
             data.response.success = true
             data.response.csrfToken = sessionData.csrfToken
@@ -144,7 +148,11 @@ exports.sessionCheck = upgradeAction('ah17', {
 
         data.response.user = user.apiData(api)
         if (data.params.include.bgatlasCells) {
-          data.response.user.bgatlasCells = (await user.getBgatlas2008Cells()).map((cell) => cell.apiData())
+          data.response.user.bgatlasCells = (await user.getBgatlas2008Cells({
+            include: [
+              api.models.bgatlas2008_stats_global.associations.utmCoordinates
+            ]
+          })).map((cell) => cell.apiData())
         }
         data.response.csrfToken = sessionData.csrfToken
         data.response.success = true
