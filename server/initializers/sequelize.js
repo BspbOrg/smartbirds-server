@@ -169,7 +169,7 @@ module.exports = upgradeInitializer('ah17', {
       loadFixtures: function (next) {
         if (api.config.sequelize.loadFixtures) {
           var SequelizeFixtures = require('sequelize-fixtures')
-          SequelizeFixtures.loadFile(api.projectRoot + '/test/fixtures/*.{json,yml,js}', api.models, { log: m => api.log(m, 'notice') })
+          SequelizeFixtures.loadFile(path.normalize(api.projectRoot + '/../test/fixtures/') + '*.{json,yml,js}', api.models, { log: m => api.log(m, 'notice') })
             .then(function () {
               next()
             })
