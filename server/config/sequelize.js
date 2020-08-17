@@ -60,11 +60,12 @@ exports.test = {
     var config = parseDatabaseUrl(process.env.TEST_DATABASE_URL, {
       autoMigrate: true,
       loadFixtures: true,
-      dialect: 'sqlite',
+      database: 'testdb',
+      dialect: 'postgres',
       host: 'localhost',
-      port: undefined,
-      username: null,
-      password: null
+      port: 5434,
+      username: 'testuser',
+      password: 'testpass'
     })
     if (config.dialect === 'sqlite') {
       config.storage = ':memory:'

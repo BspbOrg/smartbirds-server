@@ -12,9 +12,8 @@ You can [help translate](https://poeditor.com/join/project/9RT5wSkZCP) the proje
 Initialize the containers
 ```
 npm install
-npm run build
 docker-compose up
-docker-compose run web npm run seed
+docker-compose run web npm run test
 ```
 
 From this point on only start in enough
