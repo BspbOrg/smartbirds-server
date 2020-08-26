@@ -72,8 +72,24 @@ class GetUserSelection extends Action {
   }
 }
 
+class GetCellInfor extends Action {
+  constructor () {
+    super()
+    this.name = 'bgatlas2008_get_cell_info'
+    this.description = this.name
+    this.middleware = ['auth']
+  }
+
+  async run ({ params: { cells }, session: { userId }, response }) {
+    // get all species from bgatlas2008_cells, check which occur in bgatlas2008_observed_species
+    console.log('test log')
+    response.data = 'test'
+  }
+}
+
 module.exports = {
   ListCells,
+  GetCellInfor,
   GetUserSelection,
   SetUserSelection
 }
