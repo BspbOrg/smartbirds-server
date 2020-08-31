@@ -71,7 +71,7 @@
     "moment-timezone": "^0.5.31",
     "node-fetch": "^2.6.0",
     "nodemailer-mailgun-transport": "^2.0.0",
-    "pg": "^8.3.0",
+    "pg": "^8.3.3",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.22.3",
     "sequelize-cli": "^6.2.0",
