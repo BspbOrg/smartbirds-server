@@ -58,7 +58,7 @@ module.exports.generateStatistics = upgradeTask('ah17', {
           }),
         user_rank_stats: api.models.user_rank_stats.findAll({})
           .then(records => {
-            return records.map(r => r.apiData(api)).reduce((result, current) => ({ ...result, ...current }))
+            return records.map(r => r.apiData(api)).reduce((result, current) => ({ ...result, ...current }), {})
           }),
         total_user_records_stats: api.models.total_users_records_year.findAll({
           limit: 10,
@@ -134,7 +134,12 @@ module.exports.generateStatistics = upgradeTask('ah17', {
               limit: 20
             }).then(records => records.map(r => r.apiData(api)))
           })
-        })).reduce((a, b) => ({ ...a, ...b })))
+        })).reduce((a, b) => ({ ...a, ...b }))),
+        bgatlas2008_global_stats: api.models.bgatlas2008_stats_global.findAll({
+          include: [
+            api.models.bgatlas2008_stats_global.associations.utmCoordinates
+          ]
+        }).map((r) => r.apiData())
       })
 
       await Promise.props(_.mapValues(stats, function (stat, name) {
