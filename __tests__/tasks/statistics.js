@@ -29,7 +29,7 @@ describe('Statistics task', function () {
       const result = await runLocal()
 
       expect(result).toEqual(expect.arrayContaining([
-        { utm_code: cell.utm_code, spec_known: 0, spec_unknown: 0, spec_old: 0 }
+        { utm_code: cell.utm_code, spec_known: 0, spec_unknown: 0, spec_old: 0, coordinates: cell.coordinates() }
       ]))
     })
 
@@ -40,7 +40,7 @@ describe('Statistics task', function () {
       const result = await runLocal()
 
       expect(result).toEqual(expect.arrayContaining([
-        { utm_code: cell.utm_code, spec_known: 0, spec_unknown: 0, spec_old: 1 }
+        { utm_code: cell.utm_code, spec_known: 0, spec_unknown: 0, spec_old: 1, coordinates: cell.coordinates() }
       ]))
     })
 
@@ -54,7 +54,7 @@ describe('Statistics task', function () {
       const result = await runLocal()
 
       expect(result).toEqual(expect.arrayContaining([
-        { utm_code: cell.utm_code, spec_known: 0, spec_unknown: 1, spec_old: 0 }
+        { utm_code: cell.utm_code, spec_known: 0, spec_unknown: 1, spec_old: 0, coordinates: cell.coordinates() }
       ]))
     })
 
@@ -71,7 +71,7 @@ describe('Statistics task', function () {
       const result = await runLocal()
 
       expect(result).toEqual(expect.arrayContaining([
-        { utm_code: cell.utm_code, spec_known: 1, spec_unknown: 0, spec_old: 1 }
+        { utm_code: cell.utm_code, spec_known: 1, spec_unknown: 0, spec_old: 1, coordinates: cell.coordinates() }
       ]))
     })
   })
