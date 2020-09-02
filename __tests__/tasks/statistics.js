@@ -21,7 +21,7 @@ describe('Statistics task', function () {
       await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds' })
       await setup.api.tasks.tasks.bgatlas2008_refresh.run()
       await run()
-      return readStatFile('bgatlas2008_stats_global')
+      return readStatFile('bgatlas2008_global_stats')
     }
 
     it('includes cell outside atlas without observation', async () => {

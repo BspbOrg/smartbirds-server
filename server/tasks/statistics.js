@@ -135,7 +135,7 @@ module.exports.generateStatistics = upgradeTask('ah17', {
             }).then(records => records.map(r => r.apiData(api)))
           })
         })).reduce((a, b) => ({ ...a, ...b }))),
-        bgatlas2008_stats_global: api.models.bgatlas2008_stats_global.findAll().map((r) => r.apiData())
+        bgatlas2008_global_stats: api.models.bgatlas2008_stats_global.findAll().map((r) => r.apiData())
       })
 
       await Promise.props(_.mapValues(stats, function (stat, name) {
