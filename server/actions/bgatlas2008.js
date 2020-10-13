@@ -22,6 +22,50 @@ class ListCells extends Action {
   }
 }
 
+class CellInfo extends Action {
+  constructor () {
+    super()
+    this.name = 'bgatlas2008_cell_info'
+    this.description = this.name
+    this.middleware = ['auth']
+    this.inputs = {
+      utm_code: { required: true }
+    }
+  }
+
+  async run ({ connection, params: { utm_code: utmCode }, session: { userId }, response }) {
+    const cell = await api.models.bgatlas2008_cells.findByPk(utmCode)
+    if (!cell) {
+      connection.rawConnection.responseHttpCode = 404
+      throw new Error('No such utm code')
+    }
+
+    const [knownSpecies, observedSpecies] = await Promise.all([
+      api.models.bgatlas2008_species.findAll({ where: { utm_code: utmCode } }),
+      api.models.bgatlas2008_observed_user_species.findAll({ where: { utm_code: utmCode, user_id: userId } })
+    ])
+
+    // merge the two lists
+    const speciesMap = {}
+    knownSpecies.forEach(({ species }) => {
+      if (!(species in speciesMap)) {
+        speciesMap[species] = { species, known: true, observed: false }
+      } else {
+        speciesMap[species].known = true
+      }
+    })
+    observedSpecies.forEach(({ species }) => {
+      if (!(species in speciesMap)) {
+        speciesMap[species] = { species, known: false, observed: true }
+      } else {
+        speciesMap[species].observed = true
+      }
+    })
+
+    response.data = Object.values(speciesMap)
+  }
+}
+
 class SetUserSelection extends Action {
   constructor () {
     super()
@@ -75,5 +119,6 @@ class GetUserSelection extends Action {
 module.exports = {
   ListCells,
   GetUserSelection,
+  CellInfo,
   SetUserSelection
 }

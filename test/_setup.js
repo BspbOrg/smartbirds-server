@@ -15,7 +15,19 @@ const setup = {
     return setup.api
   },
   finish: () => setup.server.stop(),
-  runAction: (action, params) => setup.api.specHelper.runAction(action, params),
+  runAction: async (action, params) => {
+    let connection
+    if (!params) { params = {} }
+    if (params.id && params.type === 'testServer') {
+      connection = params
+    } else {
+      connection = await setup.api.specHelper.Connection.createAsync()
+      connection.params = params
+    }
+    const actionResponse = await setup.api.specHelper.runAction(action, connection)
+    actionResponse.responseHttpCode = connection.rawConnection.responseHttpCode
+    return actionResponse
+  },
   runActionAs: async (action, params, user) => {
     const conn = await setup.api.specHelper.Connection.createAsync()
     conn.params = {
