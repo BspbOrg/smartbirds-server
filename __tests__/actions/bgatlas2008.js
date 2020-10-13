@@ -364,6 +364,23 @@ describe('Action: bgatlas2008_cell_stats', () => {
     }))
   })
 
+  it('does not include observer with privacy', async () => {
+    const user = await userFactory(setup.api, { privacy: 'private' })
+    const observation = await formBirdsFactory(setup.api, {
+      ...getCenter(cell.coordinates()),
+      user: user.email
+    })
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds', id: observation.id })
+    await setup.api.tasks.tasks.bgatlas2008_refresh.run()
+
+    const response = await setup.runActionAsUser(action, { utm_code: cell.utm_code })
+
+    expect(response).toEqual(expect.objectContaining({
+      count: 1,
+      data: []
+    }))
+  })
+
   it('requires authenticated user', async () => {
     const response = await setup.runActionAsGuest(action, { utm_code: cell.utm_code })
 

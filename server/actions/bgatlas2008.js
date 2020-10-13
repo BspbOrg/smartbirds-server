@@ -67,7 +67,10 @@ class CellStats extends Action {
         where: { utm_code: utmCode }
       }),
       await api.models.bgatlas2008_stats_user.findAll({
-        where: { utm_code: utmCode },
+        where: {
+          utm_code: utmCode,
+          '$userInfo.privacy$': 'public'
+        },
         include: [api.models.bgatlas2008_stats_user.associations.userInfo],
         order: api.sequelize.sequelize.literal('spec_known + spec_unknown desc'),
         limit: 3
