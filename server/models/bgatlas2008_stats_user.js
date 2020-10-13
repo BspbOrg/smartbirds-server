@@ -17,6 +17,11 @@ module.exports = function (sequelize, Sequelize) {
           sourceKey: 'utm_code',
           foreignKey: 'utm_code'
         })
+        models.bgatlas2008_stats_user.belongsTo(models.user, {
+          as: 'userInfo',
+          sourceKey: 'id',
+          foreignKey: 'user_id'
+        })
       }
     },
     instanceMethods: {
