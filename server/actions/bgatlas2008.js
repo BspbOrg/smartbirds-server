@@ -1,27 +1,5 @@
 const { Action, api } = require('actionhero')
 
-class ListCells extends Action {
-  constructor () {
-    super()
-    this.name = 'bgatlas2008_cells_list'
-    this.description = this.name
-    this.middleware = ['auth']
-  }
-
-  async run ({ response }) {
-    const query = {
-      include: [
-        api.models.bgatlas2008_stats_global.associations.utmCoordinates
-      ]
-    }
-
-    const { count, rows } = await api.models.bgatlas2008_stats_global.findAndCountAll(query)
-
-    response.count = count
-    response.data = rows.map((row) => row.apiData())
-  }
-}
-
 class CellInfo extends Action {
   constructor () {
     super()
@@ -66,6 +44,89 @@ class CellInfo extends Action {
   }
 }
 
+class CellStats extends Action {
+  constructor () {
+    super()
+    this.name = 'bgatlas2008_cell_stats'
+    this.description = this.name
+    this.middleware = ['auth']
+    this.inputs = {
+      utm_code: { required: true }
+    }
+  }
+
+  async run ({ connection, params: { utm_code: utmCode }, response }) {
+    const cell = await api.models.bgatlas2008_cells.findByPk(utmCode)
+    if (!cell) {
+      connection.rawConnection.responseHttpCode = 404
+      throw new Error('No such utm code')
+    }
+
+    const [globalStat, userStats] = await Promise.all([
+      await api.models.bgatlas2008_stats_global.findOne({
+        where: { utm_code: utmCode }
+      }),
+      await api.models.bgatlas2008_stats_user.findAll({
+        where: {
+          utm_code: utmCode,
+          '$userInfo.privacy$': 'public'
+        },
+        include: [api.models.bgatlas2008_stats_user.associations.userInfo],
+        order: api.sequelize.sequelize.literal('spec_known + spec_unknown desc'),
+        limit: 3
+      })
+    ])
+
+    response.count = globalStat.spec_old + globalStat.spec_unknown
+    response.data = userStats
+      .map(({ userInfo: user, spec_known: known, spec_unknown: unknown }) => ({ user, species: known + unknown }))
+      .filter(({ species }) => species > 0)
+      .map(({ user, species }) => ({
+        user: user.apiData(api, 'public'),
+        species
+      }))
+  }
+}
+
+class GetUserSelection extends Action {
+  constructor () {
+    super()
+    this.name = 'bgatlas2008_get_user_selection'
+    this.description = this.name
+    this.middleware = ['auth']
+  }
+
+  async run ({ session: { userId }, response }) {
+    const user = await api.models.user.findByPk(userId, {
+      attributes: [],
+      include: [api.models.user.associations.bgatlas2008Cells]
+    })
+    response.data = user.bgatlas2008Cells.map((cell) => cell.utm_code)
+  }
+}
+
+class ListCells extends Action {
+  constructor () {
+    super()
+    this.name = 'bgatlas2008_cells_list'
+    this.description = this.name
+    this.middleware = ['auth']
+  }
+
+  async run ({ response }) {
+    const query = {
+      include: [
+        api.models.bgatlas2008_stats_global.associations.utmCoordinates
+      ]
+    }
+
+    const { count, rows } = await api.models.bgatlas2008_stats_global.findAndCountAll(query)
+
+    response.count = count
+    response.data = rows.map((row) => row.apiData())
+  }
+}
+
 class SetUserSelection extends Action {
   constructor () {
     super()
@@ -99,26 +160,10 @@ class SetUserSelection extends Action {
   }
 }
 
-class GetUserSelection extends Action {
-  constructor () {
-    super()
-    this.name = 'bgatlas2008_get_user_selection'
-    this.description = this.name
-    this.middleware = ['auth']
-  }
-
-  async run ({ session: { userId }, response }) {
-    const user = await api.models.user.findByPk(userId, {
-      attributes: [],
-      include: [api.models.user.associations.bgatlas2008Cells]
-    })
-    response.data = user.bgatlas2008Cells.map((cell) => cell.utm_code)
-  }
-}
-
 module.exports = {
-  ListCells,
-  GetUserSelection,
   CellInfo,
+  CellStats,
+  GetUserSelection,
+  ListCells,
   SetUserSelection
 }
