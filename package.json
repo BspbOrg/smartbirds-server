@@ -16,7 +16,7 @@
     "jest": "^26.5.3",
     "jest-environment-ah": "file:./__utils__/jest-environment-ah",
     "jest-runner-mocha": "^0.6.0",
-    "lint-staged": "^10.4.0",
+    "lint-staged": "^10.4.2",
     "parallelshell": "^3.0.2",
     "sequelize-fixtures": "^1.2.0",
     "should": "^13.2.3",
