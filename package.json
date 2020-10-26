@@ -13,7 +13,7 @@
     "commitizen": "^4.2.1",
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^4.3.0",
-    "jest": "^26.5.3",
+    "jest": "^26.6.1",
     "jest-environment-ah": "file:./__utils__/jest-environment-ah",
     "jest-runner-mocha": "^0.6.0",
     "lint-staged": "^10.4.0",
