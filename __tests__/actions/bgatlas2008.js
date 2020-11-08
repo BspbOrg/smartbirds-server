@@ -691,6 +691,40 @@ describe('Action: bgatlas2008_cells_list', () => {
       }))
     })
   })
+
+  describe('cell with user selected it', () => {
+    let cell
+    let response
+
+    beforeAll(async () => {
+      cell = await bgatlas2008CellsFactory(setup.api)
+
+      await setup.runActionAsUser('bgatlas2008_set_user_selection', { cells: [cell.utm_code] })
+
+      response = await setup.runActionAsUser(action, {})
+    })
+
+    it('includes the cell', () => {
+      expect(response).toEqual(expect.objectContaining({
+        data: expect.arrayContaining([
+          expect.objectContaining({
+            utm_code: cell.utm_code
+          })
+        ])
+      }))
+    })
+
+    it('count of selected users', () => {
+      expect(response).toEqual(expect.objectContaining({
+        data: expect.arrayContaining([
+          expect.objectContaining({
+            utm_code: cell.utm_code,
+            selected: 1
+          })
+        ])
+      }))
+    })
+  })
 })
 
 describe('Action: bgatlas2008_set_user_selection', () => {
