@@ -123,7 +123,7 @@ class ListCells extends Action {
     const { count, rows } = await api.models.bgatlas2008_stats_global.findAndCountAll(query)
 
     response.count = count
-    response.data = rows.map((row) => row.apiData())
+    response.data = rows.map((row) => row.apiData('private'))
   }
 }
 
