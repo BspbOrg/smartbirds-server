@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@sentry/node": "^5.26.0",
-    "actionhero": "^20.0.0",
+    "actionhero": "^24.0.3",
     "archiver": "^5.0.2",
     "bcrypt": "^5.0.0",
     "bluebird": "~3.7.2",
