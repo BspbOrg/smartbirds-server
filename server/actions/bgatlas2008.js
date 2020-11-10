@@ -18,23 +18,27 @@ class CellInfo extends Action {
       throw new Error('No such utm code')
     }
 
-    const [knownSpecies, observedSpecies, otherSpecies] = await Promise.all([
+    const [knownSpecies, observedSpecies] = await Promise.all([
       api.models.bgatlas2008_species.findAll({ where: { utm_code: utmCode } }),
-      api.models.bgatlas2008_observed_user_species.findAll({ where: { utm_code: utmCode, user_id: userId } }),
-      api.models.bgatlas2008_observed_species.findAll({ where: { utm_code: utmCode } })
+      api.models.bgatlas2008_observed_user_species.findAll({ where: { utm_code: utmCode, user_id: userId } })
     ])
 
-    // merge the lists
+    // merge the two lists
     const speciesMap = {}
-    const setFlag = (species, flag) => {
+    knownSpecies.forEach(({ species }) => {
       if (!(species in speciesMap)) {
-        speciesMap[species] = { species, known: false, observed: false, other: false }
+        speciesMap[species] = { species, known: true, observed: false }
+      } else {
+        speciesMap[species].known = true
       }
-      speciesMap[species][flag] = true
-    }
-    knownSpecies.forEach(({ species }) => setFlag(species, 'known'))
-    observedSpecies.forEach(({ species }) => setFlag(species, 'observed'))
-    otherSpecies.forEach(({ species }) => setFlag(species, 'other'))
+    })
+    observedSpecies.forEach(({ species }) => {
+      if (!(species in speciesMap)) {
+        speciesMap[species] = { species, known: false, observed: true }
+      } else {
+        speciesMap[species].observed = true
+      }
+    })
 
     response.data = Object.values(speciesMap)
   }

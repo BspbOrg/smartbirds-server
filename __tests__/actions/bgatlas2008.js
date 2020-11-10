@@ -24,7 +24,7 @@ describe('Action: bgatlas2008_cell_info', () => {
     const response = await setup.runActionAsUser(action, { utm_code: cell.utm_code })
 
     expect(response.data).toEqual(expect.arrayContaining([
-      { species: species.species, known: true, observed: false, other: false }
+      { species: species.species, known: true, observed: false }
     ]))
   })
 
@@ -40,7 +40,7 @@ describe('Action: bgatlas2008_cell_info', () => {
     const response = await setup.runActionAsUser(action, { utm_code: cell.utm_code })
 
     expect(response.data).toEqual(expect.arrayContaining([
-      { species: species.labelLa, known: false, observed: true, other: true }
+      { species: species.labelLa, known: false, observed: true }
     ]))
   })
 
@@ -57,7 +57,7 @@ describe('Action: bgatlas2008_cell_info', () => {
     const response = await setup.runActionAsUser(action, { utm_code: cell.utm_code })
 
     expect(response.data).toEqual(expect.arrayContaining([
-      { species: species.labelLa, known: true, observed: true, other: true }
+      { species: species.labelLa, known: true, observed: true }
     ]))
   })
 
@@ -72,8 +72,8 @@ describe('Action: bgatlas2008_cell_info', () => {
 
     const response = await setup.runActionAsUser2(action, { utm_code: cell.utm_code })
 
-    expect(response.data).toEqual(expect.arrayContaining([
-      { species: species.labelLa, known: false, observed: false, other: true }
+    expect(response.data).not.toEqual(expect.arrayContaining([
+      expect.objectContaining({ species: species.labelLa })
     ]))
   })
 
@@ -90,7 +90,7 @@ describe('Action: bgatlas2008_cell_info', () => {
     const response = await setup.runActionAsUser2(action, { utm_code: cell.utm_code })
 
     expect(response.data).toEqual(expect.arrayContaining([
-      { species: species.labelLa, known: true, observed: false, other: true }
+      { species: species.labelLa, known: true, observed: false }
     ]))
   })
 
