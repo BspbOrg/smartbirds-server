@@ -17,8 +17,7 @@ module.exports = {
         WHERE u.privacy = 'public'
         GROUP BY user_id
       ) user_counts
-
-`)
+    `)
   },
 
   down: async (queryInterface, Sequelize) => {
