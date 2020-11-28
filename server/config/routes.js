@@ -84,7 +84,8 @@ exports.default = {
         { path: '/bgatlas/2008', action: 'bgatlas2008_cells_list' },
         { path: '/bgatlas/cell/:utm_code', action: 'bgatlas2008_cell_info' },
         { path: '/bgatlas/cell/:utm_code/stats', action: 'bgatlas2008_cell_stats' },
-        { path: '/bgatlas/user/selected', action: 'bgatlas2008_get_user_selection' }
+        { path: '/bgatlas/user/selected', action: 'bgatlas2008_get_user_selection' },
+        { path: '/bgatlas/stats/user_rank', action: 'bgatlas2008_user_rank_stats' }
       ],
 
       post: [

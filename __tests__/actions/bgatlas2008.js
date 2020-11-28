@@ -24,7 +24,11 @@ describe('Action: bgatlas2008_cell_info', () => {
     const response = await setup.runActionAsUser(action, { utm_code: cell.utm_code })
 
     expect(response.data).toEqual(expect.arrayContaining([
-      { species: species.species, known: true, observed: false }
+      {
+        species: species.species,
+        known: true,
+        observed: false
+      }
     ]))
   })
 
@@ -34,13 +38,20 @@ describe('Action: bgatlas2008_cell_info', () => {
       ...getCenter(cell.coordinates()),
       species
     })
-    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds', id: observation.id })
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
+      form: 'formBirds',
+      id: observation.id
+    })
     await setup.api.tasks.tasks.bgatlas2008_refresh.run()
 
     const response = await setup.runActionAsUser(action, { utm_code: cell.utm_code })
 
     expect(response.data).toEqual(expect.arrayContaining([
-      { species: species.labelLa, known: false, observed: true }
+      {
+        species: species.labelLa,
+        known: false,
+        observed: true
+      }
     ]))
   })
 
@@ -51,13 +62,20 @@ describe('Action: bgatlas2008_cell_info', () => {
       ...getCenter(cell.coordinates()),
       species
     })
-    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds', id: observation.id })
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
+      form: 'formBirds',
+      id: observation.id
+    })
     await setup.api.tasks.tasks.bgatlas2008_refresh.run()
 
     const response = await setup.runActionAsUser(action, { utm_code: cell.utm_code })
 
     expect(response.data).toEqual(expect.arrayContaining([
-      { species: species.labelLa, known: true, observed: true }
+      {
+        species: species.labelLa,
+        known: true,
+        observed: true
+      }
     ]))
   })
 
@@ -67,7 +85,10 @@ describe('Action: bgatlas2008_cell_info', () => {
       ...getCenter(cell.coordinates()),
       species
     })
-    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds', id: observation.id })
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
+      form: 'formBirds',
+      id: observation.id
+    })
     await setup.api.tasks.tasks.bgatlas2008_refresh.run()
 
     const response = await setup.runActionAsUser2(action, { utm_code: cell.utm_code })
@@ -84,13 +105,20 @@ describe('Action: bgatlas2008_cell_info', () => {
       ...getCenter(cell.coordinates()),
       species
     })
-    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds', id: observation.id })
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
+      form: 'formBirds',
+      id: observation.id
+    })
     await setup.api.tasks.tasks.bgatlas2008_refresh.run()
 
     const response = await setup.runActionAsUser2(action, { utm_code: cell.utm_code })
 
     expect(response.data).toEqual(expect.arrayContaining([
-      { species: species.labelLa, known: true, observed: false }
+      {
+        species: species.labelLa,
+        known: true,
+        observed: false
+      }
     ]))
   })
 
@@ -113,7 +141,10 @@ describe('Action: bgatlas2008_cell_info', () => {
       ...getCenter(cell2.coordinates()),
       species
     })
-    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds', id: observation.id })
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
+      form: 'formBirds',
+      id: observation.id
+    })
     await setup.api.tasks.tasks.bgatlas2008_refresh.run()
 
     const response = await setup.runActionAsUser(action, { utm_code: cell.utm_code })
@@ -153,7 +184,10 @@ describe('Action: bgatlas2008_cell_stats', () => {
   it('cell with no observations and no species', async () => {
     const response = await setup.runActionAsUser(action, { utm_code: cell.utm_code })
 
-    expect(response).toEqual(expect.objectContaining({ count: 0, data: [] }))
+    expect(response).toEqual(expect.objectContaining({
+      count: 0,
+      data: []
+    }))
   })
 
   it('cell with no observation and one species', async () => {
@@ -162,7 +196,10 @@ describe('Action: bgatlas2008_cell_stats', () => {
 
     const response = await setup.runActionAsUser(action, { utm_code: cell.utm_code })
 
-    expect(response).toEqual(expect.objectContaining({ count: 1, data: [] }))
+    expect(response).toEqual(expect.objectContaining({
+      count: 1,
+      data: []
+    }))
   })
 
   it('cell with one observation and no species', async () => {
@@ -171,7 +208,10 @@ describe('Action: bgatlas2008_cell_stats', () => {
       ...getCenter(cell.coordinates()),
       user: user.email
     })
-    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds', id: observation.id })
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
+      form: 'formBirds',
+      id: observation.id
+    })
     await setup.api.tasks.tasks.bgatlas2008_refresh.run()
 
     const response = await setup.runActionAsUser(action, { utm_code: cell.utm_code })
@@ -244,7 +284,10 @@ describe('Action: bgatlas2008_cell_stats', () => {
       user: user.email
     })
     await bgatlas2008SpeciesFactory(setup.api, cell, species)
-    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds', id: observation.id })
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
+      form: 'formBirds',
+      id: observation.id
+    })
     await setup.api.tasks.tasks.bgatlas2008_refresh.run()
 
     const response = await setup.runActionAsUser(action, { utm_code: cell.utm_code })
@@ -271,7 +314,10 @@ describe('Action: bgatlas2008_cell_stats', () => {
       user: user.email
     })
     await bgatlas2008SpeciesFactory(setup.api, cell)
-    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds', id: observation.id })
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
+      form: 'formBirds',
+      id: observation.id
+    })
     await setup.api.tasks.tasks.bgatlas2008_refresh.run()
 
     const response = await setup.runActionAsUser(action, { utm_code: cell.utm_code })
@@ -370,7 +416,10 @@ describe('Action: bgatlas2008_cell_stats', () => {
       ...getCenter(cell.coordinates()),
       user: user.email
     })
-    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds', id: observation.id })
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
+      form: 'formBirds',
+      id: observation.id
+    })
     await setup.api.tasks.tasks.bgatlas2008_refresh.run()
 
     const response = await setup.runActionAsUser(action, { utm_code: cell.utm_code })
@@ -520,7 +569,10 @@ describe('Action: bgatlas2008_cells_list', () => {
         ...getCenter(cell.coordinates())
       })
 
-      await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds', id: observation.id })
+      await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
+        form: 'formBirds',
+        id: observation.id
+      })
       await setup.api.tasks.tasks.bgatlas2008_refresh.run()
       response = await setup.runActionAsUser(action, {})
     })
@@ -580,7 +632,10 @@ describe('Action: bgatlas2008_cells_list', () => {
         ...getCenter(cell.coordinates())
       })
 
-      await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds', id: observation.id })
+      await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
+        form: 'formBirds',
+        id: observation.id
+      })
       await setup.api.tasks.tasks.bgatlas2008_refresh.run()
       response = await setup.runActionAsUser(action, {})
     })
@@ -643,7 +698,10 @@ describe('Action: bgatlas2008_cells_list', () => {
         species
       })
 
-      await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds', id: observation.id })
+      await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
+        form: 'formBirds',
+        id: observation.id
+      })
       await setup.api.tasks.tasks.bgatlas2008_refresh.run()
       response = await setup.runActionAsUser(action, {})
     })
@@ -791,5 +849,259 @@ describe('Action: bgatlas2008_set_user_selection', () => {
         data: []
       }))
     })
+  })
+})
+
+describe('Action: bgatlas2008_user_rank_stats', () => {
+  const action = 'bgatlas2008_user_rank_stats'
+
+  beforeEach(async () => {
+    // clean all observations
+    await setup.api.models.formBirds.destroy({
+      where: {},
+      force: true
+    })
+    // reset the materialized view
+    await setup.api.tasks.tasks.bgatlas2008_refresh.run()
+  })
+
+  it('no observations', async () => {
+    const response = await setup.runActionAsUser(action, {})
+
+    expect(response).toEqual(expect.objectContaining({
+      count: 0,
+      data: []
+    }))
+  })
+
+  it('user with one observations', async () => {
+    const cell = await bgatlas2008CellsFactory(setup.api)
+    const user = await userFactory(setup.api)
+    const observation = await formBirdsFactory(setup.api, {
+      ...getCenter(cell.coordinates()),
+      user: user.email
+    })
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
+      form: 'formBirds',
+      id: observation.id
+    })
+    await setup.api.tasks.tasks.bgatlas2008_refresh.run()
+
+    const response = await setup.runActionAsUser(action, {})
+
+    expect(response).toEqual(expect.objectContaining({
+      count: 1,
+      data: [
+        {
+          count: 1,
+          position: 1,
+          user: {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName
+          }
+        }
+      ]
+    }))
+  })
+
+  it('two users with different score', async () => {
+    const cell1 = await bgatlas2008CellsFactory(setup.api)
+    const cell2 = await bgatlas2008CellsFactory(setup.api)
+    const user1 = await userFactory(setup.api)
+    const user2 = await userFactory(setup.api)
+    await formBirdsFactory(setup.api, {
+      ...getCenter(cell1.coordinates()),
+      user: user1.email
+    })
+    await formBirdsFactory(setup.api, {
+      ...getCenter(cell2.coordinates()),
+      user: user1.email
+    })
+    await formBirdsFactory(setup.api, {
+      ...getCenter(cell1.coordinates()),
+      user: user2.email
+    })
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds' })
+    await setup.api.tasks.tasks.bgatlas2008_refresh.run()
+
+    const response = await setup.runActionAsUser(action, {})
+
+    expect(response).toEqual(expect.objectContaining({
+      count: 2,
+      data: [
+        {
+          count: 2,
+          position: 1,
+          user: {
+            id: user1.id,
+            firstName: user1.firstName,
+            lastName: user1.lastName
+          }
+        },
+        {
+          count: 1,
+          position: 2,
+          user: {
+            id: user2.id,
+            firstName: user2.firstName,
+            lastName: user2.lastName
+          }
+        }
+      ]
+    }))
+  })
+
+  it('two users with same score have different ranking', async () => {
+    const cell = await bgatlas2008CellsFactory(setup.api)
+    const user1 = await userFactory(setup.api)
+    const user2 = await userFactory(setup.api)
+    await formBirdsFactory(setup.api, {
+      ...getCenter(cell.coordinates()),
+      user: user1.email
+    })
+    await formBirdsFactory(setup.api, {
+      ...getCenter(cell.coordinates()),
+      user: user2.email
+    })
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds' })
+    await setup.api.tasks.tasks.bgatlas2008_refresh.run()
+
+    const response = await setup.runActionAsUser(action, {})
+
+    expect(response).toEqual(expect.objectContaining({
+      count: 2,
+      data: [
+        expect.objectContaining({
+          count: 1,
+          position: 1
+        }),
+        expect.objectContaining({
+          count: 1,
+          position: 2
+        })
+      ]
+    }))
+  })
+
+  it('shows top 10 users', async () => {
+    const cell = await bgatlas2008CellsFactory(setup.api)
+    const users = []
+    for (let i = 0; i < 11; i++) {
+      const user = await userFactory(setup.api)
+      users.push(user)
+      await formBirdsFactory(setup.api, {
+        ...getCenter(cell.coordinates()),
+        user: user.email
+      })
+    }
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds' })
+    await setup.api.tasks.tasks.bgatlas2008_refresh.run()
+
+    const response = await setup.runActionAsUser(action, {})
+
+    expect(response.count).toEqual(users.length)
+    expect(response.data).toHaveLength(10)
+  })
+
+  it('includes current user even if outside top 10', async () => {
+    const cell1 = await bgatlas2008CellsFactory(setup.api)
+    const cell2 = await bgatlas2008CellsFactory(setup.api)
+    const users = []
+    for (let i = 0; i < 11; i++) {
+      const user = await userFactory(setup.api)
+      users.push(user)
+      await formBirdsFactory(setup.api, {
+        ...getCenter(cell1.coordinates()),
+        user: user.email
+      })
+      await formBirdsFactory(setup.api, {
+        ...getCenter(cell2.coordinates()),
+        user: user.email
+      })
+    }
+    const user = await userFactory(setup.api)
+    await formBirdsFactory(setup.api, {
+      ...getCenter(cell1.coordinates()),
+      user: user.email
+    })
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds' })
+    await setup.api.tasks.tasks.bgatlas2008_refresh.run()
+
+    const response = await setup.runActionAs(action, {}, user.email)
+
+    expect(response.count).toEqual(users.length + 1)
+    expect(response.data).toHaveLength(11)
+    expect(response.data).toEqual(expect.arrayContaining([
+      {
+        count: 1,
+        position: users.length + 1,
+        user: {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName
+        }
+      }
+    ]))
+  })
+
+  it('results are ordered by position', async () => {
+    const cell1 = await bgatlas2008CellsFactory(setup.api)
+    const cell2 = await bgatlas2008CellsFactory(setup.api)
+
+    const user1 = await userFactory(setup.api)
+    const user2 = await userFactory(setup.api)
+    const user3 = await userFactory(setup.api)
+
+    await formBirdsFactory(setup.api, {
+      ...getCenter(cell1.coordinates()),
+      user: user1.email
+    })
+
+    await formBirdsFactory(setup.api, {
+      ...getCenter(cell1.coordinates()),
+      user: user2.email
+    })
+    await formBirdsFactory(setup.api, {
+      ...getCenter(cell2.coordinates()),
+      user: user2.email
+    })
+
+    await formBirdsFactory(setup.api, {
+      ...getCenter(cell1.coordinates()),
+      user: user3.email
+    })
+
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds' })
+    await setup.api.tasks.tasks.bgatlas2008_refresh.run()
+
+    const response = await setup.runActionAsUser(action, {})
+
+    expect(response).toEqual(expect.objectContaining({
+      count: 3,
+      data: [
+        expect.objectContaining({ position: 1 }),
+        expect.objectContaining({ position: 2 }),
+        expect.objectContaining({ position: 3 })
+      ]
+    }))
+  })
+
+  it('does not include observer with privacy', async () => {
+    const cell = await bgatlas2008CellsFactory(setup.api)
+    const user = await userFactory(setup.api, { privacy: 'private' })
+    await formBirdsFactory(setup.api, {
+      ...getCenter(cell.coordinates()),
+      user: user.email
+    })
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds' })
+    await setup.api.tasks.tasks.bgatlas2008_refresh.run()
+
+    const response = await setup.runActionAsUser(action, {})
+
+    expect(response).toEqual(expect.objectContaining({
+      count: 0,
+      data: []
+    }))
   })
 })
