@@ -1,4 +1,5 @@
 const { Action, api } = require('actionhero')
+const { Op } = require('sequelize')
 
 class CellInfo extends Action {
   constructor () {
@@ -20,21 +21,34 @@ class CellInfo extends Action {
 
     const [knownSpecies, observedSpecies] = await Promise.all([
       api.models.bgatlas2008_species.findAll({ where: { utm_code: utmCode } }),
-      api.models.bgatlas2008_observed_user_species.findAll({ where: { utm_code: utmCode, user_id: userId } })
+      api.models.bgatlas2008_observed_user_species.findAll({
+        where: {
+          utm_code: utmCode,
+          user_id: userId
+        }
+      })
     ])
 
     // merge the two lists
     const speciesMap = {}
     knownSpecies.forEach(({ species }) => {
       if (!(species in speciesMap)) {
-        speciesMap[species] = { species, known: true, observed: false }
+        speciesMap[species] = {
+          species,
+          known: true,
+          observed: false
+        }
       } else {
         speciesMap[species].known = true
       }
     })
     observedSpecies.forEach(({ species }) => {
       if (!(species in speciesMap)) {
-        speciesMap[species] = { species, known: false, observed: true }
+        speciesMap[species] = {
+          species,
+          known: false,
+          observed: true
+        }
       } else {
         speciesMap[species].observed = true
       }
@@ -79,7 +93,10 @@ class CellStats extends Action {
 
     response.count = globalStat.spec_old + globalStat.spec_unknown
     response.data = userStats
-      .map(({ userInfo: user, spec_known: known, spec_unknown: unknown }) => ({ user, species: known + unknown }))
+      .map(({ userInfo: user, spec_known: known, spec_unknown: unknown }) => ({
+        user,
+        species: known + unknown
+      }))
       .filter(({ species }) => species > 0)
       .map(({ user, species }) => ({
         user: user.apiData(api, 'public'),
@@ -127,6 +144,35 @@ class ListCells extends Action {
   }
 }
 
+class StatsUserRank extends Action {
+  constructor () {
+    super()
+    this.name = 'bgatlas2008_user_rank_stats'
+    this.description = this.name
+    this.middleware = ['auth']
+    this.inputs = {}
+  }
+
+  async run ({ session: { userId }, response }) {
+    const query = {
+      where: {
+        [Op.or]: [
+          { position: { [Op.lte]: 10 } },
+          { user_id: userId }
+        ]
+      },
+      include: [
+        api.models.bgatlas2008_stats_user_rank.associations.user
+      ],
+      order: ['position']
+    }
+
+    const rows = await api.models.bgatlas2008_stats_user_rank.findAll(query)
+    response.data = rows.map(row => row.apiData('public'))
+    response.count = await api.models.bgatlas2008_stats_user_rank.count()
+  }
+}
+
 class SetUserSelection extends Action {
   constructor () {
     super()
@@ -165,5 +211,6 @@ module.exports = {
   CellStats,
   GetUserSelection,
   ListCells,
+  StatsUserRank,
   SetUserSelection
 }
