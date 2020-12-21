@@ -27,7 +27,8 @@ describe('Action: bgatlas2008_cell_info', () => {
       {
         species: species.species,
         known: true,
-        observed: false
+        observed: false,
+        other: false
       }
     ]))
   })
@@ -50,7 +51,8 @@ describe('Action: bgatlas2008_cell_info', () => {
       {
         species: species.labelLa,
         known: false,
-        observed: true
+        observed: true,
+        other: true
       }
     ]))
   })
@@ -74,7 +76,8 @@ describe('Action: bgatlas2008_cell_info', () => {
       {
         species: species.labelLa,
         known: true,
-        observed: true
+        observed: true,
+        other: true
       }
     ]))
   })
@@ -93,8 +96,8 @@ describe('Action: bgatlas2008_cell_info', () => {
 
     const response = await setup.runActionAsUser2(action, { utm_code: cell.utm_code })
 
-    expect(response.data).not.toEqual(expect.arrayContaining([
-      expect.objectContaining({ species: species.labelLa })
+    expect(response.data).toEqual(expect.arrayContaining([
+      { species: species.labelLa, known: false, observed: false, other: true }
     ]))
   })
 
@@ -117,7 +120,8 @@ describe('Action: bgatlas2008_cell_info', () => {
       {
         species: species.labelLa,
         known: true,
-        observed: false
+        observed: false,
+        other: true
       }
     ]))
   })
