@@ -439,10 +439,10 @@ function generateApiUpdate (fields) {
 
           let valid = !isNaN(this[name])
           if (valid && ['+int', 'int'].includes(field.type)) {
-            valid = valid && Number.isInteger(this[name])
+            valid = Number.isInteger(this[name])
           }
           if (valid && ['+num', '+int'].includes(field.type)) {
-            valid = valid && this[name] >= 0
+            valid = this[name] >= 0
           }
           if (!valid) {
             throw new Error(`[${this.name}.${name}] Invalid ${field.type} value: ${data[name]}`)
