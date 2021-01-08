@@ -65,14 +65,18 @@ describe('Forms:moderatorReview', function () {
   })
 
   it('filters', async function () {
-    const falseRecord = (await setup.runActionAsAdmin('formTestModeratorReview:create', {
-      observationDateTime: 1,
+    const falseResponse = await setup.runActionAsAdmin('formTestModeratorReview:create', {
+      observationDateTime: '1',
       moderatorReview: false
-    })).data
-    const trueRecord = (await setup.runActionAsAdmin('formTestModeratorReview:create', {
-      observationDateTime: 2,
+    })
+    falseResponse.should.not.have.property('error')
+    const falseRecord = falseResponse.data
+    const trueResponse = await setup.runActionAsAdmin('formTestModeratorReview:create', {
+      observationDateTime: '2',
       moderatorReview: true
-    })).data
+    })
+    trueResponse.should.not.have.property('error')
+    const trueRecord = trueResponse.data
 
     const response = await setup.runActionAsAdmin('formTestModeratorReview:list', { moderatorReview: '1' })
     should.exists(response)

@@ -49,7 +49,7 @@ function localField (prefix, {
 
   const attributes = {
     [enFieldName]: { type: dataType, allowNull: !required },
-    [localFieldName]: dataType,
+    [localFieldName]: { type: dataType, defaultValue: '' },
     [langFieldName]: DataTypes.STRING(3)
   }
 
@@ -105,7 +105,7 @@ function localField (prefix, {
 
     model[enFieldName] = data.en
     if (languages.includes(language) && data[language]) {
-      model[localFieldName] = data[language]
+      model[localFieldName] = data[language] || ''
       model[langFieldName] = language
       return
     }
@@ -113,7 +113,7 @@ function localField (prefix, {
     // look for any other language and use the first one found
     for (language of languages) {
       if (data[language]) {
-        model[localFieldName] = data[language]
+        model[localFieldName] = data[language] || ''
         model[langFieldName] = language
         return
       }
