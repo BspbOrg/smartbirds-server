@@ -184,12 +184,12 @@ function generateApiData (fields) {
                 const lang = field.getLocalLanguage(this)
 
                 // split the values
-                const local = values[lang] ? values[lang].split('|').map(function (val) {
-                  return val.trim()
-                }) : []
-                const en = values.en ? values.en.split('|').map(function (val) {
-                  return val.trim()
-                }) : []
+                const local = values[lang]
+                  ? values[lang].split('|').map((val) => val.trim())
+                  : []
+                const en = values.en
+                  ? values.en.split('|').map((val) => val.trim())
+                  : []
 
                 // en is the primary language
                 for (let idx = 0; idx < en.length; idx++) {
@@ -203,9 +203,9 @@ function generateApiData (fields) {
               }
               case 'organization':
               case 'species': {
-                return this[name] ? this[name].split('|').map(function (val) {
-                  return val.trim()
-                }) : []
+                return this[name]
+                  ? this[name].split('|').map((val) => val.trim())
+                  : []
               }
               default:
                 return Promise.reject(new Error('[' + name + '] Unhandled relation model ' + field.relation.model))
@@ -320,6 +320,7 @@ function generateExportData (form) {
 
 function generateApiUpdate (fields) {
   return async function (data, language) {
+    const modelName = this.constructor.tableName
     await this.constructor.runHooks('beforeApiUpdate', this, data)
     _.forEach(fields, (field, name) => {
       if (_.isString(field)) field = { type: field }
@@ -369,7 +370,7 @@ function generateApiUpdate (fields) {
               break
             }
             default:
-              throw new Error(`[${this.name}.${name}] Unsupported relation model ${field.relation.model}`)
+              throw new Error(`[${modelName}.${name}] Unsupported relation model ${field.relation.model}`)
           }
           break
         }
@@ -397,7 +398,7 @@ function generateApiUpdate (fields) {
               break
             }
             default: {
-              throw new Error(`[${this.name}.${name}] Unsupported relation model ${field.relation.model}`)
+              throw new Error(`[${modelName}.${name}] Unsupported relation model ${field.relation.model}`)
             }
           }
           break
@@ -445,7 +446,7 @@ function generateApiUpdate (fields) {
             valid = this[name] >= 0
           }
           if (!valid) {
-            throw new Error(`[${this.name}.${name}] Invalid ${field.type} value: ${data[name]}`)
+            throw new Error(`[${modelName}.${name}] Invalid ${field.type} value: ${data[name]}`)
           }
           break
         }
@@ -457,7 +458,7 @@ function generateApiUpdate (fields) {
           } else if (data[name] == null) {
             this[name] = null
           } else {
-            throw new Error(`[${this.name}.${name}] Invalid ${field.type} value: ${data[name]}`)
+            throw new Error(`[${modelName}.${name}] Invalid ${field.type} value: ${data[name]}`)
           }
           break
         }
@@ -469,12 +470,12 @@ function generateApiUpdate (fields) {
           } else if (data[name] == null) {
             this[name] = null
           } else {
-            throw new Error(`[${this.name}.${name}] Invalid ${field.type} value: ${data[name]}`)
+            throw new Error(`[${modelName}.${name}] Invalid ${field.type} value: ${data[name]}`)
           }
           break
         }
         default:
-          throw new Error(`[${this.name}.${name}] Unsupported field type ${field.type}`)
+          throw new Error(`[${modelName}.${name}] Unsupported field type ${field.type}`)
       }
     })
     if (this.changed('latitude') || this.changed('longitude')) {
