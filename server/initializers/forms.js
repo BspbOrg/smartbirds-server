@@ -369,7 +369,7 @@ function generateApiUpdate (fields) {
               break
             }
             default:
-              throw new Error(`[${this.modelName}.${name}] Unsupported relation model ${field.relation.model}`)
+              throw new Error(`[${this.name}.${name}] Unsupported relation model ${field.relation.model}`)
           }
           break
         }
@@ -397,7 +397,7 @@ function generateApiUpdate (fields) {
               break
             }
             default: {
-              throw new Error(`[${this.modelName}.${name}] Unsupported relation model ${field.relation.model}`)
+              throw new Error(`[${this.name}.${name}] Unsupported relation model ${field.relation.model}`)
             }
           }
           break
@@ -405,10 +405,20 @@ function generateApiUpdate (fields) {
         case 'json':
           if (!_.has(data, name)) return
 
+          if (data[name] == null) {
+            this[name] = null
+            return
+          }
+
           this[name] = JSON.stringify(data[name])
           break
         case 'timestamp': {
           if (!_.has(data, name)) return
+
+          if (data[name] == null) {
+            this[name] = null
+            return
+          }
 
           this[name] = new Date(data[name])
           break
@@ -420,6 +430,11 @@ function generateApiUpdate (fields) {
         case 'int': {
           if (!_.has(data, name)) return
 
+          if (data[name] == null) {
+            this[name] = null
+            return
+          }
+
           this[name] = parseFloat(Number(data[name]).toFixed(16))
 
           let valid = !isNaN(this[name])
@@ -430,7 +445,7 @@ function generateApiUpdate (fields) {
             valid = valid && this[name] >= 0
           }
           if (!valid) {
-            throw new Error(`[${this.modelName}.${name}] Invalid ${field.type} value: ${data[name]}`)
+            throw new Error(`[${this.name}.${name}] Invalid ${field.type} value: ${data[name]}`)
           }
           break
         }
@@ -442,7 +457,7 @@ function generateApiUpdate (fields) {
           } else if (data[name] == null) {
             this[name] = null
           } else {
-            throw new Error(`[${this.modelName}.${name}] Invalid ${field.type} value: ${data[name]}`)
+            throw new Error(`[${this.name}.${name}] Invalid ${field.type} value: ${data[name]}`)
           }
           break
         }
@@ -454,12 +469,12 @@ function generateApiUpdate (fields) {
           } else if (data[name] == null) {
             this[name] = null
           } else {
-            throw new Error(`[${this.modelName}.${name}] Invalid ${field.type} value: ${data[name]}`)
+            throw new Error(`[${this.name}.${name}] Invalid ${field.type} value: ${data[name]}`)
           }
           break
         }
         default:
-          throw new Error(`[${this.modelName}.${name}] Unsupported field type ${field.type}`)
+          throw new Error(`[${this.name}.${name}] Unsupported field type ${field.type}`)
       }
     })
     if (this.changed('latitude') || this.changed('longitude')) {
