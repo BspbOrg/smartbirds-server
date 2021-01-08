@@ -369,7 +369,7 @@ function generateApiUpdate (fields) {
               break
             }
             default:
-              throw new Error('[' + name + '] Unsupported relation model ' + field.relation.model)
+              throw new Error(`[${this.modelName}.${name}] Unsupported relation model ${field.relation.model}`)
           }
           break
         }
@@ -397,7 +397,7 @@ function generateApiUpdate (fields) {
               break
             }
             default: {
-              throw new Error('[' + name + '] Unsupported relation model ' + field.relation.model)
+              throw new Error(`[${this.modelName}.${name}] Unsupported relation model ${field.relation.model}`)
             }
           }
           break
@@ -407,11 +407,57 @@ function generateApiUpdate (fields) {
 
           this[name] = JSON.stringify(data[name])
           break
-        default:
+        case 'timestamp': {
           if (!_.has(data, name)) return
 
-          this[name] = data[name]
+          this[name] = new Date(data[name])
           break
+        }
+        case 'float':
+        case '+num':
+        case 'num':
+        case '+int':
+        case 'int': {
+          if (!_.has(data, name)) return
+
+          this[name] = parseFloat(Number(data[name]).toFixed(16))
+
+          let valid = !isNaN(this[name])
+          if (valid && ['+int', 'int'].includes(field.type)) {
+            valid = valid && Number.isInteger(this[name])
+          }
+          if (valid && ['+num', '+int'].includes(field.type)) {
+            valid = valid && this[name] >= 0
+          }
+          if (!valid) {
+            throw new Error(`[${this.modelName}.${name}] Invalid ${field.type} value: ${data[name]}`)
+          }
+          break
+        }
+        case 'text': {
+          if (!_.has(data, name)) return
+
+          if (typeof data[name] === 'string') {
+            this[name] = data[name]
+          } else if (data[name] == null) {
+            this[name] = null
+          } else {
+            throw new Error(`[${this.modelName}.${name}] Invalid ${field.type} value: ${data[name]}`)
+          }
+          break
+        }
+        case 'boolean': {
+          if (!_.has(data, name)) return
+
+          if (data[name] === true || data[name] === false || data[name] === null) {
+            this[name] = data[name]
+          } else {
+            throw new Error(`[${this.modelName}.${name}] Invalid ${field.type} value: ${data[name]}`)
+          }
+          break
+        }
+        default:
+          throw new Error(`[${this.modelName}.${name}] Unsupported field type ${field.type}`)
       }
     })
     if (this.changed('latitude') || this.changed('longitude')) {
