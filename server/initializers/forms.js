@@ -449,8 +449,10 @@ function generateApiUpdate (fields) {
         case 'boolean': {
           if (!_.has(data, name)) return
 
-          if (data[name] === true || data[name] === false || data[name] === null) {
+          if (data[name] === true || data[name] === false) {
             this[name] = data[name]
+          } else if (data[name] == null) {
+            this[name] = null
           } else {
             throw new Error(`[${this.modelName}.${name}] Invalid ${field.type} value: ${data[name]}`)
           }
