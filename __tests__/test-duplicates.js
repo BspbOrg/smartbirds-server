@@ -41,11 +41,13 @@ describe('Test duplicates', () => {
     pictures: []
   }
 
+  beforeEach(async () => {
+    setup.api.models.formBirds.destroy({ where: {}, force: true })
+  })
+
   it('should not duplicate simple birds record before bgatlas task', async () => {
-    const cell = await bgatlas2008CellsFactory(setup.api)
     const birdsRecord = {
-      ...baseBirdsRecord,
-      ...getCenter(cell.coordinates())
+      ...baseBirdsRecord
     }
 
     const response1 = await setup.runActionAsUser('formBirds:create', birdsRecord)
@@ -58,10 +60,8 @@ describe('Test duplicates', () => {
   })
 
   it('should not duplicate simple birds record after saving', async () => {
-    const cell = await bgatlas2008CellsFactory(setup.api)
     const birdsRecord = {
-      ...baseBirdsRecord,
-      ...getCenter(cell.coordinates())
+      ...baseBirdsRecord
     }
 
     const response1 = await setup.runActionAsUser('formBirds:create', birdsRecord)
@@ -77,10 +77,8 @@ describe('Test duplicates', () => {
   })
 
   it('should not duplicate simple birds record after loading and saving', async () => {
-    const cell = await bgatlas2008CellsFactory(setup.api)
     const birdsRecord = {
-      ...baseBirdsRecord,
-      ...getCenter(cell.coordinates())
+      ...baseBirdsRecord
     }
 
     const response1 = await setup.runActionAsUser('formBirds:create', birdsRecord)
@@ -112,6 +110,22 @@ describe('Test duplicates', () => {
 
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds' })
     await setup.api.tasks.tasks.bgatlas2008_refresh.run()
+
+    const response2 = await setup.runActionAsUser('formBirds:create', birdsRecord)
+    expect(response2.data.id).toEqual(response1.data.id)
+    expect(response2.existing).toBeTruthy()
+  })
+
+  it('should not duplicate simple birds record after autolocation task', async () => {
+    const birdsRecord = {
+      ...baseBirdsRecord
+    }
+
+    const response1 = await setup.runActionAsUser('formBirds:create', birdsRecord)
+    expect(response1.existing).toBeFalsy()
+    expect(response1.error).toBeFalsy()
+
+    await setup.api.tasks.tasks.autoLocation.run({ form: 'formBirds' })
 
     const response2 = await setup.runActionAsUser('formBirds:create', birdsRecord)
     expect(response2.data.id).toEqual(response1.data.id)

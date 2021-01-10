@@ -155,6 +155,9 @@ function generateCalcHash (fields) {
         .map(key => '"' + key + '":' + serialize(this[key]))
         .join(',') +
       '}'
+    if (process.env.DEBUG_HASH) {
+      console.log('hash', serialized)
+    }
     const hash = crypto.createHash('sha256')
     hash.update(serialized)
     return hash.digest('hex')
@@ -436,7 +439,7 @@ function generateApiUpdate (fields) {
             return
           }
 
-          this[name] = parseFloat(Number(data[name]).toFixed(16))
+          this[name] = parseFloat(Number(data[name]).toFixed(13))
 
           let valid = !isNaN(this[name])
           if (valid && ['+int', 'int'].includes(field.type)) {
