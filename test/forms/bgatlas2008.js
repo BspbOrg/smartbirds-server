@@ -22,7 +22,13 @@ let centerCell
 describe('Forms:bgatlas2008', () => {
   before(async function () {
     await setup.init()
+    const prec = Math.pow(10, 10)
     bounds = getBoundsOfDistance(center, setup.api.config.app.bgatlas2008.gridSize * 0.5)
+      // round because records on edges fail due to precision limitation
+      .map(({latitude, longitude}) => ({
+        latitude: Math.round(latitude * prec) / prec,
+        longitude: Math.round(longitude * prec) / prec
+      }))
   })
 
   after(async function () {
