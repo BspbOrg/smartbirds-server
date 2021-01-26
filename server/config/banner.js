@@ -1,14 +1,15 @@
-var path = require('path')
+const path = require('path')
+const languages = require('../../config/languages')
 
 exports.default = {
   banner: function (api) {
+    const generators = {}
+    for (const language in languages) {
+      if (!Object.prototype.hasOwnProperty.call(languages, language)) continue
+      generators[language] = path.join(__dirname, '..', '..', 'tools', `user_banner_${language}.sh`)
+    }
     return {
-      generators: {
-        bg: path.join(__dirname, '..', '..', 'tools', 'user_banner_bg.sh'),
-        en: path.join(__dirname, '..', '..', 'tools', 'user_banner_en.sh'),
-        sq: path.join(__dirname, '..', '..', 'tools', 'user_banner_sq.sh'),
-        mk: path.join(__dirname, '..', '..', 'tools', 'user_banner_mk.sh')
-      },
+      generators,
       outputDir: path.join(__dirname, '..', '..', 'public', 'banner')
     }
   }

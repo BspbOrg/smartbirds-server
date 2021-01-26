@@ -22,5 +22,29 @@ module.exports = {
     threatsPrimaryType: {
       poison: ''
     }
+  },
+  el: {
+    label: 'LANGUAGE_GREEK',
+    threatsPrimaryType: {
+      poison: ''
+    }
+  },
+  tr: {
+    label: 'LANGUAGE_TURKISH',
+    threatsPrimaryType: {
+      poison: ''
+    }
+  },
+  ar: {
+    label: 'LANGUAGE_ARABIC',
+    threatsPrimaryType: {
+      poison: ''
+    }
+  },
+  fr: {
+    label: 'LANGUAGE_FRENCH',
+    threatsPrimaryType: {
+      poison: ''
+    }
   }
 }
