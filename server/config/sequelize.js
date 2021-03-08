@@ -44,7 +44,10 @@ exports.staging = {
       loadFixtures: false,
       ssl: true,
       dialectOptions: {
-        ssl: true
+        ssl: {
+          require: true,
+          rejectUnauthorized: false
+        }
       }
     })
   }
