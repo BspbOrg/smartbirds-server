@@ -22,7 +22,7 @@
     "should": "^13.2.3",
     "should-sinon": "^0.0.6",
     "sinon": "^9.2.4",
-    "sqlite3": "^5.0.1",
+    "sqlite3": "^5.0.2",
     "standard": "^16.0.3"
   },
   "scripts": {
