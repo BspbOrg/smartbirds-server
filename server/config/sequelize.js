@@ -41,7 +41,11 @@ exports.staging = {
   sequelize: function (api) {
     return parseDatabaseUrl(process.env.DATABASE_URL, {
       autoMigrate: true,
-      loadFixtures: false
+      loadFixtures: false,
+      ssl: true,
+      dialectOptions: {
+        ssl: true
+      }
     })
   }
 }
@@ -57,7 +61,7 @@ exports.production = {
 
 exports.test = {
   sequelize: function (api) {
-    var config = parseDatabaseUrl(process.env.TEST_DATABASE_URL, {
+    const config = parseDatabaseUrl(process.env.TEST_DATABASE_URL, {
       autoMigrate: true,
       loadFixtures: true,
       dialect: 'sqlite',
@@ -85,8 +89,8 @@ exports.staging = merge(exports.staging)
 exports.production = merge(exports.production)
 
 function merge (overlayFn) {
-  var attrname
-  var mergeObj = {}
+  let attrname
+  const mergeObj = {}
   for (attrname in exports.default.sequelize()) {
     mergeObj[attrname] = exports.default.sequelize()[attrname]
   }
