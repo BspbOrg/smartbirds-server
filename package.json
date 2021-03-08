@@ -22,7 +22,7 @@
     "should": "^13.2.3",
     "should-sinon": "^0.0.6",
     "sinon": "^9.2.4",
-    "sqlite3": "^5.0.1",
+    "sqlite3": "^5.0.2",
     "standard": "^16.0.3"
   },
   "scripts": {
@@ -55,7 +55,7 @@
     "boolean": "^3.0.2",
     "concat-stream": "^2.0.0",
     "content-addressable-blob-store": "^5.1.0",
-    "csv-parse": "~4.15.1",
+    "csv-parse": "~4.15.3",
     "csv-stringify": "^5.6.2",
     "date-fns": "^2.19.0",
     "debug": "^4.3.1",
@@ -75,7 +75,7 @@
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.22.3",
     "sequelize-cli": "^6.2.0",
-    "sharp": "^0.27.1",
+    "sharp": "^0.27.2",
     "umzug": "~2.3.0",
     "uuid": "^8.3.2",
     "validator": "~13.5.2"
