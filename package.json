@@ -68,7 +68,7 @@
     "mailchimp-api-v3": "^1.14.0",
     "mime-types": "^2.1.28",
     "moment": "^2.29.1",
-    "moment-timezone": "^0.5.32",
+    "moment-timezone": "^0.5.33",
     "node-fetch": "^2.6.1",
     "nodemailer-mailgun-transport": "^2.0.2",
     "pg": "^8.5.1",
