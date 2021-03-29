@@ -50,7 +50,7 @@ const setup = {
   runActionAsBirds: (action, params) => setup.runActionAs(action, params, 'birds@smartbirds.com'),
   runActionAsCbm: (action, params) => setup.runActionAs(action, params, 'cbm@smartbirds.com'),
   runActionAsGuest: (action, params) => setup.runAction(action, params),
-  describeAs: (name, runAction, specs) => describe(name, () => specs(runAction.bind(setup))),
+  describeAs: (name, runAction, specs) => (global.describe || setup.global.describe)(name, () => specs(runAction.bind(setup))),
   describeAsGuest: (specs) => setup.describeAs('guest', setup.runActionAsGuest, specs),
   describeAsUser: (specs) => setup.describeAs('user', setup.runActionAsUser, specs),
   describeAsUser2: (specs) => setup.describeAs('user2', setup.runActionAsUser2, specs),

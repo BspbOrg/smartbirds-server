@@ -19,7 +19,7 @@ exports.fields = {
   confidential: 'boolean',
   plot: {
     type: 'choice',
-    required: true,
+    required: false,
     uniqueHash: true,
     relation: {
       model: 'nomenclature',
@@ -28,7 +28,7 @@ exports.fields = {
   },
   visit: {
     type: 'choice',
-    required: true,
+    required: false,
     uniqueHash: true,
     relation: {
       model: 'nomenclature',
@@ -45,7 +45,7 @@ exports.fields = {
   },
   primaryHabitat: {
     type: 'choice',
-    required: true,
+    required: false,
     uniqueHash: true,
     relation: {
       model: 'nomenclature',

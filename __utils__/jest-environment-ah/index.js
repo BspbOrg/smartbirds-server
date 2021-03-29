@@ -5,6 +5,7 @@ class ActionheroEnvironment extends NodeEnvironment {
   async setup () {
     await super.setup()
 
+    setup.global = this.global
     this.global.api = await setup.init()
     this.global.setup = setup
   }
