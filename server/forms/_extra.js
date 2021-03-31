@@ -1,7 +1,9 @@
 const autoLocation = require('./_fields/autoLocation')
+const monitoringObservationType = require('./_fields/monitoringObservationType')
 
 exports.fields = {
   ...autoLocation.fields,
+  ...monitoringObservationType.fields,
   moderatorReview: 'boolean'
 }
 
