@@ -1,22 +1,22 @@
 'use strict'
 
-var _ = require('lodash')
-var path = require('path')
-var Promise = require('bluebird')
+const _ = require('lodash')
+const path = require('path')
+const Promise = require('bluebird')
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    var fs = require('fs')
-    var parse = require('csv-parse')
-    var parser = parse({
+    const fs = require('fs')
+    const parse = require('csv-parse')
+    const parser = parse({
       columns: true,
       skip_empty_lines: true,
       delimiter: ';'
     })
-    var inserts = []
-    var completed = 0
-    var lastNotice = 0
-    var cache = {}
+    const inserts = []
+    let completed = 0
+    let lastNotice = 0
+    const cache = {}
 
     function notify (force) {
       if (!force && Date.now() - lastNotice < 5000) return
@@ -24,13 +24,13 @@ module.exports = {
       console.log('waiting ' + (inserts.length - completed) + '/' + inserts.length)
     }
 
-    var stream = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'locations.csv'))
+    const stream = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'locations.csv'))
       .pipe(parser)
       .on('readable', function () {
-        var record
+        let record
         while (record = parser.read()) { // eslint-disable-line no-cond-assign
-          var zoneId = record.UTMNameFul
-          var fields = {
+          const zoneId = record.UTMNameFul
+          const fields = {
             nameBg: record.Name_bg_naseleno_myasto,
             nameEn: record.Name_en_naseleno_myasto,
             areaBg: record.NAME_Obshtina,
@@ -39,7 +39,7 @@ module.exports = {
             typeEn: record.Descr_en_naseleno_myasto
           };
           (function (zoneId, fields) {
-            var key = _.reduce(fields, function (sum, val) {
+            const key = _.reduce(fields, function (sum, val) {
               return sum + ' ' + val
             }, '')
             inserts.push(Promise.resolve(fields)
@@ -54,7 +54,7 @@ module.exports = {
                     .then(function (id) {
                       if (id !== null) { return id }
 
-                      var record = _.extend({
+                      const record = _.extend({
                         createdAt: new Date(),
                         updatedAt: new Date()
                       }, fields)

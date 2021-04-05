@@ -1,10 +1,10 @@
 'use strict'
 
-var path = require('path')
-var moment = require('moment')
-var validator = require('validator')
+const path = require('path')
+const moment = require('moment')
+const validator = require('validator')
 
-var nomenclatureColumns = [
+const nomenclatureColumns = [
   {
     fieldName: 'plot',
     type: 'cbm_sector',
@@ -61,10 +61,10 @@ var nomenclatureColumns = [
   }
 ]
 
-var importUserEmail = 'import@smartbirds.org'
+const importUserEmail = 'import@smartbirds.org'
 
 function joinDateTime (date, time) {
-  var m = moment(date.trim() + ' ' + time.trim(), 'D.M.YYYY H:mm:ss', true)
+  let m = moment(date.trim() + ' ' + time.trim(), 'D.M.YYYY H:mm:ss', true)
   if (!m.isValid()) {
     m = moment(date.trim() + ' ' + time.trim(), 'D.M.YYYY H:mm', true)
   }
@@ -76,18 +76,18 @@ function joinDateTime (date, time) {
 
 module.exports = {
   up: function (queryInterface, Sequelize, next) {
-    var fs = require('fs')
-    var parse = require('csv-parse')
-    var parser = parse({
+    const fs = require('fs')
+    const parse = require('csv-parse')
+    const parser = parse({
       columns: true,
       skip_empty_lines: true,
       delimiter: ';'
     })
-    var inserts = []
-    var Promise = require('bluebird')
-    var completed = 0
-    var lastNotice = 0
-    var counts = {
+    const inserts = []
+    const Promise = require('bluebird')
+    let completed = 0
+    let lastNotice = 0
+    const counts = {
       rows: 0,
       inserts: 0
     }
@@ -147,10 +147,10 @@ module.exports = {
         }, 'id')
           .then(function (id) {
             if (id != null) {
-              var userId = id
+              const userId = id
 
-              var processRecord = function (record, index) {
-                var cbmRow = {}
+              const processRecord = function (record, index) {
+                const cbmRow = {}
 
                 inserts.push(
                   Promise.all([
@@ -234,7 +234,7 @@ module.exports = {
                       return cbmRow
                     })
                     .then(function (cbmRow) {
-                      var threats = record.threats.trim() ? record.threats.trim().split(',') : []
+                      const threats = record.threats.trim() ? record.threats.trim().split(',') : []
 
                       if (!threats || !threats.length) {
                         return cbmRow
@@ -270,9 +270,9 @@ module.exports = {
                 notify()
               }
 
-              var scheduled = false
+              let scheduled = false
 
-              var stream = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'cbm.csv'))
+              const stream = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'cbm.csv'))
                 .pipe(parser)
                 .on('readable', function () {
                   function f () {
@@ -287,7 +287,7 @@ module.exports = {
                       return
                     }
 
-                    var rec
+                    let rec
                     while (rec = parser.read()) { // eslint-disable-line no-cond-assign
                       counts.rows++
                       processRecord(rec, counts.rows)
@@ -339,7 +339,7 @@ module.exports = {
       where: { imported: { $not: null } },
       plain: false
     }, 'id').then(function (ids) {
-      var idsArr = []
+      const idsArr = []
       ids.forEach(function (id) {
         idsArr.push(id.id)
       })

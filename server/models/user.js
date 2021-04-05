@@ -1,7 +1,7 @@
-var _ = require('lodash')
-var bcrypt = require('bcrypt')
-var bcryptComplexity = 10
-var crypto = require('crypto')
+const _ = require('lodash')
+const bcrypt = require('bcrypt')
+const bcryptComplexity = 10
+const crypto = require('crypto')
 
 const privacyTypes = ['public', 'private']
 
@@ -151,7 +151,7 @@ module.exports = function (sequelize, DataTypes) {
           })
         }
 
-        var self = this
+        const self = this
         bcrypt.genSalt(bcryptComplexity, function (error, salt) {
           if (error) {
             return callback(error)
@@ -171,9 +171,9 @@ module.exports = function (sequelize, DataTypes) {
       },
 
       genPasswordToken: function (callback) {
-        var self = this
+        const self = this
         crypto.randomBytes(64, function (ex, buf) {
-          var pwToken = buf.toString('hex')
+          const pwToken = buf.toString('hex')
           bcrypt.genSalt(bcryptComplexity, function (error, salt) {
             if (error) return callback(error)
 

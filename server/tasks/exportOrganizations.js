@@ -1,6 +1,6 @@
 const { Task, api } = require('actionhero')
-var Promise = require('bluebird')
-var writeFile = Promise.promisify(require('fs').writeFile)
+const Promise = require('bluebird')
+const writeFile = Promise.promisify(require('fs').writeFile)
 
 module.exports = class ExportOrganizationsTask extends Task {
   constructor () {

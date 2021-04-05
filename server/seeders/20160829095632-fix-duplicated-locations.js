@@ -1,12 +1,12 @@
 'use strict'
 
-var _ = require('lodash')
-var Promise = require('bluebird')
+const _ = require('lodash')
+const Promise = require('bluebird')
 
 module.exports = {
   up: function (queryInterface) {
-    var updated = 0
-    var deleted = 0
+    let updated = 0
+    let deleted = 0
     return queryInterface
       .rawSelect('Locations', {
         attributes: ['id', 'nameBg', 'areaBg'],

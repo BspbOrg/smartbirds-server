@@ -1,4 +1,4 @@
-var storageHelper = require('../helpers/filestorage')
+const storageHelper = require('../helpers/filestorage')
 const { upgradeAction } = require('../utils/upgrade')
 
 exports.uploader = upgradeAction('ah17', {

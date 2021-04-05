@@ -1,14 +1,14 @@
 'use strict'
 
-var _ = require('lodash')
-var Promise = require('bluebird')
+const _ = require('lodash')
+const Promise = require('bluebird')
 
-var ZoneFields = [
+const ZoneFields = [
   'locationNameBg', 'locationNameEn',
   'locationAreaBg', 'locationAreaEn',
   'locationTypeBg', 'locationTypeEn'
 ]
-var LocationFields = [
+const LocationFields = [
   'nameBg', 'nameEn',
   'areaBg', 'areaEn',
   'typeBg', 'typeEn'
@@ -62,7 +62,7 @@ module.exports = {
         })
         if (locationsData.length === 0) return true
         return queryInterface.bulkInsert('Locations', locationsData.map(function (location) {
-          var record = {
+          const record = {
             createdAt: new Date(),
             updatedAt: new Date()
           }
@@ -83,7 +83,7 @@ module.exports = {
       })
       .then(function (locations) {
         return Promise.map(locations, function (location) {
-          var where = {}
+          const where = {}
           LocationFields.forEach(function (locationField, idx) {
             where[ZoneFields[idx]] = location[locationField]
           })
@@ -109,7 +109,7 @@ module.exports = {
       })
       .then(function (locations) {
         return Promise.map(locations, function (location) {
-          var fields = {}
+          const fields = {}
           LocationFields.forEach(function (locationField, idx) {
             fields[ZoneFields[idx]] = location[locationField]
           })

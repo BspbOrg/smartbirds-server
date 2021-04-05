@@ -1,7 +1,7 @@
 'use strict'
 
-var Promise = require('bluebird')
-var tables = ['FormBirds', 'FormCBM', 'FormCiconia', 'FormHerps']
+const Promise = require('bluebird')
+const tables = ['FormBirds', 'FormCBM', 'FormCiconia', 'FormHerps']
 
 module.exports = {
   up: function (queryInterface, Sequelize) {

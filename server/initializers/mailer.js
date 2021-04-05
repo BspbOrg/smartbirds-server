@@ -2,7 +2,7 @@
  * Created by groupsky on 22.11.15.
  */
 
-var Email = require('email-templates')
+const Email = require('email-templates')
 const { upgradeInitializer } = require('../utils/upgrade')
 
 module.exports = upgradeInitializer('ah17', {
@@ -10,7 +10,7 @@ module.exports = upgradeInitializer('ah17', {
   initialize: function (api, next) {
     api.mailer = {
       send: function (options, next) {
-        var config = api.config.mailer
+        const config = api.config.mailer
 
         if (!(options.mail && options.template && options.locals)) {
           return next(new Error('Invalid options. Must contain template, mail, and locals property'))
@@ -20,7 +20,7 @@ module.exports = upgradeInitializer('ah17', {
           transport: require(config.transport.type)(config.transport.config)
         }
 
-        var email = new Email(mailOptions)
+        const email = new Email(mailOptions)
 
         email.send({
           template: options.template,

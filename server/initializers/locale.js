@@ -5,7 +5,7 @@ module.exports = upgradeInitializer('ah17', {
   initialize: function (api, next) {
     api.i18n.determineConnectionLocale = (function (defaultLocale) {
       return function (connection) {
-        var locale = defaultLocale(connection)
+        let locale = defaultLocale(connection)
 
         if (connection.type === 'web') {
           locale = connection.rawConnection.req.headers.language || locale

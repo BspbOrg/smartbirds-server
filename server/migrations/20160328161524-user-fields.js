@@ -1,9 +1,9 @@
 'use strict'
 
-var _ = require('lodash')
-var Promise = require('bluebird')
+const _ = require('lodash')
+const Promise = require('bluebird')
 
-var fields = {
+const fields = {
   address: 'address',
   birdsKnowledge: 'birds_knowledge',
   city: 'city',
@@ -16,8 +16,8 @@ var fields = {
 }
 
 function sequence (tasks) {
-  var current = Promise.resolve(true)
-  for (var k = 0; k < tasks.length; ++k) {
+  let current = Promise.resolve(true)
+  for (let k = 0; k < tasks.length; ++k) {
     current = current.then(() => tasks[k])
   }
   return current
@@ -25,7 +25,7 @@ function sequence (tasks) {
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    var p = sequence(_.map(fields, function (def, column) {
+    let p = sequence(_.map(fields, function (def, column) {
       return queryInterface.addColumn('Users', column, Sequelize.TEXT)
     }))
 

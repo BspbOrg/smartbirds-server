@@ -1,8 +1,8 @@
 'use strict'
 
-var Promise = require('bluebird')
+const Promise = require('bluebird')
 
-var getColumns = function (DataTypes) {
+const getColumns = function (DataTypes) {
   return {
     forgotPasswordHash: DataTypes.TEXT,
     forgotPasswordTimestamp: DataTypes.DATE
@@ -11,7 +11,7 @@ var getColumns = function (DataTypes) {
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    var columns = getColumns(Sequelize)
+    const columns = getColumns(Sequelize)
     return Promise.map(Object.keys(columns), function (columnName) {
       return queryInterface.addColumn('Users', columnName, columns[columnName])
     }).then(function () {
@@ -24,14 +24,13 @@ module.exports = {
           unique: true,
           fields: ['email']
         })
-        // eslint-disable-next-line handle-callback-err
-          .catch(err => {})
+          .catch(() => {})
       }
     })
   },
 
   down: function (queryInterface, Sequelize) {
-    var columns = getColumns(Sequelize)
+    const columns = getColumns(Sequelize)
     return Promise.map(Object.keys(columns), function (columnName) {
       return queryInterface.removeColumn('Users', columnName)
     }).then(function () {

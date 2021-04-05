@@ -1,10 +1,10 @@
 'use strict'
 
-var Promise = require('bluebird')
-var Sequelize = require('sequelize')
-var assign = Object.assign
+const Promise = require('bluebird')
+const Sequelize = require('sequelize')
+const assign = Object.assign
 
-var baseSchema = {
+const baseSchema = {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -181,7 +181,7 @@ var baseSchema = {
   hash: Sequelize.STRING(64)
 }
 
-var tables = [{
+const tables = [{
   tableName: 'FormHerptiles',
   schema: assign({}, baseSchema, {
     threatsHerptilesEn: Sequelize.TEXT,

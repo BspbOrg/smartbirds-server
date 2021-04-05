@@ -1,4 +1,4 @@
-var crypto = require('crypto')
+const crypto = require('crypto')
 const { upgradeInitializer, upgradeMiddleware } = require('../utils/upgrade')
 
 module.exports = upgradeInitializer('ah17', {
@@ -11,7 +11,7 @@ module.exports = upgradeInitializer('ah17', {
       ttl: 60 * 60 * 24, // 1 day
 
       load: function (connection, callback) {
-        var key = api.session.prefix + connection.fingerprint
+        const key = api.session.prefix + connection.fingerprint
         redis.get(key, function (error, data) {
           if (error) {
             return callback(error)
@@ -24,12 +24,12 @@ module.exports = upgradeInitializer('ah17', {
       },
 
       create: function (connection, user, callback) {
-        var key = api.session.prefix + connection.fingerprint
+        const key = api.session.prefix + connection.fingerprint
 
         crypto.randomBytes(64, function (ex, buf) {
-          var csrfToken = buf.toString('hex')
+          const csrfToken = buf.toString('hex')
 
-          var sessionData = {
+          const sessionData = {
             userId: user.id,
             csrfToken: csrfToken,
             sesionCreatedAt: new Date().getTime(),
@@ -50,7 +50,7 @@ module.exports = upgradeInitializer('ah17', {
       },
 
       destroy: function (connection, callback) {
-        var key = api.session.prefix + connection.fingerprint
+        const key = api.session.prefix + connection.fingerprint
         redis.del(key, callback)
       },
 
@@ -63,7 +63,7 @@ module.exports = upgradeInitializer('ah17', {
             api.session.load(data.connection, function (error, sessionData) {
               // if we have a session load check it and store it
               if (!error && sessionData) {
-                var csrfToken = data.connection.rawConnection.req
+                const csrfToken = data.connection.rawConnection.req
                   ? data.connection.rawConnection.req.headers['x-sb-csrf-token'] || data.params.csrfToken
                   : data.params.csrfToken
 
@@ -73,7 +73,7 @@ module.exports = upgradeInitializer('ah17', {
                 }
 
                 data.session = sessionData
-                var key = api.session.prefix + data.connection.fingerprint
+                const key = api.session.prefix + data.connection.fingerprint
                 redis.expire(key, api.session.ttl, function (error) {
                   if (error) { api.log('redis error', 'error', error) }
                   next(error)

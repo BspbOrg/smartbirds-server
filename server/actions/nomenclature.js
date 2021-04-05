@@ -1,8 +1,8 @@
-var _ = require('lodash')
-var Promise = require('bluebird')
-var paging = require('../helpers/paging')
-var incremental = require('../helpers/incremental')
-var links = require('../helpers/links')
+const _ = require('lodash')
+const Promise = require('bluebird')
+const paging = require('../helpers/paging')
+const incremental = require('../helpers/incremental')
+const links = require('../helpers/links')
 const { upgradeAction } = require('../utils/upgrade')
 const languages = require('../../config/languages')
 const capitalizeFirstLetter = require('../utils/capitalizeFirstLetter')
@@ -47,7 +47,7 @@ _.forOwn({
             throw new Error('cannot update with empty items')
           }
           return data.params.items.map(function (item) {
-            var m = api.models[model].build({})
+            const m = api.models[model].build({})
             if (item.type && item.type !== data.params.type) {
               data.connection.rawConnection.responseHttpCode = 400
               throw new Error('cannot submit mixed nomenclature types!')
@@ -102,7 +102,7 @@ _.forOwn({
           links.fixParsedURL(api, data)
         })
         .then(function () {
-          var q = {}
+          let q = {}
 
           q = paging.prepareQuery(q, data.params)
           q = incremental.prepareQuery(q, data.params)
@@ -209,7 +209,7 @@ _.forOwn({
       run: function (api, data, next) {
         return Promise.resolve(data.params)
           .then(function (params) {
-            var q = {
+            const q = {
               where: {
                 type: data.params.type
               }

@@ -2,8 +2,8 @@
  * Created by groupsky on 04.12.15.
  */
 
-var paging = require('../helpers/paging')
-var incremental = require('../helpers/incremental')
+const paging = require('../helpers/paging')
+const incremental = require('../helpers/incremental')
 const { upgradeAction } = require('../utils/upgrade')
 
 exports.locationList = upgradeAction('ah17', {
@@ -14,7 +14,7 @@ exports.locationList = upgradeAction('ah17', {
 
   run: function (api, data, next) {
     try {
-      var q = {}
+      let q = {}
       q = paging.prepareQuery(q, data.params)
       q = incremental.prepareQuery(q, data.params)
       return api.models.location.findAndCountAll(q).then(function (result) {
@@ -75,7 +75,7 @@ exports.locationListZones = upgradeAction('ah17', {
 
   run: function (api, data, next) {
     try {
-      var q = {
+      let q = {
         where: {
           locationId: data.params.id
         },
@@ -128,7 +128,7 @@ exports.areaListZones = upgradeAction('ah17', {
 
   run: function (api, data, next) {
     try {
-      var q = {
+      const q = {
         include: [{
           model: api.models.location,
           as: 'location',

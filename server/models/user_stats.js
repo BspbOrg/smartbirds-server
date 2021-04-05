@@ -1,6 +1,6 @@
 'use strict'
 module.exports = function (sequelize, DataTypes) {
-  var userStats = sequelize.define('user_stats', {
+  const userStats = sequelize.define('user_stats', {
     id: { type: DataTypes.INTEGER, primaryKey: true },
     species_count: DataTypes.INTEGER,
     entry_count: DataTypes.INTEGER,

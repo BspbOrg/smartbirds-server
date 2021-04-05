@@ -1,7 +1,7 @@
-var host = process.env.REDIS_HOST || '127.0.0.1'
-var port = process.env.REDIS_PORT || 6379
-var db = parseInt(process.env.REDIS_DB || process.env.JEST_WORKER_ID || 0)
-var password = process.env.REDIS_PASS || null
+let host = process.env.REDIS_HOST || '127.0.0.1'
+let port = process.env.REDIS_PORT || 6379
+let db = parseInt(process.env.REDIS_DB || process.env.JEST_WORKER_ID || 0)
+let password = process.env.REDIS_PASS || null
 const maxBackoff = 1000
 
 if (process.env.REDIS_URL != null) {

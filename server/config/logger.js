@@ -49,7 +49,7 @@ const buildFileLogger = api => {
 
 exports.default = {
   logger: (api) => {
-    var logger = { loggers: [] }
+    const logger = { loggers: [] }
 
     // console logger
     logger.loggers.push(api => {
@@ -77,11 +77,13 @@ exports.default = {
 exports.test = {
   logger: (api) => {
     return {
-      loggers: process.env.LOG_LEVEL ? [
-        (api) => {
-          return buildConsoleLogger(api)
-        }
-      ] : []
+      loggers: process.env.LOG_LEVEL
+        ? [
+            (api) => {
+              return buildConsoleLogger(api)
+            }
+          ]
+        : []
     }
   }
 }

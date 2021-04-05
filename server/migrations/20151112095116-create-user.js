@@ -51,8 +51,7 @@ module.exports = {
         unique: true,
         fields: ['email']
       })
-      // eslint-disable-next-line handle-callback-err
-        .catch(err => {})
+        .catch(() => {})
     })
   },
 

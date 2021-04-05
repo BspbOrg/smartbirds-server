@@ -1,8 +1,8 @@
 'use strict'
 
-var Promise = require('bluebird')
+const Promise = require('bluebird')
 
-var columnInfo = [
+const columnInfo = [
   {
     column: 'birdsKnowledge',
     newVal: 'beginner',

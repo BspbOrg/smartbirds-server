@@ -1,4 +1,4 @@
-var path = require('path')
+const path = require('path')
 
 exports.default = {
   mailer: function (api) {
@@ -48,12 +48,14 @@ exports.staging = {
 exports.development = {
   mailer: {
     mailOptions: {
-      preview: process.env.PREVIEW_EMAIL ? {
-        open: {
-          app: 'google-chrome',
-          wait: false
-        }
-      } : false
+      preview: process.env.PREVIEW_EMAIL
+        ? {
+            open: {
+              app: 'google-chrome',
+              wait: false
+            }
+          }
+        : false
     }
   }
 }

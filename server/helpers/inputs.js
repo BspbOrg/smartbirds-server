@@ -17,19 +17,19 @@ module.exports = {
 }
 
 function formatterInteger (param) {
-  var i = parseInt(param)
+  const i = parseInt(param)
   if (('' + i) !== ('' + param)) return
   return i
 }
 
 function formatterDate (param, actionTemplate) {
-  var timestamp = formatterInteger(param)
+  const timestamp = formatterInteger(param)
   if (typeof timestamp !== 'number') return
   return new Date(timestamp)
 }
 
 function formatterFloat (param) {
-  var f = parseFloat(param)
+  const f = parseFloat(param)
   if (('' + f) !== ('' + param)) return
   return f
 }
@@ -67,7 +67,7 @@ function validatorDate (param) {
  */
 function formatterNomenclature (param) {
   try {
-    var json = JSON.parse(param)
+    const json = JSON.parse(param)
     if (json.label && json.label.en) {
       return json.label.en
     }

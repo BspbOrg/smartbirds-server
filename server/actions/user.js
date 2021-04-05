@@ -1,5 +1,5 @@
-var _ = require('lodash')
-var Promise = require('bluebird')
+const _ = require('lodash')
+const Promise = require('bluebird')
 const { upgradeAction } = require('../utils/upgrade')
 
 exports.userCreate = upgradeAction('ah17', {
@@ -23,7 +23,7 @@ exports.userCreate = upgradeAction('ah17', {
   },
 
   run: function (api, data, next) {
-    var user = api.models.user.build(data.params, this.inputs)
+    const user = api.models.user.build(data.params, this.inputs)
     if (data.session && data.session.user.isAdmin) {
       user.role = data.params.role
       user.gdprConsent = null
@@ -301,10 +301,10 @@ exports.userList = upgradeAction('ah17', {
   },
 
   run: function (api, data, next) {
-    var limit = Math.min(5000, data.params.limit || 20)
-    var offset = data.params.offset || 0
+    const limit = Math.min(5000, data.params.limit || 20)
+    const offset = data.params.offset || 0
 
-    var q = {
+    const q = {
       offset: offset
     }
 
@@ -313,7 +313,7 @@ exports.userList = upgradeAction('ah17', {
     }
 
     if (data.params.q) {
-      var vals = ('' + data.params.q).split(' ')
+      const vals = ('' + data.params.q).split(' ')
       switch (vals.length) {
         case 0:
           break
@@ -462,7 +462,7 @@ exports.userSharers = upgradeAction('ah17', {
       }
     }
 
-    var query = {
+    const query = {
       include: [
         api.models.user.associations.sharers
       ],
@@ -508,7 +508,7 @@ exports.userSharees = upgradeAction('ah17', {
       }
     }
 
-    var query = {
+    const query = {
       include: [
         api.models.user.associations.sharees
       ],

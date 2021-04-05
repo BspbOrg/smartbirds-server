@@ -2,8 +2,8 @@
  * Created by groupsky on 20.11.15.
  */
 
-var Promise = require('bluebird')
-var _ = require('lodash')
+const Promise = require('bluebird')
+const _ = require('lodash')
 const { upgradeAction } = require('../utils/upgrade')
 
 exports.zoneList = upgradeAction('ah17', {
@@ -23,7 +23,7 @@ exports.zoneList = upgradeAction('ah17', {
     // var limit = Math.min(1000, data.params.limit || 20);
     // var offset = data.params.offset || 0;
 
-    var q = {
+    const q = {
       include: [
         { model: api.models.location, as: 'location' }
       ]

@@ -20,11 +20,11 @@ async function getUtmCode ({ latitude, longitude }) {
     where[`lon${i}`] = bounds[0].longitude <= bounds[1].longitude
       ? { [Op.between]: [bounds[0].longitude, bounds[1].longitude] }
       : {
-        [Op.or]: [
-          { [Op.gte]: bounds[0].longitude },
-          { [Op.lte]: bounds[1].longitude }
-        ]
-      }
+          [Op.or]: [
+            { [Op.gte]: bounds[0].longitude },
+            { [Op.lte]: bounds[1].longitude }
+          ]
+        }
   }
 
   const cells = await api.models.bgatlas2008_cells.findAll({
@@ -50,6 +50,8 @@ async function getUtmCode ({ latitude, longitude }) {
         return cell
       }
     }
+
+    return found
   }, null)
 
   if (!cell) {

@@ -1,7 +1,7 @@
 'use strict'
 
-var Promise = require('bluebird')
-var tables = [
+const Promise = require('bluebird')
+const tables = [
   {
     tableName: 'FormHerptiles',
     speciesType: 'herptiles',

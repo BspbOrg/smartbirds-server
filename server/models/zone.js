@@ -1,6 +1,6 @@
 'use strict'
 module.exports = function (sequelize, DataTypes) {
-  var Zone = sequelize.define('Zone', {
+  const Zone = sequelize.define('Zone', {
     id: {
       type: DataTypes.STRING(10),
       primaryKey: true
@@ -53,7 +53,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     instanceMethods: {
       apiData: function (api) {
-        var data = {
+        const data = {
           id: this.id,
           coordinates: [
             { latitude: this.lat1, longitude: this.lon1 },

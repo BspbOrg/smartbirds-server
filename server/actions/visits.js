@@ -2,7 +2,7 @@
  * Created by groupsky on 26.05.16.
  */
 
-var Promise = require('bluebird')
+const Promise = require('bluebird')
 const { upgradeAction } = require('../utils/upgrade')
 
 exports.visitList = upgradeAction('ah17', {
@@ -16,7 +16,7 @@ exports.visitList = upgradeAction('ah17', {
     Promise
       .resolve(data.params)
       .then(function (params) {
-        var q = {}
+        const q = {}
 
         return q
       })

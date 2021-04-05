@@ -54,21 +54,23 @@ function generatePrepareQuery (form) {
       query.where[Op.and] = query.where[Op.and] || []
       query.where[Op.and] = [
         ...query.where[Op.and],
-        params.auto_location === 'EMPTY' ? { autoLocationEn: '' }
-          : (params.auto_location === 'NULL' ? { autoLocationEn: null }
-            : {
-              [Op.or]: {
-                autoLocationEn: {
-                  [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
+        params.auto_location === 'EMPTY'
+          ? { autoLocationEn: '' }
+          : (params.auto_location === 'NULL'
+              ? { autoLocationEn: null }
+              : {
+                  [Op.or]: {
+                    autoLocationEn: {
+                      [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
                     `${params.auto_location}%`
-                },
-                autoLocationLocal: {
-                  [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
+                    },
+                    autoLocationLocal: {
+                      [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
                     `${params.auto_location}%`
+                    }
+                  }
                 }
-              }
-            }
-          )
+            )
       ]
     }
 
@@ -99,11 +101,11 @@ function generatePrepareQuery (form) {
             longitude: bounds[0].longitude <= bounds[1].longitude
               ? { [Op.between]: [bounds[0].longitude, bounds[1].longitude] }
               : {
-                [Op.or]: [
-                  { [Op.gte]: bounds[0].longitude },
-                  { [Op.lte]: bounds[1].longitude }
-                ]
-              }
+                  [Op.or]: [
+                    { [Op.gte]: bounds[0].longitude },
+                    { [Op.lte]: bounds[1].longitude }
+                  ]
+                }
           }
         ]
       }

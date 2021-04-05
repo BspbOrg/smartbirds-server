@@ -1,4 +1,4 @@
-var path = require('path')
+const path = require('path')
 
 exports.default = {
   poeditor: function (api) {
