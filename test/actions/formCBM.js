@@ -134,24 +134,6 @@ describe('Action formCBM:', function () {
 
   setup.describeAsAuth(function (runAction) {
     describe('fails to create without', function () {
-      it('plot', function () {
-        return runAction('formCBM:create', _.omit(cbmRecord, 'plot')).then(function (response) {
-          response.error.should.be.equal('Error: actionhero.errors.missingParams')
-        })
-      })
-
-      it('visit', function () {
-        return runAction('formCBM:create', _.omit(cbmRecord, 'visit')).then(function (response) {
-          response.error.should.be.equal('Error: actionhero.errors.missingParams')
-        })
-      })
-
-      it('primaryHabitat', function () {
-        return runAction('formCBM:create', _.omit(cbmRecord, 'primaryHabitat')).then(function (response) {
-          response.error.should.be.equal('Error: actionhero.errors.missingParams')
-        })
-      })
-
       it('count', function () {
         return runAction('formCBM:create', _.omit(cbmRecord, 'count')).then(function (response) {
           response.error.should.be.equal('Error: actionhero.errors.missingParams')
