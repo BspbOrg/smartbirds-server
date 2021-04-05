@@ -32,7 +32,7 @@ module.exports = {
     await Promise.all(tables.map(async (table) => {
       await queryInterface.addColumn(table, 'monitoringObservationTypeEn', { type: Sequelize.TEXT })
       await queryInterface.addColumn(table, 'monitoringObservationTypeLocal', { type: Sequelize.TEXT })
-      await queryInterface.addColumn(table, 'monitoringObservationTypeLang', { type: Sequelize.String(3) })
+      await queryInterface.addColumn(table, 'monitoringObservationTypeLang', { type: Sequelize.STRING(3) })
     }))
 
     // we use hard-coded IDs for the nomenclatures in test fixtures and fixtures cannot be applied if the migration is executed
