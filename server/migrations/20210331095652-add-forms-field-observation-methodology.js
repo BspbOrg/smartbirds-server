@@ -30,9 +30,9 @@ function deleteExistingValues (queryInterface, Sequelize) {
 module.exports = {
   up: async function (queryInterface, Sequelize) {
     await Promise.all(tables.map(async (table) => {
-      await queryInterface.addColumn(table, 'observationMethodologyTypeEn', { type: Sequelize.TEXT })
-      await queryInterface.addColumn(table, 'observationMethodologyTypeLocal', { type: Sequelize.TEXT })
-      await queryInterface.addColumn(table, 'observationMethodologyTypeLang', { type: Sequelize.STRING(3) })
+      await queryInterface.addColumn(table, 'observationMethodologyEn', { type: Sequelize.TEXT })
+      await queryInterface.addColumn(table, 'observationMethodologyLocal', { type: Sequelize.TEXT })
+      await queryInterface.addColumn(table, 'observationMethodologyLang', { type: Sequelize.STRING(3) })
     }))
 
     // we use hard-coded IDs for the nomenclatures in test fixtures and fixtures cannot be applied if the migration is executed
@@ -62,9 +62,9 @@ module.exports = {
 
   down: async function (queryInterface, Sequelize) {
     await Promise.all(tables.map(async (table) => {
-      await queryInterface.removeColumn(table, 'observationMethodologyTypeEn')
-      await queryInterface.removeColumn(table, 'observationMethodologyTypeLocal')
-      await queryInterface.removeColumn(table, 'observationMethodologyTypeLang')
+      await queryInterface.removeColumn(table, 'observationMethodologyEn')
+      await queryInterface.removeColumn(table, 'observationMethodologyLocal')
+      await queryInterface.removeColumn(table, 'observationMethodologyLang')
     }))
 
     if (queryInterface.sequelize.options.dialect !== 'postgres') return
