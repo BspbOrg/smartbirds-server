@@ -67,7 +67,7 @@
     "ioredis": "^4.25.0",
     "lodash": "^4.17.21",
     "mailchimp-api-v3": "^1.14.0",
-    "mime-types": "^2.1.29",
+    "mime-types": "^2.1.30",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
     "node-fetch": "^2.6.1",
