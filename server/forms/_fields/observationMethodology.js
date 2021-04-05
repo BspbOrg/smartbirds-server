@@ -1,10 +1,10 @@
 module.exports = {
   fields: {
-    monitoringObservationType: {
+    observationMethodology: {
       type: 'choice',
       relation: {
         model: 'nomenclature',
-        filter: { type: 'main_observation_type' }
+        filter: { type: 'main_observation_methodology' }
       }
     }
   }
