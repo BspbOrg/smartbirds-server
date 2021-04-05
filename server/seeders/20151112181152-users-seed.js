@@ -1,25 +1,25 @@
 'use strict'
 
-var path = require('path')
-var Promise = require('bluebird')
-var _ = require('lodash')
+const path = require('path')
+const Promise = require('bluebird')
+const _ = require('lodash')
 
 module.exports = {
   up: function (queryInterface, Sequelize, next) {
-    var fs = require('fs')
-    var parse = require('csv-parse')
-    var parser = parse({
+    const fs = require('fs')
+    const parse = require('csv-parse')
+    const parser = parse({
       columns: true,
       skip_empty_lines: true,
       delimiter: ';'
     })
-    var inserts = []
-    var completed = 0
-    var lastNotice = 0
-    var uniqueId = 0
-    var validator = require('validator')
-    var usersCache = {}
-    var counts = {
+    const inserts = []
+    const completed = 0
+    let lastNotice = 0
+    let uniqueId = 0
+    const validator = require('validator')
+    const usersCache = {}
+    const counts = {
       rows: 0,
       users: 0,
       zones: 0
@@ -32,7 +32,7 @@ module.exports = {
     }
 
     function findId (user) {
-      var email = user.email
+      const email = user.email
       if (email in usersCache) return usersCache[email]
       if (!usersCache[email]) {
         usersCache[email] = queryInterface
@@ -65,14 +65,14 @@ module.exports = {
       return usersCache[email]
     }
 
-    var stream = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'users.csv'))
+    const stream = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'users.csv'))
       .pipe(parser)
       .on('readable', function () {
-        var rec
+        let rec
         while (rec = parser.read()) { // eslint-disable-line no-cond-assign
           counts.rows++
           (function (record) {
-            var email = record.e_mail && record.e_mail.trim()
+            let email = record.e_mail && record.e_mail.trim()
             if (!validator.isEmail(email)) {
               email = (record['Квадрат'] ? record['Квадрат'].trim() : ('user' + (uniqueId++))) + '@smartbirds.org'
             }
@@ -87,7 +87,7 @@ module.exports = {
               imported: true,
               notes: record['Бележки'] && record['Бележки'].trim()
             }).then(function (id) {
-              var promises = []
+              const promises = []
               if (record['Квадрат']) {
                 promises.push(queryInterface.bulkUpdate('Zones', {
                   ownerId: id,

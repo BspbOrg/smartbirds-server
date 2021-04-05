@@ -1,8 +1,8 @@
-var path = require('path')
+const path = require('path')
 
 exports.default = {
   general: function (api) {
-    var packageJSON = require(path.join(api.projectRoot, 'package.json'))
+    const packageJSON = require(path.join(api.projectRoot, 'package.json'))
 
     return {
       apiVersion: packageJSON.version,

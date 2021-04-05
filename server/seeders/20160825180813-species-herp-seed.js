@@ -1,10 +1,10 @@
 'use strict'
 
-var inserts = []
-var Promise = require('bluebird')
-var completed = 0
-var errors = 0
-var lastNotice = 0
+const inserts = []
+const Promise = require('bluebird')
+let completed = 0
+let errors = 0
+let lastNotice = 0
 
 function notify (force) {
   if (!force && Date.now() - lastNotice < 5000) return
@@ -14,8 +14,8 @@ function notify (force) {
 }
 
 function importRecord (queryInterface, record) {
-  var nameEn = record.labelEn.split('|')
-  var nameBg = record.labelBg.split('|')
+  const nameEn = record.labelEn.split('|')
+  const nameBg = record.labelBg.split('|')
 
   return queryInterface.bulkInsert('Species', [{
     type: (record.type || 'herp').trim() || null,

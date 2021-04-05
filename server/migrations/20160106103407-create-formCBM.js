@@ -1,6 +1,6 @@
 'use strict'
 
-var tableName = 'FormCBM'
+const tableName = 'FormCBM'
 
 module.exports = {
   up: function (queryInterface, Sequelize) {

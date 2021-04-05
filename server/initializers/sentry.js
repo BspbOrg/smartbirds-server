@@ -15,7 +15,7 @@ module.exports = class SentryInit extends Initializer {
       api.log('Sentry initialized with', 'info', api.config.sentry)
 
       // create a custom error reporter that sends error to sentry
-      var sentryErrorReporter = function (err, type, name, objects, severity) {
+      const sentryErrorReporter = function (err, type, name, objects, severity) {
         Sentry.captureException(err)
       }
 

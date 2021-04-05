@@ -37,12 +37,14 @@ module.exports = class FormsTask extends Task {
     let records
     do {
       records = await api.forms[form].model.findAll({
-        where: id ? { id } : {
-          [Op.and]: [
-            lastId != null ? { id: { [Op.lt]: lastId } } : {},
-            this.filterRecords({ force })
-          ]
-        },
+        where: id
+          ? { id }
+          : {
+              [Op.and]: [
+                lastId != null ? { id: { [Op.lt]: lastId } } : {},
+                this.filterRecords({ force })
+              ]
+            },
         limit: limit === -1 ? this.defaultLimit : limit,
         order: [['id', 'DESC']]
       })

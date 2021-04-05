@@ -1,17 +1,17 @@
 'use strict'
 
-var fs = require('fs')
-var path = require('path')
-var parse = require('csv-parse')
-var parser = parse({
+const fs = require('fs')
+const path = require('path')
+const parse = require('csv-parse')
+const parser = parse({
   columns: true,
   skip_empty_lines: true,
   delimiter: ';'
 })
-var inserts = []
-var Promise = require('bluebird')
-var completed = 0
-var lastNotice = 0
+const inserts = []
+const Promise = require('bluebird')
+let completed = 0
+let lastNotice = 0
 
 function notify (force) {
   if (!force && Date.now() - lastNotice < 5000) return
@@ -32,10 +32,10 @@ function importRecord (queryInterface, record) {
 
 module.exports = {
   up: function (queryInterface, Sequelize, next) {
-    var stream = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'species_plants.csv'))
+    const stream = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'species_plants.csv'))
       .pipe(parser)
       .on('readable', function () {
-        var record
+        let record
         while (record = parser.read()) { // eslint-disable-line no-cond-assign
           inserts.push(Promise.resolve(record).then(importRecord.bind(null, queryInterface)).then(function () {
             completed++

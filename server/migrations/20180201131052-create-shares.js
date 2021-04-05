@@ -1,10 +1,10 @@
 'use strict'
 
-var Sequelize = require('sequelize')
+const Sequelize = require('sequelize')
 
-var tableName = 'Shares'
+const tableName = 'Shares'
 
-var schema = {
+const schema = {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,

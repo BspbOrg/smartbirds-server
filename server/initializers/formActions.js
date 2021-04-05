@@ -180,11 +180,13 @@ function generateFormActions (form) {
       }
     }
   },
-  form.hasThreats ? {
-    threat: {
-      formatter: inputHelpers.formatter.nomenclature
-    }
-  } : {},
+  form.hasThreats
+    ? {
+        threat: {
+          formatter: inputHelpers.formatter.nomenclature
+        }
+      }
+    : {},
   form.hasSpecies ? { species: {} } : {},
   form.listInputs || {})
 

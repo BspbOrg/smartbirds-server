@@ -8,8 +8,6 @@ const labelField = languageField('label', {
 })
 
 module.exports = function (sequelize, DataTypes) {
-  var Nomenclature
-
   const attributes = {
     type: {
       type: DataTypes.STRING(32),
@@ -44,7 +42,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }
 
-  Nomenclature = sequelize.define('Nomenclature', attributes, options)
+  const Nomenclature = sequelize.define('Nomenclature', attributes, options)
 
   return Nomenclature
 }

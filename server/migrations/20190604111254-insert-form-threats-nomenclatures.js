@@ -1,6 +1,6 @@
 'use strict'
 
-var nomenclatures = [
+const nomenclatures = [
   {
     name: 'threats_category',
     values: [
@@ -78,7 +78,7 @@ module.exports = {
   up: async function (queryInterface, Sequelize) {
     if (queryInterface.sequelize.options.dialect !== 'postgres') return new Promise(resolve => resolve())
 
-    var nomenclatureValues = nomenclatures
+    const nomenclatureValues = nomenclatures
       .map(function (nomenclature) {
         return nomenclature.values
           .map(function (value) {

@@ -4,7 +4,7 @@
 
 'use strict'
 module.exports = function (sequelize, DataTypes) {
-  var Visit = sequelize.define('Visit', {
+  const Visit = sequelize.define('Visit', {
     year: {
       type: DataTypes.INTEGER,
       allowNull: false

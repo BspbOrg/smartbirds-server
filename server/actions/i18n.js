@@ -1,7 +1,7 @@
-var path = require('path')
-var fs = require('fs')
-var fetch = require('node-fetch')
-var FormData = require('form-data')
+const path = require('path')
+const fs = require('fs')
+const fetch = require('node-fetch')
+const FormData = require('form-data')
 const { upgradeAction } = require('../utils/upgrade')
 
 function serveStatic (api, data, next) {
@@ -17,17 +17,17 @@ function serveStatic (api, data, next) {
 }
 
 function serveDynamic (api, data, next) {
-  var form = new FormData()
+  const form = new FormData()
   form.append('api_token', api.config.poeditor.api_token)
   form.append('id', api.config.poeditor.project_id)
   form.append('language', data.params.lang)
   fetch('https://api.poeditor.com/v2/terms/list', { method: 'POST', body: form })
     .then(function (res) { return res.json() })
     .then(function (json) {
-      var terms = json && json.result ? json.result.terms : []
-      terms.map(function (item) {
-        var term = item.term
-        var translation = item.translation && item.translation.content
+      const terms = json && json.result ? json.result.terms : []
+      terms.forEach(function (item) {
+        const term = item.term
+        const translation = item.translation && item.translation.content
         if (translation) {
           data.response[term] = translation
         }

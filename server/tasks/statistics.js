@@ -2,9 +2,9 @@
  * Created by groupsky on 12.04.16.
  */
 
-var _ = require('lodash')
-var Promise = require('bluebird')
-var writeFile = Promise.promisify(require('fs').writeFile)
+const _ = require('lodash')
+const Promise = require('bluebird')
+const writeFile = Promise.promisify(require('fs').writeFile)
 const { upgradeTask } = require('../utils/upgrade')
 const languages = require('../../config/languages')
 const capitalizeFirstLetter = require('../utils/capitalizeFirstLetter')

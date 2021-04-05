@@ -1,8 +1,8 @@
-var path = require('path')
-var fs = require('fs')
-var Sequelize = require('sequelize')
-var Umzug = require('umzug')
-var _ = require('lodash')
+const path = require('path')
+const fs = require('fs')
+const Sequelize = require('sequelize')
+const Umzug = require('umzug')
+const _ = require('lodash')
 const { upgradeInitializer } = require('../utils/upgrade')
 const Op = Sequelize.Op
 const operatorsAliases = {
@@ -74,7 +74,7 @@ module.exports = upgradeInitializer('ah17', {
       }
     }
 
-    var sequelizeInstance = new Sequelize(
+    const sequelizeInstance = new Sequelize(
       api.config.sequelize.database,
       api.config.sequelize.username,
       api.config.sequelize.password,
@@ -96,7 +96,7 @@ module.exports = upgradeInitializer('ah17', {
       }
     )
 
-    var umzug = new Umzug({
+    const umzug = new Umzug({
       storage: 'sequelize',
       storageOptions: {
         sequelize: sequelizeInstance
@@ -146,11 +146,11 @@ module.exports = upgradeInitializer('ah17', {
       },
 
       connect: function (next) {
-        var dir = path.normalize(api.projectRoot + '/models')
+        const dir = path.normalize(api.projectRoot + '/models')
         fs.readdirSync(dir).forEach(function (file) {
           const filename = path.join(dir, file)
-          var nameParts = file.split('/')
-          var name = nameParts[(nameParts.length - 1)].split('.')[0]
+          const nameParts = file.split('/')
+          const name = nameParts[(nameParts.length - 1)].split('.')[0]
           api.models[name] = api.sequelize.sequelize.import(filename)
           api.watchFileAndAct(filename, () => {
             api.log('rebooting due to model change: ' + name, 'info')
@@ -168,7 +168,7 @@ module.exports = upgradeInitializer('ah17', {
 
       loadFixtures: function (next) {
         if (api.config.sequelize.loadFixtures) {
-          var SequelizeFixtures = require('sequelize-fixtures')
+          const SequelizeFixtures = require('sequelize-fixtures')
           SequelizeFixtures.loadFile(api.projectRoot + '/test/fixtures/*.{json,yml,js}', api.models, { log: m => api.log(m, 'notice') })
             .then(function () {
               next()
@@ -251,12 +251,12 @@ module.exports = upgradeInitializer('ah17', {
 function checkMetaOldSchema (api) {
   // Check if we need to upgrade from the old sequelize migration format
   return api.sequelize.sequelize.query('SELECT * FROM "SequelizeMeta"', { raw: true }).then(function (raw) {
-    var rows = raw[0]
+    const rows = raw[0]
     if (rows.length && Object.hasOwnProperty.call(rows[0], 'id')) {
       throw new Error('Old-style meta-migration table detected - please use `sequelize-cli`\'s `db:migrate:old_schema` to migrate.')
     }
   }).catch(Sequelize.DatabaseError, function () {
-    var noTableMsg = 'No SequelizeMeta table found - creating new table'
+    const noTableMsg = 'No SequelizeMeta table found - creating new table'
     api.log(noTableMsg)
   })
 }

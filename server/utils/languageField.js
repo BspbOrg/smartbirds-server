@@ -45,10 +45,12 @@ function languageField (prefix, {
    */
   const attributes = mapObject(
     langMap,
-    (_, language) => requireFallback && language === 'en' ? {
-      type: dataType,
-      allowNull: false
-    } : dataType,
+    (_, language) => requireFallback && language === 'en'
+      ? {
+          type: dataType,
+          allowNull: false
+        }
+      : dataType,
     (_, fieldName) => fieldName
   )
 

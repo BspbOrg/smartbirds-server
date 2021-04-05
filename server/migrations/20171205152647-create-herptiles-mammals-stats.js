@@ -1,6 +1,6 @@
 'use strict'
 
-var Promise = require('bluebird')
+const Promise = require('bluebird')
 
 module.exports = {
   up: function (queryInterface, Sequelize) {

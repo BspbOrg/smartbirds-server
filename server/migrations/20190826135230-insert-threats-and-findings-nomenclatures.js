@@ -1,6 +1,6 @@
 'use strict'
 
-var nomenclatures = [
+const nomenclatures = [
   {
     name: 'main_threats',
     values: [
@@ -91,7 +91,7 @@ module.exports = {
 
     await deleteExistingValues(queryInterface, Sequelize)
 
-    var nomenclatureValues = nomenclatures
+    const nomenclatureValues = nomenclatures
       .map(function (nomenclature) {
         return nomenclature.values
           .map(function (value) {

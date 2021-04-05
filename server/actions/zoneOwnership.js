@@ -4,7 +4,7 @@
 const { upgradeAction } = require('../utils/upgrade')
 
 function getZone (api, data, next) {
-  var q = {
+  const q = {
     where: { id: data.params.id },
     include: [{ model: api.models.location, as: 'location' }]
   }

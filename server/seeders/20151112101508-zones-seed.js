@@ -1,20 +1,20 @@
 'use strict'
 
-var path = require('path')
+const path = require('path')
 
 module.exports = {
   up: function (queryInterface, Sequelize, next) {
-    var fs = require('fs')
-    var parse = require('csv-parse')
-    var parser = parse({
+    const fs = require('fs')
+    const parse = require('csv-parse')
+    const parser = parse({
       columns: true,
       skip_empty_lines: true,
       delimiter: ';'
     })
-    var inserts = []
-    var Promise = require('bluebird')
-    var completed = 0
-    var lastNotice = 0
+    const inserts = []
+    const Promise = require('bluebird')
+    let completed = 0
+    let lastNotice = 0
 
     function notify (force) {
       if (!force && Date.now() - lastNotice < 5000) return
@@ -22,14 +22,14 @@ module.exports = {
       console.log('waiting ' + (inserts.length - completed) + '/' + inserts.length)
     }
 
-    var stream = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'zones.csv'))
+    const stream = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'zones.csv'))
       .pipe(parser)
       .on('readable', function () {
-        var record
-        var i
-        var zones = []
+        let record
+        let i
+        const zones = []
         while (record = parser.read()) { // eslint-disable-line no-cond-assign
-          var zone = {
+          const zone = {
             id: record.UTMNameFul,
             createdAt: new Date(),
             updatedAt: new Date()

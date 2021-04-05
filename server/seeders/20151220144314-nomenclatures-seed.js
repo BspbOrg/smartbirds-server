@@ -1,7 +1,7 @@
 'use strict'
 
-var _ = require('lodash')
-var path = require('path')
+const _ = require('lodash')
+const path = require('path')
 
 function makeNomenclature (type, labelEn, labelBg) {
   type = type.replace(/^form_/, '')
@@ -20,17 +20,17 @@ function makeNomenclature (type, labelEn, labelBg) {
 
 module.exports = {
   up: function (queryInterface, Sequelize, next) {
-    var fs = require('fs')
-    var parse = require('csv-parse')
-    var parserEn = parse({ delimiter: ';', columns: true, skip_empty_lines: true })
-    var parserBg = parse({ delimiter: ';', columns: true, skip_empty_lines: true })
-    var inputEn = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'nomenclatures-en.csv'))
-    var inputBg = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'nomenclatures-bg.csv'))
-    var inserts = []
-    var recordsBg = []
-    var Promise = require('bluebird')
-    var completed = 0
-    var lastNotice = 0
+    const fs = require('fs')
+    const parse = require('csv-parse')
+    const parserEn = parse({ delimiter: ';', columns: true, skip_empty_lines: true })
+    const parserBg = parse({ delimiter: ';', columns: true, skip_empty_lines: true })
+    const inputEn = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'nomenclatures-en.csv'))
+    const inputBg = fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'nomenclatures-bg.csv'))
+    const inserts = []
+    const recordsBg = []
+    const Promise = require('bluebird')
+    let completed = 0
+    let lastNotice = 0
 
     function notify (force) {
       if (!force && Date.now() - lastNotice < 5000) return
@@ -39,18 +39,18 @@ module.exports = {
     }
 
     parserBg.on('readable', function () {
-      var record
+      let record
       while (record = parserBg.read()) { // eslint-disable-line no-cond-assign
         recordsBg.push(_.clone(record))
       }
     })
 
     parserEn.on('readable', function () {
-      var recordEn
-      var recordBg
-      var types
-      var tLen
-      var nomenclatures = []
+      let recordEn
+      let recordBg
+      let types
+      let tLen
+      const nomenclatures = []
 
       while (recordEn = parserEn.read()) { // eslint-disable-line no-cond-assign
         recordBg = recordsBg.shift()
@@ -60,14 +60,13 @@ module.exports = {
           tLen = types.length
         }
 
-        for (var i = 0; i < tLen; i++) {
-          var type = types[i]
-          var labelEn = recordEn[type].trim()
-          var labelBg = recordBg[type].trim()
-          var nomenclature
+        for (let i = 0; i < tLen; i++) {
+          const type = types[i]
+          const labelEn = recordEn[type].trim()
+          const labelBg = recordBg[type].trim()
 
           if (labelEn && labelBg) {
-            nomenclature = makeNomenclature(type, labelEn, labelBg)
+            const nomenclature = makeNomenclature(type, labelEn, labelBg)
             nomenclatures.push(nomenclature)
           } else if (labelEn || labelBg) {
             console.error('Missing bg/en for ' + type + ": '" + labelBg + "'/'" + labelEn + "'")

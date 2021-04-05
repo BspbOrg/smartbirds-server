@@ -1,6 +1,6 @@
 'use strict'
 module.exports = function (sequelize, DataTypes) {
-  var mammalsStats = sequelize.define('mammals_stats', {
+  const mammalsStats = sequelize.define('mammals_stats', {
     latitude: { type: DataTypes.DOUBLE, primaryKey: true },
     longitude: { type: DataTypes.DOUBLE, primaryKey: true },
     species_count: DataTypes.INTEGER,

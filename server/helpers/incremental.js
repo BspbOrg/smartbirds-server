@@ -1,6 +1,6 @@
-var _ = require('lodash')
-var inputHelpers = require('./inputs')
-var links = require('./links')
+const _ = require('lodash')
+const inputHelpers = require('./inputs')
+const links = require('./links')
 
 module.exports = {
   declareInputs: declareInputs,

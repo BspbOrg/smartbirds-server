@@ -2,9 +2,9 @@
  * Created by groupsky on 28.01.16.
  */
 
-var Promise = require('bluebird')
-var readFile = Promise.promisify(require('fs').readFile)
-var ejs = require('ejs')
+const Promise = require('bluebird')
+const readFile = Promise.promisify(require('fs').readFile)
+const ejs = require('ejs')
 const { upgradeInitializer } = require('../utils/upgrade')
 
 module.exports = upgradeInitializer('ah17', {

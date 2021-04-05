@@ -1,6 +1,6 @@
-var _ = require('lodash')
-var inputHelpers = require('./inputs')
-var links = require('./links')
+const _ = require('lodash')
+const inputHelpers = require('./inputs')
+const links = require('./links')
 
 module.exports = {
   /**
@@ -55,9 +55,10 @@ function declareInputs (inputs, opts) {
 function prepareQuery (query, params) {
   return _.assign(query || {}, {
     offset: params.offset || 0
-  }, params.limit > -1 ? {
-    limit: params.limit
-  } : {})
+  }, params.limit > -1
+    ? { limit: params.limit }
+    : {}
+  )
 }
 
 function generateMeta (count, data, meta) {
@@ -65,7 +66,7 @@ function generateMeta (count, data, meta) {
 
   if (data.params.limit > 0) {
     if (data.params.limit + data.params.offset < count) {
-      var incrementalParams = {}
+      const incrementalParams = {}
       if (data.params.since) { incrementalParams.since = data.params.since.getTime() }
       if (data.params.until) { incrementalParams.until = data.params.until.getTime() }
 
