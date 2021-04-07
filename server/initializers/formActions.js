@@ -44,7 +44,7 @@ function generateInsertAction (form) {
 function generateEditAction (form) {
   return async function (api, data, next) {
     try {
-      const record = await form.retrieveRecord(api, data)
+      const record = await form.retrieveRecord(api, data, { context: 'edit' })
 
       if (!api.forms.userCanManage(data.session.user, form.modelName)) {
         data.params.user = data.session.userId
@@ -68,7 +68,7 @@ function generateEditAction (form) {
 function generateViewAction (form) {
   return async function (api, data, next) {
     try {
-      const record = await form.retrieveRecord(api, data)
+      const record = await form.retrieveRecord(api, data, { context: 'view' })
       data.response.data = await record.apiData(api)
       next()
     } catch (error) {
@@ -85,7 +85,7 @@ function generateViewAction (form) {
 function generateDeleteAction (form) {
   return async function (api, data, next) {
     try {
-      const record = await form.retrieveRecord(api, data)
+      const record = await form.retrieveRecord(api, data, { context: 'delete' })
       await record.destroy()
       next()
     } catch (error) {
