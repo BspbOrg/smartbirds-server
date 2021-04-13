@@ -7,8 +7,8 @@ module.exports = upgradeInitializer('ah17', {
     const redis = api.redis.clients.client
 
     api.session = {
-      prefix: 'session2:',
-      ttl: 60 * 60 * 24, // 1 day
+      prefix: api.config.session.prefix,
+      ttl: api.config.session.duration,
 
       load: function (connection, callback) {
         const key = api.session.prefix + connection.fingerprint
