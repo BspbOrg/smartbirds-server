@@ -19,8 +19,7 @@ module.exports = class AtlasBspbStats extends PublicStatTask {
           SELECT DISTINCT b.bgatlas2008_utm_code AS "utmCode",
              b.species AS "specLat",
              s."labelBg" AS "specBG",
-             s."labelEn" AS "specEN",
-             s.sensitive
+             s."labelEn" AS "specEN"
           FROM "birds_observations" b
           JOIN "Species" s ON (b.species = s."labelLa" AND s.type = 'birds' AND NOT s.sensitive)
           WHERE
@@ -40,8 +39,7 @@ module.exports = class AtlasBspbStats extends PublicStatTask {
           SELECT DISTINCT b.bgatlas2008_utm_code AS "utmCode",
              b.species AS "specLat",
              s."labelBg" AS "specBG",
-             s."labelEn" AS "specEN",
-             s.sensitive
+             s."labelEn" AS "specEN"
           FROM "birds_observations" b
           JOIN "Species" s ON (b.species = s."labelLa" AND s.type = 'birds' AND NOT s.sensitive)
           WHERE
