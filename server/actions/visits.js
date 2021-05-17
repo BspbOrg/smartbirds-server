@@ -3,6 +3,7 @@
  */
 
 const Promise = require('bluebird')
+const { Action, api } = require('actionhero')
 const { upgradeAction } = require('../utils/upgrade')
 
 exports.visitList = upgradeAction('ah17', {
@@ -49,48 +50,31 @@ exports.visitList = upgradeAction('ah17', {
   }
 })
 
-exports.visitEdit = upgradeAction('ah17', {
-  name: 'visit:edit',
-  description: 'visit:edit',
-  middleware: ['admin'],
-
-  inputs: {
-    year: { required: true },
-    early: {},
-    late: {}
-  },
-
-  run: function (api, data, next) {
-    Promise
-      .resolve(data.params)
-      .then(function (params) {
-        return api.models.visit.findOne({ where: { year: data.params.year } })
-      })
-      .then(function (model) {
-        return model || api.models.visit.build({})
-      })
-      .then(function (model) {
-        return model.apiUpdate(api, data.params)
-      })
-      .then(function (model) {
-        return model.save()
-      })
-      .then(function (model) {
-        return model.apiData(api)
-      })
-      .then(function (res) {
-        data.response.data = res
-        return res
-      })
-      .then(function () {
-        next()
-      })
-      .catch(function (error) {
-        api.logger.error(error)
-        next(error)
-      })
+exports.visitEdit = class VisitEdit extends Action {
+  constructor () {
+    super()
+    this.name = 'visit:edit'
+    this.description = this.name
+    this.middleware = ['auth']
+    this.inputs = {
+      year: { required: true },
+      early: {},
+      late: {}
+    }
   }
-})
+
+  async run ({ connection, params, response, session }) {
+    if (!api.forms.userCanManage(session.user, 'formCBM')) {
+      connection.rawConnection.responseHttpCode = 403
+      throw new Error('Admin required')
+    }
+    const { year } = params
+    const model = await api.models.visit.findOne({ where: { year } }) || api.models.visit.build({})
+    await model.apiUpdate(api, params)
+    await model.save()
+    response.data = await model.apiData(api)
+  }
+}
 
 exports.visitView = upgradeAction('ah17', {
   name: 'visit:view',
@@ -134,33 +118,26 @@ exports.visitView = upgradeAction('ah17', {
   }
 })
 
-exports.visitDelete = upgradeAction('ah17', {
-  name: 'visit:delete',
-  description: 'visit:delete',
-  middleware: ['admin'],
-  inputs: { year: { required: true } },
-
-  run: function (api, data, next) {
-    Promise
-      .resolve(data.params)
-      .then(function (params) {
-        return {
-          where: { year: data.params.year }
-        }
-      })
-      .then(function (q) {
-        return api.models.visist.findOne(q)
-      })
-      .then(function (model) {
-        return model.destroy()
-      })
-      .then(function () {
-        data.connection.rawConnection.responseHttpCode = 204
-        next()
-      })
-      .catch(function (error) {
-        api.logger.error(error)
-        next(error)
-      })
+exports.visitDelete = class VisitDelete extends Action {
+  constructor () {
+    super()
+    this.name = 'visit:delete'
+    this.description = 'visit:delete'
+    this.middleware = ['auth']
+    this.inputs = { year: { required: true } }
   }
-})
+
+  async run ({ connection, params, session }) {
+    if (!api.forms.userCanManage(session.user, 'formCBM')) {
+      connection.rawConnection.responseHttpCode = 403
+      throw new Error('Admin required')
+    }
+    const model = await api.models.visit.findOne({ where: { year: params.year } })
+    if (!model) {
+      connection.rawConnection.responseHttpCode = 404
+      throw new Error('not found')
+    }
+    await model.destroy()
+    connection.rawConnection.responseHttpCode = 204
+  }
+}
