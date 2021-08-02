@@ -64,7 +64,7 @@
     "email-templates": "^8.0.4",
     "form-data": "^4.0.0",
     "geolib": "^3.3.1",
-    "ioredis": "^4.25.0",
+    "ioredis": "^4.27.7",
     "lodash": "^4.17.21",
     "mailchimp-api-v3": "^1.15.0",
     "mime-types": "^2.1.30",
