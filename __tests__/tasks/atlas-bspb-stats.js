@@ -14,6 +14,25 @@ const readStatFile = async (name) => {
   return JSON.parse(content)
 }
 
+expect.extend({
+  numberCloseTo: (received, number, numDigits = 2) => {
+    const pass = Math.abs(number - received) < (10 ** -numDigits / 2)
+    if (pass) {
+      return {
+        message: () =>
+          `expected ${received} not to be close to ${number} with precision ${numDigits}`,
+        pass: true
+      }
+    } else {
+      return {
+        message: () =>
+          `expected ${received} to be close to ${number} with precision ${numDigits}`,
+        pass: false
+      }
+    }
+  }
+})
+
 describe('atlas bspb stats', () => {
   let cell
   let latitude
@@ -42,8 +61,8 @@ describe('atlas bspb stats', () => {
         specLat: species.labelLa,
         specEN: species.labelEn,
         utmCode: cell.utm_code,
-        lat: latitude,
-        lon: longitude
+        lat: expect.numberCloseTo(latitude),
+        lon: expect.numberCloseTo(longitude)
       }
     }
   }
