@@ -19,9 +19,12 @@ module.exports = class AtlasBspbStats extends PublicStatTask {
           SELECT DISTINCT b.bgatlas2008_utm_code AS "utmCode",
              b.species AS "specLat",
              s."labelBg" AS "specBG",
-             s."labelEn" AS "specEN"
+             s."labelEn" AS "specEN",
+             (a.lat1 + a.lat2 + a.lat3 + a.lat4)/4 as "lat",
+             (a.lon1 + a.lon2 + a.lon3 + a.lon4)/4 as "lon"
           FROM "birds_observations" b
           JOIN "Species" s ON (b.species = s."labelLa" AND s.type = 'birds' AND NOT s.sensitive)
+          JOIN "bgatlas2008_cells" a ON (b.bgatlas2008_utm_code = a.utm_code)
           WHERE
             (
               date_part('month', b.start_datetime) = 4 OR
@@ -39,9 +42,12 @@ module.exports = class AtlasBspbStats extends PublicStatTask {
           SELECT DISTINCT b.bgatlas2008_utm_code AS "utmCode",
              b.species AS "specLat",
              s."labelBg" AS "specBG",
-             s."labelEn" AS "specEN"
+             s."labelEn" AS "specEN",
+             (a.lat1 + a.lat2 + a.lat3 + a.lat4)/4 as "lat",
+             (a.lon1 + a.lon2 + a.lon3 + a.lon4)/4 as "lon"
           FROM "birds_observations" b
           JOIN "Species" s ON (b.species = s."labelLa" AND s.type = 'birds' AND NOT s.sensitive)
+          JOIN "bgatlas2008_cells" a ON (b.bgatlas2008_utm_code = a.utm_code)
           WHERE
             (
               date_part('month', b.observation_date_time) = 12 OR
