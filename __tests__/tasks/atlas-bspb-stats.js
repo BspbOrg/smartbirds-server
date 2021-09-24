@@ -41,7 +41,9 @@ describe('atlas bspb stats', () => {
         specBG: species.labelBg,
         specLat: species.labelLa,
         specEN: species.labelEn,
-        utmCode: cell.utm_code
+        utmCode: cell.utm_code,
+        lat: expect.numberCloseTo(latitude),
+        lon: expect.numberCloseTo(longitude)
       }
     }
   }

@@ -3,6 +3,9 @@
 
 module.exports = {
   runner: 'jest-runner',
+  setupFilesAfterEnv: [
+    './__test_utils__/matchers.js'
+  ],
   testEnvironment: 'ah',
   testPathIgnorePatterns: [
     '/node_modules/',
