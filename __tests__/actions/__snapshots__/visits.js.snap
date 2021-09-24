@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Action: visits create birds moderator cannot create 1`] = `"Error: Admin required"`;
+
+exports[`Action: visits create guest cannot create 1`] = `"Error: Please log in to continue"`;
+
+exports[`Action: visits create user cannot create 1`] = `"Error: Admin required"`;
+
+exports[`Action: visits delete birds moderator cannot delete 1`] = `"Error: Admin required"`;
+
+exports[`Action: visits delete guest cannot delete 1`] = `"Error: Please log in to continue"`;
+
+exports[`Action: visits delete user cannot delete 1`] = `"Error: Admin required"`;
+
+exports[`Action: visits edit birds moderator cannot edit 1`] = `"Error: Admin required"`;
+
+exports[`Action: visits edit guest cannot edit 1`] = `"Error: Please log in to continue"`;
+
+exports[`Action: visits edit user cannot edit 1`] = `"Error: Admin required"`;
+
+exports[`Action: visits list guest cannot list 1`] = `"Error: Please log in to continue"`;
+
+exports[`Action: visits view guest cannot view 1`] = `"Error: Please log in to continue"`;
