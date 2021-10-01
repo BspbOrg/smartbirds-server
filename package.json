@@ -8,7 +8,7 @@
     "node": "10"
   },
   "devDependencies": {
-    "@commitlint/cli": "^12.1.1",
+    "@commitlint/cli": "^13.2.0",
     "@commitlint/config-conventional": "^12.1.1",
     "commitizen": "^4.2.3",
     "cz-conventional-changelog": "^3.3.0",
