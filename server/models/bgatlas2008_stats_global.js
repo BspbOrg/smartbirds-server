@@ -1,6 +1,6 @@
 'use strict'
 module.exports = function (sequelize, Sequelize) {
-  return sequelize.define('bgatlas2008_stats_user', {
+  return sequelize.define('bgatlas2008_stats_global', {
     utm_code: { type: Sequelize.STRING(4), primaryKey: true },
     spec_known: { type: Sequelize.INTEGER, allowNull: false },
     spec_unknown: { type: Sequelize.INTEGER, allowNull: false },
