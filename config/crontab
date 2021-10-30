@@ -1,0 +1,8 @@
+43 * * * * $INSTALL_PATH/scripts/run_task stats:generate >/dev/null
+25 3 * * * $INSTALL_PATH/scripts/run_task banner:generate >/dev/null
+35 3 * * Sun $INSTALL_PATH/scripts/run_task stats:mailchimp >/dev/null
+*/17 * * * * $INSTALL_PATH/scripts/run_task organizations:export >/dev/null
+* * * * * $INSTALL_PATH/scripts/run_task autoLocation >/dev/null
+* * * * * $INSTALL_PATH/scripts/run_task forms_fill_bgatlas2008_utmcode >/dev/null
+30 1 * * * $INSTALL_PATH/scripts/run_task bgatlas2008_refresh >/dev/null
+45 3 * * * $INSTALL_PATH/scripts/run_task AtlasBspbStats >/dev/null
