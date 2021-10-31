@@ -8,7 +8,7 @@
     "node": "16"
   },
   "devDependencies": {
-    "@commitlint/cli": "^13.2.0",
+    "@commitlint/cli": "^13.2.1",
     "@commitlint/config-conventional": "^13.2.0",
     "commitizen": "^4.2.3",
     "cz-conventional-changelog": "^3.3.0",
@@ -62,7 +62,7 @@
     "email-templates": "^8.0.8",
     "form-data": "^4.0.0",
     "geolib": "^3.3.1",
-    "husky": "^7.0.2",
+    "husky": "^7.0.4",
     "ioredis": "^4.28.0",
     "lodash": "^4.17.21",
     "mailchimp-api-v3": "^1.15.0",
