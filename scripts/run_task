@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [[ "$#" == "0" ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+  echo "usage: run_task <task name> [JSON-formatted args]"
+  exit 1
+fi
+
+BASEDIR=$(dirname "$(readlink -f $0)")
+source $BASEDIR/.env
+
+name="$1"
+args="$2"
+
+npm run ah -- task enqueue --name="$name" --args="$args"
