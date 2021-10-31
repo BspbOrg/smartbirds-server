@@ -6,7 +6,7 @@ module.exports = {
   setupFilesAfterEnv: [
     './__test_utils__/matchers.js'
   ],
-  testEnvironment: 'ah',
+  testEnvironment: './__utils__/jest-environment-ah',
   testPathIgnorePatterns: [
     '/node_modules/',
     '<rootDir>/test'
