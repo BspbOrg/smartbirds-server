@@ -10,7 +10,7 @@
   "devDependencies": {
     "@commitlint/cli": "^13.2.1",
     "@commitlint/config-conventional": "^13.2.0",
-    "commitizen": "^4.2.3",
+    "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
     "jest": "^27.2.4",
     "jest-runner-mocha": "^0.6.0",
