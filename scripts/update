@@ -1,0 +1,6 @@
+#!/bin/bash
+
+BASEDIR=$(dirname "$(readlink -f $0)")
+source $BASEDIR/.env
+
+cd $BASEDIR/.. && git checkout . && git pull && npm ci && npm run build && $BASEDIR/update_cron

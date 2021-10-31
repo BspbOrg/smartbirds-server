@@ -1,0 +1,6 @@
+#!/bin/bash
+
+BASEDIR=$(dirname "$(readlink -f $0)")
+source $BASEDIR/.env
+
+cd $BASEDIR/.. && npm run ah -- start --daemon >> smartbirds.log &

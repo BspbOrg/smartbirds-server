@@ -1,0 +1,7 @@
+#!/bin/bash
+
+BASEDIR=$(dirname "$(readlink -f $0)")
+source $BASEDIR/.env
+
+killall node npm
+
