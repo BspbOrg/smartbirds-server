@@ -12,7 +12,7 @@
     "@commitlint/config-conventional": "^13.2.0",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
-    "jest": "^27.2.4",
+    "jest": "^27.3.1",
     "jest-runner-mocha": "^0.6.0",
     "lint-staged": "^11.2.6",
     "parallelshell": "^3.0.2",
