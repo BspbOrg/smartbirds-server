@@ -93,6 +93,37 @@ class CellStats extends Action {
   }
 }
 
+class ModeratorCellMethodologyStats extends Action {
+  constructor () {
+    super()
+    this.name = 'bgatlas2008_mod_cell_methodology_stats'
+    this.description = this.name
+    this.middleware = ['auth']
+    this.inputs = {
+      utm_code: { required: true }
+    }
+  }
+
+  async run ({ connection, params: { utm_code: utmCode }, response, session: { user } }) {
+    if (!api.forms.userCanManage(user, 'formBirds')) {
+      connection.rawConnection.responseHttpCode = 403
+      throw new Error('Moderator required')
+    }
+    const cell = await api.models.bgatlas2008_cells.findByPk(utmCode)
+    if (!cell) {
+      connection.rawConnection.responseHttpCode = 404
+      throw new Error('No such utm code')
+    }
+
+    const methodologyStats = await api.models.bgatlas2008_stats_methodology.findAll({
+      where: { utm_code: utmCode }
+    })
+
+    response.count = methodologyStats.length
+    response.data = methodologyStats.map((record) => record.apiData())
+  }
+}
+
 class GetUserSelection extends Action {
   constructor () {
     super()
@@ -199,6 +230,7 @@ module.exports = {
   CellStats,
   GetUserSelection,
   ListCells,
+  ModeratorCellMethodologyStats,
   StatsUserRank,
   SetUserSelection
 }
