@@ -85,7 +85,8 @@ exports.default = {
         { path: '/bgatlas/cell/:utm_code', action: 'bgatlas2008_cell_info' },
         { path: '/bgatlas/cell/:utm_code/stats', action: 'bgatlas2008_cell_stats' },
         { path: '/bgatlas/user/selected', action: 'bgatlas2008_get_user_selection' },
-        { path: '/bgatlas/stats/user_rank', action: 'bgatlas2008_user_rank_stats' }
+        { path: '/bgatlas/stats/user_rank', action: 'bgatlas2008_user_rank_stats' },
+        { path: '/bgatlas/moderator/:utm_code/methodology', action: 'bgatlas2008_mod_cell_methodology_stats' }
       ],
 
       post: [

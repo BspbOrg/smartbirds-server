@@ -453,6 +453,123 @@ describe('Action: bgatlas2008_cell_stats', () => {
   })
 })
 
+describe('Action: bgatlas2008_mod_cell_methodology_stats', () => {
+  const action = 'bgatlas2008_mod_cell_methodology_stats'
+  let cell
+
+  beforeEach(async () => {
+    cell = await bgatlas2008CellsFactory(setup.api)
+  })
+
+  it('cell with no observations', async () => {
+    const response = await setup.runActionAsBirds(action, { utm_code: cell.utm_code })
+
+    expect(response).toEqual(expect.objectContaining({
+      count: 0,
+      data: []
+    }))
+  })
+
+  it('cell with observation without methodology', async () => {
+    await formBirdsFactory(setup.api, {
+      ...getCenter(cell.coordinates()),
+      observationMethodologyEn: null
+    })
+    await formBirdsFactory(setup.api, {
+      ...getCenter(cell.coordinates()),
+      observationMethodologyEn: ''
+    })
+
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds' })
+    const response = await setup.runActionAsBirds(action, { utm_code: cell.utm_code })
+
+    expect(response).toEqual(expect.objectContaining({
+      count: 1,
+      data: [{ observation_methodology: '', records_count: 2, utm_code: cell.utm_code }]
+    }))
+  })
+
+  it('cell with different methodologies', async () => {
+    await formBirdsFactory(setup.api, {
+      ...getCenter(cell.coordinates()),
+      observationMethodologyEn: 'meth1'
+    })
+    await formBirdsFactory(setup.api, {
+      ...getCenter(cell.coordinates()),
+      observationMethodologyEn: 'meth2'
+    })
+    await formBirdsFactory(setup.api, {
+      ...getCenter(cell.coordinates()),
+      observationMethodologyEn: 'meth2'
+    })
+
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds' })
+    const response = await setup.runActionAsBirds(action, { utm_code: cell.utm_code })
+
+    expect(response).toEqual(expect.objectContaining({
+      count: 2,
+      data: expect.arrayContaining([
+        { observation_methodology: 'meth1', records_count: 1, utm_code: cell.utm_code },
+        { observation_methodology: 'meth2', records_count: 2, utm_code: cell.utm_code }
+      ])
+    }))
+  })
+
+  it('returns only from the selected cell', async () => {
+    await formBirdsFactory(setup.api, {
+      ...getCenter(cell.coordinates())
+    })
+    const cell2 = await bgatlas2008CellsFactory(setup.api)
+    await formBirdsFactory(setup.api, {
+      ...getCenter(cell2.coordinates())
+    })
+
+    await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds' })
+    const response = await setup.runActionAsBirds(action, { utm_code: cell.utm_code })
+
+    expect(response).toEqual(expect.objectContaining({
+      count: 1,
+      data: [{ observation_methodology: '', records_count: 1, utm_code: cell.utm_code }]
+    }))
+  })
+
+  it('requires authentication', async () => {
+    const response = await setup.runActionAsGuest(action, { utm_code: cell.utm_code })
+
+    expect(response).toEqual(expect.objectContaining({
+      error: expect.any(String)
+    }))
+    expect(response.responseHttpCode).toEqual(401)
+  })
+
+  it('forbidden for regular user', async () => {
+    const response = await setup.runActionAsUser(action, { utm_code: cell.utm_code })
+
+    expect(response).toEqual(expect.objectContaining({
+      error: expect.any(String)
+    }))
+    expect(response.responseHttpCode).toEqual(403)
+  })
+
+  it('forbidden for cbm moderator', async () => {
+    const response = await setup.runActionAsCbm(action, { utm_code: cell.utm_code })
+
+    expect(response).toEqual(expect.objectContaining({
+      error: expect.any(String)
+    }))
+    expect(response.responseHttpCode).toEqual(403)
+  })
+
+  it('unknown utm_code results in 404', async () => {
+    const response = await setup.runActionAsBirds(action, { utm_code: 'NONE' })
+
+    expect(response).toEqual(expect.objectContaining({
+      error: expect.any(String)
+    }))
+    expect(response.responseHttpCode).toEqual(404)
+  })
+})
+
 describe('Action: bgatlas2008_cells_list', () => {
   const action = 'bgatlas2008_cells_list'
 
