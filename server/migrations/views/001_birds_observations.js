@@ -8,10 +8,7 @@ module.exports = {
       "observationDateTime" as observation_date_time, species, count,
       "monitoringCode" as monitoring, "startDateTime" as start_datetime, "endDateTime" as end_datetime, confidential,
       "autoLocationEn" as auto_location_en, "autoLocationLocal" as auto_location_local, "autoLocationLang" as auto_location_lang,
-      "bgatlas2008UtmCode" as bgatlas2008_utm_code,
-      "observationMethodologyEn" as observation_methodology_en,
-      "observationMethodologyLocal" as observation_methodology_local,
-      "observationMethodologyLang" as observation_methodology_lang
+      "bgatlas2008UtmCode" as bgatlas2008_utm_code
     FROM
       (
         SELECT
@@ -21,7 +18,6 @@ module.exports = {
           "observationDateTime", species, GREATEST(count, "countMin", "countMax") as count,
           "monitoringCode", "startDateTime", "endDateTime", confidential,
           "autoLocationEn", "autoLocationLocal", "autoLocationLang",
-          "observationMethodologyEn", "observationMethodologyLocal", "observationMethodologyLang",
           "bgatlas2008UtmCode"
         FROM "FormBirds"
 
@@ -34,7 +30,6 @@ module.exports = {
           "observationDateTime", species, count,
           "monitoringCode", "startDateTime", "endDateTime", confidential,
           "autoLocationEn", "autoLocationLocal", "autoLocationLang",
-          "observationMethodologyEn", "observationMethodologyLocal", "observationMethodologyLang",
           "bgatlas2008UtmCode"
         FROM "FormCBM"
 
@@ -47,7 +42,6 @@ module.exports = {
           "observationDateTime", 'Ciconia ciconia' as species, NULL::integer as count,
           "monitoringCode", "startDateTime", "endDateTime", confidential,
           "autoLocationEn", "autoLocationLocal", "autoLocationLang",
-          "observationMethodologyEn", "observationMethodologyLocal", "observationMethodologyLang",
           "bgatlas2008UtmCode"
         FROM "FormCiconia"
       ) birds_observations

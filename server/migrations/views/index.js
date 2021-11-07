@@ -2,7 +2,6 @@ const views = [
   require('./001_birds_observations'),
   require('./002_bgatlas2008_observed_species'),
   require('./002_bgatlas2008_observed_user_species'),
-  require('./002_bgatlas2008_stats_methodology'),
   require('./002_birds_top_interesting_species_month'),
   require('./003_bgatlas2008_stats_global'),
   require('./003_bgatlas2008_stats_user'),
