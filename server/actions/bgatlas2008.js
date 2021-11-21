@@ -261,6 +261,70 @@ class SetUserSelection extends Action {
   }
 }
 
+class GetCellStatus extends Action {
+  constructor () {
+    super()
+    this.name = 'bgatlas2008_update_cell_status'
+    this.description = this.name
+    this.middleware = ['auth']
+    this.inputs = {
+      utm_code: { required: true }
+    }
+  }
+
+  async run ({ connection, params: { utm_code: utmCode }, response }) {
+    const cell = await api.models.bgatlas2008_cells.findByPk(utmCode)
+    if (!cell) {
+      connection.rawConnection.responseHttpCode = 404
+      throw new Error('No such utm code')
+    }
+
+    const [status] = await api.models.bgatlas2008_cell_status.findOrCreate({ where: { utm_code: cell.utm_code } })
+
+    response.data = status.apiData()
+  }
+}
+
+class SetCellStatus extends Action {
+  constructor () {
+    super()
+    this.name = 'bgatlas2008_update_cell_status'
+    this.description = this.name
+    this.middleware = ['auth']
+    this.inputs = {
+      utm_code: { required: true },
+      completed: {}
+    }
+  }
+
+  async run ({ connection, params: { utm_code: utmCode, ...props }, response, session: { user } }) {
+    if (!api.forms.userCanManage(user, 'formBirds')) {
+      connection.rawConnection.responseHttpCode = 403
+      throw new Error('Moderator required')
+    }
+    const cell = await api.models.bgatlas2008_cells.findByPk(utmCode)
+    if (!cell) {
+      connection.rawConnection.responseHttpCode = 404
+      throw new Error('No such utm code')
+    }
+
+    const [status] = await api.models.bgatlas2008_cell_status.findOrCreate({ where: { utm_code: cell.utm_code } })
+
+    if ('completed' in props) {
+      if (!props.completed) {
+        connection.rawConnection.responseHttpCode = 403
+        throw new Error('Not allowed')
+      }
+
+      status.completed = true
+    }
+
+    await status.save()
+
+    response.data = status.apiData()
+  }
+}
+
 module.exports = {
   CellInfo,
   CellStats,
@@ -269,5 +333,7 @@ module.exports = {
   ModeratorCellMethodologyStats,
   ModeratorCellUserStats,
   StatsUserRank,
+  GetCellStatus,
+  SetCellStatus,
   SetUserSelection
 }

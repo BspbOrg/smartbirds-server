@@ -4,6 +4,7 @@
 const { getCenter } = require('geolib')
 
 const bgatlas2008CellsFactory = require('../../__utils__/factories/bgatlas2008CellsFactory')
+const bgatlas2008CellStatusFactory = require('../../__utils__/factories/bgatlas2008CellStatusFactory')
 const bgatlas2008SpeciesFactory = require('../../__utils__/factories/bgatlas2008SpeciesFactory')
 const formBirdsFactory = require('../../__utils__/factories/formBirdsFactory')
 const speciesFactory = require('../../__utils__/factories/speciesFactory')
@@ -1393,5 +1394,58 @@ describe('Action: bgatlas2008_user_rank_stats', () => {
       count: 0,
       data: []
     }))
+  })
+})
+
+describe('Action: bgatlas2008_update_cell_status', () => {
+  const action = 'bgatlas2008_update_cell_status'
+
+  it('birds moderator can set completed to true', async () => {
+    const cell = await bgatlas2008CellsFactory(setup.api)
+    const response = await setup.runActionAsBirds(action, { utm_code: cell.utm_code, completed: true })
+
+    expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+    expect(response).toEqual(expect.objectContaining({
+      data: {
+        utm_code: cell.utm_code,
+        completed: true
+      }
+    }))
+  })
+
+  it('birds moderator can not set completed to false', async () => {
+    const cell = await bgatlas2008CellsFactory(setup.api)
+    await bgatlas2008CellStatusFactory(setup.api, cell, { completed: true })
+
+    const response = await setup.runActionAsBirds(action, { utm_code: cell.utm_code, completed: false })
+
+    expect(response).toEqual(expect.objectContaining({
+      error: expect.any(String)
+    }))
+    expect(response.responseHttpCode).toEqual(403)
+  })
+
+  it.each([true, false])('user can not set completed to %s', async (completed) => {
+    const cell = await bgatlas2008CellsFactory(setup.api)
+    await bgatlas2008CellStatusFactory(setup.api, cell, { completed: !completed })
+
+    const response = await setup.runActionAsUser(action, { utm_code: cell.utm_code, completed })
+
+    expect(response).toEqual(expect.objectContaining({
+      error: expect.any(String)
+    }))
+    expect(response.responseHttpCode).toEqual(403)
+  })
+
+  it.each([true, false])('guest can not set completed to %s', async (completed) => {
+    const cell = await bgatlas2008CellsFactory(setup.api)
+    await bgatlas2008CellStatusFactory(setup.api, cell, { completed: !completed })
+
+    const response = await setup.runActionAsGuest(action, { utm_code: cell.utm_code, completed })
+
+    expect(response).toEqual(expect.objectContaining({
+      error: expect.any(String)
+    }))
+    expect(response.responseHttpCode).toEqual(401)
   })
 })

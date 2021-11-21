@@ -84,6 +84,7 @@ exports.default = {
         { path: '/bgatlas/2008', action: 'bgatlas2008_cells_list' },
         { path: '/bgatlas/cell/:utm_code', action: 'bgatlas2008_cell_info' },
         { path: '/bgatlas/cell/:utm_code/stats', action: 'bgatlas2008_cell_stats' },
+        { path: '/bgatlas/cell/:utm_code/status', action: 'bgatlas2008_get_cell_status' },
         { path: '/bgatlas/user/selected', action: 'bgatlas2008_get_user_selection' },
         { path: '/bgatlas/stats/user_rank', action: 'bgatlas2008_user_rank_stats' },
         { path: '/bgatlas/moderator/:utm_code/methodology', action: 'bgatlas2008_mod_cell_methodology_stats' },
@@ -151,7 +152,8 @@ exports.default = {
       ],
 
       patch: [
-        { path: '/user/:id', action: 'user:changepw' }
+        { path: '/user/:id', action: 'user:changepw' },
+        { path: '/bgatlas/cell/:utm_code/status', action: 'bgatlas2008_update_cell_status' }
       ],
 
       delete: [
