@@ -1400,6 +1400,21 @@ describe('Action: bgatlas2008_user_rank_stats', () => {
 describe('Action: bgatlas2008_update_cell_status', () => {
   const action = 'bgatlas2008_update_cell_status'
 
+  it.each([true, false])('admin can set completed to %s', async (completed) => {
+    const cell = await bgatlas2008CellsFactory(setup.api)
+    await bgatlas2008CellStatusFactory(setup.api, cell, { completed: !completed })
+
+    const response = await setup.runActionAsAdmin(action, { utm_code: cell.utm_code, completed })
+
+    expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+    expect(response).toEqual(expect.objectContaining({
+      data: {
+        utm_code: cell.utm_code,
+        completed
+      }
+    }))
+  })
+
   it('birds moderator can set completed to true', async () => {
     const cell = await bgatlas2008CellsFactory(setup.api)
     const response = await setup.runActionAsBirds(action, { utm_code: cell.utm_code, completed: true })

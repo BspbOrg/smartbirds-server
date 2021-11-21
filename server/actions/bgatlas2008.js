@@ -312,11 +312,13 @@ class SetCellStatus extends Action {
 
     if ('completed' in props) {
       if (!props.completed) {
-        connection.rawConnection.responseHttpCode = 403
-        throw new Error('Not allowed')
+        if (!['admin', 'org-admin'].includes(user.role)) {
+          connection.rawConnection.responseHttpCode = 403
+          throw new Error('Not allowed')
+        }
       }
 
-      status.completed = true
+      status.completed = Boolean(props.completed)
     }
 
     await status.save()
