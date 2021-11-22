@@ -116,7 +116,8 @@ class ModeratorCellMethodologyStats extends Action {
     }
 
     const methodologyStats = await api.models.bgatlas2008_stats_methodology.findAll({
-      where: { utm_code: utmCode }
+      where: { utm_code: utmCode },
+      order: [['records_count', 'DESC']]
     })
 
     response.count = methodologyStats.length
@@ -264,7 +265,7 @@ class SetUserSelection extends Action {
 class GetCellStatus extends Action {
   constructor () {
     super()
-    this.name = 'bgatlas2008_update_cell_status'
+    this.name = 'bgatlas2008_get_cell_status'
     this.description = this.name
     this.middleware = ['auth']
     this.inputs = {
