@@ -1,5 +1,7 @@
 'use strict'
 
+const views = require('./views')
+
 const tableName = 'bgatlas2008_cell_status'
 
 module.exports = {
@@ -24,6 +26,10 @@ module.exports = {
       }
     })
     await queryInterface.addIndex(tableName, { fields: ['completed'] })
+    if (queryInterface.sequelize.options.dialect === 'postgres') {
+      await views.down(queryInterface)
+      await views.up(queryInterface)
+    }
   },
 
   down: async (queryInterface) => {

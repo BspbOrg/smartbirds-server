@@ -5,7 +5,8 @@ module.exports = function (sequelize, Sequelize) {
     spec_known: { type: Sequelize.INTEGER, allowNull: false },
     spec_unknown: { type: Sequelize.INTEGER, allowNull: false },
     spec_old: { type: Sequelize.INTEGER, allowNull: false },
-    selected: { type: Sequelize.INTEGER, allowNull: false }
+    selected: { type: Sequelize.INTEGER, allowNull: false },
+    completed: { type: Sequelize.BOOLEAN, defaultValue: false, allowNull: false }
   }, {
     tableName: 'bgatlas2008_stats_global',
     timestamps: false,
@@ -25,7 +26,8 @@ module.exports = function (sequelize, Sequelize) {
           utm_code: this.utm_code,
           spec_known: this.spec_known,
           spec_unknown: this.spec_unknown,
-          spec_old: this.spec_old
+          spec_old: this.spec_old,
+          completed: this.completed
         }
 
         if (context !== 'public') {
