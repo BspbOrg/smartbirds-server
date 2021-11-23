@@ -319,6 +319,8 @@ class SetCellStatus extends Action {
           connection.rawConnection.responseHttpCode = 403
           throw new Error('Not allowed')
         }
+      } else {
+        await status.setUsersSelected([], { validate: true })
       }
 
       status.completed = Boolean(props.completed)
