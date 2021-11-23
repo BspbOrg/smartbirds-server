@@ -1400,6 +1400,28 @@ describe('Action: bgatlas2008_user_rank_stats', () => {
 describe('Action: bgatlas2008_update_cell_status', () => {
   const action = 'bgatlas2008_update_cell_status'
 
+  it('completing a cell removes users selected the cell', async () => {
+    const cell1 = await bgatlas2008CellsFactory(setup.api)
+    const cell2 = await bgatlas2008CellsFactory(setup.api)
+    const user = await userFactory(setup.api)
+    await user.setBgatlas2008Cells([cell1.utm_code, cell2.utm_code], { validate: true })
+
+    await setup.runActionAsAdmin(action, { utm_code: cell1.utm_code, completed: true })
+    const selectedCells = await user.getBgatlas2008Cells()
+
+    expect(selectedCells).not.toEqual(expect.arrayContaining([expect.objectContaining({ utm_code: cell1.utm_code })]))
+    expect(selectedCells).toEqual(expect.arrayContaining([expect.objectContaining({ utm_code: cell2.utm_code })]))
+  })
+
+  it.each([true, false])('setting completed=%s triggers statistics task', async (completed) => {
+    jest.spyOn(setup.api.tasks, 'enqueue')
+    const cell = await bgatlas2008CellsFactory(setup.api)
+
+    await setup.runActionAsAdmin(action, { utm_code: cell.utm_code, completed })
+
+    expect(setup.api.tasks.enqueue).toHaveBeenCalledWith('stats:generate')
+  })
+
   it.each([true, false])('admin can set completed to %s', async (completed) => {
     const cell = await bgatlas2008CellsFactory(setup.api)
     await bgatlas2008CellStatusFactory(setup.api, cell, { completed: !completed })

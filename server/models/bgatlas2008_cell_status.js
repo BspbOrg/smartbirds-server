@@ -19,6 +19,14 @@ module.exports = function (sequelize, DataTypes) {
           sourceKey: 'utm_code',
           foreignKey: 'utm_code'
         })
+
+        models.bgatlas2008_cell_status.belongsToMany(models.user, {
+          as: 'users',
+          through: 'bgatlas2008_user_selected',
+          timestamps: false,
+          foreignKey: 'utm_code',
+          otherKey: 'user_id'
+        })
       }
     },
     instanceMethods: {
