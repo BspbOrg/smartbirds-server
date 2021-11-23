@@ -320,7 +320,7 @@ class SetCellStatus extends Action {
           throw new Error('Not allowed')
         }
       } else {
-        await status.setUsersSelected([], { validate: true })
+        await status.setUsers([], { validate: true })
       }
 
       status.completed = Boolean(props.completed)

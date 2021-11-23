@@ -21,11 +21,11 @@ module.exports = function (sequelize, DataTypes) {
         })
 
         models.bgatlas2008_cell_status.belongsToMany(models.user, {
-          as: 'usersSelected',
+          as: 'users',
           through: 'bgatlas2008_user_selected',
           timestamps: false,
-          otherKey: 'user_id',
-          foreignKey: 'utm_code'
+          foreignKey: 'utm_code',
+          otherKey: 'user_id'
         })
       }
     },
