@@ -1400,6 +1400,15 @@ describe('Action: bgatlas2008_user_rank_stats', () => {
 describe('Action: bgatlas2008_update_cell_status', () => {
   const action = 'bgatlas2008_update_cell_status'
 
+  it.each([true, false])('setting completed=%s triggers statistics task', async (completed) => {
+    jest.spyOn(setup.api.tasks, 'enqueue')
+    const cell = await bgatlas2008CellsFactory(setup.api)
+
+    await setup.runActionAsAdmin(action, { utm_code: cell.utm_code, completed })
+
+    expect(setup.api.tasks.enqueue).toHaveBeenCalledWith('stats:generate')
+  })
+
   it.each([true, false])('admin can set completed to %s', async (completed) => {
     const cell = await bgatlas2008CellsFactory(setup.api)
     await bgatlas2008CellStatusFactory(setup.api, cell, { completed: !completed })

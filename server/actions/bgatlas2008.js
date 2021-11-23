@@ -311,6 +311,8 @@ class SetCellStatus extends Action {
 
     const [status] = await api.models.bgatlas2008_cell_status.findOrCreate({ where: { utm_code: cell.utm_code } })
 
+    const pending = []
+
     if ('completed' in props) {
       if (!props.completed) {
         if (!['admin', 'org-admin'].includes(user.role)) {
@@ -320,9 +322,13 @@ class SetCellStatus extends Action {
       }
 
       status.completed = Boolean(props.completed)
+
+      pending.push(() => api.tasks.enqueue('stats:generate'))
     }
 
     await status.save()
+
+    await Promise.all(pending.map(a => a()))
 
     response.data = status.apiData()
   }
