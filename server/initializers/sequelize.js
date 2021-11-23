@@ -169,7 +169,10 @@ module.exports = upgradeInitializer('ah17', {
 
           // check if migrations are pending
           const pending = await umzug.pending()
-          if (!pending) return
+          if (!pending || !pending.length) {
+            api.log('All migrations applied', 'info')
+            return
+          }
 
           // remove views
           await views.down(...migrationParams)
