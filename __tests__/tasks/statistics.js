@@ -5,6 +5,7 @@ const { promisify } = require('util')
 const readFile = promisify(require('fs').readFile)
 
 const bgatlas2008CellsFactory = require('../../__utils__/factories/bgatlas2008CellsFactory')
+const bgatlas2008CellStatusFactory = require('../../__utils__/factories/bgatlas2008CellStatusFactory')
 const bgatlas2008SpeciesFactory = require('../../__utils__/factories/bgatlas2008SpeciesFactory')
 const formBirdsFactory = require('../../__utils__/factories/formBirdsFactory')
 const speciesFactory = require('../../__utils__/factories/speciesFactory')
@@ -29,7 +30,7 @@ describe('Statistics task', function () {
       const result = await runLocal()
 
       expect(result).toEqual(expect.arrayContaining([
-        { utm_code: cell.utm_code, spec_known: 0, spec_unknown: 0, spec_old: 0, coordinates: cell.coordinates() }
+        expect.objectContaining({ utm_code: cell.utm_code, spec_known: 0, spec_unknown: 0, spec_old: 0, coordinates: cell.coordinates() })
       ]))
     })
 
@@ -40,7 +41,7 @@ describe('Statistics task', function () {
       const result = await runLocal()
 
       expect(result).toEqual(expect.arrayContaining([
-        { utm_code: cell.utm_code, spec_known: 0, spec_unknown: 0, spec_old: 1, coordinates: cell.coordinates() }
+        expect.objectContaining({ utm_code: cell.utm_code, spec_known: 0, spec_unknown: 0, spec_old: 1, coordinates: cell.coordinates() })
       ]))
     })
 
@@ -54,7 +55,7 @@ describe('Statistics task', function () {
       const result = await runLocal()
 
       expect(result).toEqual(expect.arrayContaining([
-        { utm_code: cell.utm_code, spec_known: 0, spec_unknown: 1, spec_old: 0, coordinates: cell.coordinates() }
+        expect.objectContaining({ utm_code: cell.utm_code, spec_known: 0, spec_unknown: 1, spec_old: 0, coordinates: cell.coordinates() })
       ]))
     })
 
@@ -71,7 +72,28 @@ describe('Statistics task', function () {
       const result = await runLocal()
 
       expect(result).toEqual(expect.arrayContaining([
-        { utm_code: cell.utm_code, spec_known: 1, spec_unknown: 0, spec_old: 1, coordinates: cell.coordinates() }
+        expect.objectContaining({ utm_code: cell.utm_code, spec_known: 1, spec_unknown: 0, spec_old: 1, coordinates: cell.coordinates() })
+      ]))
+    })
+
+    it('includes cell completed status as false when not defined', async () => {
+      const cell = await bgatlas2008CellsFactory(setup.api)
+
+      const result = await runLocal()
+
+      expect(result).toEqual(expect.arrayContaining([
+        expect.objectContaining({ utm_code: cell.utm_code, completed: false })
+      ]))
+    })
+
+    it.each([true, false])('includes cell completed=%s', async (completed) => {
+      const cell = await bgatlas2008CellsFactory(setup.api)
+      await bgatlas2008CellStatusFactory(setup.api, cell, { completed })
+
+      const result = await runLocal()
+
+      expect(result).toEqual(expect.arrayContaining([
+        expect.objectContaining({ utm_code: cell.utm_code, completed })
       ]))
     })
   })

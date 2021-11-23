@@ -1,11 +1,13 @@
-'use strict'
+const { api } = require('actionhero')
+
 module.exports = function (sequelize, Sequelize) {
   return sequelize.define('bgatlas2008_stats_user', {
     utm_code: { type: Sequelize.STRING(4), primaryKey: true },
     user_id: { type: Sequelize.INTEGER, primaryKey: true },
     spec_known: { type: Sequelize.INTEGER, allowNull: false },
     spec_unknown: { type: Sequelize.INTEGER, allowNull: false },
-    spec_old: { type: Sequelize.INTEGER, allowNull: false }
+    spec_old: { type: Sequelize.INTEGER, allowNull: false },
+    records_count: { type: Sequelize.INTEGER, allowNull: false }
   }, {
     tableName: 'bgatlas2008_stats_user',
     timestamps: false,
@@ -25,13 +27,23 @@ module.exports = function (sequelize, Sequelize) {
       }
     },
     instanceMethods: {
-      apiData () {
+      apiData (context = 'public') {
         const data = {
           utm_code: this.utm_code,
           user_id: this.user_id,
           spec_known: this.spec_known,
           spec_unknown: this.spec_unknown,
           spec_old: this.spec_old
+        }
+
+        switch (context) {
+          case 'moderator':
+            data.records_count = this.records_count
+            break
+        }
+
+        if (this.userInfo) {
+          data.user = this.userInfo.apiData(api, context)
         }
 
         if (this.utmCoordinates) {

@@ -4,6 +4,7 @@ const Sequelize = require('sequelize')
 const Umzug = require('umzug')
 const _ = require('lodash')
 const { upgradeInitializer } = require('../utils/upgrade')
+const views = require('../migrations/views')
 const Op = Sequelize.Op
 const operatorsAliases = {
   $eq: Op.eq,
@@ -96,6 +97,10 @@ module.exports = upgradeInitializer('ah17', {
       }
     )
 
+    const migrationParams = [sequelizeInstance.getQueryInterface(), sequelizeInstance.constructor, function () {
+      throw new Error('Migration tried to use old style "done" callback. Please upgrade to "umzug" and return a promise instead.')
+    }]
+
     const umzug = new Umzug({
       storage: 'sequelize',
       storageOptions: {
@@ -103,9 +108,7 @@ module.exports = upgradeInitializer('ah17', {
       },
       logging: (msg, ...params) => api.log(msg, 'info', ...params),
       migrations: {
-        params: [sequelizeInstance.getQueryInterface(), sequelizeInstance.constructor, function () {
-          throw new Error('Migration tried to use old style "done" callback. Please upgrade to "umzug" and return a promise instead.')
-        }],
+        params: migrationParams,
         path: api.projectRoot + '/migrations'
       }
     })
@@ -118,32 +121,6 @@ module.exports = upgradeInitializer('ah17', {
       sequelize: sequelizeInstance,
 
       umzug: umzug,
-
-      migrate: function (opts, next) {
-        if (typeof opts === 'function') {
-          next = opts
-          opts = null
-        }
-        opts = opts === null ? { method: 'up' } : opts
-
-        checkMetaOldSchema(api).then(function () {
-          return umzug.execute(opts)
-        }).then(function () {
-          next()
-        }, function (err) {
-          next(err)
-        })
-      },
-
-      migrateUndo: function (next) {
-        checkMetaOldSchema(api).then(function () {
-          return umzug.down()
-        }).then(function () {
-          next()
-        }, function (err) {
-          next(err)
-        })
-      },
 
       connect: function (next) {
         const dir = path.normalize(api.projectRoot + '/models')
@@ -182,16 +159,33 @@ module.exports = upgradeInitializer('ah17', {
         }
       },
 
-      autoMigrate: function (next) {
-        if (api.config.sequelize.autoMigrate == null || api.config.sequelize.autoMigrate) {
-          checkMetaOldSchema(api).then(function () {
-            return umzug.up()
-          }).then(function () {
-            next()
-          }, function (err) {
-            next(err)
-          })
-        } else {
+      autoMigrate: async function (next) {
+        try {
+          // auto migrate is true by default
+          if (api.config.sequelize.autoMigrate != null && !api.config.sequelize.autoMigrate) return
+
+          // check and migrate old schema
+          await checkMetaOldSchema(api)
+
+          // check if migrations are pending
+          const pending = await umzug.pending()
+          if (!pending || !pending.length) {
+            api.log('All migrations applied', 'info')
+            return
+          }
+
+          // remove views
+          await views.down(...migrationParams)
+          // apply migrations
+          await umzug.up()
+          // create views
+          await views.up(...migrationParams)
+        } catch (err) {
+          const n = next
+          // prevent finally from calling next again
+          next = () => {}
+          n(err)
+        } finally {
           next()
         }
       },
