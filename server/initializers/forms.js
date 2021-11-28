@@ -16,6 +16,16 @@ const languages = Object.keys(require('../../config/languages'))
 hooks.beforeApiUpdate = { params: 2 }
 hooks.afterApiUpdate = { params: 2 }
 
+async function runFieldHooks (fields, hookName, ...args) {
+  for (const name in fields) {
+    if (!Object.hasOwnProperty.call(fields, name)) continue
+    const field = fields[name]
+    if (!(field instanceof Object)) continue
+    if (!(hookName in field)) continue
+    await field[hookName](...args, name, field)
+  }
+}
+
 function serialize (obj) {
   if (Array.isArray(obj)) {
     return JSON.stringify(obj.map(function (item) { return serialize(item) }))
@@ -325,6 +335,8 @@ function generateApiUpdate (fields) {
   return async function (data, language) {
     const modelName = this.constructor.tableName
     await this.constructor.runHooks('beforeApiUpdate', this, data)
+    await runFieldHooks(fields, 'beforeApiUpdate', this, data, language)
+
     _.forEach(fields, (field, name) => {
       if (_.isString(field)) field = { type: field }
       switch (field.type) {
@@ -481,12 +493,8 @@ function generateApiUpdate (fields) {
           throw new Error(`[${modelName}.${name}] Unsupported field type ${field.type}`)
       }
     })
-    if (this.changed('latitude') || this.changed('longitude')) {
-      localField('autoLocation').update(this, null)
-    }
-    if (this.changed('latitude') || this.changed('longitude') || this.changed('observationDateTime')) {
-      this.bgatlas2008UtmCode = null
-    }
+
+    await runFieldHooks(fields, 'afterApiUpdate', this, data, language)
     await this.constructor.runHooks('afterApiUpdate', this, data)
     return this
   }
