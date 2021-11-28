@@ -15,6 +15,10 @@ exports.default = {
       maxRecords: parseInt(process.env.BG_ATLAS_2008_MAX_RECORDS) || 100,
       // consider records newer than this timestamp
       startTimestamp: parseInt(process.env.BG_ATLAS_2008_START_TIMESTAMP) || new Date('2016-01-01').getTime()
+    },
+    visit: {
+      // max records per task
+      maxRecords: parseInt(process.env.AUTO_VISIT_MAX_RECORDS) || 100
     }
   }
 }

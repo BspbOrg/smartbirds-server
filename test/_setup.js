@@ -14,7 +14,13 @@ const setup = {
     setup.api = await setup.server.start()
     return setup.api
   },
-  finish: () => setup.server.stop(),
+  finish: async () => {
+    try {
+      await setup.server.stop()
+    } catch (e) {
+      console.warn('Failure while shutting down server', e)
+    }
+  },
   runAction: async (action, params) => {
     let connection
     if (!params) { params = {} }
