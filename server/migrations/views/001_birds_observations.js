@@ -7,6 +7,7 @@ module.exports = {
       "userId" as user_id, organization,
       "observationDateTime" as observation_date_time, species, count,
       "monitoringCode" as monitoring, "startDateTime" as start_datetime, "endDateTime" as end_datetime, confidential,
+      "moderatorReview" as moderator_review,
       "autoLocationEn" as auto_location_en, "autoLocationLocal" as auto_location_local, "autoLocationLang" as auto_location_lang,
       "bgatlas2008UtmCode" as bgatlas2008_utm_code,
       "observationMethodologyEn" as observation_methodology_en,
@@ -19,7 +20,7 @@ module.exports = {
           latitude, longitude,
           "userId", organization,
           "observationDateTime", species, GREATEST(count, "countMin", "countMax") as count,
-          "monitoringCode", "startDateTime", "endDateTime", confidential,
+          "monitoringCode", "startDateTime", "endDateTime", confidential, "moderatorReview",
           "autoLocationEn", "autoLocationLocal", "autoLocationLang",
           "observationMethodologyEn", "observationMethodologyLocal", "observationMethodologyLang",
           "bgatlas2008UtmCode"
@@ -32,7 +33,7 @@ module.exports = {
           latitude, longitude,
           "userId", organization,
           "observationDateTime", species, count,
-          "monitoringCode", "startDateTime", "endDateTime", confidential,
+          "monitoringCode", "startDateTime", "endDateTime", confidential, "moderatorReview",
           "autoLocationEn", "autoLocationLocal", "autoLocationLang",
           "observationMethodologyEn", "observationMethodologyLocal", "observationMethodologyLang",
           "bgatlas2008UtmCode"
@@ -45,7 +46,7 @@ module.exports = {
           latitude, longitude,
           "userId", organization,
           "observationDateTime", 'Ciconia ciconia' as species, NULL::integer as count,
-          "monitoringCode", "startDateTime", "endDateTime", confidential,
+          "monitoringCode", "startDateTime", "endDateTime", confidential, "moderatorReview",
           "autoLocationEn", "autoLocationLocal", "autoLocationLang",
           "observationMethodologyEn", "observationMethodologyLocal", "observationMethodologyLang",
           "bgatlas2008UtmCode"
