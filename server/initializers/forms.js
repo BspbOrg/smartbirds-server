@@ -332,10 +332,11 @@ function generateExportData (form) {
 }
 
 function generateApiUpdate (fields) {
-  return async function (data, language) {
+  return async function (data, language, role) {
     const modelName = this.constructor.tableName
     await this.constructor.runHooks('beforeApiUpdate', this, data)
     await runFieldHooks(fields, 'beforeApiUpdate', this, data, language)
+    await runFieldHooks(fields, `beforeApiUpdate:${role}`, this, data, language)
 
     _.forEach(fields, (field, name) => {
       if (_.isString(field)) field = { type: field }
@@ -494,6 +495,7 @@ function generateApiUpdate (fields) {
       }
     })
 
+    await runFieldHooks(fields, `afterApiUpdate:${role}`, this, data, language)
     await runFieldHooks(fields, 'afterApiUpdate', this, data, language)
     await this.constructor.runHooks('afterApiUpdate', this, data)
     return this
