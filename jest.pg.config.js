@@ -2,6 +2,7 @@
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
+  clearMocks: true,
   runner: 'jest-runner',
   setupFilesAfterEnv: [
     './__test_utils__/matchers.js'

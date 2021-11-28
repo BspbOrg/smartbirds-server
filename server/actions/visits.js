@@ -4,6 +4,7 @@
 
 const Promise = require('bluebird')
 const { Action, api } = require('actionhero')
+const inputHelpers = require('../helpers/inputs')
 const { upgradeAction } = require('../utils/upgrade')
 
 exports.visitList = upgradeAction('ah17', {
@@ -57,7 +58,7 @@ exports.visitEdit = class VisitEdit extends Action {
     this.description = this.name
     this.middleware = ['auth']
     this.inputs = {
-      year: { required: true },
+      year: { required: true, formatter: inputHelpers.formatter.integer, validator: inputHelpers.validator.greaterOrEqual(1980) },
       early: {},
       late: {}
     }
@@ -73,6 +74,8 @@ exports.visitEdit = class VisitEdit extends Action {
     await model.apiUpdate(api, params)
     await model.save()
     response.data = await model.apiData(api)
+
+    await api.tasks.enqueue('autoVisit', { form: 'formCBM', force: year })
   }
 }
 
@@ -80,7 +83,9 @@ exports.visitView = upgradeAction('ah17', {
   name: 'visit:view',
   description: 'visit:view',
   middleware: ['auth'],
-  inputs: { year: { required: true } },
+  inputs: {
+    year: { required: true, formatter: inputHelpers.formatter.integer, validator: inputHelpers.validator.greaterOrEqual(1980) }
+  },
 
   run: function (api, data, next) {
     Promise
@@ -124,7 +129,9 @@ exports.visitDelete = class VisitDelete extends Action {
     this.name = 'visit:delete'
     this.description = 'visit:delete'
     this.middleware = ['auth']
-    this.inputs = { year: { required: true } }
+    this.inputs = {
+      year: { required: true, formatter: inputHelpers.formatter.integer, validator: inputHelpers.validator.greaterOrEqual(1980) }
+    }
   }
 
   async run ({ connection, params, session }) {
@@ -139,5 +146,7 @@ exports.visitDelete = class VisitDelete extends Action {
     }
     await model.destroy()
     connection.rawConnection.responseHttpCode = 204
+
+    await api.tasks.enqueue('autoVisit', { form: 'formCBM', force: params.year })
   }
 }

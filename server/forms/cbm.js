@@ -140,6 +140,11 @@ exports.fields = {
       model: 'zone'
     }
   },
+  auto_visit: {
+    type: '+int',
+    required: false,
+    uniqueHash: false
+  },
 
   threats: {
     type: 'multi',

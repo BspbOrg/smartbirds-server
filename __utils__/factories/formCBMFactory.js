@@ -18,7 +18,7 @@ async function formCBMFactory (api, {
     ...localFieldFactory('distance'),
     species: species.labelLa || species,
     count,
-    zone,
+    zoneId: zone.id,
     ...otherProps
   }
   if (create) {
