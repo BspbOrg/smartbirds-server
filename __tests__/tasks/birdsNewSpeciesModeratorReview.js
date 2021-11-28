@@ -8,7 +8,7 @@ const formBirdsFactory = require('../../__utils__/factories/formBirdsFactory')
 const speciesFactory = require('../../__utils__/factories/speciesFactory')
 const { getCenter } = require('geolib')
 
-const run = async ({ id, form }) => {
+const run = async ({ id, form } = {}) => {
   await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ id, form })
   await setup.api.tasks.tasks.birdsNewSpeciesModeratorReview.run({ id, form })
 }
@@ -153,6 +153,80 @@ describe('birdsNewSpeciesModeratorReview task', function () {
       await expect(record.reload()).resolves.toEqual(expect.objectContaining({
         moderatorReview: true
       }))
+    })
+
+    it('does not process if already requested review', async () => {
+      const spy = jest.spyOn(setup.api.tasks.tasks.birdsNewSpeciesModeratorReview, 'processRecord')
+      const cell = await bgatlasCellFactory(setup.api)
+      const record = await factory(setup.api, {
+        ...getCenter(cell.coordinates()),
+        moderatorReview: true,
+        pictures: JSON.stringify([{}])
+      })
+
+      expect(spy).toHaveBeenCalledTimes(0)
+
+      await run({ form })
+
+      expect(spy).not.toHaveBeenCalledWith(expect.objectContaining({ id: record.id }), form)
+    })
+
+    it('does not process a record second time', async () => {
+      const spy = jest.spyOn(setup.api.tasks.tasks.birdsNewSpeciesModeratorReview, 'processRecord')
+      const cell = await bgatlasCellFactory(setup.api)
+      const species = await speciesFactory(setup.api, 'birds')
+      await bgatlasSpeciesFactory(setup.api, cell, species)
+      const record = await factory(setup.api, {
+        species,
+        ...getCenter(cell.coordinates()),
+        // moderator review requires pictures
+        pictures: JSON.stringify([{}])
+      })
+
+      expect(spy).toHaveBeenCalledTimes(0)
+
+      await run({ form })
+
+      expect(spy).toHaveBeenCalledWith(expect.objectContaining({ id: record.id }), form)
+      await expect(record.reload()).resolves.toEqual(expect.objectContaining({ moderatorReview: false }))
+      spy.mockClear()
+
+      await run({ form })
+
+      expect(spy).not.toHaveBeenCalledWith(expect.objectContaining({ id: record.id }), form)
+    })
+
+    it('does not process if no cell', async () => {
+      const spy = jest.spyOn(setup.api.tasks.tasks.birdsNewSpeciesModeratorReview, 'processRecord')
+      const record = await factory(setup.api, {
+        pictures: JSON.stringify([{}])
+      })
+
+      expect(spy).toHaveBeenCalledTimes(0)
+
+      await run({ form })
+
+      expect(spy).not.toHaveBeenCalledWith(expect.objectContaining({ id: record.id }), form)
+    })
+
+    it('does process after utm grid', async () => {
+      const spy = jest.spyOn(setup.api.tasks.tasks.birdsNewSpeciesModeratorReview, 'processRecord')
+      const cell = await bgatlasCellFactory(setup.api)
+      const record = await factory(setup.api, {
+        ...getCenter(cell.coordinates()),
+        pictures: JSON.stringify([{}])
+      })
+
+      expect(spy).toHaveBeenCalledTimes(0)
+
+      await setup.api.tasks.tasks.birdsNewSpeciesModeratorReview.run({ form })
+
+      expect(spy).not.toHaveBeenCalledWith(expect.objectContaining({ id: record.id }), form)
+
+      await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form })
+      await setup.api.tasks.tasks.birdsNewSpeciesModeratorReview.run({ form })
+
+      expect(spy).toHaveBeenCalledWith(expect.objectContaining({ id: record.id }), form)
     })
   })
 })
