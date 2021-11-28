@@ -92,6 +92,8 @@ const testPermissions = (action, permission, allowedTest, forbiddenTest) => {
   }
 }
 
+jest.spyOn(setup.api.tasks, 'enqueue')
+
 describe('Action: visits', () => {
   const missingYear = 1982
   let visit
@@ -100,6 +102,20 @@ describe('Action: visits', () => {
     visit = await visitFactory(setup.api)
 
     await setup.api.models.visit.destroy({ where: { year: missingYear } })
+  })
+
+  it.each([
+    { op: 'create', existing: false, action: 'visit:edit' },
+    { op: 'edit', existing: true, action: 'visit:edit' },
+    { op: 'delete', existing: true, action: 'visit:delete' }
+  ])('forces auto visit for $op year', async ({ existing, action, year = existing ? visit.year : missingYear }) => {
+    const periods = generateApiPeriod(year)
+
+    await expect(setup.runActionAsCbm(action, { year, ...periods })).resolves.not.toEqual(expect.objectContaining({
+      error: expect.anything()
+    }))
+
+    expect(setup.api.tasks.enqueue).toHaveBeenCalledWith('autoVisit', { form: 'formCBM', force: year })
   })
 
   testPermissions('visit:list', 'list', async (runAction) => {

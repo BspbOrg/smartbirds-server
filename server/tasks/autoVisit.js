@@ -1,4 +1,5 @@
 const { api } = require('actionhero')
+const { Op } = require('sequelize')
 const FormsTask = require('../classes/FormsTask')
 const moment = require('moment')
 
@@ -18,7 +19,21 @@ module.exports = class AutoVisit extends FormsTask {
   }
 
   filterRecords ({ force }) {
-    return force ? {} : { auto_visit: null }
+    // force all
+    if (force === true) return {}
+    // specific year
+    if (typeof force === 'number') {
+      return {
+        observationDateTime: {
+          [Op.and]: {
+            [Op.gte]: new Date(force, 0),
+            [Op.lt]: new Date(force + 1, 0)
+          }
+        }
+      }
+    }
+    // default to unprocessed
+    return { auto_visit: null }
   }
 
   async processRecord (record, form) {

@@ -17,7 +17,7 @@ module.exports = {
 }
 
 function formatterInteger (param) {
-  const i = parseInt(param)
+  const i = parseInt(param, 10)
   if (('' + i) !== ('' + param)) return
   return i
 }
