@@ -48,7 +48,7 @@ module.exports = class BirdsNewSpeciesBgatlasModerator extends FormsTask {
           bgatlas2008_utm_code: record.bgatlas2008UtmCode,
           species: record.species,
           // only records that are older than trustOldRecords hours
-          observation_date_time: { [Op.lt]: record.observationDateTime - api.config.app.moderator.trustOldRecords * 60 * 60 * 1000 },
+          observation_date_time: { [Op.lt]: Date.now() - api.config.app.moderator.trustOldRecords * 60 * 60 * 1000 },
           moderator_review: false
         }
       })
