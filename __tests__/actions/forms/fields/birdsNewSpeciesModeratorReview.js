@@ -18,14 +18,14 @@ describe('birdsNewSpeciesModeratorReview', () => {
       {
         role: 'user',
         runAction: (action, params, user) => setup.runActionAs(action, params, user),
-        moderatorReview: true
+        newSpeciesModeratorReview: true
       },
       {
         role: 'moderator',
         runAction: (action, params) => setup.runActionAsAdmin(action, params),
-        moderatorReview: false
+        newSpeciesModeratorReview: false
       }
-    ])('when $role', ({ runAction, moderatorReview }) => {
+    ])('when $role', ({ runAction, newSpeciesModeratorReview }) => {
       describe.each([
         {
           field: 'species',
@@ -42,31 +42,34 @@ describe('birdsNewSpeciesModeratorReview', () => {
           const species = await speciesFactory(setup.api, 'birds')
           await bgatlasSpeciesFactory(setup.api, cell, species)
 
-          const model = await formFactory(setup.api, {
+          const { id } = await formFactory(setup.api, {
             species: species,
             user: user.email,
-            ...getCenter(cell.coordinates()),
-            pictures: JSON.stringify([{}])
+            ...getCenter(cell.coordinates())
           })
 
           await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form })
           await setup.api.tasks.tasks.birdsNewSpeciesModeratorReview.run({ form })
 
-          await expect(model.reload()).resolves.toEqual(expect.objectContaining({
-            // should not have resulted in moderator review
-            moderatorReview: false
+          await expect(runAction(`${form}:view`, { id }, user.email)).resolves.toEqual(expect.objectContaining({
+            data: expect.objectContaining({
+              // should not have resulted in moderator review
+              newSpeciesModeratorReview: false
+            })
           }))
 
           await expect(runAction(`${form}:edit`, {
-            id: model.id,
+            id,
             ...await update()
-          }, user.email)).resolves.toEqual(expect.objectContaining({ data: expect.objectContaining({ id: model.id }) }))
+          }, user.email)).resolves.toEqual(expect.objectContaining({ data: expect.objectContaining({ id }) }))
           await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form })
           await setup.api.tasks.tasks.birdsNewSpeciesModeratorReview.run({ form })
 
-          await expect(model.reload()).resolves.toEqual(expect.objectContaining({
-            // check based on params
-            moderatorReview
+          await expect(runAction(`${form}:view`, { id }, user.email)).resolves.toEqual(expect.objectContaining({
+            data: expect.objectContaining({
+              // check based on params
+              newSpeciesModeratorReview
+            })
           }))
         })
       })

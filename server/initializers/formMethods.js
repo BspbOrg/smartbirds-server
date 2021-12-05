@@ -1,8 +1,11 @@
 const _ = require('lodash')
+const api = require('actionhero')
 const moment = require('moment')
 const { upgradeInitializer } = require('../utils/upgrade')
 const { Op } = require('sequelize')
 const { getBoundsOfDistance } = require('geolib')
+
+const safeLike = () => api.sequelize.sequelize.options.dialect === 'postgres' ? Op.iLike : Op.like
 
 function generatePrepareQuery (form) {
   const prepareQuery = form.filterList
@@ -30,22 +33,20 @@ function generatePrepareQuery (form) {
     if (params.from_date) {
       query.where = query.where || {}
       query.where.observationDateTime = _.extend(query.where.observationDateTime || {}, {
-        $gte: moment(params.from_date).toDate()
+        [Op.gte]: moment(params.from_date).toDate()
       })
     }
     if (params.to_date) {
       query.where = query.where || {}
       query.where.observationDateTime = _.extend(query.where.observationDateTime || {}, {
-        $lte: moment(params.to_date).toDate()
+        [Op.lte]: moment(params.to_date).toDate()
       })
     }
 
     // filter by location
     if (params.location) {
       query.where = _.extend(query.where || {}, {
-        location: api.sequelize.sequelize.options.dialect === 'postgres'
-          ? { $ilike: params.location }
-          : params.location
+        location: { [safeLike()]: params.location }
       })
     }
 
@@ -61,12 +62,10 @@ function generatePrepareQuery (form) {
               : {
                   [Op.or]: {
                     autoLocationEn: {
-                      [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
-                    `${params.auto_location}%`
+                      [safeLike()]: `${params.auto_location}%`
                     },
                     autoLocationLocal: {
-                      [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
-                    `${params.auto_location}%`
+                      [safeLike()]: `${params.auto_location}%`
                     }
                   }
                 }
@@ -114,10 +113,10 @@ function generatePrepareQuery (form) {
     // filter by threat
     if (form.hasThreats && params.threat) {
       query.where = _.extend(query.where || {}, {
-        $and: [
-          { threatsEn: { $not: null } },
-          { threatsEn: { $not: '' } },
-          { threatsEn: { $like: '%' + params.threat + '%' } }
+        [Op.and]: [
+          { threatsEn: { [Op.not]: null } },
+          { threatsEn: { [Op.not]: '' } },
+          { threatsEn: { [safeLike()]: '%' + params.threat + '%' } }
         ]
       })
     }
@@ -126,7 +125,15 @@ function generatePrepareQuery (form) {
     if (params.moderatorReview != null) {
       query.where = {
         ...query.where,
-        moderatorReview: params.moderatorReview
+        ...(form.fields.newSpeciesModeratorReview
+          ? {
+              [params.moderatorReview ? Op.or : Op.and]: {
+                moderatorReview: params.moderatorReview,
+                newSpeciesModeratorReview: params.moderatorReview
+              }
+            }
+          : { moderatorReview: params.moderatorReview }
+        )
       }
     }
 
@@ -138,7 +145,7 @@ function generatePrepareQuery (form) {
     // selection filter
     if (params.selection && params.selection.length > 0) {
       query.where = query.where || {}
-      query.where.id = { $in: params.selection }
+      query.where.id = { [Op.in]: params.selection }
     }
 
     // secure access
@@ -146,14 +153,14 @@ function generatePrepareQuery (form) {
       query.where = query.where || {}
       query.include = query.include || []
 
-      query.where.confidential = { $or: [null, false] }
+      query.where.confidential = { [Op.or]: [null, false] }
 
       query.include.push(form.model.associations.user)
       query.where['$user.privacy$'] = 'public'
 
       if (form.model.associations.speciesInfo) {
         query.include.push(form.model.associations.speciesInfo)
-        query.where['$speciesInfo.sensitive$'] = { $or: [false, null] }
+        query.where['$speciesInfo.sensitive$'] = { [Op.or]: [false, null] }
       }
 
       if (params.user) {

@@ -18,43 +18,24 @@ describe('birdsNewSpeciesModeratorReview task', function () {
     { form: 'formCBM', factory: formCBMFactory },
     { form: 'formBirds', factory: formBirdsFactory }
   ])('form $form', ({ factory, form }) => {
-    it.each([false, true])('does not change moderator review when species in bgatlas', async (moderatorReview) => {
+    it.each([false, true])('does not change moderator review when species in bgatlas', async (newSpeciesModeratorReview) => {
       const cell = await bgatlasCellFactory(setup.api)
       const species = await speciesFactory(setup.api, 'birds')
       await bgatlasSpeciesFactory(setup.api, cell, species)
       const record = await factory(setup.api, {
         species,
         ...getCenter(cell.coordinates()),
-        moderatorReview,
-        // moderator review requires pictures
-        pictures: JSON.stringify([{}])
+        newSpeciesModeratorReview
       })
 
       await run({ form })
 
       await expect(record.reload()).resolves.toEqual(expect.objectContaining({
-        moderatorReview
+        newSpeciesModeratorReview
       }))
     })
 
     it('sets moderator review when species not in bgatlas', async () => {
-      const cell = await bgatlasCellFactory(setup.api)
-      const species = await speciesFactory(setup.api, 'birds')
-      const record = await factory(setup.api, {
-        species,
-        ...getCenter(cell.coordinates()),
-        // moderator review requires pictures
-        pictures: JSON.stringify([{}])
-      })
-
-      await run({ form, id: record.id })
-
-      await expect(record.reload()).resolves.toEqual(expect.objectContaining({
-        moderatorReview: true
-      }))
-    })
-
-    it('does not set moderator review when species not in bgatlas but no pictures', async () => {
       const cell = await bgatlasCellFactory(setup.api)
       const species = await speciesFactory(setup.api, 'birds')
       const record = await factory(setup.api, {
@@ -65,11 +46,26 @@ describe('birdsNewSpeciesModeratorReview task', function () {
       await run({ form, id: record.id })
 
       await expect(record.reload()).resolves.toEqual(expect.objectContaining({
-        moderatorReview: false
+        newSpeciesModeratorReview: true
       }))
     })
 
-    it.each([false, true])('does not change moderator review when species not in bgatlas but already observed', async (moderatorReview) => {
+    it('sets moderator review when species not in bgatlas and no pictures', async () => {
+      const cell = await bgatlasCellFactory(setup.api)
+      const species = await speciesFactory(setup.api, 'birds')
+      const record = await factory(setup.api, {
+        species,
+        ...getCenter(cell.coordinates())
+      })
+
+      await run({ form, id: record.id })
+
+      await expect(record.reload()).resolves.toEqual(expect.objectContaining({
+        newSpeciesModeratorReview: true
+      }))
+    })
+
+    it.each([false, true])('does not change moderator review when species not in bgatlas but already observed', async (newSpeciesModeratorReview) => {
       // trust all previous records
       setup.api.config.app.moderator.trustOldRecords = 0
       const cell = await bgatlasCellFactory(setup.api)
@@ -78,34 +74,30 @@ describe('birdsNewSpeciesModeratorReview task', function () {
       const record = await factory(setup.api, {
         species,
         ...getCenter(cell.coordinates()),
-        moderatorReview,
-        // moderator review requires pictures
-        pictures: JSON.stringify([{}])
+        newSpeciesModeratorReview
       })
 
       await run({ form })
 
       await expect(record.reload()).resolves.toEqual(expect.objectContaining({
-        moderatorReview
+        newSpeciesModeratorReview
       }))
     })
 
-    it('sets moderator review when species not in bgatlas and observed in different cell', async () => {
+    it('sets moderator review when species not in bgatlas but observed in different cell', async () => {
       const cell = await bgatlasCellFactory(setup.api)
       const cell2 = await bgatlasCellFactory(setup.api)
       const species = await speciesFactory(setup.api, 'birds')
       await factory(setup.api, { species, ...getCenter(cell2.coordinates()) })
       const record = await factory(setup.api, {
         species,
-        ...getCenter(cell.coordinates()),
-        // moderator review requires pictures
-        pictures: JSON.stringify([{}])
+        ...getCenter(cell.coordinates())
       })
 
       await run({ form })
 
       await expect(record.reload()).resolves.toEqual(expect.objectContaining({
-        moderatorReview: true
+        newSpeciesModeratorReview: true
       }))
     })
 
@@ -117,18 +109,37 @@ describe('birdsNewSpeciesModeratorReview task', function () {
       await factory(setup.api, { species, ...getCenter(cell.coordinates()) })
       const record = await factory(setup.api, {
         species,
-        ...getCenter(cell.coordinates()),
-        // moderator review requires pictures
-        pictures: JSON.stringify([{}])
+        ...getCenter(cell.coordinates())
       })
 
       await run({ form })
 
       await expect(record.reload()).resolves.toEqual(expect.objectContaining({
-        moderatorReview: true
+        newSpeciesModeratorReview: true
       }))
     })
 
+    it('sets moderator review when species not in bgatlas and observed is pending auto moderator review', async () => {
+      // trust all previous records
+      setup.api.config.app.moderator.trustOldRecords = 0
+      const cell = await bgatlasCellFactory(setup.api)
+      const species = await speciesFactory(setup.api, 'birds')
+      await factory(setup.api, {
+        species,
+        ...getCenter(cell.coordinates()),
+        newSpeciesModeratorReview: true
+      })
+      const record = await factory(setup.api, {
+        species,
+        ...getCenter(cell.coordinates())
+      })
+
+      await run({ form })
+
+      await expect(record.reload()).resolves.toEqual(expect.objectContaining({
+        newSpeciesModeratorReview: true
+      }))
+    })
     it('sets moderator review when species not in bgatlas and observed is pending moderator review', async () => {
       // trust all previous records
       setup.api.config.app.moderator.trustOldRecords = 0
@@ -138,24 +149,21 @@ describe('birdsNewSpeciesModeratorReview task', function () {
         species,
         ...getCenter(cell.coordinates()),
         moderatorReview: true,
-        // moderator review requires pictures
         pictures: JSON.stringify([{}])
       })
       const record = await factory(setup.api, {
         species,
-        ...getCenter(cell.coordinates()),
-        // moderator review requires pictures
-        pictures: JSON.stringify([{}])
+        ...getCenter(cell.coordinates())
       })
 
       await run({ form })
 
       await expect(record.reload()).resolves.toEqual(expect.objectContaining({
-        moderatorReview: true
+        newSpeciesModeratorReview: true
       }))
     })
 
-    it('does not process if already requested review', async () => {
+    it('processes even if already requested review', async () => {
       const spy = jest.spyOn(setup.api.tasks.tasks.birdsNewSpeciesModeratorReview, 'processRecord')
       const cell = await bgatlasCellFactory(setup.api)
       const record = await factory(setup.api, {
@@ -168,7 +176,7 @@ describe('birdsNewSpeciesModeratorReview task', function () {
 
       await run({ form })
 
-      expect(spy).not.toHaveBeenCalledWith(expect.objectContaining({ id: record.id }), form)
+      expect(spy).toHaveBeenCalledWith(expect.objectContaining({ id: record.id }), form)
     })
 
     it('does not process a record second time', async () => {
@@ -178,9 +186,7 @@ describe('birdsNewSpeciesModeratorReview task', function () {
       await bgatlasSpeciesFactory(setup.api, cell, species)
       const record = await factory(setup.api, {
         species,
-        ...getCenter(cell.coordinates()),
-        // moderator review requires pictures
-        pictures: JSON.stringify([{}])
+        ...getCenter(cell.coordinates())
       })
 
       expect(spy).toHaveBeenCalledTimes(0)
@@ -198,9 +204,7 @@ describe('birdsNewSpeciesModeratorReview task', function () {
 
     it('does not process if no cell', async () => {
       const spy = jest.spyOn(setup.api.tasks.tasks.birdsNewSpeciesModeratorReview, 'processRecord')
-      const record = await factory(setup.api, {
-        pictures: JSON.stringify([{}])
-      })
+      const record = await factory(setup.api, {})
 
       expect(spy).toHaveBeenCalledTimes(0)
 
@@ -213,8 +217,7 @@ describe('birdsNewSpeciesModeratorReview task', function () {
       const spy = jest.spyOn(setup.api.tasks.tasks.birdsNewSpeciesModeratorReview, 'processRecord')
       const cell = await bgatlasCellFactory(setup.api)
       const record = await factory(setup.api, {
-        ...getCenter(cell.coordinates()),
-        pictures: JSON.stringify([{}])
+        ...getCenter(cell.coordinates())
       })
 
       expect(spy).toHaveBeenCalledTimes(0)
