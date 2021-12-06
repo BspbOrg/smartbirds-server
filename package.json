@@ -57,7 +57,7 @@
     "csv-parse": "~4.16.3",
     "csv-stringify": "^5.6.5",
     "date-fns": "^2.27.0",
-    "debug": "^4.3.2",
+    "debug": "^4.3.3",
     "ejs": "^3.1.6",
     "email-templates": "^8.0.8",
     "form-data": "^4.0.0",
