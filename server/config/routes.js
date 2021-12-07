@@ -140,6 +140,8 @@ exports.default = {
 
         { path: '/tasks/auto-location', action: 'tasks:enqueue:autoLocation' },
         { path: '/tasks/bgatlas2008', action: 'tasks:enqueue:bgatlas2008' },
+        { path: '/tasks/auto-visit', action: 'tasks:enqueue:autoVisit' },
+        { path: '/tasks/birds-new-species-moderator-review', action: 'tasks:enqueue:birdsNewSpeciesModeratorReview' },
 
         { path: '/bgatlas/user/selected', action: 'bgatlas2008_set_user_selection' }
       ],

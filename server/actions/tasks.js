@@ -16,10 +16,15 @@ class BaseAction extends Action {
     throw new Error('must implement enqueue!')
   }
 
+  availableForms () {
+    return Object.entries(api.forms).filter(([k, f]) => f.$isForm).map(([k]) => k)
+  }
+
   async run ({ params: { form, id, limit, force }, response }) {
     if (form) {
       if (typeof form !== 'string') throw new Error('form must be string')
-      if (!api.forms[form] || !api.forms[form].$isForm) throw new Error(`Unknown form ${form}. Available ${Object.keys(api.forms.filter(f => f.$isForm)).join(', ')}`)
+      if (!api.forms[form] || !api.forms[form].$isForm) throw new Error(`Unknown form ${form}. Available ${this.availableForms().join(', ')}`)
+      if (!this.availableForms().includes(form)) throw new Error(`Form ${form} is not supported. Available ${this.availableForms().join(', ')}`)
     }
     if (id) {
       if (typeof id !== 'number') throw new Error('id must be number')
@@ -52,10 +57,44 @@ module.exports.bgAtlas2008 = class EnqueueBgAtlas2008 extends BaseAction {
     this.description = 'Trigger bg atlas 2008 utm code'
   }
 
+  availableForms () {
+    return super.availableForms().filter(k => api.forms[k].hasBgAtlas2008)
+  }
+
   async enqueue ({ form, id, limit, force }) {
-    if (form) {
-      if (!api.forms[form].hasBgAtlas2008) throw new Error(`Form ${form} is not part of bg atlas 2008. Available ${Object.keys(api.forms.filter(f => f.hasBgAtlas2008)).join(', ')}`)
-    }
     return await api.tasks.enqueue('forms_fill_bgatlas2008_utmcode', { form, id, limit, force })
+  }
+}
+
+module.exports.autoVisit = class EnqueueAutoVisit extends BaseAction {
+  constructor () {
+    super()
+    this.name = 'tasks:enqueue:autoVisit'
+    this.description = 'Trigger automatic CBM visit number'
+  }
+
+  availableForms () {
+    return api.tasks.tasks.autoVisit.getForms()
+  }
+
+  async enqueue ({ form, id, limit, force }) {
+    return await api.tasks.enqueue('autoVisit', { form, id, limit, force })
+  }
+}
+
+module.exports.birdsNewSpeciesModeratorReview = class EnqueueAutoVisit extends BaseAction {
+  constructor () {
+    super()
+    this.name = 'tasks:enqueue:birdsNewSpeciesModeratorReview'
+    this.description = 'Trigger birdsNewSpeciesModeratorReview'
+  }
+
+  availableForms () {
+    return api.tasks.tasks.birdsNewSpeciesModeratorReview.getForms()
+  }
+
+  async enqueue ({ form, id, limit, force }) {
+    await api.tasks.enqueue('forms_fill_bgatlas2008_utmcode', { form, id, limit, force })
+    return await api.tasks.enqueue('birdsNewSpeciesModeratorReview', { form, id, limit, force })
   }
 }
