@@ -8,9 +8,7 @@ module.exports = {
       'afterApiUpdate:user' (model) {
         if (model.changed('latitude') ||
           model.changed('longitude') ||
-          model.changed('pictures') ||
-          model.changed('species') ||
-          model.changed('moderatorReview')) {
+          model.changed('species')) {
           model.newSpeciesModeratorReview = null
         }
       },
