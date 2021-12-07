@@ -45,12 +45,14 @@ function generateEditAction (form) {
   return async function (api, data, next) {
     try {
       const record = await form.retrieveRecord(api, data, { context: 'edit' })
-
+      let role = 'user'
       if (!api.forms.userCanManage(data.session.user, form.modelName)) {
         data.params.user = data.session.userId
+      } else {
+        role = 'moderator'
       }
 
-      await record.apiUpdate(data.params, data.session.user.language)
+      await record.apiUpdate(data.params, data.session.user.language, role)
       await record.save()
       data.response.data = await record.apiData(api)
       next()

@@ -5,7 +5,12 @@ module.exports = {
       length: 4,
       required: false,
       public: false,
-      uniqueHash: false
+      uniqueHash: false,
+      afterApiUpdate (model) {
+        if (model.changed('latitude') || model.changed('longitude') || model.changed('observationDateTime')) {
+          model.bgatlas2008UtmCode = null
+        }
+      }
     }
   }
 }

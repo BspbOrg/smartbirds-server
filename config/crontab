@@ -5,5 +5,6 @@
 * * * * * $INSTALL_PATH/scripts/run_task autoLocation >/dev/null
 * * * * * $INSTALL_PATH/scripts/run_task autoVisit >/dev/null
 * * * * * $INSTALL_PATH/scripts/run_task forms_fill_bgatlas2008_utmcode >/dev/null
+* * * * * $INSTALL_PATH/scripts/run_task birdsNewSpeciesModeratorReview >/dev/null
 30 1 * * * $INSTALL_PATH/scripts/run_task bgatlas2008_refresh >/dev/null
 45 3 * * * $INSTALL_PATH/scripts/run_task AtlasBspbStats >/dev/null

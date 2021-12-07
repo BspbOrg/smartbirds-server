@@ -126,7 +126,15 @@ function generatePrepareQuery (form) {
     if (params.moderatorReview != null) {
       query.where = {
         ...query.where,
-        moderatorReview: params.moderatorReview
+        ...(form.fields.newSpeciesModeratorReview
+          ? {
+              [params.moderatorReview ? Op.or : Op.and]: {
+                moderatorReview: params.moderatorReview,
+                newSpeciesModeratorReview: params.moderatorReview
+              }
+            }
+          : { moderatorReview: params.moderatorReview }
+        )
       }
     }
 
