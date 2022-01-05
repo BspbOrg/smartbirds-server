@@ -22,9 +22,6 @@ RUN chgrp -R node-app /app && \
 #### Stage BUILD #######################################################################################################
 FROM base AS build
 
-# disable husky in container
-ENV HUSKY=0
-
 # allow npm to create node_modules directory
 RUN chmod g+w /app
 
@@ -54,6 +51,8 @@ RUN chown -R root:node-app /app && \
 USER node-app
 
 EXPOSE 5000
+
+VOLUME /app/uploads/files /app/public
 
 ENTRYPOINT ["npm"]
 CMD ["start"]
