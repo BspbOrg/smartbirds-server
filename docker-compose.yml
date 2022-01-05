@@ -1,7 +1,5 @@
 web:
   build: .
-  volumes:
-    - .:/usr/src/app
   links:
     - db
     - redis
@@ -13,6 +11,11 @@ web:
     REDIS_HOST: redis
     REDIS_PORT: 6379
     REDIS_DB: 0
+  volumes:
+    - ./uploads/files:/app/uploads/files
+    - ./uploads/tmp:/app/uploads/tmp
+    - ./public:/app/public
+    - ./log:/app/log
 
 db:
   image: postgres:9.4

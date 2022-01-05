@@ -1,0 +1,8 @@
+.github
+.husky
+__*__
+Dockerfile
+jest*
+node_modules
+scripts
+test
