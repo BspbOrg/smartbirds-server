@@ -8,7 +8,7 @@
     "node": "16"
   },
   "devDependencies": {
-    "@commitlint/cli": "^15.0.0",
+    "@commitlint/cli": "^16.0.1",
     "@commitlint/config-conventional": "^15.0.0",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
@@ -26,7 +26,7 @@
   "scripts": {
     "commit": "git-cz",
     "help": "npm run ah -- help",
-    "start": "npm run ah -- start cluster",
+    "start": "npm run ah -- start",
     "ah": "/usr/bin/env PROJECT_ROOT=`pwd`/server node --max_old_space_size=2048 node_modules/.bin/actionhero",
     "sq": "sequelize",
     "jest": "NODE_ENV=test PROJECT_ROOT=`pwd`/server jest",
