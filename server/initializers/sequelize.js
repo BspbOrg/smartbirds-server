@@ -161,6 +161,8 @@ module.exports = upgradeInitializer('ah17', {
 
       autoMigrate: async function (next) {
         try {
+          // remove views
+          await views.down(...migrationParams)
           try {
             // auto migrate is true by default
             if (api.config.sequelize.autoMigrate != null && !api.config.sequelize.autoMigrate) return
@@ -175,8 +177,6 @@ module.exports = upgradeInitializer('ah17', {
               return
             }
 
-            // remove views
-            await views.down(...migrationParams)
             // apply migrations
             await umzug.up()
           } finally {
