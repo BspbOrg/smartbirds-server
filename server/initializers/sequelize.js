@@ -161,25 +161,28 @@ module.exports = upgradeInitializer('ah17', {
 
       autoMigrate: async function (next) {
         try {
-          // auto migrate is true by default
-          if (api.config.sequelize.autoMigrate != null && !api.config.sequelize.autoMigrate) return
+          try {
+            // auto migrate is true by default
+            if (api.config.sequelize.autoMigrate != null && !api.config.sequelize.autoMigrate) return
 
-          // check and migrate old schema
-          await checkMetaOldSchema(api)
+            // check and migrate old schema
+            await checkMetaOldSchema(api)
 
-          // check if migrations are pending
-          const pending = await umzug.pending()
-          if (!pending || !pending.length) {
-            api.log('All migrations applied', 'info')
-            return
+            // check if migrations are pending
+            const pending = await umzug.pending()
+            if (!pending || !pending.length) {
+              api.log('All migrations applied', 'info')
+              return
+            }
+
+            // remove views
+            await views.down(...migrationParams)
+            // apply migrations
+            await umzug.up()
+          } finally {
+            // always recreate views to be up-to-date
+            await views.up(...migrationParams)
           }
-
-          // remove views
-          await views.down(...migrationParams)
-          // apply migrations
-          await umzug.up()
-          // create views
-          await views.up(...migrationParams)
         } catch (err) {
           const n = next
           // prevent finally from calling next again
