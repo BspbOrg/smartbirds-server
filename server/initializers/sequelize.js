@@ -161,28 +161,12 @@ module.exports = upgradeInitializer('ah17', {
 
       autoMigrate: async function (next) {
         try {
-          // remove views
-          await views.down(...migrationParams)
-          try {
-            // auto migrate is true by default
-            if (api.config.sequelize.autoMigrate != null && !api.config.sequelize.autoMigrate) return
+          // auto migrate is true by default
+          if (api.config.sequelize.autoMigrate != null && !api.config.sequelize.autoMigrate) return
 
-            // check and migrate old schema
-            await checkMetaOldSchema(api)
-
-            // check if migrations are pending
-            const pending = await umzug.pending()
-            if (!pending || !pending.length) {
-              api.log('All migrations applied', 'info')
-              return
-            }
-
-            // apply migrations
-            await umzug.up()
-          } finally {
-            // always recreate views to be up-to-date
-            await views.up(...migrationParams)
-          }
+          // check and migrate old schema
+          await checkMetaOldSchema(api)
+          await this.migrate()
         } catch (err) {
           const n = next
           // prevent finally from calling next again
@@ -190,6 +174,28 @@ module.exports = upgradeInitializer('ah17', {
           n(err)
         } finally {
           next()
+        }
+      },
+
+      migrate: async function ({ forceViewsRecreate = false } = {}) {
+        // check if migrations are pending
+        const pending = await umzug.pending()
+
+        if (forceViewsRecreate || pending?.length) {
+          // remove views
+          await views.down(...migrationParams)
+        }
+        if (pending?.length) {
+          // apply migrations
+          await umzug.up()
+          api.log(`Applied ${pending.length} migrations`, 'info')
+        } else {
+          api.log('All migrations applied', 'info')
+        }
+
+        if (forceViewsRecreate || pending?.length) {
+          // create views if removed
+          await views.up(...migrationParams)
         }
       },
 
@@ -213,6 +219,7 @@ module.exports = upgradeInitializer('ah17', {
 
   startPriority: 101, // aligned with actionhero's redis initializer
   start: function (api, next) {
+    api.log('Starting sequelize...', 'info')
     Promise.resolve()
       .then(() => {
         if (!api.config.sequelize.testing) return

@@ -56,7 +56,7 @@ exports.staging = {
 exports.production = {
   sequelize: function (api) {
     return parseDatabaseUrl(process.env.DATABASE_URL, {
-      autoMigrate: true,
+      autoMigrate: !process.env.DISABLE_AUTO_MIGRATE,
       loadFixtures: false
     })
   }
