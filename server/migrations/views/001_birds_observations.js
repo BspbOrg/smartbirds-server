@@ -13,7 +13,8 @@ module.exports = {
       "bgatlas2008UtmCode" as bgatlas2008_utm_code,
       "observationMethodologyEn" as observation_methodology_en,
       "observationMethodologyLocal" as observation_methodology_local,
-      "observationMethodologyLang" as observation_methodology_lang
+      "observationMethodologyLang" as observation_methodology_lang,
+      nesting
     FROM
       (
         SELECT
@@ -24,7 +25,13 @@ module.exports = {
           "monitoringCode", "startDateTime", "endDateTime", confidential, "moderatorReview", "newSpeciesModeratorReview",
           "autoLocationEn", "autoLocationLocal", "autoLocationLang",
           "observationMethodologyEn", "observationMethodologyLocal", "observationMethodologyLang",
-          "bgatlas2008UtmCode"
+          "bgatlas2008UtmCode",
+          COALESCE(
+               (date_part('month', "startDateTime") in (4, 5, 6) or (date_part('month', "startDateTime") = 7 and date_part('day', "startDateTime") <= 15))
+            OR ("speciesStatusEn" >= '1' AND "speciesStatusEn" <= '99')
+            OR ("countUnitEn" in ('Nest', 'Family / individuals (ad. + juv.)', 'Singing male'))
+            OR ("typeNestingEn" in ('Nests', 'Colonies')),
+          FALSE) as nesting
         FROM "FormBirds"
 
         UNION ALL
@@ -37,7 +44,8 @@ module.exports = {
           "monitoringCode", "startDateTime", "endDateTime", confidential, "moderatorReview", "newSpeciesModeratorReview",
           "autoLocationEn", "autoLocationLocal", "autoLocationLang",
           "observationMethodologyEn", "observationMethodologyLocal", "observationMethodologyLang",
-          "bgatlas2008UtmCode"
+          "bgatlas2008UtmCode",
+          TRUE as nesting
         FROM "FormCBM"
 
         UNION ALL
@@ -50,7 +58,8 @@ module.exports = {
           "monitoringCode", "startDateTime", "endDateTime", confidential, "moderatorReview", "newSpeciesModeratorReview",
           "autoLocationEn", "autoLocationLocal", "autoLocationLang",
           "observationMethodologyEn", "observationMethodologyLocal", "observationMethodologyLang",
-          "bgatlas2008UtmCode"
+          "bgatlas2008UtmCode",
+          TRUE as nesting
         FROM "FormCiconia"
       ) birds_observations
   `,

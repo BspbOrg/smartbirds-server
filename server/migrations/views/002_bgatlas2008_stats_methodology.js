@@ -14,6 +14,8 @@ module.exports = {
       FROM birds_observations
       WHERE bgatlas2008_utm_code IS NOT NULL
         AND bgatlas2008_utm_code != ''
+        AND nesting
+        AND observation_date_time >= '2016-01-01'
     ) as t
     GROUP BY
       utm_code,
