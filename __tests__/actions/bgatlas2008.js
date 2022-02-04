@@ -10,6 +10,10 @@ const formBirdsFactory = require('../../__utils__/factories/formBirdsFactory')
 const speciesFactory = require('../../__utils__/factories/speciesFactory')
 const userFactory = require('../../__utils__/factories/userFactory')
 
+const nestingParams = {
+  startDateTime: new Date(2020, 6, 1)
+}
+
 describe('Action: bgatlas2008_cell_info', () => {
   const action = 'bgatlas2008_cell_info'
   let cell
@@ -38,6 +42,7 @@ describe('Action: bgatlas2008_cell_info', () => {
     const species = await speciesFactory(setup.api)
     const observation = await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       species
     })
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
@@ -63,6 +68,7 @@ describe('Action: bgatlas2008_cell_info', () => {
     await bgatlas2008SpeciesFactory(setup.api, cell, species)
     const observation = await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       species
     })
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
@@ -87,6 +93,7 @@ describe('Action: bgatlas2008_cell_info', () => {
     const species = await speciesFactory(setup.api)
     const observation = await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       species
     })
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
@@ -107,6 +114,7 @@ describe('Action: bgatlas2008_cell_info', () => {
     await bgatlas2008SpeciesFactory(setup.api, cell, species)
     const observation = await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       species
     })
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
@@ -144,6 +152,7 @@ describe('Action: bgatlas2008_cell_info', () => {
     const species = await speciesFactory(setup.api)
     const observation = await formBirdsFactory(setup.api, {
       ...getCenter(cell2.coordinates()),
+      ...nestingParams,
       species
     })
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
@@ -211,6 +220,7 @@ describe('Action: bgatlas2008_cell_stats', () => {
     const user = await userFactory(setup.api)
     const observation = await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       user: user.email
     })
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
@@ -242,11 +252,13 @@ describe('Action: bgatlas2008_cell_stats', () => {
     const user2 = await userFactory(setup.api)
     await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       species,
       user: user1.email
     })
     await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       species,
       user: user2.email
     })
@@ -285,6 +297,7 @@ describe('Action: bgatlas2008_cell_stats', () => {
     const user = await userFactory(setup.api)
     const observation = await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       species,
       user: user.email
     })
@@ -316,6 +329,7 @@ describe('Action: bgatlas2008_cell_stats', () => {
     const user = await userFactory(setup.api)
     const observation = await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       user: user.email
     })
     await bgatlas2008SpeciesFactory(setup.api, cell)
@@ -347,10 +361,12 @@ describe('Action: bgatlas2008_cell_stats', () => {
     const user2 = await userFactory(setup.api)
     await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       user: user1.email
     })
     await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       user: user2.email
     })
     await bgatlas2008SpeciesFactory(setup.api, cell)
@@ -388,6 +404,7 @@ describe('Action: bgatlas2008_cell_stats', () => {
     for (let i = 0; i < 4; i++) {
       await formBirdsFactory(setup.api, {
         ...getCenter(cell.coordinates()),
+        ...nestingParams,
         user: (await userFactory(setup.api)).email
       })
     }
@@ -402,7 +419,8 @@ describe('Action: bgatlas2008_cell_stats', () => {
   it('observation in a different cell', async () => {
     const cell2 = await bgatlas2008CellsFactory(setup.api)
     await formBirdsFactory(setup.api, {
-      ...getCenter(cell2.coordinates())
+      ...getCenter(cell2.coordinates()),
+      ...nestingParams
     })
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds' })
     await setup.api.tasks.tasks.bgatlas2008_refresh.run()
@@ -419,6 +437,7 @@ describe('Action: bgatlas2008_cell_stats', () => {
     const user = await userFactory(setup.api, { privacy: 'private' })
     const observation = await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       user: user.email
     })
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
@@ -474,10 +493,12 @@ describe('Action: bgatlas2008_mod_cell_methodology_stats', () => {
   it('cell with observation without methodology', async () => {
     await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       observationMethodologyEn: null
     })
     await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       observationMethodologyEn: ''
     })
 
@@ -493,14 +514,17 @@ describe('Action: bgatlas2008_mod_cell_methodology_stats', () => {
   it('cell with different methodologies', async () => {
     await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       observationMethodologyEn: 'meth1'
     })
     await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       observationMethodologyEn: 'meth2'
     })
     await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       observationMethodologyEn: 'meth2'
     })
 
@@ -518,11 +542,13 @@ describe('Action: bgatlas2008_mod_cell_methodology_stats', () => {
 
   it('returns only from the selected cell', async () => {
     await formBirdsFactory(setup.api, {
-      ...getCenter(cell.coordinates())
+      ...getCenter(cell.coordinates()),
+      ...nestingParams
     })
     const cell2 = await bgatlas2008CellsFactory(setup.api)
     await formBirdsFactory(setup.api, {
-      ...getCenter(cell2.coordinates())
+      ...getCenter(cell2.coordinates()),
+      ...nestingParams
     })
 
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds' })
@@ -592,6 +618,7 @@ describe('Action: bgatlas2008_mod_cell_user_stats', () => {
     const user = await userFactory(setup.api)
     const observation = await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       user: user.email
     })
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
@@ -622,11 +649,13 @@ describe('Action: bgatlas2008_mod_cell_user_stats', () => {
     const user = await userFactory(setup.api)
     await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       species,
       user: user.email
     })
     await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       species,
       user: user.email
     })
@@ -658,6 +687,7 @@ describe('Action: bgatlas2008_mod_cell_user_stats', () => {
       users.push(user)
       await formBirdsFactory(setup.api, {
         ...getCenter(cell.coordinates()),
+        ...nestingParams,
         user: user.email
       })
     }
@@ -682,6 +712,7 @@ describe('Action: bgatlas2008_mod_cell_user_stats', () => {
     const user = await userFactory(setup.api, { privacy: 'private' })
     const observation = await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       user: user.email
     })
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
@@ -857,7 +888,8 @@ describe('Action: bgatlas2008_cells_list', () => {
     beforeAll(async () => {
       cell = await bgatlas2008CellsFactory(setup.api)
       observation = await formBirdsFactory(setup.api, {
-        ...getCenter(cell.coordinates())
+        ...getCenter(cell.coordinates()),
+        ...nestingParams
       })
 
       await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
@@ -920,7 +952,8 @@ describe('Action: bgatlas2008_cells_list', () => {
       cell = await bgatlas2008CellsFactory(setup.api)
       await bgatlas2008SpeciesFactory(setup.api, cell)
       observation = await formBirdsFactory(setup.api, {
-        ...getCenter(cell.coordinates())
+        ...getCenter(cell.coordinates()),
+        ...nestingParams
       })
 
       await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
@@ -986,6 +1019,7 @@ describe('Action: bgatlas2008_cells_list', () => {
       await bgatlas2008SpeciesFactory(setup.api, cell, species)
       observation = await formBirdsFactory(setup.api, {
         ...getCenter(cell.coordinates()),
+        ...nestingParams,
         species
       })
 
@@ -1170,6 +1204,7 @@ describe('Action: bgatlas2008_user_rank_stats', () => {
     const user = await userFactory(setup.api)
     const observation = await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       user: user.email
     })
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({
@@ -1203,14 +1238,17 @@ describe('Action: bgatlas2008_user_rank_stats', () => {
     const user2 = await userFactory(setup.api)
     await formBirdsFactory(setup.api, {
       ...getCenter(cell1.coordinates()),
+      ...nestingParams,
       user: user1.email
     })
     await formBirdsFactory(setup.api, {
       ...getCenter(cell2.coordinates()),
+      ...nestingParams,
       user: user1.email
     })
     await formBirdsFactory(setup.api, {
       ...getCenter(cell1.coordinates()),
+      ...nestingParams,
       user: user2.email
     })
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds' })
@@ -1249,10 +1287,12 @@ describe('Action: bgatlas2008_user_rank_stats', () => {
     const user2 = await userFactory(setup.api)
     await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       user: user1.email
     })
     await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       user: user2.email
     })
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds' })
@@ -1283,6 +1323,7 @@ describe('Action: bgatlas2008_user_rank_stats', () => {
       users.push(user)
       await formBirdsFactory(setup.api, {
         ...getCenter(cell.coordinates()),
+        ...nestingParams,
         user: user.email
       })
     }
@@ -1304,16 +1345,19 @@ describe('Action: bgatlas2008_user_rank_stats', () => {
       users.push(user)
       await formBirdsFactory(setup.api, {
         ...getCenter(cell1.coordinates()),
+        ...nestingParams,
         user: user.email
       })
       await formBirdsFactory(setup.api, {
         ...getCenter(cell2.coordinates()),
+        ...nestingParams,
         user: user.email
       })
     }
     const user = await userFactory(setup.api)
     await formBirdsFactory(setup.api, {
       ...getCenter(cell1.coordinates()),
+      ...nestingParams,
       user: user.email
     })
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds' })
@@ -1346,20 +1390,24 @@ describe('Action: bgatlas2008_user_rank_stats', () => {
 
     await formBirdsFactory(setup.api, {
       ...getCenter(cell1.coordinates()),
+      ...nestingParams,
       user: user1.email
     })
 
     await formBirdsFactory(setup.api, {
       ...getCenter(cell1.coordinates()),
+      ...nestingParams,
       user: user2.email
     })
     await formBirdsFactory(setup.api, {
       ...getCenter(cell2.coordinates()),
+      ...nestingParams,
       user: user2.email
     })
 
     await formBirdsFactory(setup.api, {
       ...getCenter(cell1.coordinates()),
+      ...nestingParams,
       user: user3.email
     })
 
@@ -1383,6 +1431,7 @@ describe('Action: bgatlas2008_user_rank_stats', () => {
     const user = await userFactory(setup.api, { privacy: 'private' })
     await formBirdsFactory(setup.api, {
       ...getCenter(cell.coordinates()),
+      ...nestingParams,
       user: user.email
     })
     await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: 'formBirds' })

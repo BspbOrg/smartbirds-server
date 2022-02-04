@@ -10,6 +10,10 @@ const bgatlas2008SpeciesFactory = require('../../__utils__/factories/bgatlas2008
 const formBirdsFactory = require('../../__utils__/factories/formBirdsFactory')
 const speciesFactory = require('../../__utils__/factories/speciesFactory')
 
+const nestingParams = {
+  startDateTime: new Date(2020, 6, 1)
+}
+
 const run = () => setup.api.tasks.tasks['stats:generate'].run()
 const readStatFile = async (name) => {
   const content = await readFile(setup.api.config.general.paths.public[0] + '/' + name + '.json')
@@ -48,6 +52,7 @@ describe('Statistics task', function () {
     it('includes cell outside atlas with observation', async () => {
       const cell = await bgatlas2008CellsFactory(setup.api)
       await formBirdsFactory(setup.api, {
+        ...nestingParams,
         latitude: (cell.lat1 + cell.lat2 + cell.lat3 + cell.lat4) / 4,
         longitude: (cell.lon1 + cell.lon2 + cell.lon3 + cell.lon4) / 4
       })
@@ -64,6 +69,7 @@ describe('Statistics task', function () {
       const species = await speciesFactory(setup.api)
       await bgatlas2008SpeciesFactory(setup.api, cell, species)
       await formBirdsFactory(setup.api, {
+        ...nestingParams,
         species,
         latitude: (cell.lat1 + cell.lat2 + cell.lat3 + cell.lat4) / 4,
         longitude: (cell.lon1 + cell.lon2 + cell.lon3 + cell.lon4) / 4
