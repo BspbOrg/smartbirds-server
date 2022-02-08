@@ -66,8 +66,6 @@ describe('birdsNewSpeciesModeratorReview task', function () {
     })
 
     it.each([false, true])('does not change moderator review when species not in bgatlas but already observed', async (newSpeciesModeratorReview) => {
-      // trust all previous records
-      setup.api.config.app.moderator.trustOldRecords = 0
       const cell = await bgatlasCellFactory(setup.api)
       const species = await speciesFactory(setup.api, 'birds')
       await factory(setup.api, { species, ...getCenter(cell.coordinates()) })
@@ -101,9 +99,7 @@ describe('birdsNewSpeciesModeratorReview task', function () {
       }))
     })
 
-    it('sets moderator review when species not in bgatlas and not observed 24h before', async () => {
-      // trust only records made 24h or more
-      setup.api.config.app.moderator.trustOldRecords = 24
+    it('sets moderator review when species not in bgatlas and not observed before', async () => {
       const cell = await bgatlasCellFactory(setup.api)
       const species = await speciesFactory(setup.api, 'birds')
       await factory(setup.api, { species, ...getCenter(cell.coordinates()) })
@@ -120,8 +116,6 @@ describe('birdsNewSpeciesModeratorReview task', function () {
     })
 
     it('sets moderator review when species not in bgatlas and observed is pending auto moderator review', async () => {
-      // trust all previous records
-      setup.api.config.app.moderator.trustOldRecords = 0
       const cell = await bgatlasCellFactory(setup.api)
       const species = await speciesFactory(setup.api, 'birds')
       await factory(setup.api, {
@@ -141,8 +135,6 @@ describe('birdsNewSpeciesModeratorReview task', function () {
       }))
     })
     it('sets moderator review when species not in bgatlas and observed is pending moderator review', async () => {
-      // trust all previous records
-      setup.api.config.app.moderator.trustOldRecords = 0
       const cell = await bgatlasCellFactory(setup.api)
       const species = await speciesFactory(setup.api, 'birds')
       await factory(setup.api, {

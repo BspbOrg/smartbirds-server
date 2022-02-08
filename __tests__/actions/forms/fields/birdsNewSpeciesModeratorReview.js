@@ -74,5 +74,60 @@ describe('birdsNewSpeciesModeratorReview', () => {
         })
       })
     })
+
+    describe.each([
+      {
+        role: 'moderator',
+        runAction: (action, params) => setup.runActionAsAdmin(action, params)
+      }
+    ])('when $role', ({ runAction }) => {
+      it('confirm forces recheck of records in same grid', async () => {
+        jest.spyOn(setup.api.tasks, 'enqueue')
+
+        const cell = await bgatlasCellFactory(setup.api)
+        const user = await userFactory(setup.api)
+        const species = await speciesFactory(setup.api, 'birds')
+
+        const { id: record1 } = await formFactory(setup.api, {
+          species: species,
+          user: user.email,
+          ...getCenter(cell.coordinates())
+        })
+
+        const { id: record2 } = await formFactory(setup.api, {
+          species: species,
+          user: user.email,
+          ...getCenter(cell.coordinates())
+        })
+
+        await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form })
+        await setup.api.tasks.tasks.birdsNewSpeciesModeratorReview.run({ form })
+
+        await expect(runAction(`${form}:view`, { id: record1 }, user.email)).resolves.toEqual(expect.objectContaining({
+          data: expect.objectContaining({
+            newSpeciesModeratorReview: true
+          })
+        }))
+        await expect(runAction(`${form}:view`, { id: record2 }, user.email)).resolves.toEqual(expect.objectContaining({
+          data: expect.objectContaining({
+            newSpeciesModeratorReview: true
+          })
+        }))
+
+        await expect(runAction(`${form}:edit`, { id: record1, newSpeciesModeratorReview: false })).resolves.toEqual(expect.objectContaining({
+          data: expect.objectContaining({
+            newSpeciesModeratorReview: false
+          })
+        }))
+
+        expect(setup.api.tasks.enqueue).toHaveBeenCalledWith('birdsNewSpeciesModeratorReview', {
+          force: true,
+          filter: {
+            bgatlas2008UtmCode: cell.utm_code,
+            species: species.labelLa
+          }
+        })
+      })
+    })
   })
 })

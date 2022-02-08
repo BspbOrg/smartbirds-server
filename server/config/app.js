@@ -16,10 +16,6 @@ exports.default = {
       // consider records newer than this timestamp
       startTimestamp: parseInt(process.env.BG_ATLAS_2008_START_TIMESTAMP, 10) || new Date('2016-01-01').getTime()
     },
-    moderator: {
-      // how old record must be to be trusted for automatic moderator request in hours
-      trustOldRecords: parseFloat(process.env.MODERATOR_TRUST_OLD_RECORDS) || 24
-    },
     visit: {
       // max records per task
       maxRecords: parseInt(process.env.AUTO_VISIT_MAX_RECORDS, 10) || 100

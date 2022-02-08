@@ -33,7 +33,7 @@ module.exports = {
         if (model.changed('newSpeciesModeratorReview') && model.bgatlas2008UtmCode && model.newSpeciesModeratorReview === false) {
           const afterUpdate = (inst) => {
             if (model !== inst) return
-            model.removeHook(afterUpdate)
+            model.constructor.removeHook(afterUpdate)
             api.tasks.enqueue('birdsNewSpeciesModeratorReview', {
               filter: {
                 bgatlas2008UtmCode: model.bgatlas2008UtmCode,
@@ -42,7 +42,7 @@ module.exports = {
               force: true
             })
           }
-          model.addHook('afterUpdate', afterUpdate)
+          model.constructor.addHook('afterUpdate', afterUpdate)
         }
       }
     }
