@@ -22,11 +22,11 @@ module.exports = class FormsTask extends Task {
     throw new Error(`You need to implement processRecord in ${this.name}!`)
   }
 
-  async run ({ form, id, limit = this.defaultLimit, lastId = null, force = false } = {}, worker) {
+  async run ({ form, id, limit = this.defaultLimit, lastId = null, force = false, filter = {} } = {}, worker) {
     const forms = this.getForms()
     if (!form) {
       return Promise.all(forms.map((form) =>
-        api.tasks.enqueue(this.name, { form: form.modelName, id, limit, lastId, force }, this.queue)
+        api.tasks.enqueue(this.name, { form: form.modelName, id, limit, lastId, force, filter }, this.queue)
       ))
     } else {
       if (forms.every((f) => f.modelName !== form)) {
@@ -42,7 +42,8 @@ module.exports = class FormsTask extends Task {
           : {
               [Op.and]: [
                 lastId != null ? { id: { [Op.lt]: lastId } } : {},
-                this.filterRecords({ force })
+                this.filterRecords({ force }),
+                filter
               ]
             },
         limit: limit === -1 ? this.defaultLimit : limit,

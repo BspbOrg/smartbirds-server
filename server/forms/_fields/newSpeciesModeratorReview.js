@@ -1,3 +1,5 @@
+const { api } = require('actionhero')
+
 module.exports = {
   fields: {
     newSpeciesModeratorReview: {
@@ -15,6 +17,32 @@ module.exports = {
       'afterApiUpdate:moderator' (model) {
         if (!model.moderatorReview) {
           model.newSpeciesModeratorReview = false
+        }
+      },
+      'afterApiUpdate:org-admin' (model) {
+        if (!model.moderatorReview) {
+          model.newSpeciesModeratorReview = false
+        }
+      },
+      'afterApiUpdate:admin' (model) {
+        if (!model.moderatorReview) {
+          model.newSpeciesModeratorReview = false
+        }
+      },
+      'afterApiUpdate' (model) {
+        if (model.changed('newSpeciesModeratorReview') && model.bgatlas2008UtmCode && model.newSpeciesModeratorReview === false) {
+          const afterUpdate = (inst) => {
+            if (model !== inst) return
+            model.removeHook(afterUpdate)
+            api.tasks.enqueue('birdsNewSpeciesModeratorReview', {
+              filter: {
+                bgatlas2008UtmCode: model.bgatlas2008UtmCode,
+                species: model.species
+              },
+              force: true
+            })
+          }
+          model.addHook('afterUpdate', afterUpdate)
         }
       }
     }
