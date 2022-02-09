@@ -71,3 +71,13 @@ exports.fields = assign(exports.fields, {
     }
   }
 })
+
+exports.foreignKeys.push({
+  targetModelName: 'species',
+  as: 'speciesInfo',
+  foreignKey: 'species',
+  targetKey: 'labelLa',
+  scope: { type: 'birds' }
+})
+
+exports.indexes.push({ fields: ['species'] })

@@ -6,7 +6,7 @@ var baseModel = {
   monitoringCode: 'random_pylons_casualties_1234',
   endDateTime: '2015-12-10T11:15Z',
   startDateTime: '2015-12-10T15:15Z',
-  species: 'acepiter',
+  species: 'Accipiter nisus',
   count: 1,
   causeOfDeathEn: 'electrecuted'
 }
