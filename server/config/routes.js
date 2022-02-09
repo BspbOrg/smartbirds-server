@@ -79,6 +79,15 @@ exports.default = {
         { path: '/threats.zip', action: 'formThreats:list' },
         { path: '/threats/:id', action: 'formThreats:view' },
 
+        { path: '/pylons', action: 'formPylons:list' },
+        { path: '/pylons.csv', action: 'formPylons:list' },
+        { path: '/pylons.zip', action: 'formPylons:list' },
+        { path: '/pylons/:id', action: 'formPylons:view' },
+        { path: '/pylons-casualties', action: 'formPylonsCasualties:list' },
+        { path: '/pylons-casualties.csv', action: 'formPylonsCasualties:list' },
+        { path: '/pylons-casualties.zip', action: 'formPylonsCasualties:list' },
+        { path: '/pylons-casualties/:id', action: 'formPylonsCasualties:view' },
+
         { path: '/organization', action: 'organization:list' },
 
         { path: '/bgatlas/2008', action: 'bgatlas2008_cells_list' },
@@ -127,6 +136,11 @@ exports.default = {
         { path: '/threats', action: 'formThreats:create' },
         { path: '/threats/:id', action: 'formThreats:edit' },
 
+        { path: '/pylons', action: 'formPylons:create' },
+        { path: '/pylons/:id', action: 'formPylons:edit' },
+        { path: '/pylons-casualties', action: 'formPylonsCasualties:create' },
+        { path: '/pylons-casualties/:id', action: 'formPylonsCasualties:edit' },
+
         { path: '/export/cbm', action: 'formCBM:export' },
         { path: '/export/birds', action: 'formBirds:export' },
         { path: '/export/herptiles', action: 'formHerptiles:export' },
@@ -135,6 +149,8 @@ exports.default = {
         { path: '/export/plants', action: 'formPlants:export' },
         { path: '/export/ciconia', action: 'formCiconia:export' },
         { path: '/export/threats', action: 'formThreats:export' },
+        { path: '/export/pylons', action: 'formPylons:export' },
+        { path: '/export/pylons-casualties', action: 'formPylonsCasualties:export' },
 
         { path: '/organization/:slug', action: 'organization:edit' },
 
@@ -170,7 +186,9 @@ exports.default = {
         { path: '/invertebrates/:id', action: 'formInvertebrates:delete' },
         { path: '/ciconia/:id', action: 'formCiconia:delete' },
         { path: '/plants/:id', action: 'formPlants:delete' },
-        { path: '/threats/:id', action: 'formThreats:delete' }
+        { path: '/threats/:id', action: 'formThreats:delete' },
+        { path: '/pylons/:id', action: 'formPylons:delete' },
+        { path: '/pylons-casualties/:id', action: 'formPylonsCasualties:delete' }
       ]
     }
   }
