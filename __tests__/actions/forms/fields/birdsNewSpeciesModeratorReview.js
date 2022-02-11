@@ -114,19 +114,28 @@ describe('birdsNewSpeciesModeratorReview', () => {
           })
         }))
 
+        // directly execute any enqueued tasks
+        setup.api.tasks.enqueue.mockImplementation((taskName, params) => setup.api.tasks.tasks[taskName].run(params))
+
+        // confirm the first record
         await expect(runAction(`${form}:edit`, { id: record1, newSpeciesModeratorReview: false })).resolves.toEqual(expect.objectContaining({
           data: expect.objectContaining({
             newSpeciesModeratorReview: false
           })
         }))
 
-        expect(setup.api.tasks.enqueue).toHaveBeenCalledWith('birdsNewSpeciesModeratorReview', {
-          force: true,
-          filter: {
-            bgatlas2008UtmCode: cell.utm_code,
-            species: species.labelLa
-          }
-        })
+        // both records should be confirmed
+        await expect(runAction(`${form}:view`, { id: record1 }, user.email)).resolves.toEqual(expect.objectContaining({
+          data: expect.objectContaining({
+            newSpeciesModeratorReview: false
+          })
+        }))
+        // both records should be confirmed
+        await expect(runAction(`${form}:view`, { id: record2 }, user.email)).resolves.toEqual(expect.objectContaining({
+          data: expect.objectContaining({
+            newSpeciesModeratorReview: false
+          })
+        }))
       })
     })
   })

@@ -36,6 +36,7 @@ module.exports = {
             model.constructor.removeHook(afterUpdate)
             api.tasks.enqueue('birdsNewSpeciesModeratorReview', {
               filter: {
+                newSpeciesModeratorReview: true,
                 bgatlas2008UtmCode: model.bgatlas2008UtmCode,
                 species: model.species
               },
