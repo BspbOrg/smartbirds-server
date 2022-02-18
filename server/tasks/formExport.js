@@ -1,7 +1,7 @@
 'use strict'
 
 const archiver = require('archiver')
-const csv = require('csv-stringify')
+const { stringify: csv } = require('csv-stringify')
 const fs = require('fs')
 const path = require('path')
 const { v4: uuidv4 } = require('uuid')
