@@ -48,5 +48,9 @@ exports.fields = assign(exports.fields, {
       model: 'nomenclature',
       filter: { type: 'pylons_habitat' }
     }
+  },
+  speciesNotes: {
+    type: 'text',
+    uniqueHash: true
   }
 })
