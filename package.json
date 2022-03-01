@@ -14,7 +14,7 @@
     "cz-conventional-changelog": "^3.3.0",
     "jest": "^27.5.1",
     "jest-runner-mocha": "^0.6.0",
-    "lint-staged": "^12.1.4",
+    "lint-staged": "^12.3.4",
     "parallelshell": "^3.0.2",
     "sequelize-fixtures": "^1.2.0",
     "should": "^13.2.3",
