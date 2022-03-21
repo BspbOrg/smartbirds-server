@@ -1,8 +1,10 @@
 const localField = require('../../server/utils/localField')
 
+let sequence = 0
+
 function localFieldFactory (prefix, {
-  en = `${prefix} en`,
-  local = `${prefix} local`,
+  en = `${prefix} en ${sequence++}`,
+  local = `${prefix} local ${sequence++}`,
   lang = 'xx'
 } = {}) {
   const field = localField(prefix)

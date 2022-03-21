@@ -26,6 +26,7 @@ module.exports.dailyReport = class DailyReport extends Action {
         required: true
       }
     }
+    this.middleware = ['auth']
   }
 
   async run (data) {
