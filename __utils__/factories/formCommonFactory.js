@@ -6,7 +6,7 @@ const rnd = (min, max) =>
 async function formCommonFactory (api,
   {
     user = 'user@smartbirds.com',
-    userId = api.models.user.findOne({ where: { email: user } }),
+    userId = user.id || api.models.user.findOne({ where: { email: user } }),
     organization = 'bspb',
     latitude,
     longitude,
