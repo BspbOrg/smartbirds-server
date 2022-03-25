@@ -1,33 +1,26 @@
 const formCommonFactory = require('./formCommonFactory')
-const localFieldFactory = require('./localFieldFactory')
 const speciesFactory = require('./speciesFactory')
 
-async function formBirdsFactory (api, {
-  species = speciesFactory(api, 'birds'),
+async function formPlantsFactory (api, {
+  species = speciesFactory(api, 'plants'),
   count = 1,
-  countMin = count,
-  countMax = count,
   ...otherProps
-}, {
+} = {}, {
   create = true
 } = {}) {
   species = await species
   const record = {
     ...await formCommonFactory(api, otherProps),
     species: species.labelLa || species,
-    ...localFieldFactory('countUnit'),
-    ...localFieldFactory('typeUnit'),
     count,
-    countMin,
-    countMax,
     ...otherProps
   }
 
   if (create) {
-    return api.models.formBirds.create(record)
+    return api.models.formPlants.create(record)
   } else {
     return record
   }
 }
 
-module.exports = formBirdsFactory
+module.exports = formPlantsFactory

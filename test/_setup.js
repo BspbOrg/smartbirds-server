@@ -37,7 +37,7 @@ const setup = {
   runActionAs: async (action, params, user) => {
     const conn = await setup.api.specHelper.Connection.createAsync()
     conn.params = {
-      email: user,
+      email: user.email || user,
       password: 'secret'
     }
     const response = await setup.runAction('session:create', conn)
