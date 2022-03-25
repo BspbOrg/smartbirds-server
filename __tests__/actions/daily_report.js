@@ -85,7 +85,7 @@ describe('Action: daily_report', () => {
         {
           date: observationDateTime,
           form,
-          location: settlement.nameEn,
+          location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
           species: record.species || implicitSpecies,
           count: defaultCount,
           records: 1
@@ -112,7 +112,7 @@ describe('Action: daily_report', () => {
         {
           date: observationDateTime,
           form,
-          location: '',
+          location: { label: { en: '' } },
           species: record.species || implicitSpecies,
           count: defaultCount,
           records: 1
@@ -150,7 +150,7 @@ describe('Action: daily_report', () => {
         {
           date: observationDateTime,
           form,
-          location: settlement.nameEn,
+          location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
           species: record.species || implicitSpecies,
           count: defaultCount != null ? defaultCount * 2 : null,
           records: 2
@@ -188,7 +188,7 @@ describe('Action: daily_report', () => {
         {
           date: observationDateTime,
           form,
-          location: settlement1.nameEn,
+          location: { label: { en: settlement1.nameEn, [settlement1.nameLang]: settlement1.nameLocal } },
           species: record.species || implicitSpecies,
           count: defaultCount != null ? defaultCount : null,
           records: 1
@@ -196,7 +196,7 @@ describe('Action: daily_report', () => {
         {
           date: observationDateTime,
           form,
-          location: settlement2.nameEn,
+          location: { label: { en: settlement2.nameEn, [settlement2.nameLang]: settlement2.nameLocal } },
           species: record.species || implicitSpecies,
           count: defaultCount != null ? defaultCount : null,
           records: 1
@@ -236,7 +236,7 @@ describe('Action: daily_report', () => {
           {
             date: observationDateTime,
             form,
-            location: settlement.nameEn,
+            location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
             species: species1.labelLa,
             count: defaultCount != null ? defaultCount : null,
             records: 1
@@ -244,7 +244,7 @@ describe('Action: daily_report', () => {
           {
             date: observationDateTime,
             form,
-            location: settlement.nameEn,
+            location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
             species: species2.labelLa,
             count: defaultCount != null ? defaultCount : null,
             records: 1
@@ -284,7 +284,7 @@ describe('Action: daily_report', () => {
         {
           date: observationDateTime,
           form: 'cbm',
-          location: settlement.nameEn,
+          location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
           species: species.labelLa,
           count: 1,
           records: 1
@@ -292,7 +292,7 @@ describe('Action: daily_report', () => {
         {
           date: observationDateTime,
           form: 'birds',
-          location: settlement.nameEn,
+          location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
           species: species.labelLa,
           count: 1,
           records: 1
@@ -300,7 +300,7 @@ describe('Action: daily_report', () => {
         {
           date: observationDateTime,
           form: 'ciconia',
-          location: settlement.nameEn,
+          location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
           species: species.labelLa,
           count: 1,
           records: 1
@@ -308,7 +308,7 @@ describe('Action: daily_report', () => {
         {
           date: observationDateTime,
           form: 'herptiles',
-          location: settlement.nameEn,
+          location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
           species: species.labelLa,
           count: 1,
           records: 1
@@ -316,7 +316,7 @@ describe('Action: daily_report', () => {
         {
           date: observationDateTime,
           form: 'invertebrates',
-          location: settlement.nameEn,
+          location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
           species: species.labelLa,
           count: 1,
           records: 1
@@ -324,7 +324,7 @@ describe('Action: daily_report', () => {
         {
           date: observationDateTime,
           form: 'mammals',
-          location: settlement.nameEn,
+          location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
           species: species.labelLa,
           count: 1,
           records: 1
@@ -332,7 +332,7 @@ describe('Action: daily_report', () => {
         {
           date: observationDateTime,
           form: 'plants',
-          location: settlement.nameEn,
+          location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
           species: species.labelLa,
           count: 1,
           records: 1

@@ -70,11 +70,13 @@ module.exports.dailyReport = class DailyReport extends Action {
           attributes: [
             'form_name',
             'auto_location_en',
+            'auto_location_local',
+            'auto_location_lang',
             'species',
             [sequelize.fn('SUM', sequelize.fn('COALESCE', sequelize.col('count'), 1)), 'count'],
             [sequelize.fn('COUNT', sequelize.col('id')), 'records']
           ],
-          group: ['form_name', 'auto_location_en', 'species'],
+          group: ['form_name', 'auto_location_en', 'auto_location_local', 'auto_location_lang', 'species'],
           order: null,
           limit: null,
           offset: null,
@@ -84,7 +86,12 @@ module.exports.dailyReport = class DailyReport extends Action {
         response.data = [].concat(response.data, rows.map(r => ({
           form: FORMS_MAPPING[r.form_name] || r.form_name,
           date: params.date,
-          location: r.auto_location_en,
+          location: {
+            label: {
+              en: r.auto_location_en,
+              ...(r.auto_location_lang ? { [r.auto_location_lang]: r.auto_location_local } : {})
+            }
+          },
           species: r.species,
           count: parseInt(r.count, 10),
           records: parseInt(r.records, 10)
@@ -108,11 +115,13 @@ module.exports.dailyReport = class DailyReport extends Action {
           ...query,
           attributes: [
             'autoLocationEn',
+            'autoLocationLocal',
+            'autoLocationLang',
             form.fields.species ? 'species' : null,
             [sequelize.fn('SUM', sequelize.fn('COALESCE', sequelize.col('count'), 1)), 'count'],
             [sequelize.fn('COUNT', sequelize.col('id')), 'records']
           ].filter(Boolean),
-          group: ['autoLocationEn', form.fields.species ? 'species' : null].filter(Boolean),
+          group: ['autoLocationEn', 'autoLocationLocal', 'autoLocationLang', form.fields.species ? 'species' : null].filter(Boolean),
           order: null,
           limit: null,
           offset: null,
@@ -122,7 +131,12 @@ module.exports.dailyReport = class DailyReport extends Action {
         response.data = [].concat(response.data, rows.map(r => ({
           form: formLabel,
           date: params.date,
-          location: r.autoLocationEn,
+          location: {
+            label: {
+              en: r.autoLocationEn,
+              ...(r.autoLocationLang ? { [r.autoLocationLang]: r.autoLocationLocal } : {})
+            }
+          },
           species: r.species || null,
           count: r.count != null ? parseInt(r.count, 10) : null,
           records: parseInt(r.records, 10)
