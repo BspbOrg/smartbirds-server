@@ -35,6 +35,9 @@ exports.fields = assign(exports.fields, {
     type: 'boolean',
     uniqueHash: true
   },
+  damagedInsulation: {
+    type: 'boolean'
+  },
   habitat100mPrime: {
     type: 'choice',
     relation: {
