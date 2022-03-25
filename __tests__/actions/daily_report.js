@@ -85,8 +85,10 @@ describe('Action: daily_report', () => {
         {
           date: observationDateTime,
           form,
-          location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
-          species: record.species || implicitSpecies,
+          location: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal },
+          species: expect.objectContaining({
+            la: record.species || implicitSpecies
+          }),
           count: defaultCount,
           records: 1
         }
@@ -112,8 +114,10 @@ describe('Action: daily_report', () => {
         {
           date: observationDateTime,
           form,
-          location: { label: { en: '' } },
-          species: record.species || implicitSpecies,
+          location: { en: '' },
+          species: expect.objectContaining({
+            la: record.species || implicitSpecies
+          }),
           count: defaultCount,
           records: 1
         }
@@ -150,8 +154,10 @@ describe('Action: daily_report', () => {
         {
           date: observationDateTime,
           form,
-          location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
-          species: record.species || implicitSpecies,
+          location: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal },
+          species: expect.objectContaining({
+            la: record.species || implicitSpecies
+          }),
           count: defaultCount != null ? defaultCount * 2 : null,
           records: 2
         }
@@ -188,16 +194,20 @@ describe('Action: daily_report', () => {
         {
           date: observationDateTime,
           form,
-          location: { label: { en: settlement1.nameEn, [settlement1.nameLang]: settlement1.nameLocal } },
-          species: record.species || implicitSpecies,
+          location: { en: settlement1.nameEn, [settlement1.nameLang]: settlement1.nameLocal },
+          species: expect.objectContaining({
+            la: record.species || implicitSpecies
+          }),
           count: defaultCount != null ? defaultCount : null,
           records: 1
         },
         {
           date: observationDateTime,
           form,
-          location: { label: { en: settlement2.nameEn, [settlement2.nameLang]: settlement2.nameLocal } },
-          species: record.species || implicitSpecies,
+          location: { en: settlement2.nameEn, [settlement2.nameLang]: settlement2.nameLocal },
+          species: expect.objectContaining({
+            la: record.species || implicitSpecies
+          }),
           count: defaultCount != null ? defaultCount : null,
           records: 1
         }
@@ -236,16 +246,20 @@ describe('Action: daily_report', () => {
           {
             date: observationDateTime,
             form,
-            location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
-            species: species1.labelLa,
+            location: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal },
+            species: expect.objectContaining({
+              la: species1.labelLa
+            }),
             count: defaultCount != null ? defaultCount : null,
             records: 1
           },
           {
             date: observationDateTime,
             form,
-            location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
-            species: species2.labelLa,
+            location: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal },
+            species: expect.objectContaining({
+              la: species2.labelLa
+            }),
             count: defaultCount != null ? defaultCount : null,
             records: 1
           }
@@ -284,56 +298,70 @@ describe('Action: daily_report', () => {
         {
           date: observationDateTime,
           form: 'cbm',
-          location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
-          species: species.labelLa,
+          location: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal },
+          species: expect.objectContaining({
+            la: species.labelLa
+          }),
           count: 1,
           records: 1
         },
         {
           date: observationDateTime,
           form: 'birds',
-          location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
-          species: species.labelLa,
+          location: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal },
+          species: expect.objectContaining({
+            la: species.labelLa
+          }),
           count: 1,
           records: 1
         },
         {
           date: observationDateTime,
           form: 'ciconia',
-          location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
-          species: species.labelLa,
+          location: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal },
+          species: expect.objectContaining({
+            la: species.labelLa
+          }),
           count: 1,
           records: 1
         },
         {
           date: observationDateTime,
           form: 'herptiles',
-          location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
-          species: species.labelLa,
+          location: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal },
+          species: expect.objectContaining({
+            la: species.labelLa
+          }),
           count: 1,
           records: 1
         },
         {
           date: observationDateTime,
           form: 'invertebrates',
-          location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
-          species: species.labelLa,
+          location: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal },
+          species: expect.objectContaining({
+            la: species.labelLa
+          }),
           count: 1,
           records: 1
         },
         {
           date: observationDateTime,
           form: 'mammals',
-          location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
-          species: species.labelLa,
+          location: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal },
+          species: expect.objectContaining({
+            la: species.labelLa
+          }),
           count: 1,
           records: 1
         },
         {
           date: observationDateTime,
           form: 'plants',
-          location: { label: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal } },
-          species: species.labelLa,
+          location: { en: settlement.nameEn, [settlement.nameLang]: settlement.nameLocal },
+          species: expect.objectContaining({
+            la: species.labelLa
+          }),
           count: 1,
           records: 1
         }

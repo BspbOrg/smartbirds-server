@@ -25,6 +25,16 @@ module.exports = function (sequelize, Sequelize) {
   }, {
     tableName: 'birds_observations',
     timestamps: false,
-    underscored: true
+    underscored: true,
+    classMethods: {
+      associate: function (models) {
+        models.birds_observations.hasOne(models.species, {
+          as: 'speciesInfo',
+          sourceKey: 'species',
+          foreignKey: 'labelLa',
+          scope: { type: 'birds' }
+        })
+      }
+    }
   })
 }
