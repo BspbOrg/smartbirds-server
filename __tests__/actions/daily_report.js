@@ -19,46 +19,48 @@ const {
 
 const observationDateTime = new Date(2022, 3, 3).getTime()
 
+const FORMS = [
+  {
+    form: 'birds',
+    factory: formBirdsFactory
+  },
+  {
+    form: 'cbm',
+    factory: formCbmFactory
+  },
+  {
+    form: 'ciconia',
+    factory: formCiconiaFactory,
+    hasSpecies: false
+  },
+  {
+    form: 'herptiles',
+    factory: formHerptilesFactory
+  },
+  {
+    form: 'invertebrates',
+    factory: formInvertebratesFactory
+  },
+  {
+    form: 'mammals',
+    factory: formMammalsFactory
+  },
+  {
+    form: 'plants',
+    factory: formPlantsFactory
+  }
+]
+
 beforeAll(() => {
   api.tasks.enqueue = jest.fn((taskName, params) => setup.api.tasks.tasks[taskName].run(params)).mockName('enqueue')
 })
 
 describe('Action: daily_report', () => {
-  describe.each([
-    {
-      form: 'birds',
-      factory: formBirdsFactory
-    },
-    {
-      form: 'cbm',
-      factory: formCbmFactory
-    },
-    {
-      form: 'ciconia',
-      factory: formCiconiaFactory,
-      count: null,
-      hasSpecies: false
-    },
-    {
-      form: 'herptiles',
-      factory: formHerptilesFactory
-    },
-    {
-      form: 'invertebrates',
-      factory: formInvertebratesFactory
-    },
-    {
-      form: 'mammals',
-      factory: formMammalsFactory
-    },
-    {
-      form: 'plants',
-      factory: formPlantsFactory
-    }
-  ])('$form', ({
+  describe.each(FORMS)('$form', ({
     form,
     factory,
     count: defaultCount = 1,
+    species: implicitSpecies = 'Ciconia ciconia',
     hasSpecies = true
   }) => {
     test('includes record', async () => {
@@ -84,7 +86,7 @@ describe('Action: daily_report', () => {
           date: observationDateTime,
           form,
           location: settlement.nameEn,
-          species: hasSpecies ? record.species : null,
+          species: record.species || implicitSpecies,
           count: defaultCount,
           records: 1
         }
@@ -111,7 +113,7 @@ describe('Action: daily_report', () => {
           date: observationDateTime,
           form,
           location: '',
-          species: hasSpecies ? record.species : null,
+          species: record.species || implicitSpecies,
           count: defaultCount,
           records: 1
         }
@@ -122,7 +124,7 @@ describe('Action: daily_report', () => {
       const settlement = await settlementFactory(api)
       const user = await userFactory(api)
       const species = await speciesFactory(api)
-      await factory(api, {
+      const record = await factory(api, {
         latitude: settlement.latitude,
         longitude: settlement.longitude,
         observationDateTime,
@@ -149,7 +151,7 @@ describe('Action: daily_report', () => {
           date: observationDateTime,
           form,
           location: settlement.nameEn,
-          species: hasSpecies ? species.labelLa : null,
+          species: record.species || implicitSpecies,
           count: defaultCount != null ? defaultCount * 2 : null,
           records: 2
         }
@@ -161,7 +163,7 @@ describe('Action: daily_report', () => {
       const settlement2 = await settlementFactory(api)
       const user = await userFactory(api)
       const species = await speciesFactory(api)
-      await factory(api, {
+      const record = await factory(api, {
         latitude: settlement1.latitude,
         longitude: settlement1.longitude,
         observationDateTime,
@@ -187,7 +189,7 @@ describe('Action: daily_report', () => {
           date: observationDateTime,
           form,
           location: settlement1.nameEn,
-          species: hasSpecies ? species.labelLa : null,
+          species: record.species || implicitSpecies,
           count: defaultCount != null ? defaultCount : null,
           records: 1
         },
@@ -195,7 +197,7 @@ describe('Action: daily_report', () => {
           date: observationDateTime,
           form,
           location: settlement2.nameEn,
-          species: hasSpecies ? species.labelLa : null,
+          species: record.species || implicitSpecies,
           count: defaultCount != null ? defaultCount : null,
           records: 1
         }
@@ -253,137 +255,108 @@ describe('Action: daily_report', () => {
     }
   })
 
-  test('splits by form', async () => {
-    const settlement = await settlementFactory(api)
-    const species = await speciesFactory(api)
-    const user = await userFactory(api)
-    const birdsRecord = await formBirdsFactory(api, {
-      latitude: settlement.latitude,
-      longitude: settlement.longitude,
-      observationDateTime,
-      species,
-      user
-    })
-    const cbmRecord = await formCbmFactory(api, {
-      latitude: settlement.latitude,
-      longitude: settlement.longitude,
-      observationDateTime,
-      species,
-      user
-    })
-    await formCiconiaFactory(api, {
-      latitude: settlement.latitude,
-      longitude: settlement.longitude,
-      observationDateTime,
-      species,
-      user
-    })
-    const herptilesRecord = await formHerptilesFactory(api, {
-      latitude: settlement.latitude,
-      longitude: settlement.longitude,
-      observationDateTime,
-      species,
-      user
-    })
-    const invertebratesRecord = await formInvertebratesFactory(api, {
-      latitude: settlement.latitude,
-      longitude: settlement.longitude,
-      observationDateTime,
-      species,
-      user
-    })
-    const mammalsRecord = await formMammalsFactory(api, {
-      latitude: settlement.latitude,
-      longitude: settlement.longitude,
-      observationDateTime,
-      species,
-      user
-    })
-    const plantsRecord = await formPlantsFactory(api, {
-      latitude: settlement.latitude,
-      longitude: settlement.longitude,
-      observationDateTime,
-      species,
-      user
+  describe('with data in multiple forms', () => {
+    let settlement
+    let species
+    let user
+
+    beforeAll(async () => {
+      settlement = await settlementFactory(api)
+      species = await speciesFactory(api, 'test', 'Ciconia ciconia')
+      user = await userFactory(api)
+      await Promise.all(FORMS.map(form => form.factory(api, {
+        latitude: settlement.latitude,
+        longitude: settlement.longitude,
+        observationDateTime,
+        species,
+        user
+      })))
+
+      await api.tasks.tasks.autoLocation.run({ limit: -1 })
     })
 
-    await api.tasks.tasks.autoLocation.run({ limit: -1 })
+    test('splits by form', async () => {
+      const response = await runActionAs('daily_report', {
+        date: observationDateTime
+      }, user)
 
-    const response = await runActionAs('daily_report', {
-      date: observationDateTime
-    }, user)
+      const expected = [
+        {
+          date: observationDateTime,
+          form: 'cbm',
+          location: settlement.nameEn,
+          species: species.labelLa,
+          count: 1,
+          records: 1
+        },
+        {
+          date: observationDateTime,
+          form: 'birds',
+          location: settlement.nameEn,
+          species: species.labelLa,
+          count: 1,
+          records: 1
+        },
+        {
+          date: observationDateTime,
+          form: 'ciconia',
+          location: settlement.nameEn,
+          species: species.labelLa,
+          count: 1,
+          records: 1
+        },
+        {
+          date: observationDateTime,
+          form: 'herptiles',
+          location: settlement.nameEn,
+          species: species.labelLa,
+          count: 1,
+          records: 1
+        },
+        {
+          date: observationDateTime,
+          form: 'invertebrates',
+          location: settlement.nameEn,
+          species: species.labelLa,
+          count: 1,
+          records: 1
+        },
+        {
+          date: observationDateTime,
+          form: 'mammals',
+          location: settlement.nameEn,
+          species: species.labelLa,
+          count: 1,
+          records: 1
+        },
+        {
+          date: observationDateTime,
+          form: 'plants',
+          location: settlement.nameEn,
+          species: species.labelLa,
+          count: 1,
+          records: 1
+        }
+      ]
 
-    const expected = [
-      {
-        date: observationDateTime,
-        form: 'cbm',
-        location: settlement.nameEn,
-        species: cbmRecord.species,
-        count: 1,
-        records: 1
-      },
-      {
-        date: observationDateTime,
-        form: 'birds',
-        location: settlement.nameEn,
-        species: birdsRecord.species,
-        count: 1,
-        records: 1
-      },
-      {
-        date: observationDateTime,
-        form: 'ciconia',
-        location: settlement.nameEn,
-        species: null,
-        count: null,
-        records: 1
-      },
-      {
-        date: observationDateTime,
-        form: 'herptiles',
-        location: settlement.nameEn,
-        species: herptilesRecord.species,
-        count: 1,
-        records: 1
-      },
-      {
-        date: observationDateTime,
-        form: 'invertebrates',
-        location: settlement.nameEn,
-        species: invertebratesRecord.species,
-        count: 1,
-        records: 1
-      },
-      {
-        date: observationDateTime,
-        form: 'mammals',
-        location: settlement.nameEn,
-        species: mammalsRecord.species,
-        count: 1,
-        records: 1
-      },
-      {
-        date: observationDateTime,
-        form: 'plants',
-        location: settlement.nameEn,
-        species: plantsRecord.species,
-        count: 1,
-        records: 1
+      for (const rec of expected) {
+        expect(response.data).toEqual(expect.arrayContaining([rec]))
       }
-    ]
+      expect(expected).toEqual(expect.arrayContaining(response.data))
+      expect(response.count).toEqual(expected.length)
+    })
 
-    for (const rec of expected) {
-      expect(response.data).toEqual(expect.arrayContaining([rec]))
-    }
-    expect(expected).toEqual(expect.arrayContaining(response.data))
-    expect(response.count).toEqual(expected.length)
+    test('does not include from other user', async () => {
+      const anotherUser = await userFactory(api)
 
-    // does not include from other user
-    await expect(runActionAs('daily_report', {
-      date: observationDateTime
-    }, await userFactory(api))).resolves.toEqual(expect.objectContaining({
-      data: [],
-      count: 0
-    }))
+      const response = await runActionAs('daily_report', {
+        date: observationDateTime
+      }, anotherUser)
+
+      expect(response).toEqual(expect.objectContaining({
+        data: [],
+        count: 0
+      }))
+    })
   })
 })
