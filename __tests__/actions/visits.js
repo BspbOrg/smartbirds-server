@@ -115,7 +115,7 @@ describe('Action: visits', () => {
       error: expect.anything()
     }))
 
-    expect(setup.api.tasks.enqueue).toHaveBeenCalledWith('autoVisit', { form: 'formCBM', force: year })
+    expect(setup.api.tasks.enqueue).toHaveBeenCalledWith('autoVisit', { form: 'formCBM', force: year, limit: -1 })
   })
 
   testPermissions('visit:list', 'list', async (runAction) => {
