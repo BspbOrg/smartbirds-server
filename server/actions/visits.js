@@ -75,7 +75,7 @@ exports.visitEdit = class VisitEdit extends Action {
     await model.save()
     response.data = await model.apiData(api)
 
-    await api.tasks.enqueue('autoVisit', { form: 'formCBM', force: year })
+    await api.tasks.enqueue('autoVisit', { form: 'formCBM', force: year, limit: -1 })
   }
 }
 
@@ -147,6 +147,6 @@ exports.visitDelete = class VisitDelete extends Action {
     await model.destroy()
     connection.rawConnection.responseHttpCode = 204
 
-    await api.tasks.enqueue('autoVisit', { form: 'formCBM', force: params.year })
+    await api.tasks.enqueue('autoVisit', { form: 'formCBM', force: params.year, limit: -1 })
   }
 }
