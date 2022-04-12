@@ -143,7 +143,7 @@ exports.fields = {
     }
   },
   auto_visit: {
-    type: '+int',
+    type: 'int',
     required: false,
     uniqueHash: false
   },
