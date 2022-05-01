@@ -67,7 +67,7 @@
     "lodash": "^4.17.21",
     "mailchimp-api-v3": "^1.15.0",
     "mime-types": "^2.1.34",
-    "moment": "^2.29.1",
+    "moment": "^2.29.3",
     "moment-timezone": "^0.5.34",
     "node-fetch": "^2.6.7",
     "nodemailer-mailgun-transport": "^2.1.3",
