@@ -45,7 +45,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@sentry/node": "^6.18.1",
+    "@sentry/node": "^7.3.1",
     "actionhero": "^20.0.0",
     "archiver": "^5.3.0",
     "bcrypt": "^5.0.1",
