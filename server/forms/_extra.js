@@ -4,7 +4,14 @@ const observationMethodology = require('./_fields/observationMethodology')
 exports.fields = {
   ...autoLocation.fields,
   ...observationMethodology.fields,
-  moderatorReview: 'boolean'
+  moderatorReview: 'boolean',
+  source: {
+    type: 'choice',
+    relation: {
+      model: 'nomenclature',
+      filter: { type: 'main_source' }
+    }
+  }
 }
 
 exports.validate = {

@@ -13,13 +13,6 @@ exports.hasBgAtlas2008 = true
 exports.fields = assign(exports.fields, {
   ...bgatlas2008.fields,
   ...newSpeciesModeratorReview.fields,
-  source: {
-    type: 'choice',
-    relation: {
-      model: 'nomenclature',
-      filter: { type: 'main_source' }
-    }
-  },
   species: {
     type: 'choice',
     required: true,
