@@ -145,7 +145,12 @@ exports.fields = {
   auto_visit: {
     type: 'int',
     required: false,
-    uniqueHash: false
+    uniqueHash: false,
+    afterApiUpdate (model) {
+      if (model.changed('observationDateTime')) {
+        model.auto_visit = null
+      }
+    }
   },
 
   threats: {
