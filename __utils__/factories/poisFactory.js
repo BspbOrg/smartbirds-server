@@ -4,10 +4,13 @@ let sequence = 0
 
 async function poisFactory (
   api,
-  type,
-  { label = {}, ...propOverrides } = {},
-  latitude = (sequence++) / 100,
-  longitude = (sequence++) / 100
+  {
+    type,
+    label = {},
+    latitude = (sequence++) / 100,
+    longitude = (sequence++) / 100,
+    ...propOverrides
+  } = {}
 ) {
   return api.models.poi.create({
     type,

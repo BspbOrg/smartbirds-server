@@ -1,11 +1,12 @@
 const formCommonFactory = require('./formCommonFactory')
 const speciesFactory = require('./speciesFactory')
 const poisFactory = require('./poisFactory')
+const localFieldFactory = require('./localFieldFactory')
 
 async function formBirdsMigrationsFactory (api, {
   species = speciesFactory(api, 'birds'),
   count = 1,
-  migrationPoint = poisFactory(api, 'birds_migration_point'),
+  migrationPoint = poisFactory(api, { type: 'birds_migration_point' }),
   ...otherProps
 } = {}, {
   create = true
@@ -16,7 +17,7 @@ async function formBirdsMigrationsFactory (api, {
     ...await formCommonFactory(api, otherProps),
     species: species.labelLa || species,
     count,
-    migrationPoint: migrationPoint,
+    ...localFieldFactory('migrationPoint', { en: migrationPoint.labelEn }),
     ...otherProps
   }
 

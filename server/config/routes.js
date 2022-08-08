@@ -30,6 +30,10 @@ exports.default = {
 
         { path: '/autocomplete', action: 'autocomplete' },
 
+        { path: '/pois', action: 'poi:types' },
+        { path: '/pois/:type', action: 'poi:typeList' },
+        { path: '/pois/:type/:value', action: 'poi:view' },
+
         { path: '/species', action: 'species:types' },
         { path: '/species/:type', action: 'species:typeList' },
         { path: '/species/:type/:value', action: 'species:view' },

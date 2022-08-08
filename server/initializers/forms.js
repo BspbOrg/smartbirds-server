@@ -222,13 +222,14 @@ function generateApiData (fields) {
                   : []
               }
               default:
-                return Promise.reject(new Error('[' + name + '] Unhandled relation model ' + field.relation.model))
+                return Promise.reject(new Error('[' + name + '] Unhandled multi relation model ' + field.relation.model))
             }
           }
           case 'choice': {
             switch (field.relation.model) {
-              case 'settlement':
-              case 'nomenclature': {
+              case 'nomenclature':
+              case 'poi':
+              case 'settlement': {
                 const label = localField(name).values(this)
                 if (label != null) {
                   return { label }
@@ -245,7 +246,7 @@ function generateApiData (fields) {
                 return this[name + 'Id']
               }
               default:
-                return Promise.reject(new Error('[' + name + '] Unhandled relation model ' + field.relation.model))
+                return Promise.reject(new Error('[' + name + '] Unhandled choice relation model ' + field.relation.model))
             }
           }
           case 'json': {
