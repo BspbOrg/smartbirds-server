@@ -24,7 +24,7 @@ describe('Action: fromBirdsMigrations', () => {
       await api.models.formBirdsMigrations.destroy({ force: true, where: {} })
     })
 
-    setup.describeAsUser((runAction) => {
+    setup.describeAsAuth((runAction) => {
       test('can create with default values', async () => {
         const species = await speciesFactory(api, 'birds')
         const poi = await poisFactory(api, { type: 'birds_migration_point' })
