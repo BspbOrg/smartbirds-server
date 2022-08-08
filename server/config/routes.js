@@ -30,6 +30,10 @@ exports.default = {
 
         { path: '/autocomplete', action: 'autocomplete' },
 
+        { path: '/pois', action: 'poi:types' },
+        { path: '/pois/:type', action: 'poi:typeList' },
+        { path: '/pois/:type/:value', action: 'poi:view' },
+
         { path: '/species', action: 'species:types' },
         { path: '/species/:type', action: 'species:typeList' },
         { path: '/species/:type/:value', action: 'species:view' },
@@ -168,6 +172,7 @@ exports.default = {
         { path: '/session', action: 'session:check' },
         { path: '/zone/:id/owner', action: 'zone:setOwner' },
         { path: '/nomenclature/:type', action: 'nomenclature:updateType' },
+        { path: '/pois/:type', action: 'poi:updateType' },
         { path: '/species/:type', action: 'species:updateType' }
       ],
 

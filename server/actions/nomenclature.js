@@ -22,6 +22,13 @@ _.forOwn({
       })
     }
   },
+  poi: {
+    keys: Object.fromEntries(
+      Object
+        .keys(languages)
+        .map((key) => [key, 'label' + capitalizeFirstLetter(key)])
+    )
+  },
   species: {
     keys: 'labelLa'
   }
