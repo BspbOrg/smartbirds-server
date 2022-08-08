@@ -5,7 +5,7 @@ const newSpeciesModeratorReview = require('./_fields/newSpeciesModeratorReview')
 
 exports = module.exports = _.cloneDeep(require('./_common'))
 
-exports.tableName = 'FormBirds'
+exports.tableName = 'FormBirdsMigrations'
 exports.hasSpecies = true
 exports.hasThreats = true
 exports.hasBgAtlas2008 = true
@@ -32,8 +32,9 @@ exports.fields = assign(exports.fields, {
   migrationPoint: {
     type: 'choice',
     uniqueHash: true,
+    required: true,
     relation: {
-      model: 'pois',
+      model: 'poi',
       filter: { type: 'birds_migration_point' }
     },
     allowNull: false

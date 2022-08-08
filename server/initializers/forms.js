@@ -65,8 +65,9 @@ function formAttributes (fields) {
       case 'multi':
       case 'choice': {
         switch (field.relation.model) {
-          case 'settlement':
-          case 'nomenclature': {
+          case 'nomenclature':
+          case 'poi':
+          case 'settlement': {
             Object.assign(fieldsDef, localField(name, { required: field.required }).attributes)
             break
           }
@@ -392,8 +393,9 @@ function generateApiUpdate (fields) {
         }
         case 'choice': {
           switch (field.relation.model) {
-            case 'settlement':
-            case 'nomenclature': {
+            case 'nomenclature':
+            case 'poi':
+            case 'settlement': {
               if (!_.has(data, name)) return
 
               localField(name).update(this, data[name] != null ? data[name].label : null, language)
