@@ -55,6 +55,9 @@ exports.default = {
 
       // When a required param for an action is not provided
       missingParams: function (data, missingParams) {
+        if (process.env.NODE_ENV === 'test') {
+          return 'missingParams: ' + JSON.stringify(missingParams)
+        }
         return data.connection.localize(['actionhero.errors.missingParams', { param: missingParams[0] }])
       },
 

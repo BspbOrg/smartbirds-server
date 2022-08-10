@@ -136,7 +136,7 @@ describe('Action formThreats:', function () {
           var reqThreatObj = _.cloneDeep(threatsRecord)
           delete reqThreatObj[property]
           return runAction('formThreats:create', reqThreatObj).then(function (response) {
-            response.error.should.be.equal('Error: actionhero.errors.missingParams')
+            response.error.should.be.equal(`Error: missingParams: ["${property}"]`)
           })
         })
       })

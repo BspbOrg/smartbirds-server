@@ -135,7 +135,7 @@ describe('Action formCiconia:', function () {
           var reqCiconiaObj = _.cloneDeep(ciconiaRecord)
           delete reqCiconiaObj[property]
           return runAction('formCiconia:create', reqCiconiaObj).then(function (response) {
-            response.error.should.be.equal('Error: actionhero.errors.missingParams')
+            response.error.should.be.equal(`Error: missingParams: ["${property}"]`)
           })
         })
       })

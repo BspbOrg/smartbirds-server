@@ -136,19 +136,19 @@ describe('Action formCBM:', function () {
     describe('fails to create without', function () {
       it('count', function () {
         return runAction('formCBM:create', _.omit(cbmRecord, 'count')).then(function (response) {
-          response.error.should.be.equal('Error: actionhero.errors.missingParams')
+          response.error.should.be.equal('Error: missingParams: ["count"]')
         })
       })
 
       it('distance', function () {
         return runAction('formCBM:create', _.omit(cbmRecord, 'distance')).then(function (response) {
-          response.error.should.be.equal('Error: actionhero.errors.missingParams')
+          response.error.should.be.equal('Error: missingParams: ["distance"]')
         })
       })
 
       it('species', function () {
         return runAction('formCBM:create', _.omit(cbmRecord, 'species')).then(function (response) {
-          response.error.should.be.equal('Error: actionhero.errors.missingParams')
+          response.error.should.be.equal('Error: missingParams: ["species"]')
         })
       })
 
@@ -160,19 +160,19 @@ describe('Action formCBM:', function () {
 
       it('endDateTime', function () {
         return runAction('formCBM:create', _.omit(cbmRecord, 'endDateTime')).then(function (response) {
-          response.error.should.be.equal('Error: actionhero.errors.missingParams')
+          response.error.should.be.equal('Error: missingParams: ["endDateTime"]')
         })
       })
 
       it('startDateTime', function () {
         return runAction('formCBM:create', _.omit(cbmRecord, 'startDateTime')).then(function (response) {
-          response.error.should.be.equal('Error: actionhero.errors.missingParams')
+          response.error.should.be.equal('Error: missingParams: ["startDateTime"]')
         })
       })
 
       it('zone', function () {
         return runAction('formCBM:create', _.omit(cbmRecord, 'zone')).then(function (response) {
-          response.error.should.be.equal('Error: actionhero.errors.missingParams')
+          response.error.should.be.equal('Error: missingParams: ["zone"]')
         })
       })
     }) // fails to create without

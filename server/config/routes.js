@@ -30,6 +30,10 @@ exports.default = {
 
         { path: '/autocomplete', action: 'autocomplete' },
 
+        { path: '/pois', action: 'poi:types' },
+        { path: '/pois/:type', action: 'poi:typeList' },
+        { path: '/pois/:type/:value', action: 'poi:view' },
+
         { path: '/species', action: 'species:types' },
         { path: '/species/:type', action: 'species:typeList' },
         { path: '/species/:type/:value', action: 'species:view' },
@@ -46,6 +50,11 @@ exports.default = {
         { path: '/birds.csv', action: 'formBirds:list' },
         { path: '/birds.zip', action: 'formBirds:list' },
         { path: '/birds/:id', action: 'formBirds:view' },
+
+        { path: '/birds-migrations', action: 'formBirdsMigrations:list' },
+        { path: '/birds-migrations.csv', action: 'formBirdsMigrations:list' },
+        { path: '/birds-migrations.zip', action: 'formBirdsMigrations:list' },
+        { path: '/birds-migrations/:id', action: 'formBirdsMigrations:view' },
 
         { path: '/storage/:id', action: 'downloader' },
 
@@ -118,6 +127,9 @@ exports.default = {
         { path: '/birds', action: 'formBirds:create' },
         { path: '/birds/:id', action: 'formBirds:edit' },
 
+        { path: '/birds-migrations', action: 'formBirdsMigrations:create' },
+        { path: '/birds-migrations/:id', action: 'formBirdsMigrations:edit' },
+
         { path: '/storage', action: 'uploader' },
 
         { path: '/herptiles', action: 'formHerptiles:create' },
@@ -168,6 +180,7 @@ exports.default = {
         { path: '/session', action: 'session:check' },
         { path: '/zone/:id/owner', action: 'zone:setOwner' },
         { path: '/nomenclature/:type', action: 'nomenclature:updateType' },
+        { path: '/pois/:type', action: 'poi:updateType' },
         { path: '/species/:type', action: 'species:updateType' }
       ],
 
@@ -183,6 +196,7 @@ exports.default = {
         { path: '/cbm/:id', action: 'formCBM:delete' },
         { path: '/visit/:year', action: 'visit:delete' },
         { path: '/birds/:id', action: 'formBirds:delete' },
+        { path: '/birds-migrations/:id', action: 'formBirdsMigrations:delete' },
         { path: '/herptiles/:id', action: 'formHerptiles:delete' },
         { path: '/mammals/:id', action: 'formMammals:delete' },
         { path: '/invertebrates/:id', action: 'formInvertebrates:delete' },

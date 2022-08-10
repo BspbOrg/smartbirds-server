@@ -143,7 +143,7 @@ describe('Action formHerptiles:', function () {
           var reqBirdObj = _.cloneDeep(herptilesRecord)
           delete reqBirdObj[property]
           return runAction('formHerptiles:create', reqBirdObj).then(function (response) {
-            response.error.should.be.equal('Error: actionhero.errors.missingParams')
+            response.error.should.be.equal(`Error: missingParams: ["${property}"]`)
           })
         })
       })

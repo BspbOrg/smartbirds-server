@@ -1,7 +1,7 @@
 let monitoringSequence = 0
 
 const rnd = (min, max) =>
-  Math.random() * (max - min) - min // lgtm [js/insecure-randomness]
+  Math.random() * (max - min) + min // lgtm [js/insecure-randomness]
 
 async function formCommonFactory (api,
   {

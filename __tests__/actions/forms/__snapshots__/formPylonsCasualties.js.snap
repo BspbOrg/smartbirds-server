@@ -1,25 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Action: fromPylonsCasualties.create admin cannot create without causeOfDeath: Missing param 1`] = `"Error: actionhero.errors.missingParams"`;
+exports[`Action: fromPylonsCasualties.create admin cannot create without causeOfDeath: Missing param 1`] = `"Error: missingParams: [\\"causeOfDeath\\"]"`;
 
-exports[`Action: fromPylonsCasualties.create admin cannot create without count: Missing param 1`] = `"Error: actionhero.errors.missingParams"`;
+exports[`Action: fromPylonsCasualties.create admin cannot create without count: Missing param 1`] = `"Error: missingParams: [\\"count\\"]"`;
 
-exports[`Action: fromPylonsCasualties.create admin cannot create without species: Missing param 1`] = `"Error: actionhero.errors.missingParams"`;
+exports[`Action: fromPylonsCasualties.create admin cannot create without species: Missing param 1`] = `"Error: missingParams: [\\"species\\"]"`;
 
-exports[`Action: fromPylonsCasualties.create birds moderator cannot create without causeOfDeath: Missing param 1`] = `"Error: actionhero.errors.missingParams"`;
+exports[`Action: fromPylonsCasualties.create birds moderator cannot create without causeOfDeath: Missing param 1`] = `"Error: missingParams: [\\"causeOfDeath\\"]"`;
 
-exports[`Action: fromPylonsCasualties.create birds moderator cannot create without count: Missing param 1`] = `"Error: actionhero.errors.missingParams"`;
+exports[`Action: fromPylonsCasualties.create birds moderator cannot create without count: Missing param 1`] = `"Error: missingParams: [\\"count\\"]"`;
 
-exports[`Action: fromPylonsCasualties.create birds moderator cannot create without species: Missing param 1`] = `"Error: actionhero.errors.missingParams"`;
+exports[`Action: fromPylonsCasualties.create birds moderator cannot create without species: Missing param 1`] = `"Error: missingParams: [\\"species\\"]"`;
 
-exports[`Action: fromPylonsCasualties.create cbm moderator cannot create without causeOfDeath: Missing param 1`] = `"Error: actionhero.errors.missingParams"`;
+exports[`Action: fromPylonsCasualties.create cbm moderator cannot create without causeOfDeath: Missing param 1`] = `"Error: missingParams: [\\"causeOfDeath\\"]"`;
 
-exports[`Action: fromPylonsCasualties.create cbm moderator cannot create without count: Missing param 1`] = `"Error: actionhero.errors.missingParams"`;
+exports[`Action: fromPylonsCasualties.create cbm moderator cannot create without count: Missing param 1`] = `"Error: missingParams: [\\"count\\"]"`;
 
-exports[`Action: fromPylonsCasualties.create cbm moderator cannot create without species: Missing param 1`] = `"Error: actionhero.errors.missingParams"`;
+exports[`Action: fromPylonsCasualties.create cbm moderator cannot create without species: Missing param 1`] = `"Error: missingParams: [\\"species\\"]"`;
 
-exports[`Action: fromPylonsCasualties.create user cannot create without causeOfDeath: Missing param 1`] = `"Error: actionhero.errors.missingParams"`;
+exports[`Action: fromPylonsCasualties.create user cannot create without causeOfDeath: Missing param 1`] = `"Error: missingParams: [\\"causeOfDeath\\"]"`;
 
-exports[`Action: fromPylonsCasualties.create user cannot create without count: Missing param 1`] = `"Error: actionhero.errors.missingParams"`;
+exports[`Action: fromPylonsCasualties.create user cannot create without count: Missing param 1`] = `"Error: missingParams: [\\"count\\"]"`;
 
-exports[`Action: fromPylonsCasualties.create user cannot create without species: Missing param 1`] = `"Error: actionhero.errors.missingParams"`;
+exports[`Action: fromPylonsCasualties.create user cannot create without species: Missing param 1`] = `"Error: missingParams: [\\"species\\"]"`;

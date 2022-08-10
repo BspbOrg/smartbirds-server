@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Action: fromPylons.create admin cannot create without pylonType: Missing param 1`] = `"Error: actionhero.errors.missingParams"`;
+exports[`Action: fromPylons.create admin cannot create without pylonType: Missing param 1`] = `"Error: missingParams: [\\"pylonType\\"]"`;
 
-exports[`Action: fromPylons.create birds moderator cannot create without pylonType: Missing param 1`] = `"Error: actionhero.errors.missingParams"`;
+exports[`Action: fromPylons.create birds moderator cannot create without pylonType: Missing param 1`] = `"Error: missingParams: [\\"pylonType\\"]"`;
 
-exports[`Action: fromPylons.create cbm moderator cannot create without pylonType: Missing param 1`] = `"Error: actionhero.errors.missingParams"`;
+exports[`Action: fromPylons.create cbm moderator cannot create without pylonType: Missing param 1`] = `"Error: missingParams: [\\"pylonType\\"]"`;
 
-exports[`Action: fromPylons.create user cannot create without pylonType: Missing param 1`] = `"Error: actionhero.errors.missingParams"`;
+exports[`Action: fromPylons.create user cannot create without pylonType: Missing param 1`] = `"Error: missingParams: [\\"pylonType\\"]"`;
