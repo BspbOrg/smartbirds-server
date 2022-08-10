@@ -6,7 +6,7 @@ const { Op } = sequelize
 module.exports = class FormsTask extends Task {
   constructor () {
     super()
-    this.defaultLimit = 10
+    this.defaultLimit = api.config.app.tasks.maxRecords
     this.queue = 'default'
   }
 

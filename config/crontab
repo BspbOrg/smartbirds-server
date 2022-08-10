@@ -8,3 +8,4 @@
 * * * * * $INSTALL_PATH/scripts/run_task birdsNewSpeciesModeratorReview >/dev/null
 30 1 * * * $INSTALL_PATH/scripts/run_task bgatlas2008_refresh >/dev/null
 45 3 * * * $INSTALL_PATH/scripts/run_task AtlasBspbStats >/dev/null
+* * * * * $INSTALL_PATH/scripts/run_task birdsMigrationsDistanceFromMigrationPoint >/dev/null
