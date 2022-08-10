@@ -31,25 +31,25 @@ describe('Action user:', function () {
       describe('fails to create w/o', function () {
         it('email', function () {
           return runAction('user:create', _.omit(user, 'email')).then(function (response) {
-            response.error.should.be.equal('Error: actionhero.errors.missingParams')
+            response.error.should.be.equal('Error: missingParams: ["email"]')
           })
         })
 
         it('password', function () {
           return runAction('user:create', _.omit(user, 'password')).then(function (response) {
-            response.error.should.be.equal('Error: actionhero.errors.missingParams')
+            response.error.should.be.equal('Error: missingParams: ["password"]')
           })
         })
 
         it('firstName', function () {
           return runAction('user:create', _.omit(user, 'firstName')).then(function (response) {
-            response.error.should.be.equal('Error: actionhero.errors.missingParams')
+            response.error.should.be.equal('Error: missingParams: ["firstName"]')
           })
         })
 
         it('lastName', function () {
           return runAction('user:create', _.omit(user, 'lastName')).then(function (response) {
-            response.error.should.be.equal('Error: actionhero.errors.missingParams')
+            response.error.should.be.equal('Error: missingParams: ["lastName"]')
           })
         })
       }) // fails to create w/o
