@@ -21,7 +21,10 @@ describe('Action: fromBirdsMigrations', () => {
     }
 
     afterEach(async () => {
-      await api.models.formBirdsMigrations.destroy({ force: true, where: {} })
+      await api.models.formBirdsMigrations.destroy({
+        force: true,
+        where: {}
+      })
     })
 
     setup.describeAsAuth((runAction) => {
@@ -37,6 +40,32 @@ describe('Action: fromBirdsMigrations', () => {
         expect(response.error).toBeFalsy()
         expect(response.data).toEqual(expect.objectContaining({
           id: expect.any(Number)
+        }))
+      })
+
+      test('can create with plumage', async () => {
+        const species = await speciesFactory(api, 'birds')
+        const poi = await poisFactory(api, { type: 'birds_migration_point' })
+        const record = {
+          ...BASE_RECORD,
+          species: species.labelLa,
+          migrationPoint: poi.apiData(),
+          plumage: {
+            label: {
+              en: 'plumage-en',
+              bg: 'plumage-bg'
+            }
+          }
+        }
+        const response = await runAction(action, record)
+        expect(response.error).toBeFalsy()
+        expect(response.data).toEqual(expect.objectContaining({
+          plumage: expect.objectContaining({
+            label: expect.objectContaining({
+              en: 'plumage-en',
+              bg: 'plumage-bg'
+            })
+          })
         }))
       })
 

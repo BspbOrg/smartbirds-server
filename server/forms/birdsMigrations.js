@@ -55,12 +55,12 @@ exports.fields = assign(exports.fields, {
       filter: { type: 'birds_sex' }
     }
   },
-  pulmage: {
+  plumage: {
     type: 'choice',
     uniqueHash: true,
     relation: {
       model: 'nomenclature',
-      filter: { type: 'birds_migration_pulmage' }
+      filter: { type: 'birds_migration_plumage' }
     }
   },
   age: {
