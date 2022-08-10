@@ -51,6 +51,11 @@ exports.default = {
         { path: '/birds.zip', action: 'formBirds:list' },
         { path: '/birds/:id', action: 'formBirds:view' },
 
+        { path: '/birds-migrations', action: 'formBirdsMigrations:list' },
+        { path: '/birds-migrations.csv', action: 'formBirdsMigrations:list' },
+        { path: '/birds-migrations.zip', action: 'formBirdsMigrations:list' },
+        { path: '/birds-migrations/:id', action: 'formBirdsMigrations:view' },
+
         { path: '/storage/:id', action: 'downloader' },
 
         { path: '/herptiles', action: 'formHerptiles:list' },
@@ -122,6 +127,9 @@ exports.default = {
         { path: '/birds', action: 'formBirds:create' },
         { path: '/birds/:id', action: 'formBirds:edit' },
 
+        { path: '/birds-migrations', action: 'formBirdsMigrations:create' },
+        { path: '/birds-migrations/:id', action: 'formBirdsMigrations:edit' },
+
         { path: '/storage', action: 'uploader' },
 
         { path: '/herptiles', action: 'formHerptiles:create' },
@@ -188,6 +196,7 @@ exports.default = {
         { path: '/cbm/:id', action: 'formCBM:delete' },
         { path: '/visit/:year', action: 'visit:delete' },
         { path: '/birds/:id', action: 'formBirds:delete' },
+        { path: '/birds-migrations/:id', action: 'formBirdsMigrations:delete' },
         { path: '/herptiles/:id', action: 'formHerptiles:delete' },
         { path: '/mammals/:id', action: 'formMammals:delete' },
         { path: '/invertebrates/:id', action: 'formInvertebrates:delete' },
