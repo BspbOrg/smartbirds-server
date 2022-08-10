@@ -39,7 +39,14 @@ exports.fields = assign(exports.fields, {
     },
     allowNull: false
   },
-  distanceFromMigrationPoint: '+num',
+  distanceFromMigrationPoint: {
+    type: '+num',
+    afterApiUpdate (model) {
+      if (model.changed('latitude') || model.changed('longitude') || model.changed('migrationPointEn')) {
+        model.distanceFromMigrationPoint = null
+      }
+    }
+  },
   locationFromMigrationPoint: {
     type: 'choice',
     relation: {
