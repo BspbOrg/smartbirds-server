@@ -113,6 +113,19 @@ exports.fields = assign(exports.fields, {
   }
 })
 
+exports.listInputs = {
+  migration_point: {}
+}
+
+exports.filterList = async function (api, { params }, q) {
+  if (params.migration_point) {
+    q.where = _.extend(q.where || {}, {
+      migrationPointEn: params.migration_point
+    })
+  }
+  return q
+}
+
 exports.foreignKeys.push({
   targetModelName: 'species',
   as: 'speciesInfo',

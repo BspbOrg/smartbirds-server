@@ -1,6 +1,7 @@
 /* eslint-env node, jest */
 /* globals setup */
 
+const formBirdsMigrationsFactory = require('../../../__utils__/factories/formBirdsMigrationsFactory')
 const poisFactory = require('../../../__utils__/factories/poisFactory')
 const speciesFactory = require('../../../__utils__/factories/speciesFactory')
 
@@ -77,6 +78,25 @@ describe('Action: fromBirdsMigrations', () => {
         }
         const response = await runAction(action, record)
         expect(response.error).toBeTruthy()
+      })
+    })
+  })
+
+  describe('list', () => {
+    const action = 'formBirdsMigrations:list'
+    setup.describeAsUser((runAction) => {
+      test('can search by migration point', async () => {
+        const poi = await poisFactory(api, { type: 'birds_migration_point' })
+        const record = await formBirdsMigrationsFactory(api, {
+          user: 'user@smartbirds.com',
+          migrationPoint: poi
+        })
+
+        const response = await runAction(action, { migration_point: poi.labelEn })
+        expect(response.error).toBeFalsy()
+        expect(response.data).toContainEqual(expect.objectContaining({
+          id: record.id
+        }))
       })
     })
   })
