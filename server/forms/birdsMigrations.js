@@ -100,7 +100,6 @@ exports.fields = assign(exports.fields, {
   },
   typeFlight: {
     type: 'multi',
-    uniqueHash: true,
     relation: {
       model: 'nomenclature',
       filter: { type: 'birds_migration_type_flight' }
