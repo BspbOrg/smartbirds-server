@@ -99,7 +99,7 @@ exports.fields = assign(exports.fields, {
     }
   },
   typeFlight: {
-    type: 'choice',
+    type: 'multi',
     uniqueHash: true,
     relation: {
       model: 'nomenclature',
