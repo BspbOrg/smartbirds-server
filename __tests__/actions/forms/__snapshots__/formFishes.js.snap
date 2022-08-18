@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Action: formFishes.create admin cannot create without count: Missing param 1`] = `"Error: missingParams: [\\"count\\"]"`;
+
+exports[`Action: formFishes.create admin cannot create without species: Missing param 1`] = `"Error: missingParams: [\\"species\\"]"`;
+
+exports[`Action: formFishes.create birds moderator cannot create without count: Missing param 1`] = `"Error: missingParams: [\\"count\\"]"`;
+
+exports[`Action: formFishes.create birds moderator cannot create without species: Missing param 1`] = `"Error: missingParams: [\\"species\\"]"`;
+
+exports[`Action: formFishes.create cbm moderator cannot create without count: Missing param 1`] = `"Error: missingParams: [\\"count\\"]"`;
+
+exports[`Action: formFishes.create cbm moderator cannot create without species: Missing param 1`] = `"Error: missingParams: [\\"species\\"]"`;
+
+exports[`Action: formFishes.create user cannot create without count: Missing param 1`] = `"Error: missingParams: [\\"count\\"]"`;
+
+exports[`Action: formFishes.create user cannot create without species: Missing param 1`] = `"Error: missingParams: [\\"species\\"]"`;

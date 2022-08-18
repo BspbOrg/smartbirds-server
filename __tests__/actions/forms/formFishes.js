@@ -7,42 +7,22 @@ describe('Action: formFishes.create', () => {
   const action = 'formFishes:create'
 
   const bareRecord = {
-    pylonType: {
-      label: {
-        bg: 'Тип 1',
-        en: 'Type 1'
-      }
-    },
-    speciesNestOnPylon: 'acepiter',
-    typeNest: {
-      label: {
-        en: 'Nest box',
-        bg: 'Гнездилка'
-      }
-    },
-    pylonInsulated: true,
-    habitat100mPrime: {
-      label: {
-        en: 'Arable land',
-        bg: 'Обработваеми площи'
-      }
-    },
-    habitat100mSecond: {
-      label: {
-        en: 'Grassland',
-        bg: 'Открити затревени площи'
-      }
-    },
+    species: 'Eudontomyzon mariae',
+    count: 1,
     startDateTime: '2022-02-08T08:10Z',
     endDateTime: '2022-02-08T10:15Z',
     latitude: 42.1463749,
     longitude: 24.7492006,
-    monitoringCode: 'pylon_mon_code',
-    observationDateTime: '2022-02-08T10:15Z'
+    monitoringCode: 'fishes_mon_code',
+    observationDateTime: '2022-02-08T10:15Z',
+
+    nameWaterBody: 'Плаваща вода',
+    age: { label: { en: 'Adult' } },
+    sex: { label: { en: 'male' } }
   }
 
   afterEach(async () => {
-    await setup.api.models.formPylons.destroy({
+    await setup.api.models.formFishes.destroy({
       force: true,
       where: {}
     })
@@ -57,12 +37,12 @@ describe('Action: formFishes.create', () => {
       }))
     })
 
-    test.each(['pylonType'])('cannot create without %s', async (field) => {
+    test.each(['species', 'count'])('cannot create without %s', async (field) => {
       const response = await runAction(action, omit(bareRecord, field))
       expect(response.error).toMatchSnapshot('Missing param')
     })
 
-    test.each(['speciesNestOnPylon', 'typeNest', 'pylonInsulated', 'habitat100mPrime', 'habitat100mSecond'])('can create without %s', async (field) => {
+    test.each(['nameWaterBody', 'age', 'sex'])('can create without %s', async (field) => {
       const response = await runAction(action, omit(bareRecord, field))
       expect(response.error).toBeFalsy()
       expect(response.data).toEqual(expect.objectContaining({
