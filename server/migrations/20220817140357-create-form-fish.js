@@ -649,8 +649,14 @@ module.exports = {
         type: DataTypes.INTEGER,
         allowNull: true
       },
-      species: DataTypes.TEXT,
-      count: DataTypes.INTEGER,
+      species: {
+        type: DataTypes.TEXT,
+        allowNull: false
+      },
+      count: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
       nameWaterBody: {
         type: DataTypes.TEXT,
         allowNull: true
