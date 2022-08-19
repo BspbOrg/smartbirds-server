@@ -125,6 +125,13 @@ module.exports = [
       type: 'plants',
       labelLa: 'Sternbergia colchiciflora'
     }
+  },
+  {
+    model: 'species',
+    data: {
+      type: 'fishes',
+      labelLa: 'Eudontomyzon mariae'
+    }
   }
 ]
 

@@ -15,7 +15,7 @@ exports.fields = assign(exports.fields, {
     uniqueHash: true,
     relation: {
       model: 'species',
-      filter: { type: 'mammals_name' }
+      filter: { type: 'mammals' }
     }
   },
   sex: {
