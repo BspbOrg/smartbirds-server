@@ -127,7 +127,7 @@ exports.fields = assign(exports.fields, {
   shading: 'num',
   riparianVegetation: 'num',
   shelters: {
-    type: 'choice',
+    type: 'multi',
     relation: {
       model: 'nomenclature',
       filter: { type: 'fishes_shelters' }
