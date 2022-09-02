@@ -1,7 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const Sequelize = require('sequelize')
-const Umzug = require('umzug')
+const { Umzug, SequelizeStorage } = require('umzug')
 const _ = require('lodash')
 const { upgradeInitializer } = require('../utils/upgrade')
 const views = require('../migrations/views')
@@ -102,14 +102,23 @@ module.exports = upgradeInitializer('ah17', {
     }]
 
     const umzug = new Umzug({
-      storage: 'sequelize',
-      storageOptions: {
+      storage: new SequelizeStorage({
         sequelize: sequelizeInstance
-      },
-      logging: (msg, ...params) => api.log(msg, 'info', ...params),
+      }),
+      context: migrationParams[0],
       migrations: {
-        params: migrationParams,
-        path: api.projectRoot + '/migrations'
+        glob: ['migrations/*.js', {
+          cwd: api.projectRoot
+        }],
+        resolve: ({ name, path, context }) => {
+          // Adjust the migration from the new signature to the v2 signature, making easier to upgrade to v3
+          const migration = require(path)
+          return {
+            name,
+            up: async () => migration.up(...migrationParams),
+            down: async () => migration.down(...migrationParams)
+          }
+        }
       }
     })
 
