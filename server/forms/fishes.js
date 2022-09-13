@@ -46,7 +46,7 @@ exports.fields = assign(exports.fields, {
     }
   },
   sizeTL_mm: 'num',
-  siteSL_mm: 'num',
+  sizeSL_mm: 'num',
   masa_gr: 'num',
   findings: {
     type: 'choice',
