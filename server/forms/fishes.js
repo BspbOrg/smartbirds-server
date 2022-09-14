@@ -141,6 +141,7 @@ exports.fields = assign(exports.fields, {
       filter: { type: 'fishes_vegetation_type' }
     }
   },
+  naturalBarriers: 'boolean',
 
   speciesNotes: {
     type: 'text',
