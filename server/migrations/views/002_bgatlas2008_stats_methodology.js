@@ -1,8 +1,6 @@
-const tableName = 'bgatlas2008_stats_methodology'
-
 module.exports = {
   up: `
-    CREATE OR REPLACE VIEW ${tableName} AS
+    CREATE OR REPLACE VIEW bgatlas2008_stats_methodology AS
     SELECT
       utm_code,
       observation_methodology,
@@ -22,6 +20,6 @@ module.exports = {
       observation_methodology
   `,
   down: `
-    DROP VIEW IF EXISTS ${tableName}
+    DROP VIEW IF EXISTS bgatlas2008_stats_methodology
   `
 }
