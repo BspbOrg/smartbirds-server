@@ -45,9 +45,18 @@ exports.fields = assign(exports.fields, {
       filter: { type: 'fishes_age' }
     }
   },
-  sizeTL_mm: 'num',
-  sizeSL_mm: 'num',
-  masa_gr: 'num',
+  sizeTL_mm: {
+    type: 'num',
+    uniqueHash: true
+  },
+  sizeSL_mm: {
+    type: 'num',
+    uniqueHash: true
+  },
+  masa_gr: {
+    type: 'num',
+    uniqueHash: true
+  },
   findings: {
     type: 'choice',
     uniqueHash: true,
@@ -144,8 +153,7 @@ exports.fields = assign(exports.fields, {
   naturalBarriers: 'boolean',
 
   speciesNotes: {
-    type: 'text',
-    uniqueHash: true
+    type: 'text'
   }
 })
 
