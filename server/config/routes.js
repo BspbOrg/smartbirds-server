@@ -165,6 +165,7 @@ exports.default = {
 
         { path: '/export/cbm', action: 'formCBM:export' },
         { path: '/export/birds', action: 'formBirds:export' },
+        { path: '/export/birds-migrations', action: 'formBirdsMigrations:export' },
         { path: '/export/fishes', action: 'formFishes:export' },
         { path: '/export/herptiles', action: 'formHerptiles:export' },
         { path: '/export/mammals', action: 'formMammals:export' },
