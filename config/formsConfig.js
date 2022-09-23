@@ -19,6 +19,10 @@ module.exports = {
     plants: {
       id: 'plants',
       label: 'CLASS_PLANTS'
+    },
+    fishes: {
+      id: 'fishes',
+      label: 'CLASS_FISHES'
     }
   },
   threatsPrimaryTypes: {
