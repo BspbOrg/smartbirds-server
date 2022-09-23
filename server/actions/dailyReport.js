@@ -22,6 +22,7 @@ const FORMS = {
   // formCiconia: 'ciconia',
 
   // individual forms
+  formFishes: 'fishes',
   formHerptiles: 'herptiles',
   formInvertebrates: 'invertebrates',
   formMammals: 'mammals',
