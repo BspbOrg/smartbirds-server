@@ -1,5 +1,6 @@
 const views = [
   require('./001_birds_observations'),
+  require('./001_threats_stats'),
   require('./002_bgatlas2008_observed_species'),
   require('./002_bgatlas2008_observed_user_species'),
   require('./002_birds_top_interesting_species_month'),
