@@ -2017,21 +2017,11 @@ CREATE VIEW public.birds_top_interesting_species_month AS
 --
 
 CREATE VIEW public.birds_top_species_month AS
- SELECT form.species,
+ SELECT birds_observations.species,
     count(*) AS count
-   FROM ( SELECT \\"FormBirds\\".species,
-            \\"FormBirds\\".\\"observationDateTime\\"
-           FROM public.\\"FormBirds\\"
-        UNION ALL
-         SELECT \\"FormCBM\\".species,
-            \\"FormCBM\\".\\"observationDateTime\\"
-           FROM public.\\"FormCBM\\"
-        UNION ALL
-         SELECT 'Ciconia ciconia'::text AS species,
-            \\"FormCiconia\\".\\"observationDateTime\\"
-           FROM public.\\"FormCiconia\\") form
-  WHERE (form.\\"observationDateTime\\" >= (('now'::text)::date - '1 mon'::interval))
-  GROUP BY form.species
+   FROM public.birds_observations
+  WHERE (birds_observations.observation_date_time >= (('now'::text)::date - '1 mon'::interval))
+  GROUP BY birds_observations.species
   ORDER BY count(*) DESC;
 
 
@@ -2040,22 +2030,12 @@ CREATE VIEW public.birds_top_species_month AS
 --
 
 CREATE VIEW public.birds_top_users_records_month AS
- SELECT form.\\"userId\\" AS user_id,
+ SELECT form.user_id,
     count(*) AS count
-   FROM (( SELECT \\"FormBirds\\".\\"userId\\",
-            \\"FormBirds\\".\\"observationDateTime\\"
-           FROM public.\\"FormBirds\\"
-        UNION ALL
-         SELECT \\"FormCBM\\".\\"userId\\",
-            \\"FormCBM\\".\\"observationDateTime\\"
-           FROM public.\\"FormCBM\\"
-        UNION ALL
-         SELECT \\"FormCiconia\\".\\"userId\\",
-            \\"FormCiconia\\".\\"observationDateTime\\"
-           FROM public.\\"FormCiconia\\") form
-     JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
-  WHERE ((form.\\"observationDateTime\\" >= (('now'::text)::date - '1 mon'::interval)) AND ((u.privacy)::text = 'public'::text))
-  GROUP BY form.\\"userId\\"
+   FROM (public.birds_observations form
+     JOIN public.\\"Users\\" u ON ((form.user_id = u.id)))
+  WHERE ((form.observation_date_time >= (('now'::text)::date - '1 mon'::interval)) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.user_id
   ORDER BY count(*) DESC;
 
 
@@ -2064,22 +2044,12 @@ CREATE VIEW public.birds_top_users_records_month AS
 --
 
 CREATE VIEW public.birds_top_users_records_year AS
- SELECT form.\\"userId\\" AS user_id,
+ SELECT form.user_id,
     count(*) AS count
-   FROM (( SELECT \\"FormBirds\\".\\"userId\\",
-            \\"FormBirds\\".\\"observationDateTime\\"
-           FROM public.\\"FormBirds\\"
-        UNION ALL
-         SELECT \\"FormCBM\\".\\"userId\\",
-            \\"FormCBM\\".\\"observationDateTime\\"
-           FROM public.\\"FormCBM\\"
-        UNION ALL
-         SELECT \\"FormCiconia\\".\\"userId\\",
-            \\"FormCiconia\\".\\"observationDateTime\\"
-           FROM public.\\"FormCiconia\\") form
-     JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
-  WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
-  GROUP BY form.\\"userId\\"
+   FROM (public.birds_observations form
+     JOIN public.\\"Users\\" u ON ((form.user_id = u.id)))
+  WHERE ((form.observation_date_time >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.user_id
   ORDER BY count(*) DESC;
 
 
@@ -2088,25 +2058,12 @@ CREATE VIEW public.birds_top_users_records_year AS
 --
 
 CREATE VIEW public.birds_top_users_species_month AS
- SELECT form.\\"userId\\" AS user_id,
+ SELECT form.user_id,
     count(DISTINCT form.species) AS count
-   FROM (( SELECT \\"FormBirds\\".\\"userId\\",
-            \\"FormBirds\\".species,
-            \\"FormBirds\\".\\"observationDateTime\\"
-           FROM public.\\"FormBirds\\"
-        UNION ALL
-         SELECT \\"FormCBM\\".\\"userId\\",
-            \\"FormCBM\\".species,
-            \\"FormCBM\\".\\"observationDateTime\\"
-           FROM public.\\"FormCBM\\"
-        UNION ALL
-         SELECT \\"FormCiconia\\".\\"userId\\",
-            'Ciconia ciconia'::text AS species,
-            \\"FormCiconia\\".\\"observationDateTime\\"
-           FROM public.\\"FormCiconia\\") form
-     JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
-  WHERE ((form.\\"observationDateTime\\" >= (('now'::text)::date - '1 mon'::interval)) AND ((u.privacy)::text = 'public'::text))
-  GROUP BY form.\\"userId\\"
+   FROM (public.birds_observations form
+     JOIN public.\\"Users\\" u ON ((form.user_id = u.id)))
+  WHERE ((form.observation_date_time >= (('now'::text)::date - '1 mon'::interval)) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.user_id
   ORDER BY count(DISTINCT form.species) DESC;
 
 
@@ -2115,25 +2072,12 @@ CREATE VIEW public.birds_top_users_species_month AS
 --
 
 CREATE VIEW public.birds_top_users_species_year AS
- SELECT form.\\"userId\\" AS user_id,
+ SELECT form.user_id,
     count(DISTINCT form.species) AS count
-   FROM (( SELECT \\"FormBirds\\".\\"userId\\",
-            \\"FormBirds\\".species,
-            \\"FormBirds\\".\\"observationDateTime\\"
-           FROM public.\\"FormBirds\\"
-        UNION ALL
-         SELECT \\"FormCBM\\".\\"userId\\",
-            \\"FormCBM\\".species,
-            \\"FormCBM\\".\\"observationDateTime\\"
-           FROM public.\\"FormCBM\\"
-        UNION ALL
-         SELECT \\"FormCiconia\\".\\"userId\\",
-            'Ciconia ciconia'::text AS species,
-            \\"FormCiconia\\".\\"observationDateTime\\"
-           FROM public.\\"FormCiconia\\") form
-     JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
-  WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
-  GROUP BY form.\\"userId\\"
+   FROM (public.birds_observations form
+     JOIN public.\\"Users\\" u ON ((form.user_id = u.id)))
+  WHERE ((form.observation_date_time >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.user_id
   ORDER BY count(DISTINCT form.species) DESC;
 
 
