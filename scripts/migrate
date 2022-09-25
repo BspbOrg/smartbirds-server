@@ -1,0 +1,6 @@
+#!/bin/bash
+
+BASEDIR=$(dirname "$(readlink -f $0)")
+source $BASEDIR/.env
+
+npm run ah -- db migrate

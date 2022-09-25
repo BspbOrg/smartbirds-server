@@ -3,4 +3,8 @@
 BASEDIR=$(dirname "$(readlink -f $0)")
 source $BASEDIR/.env
 
-git checkout . && git pull && npm ci && scripts/update_cron
+git checkout . && \
+  git pull && \
+  npm ci && \
+  scripts/update_cron && \
+  scripts/migrate
