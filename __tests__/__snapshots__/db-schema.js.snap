@@ -1,0 +1,4599 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`db schema: schema 1`] = `
+"--
+-- PostgreSQL database dump
+--
+
+
+
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+--
+-- Name: FormBirds; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"FormBirds\\" (
+    id integer NOT NULL,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    \\"observationDateTime\\" timestamp with time zone NOT NULL,
+    \\"monitoringCode\\" text NOT NULL,
+    species text NOT NULL,
+    confidential boolean DEFAULT false,
+    \\"countUnitEn\\" text NOT NULL,
+    \\"countUnitLocal\\" text NOT NULL,
+    \\"typeUnitEn\\" text NOT NULL,
+    \\"typeUnitLocal\\" text NOT NULL,
+    \\"typeNestingEn\\" text,
+    \\"typeNestingLocal\\" text,
+    count integer NOT NULL,
+    \\"countMin\\" integer NOT NULL,
+    \\"countMax\\" integer NOT NULL,
+    \\"sexEn\\" text,
+    \\"sexLocal\\" text,
+    \\"ageEn\\" text,
+    \\"ageLocal\\" text,
+    \\"markingEn\\" text,
+    \\"markingLocal\\" text,
+    \\"speciesStatusEn\\" text,
+    \\"speciesStatusLocal\\" text,
+    \\"behaviourEn\\" text,
+    \\"behaviourLocal\\" text,
+    \\"deadIndividualCausesEn\\" text,
+    \\"deadIndividualCausesLocal\\" text,
+    \\"substrateEn\\" text,
+    \\"substrateLocal\\" text,
+    tree text,
+    \\"treeHeight\\" double precision,
+    \\"treeLocationEn\\" text,
+    \\"treeLocationLocal\\" text,
+    \\"nestHeightEn\\" text,
+    \\"nestHeightLocal\\" text,
+    \\"nestLocationEn\\" text,
+    \\"nestLocationLocal\\" text,
+    brooding boolean,
+    \\"eggsCount\\" integer,
+    \\"countNestling\\" integer,
+    \\"countFledgling\\" integer,
+    \\"countSuccessfullyLeftNest\\" integer,
+    \\"nestProtected\\" boolean,
+    \\"ageFemaleEn\\" text,
+    \\"ageFemaleLocal\\" text,
+    \\"ageMaleEn\\" text,
+    \\"ageMaleLocal\\" text,
+    \\"nestingSuccessEn\\" text,
+    \\"nestingSuccessLocal\\" text,
+    \\"landuse300mRadius\\" text,
+    location text,
+    \\"speciesNotes\\" text,
+    \\"endDateTime\\" timestamp with time zone NOT NULL,
+    \\"startDateTime\\" timestamp with time zone NOT NULL,
+    observers text,
+    \\"rainLocal\\" text,
+    \\"rainEn\\" text,
+    temperature double precision,
+    \\"windDirectionLocal\\" text,
+    \\"windDirectionEn\\" text,
+    \\"windSpeedLocal\\" text,
+    \\"windSpeedEn\\" text,
+    \\"cloudinessLocal\\" text,
+    \\"cloudinessEn\\" text,
+    \\"cloudsType\\" text,
+    visibility double precision,
+    mto text,
+    notes text,
+    \\"threatsLocal\\" text,
+    \\"threatsEn\\" text,
+    \\"userId\\" integer NOT NULL,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL,
+    imported integer,
+    pictures bytea,
+    \\"sourceLocal\\" text,
+    \\"sourceEn\\" text,
+    track text,
+    hash character varying(64),
+    \\"geolocationAccuracy\\" double precision,
+    \\"sourceLang\\" character varying(3),
+    \\"countUnitLang\\" character varying(3),
+    \\"typeUnitLang\\" character varying(3),
+    \\"typeNestingLang\\" character varying(3),
+    \\"sexLang\\" character varying(3),
+    \\"ageLang\\" character varying(3),
+    \\"markingLang\\" character varying(3),
+    \\"speciesStatusLang\\" character varying(3),
+    \\"behaviourLang\\" character varying(3),
+    \\"deadIndividualCausesLang\\" character varying(3),
+    \\"substrateLang\\" character varying(3),
+    \\"treeLocationLang\\" character varying(3),
+    \\"nestHeightLang\\" character varying(3),
+    \\"nestLocationLang\\" character varying(3),
+    \\"ageFemaleLang\\" character varying(3),
+    \\"ageMaleLang\\" character varying(3),
+    \\"nestingSuccessLang\\" character varying(3),
+    \\"rainLang\\" character varying(3),
+    \\"windDirectionLang\\" character varying(3),
+    \\"windSpeedLang\\" character varying(3),
+    \\"cloudinessLang\\" character varying(3),
+    \\"threatsLang\\" character varying(3),
+    organization text DEFAULT 'bspb'::text NOT NULL,
+    \\"autoLocationEn\\" text,
+    \\"autoLocationLocal\\" text,
+    \\"autoLocationLang\\" character varying(3),
+    \\"moderatorReview\\" boolean DEFAULT false,
+    \\"bgatlas2008UtmCode\\" character varying(4),
+    \\"observationMethodologyEn\\" text,
+    \\"observationMethodologyLocal\\" text,
+    \\"observationMethodologyLang\\" character varying(3),
+    \\"newSpeciesModeratorReview\\" boolean
+);
+
+
+--
+-- Name: FormBirds_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"FormBirds_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: FormBirds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"FormBirds_id_seq\\" OWNED BY public.\\"FormBirds\\".id;
+
+
+--
+-- Name: FormBirdsMigrations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"FormBirdsMigrations\\" (
+    species text NOT NULL,
+    \\"speciesNotes\\" text,
+    count integer,
+    \\"migrationPointEn\\" text NOT NULL,
+    \\"migrationPointLocal\\" text,
+    \\"migrationPointLang\\" character varying(3),
+    \\"distanceFromMigrationPoint\\" double precision,
+    \\"locationFromMigrationPointEn\\" text,
+    \\"locationFromMigrationPointLocal\\" text,
+    \\"locationFromMigrationPointLang\\" character varying(3),
+    \\"sexEn\\" text,
+    \\"sexLocal\\" text,
+    \\"sexLang\\" character varying(3),
+    \\"plumageEn\\" text,
+    \\"plumageLocal\\" text,
+    \\"plumageLang\\" character varying(3),
+    \\"ageEn\\" text,
+    \\"ageLocal\\" text,
+    \\"ageLang\\" character varying(3),
+    \\"visochinaPolet\\" double precision,
+    \\"posokaPoletFromEn\\" text,
+    \\"posokaPoletFromLocal\\" text,
+    \\"posokaPoletFromLang\\" character varying(3),
+    \\"posokaPoletToEn\\" text,
+    \\"posokaPoletToLocal\\" text,
+    \\"posokaPoletToLang\\" character varying(3),
+    \\"typeFlightEn\\" text,
+    \\"typeFlightLocal\\" text,
+    \\"typeFlightLang\\" character varying(3),
+    \\"autoLocationEn\\" text,
+    \\"autoLocationLocal\\" text,
+    \\"autoLocationLang\\" character varying(3),
+    \\"observationMethodologyEn\\" text,
+    \\"observationMethodologyLocal\\" text,
+    \\"observationMethodologyLang\\" character varying(3),
+    \\"moderatorReview\\" boolean DEFAULT false,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    \\"observationDateTime\\" timestamp with time zone NOT NULL,
+    \\"monitoringCode\\" text NOT NULL,
+    \\"endDateTime\\" timestamp with time zone NOT NULL,
+    \\"startDateTime\\" timestamp with time zone NOT NULL,
+    observers text,
+    \\"rainEn\\" text,
+    \\"rainLocal\\" text,
+    \\"rainLang\\" character varying(3),
+    temperature double precision,
+    \\"windDirectionEn\\" text,
+    \\"windDirectionLocal\\" text,
+    \\"windDirectionLang\\" character varying(3),
+    \\"windSpeedEn\\" text,
+    \\"windSpeedLocal\\" text,
+    \\"windSpeedLang\\" character varying(3),
+    \\"cloudinessEn\\" text,
+    \\"cloudinessLocal\\" text,
+    \\"cloudinessLang\\" character varying(3),
+    \\"cloudsType\\" text,
+    visibility double precision,
+    mto text,
+    notes text,
+    \\"threatsEn\\" text,
+    \\"threatsLocal\\" text,
+    \\"threatsLang\\" character varying(3),
+    pictures bytea,
+    track text,
+    confidential boolean,
+    \\"geolocationAccuracy\\" double precision,
+    location text,
+    \\"userId\\" integer NOT NULL,
+    organization text DEFAULT 'bspb'::text NOT NULL,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL,
+    imported integer,
+    id integer DEFAULT nextval('public.\\"FormBirds_id_seq\\"'::regclass) NOT NULL,
+    hash character varying(64),
+    \\"bgatlas2008UtmCode\\" character varying(4),
+    \\"newSpeciesModeratorReview\\" boolean,
+    \\"sourceLocal\\" text,
+    \\"sourceLang\\" character varying(3),
+    \\"sourceEn\\" text
+);
+
+
+--
+-- Name: FormBirdsMigrations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"FormBirdsMigrations_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: FormBirdsMigrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"FormBirdsMigrations_id_seq\\" OWNED BY public.\\"FormBirdsMigrations\\".id;
+
+
+--
+-- Name: FormCBM; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"FormCBM\\" (
+    id integer NOT NULL,
+    \\"plotLocal\\" text NOT NULL,
+    \\"plotEn\\" text,
+    \\"visitLocal\\" text NOT NULL,
+    \\"visitEn\\" text,
+    \\"secondaryHabitatLocal\\" text,
+    \\"secondaryHabitatEn\\" text,
+    \\"primaryHabitatLocal\\" text,
+    \\"primaryHabitatEn\\" text,
+    count integer NOT NULL,
+    \\"distanceLocal\\" text NOT NULL,
+    \\"distanceEn\\" text NOT NULL,
+    species text NOT NULL,
+    notes text,
+    visibility double precision,
+    mto text,
+    \\"cloudinessLocal\\" text,
+    \\"cloudinessEn\\" text,
+    \\"cloudsType\\" text,
+    \\"windDirectionLocal\\" text,
+    \\"windDirectionEn\\" text,
+    \\"windSpeedLocal\\" text,
+    \\"windSpeedEn\\" text,
+    temperature double precision,
+    \\"rainLocal\\" text,
+    \\"rainEn\\" text,
+    observers text,
+    \\"endDateTime\\" timestamp with time zone NOT NULL,
+    \\"startDateTime\\" timestamp with time zone NOT NULL,
+    \\"zoneId\\" character varying(10) NOT NULL,
+    latitude double precision,
+    longitude double precision,
+    \\"userId\\" integer NOT NULL,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL,
+    imported integer,
+    \\"threatsLocal\\" text,
+    \\"threatsEn\\" text,
+    \\"observationDateTime\\" timestamp with time zone,
+    \\"monitoringCode\\" text,
+    pictures bytea,
+    track text,
+    hash character varying(64),
+    confidential boolean,
+    \\"geolocationAccuracy\\" double precision,
+    \\"plotLang\\" character varying(3),
+    \\"visitLang\\" character varying(3),
+    \\"secondaryHabitatLang\\" character varying(3),
+    \\"primaryHabitatLang\\" character varying(3),
+    \\"distanceLang\\" character varying(3),
+    \\"rainLang\\" character varying(3),
+    \\"windDirectionLang\\" character varying(3),
+    \\"windSpeedLang\\" character varying(3),
+    \\"cloudinessLang\\" character varying(3),
+    \\"threatsLang\\" character varying(3),
+    organization text DEFAULT 'bspb'::text NOT NULL,
+    \\"autoLocationEn\\" text,
+    \\"autoLocationLocal\\" text,
+    \\"autoLocationLang\\" character varying(3),
+    \\"moderatorReview\\" boolean DEFAULT false,
+    \\"bgatlas2008UtmCode\\" character varying(4),
+    \\"observationMethodologyEn\\" text,
+    \\"observationMethodologyLocal\\" text,
+    \\"observationMethodologyLang\\" character varying(3),
+    auto_visit integer,
+    \\"newSpeciesModeratorReview\\" boolean,
+    \\"sourceLocal\\" text,
+    \\"sourceLang\\" character varying(3),
+    \\"sourceEn\\" text
+);
+
+
+--
+-- Name: FormCBM_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"FormCBM_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: FormCBM_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"FormCBM_id_seq\\" OWNED BY public.\\"FormCBM\\".id;
+
+
+--
+-- Name: FormCiconia; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"FormCiconia\\" (
+    id integer NOT NULL,
+    \\"primarySubstrateTypeEn\\" text,
+    \\"primarySubstrateTypeLocal\\" text,
+    \\"electricityPoleEn\\" text,
+    \\"electricityPoleLocal\\" text,
+    \\"nestIsOnArtificialPlatform\\" boolean,
+    \\"typeElectricityPoleEn\\" text,
+    \\"typeElectricityPoleLocal\\" text,
+    \\"treeEn\\" text,
+    \\"treeLocal\\" text,
+    \\"buildingEn\\" text,
+    \\"buildingLocal\\" text,
+    \\"nestOnArtificialHumanMadePlatform\\" boolean,
+    \\"nestIsOnAnotherTypeOfSubstrate\\" text,
+    \\"nestThisYearNotUtilizedByWhiteStorksEn\\" text,
+    \\"nestThisYearNotUtilizedByWhiteStorksLocal\\" text,
+    \\"thisYearOneTwoBirdsAppearedInNestEn\\" text,
+    \\"thisYearOneTwoBirdsAppearedInNestLocal\\" text,
+    \\"approximateDateStorksAppeared\\" timestamp with time zone,
+    \\"approximateDateDisappearanceWhiteStorks\\" timestamp with time zone,
+    \\"thisYearInTheNestAppearedEn\\" text,
+    \\"thisYearInTheNestAppearedLocal\\" text,
+    \\"countJuvenilesInNest\\" integer,
+    \\"nestNotUsedForOverOneYear\\" integer,
+    \\"dataOnJuvenileMortalityFromElectrocutions\\" integer,
+    \\"dataOnJuvenilesExpelledFromParents\\" integer,
+    \\"diedOtherReasons\\" integer,
+    reason text,
+    \\"speciesNotes\\" text,
+    location text,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    \\"observationDateTime\\" timestamp with time zone NOT NULL,
+    \\"monitoringCode\\" text NOT NULL,
+    \\"endDateTime\\" timestamp with time zone NOT NULL,
+    \\"startDateTime\\" timestamp with time zone NOT NULL,
+    observers text,
+    \\"rainLocal\\" text,
+    \\"rainEn\\" text,
+    temperature double precision,
+    \\"windDirectionLocal\\" text,
+    \\"windDirectionEn\\" text,
+    \\"windSpeedLocal\\" text,
+    \\"windSpeedEn\\" text,
+    \\"cloudinessLocal\\" text,
+    \\"cloudinessEn\\" text,
+    \\"cloudsType\\" text,
+    visibility double precision,
+    mto text,
+    notes text,
+    \\"threatsLocal\\" text,
+    \\"threatsEn\\" text,
+    \\"userId\\" integer NOT NULL,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL,
+    imported integer,
+    pictures bytea,
+    track text,
+    hash character varying(64),
+    confidential boolean,
+    \\"geolocationAccuracy\\" double precision,
+    \\"primarySubstrateTypeLang\\" character varying(3),
+    \\"electricityPoleLang\\" character varying(3),
+    \\"typeElectricityPoleLang\\" character varying(3),
+    \\"treeLang\\" character varying(3),
+    \\"buildingLang\\" character varying(3),
+    \\"nestThisYearNotUtilizedByWhiteStorksLang\\" character varying(3),
+    \\"thisYearOneTwoBirdsAppearedInNestLang\\" character varying(3),
+    \\"thisYearInTheNestAppearedLang\\" character varying(3),
+    \\"rainLang\\" character varying(3),
+    \\"windDirectionLang\\" character varying(3),
+    \\"windSpeedLang\\" character varying(3),
+    \\"cloudinessLang\\" character varying(3),
+    \\"threatsLang\\" character varying(3),
+    organization text DEFAULT 'bspb'::text NOT NULL,
+    \\"autoLocationEn\\" text,
+    \\"autoLocationLocal\\" text,
+    \\"autoLocationLang\\" character varying(3),
+    \\"moderatorReview\\" boolean DEFAULT false,
+    \\"sourceLocal\\" text,
+    \\"sourceLang\\" character varying(3),
+    \\"sourceEn\\" text,
+    \\"bgatlas2008UtmCode\\" character varying(4),
+    \\"observationMethodologyEn\\" text,
+    \\"observationMethodologyLocal\\" text,
+    \\"observationMethodologyLang\\" character varying(3),
+    \\"newSpeciesModeratorReview\\" boolean
+);
+
+
+--
+-- Name: FormCiconia_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"FormCiconia_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: FormCiconia_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"FormCiconia_id_seq\\" OWNED BY public.\\"FormCiconia\\".id;
+
+
+--
+-- Name: FormFishes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"FormFishes\\" (
+    \\"autoLocationEn\\" text,
+    \\"autoLocationLocal\\" text,
+    \\"autoLocationLang\\" character varying(3),
+    \\"observationMethodologyEn\\" text,
+    \\"observationMethodologyLocal\\" text,
+    \\"observationMethodologyLang\\" character varying(3),
+    \\"moderatorReview\\" boolean,
+    \\"sourceEn\\" text,
+    \\"sourceLocal\\" text,
+    \\"sourceLang\\" character varying(3),
+    latitude double precision,
+    longitude double precision,
+    \\"observationDateTime\\" timestamp with time zone,
+    \\"monitoringCode\\" text,
+    \\"endDateTime\\" timestamp with time zone,
+    \\"startDateTime\\" timestamp with time zone,
+    observers text,
+    \\"rainEn\\" text,
+    \\"rainLocal\\" text,
+    \\"rainLang\\" character varying(3),
+    temperature double precision,
+    \\"windDirectionEn\\" text,
+    \\"windDirectionLocal\\" text,
+    \\"windDirectionLang\\" character varying(3),
+    \\"windSpeedEn\\" text,
+    \\"windSpeedLocal\\" text,
+    \\"windSpeedLang\\" character varying(3),
+    \\"cloudinessEn\\" text,
+    \\"cloudinessLocal\\" text,
+    \\"cloudinessLang\\" character varying(3),
+    \\"cloudsType\\" text,
+    visibility double precision,
+    mto text,
+    notes text,
+    \\"threatsEn\\" text,
+    \\"threatsLocal\\" text,
+    \\"threatsLang\\" character varying(3),
+    pictures text,
+    track text,
+    confidential boolean,
+    \\"geolocationAccuracy\\" double precision,
+    location text,
+    \\"userId\\" integer,
+    organization text,
+    imported integer,
+    species text NOT NULL,
+    count integer NOT NULL,
+    \\"nameWaterBody\\" text,
+    \\"sexEn\\" text,
+    \\"sexLocal\\" text,
+    \\"sexLang\\" character varying(3),
+    \\"ageEn\\" text,
+    \\"ageLocal\\" text,
+    \\"ageLang\\" character varying(3),
+    \\"sizeTL_mm\\" double precision,
+    \\"sizeSL_mm\\" double precision,
+    masa_gr double precision,
+    \\"findingsEn\\" text,
+    \\"findingsLocal\\" text,
+    \\"findingsLang\\" character varying(3),
+    \\"monitoringTypeEn\\" text,
+    \\"monitoringTypeLocal\\" text,
+    \\"monitoringTypeLang\\" character varying(3),
+    \\"transectLength_M\\" double precision,
+    \\"transectWidth_M\\" double precision,
+    \\"fishingArea_M\\" double precision,
+    exposition integer,
+    \\"meshSize\\" double precision,
+    \\"countNetTrap\\" double precision,
+    \\"waterTemp\\" double precision,
+    conductivity double precision,
+    \\"pH\\" double precision,
+    \\"o2mgL\\" double precision,
+    o2percent double precision,
+    salinity double precision,
+    \\"habitatDescriptionTypeEn\\" text,
+    \\"habitatDescriptionTypeLocal\\" text,
+    \\"habitatDescriptionTypeLang\\" character varying(3),
+    \\"substrateMud\\" double precision,
+    \\"substrateSilt\\" double precision,
+    \\"substrateSand\\" double precision,
+    \\"substrateGravel\\" double precision,
+    \\"substrateSmallStones\\" double precision,
+    \\"substrateCobble\\" double precision,
+    \\"substrateBoulder\\" double precision,
+    \\"substrateRock\\" double precision,
+    \\"substrateOther\\" double precision,
+    \\"waterLevelEn\\" text,
+    \\"waterLevelLocal\\" text,
+    \\"waterLevelLang\\" character varying(3),
+    \\"riverCurrentEn\\" text,
+    \\"riverCurrentLocal\\" text,
+    \\"riverCurrentLang\\" character varying(3),
+    \\"transectAvDepth\\" double precision,
+    \\"transectMaxDepth\\" double precision,
+    \\"slopeEn\\" text,
+    \\"slopeLocal\\" text,
+    \\"slopeLang\\" character varying(3),
+    \\"bankTypeEn\\" text,
+    \\"bankTypeLocal\\" text,
+    \\"bankTypeLang\\" character varying(3),
+    shading double precision,
+    \\"riparianVegetation\\" double precision,
+    \\"sheltersEn\\" text,
+    \\"sheltersLocal\\" text,
+    \\"sheltersLang\\" character varying(3),
+    transparency double precision,
+    \\"vegetationTypeEn\\" text,
+    \\"vegetationTypeLocal\\" text,
+    \\"vegetationTypeLang\\" character varying(3),
+    \\"speciesNotes\\" text,
+    \\"createdAt\\" timestamp with time zone,
+    \\"updatedAt\\" timestamp with time zone,
+    id integer DEFAULT nextval('public.\\"FormBirds_id_seq\\"'::regclass) NOT NULL,
+    hash character varying(64),
+    \\"naturalBarriers\\" boolean
+);
+
+
+--
+-- Name: FormHerps; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"FormHerps\\" (
+    id integer NOT NULL,
+    species text NOT NULL,
+    \\"sexEn\\" text,
+    \\"sexBg\\" text,
+    \\"ageEn\\" text,
+    \\"ageBg\\" text,
+    \\"habitatEn\\" text,
+    \\"habitatBg\\" text,
+    \\"threatsHerpsEn\\" text,
+    \\"threatsHerpsBg\\" text,
+    count integer DEFAULT 1 NOT NULL,
+    marking text,
+    \\"axisDistance\\" double precision,
+    weight double precision,
+    \\"sCLL\\" double precision,
+    \\"mPLLcdC\\" double precision,
+    \\"mCWA\\" double precision,
+    \\"hLcapPl\\" double precision,
+    \\"tempSubstrat\\" double precision,
+    \\"tempAir\\" double precision,
+    \\"tempCloaca\\" double precision,
+    \\"sqVentr\\" double precision,
+    \\"sqCaud\\" double precision,
+    \\"sqDors\\" double precision,
+    \\"speciesNotes\\" text,
+    location text NOT NULL,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    \\"observationDateTime\\" timestamp with time zone NOT NULL,
+    \\"monitoringCode\\" text NOT NULL,
+    \\"endDateTime\\" timestamp with time zone NOT NULL,
+    \\"startDateTime\\" timestamp with time zone NOT NULL,
+    observers text,
+    \\"rainBg\\" text,
+    \\"rainEn\\" text,
+    temperature double precision,
+    \\"windDirectionBg\\" text,
+    \\"windDirectionEn\\" text,
+    \\"windSpeedBg\\" text,
+    \\"windSpeedEn\\" text,
+    \\"cloudinessBg\\" text,
+    \\"cloudinessEn\\" text,
+    \\"cloudsType\\" text,
+    visibility double precision,
+    mto text,
+    notes text,
+    \\"threatsBg\\" text,
+    \\"threatsEn\\" text,
+    \\"userId\\" integer NOT NULL,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL,
+    imported integer,
+    pictures bytea,
+    track text,
+    hash character varying(64),
+    confidential boolean,
+    \\"geolocationAccuracy\\" double precision
+);
+
+
+--
+-- Name: FormHerps_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"FormHerps_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: FormHerps_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"FormHerps_id_seq\\" OWNED BY public.\\"FormHerps\\".id;
+
+
+--
+-- Name: FormHerptiles; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"FormHerptiles\\" (
+    id integer NOT NULL,
+    species text NOT NULL,
+    \\"sexEn\\" text,
+    \\"sexLocal\\" text,
+    \\"ageEn\\" text,
+    \\"ageLocal\\" text,
+    \\"habitatEn\\" text,
+    \\"habitatLocal\\" text,
+    count integer DEFAULT 1 NOT NULL,
+    marking text,
+    \\"axisDistance\\" double precision,
+    weight double precision,
+    \\"sCLL\\" double precision,
+    \\"mPLLcdC\\" double precision,
+    \\"mCWA\\" double precision,
+    \\"hLcapPl\\" double precision,
+    \\"tempSubstrat\\" double precision,
+    \\"tempAir\\" double precision,
+    \\"tempCloaca\\" double precision,
+    \\"sqVentr\\" double precision,
+    \\"sqCaud\\" double precision,
+    \\"sqDors\\" double precision,
+    \\"speciesNotes\\" text,
+    location text,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    \\"observationDateTime\\" timestamp with time zone NOT NULL,
+    \\"monitoringCode\\" text NOT NULL,
+    \\"endDateTime\\" timestamp with time zone NOT NULL,
+    \\"startDateTime\\" timestamp with time zone NOT NULL,
+    observers text,
+    \\"rainLocal\\" text,
+    \\"rainEn\\" text,
+    temperature double precision,
+    \\"windDirectionLocal\\" text,
+    \\"windDirectionEn\\" text,
+    \\"windSpeedLocal\\" text,
+    \\"windSpeedEn\\" text,
+    \\"cloudinessLocal\\" text,
+    \\"cloudinessEn\\" text,
+    \\"cloudsType\\" text,
+    visibility double precision,
+    mto text,
+    notes text,
+    \\"threatsLocal\\" text,
+    \\"threatsEn\\" text,
+    \\"userId\\" integer NOT NULL,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL,
+    imported integer,
+    pictures bytea,
+    track text,
+    hash character varying(64),
+    \\"threatsHerptilesEn\\" text,
+    \\"threatsHerptilesLocal\\" text,
+    confidential boolean,
+    \\"findingsLocal\\" text,
+    \\"findingsEn\\" text,
+    \\"geolocationAccuracy\\" double precision,
+    \\"sexLang\\" character varying(3),
+    \\"ageLang\\" character varying(3),
+    \\"habitatLang\\" character varying(3),
+    \\"threatsHerptilesLang\\" character varying(3),
+    \\"findingsLang\\" character varying(3),
+    \\"rainLang\\" character varying(3),
+    \\"windDirectionLang\\" character varying(3),
+    \\"windSpeedLang\\" character varying(3),
+    \\"cloudinessLang\\" character varying(3),
+    \\"threatsLang\\" character varying(3),
+    organization text DEFAULT 'bspb'::text NOT NULL,
+    \\"autoLocationEn\\" text,
+    \\"autoLocationLocal\\" text,
+    \\"autoLocationLang\\" character varying(3),
+    \\"moderatorReview\\" boolean DEFAULT false,
+    \\"observationMethodologyEn\\" text,
+    \\"observationMethodologyLocal\\" text,
+    \\"observationMethodologyLang\\" character varying(3),
+    \\"sourceLocal\\" text,
+    \\"sourceLang\\" character varying(3),
+    \\"sourceEn\\" text
+);
+
+
+--
+-- Name: FormHerptiles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"FormHerptiles_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: FormHerptiles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"FormHerptiles_id_seq\\" OWNED BY public.\\"FormHerptiles\\".id;
+
+
+--
+-- Name: FormInvertebrates; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"FormInvertebrates\\" (
+    id integer NOT NULL,
+    species text NOT NULL,
+    \\"sexEn\\" text,
+    \\"sexLocal\\" text,
+    \\"ageEn\\" text,
+    \\"ageLocal\\" text,
+    \\"habitatEn\\" text,
+    \\"habitatLocal\\" text,
+    \\"threatsInvertebratesEn\\" text,
+    \\"threatsInvertebratesLocal\\" text,
+    count integer DEFAULT 1 NOT NULL,
+    marking text,
+    \\"speciesNotes\\" text,
+    location text,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    \\"observationDateTime\\" timestamp with time zone NOT NULL,
+    \\"monitoringCode\\" text NOT NULL,
+    \\"endDateTime\\" timestamp with time zone NOT NULL,
+    \\"startDateTime\\" timestamp with time zone NOT NULL,
+    observers text,
+    \\"rainLocal\\" text,
+    \\"rainEn\\" text,
+    temperature double precision,
+    \\"windDirectionLocal\\" text,
+    \\"windDirectionEn\\" text,
+    \\"windSpeedLocal\\" text,
+    \\"windSpeedEn\\" text,
+    \\"cloudinessLocal\\" text,
+    \\"cloudinessEn\\" text,
+    \\"cloudsType\\" text,
+    visibility double precision,
+    mto text,
+    notes text,
+    \\"threatsLocal\\" text,
+    \\"threatsEn\\" text,
+    \\"userId\\" integer NOT NULL,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL,
+    imported integer,
+    pictures bytea,
+    track text,
+    hash character varying(64),
+    confidential boolean,
+    \\"findingsLocal\\" text,
+    \\"findingsEn\\" text,
+    \\"geolocationAccuracy\\" double precision,
+    \\"sexLang\\" character varying(3),
+    \\"ageLang\\" character varying(3),
+    \\"habitatLang\\" character varying(3),
+    \\"threatsInvertebratesLang\\" character varying(3),
+    \\"findingsLang\\" character varying(3),
+    \\"rainLang\\" character varying(3),
+    \\"windDirectionLang\\" character varying(3),
+    \\"windSpeedLang\\" character varying(3),
+    \\"cloudinessLang\\" character varying(3),
+    \\"threatsLang\\" character varying(3),
+    organization text DEFAULT 'bspb'::text NOT NULL,
+    \\"autoLocationEn\\" text,
+    \\"autoLocationLocal\\" text,
+    \\"autoLocationLang\\" character varying(3),
+    \\"moderatorReview\\" boolean DEFAULT false,
+    \\"observationMethodologyEn\\" text,
+    \\"observationMethodologyLocal\\" text,
+    \\"observationMethodologyLang\\" character varying(3),
+    \\"sourceLocal\\" text,
+    \\"sourceLang\\" character varying(3),
+    \\"sourceEn\\" text
+);
+
+
+--
+-- Name: FormInvertebrates_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"FormInvertebrates_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: FormInvertebrates_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"FormInvertebrates_id_seq\\" OWNED BY public.\\"FormInvertebrates\\".id;
+
+
+--
+-- Name: FormMammals; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"FormMammals\\" (
+    id integer NOT NULL,
+    species text NOT NULL,
+    \\"sexEn\\" text,
+    \\"sexLocal\\" text,
+    \\"ageEn\\" text,
+    \\"ageLocal\\" text,
+    \\"habitatEn\\" text,
+    \\"habitatLocal\\" text,
+    count integer DEFAULT 1 NOT NULL,
+    marking text,
+    \\"axisDistance\\" double precision,
+    weight double precision,
+    \\"tempSubstrat\\" double precision,
+    \\"tempAir\\" double precision,
+    \\"speciesNotes\\" text,
+    location text,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    \\"observationDateTime\\" timestamp with time zone NOT NULL,
+    \\"monitoringCode\\" text NOT NULL,
+    \\"endDateTime\\" timestamp with time zone NOT NULL,
+    \\"startDateTime\\" timestamp with time zone NOT NULL,
+    observers text,
+    \\"rainLocal\\" text,
+    \\"rainEn\\" text,
+    temperature double precision,
+    \\"windDirectionLocal\\" text,
+    \\"windDirectionEn\\" text,
+    \\"windSpeedLocal\\" text,
+    \\"windSpeedEn\\" text,
+    \\"cloudinessLocal\\" text,
+    \\"cloudinessEn\\" text,
+    \\"cloudsType\\" text,
+    visibility double precision,
+    mto text,
+    notes text,
+    \\"threatsLocal\\" text,
+    \\"threatsEn\\" text,
+    \\"userId\\" integer NOT NULL,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL,
+    imported integer,
+    pictures bytea,
+    track text,
+    hash character varying(64),
+    \\"threatsMammalsEn\\" text,
+    \\"threatsMammalsLocal\\" text,
+    \\"L\\" double precision,
+    \\"C\\" double precision,
+    \\"A\\" double precision,
+    \\"Pl\\" double precision,
+    confidential boolean,
+    \\"findingsLocal\\" text,
+    \\"findingsEn\\" text,
+    \\"geolocationAccuracy\\" double precision,
+    \\"sexLang\\" character varying(3),
+    \\"ageLang\\" character varying(3),
+    \\"habitatLang\\" character varying(3),
+    \\"threatsMammalsLang\\" character varying(3),
+    \\"findingsLang\\" character varying(3),
+    \\"rainLang\\" character varying(3),
+    \\"windDirectionLang\\" character varying(3),
+    \\"windSpeedLang\\" character varying(3),
+    \\"cloudinessLang\\" character varying(3),
+    \\"threatsLang\\" character varying(3),
+    organization text DEFAULT 'bspb'::text NOT NULL,
+    \\"autoLocationEn\\" text,
+    \\"autoLocationLocal\\" text,
+    \\"autoLocationLang\\" character varying(3),
+    \\"moderatorReview\\" boolean DEFAULT false,
+    \\"observationMethodologyEn\\" text,
+    \\"observationMethodologyLocal\\" text,
+    \\"observationMethodologyLang\\" character varying(3),
+    \\"sourceLocal\\" text,
+    \\"sourceLang\\" character varying(3),
+    \\"sourceEn\\" text
+);
+
+
+--
+-- Name: FormMammals_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"FormMammals_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: FormMammals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"FormMammals_id_seq\\" OWNED BY public.\\"FormMammals\\".id;
+
+
+--
+-- Name: FormPlants; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"FormPlants\\" (
+    id integer NOT NULL,
+    species text NOT NULL,
+    elevation double precision,
+    \\"habitatEn\\" text,
+    \\"habitatLocal\\" text,
+    \\"accompanyingSpecies\\" text,
+    \\"reportingUnitEn\\" text,
+    \\"reportingUnitLocal\\" text,
+    \\"phenologicalPhaseEn\\" text,
+    \\"phenologicalPhaseLocal\\" text,
+    count integer,
+    density double precision,
+    cover double precision,
+    \\"threatsPlantsEn\\" text,
+    \\"threatsPlantsLocal\\" text,
+    \\"speciesNotes\\" text,
+    location text,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    \\"observationDateTime\\" timestamp with time zone NOT NULL,
+    \\"monitoringCode\\" text NOT NULL,
+    \\"endDateTime\\" timestamp with time zone NOT NULL,
+    \\"startDateTime\\" timestamp with time zone NOT NULL,
+    observers text,
+    \\"rainLocal\\" text,
+    \\"rainEn\\" text,
+    temperature double precision,
+    \\"windDirectionLocal\\" text,
+    \\"windDirectionEn\\" text,
+    \\"windSpeedLocal\\" text,
+    \\"windSpeedEn\\" text,
+    \\"cloudinessLocal\\" text,
+    \\"cloudinessEn\\" text,
+    \\"cloudsType\\" text,
+    visibility double precision,
+    mto text,
+    notes text,
+    \\"threatsLocal\\" text,
+    \\"threatsEn\\" text,
+    \\"userId\\" integer NOT NULL,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL,
+    imported integer,
+    pictures bytea,
+    track text,
+    hash character varying(64),
+    confidential boolean,
+    \\"geolocationAccuracy\\" double precision,
+    \\"habitatLang\\" character varying(3),
+    \\"reportingUnitLang\\" character varying(3),
+    \\"phenologicalPhaseLang\\" character varying(3),
+    \\"threatsPlantsLang\\" character varying(3),
+    \\"rainLang\\" character varying(3),
+    \\"windDirectionLang\\" character varying(3),
+    \\"windSpeedLang\\" character varying(3),
+    \\"cloudinessLang\\" character varying(3),
+    \\"threatsLang\\" character varying(3),
+    organization text DEFAULT 'bspb'::text NOT NULL,
+    \\"autoLocationEn\\" text,
+    \\"autoLocationLocal\\" text,
+    \\"autoLocationLang\\" character varying(3),
+    \\"moderatorReview\\" boolean DEFAULT false,
+    \\"observationMethodologyEn\\" text,
+    \\"observationMethodologyLocal\\" text,
+    \\"observationMethodologyLang\\" character varying(3),
+    \\"sourceLocal\\" text,
+    \\"sourceLang\\" character varying(3),
+    \\"sourceEn\\" text
+);
+
+
+--
+-- Name: FormPlants_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"FormPlants_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: FormPlants_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"FormPlants_id_seq\\" OWNED BY public.\\"FormPlants\\".id;
+
+
+--
+-- Name: FormPylons; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"FormPylons\\" (
+    \\"pylonTypeEn\\" text NOT NULL,
+    \\"pylonTypeLocal\\" text,
+    \\"pylonTypeLang\\" character varying(3),
+    \\"speciesNestOnPylon\\" text,
+    \\"typeNestEn\\" text,
+    \\"typeNestLocal\\" text,
+    \\"typeNestLang\\" character varying(3),
+    \\"pylonInsulated\\" boolean,
+    \\"habitat100mPrimeEn\\" text,
+    \\"habitat100mPrimeLocal\\" text,
+    \\"habitat100mPrimeLang\\" character varying(3),
+    \\"habitat100mSecondEn\\" text,
+    \\"habitat100mSecondLocal\\" text,
+    \\"habitat100mSecondLang\\" character varying(3),
+    \\"autoLocationEn\\" text,
+    \\"autoLocationLocal\\" text,
+    \\"autoLocationLang\\" character varying(3),
+    \\"observationMethodologyEn\\" text,
+    \\"observationMethodologyLocal\\" text,
+    \\"observationMethodologyLang\\" character varying(3),
+    \\"moderatorReview\\" boolean DEFAULT false,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    \\"observationDateTime\\" timestamp with time zone NOT NULL,
+    \\"monitoringCode\\" text NOT NULL,
+    \\"endDateTime\\" timestamp with time zone NOT NULL,
+    \\"startDateTime\\" timestamp with time zone NOT NULL,
+    observers text,
+    \\"rainEn\\" text,
+    \\"rainLocal\\" text,
+    \\"rainLang\\" character varying(3),
+    temperature double precision,
+    \\"windDirectionEn\\" text,
+    \\"windDirectionLocal\\" text,
+    \\"windDirectionLang\\" character varying(3),
+    \\"windSpeedEn\\" text,
+    \\"windSpeedLocal\\" text,
+    \\"windSpeedLang\\" character varying(3),
+    \\"cloudinessEn\\" text,
+    \\"cloudinessLocal\\" text,
+    \\"cloudinessLang\\" character varying(3),
+    \\"cloudsType\\" text,
+    visibility double precision,
+    mto text,
+    notes text,
+    \\"threatsEn\\" text,
+    \\"threatsLocal\\" text,
+    \\"threatsLang\\" character varying(3),
+    pictures bytea,
+    track text,
+    confidential boolean,
+    \\"geolocationAccuracy\\" double precision,
+    location text,
+    \\"userId\\" integer NOT NULL,
+    organization text DEFAULT 'bspb'::text NOT NULL,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL,
+    imported integer,
+    id integer NOT NULL,
+    hash character varying(64),
+    \\"speciesNotes\\" text,
+    \\"damagedInsulation\\" boolean,
+    \\"sourceLocal\\" text,
+    \\"sourceLang\\" character varying(3),
+    \\"sourceEn\\" text
+);
+
+
+--
+-- Name: FormPylonsCasualties; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"FormPylonsCasualties\\" (
+    species text NOT NULL,
+    count integer NOT NULL,
+    \\"ageEn\\" text,
+    \\"ageLocal\\" text,
+    \\"ageLang\\" character varying(3),
+    \\"sexEn\\" text,
+    \\"sexLocal\\" text,
+    \\"sexLang\\" character varying(3),
+    \\"causeOfDeathEn\\" text NOT NULL,
+    \\"causeOfDeathLocal\\" text,
+    \\"causeOfDeathLang\\" character varying(3),
+    \\"bodyConditionEn\\" text,
+    \\"bodyConditionLocal\\" text,
+    \\"bodyConditionLang\\" character varying(3),
+    \\"habitat100mPrimeEn\\" text,
+    \\"habitat100mPrimeLocal\\" text,
+    \\"habitat100mPrimeLang\\" character varying(3),
+    \\"habitat100mSecondEn\\" text,
+    \\"habitat100mSecondLocal\\" text,
+    \\"habitat100mSecondLang\\" character varying(3),
+    \\"autoLocationEn\\" text,
+    \\"autoLocationLocal\\" text,
+    \\"autoLocationLang\\" character varying(3),
+    \\"observationMethodologyEn\\" text,
+    \\"observationMethodologyLocal\\" text,
+    \\"observationMethodologyLang\\" character varying(3),
+    \\"moderatorReview\\" boolean DEFAULT false,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    \\"observationDateTime\\" timestamp with time zone NOT NULL,
+    \\"monitoringCode\\" text NOT NULL,
+    \\"endDateTime\\" timestamp with time zone NOT NULL,
+    \\"startDateTime\\" timestamp with time zone NOT NULL,
+    observers text,
+    \\"rainEn\\" text,
+    \\"rainLocal\\" text,
+    \\"rainLang\\" character varying(3),
+    temperature double precision,
+    \\"windDirectionEn\\" text,
+    \\"windDirectionLocal\\" text,
+    \\"windDirectionLang\\" character varying(3),
+    \\"windSpeedEn\\" text,
+    \\"windSpeedLocal\\" text,
+    \\"windSpeedLang\\" character varying(3),
+    \\"cloudinessEn\\" text,
+    \\"cloudinessLocal\\" text,
+    \\"cloudinessLang\\" character varying(3),
+    \\"cloudsType\\" text,
+    visibility double precision,
+    mto text,
+    notes text,
+    \\"threatsEn\\" text,
+    \\"threatsLocal\\" text,
+    \\"threatsLang\\" character varying(3),
+    pictures bytea,
+    track text,
+    confidential boolean,
+    \\"geolocationAccuracy\\" double precision,
+    location text,
+    \\"userId\\" integer NOT NULL,
+    organization text DEFAULT 'bspb'::text NOT NULL,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL,
+    imported integer,
+    id integer NOT NULL,
+    hash character varying(64),
+    \\"speciesNotes\\" text,
+    \\"sourceLocal\\" text,
+    \\"sourceLang\\" character varying(3),
+    \\"sourceEn\\" text
+);
+
+
+--
+-- Name: FormPylonsCasualties_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"FormPylonsCasualties_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: FormPylonsCasualties_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"FormPylonsCasualties_id_seq\\" OWNED BY public.\\"FormPylonsCasualties\\".id;
+
+
+--
+-- Name: FormPylons_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"FormPylons_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: FormPylons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"FormPylons_id_seq\\" OWNED BY public.\\"FormPylons\\".id;
+
+
+--
+-- Name: FormThreats; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"FormThreats\\" (
+    id integer NOT NULL,
+    \\"categoryLocal\\" text,
+    \\"categoryEn\\" text,
+    species text,
+    \\"estimateLocal\\" text,
+    \\"estimateEn\\" text,
+    \\"poisonedType\\" text,
+    \\"stateCarcassLocal\\" text,
+    \\"stateCarcassEn\\" text,
+    \\"sampleTaken1Local\\" text,
+    \\"sampleTaken1En\\" text,
+    \\"sampleTaken2Local\\" text,
+    \\"sampleTaken2En\\" text,
+    \\"sampleTaken3Local\\" text,
+    \\"sampleTaken3En\\" text,
+    \\"sampleCode1\\" text,
+    \\"sampleCode2\\" text,
+    \\"sampleCode3\\" text,
+    class text,
+    count integer,
+    \\"threatsNotes\\" text,
+    \\"primaryType\\" text NOT NULL,
+    location text,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    \\"observationDateTime\\" timestamp with time zone NOT NULL,
+    \\"monitoringCode\\" text NOT NULL,
+    \\"endDateTime\\" timestamp with time zone NOT NULL,
+    \\"startDateTime\\" timestamp with time zone NOT NULL,
+    observers text,
+    \\"rainLocal\\" text,
+    \\"rainEn\\" text,
+    temperature double precision,
+    \\"windDirectionLocal\\" text,
+    \\"windDirectionEn\\" text,
+    \\"windSpeedLocal\\" text,
+    \\"windSpeedEn\\" text,
+    \\"cloudinessLocal\\" text,
+    \\"cloudinessEn\\" text,
+    \\"cloudsType\\" text,
+    visibility double precision,
+    mto text,
+    notes text,
+    \\"threatsLocal\\" text,
+    \\"threatsEn\\" text,
+    \\"userId\\" integer NOT NULL,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL,
+    imported integer,
+    pictures bytea,
+    track text,
+    hash character varying(64),
+    confidential boolean,
+    \\"geolocationAccuracy\\" double precision,
+    \\"categoryLang\\" character varying(3),
+    \\"estimateLang\\" character varying(3),
+    \\"stateCarcassLang\\" character varying(3),
+    \\"sampleTaken1Lang\\" character varying(3),
+    \\"sampleTaken2Lang\\" character varying(3),
+    \\"sampleTaken3Lang\\" character varying(3),
+    \\"rainLang\\" character varying(3),
+    \\"windDirectionLang\\" character varying(3),
+    \\"windSpeedLang\\" character varying(3),
+    \\"cloudinessLang\\" character varying(3),
+    \\"threatsLang\\" character varying(3),
+    organization text DEFAULT 'bspb'::text NOT NULL,
+    \\"autoLocationEn\\" text,
+    \\"autoLocationLocal\\" text,
+    \\"autoLocationLang\\" character varying(3),
+    \\"moderatorReview\\" boolean DEFAULT false,
+    \\"observationMethodologyEn\\" text,
+    \\"observationMethodologyLocal\\" text,
+    \\"observationMethodologyLang\\" character varying(3),
+    \\"sourceLocal\\" text,
+    \\"sourceLang\\" character varying(3),
+    \\"sourceEn\\" text
+);
+
+
+--
+-- Name: FormThreats_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"FormThreats_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: FormThreats_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"FormThreats_id_seq\\" OWNED BY public.\\"FormThreats\\".id;
+
+
+--
+-- Name: Locations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"Locations\\" (
+    id integer NOT NULL,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL,
+    \\"nameLocal\\" text,
+    \\"nameEn\\" text,
+    \\"areaLocal\\" text,
+    \\"areaEn\\" text,
+    \\"typeLocal\\" text,
+    \\"typeEn\\" text,
+    \\"regionEn\\" text,
+    \\"regionLocal\\" text,
+    longitude double precision,
+    latitude double precision,
+    imported integer,
+    ekatte text,
+    \\"nameLang\\" character varying(3),
+    \\"areaLang\\" character varying(3),
+    \\"typeLang\\" character varying(3),
+    \\"regionLang\\" character varying(3)
+);
+
+
+--
+-- Name: Locations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"Locations_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: Locations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"Locations_id_seq\\" OWNED BY public.\\"Locations\\".id;
+
+
+--
+-- Name: Nomenclatures; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"Nomenclatures\\" (
+    id integer NOT NULL,
+    type character varying(32) NOT NULL,
+    \\"labelBg\\" text NOT NULL,
+    \\"labelEn\\" text NOT NULL,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL,
+    \\"labelSq\\" text,
+    \\"labelMk\\" text,
+    \\"labelEl\\" text,
+    \\"labelTr\\" text,
+    \\"labelAr\\" text,
+    \\"labelFr\\" text
+);
+
+
+--
+-- Name: Nomenclatures_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"Nomenclatures_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: Nomenclatures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"Nomenclatures_id_seq\\" OWNED BY public.\\"Nomenclatures\\".id;
+
+
+--
+-- Name: Organizations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"Organizations\\" (
+    id integer NOT NULL,
+    slug text NOT NULL,
+    \\"labelEn\\" text NOT NULL,
+    \\"labelBg\\" text,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL,
+    \\"labelSq\\" text,
+    \\"labelMk\\" text,
+    \\"labelEl\\" text,
+    \\"labelTr\\" text,
+    \\"labelAr\\" text,
+    \\"labelFr\\" text
+);
+
+
+--
+-- Name: Organizations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"Organizations_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: Organizations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"Organizations_id_seq\\" OWNED BY public.\\"Organizations\\".id;
+
+
+--
+-- Name: SequelizeMeta; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"SequelizeMeta\\" (
+    name character varying(255) NOT NULL
+);
+
+
+--
+-- Name: Shares; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"Shares\\" (
+    id integer NOT NULL,
+    sharer integer NOT NULL,
+    sharee integer NOT NULL
+);
+
+
+--
+-- Name: Shares_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"Shares_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: Shares_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"Shares_id_seq\\" OWNED BY public.\\"Shares\\".id;
+
+
+--
+-- Name: Species; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"Species\\" (
+    id integer NOT NULL,
+    type character varying(32) NOT NULL,
+    \\"labelLa\\" text NOT NULL,
+    \\"labelBg\\" text,
+    \\"labelEn\\" text,
+    euring text,
+    code text,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL,
+    interesting boolean DEFAULT false NOT NULL,
+    sensitive boolean DEFAULT false NOT NULL,
+    \\"labelSq\\" text,
+    \\"labelMk\\" text,
+    \\"labelEl\\" text,
+    \\"labelTr\\" text,
+    \\"labelAr\\" text,
+    \\"labelFr\\" text
+);
+
+
+--
+-- Name: Species_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"Species_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: Species_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"Species_id_seq\\" OWNED BY public.\\"Species\\".id;
+
+
+--
+-- Name: Users; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"Users\\" (
+    id integer NOT NULL,
+    email character varying(255) NOT NULL,
+    \\"passwordHash\\" text NOT NULL,
+    \\"firstName\\" character varying(255) NOT NULL,
+    \\"lastName\\" character varying(255) NOT NULL,
+    \\"lastLoginAt\\" timestamp with time zone,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL,
+    imported boolean,
+    \\"forgotPasswordHash\\" text,
+    \\"forgotPasswordTimestamp\\" timestamp with time zone,
+    notes text,
+    language character varying(255) DEFAULT 'bg'::character varying,
+    role character varying(255) DEFAULT 'user'::character varying,
+    forms character varying(255),
+    privacy character varying(255) DEFAULT 'public'::character varying NOT NULL,
+    \\"gdprConsent\\" boolean,
+    \\"organizationSlug\\" text NOT NULL
+);
+
+
+--
+-- Name: Users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"Users_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: Users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"Users_id_seq\\" OWNED BY public.\\"Users\\".id;
+
+
+--
+-- Name: Visits; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"Visits\\" (
+    id integer NOT NULL,
+    year integer NOT NULL,
+    \\"earlyStart\\" date,
+    \\"earlyEnd\\" date,
+    \\"lateStart\\" date,
+    \\"lateEnd\\" date,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL
+);
+
+
+--
+-- Name: Visits_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"Visits_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: Visits_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"Visits_id_seq\\" OWNED BY public.\\"Visits\\".id;
+
+
+--
+-- Name: Zones; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"Zones\\" (
+    id character varying(10) NOT NULL,
+    lat1 double precision,
+    lon1 double precision,
+    lat2 double precision,
+    lon2 double precision,
+    lat3 double precision,
+    lon3 double precision,
+    lat4 double precision,
+    lon4 double precision,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL,
+    \\"ownerId\\" integer,
+    \\"locationId\\" integer,
+    status character varying(10) DEFAULT 'free'::character varying NOT NULL
+);
+
+
+--
+-- Name: bgatlas2008_cell_status; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.bgatlas2008_cell_status (
+    utm_code character varying(4) NOT NULL,
+    completed boolean DEFAULT false NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+--
+-- Name: bgatlas2008_cells; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.bgatlas2008_cells (
+    utm_code character varying(4) NOT NULL,
+    lat1 double precision NOT NULL,
+    lon1 double precision NOT NULL,
+    lat2 double precision NOT NULL,
+    lon2 double precision NOT NULL,
+    lat3 double precision NOT NULL,
+    lon3 double precision NOT NULL,
+    lat4 double precision NOT NULL,
+    lon4 double precision NOT NULL
+);
+
+
+--
+-- Name: bgatlas2008_species; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.bgatlas2008_species (
+    utm_code character varying(4) NOT NULL,
+    species text NOT NULL,
+    spec_quantity text,
+    spec_authenticity text
+);
+
+
+--
+-- Name: birds_observations; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.birds_observations AS
+ SELECT birds_observations.form_name,
+    birds_observations.id,
+    birds_observations.latitude,
+    birds_observations.longitude,
+    birds_observations.\\"userId\\" AS user_id,
+    birds_observations.organization,
+    birds_observations.\\"observationDateTime\\" AS observation_date_time,
+    birds_observations.species,
+    birds_observations.count,
+    birds_observations.\\"monitoringCode\\" AS monitoring,
+    birds_observations.\\"startDateTime\\" AS start_datetime,
+    birds_observations.\\"endDateTime\\" AS end_datetime,
+    birds_observations.confidential,
+    birds_observations.\\"moderatorReview\\" AS moderator_review,
+    birds_observations.\\"newSpeciesModeratorReview\\" AS new_species_moderator_review,
+    birds_observations.\\"autoLocationEn\\" AS auto_location_en,
+    birds_observations.\\"autoLocationLocal\\" AS auto_location_local,
+    birds_observations.\\"autoLocationLang\\" AS auto_location_lang,
+    birds_observations.\\"bgatlas2008UtmCode\\" AS bgatlas2008_utm_code,
+    birds_observations.\\"observationMethodologyEn\\" AS observation_methodology_en,
+    birds_observations.\\"observationMethodologyLocal\\" AS observation_methodology_local,
+    birds_observations.\\"observationMethodologyLang\\" AS observation_methodology_lang,
+    birds_observations.nesting
+   FROM ( SELECT 'FormBirds'::text AS form_name,
+            \\"FormBirds\\".id,
+            \\"FormBirds\\".latitude,
+            \\"FormBirds\\".longitude,
+            \\"FormBirds\\".\\"userId\\",
+            \\"FormBirds\\".organization,
+            \\"FormBirds\\".\\"observationDateTime\\",
+            \\"FormBirds\\".species,
+            GREATEST(\\"FormBirds\\".count, \\"FormBirds\\".\\"countMin\\", \\"FormBirds\\".\\"countMax\\") AS count,
+            \\"FormBirds\\".\\"monitoringCode\\",
+            \\"FormBirds\\".\\"startDateTime\\",
+            \\"FormBirds\\".\\"endDateTime\\",
+            \\"FormBirds\\".confidential,
+            \\"FormBirds\\".\\"moderatorReview\\",
+            \\"FormBirds\\".\\"newSpeciesModeratorReview\\",
+            \\"FormBirds\\".\\"autoLocationEn\\",
+            \\"FormBirds\\".\\"autoLocationLocal\\",
+            \\"FormBirds\\".\\"autoLocationLang\\",
+            \\"FormBirds\\".\\"observationMethodologyEn\\",
+            \\"FormBirds\\".\\"observationMethodologyLocal\\",
+            \\"FormBirds\\".\\"observationMethodologyLang\\",
+            \\"FormBirds\\".\\"bgatlas2008UtmCode\\",
+            COALESCE((((((date_part('month'::text, \\"FormBirds\\".\\"startDateTime\\") = ANY (ARRAY[(4)::double precision, (5)::double precision, (6)::double precision])) OR ((date_part('month'::text, \\"FormBirds\\".\\"startDateTime\\") = (7)::double precision) AND (date_part('day'::text, \\"FormBirds\\".\\"startDateTime\\") <= (15)::double precision))) OR ((\\"FormBirds\\".\\"speciesStatusEn\\" >= '1'::text) AND (\\"FormBirds\\".\\"speciesStatusEn\\" <= '99'::text))) OR (\\"FormBirds\\".\\"countUnitEn\\" = ANY (ARRAY['Nest'::text, 'Family / individuals (ad. + juv.)'::text, 'Singing male'::text]))) OR (\\"FormBirds\\".\\"typeNestingEn\\" = ANY (ARRAY['Nests'::text, 'Colonies'::text]))), false) AS nesting
+           FROM public.\\"FormBirds\\"
+        UNION ALL
+         SELECT 'FormCBM'::text AS form_name,
+            \\"FormCBM\\".id,
+            \\"FormCBM\\".latitude,
+            \\"FormCBM\\".longitude,
+            \\"FormCBM\\".\\"userId\\",
+            \\"FormCBM\\".organization,
+            \\"FormCBM\\".\\"observationDateTime\\",
+            \\"FormCBM\\".species,
+            \\"FormCBM\\".count,
+            \\"FormCBM\\".\\"monitoringCode\\",
+            \\"FormCBM\\".\\"startDateTime\\",
+            \\"FormCBM\\".\\"endDateTime\\",
+            \\"FormCBM\\".confidential,
+            \\"FormCBM\\".\\"moderatorReview\\",
+            \\"FormCBM\\".\\"newSpeciesModeratorReview\\",
+            \\"FormCBM\\".\\"autoLocationEn\\",
+            \\"FormCBM\\".\\"autoLocationLocal\\",
+            \\"FormCBM\\".\\"autoLocationLang\\",
+            \\"FormCBM\\".\\"observationMethodologyEn\\",
+            \\"FormCBM\\".\\"observationMethodologyLocal\\",
+            \\"FormCBM\\".\\"observationMethodologyLang\\",
+            \\"FormCBM\\".\\"bgatlas2008UtmCode\\",
+            true AS nesting
+           FROM public.\\"FormCBM\\"
+        UNION ALL
+         SELECT 'FormCiconia'::text AS form_name,
+            \\"FormCiconia\\".id,
+            \\"FormCiconia\\".latitude,
+            \\"FormCiconia\\".longitude,
+            \\"FormCiconia\\".\\"userId\\",
+            \\"FormCiconia\\".organization,
+            \\"FormCiconia\\".\\"observationDateTime\\",
+            'Ciconia ciconia'::text AS species,
+            NULL::integer AS count,
+            \\"FormCiconia\\".\\"monitoringCode\\",
+            \\"FormCiconia\\".\\"startDateTime\\",
+            \\"FormCiconia\\".\\"endDateTime\\",
+            \\"FormCiconia\\".confidential,
+            \\"FormCiconia\\".\\"moderatorReview\\",
+            \\"FormCiconia\\".\\"newSpeciesModeratorReview\\",
+            \\"FormCiconia\\".\\"autoLocationEn\\",
+            \\"FormCiconia\\".\\"autoLocationLocal\\",
+            \\"FormCiconia\\".\\"autoLocationLang\\",
+            \\"FormCiconia\\".\\"observationMethodologyEn\\",
+            \\"FormCiconia\\".\\"observationMethodologyLocal\\",
+            \\"FormCiconia\\".\\"observationMethodologyLang\\",
+            \\"FormCiconia\\".\\"bgatlas2008UtmCode\\",
+            true AS nesting
+           FROM public.\\"FormCiconia\\") birds_observations;
+
+
+--
+-- Name: bgatlas2008_observed_species; Type: MATERIALIZED VIEW; Schema: public; Owner: -
+--
+
+CREATE MATERIALIZED VIEW public.bgatlas2008_observed_species AS
+ SELECT o.bgatlas2008_utm_code AS utm_code,
+    o.species,
+    (sum(o.count))::integer AS count,
+    (count(e.species) > 0) AS existing
+   FROM (public.birds_observations o
+     LEFT JOIN public.bgatlas2008_species e ON ((((e.utm_code)::text = (o.bgatlas2008_utm_code)::text) AND (e.species = o.species))))
+  WHERE ((((o.bgatlas2008_utm_code IS NOT NULL) AND ((o.bgatlas2008_utm_code)::text <> ''::text)) AND o.nesting) AND (o.observation_date_time >= '2016-01-01 00:00:00+00'::timestamp with time zone))
+  GROUP BY o.bgatlas2008_utm_code, o.species
+  WITH NO DATA;
+
+
+--
+-- Name: bgatlas2008_observed_user_species; Type: MATERIALIZED VIEW; Schema: public; Owner: -
+--
+
+CREATE MATERIALIZED VIEW public.bgatlas2008_observed_user_species AS
+ SELECT o.bgatlas2008_utm_code AS utm_code,
+    o.user_id,
+    o.species,
+    (sum(o.count))::integer AS count,
+    (count(e.species) > 0) AS existing,
+    (count(*))::integer AS records_count
+   FROM (public.birds_observations o
+     LEFT JOIN public.bgatlas2008_species e ON ((((e.utm_code)::text = (o.bgatlas2008_utm_code)::text) AND (e.species = o.species))))
+  WHERE ((((o.bgatlas2008_utm_code IS NOT NULL) AND ((o.bgatlas2008_utm_code)::text <> ''::text)) AND o.nesting) AND (o.observation_date_time >= '2016-01-01 00:00:00+00'::timestamp with time zone))
+  GROUP BY o.bgatlas2008_utm_code, o.user_id, o.species
+  WITH NO DATA;
+
+
+--
+-- Name: bgatlas2008_user_selected; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.bgatlas2008_user_selected (
+    user_id integer NOT NULL,
+    utm_code character varying(4) NOT NULL
+);
+
+
+--
+-- Name: bgatlas2008_stats_global; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.bgatlas2008_stats_global AS
+ SELECT c.utm_code,
+    COALESCE(s.spec_known, 0) AS spec_known,
+    COALESCE(s.spec_unknown, 0) AS spec_unknown,
+    COALESCE(( SELECT (count(e.species))::integer AS count
+           FROM public.bgatlas2008_species e
+          WHERE ((c.utm_code)::text = (e.utm_code)::text)), 0) AS spec_old,
+    COALESCE(usu.selected, 0) AS selected,
+    COALESCE(ss.completed, false) AS completed
+   FROM (((public.bgatlas2008_cells c
+     LEFT JOIN ( SELECT o.utm_code,
+            (sum(
+                CASE
+                    WHEN o.existing THEN 1
+                    ELSE 0
+                END))::integer AS spec_known,
+            (sum(
+                CASE
+                    WHEN o.existing THEN 0
+                    ELSE 1
+                END))::integer AS spec_unknown
+           FROM public.bgatlas2008_observed_species o
+          GROUP BY o.utm_code) s ON (((c.utm_code)::text = (s.utm_code)::text)))
+     LEFT JOIN ( SELECT us.utm_code,
+            (count(*))::integer AS selected
+           FROM public.bgatlas2008_user_selected us
+          GROUP BY us.utm_code) usu ON (((c.utm_code)::text = (usu.utm_code)::text)))
+     LEFT JOIN public.bgatlas2008_cell_status ss ON (((c.utm_code)::text = (ss.utm_code)::text)));
+
+
+--
+-- Name: bgatlas2008_stats_methodology; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.bgatlas2008_stats_methodology AS
+ SELECT t.utm_code,
+    t.observation_methodology,
+    (count(*))::integer AS records_count
+   FROM ( SELECT birds_observations.bgatlas2008_utm_code AS utm_code,
+            COALESCE(birds_observations.observation_methodology_en, ''::text) AS observation_methodology
+           FROM public.birds_observations
+          WHERE ((((birds_observations.bgatlas2008_utm_code IS NOT NULL) AND ((birds_observations.bgatlas2008_utm_code)::text <> ''::text)) AND birds_observations.nesting) AND (birds_observations.observation_date_time >= '2016-01-01 00:00:00+00'::timestamp with time zone))) t
+  GROUP BY t.utm_code, t.observation_methodology;
+
+
+--
+-- Name: bgatlas2008_stats_user; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.bgatlas2008_stats_user AS
+ SELECT c.utm_code,
+    c.user_id,
+    COALESCE(s.spec_known, 0) AS spec_known,
+    COALESCE(s.spec_unknown, 0) AS spec_unknown,
+    COALESCE(( SELECT (count(e.species))::integer AS count
+           FROM public.bgatlas2008_species e
+          WHERE ((c.utm_code)::text = (e.utm_code)::text)), 0) AS spec_old,
+    COALESCE(s.records_count, 0) AS records_count
+   FROM (( SELECT c_1.utm_code,
+            u.id AS user_id
+           FROM public.bgatlas2008_cells c_1,
+            public.\\"Users\\" u) c
+     LEFT JOIN ( SELECT o.utm_code,
+            o.user_id,
+            (sum(
+                CASE
+                    WHEN o.existing THEN 1
+                    ELSE 0
+                END))::integer AS spec_known,
+            (sum(
+                CASE
+                    WHEN o.existing THEN 0
+                    ELSE 1
+                END))::integer AS spec_unknown,
+            (sum(o.records_count))::integer AS records_count
+           FROM public.bgatlas2008_observed_user_species o
+          GROUP BY o.utm_code, o.user_id) s ON ((((c.utm_code)::text = (s.utm_code)::text) AND (c.user_id = s.user_id))));
+
+
+--
+-- Name: bgatlas2008_stats_user_rank; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.bgatlas2008_stats_user_rank AS
+ SELECT user_counts.user_id,
+    user_counts.count,
+    (row_number() OVER (ORDER BY user_counts.count DESC))::integer AS \\"position\\"
+   FROM ( SELECT user_cells.user_id,
+            (count(user_cells.utm_code))::integer AS count
+           FROM (( SELECT bgatlas2008_observed_user_species.user_id,
+                    bgatlas2008_observed_user_species.utm_code
+                   FROM public.bgatlas2008_observed_user_species
+                  GROUP BY bgatlas2008_observed_user_species.user_id, bgatlas2008_observed_user_species.utm_code) user_cells
+             JOIN public.\\"Users\\" u ON ((u.id = user_cells.user_id)))
+          WHERE ((u.privacy)::text = 'public'::text)
+          GROUP BY user_cells.user_id) user_counts;
+
+
+--
+-- Name: birds_stats; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.birds_stats AS
+ SELECT (round((form.latitude / (0.05)::double precision)) * (0.05)::double precision) AS latitude,
+    (round((form.longitude / (0.05)::double precision)) * (0.05)::double precision) AS longitude,
+    count(DISTINCT form.species) AS species_count
+   FROM public.\\"FormBirds\\" form
+  GROUP BY (round((form.latitude / (0.05)::double precision)) * (0.05)::double precision), (round((form.longitude / (0.05)::double precision)) * (0.05)::double precision);
+
+
+--
+-- Name: birds_top_interesting_species_month; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.birds_top_interesting_species_month AS
+ SELECT birds_observations.user_id,
+    birds_observations.species,
+    (sum(birds_observations.count))::integer AS count,
+    date_trunc('day'::text, birds_observations.observation_date_time) AS \\"observationDateTime\\",
+    NULL::text AS location,
+    birds_observations.form_name,
+    birds_observations.auto_location_en AS \\"autoLocationEn\\",
+    birds_observations.auto_location_local AS \\"autoLocationLocal\\",
+    birds_observations.auto_location_lang AS \\"autoLocationLang\\"
+   FROM ((public.birds_observations
+     LEFT JOIN public.\\"Users\\" u ON ((birds_observations.user_id = u.id)))
+     LEFT JOIN public.\\"Species\\" s ON (((s.\\"labelLa\\" = birds_observations.species) AND ((s.type)::text = 'birds'::text))))
+  WHERE (((((((birds_observations.observation_date_time >= (('now'::text)::date - '1 mon'::interval)) AND (birds_observations.count > 0)) AND ((NOT birds_observations.confidential) OR (birds_observations.confidential IS NULL))) AND (s.interesting = true)) AND ((NOT s.sensitive) OR (s.sensitive IS NULL))) AND ((u.privacy)::text = 'public'::text)) AND (birds_observations.auto_location_en IS NOT NULL))
+  GROUP BY birds_observations.form_name, birds_observations.user_id, birds_observations.species, date_trunc('day'::text, birds_observations.observation_date_time), birds_observations.auto_location_en, birds_observations.auto_location_local, birds_observations.auto_location_lang
+  ORDER BY date_trunc('day'::text, birds_observations.observation_date_time) DESC;
+
+
+--
+-- Name: birds_top_species_month; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.birds_top_species_month AS
+ SELECT form.species,
+    count(*) AS count
+   FROM ( SELECT \\"FormBirds\\".species,
+            \\"FormBirds\\".\\"observationDateTime\\"
+           FROM public.\\"FormBirds\\"
+        UNION ALL
+         SELECT \\"FormCBM\\".species,
+            \\"FormCBM\\".\\"observationDateTime\\"
+           FROM public.\\"FormCBM\\"
+        UNION ALL
+         SELECT 'Ciconia ciconia'::text AS species,
+            \\"FormCiconia\\".\\"observationDateTime\\"
+           FROM public.\\"FormCiconia\\") form
+  WHERE (form.\\"observationDateTime\\" >= (('now'::text)::date - '1 mon'::interval))
+  GROUP BY form.species
+  ORDER BY count(*) DESC;
+
+
+--
+-- Name: birds_top_users_records_month; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.birds_top_users_records_month AS
+ SELECT form.\\"userId\\" AS user_id,
+    count(*) AS count
+   FROM (( SELECT \\"FormBirds\\".\\"userId\\",
+            \\"FormBirds\\".\\"observationDateTime\\"
+           FROM public.\\"FormBirds\\"
+        UNION ALL
+         SELECT \\"FormCBM\\".\\"userId\\",
+            \\"FormCBM\\".\\"observationDateTime\\"
+           FROM public.\\"FormCBM\\"
+        UNION ALL
+         SELECT \\"FormCiconia\\".\\"userId\\",
+            \\"FormCiconia\\".\\"observationDateTime\\"
+           FROM public.\\"FormCiconia\\") form
+     JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+  WHERE ((form.\\"observationDateTime\\" >= (('now'::text)::date - '1 mon'::interval)) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.\\"userId\\"
+  ORDER BY count(*) DESC;
+
+
+--
+-- Name: birds_top_users_records_year; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.birds_top_users_records_year AS
+ SELECT form.\\"userId\\" AS user_id,
+    count(*) AS count
+   FROM (( SELECT \\"FormBirds\\".\\"userId\\",
+            \\"FormBirds\\".\\"observationDateTime\\"
+           FROM public.\\"FormBirds\\"
+        UNION ALL
+         SELECT \\"FormCBM\\".\\"userId\\",
+            \\"FormCBM\\".\\"observationDateTime\\"
+           FROM public.\\"FormCBM\\"
+        UNION ALL
+         SELECT \\"FormCiconia\\".\\"userId\\",
+            \\"FormCiconia\\".\\"observationDateTime\\"
+           FROM public.\\"FormCiconia\\") form
+     JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+  WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.\\"userId\\"
+  ORDER BY count(*) DESC;
+
+
+--
+-- Name: birds_top_users_species_month; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.birds_top_users_species_month AS
+ SELECT form.\\"userId\\" AS user_id,
+    count(DISTINCT form.species) AS count
+   FROM (( SELECT \\"FormBirds\\".\\"userId\\",
+            \\"FormBirds\\".species,
+            \\"FormBirds\\".\\"observationDateTime\\"
+           FROM public.\\"FormBirds\\"
+        UNION ALL
+         SELECT \\"FormCBM\\".\\"userId\\",
+            \\"FormCBM\\".species,
+            \\"FormCBM\\".\\"observationDateTime\\"
+           FROM public.\\"FormCBM\\"
+        UNION ALL
+         SELECT \\"FormCiconia\\".\\"userId\\",
+            'Ciconia ciconia'::text AS species,
+            \\"FormCiconia\\".\\"observationDateTime\\"
+           FROM public.\\"FormCiconia\\") form
+     JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+  WHERE ((form.\\"observationDateTime\\" >= (('now'::text)::date - '1 mon'::interval)) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.\\"userId\\"
+  ORDER BY count(DISTINCT form.species) DESC;
+
+
+--
+-- Name: birds_top_users_species_year; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.birds_top_users_species_year AS
+ SELECT form.\\"userId\\" AS user_id,
+    count(DISTINCT form.species) AS count
+   FROM (( SELECT \\"FormBirds\\".\\"userId\\",
+            \\"FormBirds\\".species,
+            \\"FormBirds\\".\\"observationDateTime\\"
+           FROM public.\\"FormBirds\\"
+        UNION ALL
+         SELECT \\"FormCBM\\".\\"userId\\",
+            \\"FormCBM\\".species,
+            \\"FormCBM\\".\\"observationDateTime\\"
+           FROM public.\\"FormCBM\\"
+        UNION ALL
+         SELECT \\"FormCiconia\\".\\"userId\\",
+            'Ciconia ciconia'::text AS species,
+            \\"FormCiconia\\".\\"observationDateTime\\"
+           FROM public.\\"FormCiconia\\") form
+     JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+  WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.\\"userId\\"
+  ORDER BY count(DISTINCT form.species) DESC;
+
+
+--
+-- Name: cbm_stats; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.cbm_stats AS
+SELECT
+    NULL::character varying(10) AS id,
+    NULL::double precision AS latitude,
+    NULL::double precision AS longitude,
+    NULL::bigint AS species_count,
+    NULL::bigint AS units_count,
+    NULL::bigint AS visits_count,
+    NULL::text AS first_name,
+    NULL::text AS last_name;
+
+
+--
+-- Name: ciconia_stats; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.ciconia_stats AS
+ SELECT (round((form.latitude / (0.05)::double precision)) * (0.05)::double precision) AS latitude,
+    (round((form.longitude / (0.05)::double precision)) * (0.05)::double precision) AS longitude,
+    count(*) AS records_count
+   FROM public.\\"FormCiconia\\" form
+  GROUP BY (round((form.latitude / (0.05)::double precision)) * (0.05)::double precision), (round((form.longitude / (0.05)::double precision)) * (0.05)::double precision);
+
+
+--
+-- Name: duplicates; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.duplicates (
+    id integer NOT NULL,
+    form text,
+    id1 integer,
+    id2 integer,
+    hash character varying(64)
+);
+
+
+--
+-- Name: duplicates_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.duplicates_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: duplicates_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.duplicates_id_seq OWNED BY public.duplicates.id;
+
+
+--
+-- Name: herps_stats; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.herps_stats AS
+ SELECT (round((form.latitude / (0.05)::double precision)) * (0.05)::double precision) AS latitude,
+    (round((form.longitude / (0.05)::double precision)) * (0.05)::double precision) AS longitude,
+    count(DISTINCT form.species) AS species_count,
+    sum(form.count) AS units_count
+   FROM public.\\"FormHerps\\" form
+  GROUP BY (round((form.latitude / (0.05)::double precision)) * (0.05)::double precision), (round((form.longitude / (0.05)::double precision)) * (0.05)::double precision);
+
+
+--
+-- Name: herptiles_stats; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.herptiles_stats AS
+ SELECT (round((form.latitude / (0.05)::double precision)) * (0.05)::double precision) AS latitude,
+    (round((form.longitude / (0.05)::double precision)) * (0.05)::double precision) AS longitude,
+    count(DISTINCT form.species) AS species_count,
+    sum(form.count) AS units_count
+   FROM public.\\"FormHerptiles\\" form
+  GROUP BY (round((form.latitude / (0.05)::double precision)) * (0.05)::double precision), (round((form.longitude / (0.05)::double precision)) * (0.05)::double precision);
+
+
+--
+-- Name: herptiles_top_interesting_species_month; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.herptiles_top_interesting_species_month AS
+ SELECT form.\\"userId\\" AS user_id,
+    form.species,
+    form.count,
+    form.\\"observationDateTime\\",
+    form.location,
+    form.\\"autoLocationEn\\",
+    form.\\"autoLocationLocal\\",
+    form.\\"autoLocationLang\\"
+   FROM ((public.\\"FormHerptiles\\" form
+     LEFT JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+     LEFT JOIN public.\\"Species\\" s ON (((s.\\"labelLa\\" = form.species) AND ((s.type)::text = 'herptiles'::text))))
+  WHERE ((((((form.\\"observationDateTime\\" >= (('now'::text)::date - '1 mon'::interval)) AND (form.count > 0)) AND ((NOT form.confidential) OR (form.confidential IS NULL))) AND (s.interesting = true)) AND ((NOT s.sensitive) OR (s.sensitive IS NULL))) AND ((u.privacy)::text = 'public'::text))
+  ORDER BY form.\\"observationDateTime\\" DESC;
+
+
+--
+-- Name: herptiles_top_species_month; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.herptiles_top_species_month AS
+ SELECT form.species,
+    count(*) AS count
+   FROM public.\\"FormHerptiles\\" form
+  WHERE (form.\\"observationDateTime\\" >= (('now'::text)::date - '1 mon'::interval))
+  GROUP BY form.species
+  ORDER BY count(*) DESC;
+
+
+--
+-- Name: herptiles_top_users_records_year; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.herptiles_top_users_records_year AS
+ SELECT form.\\"userId\\" AS user_id,
+    count(*) AS count
+   FROM (public.\\"FormHerptiles\\" form
+     JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+  WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.\\"userId\\"
+  ORDER BY count(*) DESC;
+
+
+--
+-- Name: herptiles_top_users_species_year; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.herptiles_top_users_species_year AS
+ SELECT form.\\"userId\\" AS user_id,
+    count(DISTINCT form.species) AS count
+   FROM (public.\\"FormHerptiles\\" form
+     JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+  WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.\\"userId\\"
+  ORDER BY count(DISTINCT form.species) DESC;
+
+
+--
+-- Name: invertebrates_stats; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.invertebrates_stats AS
+ SELECT (round((form.latitude / (0.05)::double precision)) * (0.05)::double precision) AS latitude,
+    (round((form.longitude / (0.05)::double precision)) * (0.05)::double precision) AS longitude,
+    count(DISTINCT form.species) AS species_count,
+    sum(form.count) AS units_count
+   FROM public.\\"FormInvertebrates\\" form
+  GROUP BY (round((form.latitude / (0.05)::double precision)) * (0.05)::double precision), (round((form.longitude / (0.05)::double precision)) * (0.05)::double precision);
+
+
+--
+-- Name: invertebrates_top_interesting_species_month; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.invertebrates_top_interesting_species_month AS
+ SELECT form.\\"userId\\" AS user_id,
+    form.species,
+    form.count,
+    form.\\"observationDateTime\\",
+    form.location,
+    form.\\"autoLocationEn\\",
+    form.\\"autoLocationLocal\\",
+    form.\\"autoLocationLang\\"
+   FROM ((public.\\"FormInvertebrates\\" form
+     LEFT JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+     LEFT JOIN public.\\"Species\\" s ON (((s.\\"labelLa\\" = form.species) AND ((s.type)::text = 'invertebrates'::text))))
+  WHERE ((((((form.\\"observationDateTime\\" >= (('now'::text)::date - '1 mon'::interval)) AND (form.count > 0)) AND ((NOT form.confidential) OR (form.confidential IS NULL))) AND (s.interesting = true)) AND ((NOT s.sensitive) OR (s.sensitive IS NULL))) AND ((u.privacy)::text = 'public'::text))
+  ORDER BY form.\\"observationDateTime\\" DESC;
+
+
+--
+-- Name: invertebrates_top_species_month; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.invertebrates_top_species_month AS
+ SELECT form.species,
+    count(*) AS count
+   FROM public.\\"FormInvertebrates\\" form
+  WHERE (form.\\"observationDateTime\\" >= (('now'::text)::date - '1 mon'::interval))
+  GROUP BY form.species
+  ORDER BY count(*) DESC;
+
+
+--
+-- Name: invertebrates_top_users_records_year; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.invertebrates_top_users_records_year AS
+ SELECT form.\\"userId\\" AS user_id,
+    count(*) AS count
+   FROM (public.\\"FormInvertebrates\\" form
+     JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+  WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.\\"userId\\"
+  ORDER BY count(*) DESC;
+
+
+--
+-- Name: invertebrates_top_users_species_year; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.invertebrates_top_users_species_year AS
+ SELECT form.\\"userId\\" AS user_id,
+    count(DISTINCT form.species) AS count
+   FROM (public.\\"FormInvertebrates\\" form
+     JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+  WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.\\"userId\\"
+  ORDER BY count(DISTINCT form.species) DESC;
+
+
+--
+-- Name: mammals_stats; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.mammals_stats AS
+ SELECT (round((form.latitude / (0.05)::double precision)) * (0.05)::double precision) AS latitude,
+    (round((form.longitude / (0.05)::double precision)) * (0.05)::double precision) AS longitude,
+    count(DISTINCT form.species) AS species_count,
+    sum(form.count) AS units_count
+   FROM public.\\"FormMammals\\" form
+  GROUP BY (round((form.latitude / (0.05)::double precision)) * (0.05)::double precision), (round((form.longitude / (0.05)::double precision)) * (0.05)::double precision);
+
+
+--
+-- Name: mammals_top_interesting_species_month; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.mammals_top_interesting_species_month AS
+ SELECT form.\\"userId\\" AS user_id,
+    form.species,
+    form.count,
+    form.\\"observationDateTime\\",
+    form.location,
+    form.\\"autoLocationEn\\",
+    form.\\"autoLocationLocal\\",
+    form.\\"autoLocationLang\\"
+   FROM ((public.\\"FormMammals\\" form
+     LEFT JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+     LEFT JOIN public.\\"Species\\" s ON (((s.\\"labelLa\\" = form.species) AND ((s.type)::text = 'mammals'::text))))
+  WHERE ((((((form.\\"observationDateTime\\" >= (('now'::text)::date - '1 mon'::interval)) AND (form.count > 0)) AND ((NOT form.confidential) OR (form.confidential IS NULL))) AND (s.interesting = true)) AND ((NOT s.sensitive) OR (s.sensitive IS NULL))) AND ((u.privacy)::text = 'public'::text))
+  ORDER BY form.\\"observationDateTime\\" DESC;
+
+
+--
+-- Name: mammals_top_species_month; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.mammals_top_species_month AS
+ SELECT form.species,
+    count(*) AS count
+   FROM public.\\"FormMammals\\" form
+  WHERE (form.\\"observationDateTime\\" >= (('now'::text)::date - '1 mon'::interval))
+  GROUP BY form.species
+  ORDER BY count(*) DESC;
+
+
+--
+-- Name: mammals_top_users_records_year; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.mammals_top_users_records_year AS
+ SELECT form.\\"userId\\" AS user_id,
+    count(*) AS count
+   FROM (public.\\"FormMammals\\" form
+     JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+  WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.\\"userId\\"
+  ORDER BY count(*) DESC;
+
+
+--
+-- Name: mammals_top_users_species_year; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.mammals_top_users_species_year AS
+ SELECT form.\\"userId\\" AS user_id,
+    count(DISTINCT form.species) AS count
+   FROM (public.\\"FormMammals\\" form
+     JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+  WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.\\"userId\\"
+  ORDER BY count(DISTINCT form.species) DESC;
+
+
+--
+-- Name: plants_stats; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.plants_stats AS
+ SELECT (round((form.latitude / (0.05)::double precision)) * (0.05)::double precision) AS latitude,
+    (round((form.longitude / (0.05)::double precision)) * (0.05)::double precision) AS longitude,
+    count(DISTINCT form.species) AS species_count,
+    sum(form.count) AS units_count
+   FROM public.\\"FormPlants\\" form
+  GROUP BY (round((form.latitude / (0.05)::double precision)) * (0.05)::double precision), (round((form.longitude / (0.05)::double precision)) * (0.05)::double precision);
+
+
+--
+-- Name: plants_top_interesting_species_month; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.plants_top_interesting_species_month AS
+ SELECT form.\\"userId\\" AS user_id,
+    form.species,
+    form.count,
+    form.\\"observationDateTime\\",
+    form.location,
+    form.\\"autoLocationEn\\",
+    form.\\"autoLocationLocal\\",
+    form.\\"autoLocationLang\\"
+   FROM ((public.\\"FormPlants\\" form
+     LEFT JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+     LEFT JOIN public.\\"Species\\" s ON (((s.\\"labelLa\\" = form.species) AND ((s.type)::text = 'plants'::text))))
+  WHERE ((((((form.\\"observationDateTime\\" >= (('now'::text)::date - '1 mon'::interval)) AND (form.count > 0)) AND ((NOT form.confidential) OR (form.confidential IS NULL))) AND (s.interesting = true)) AND ((NOT s.sensitive) OR (s.sensitive IS NULL))) AND ((u.privacy)::text = 'public'::text))
+  ORDER BY form.\\"observationDateTime\\" DESC;
+
+
+--
+-- Name: plants_top_species_month; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.plants_top_species_month AS
+ SELECT form.species,
+    count(*) AS count
+   FROM public.\\"FormPlants\\" form
+  WHERE (form.\\"observationDateTime\\" >= (('now'::text)::date - '1 mon'::interval))
+  GROUP BY form.species
+  ORDER BY count(*) DESC;
+
+
+--
+-- Name: plants_top_users_records_year; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.plants_top_users_records_year AS
+ SELECT form.\\"userId\\" AS user_id,
+    count(*) AS count
+   FROM (public.\\"FormPlants\\" form
+     JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+  WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.\\"userId\\"
+  ORDER BY count(*) DESC;
+
+
+--
+-- Name: plants_top_users_species_year; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.plants_top_users_species_year AS
+ SELECT form.\\"userId\\" AS user_id,
+    count(DISTINCT form.species) AS count
+   FROM (public.\\"FormPlants\\" form
+     JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+  WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.\\"userId\\"
+  ORDER BY count(DISTINCT form.species) DESC;
+
+
+--
+-- Name: pois; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.pois (
+    id integer NOT NULL,
+    type character varying(32) NOT NULL,
+    label_en text NOT NULL,
+    label_bg text,
+    label_sq text,
+    label_mk text,
+    label_el text,
+    label_tr text,
+    label_ar text,
+    label_fr text,
+    longitude double precision NOT NULL,
+    latitude double precision NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+--
+-- Name: pois_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.pois_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: pois_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.pois_id_seq OWNED BY public.pois.id;
+
+
+--
+-- Name: settlements; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.settlements (
+    id integer NOT NULL,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    \\"nameEn\\" text,
+    \\"nameLocal\\" text,
+    \\"nameLang\\" character varying(3)
+);
+
+
+--
+-- Name: settlements_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.settlements_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: settlements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.settlements_id_seq OWNED BY public.settlements.id;
+
+
+--
+-- Name: threats_stats; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.threats_stats AS
+ SELECT all_forms.latitude,
+    all_forms.longitude,
+    all_forms.\\"threatsLocal\\" AS \\"threatsBg\\",
+    all_forms.\\"threatsEn\\",
+    all_forms.form,
+    all_forms.\\"threatsLocal\\",
+    all_forms.\\"observationDateTime\\",
+    all_forms.\\"threatsLang\\",
+    all_forms.\\"primaryType\\"
+   FROM ( SELECT \\"FormBirds\\".latitude,
+            \\"FormBirds\\".longitude,
+            \\"FormBirds\\".\\"observationDateTime\\",
+            (\\"FormBirds\\".\\"threatsLang\\")::text AS \\"threatsLang\\",
+            unnest(string_to_array(\\"FormBirds\\".\\"threatsLocal\\", ' | '::text)) AS \\"threatsLocal\\",
+            unnest(string_to_array(\\"FormBirds\\".\\"threatsEn\\", ' | '::text)) AS \\"threatsEn\\",
+            'FormBirds'::text AS form,
+            'threat'::text AS \\"primaryType\\"
+           FROM public.\\"FormBirds\\"
+          WHERE ((\\"FormBirds\\".\\"threatsEn\\" IS NOT NULL) AND (\\"FormBirds\\".\\"threatsEn\\" <> ''::text))
+        UNION ALL
+         SELECT \\"FormCBM\\".latitude,
+            \\"FormCBM\\".longitude,
+            \\"FormCBM\\".\\"observationDateTime\\",
+            (\\"FormCBM\\".\\"threatsLang\\")::text AS \\"threatsLang\\",
+            unnest(string_to_array(\\"FormCBM\\".\\"threatsLocal\\", ' | '::text)) AS \\"threatsLocal\\",
+            unnest(string_to_array(\\"FormCBM\\".\\"threatsEn\\", ' | '::text)) AS \\"threatsEn\\",
+            'FormCBM'::text AS form,
+            'threat'::text AS \\"primaryType\\"
+           FROM public.\\"FormCBM\\"
+          WHERE ((\\"FormCBM\\".\\"threatsEn\\" IS NOT NULL) AND (\\"FormCBM\\".\\"threatsEn\\" <> ''::text))
+        UNION ALL
+         SELECT \\"FormCiconia\\".latitude,
+            \\"FormCiconia\\".longitude,
+            \\"FormCiconia\\".\\"observationDateTime\\",
+            (\\"FormCiconia\\".\\"threatsLang\\")::text AS \\"threatsLang\\",
+            unnest(string_to_array(\\"FormCiconia\\".\\"threatsLocal\\", ' | '::text)) AS \\"threatsLocal\\",
+            unnest(string_to_array(\\"FormCiconia\\".\\"threatsEn\\", ' | '::text)) AS \\"threatsEn\\",
+            'FormCiconia'::text AS form,
+            'threat'::text AS \\"primaryType\\"
+           FROM public.\\"FormCiconia\\"
+          WHERE ((\\"FormCiconia\\".\\"threatsEn\\" IS NOT NULL) AND (\\"FormCiconia\\".\\"threatsEn\\" <> ''::text))
+        UNION ALL
+         SELECT \\"FormFishes\\".latitude,
+            \\"FormFishes\\".longitude,
+            \\"FormFishes\\".\\"observationDateTime\\",
+            (\\"FormFishes\\".\\"threatsLang\\")::text AS \\"threatsLang\\",
+            unnest(string_to_array(\\"FormFishes\\".\\"threatsLocal\\", ' | '::text)) AS \\"threatsLocal\\",
+            unnest(string_to_array(\\"FormFishes\\".\\"threatsEn\\", ' | '::text)) AS \\"threatsEn\\",
+            'FormFishes'::text AS form,
+            'threat'::text AS \\"primaryType\\"
+           FROM public.\\"FormFishes\\"
+          WHERE ((\\"FormFishes\\".\\"threatsEn\\" IS NOT NULL) AND (\\"FormFishes\\".\\"threatsEn\\" <> ''::text))
+        UNION ALL
+         SELECT \\"FormHerptiles\\".latitude,
+            \\"FormHerptiles\\".longitude,
+            \\"FormHerptiles\\".\\"observationDateTime\\",
+            (\\"FormHerptiles\\".\\"threatsLang\\")::text AS \\"threatsLang\\",
+            unnest(string_to_array(\\"FormHerptiles\\".\\"threatsLocal\\", ' | '::text)) AS \\"threatsLocal\\",
+            unnest(string_to_array(\\"FormHerptiles\\".\\"threatsEn\\", ' | '::text)) AS \\"threatsEn\\",
+            'FormHerptiles'::text AS form,
+            'threat'::text AS \\"primaryType\\"
+           FROM public.\\"FormHerptiles\\"
+          WHERE ((\\"FormHerptiles\\".\\"threatsEn\\" IS NOT NULL) AND (\\"FormHerptiles\\".\\"threatsEn\\" <> ''::text))
+        UNION ALL
+         SELECT \\"FormInvertebrates\\".latitude,
+            \\"FormInvertebrates\\".longitude,
+            \\"FormInvertebrates\\".\\"observationDateTime\\",
+            (\\"FormInvertebrates\\".\\"threatsLang\\")::text AS \\"threatsLang\\",
+            unnest(string_to_array(\\"FormInvertebrates\\".\\"threatsLocal\\", ' | '::text)) AS \\"threatsLocal\\",
+            unnest(string_to_array(\\"FormInvertebrates\\".\\"threatsEn\\", ' | '::text)) AS \\"threatsEn\\",
+            'FormInvertebrates'::text AS form,
+            'threat'::text AS \\"primaryType\\"
+           FROM public.\\"FormInvertebrates\\"
+          WHERE ((\\"FormInvertebrates\\".\\"threatsEn\\" IS NOT NULL) AND (\\"FormInvertebrates\\".\\"threatsEn\\" <> ''::text))
+        UNION ALL
+         SELECT \\"FormMammals\\".latitude,
+            \\"FormMammals\\".longitude,
+            \\"FormMammals\\".\\"observationDateTime\\",
+            (\\"FormMammals\\".\\"threatsLang\\")::text AS \\"threatsLang\\",
+            unnest(string_to_array(\\"FormMammals\\".\\"threatsLocal\\", ' | '::text)) AS \\"threatsLocal\\",
+            unnest(string_to_array(\\"FormMammals\\".\\"threatsEn\\", ' | '::text)) AS \\"threatsEn\\",
+            'FormMammals'::text AS form,
+            'threat'::text AS \\"primaryType\\"
+           FROM public.\\"FormMammals\\"
+          WHERE ((\\"FormMammals\\".\\"threatsEn\\" IS NOT NULL) AND (\\"FormMammals\\".\\"threatsEn\\" <> ''::text))
+        UNION ALL
+         SELECT \\"FormPlants\\".latitude,
+            \\"FormPlants\\".longitude,
+            \\"FormPlants\\".\\"observationDateTime\\",
+            (\\"FormPlants\\".\\"threatsLang\\")::text AS \\"threatsLang\\",
+            unnest(string_to_array(\\"FormPlants\\".\\"threatsLocal\\", ' | '::text)) AS \\"threatsLocal\\",
+            unnest(string_to_array(\\"FormPlants\\".\\"threatsEn\\", ' | '::text)) AS \\"threatsEn\\",
+            'FormPlants'::text AS form,
+            'threat'::text AS \\"primaryType\\"
+           FROM public.\\"FormPlants\\"
+          WHERE ((\\"FormPlants\\".\\"threatsEn\\" IS NOT NULL) AND (\\"FormPlants\\".\\"threatsEn\\" <> ''::text))
+        UNION ALL
+         SELECT \\"FormThreats\\".latitude,
+            \\"FormThreats\\".longitude,
+            \\"FormThreats\\".\\"observationDateTime\\",
+            \\"FormThreats\\".\\"categoryLang\\" AS \\"threatsLang\\",
+            \\"FormThreats\\".\\"categoryLocal\\" AS \\"threatsLocal\\",
+            \\"FormThreats\\".\\"categoryEn\\" AS \\"threatsEn\\",
+            'threats'::text AS form,
+            \\"FormThreats\\".\\"primaryType\\"
+           FROM public.\\"FormThreats\\") all_forms;
+
+
+--
+-- Name: total_users_records_year; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.total_users_records_year AS
+ SELECT all_forms.user_id,
+    sum(all_forms.count) AS count
+   FROM ( SELECT form.\\"userId\\" AS user_id,
+            count(*) AS count
+           FROM (public.\\"FormBirds\\" form
+             JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+          WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+          GROUP BY form.\\"userId\\"
+        UNION ALL
+         SELECT form.\\"userId\\" AS user_id,
+            count(*) AS count
+           FROM (public.\\"FormHerptiles\\" form
+             JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+          WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+          GROUP BY form.\\"userId\\"
+        UNION ALL
+         SELECT form.\\"userId\\" AS user_id,
+            count(*) AS count
+           FROM (public.\\"FormMammals\\" form
+             JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+          WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+          GROUP BY form.\\"userId\\"
+        UNION ALL
+         SELECT form.\\"userId\\" AS user_id,
+            count(*) AS count
+           FROM (public.\\"FormPlants\\" form
+             JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+          WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+          GROUP BY form.\\"userId\\"
+        UNION ALL
+         SELECT form.\\"userId\\" AS user_id,
+            count(*) AS count
+           FROM (public.\\"FormInvertebrates\\" form
+             JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+          WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+          GROUP BY form.\\"userId\\"
+        UNION ALL
+         SELECT form.\\"userId\\" AS user_id,
+            count(*) AS count
+           FROM (public.\\"FormCBM\\" form
+             JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+          WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+          GROUP BY form.\\"userId\\"
+        UNION ALL
+         SELECT form.\\"userId\\" AS user_id,
+            count(*) AS count
+           FROM (public.\\"FormCiconia\\" form
+             JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
+          WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+          GROUP BY form.\\"userId\\") all_forms
+  GROUP BY all_forms.user_id
+  ORDER BY sum(all_forms.count) DESC;
+
+
+--
+-- Name: user_rank_stats; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.user_rank_stats AS
+ SELECT user_id,
+    birds_top_users_species_year.count AS \\"birdsSpeciesCount\\",
+    birds_top_users_species_year.\\"position\\" AS \\"birdsSpeciesPosition\\",
+    birds_top_users_records_year.count AS \\"birdsRecordsCount\\",
+    birds_top_users_records_year.\\"position\\" AS \\"birdsRecordsPosition\\",
+    herptiles_top_users_species_year.count AS \\"herptilesSpeciesCount\\",
+    herptiles_top_users_species_year.\\"position\\" AS \\"herptilesSpeciesPosition\\",
+    herptiles_top_users_records_year.count AS \\"herptilesRecordsCount\\",
+    herptiles_top_users_records_year.\\"position\\" AS \\"herptilesRecordsPosition\\",
+    mammals_top_users_species_year.count AS \\"mammalsSpeciesCount\\",
+    mammals_top_users_species_year.\\"position\\" AS \\"mammalsSpeciesPosition\\",
+    mammals_top_users_records_year.count AS \\"mammalsRecordsCount\\",
+    mammals_top_users_records_year.\\"position\\" AS \\"mammalsRecordsPosition\\",
+    invertebrates_top_users_species_year.count AS \\"invertebratesSpeciesCount\\",
+    invertebrates_top_users_species_year.\\"position\\" AS \\"invertebratesSpeciesPosition\\",
+    invertebrates_top_users_records_year.count AS \\"invertebratesRecordsCount\\",
+    invertebrates_top_users_records_year.\\"position\\" AS \\"invertebratesRecordsPosition\\",
+    plants_top_users_species_year.count AS \\"plantsSpeciesCount\\",
+    plants_top_users_species_year.\\"position\\" AS \\"plantsSpeciesPosition\\",
+    plants_top_users_records_year.count AS \\"plantsRecordsCount\\",
+    plants_top_users_records_year.\\"position\\" AS \\"plantsRecordsPosition\\"
+   FROM (((((((((( SELECT birds_top_users_species_year_1.user_id,
+            birds_top_users_species_year_1.count,
+            row_number() OVER (ORDER BY birds_top_users_species_year_1.count DESC) AS \\"position\\"
+           FROM public.birds_top_users_species_year birds_top_users_species_year_1) birds_top_users_species_year
+     FULL JOIN ( SELECT birds_top_users_records_year_1.user_id,
+            birds_top_users_records_year_1.count,
+            row_number() OVER (ORDER BY birds_top_users_records_year_1.count DESC) AS \\"position\\"
+           FROM public.birds_top_users_records_year birds_top_users_records_year_1) birds_top_users_records_year USING (user_id))
+     FULL JOIN ( SELECT herptiles_top_users_species_year_1.user_id,
+            herptiles_top_users_species_year_1.count,
+            row_number() OVER (ORDER BY herptiles_top_users_species_year_1.count DESC) AS \\"position\\"
+           FROM public.herptiles_top_users_species_year herptiles_top_users_species_year_1) herptiles_top_users_species_year USING (user_id))
+     FULL JOIN ( SELECT herptiles_top_users_records_year_1.user_id,
+            herptiles_top_users_records_year_1.count,
+            row_number() OVER (ORDER BY herptiles_top_users_records_year_1.count DESC) AS \\"position\\"
+           FROM public.herptiles_top_users_records_year herptiles_top_users_records_year_1) herptiles_top_users_records_year USING (user_id))
+     FULL JOIN ( SELECT mammals_top_users_species_year_1.user_id,
+            mammals_top_users_species_year_1.count,
+            row_number() OVER (ORDER BY mammals_top_users_species_year_1.count DESC) AS \\"position\\"
+           FROM public.mammals_top_users_species_year mammals_top_users_species_year_1) mammals_top_users_species_year USING (user_id))
+     FULL JOIN ( SELECT mammals_top_users_records_year_1.user_id,
+            mammals_top_users_records_year_1.count,
+            row_number() OVER (ORDER BY mammals_top_users_records_year_1.count DESC) AS \\"position\\"
+           FROM public.mammals_top_users_records_year mammals_top_users_records_year_1) mammals_top_users_records_year USING (user_id))
+     FULL JOIN ( SELECT invertebrates_top_users_species_year_1.user_id,
+            invertebrates_top_users_species_year_1.count,
+            row_number() OVER (ORDER BY invertebrates_top_users_species_year_1.count DESC) AS \\"position\\"
+           FROM public.invertebrates_top_users_species_year invertebrates_top_users_species_year_1) invertebrates_top_users_species_year USING (user_id))
+     FULL JOIN ( SELECT invertebrates_top_users_records_year_1.user_id,
+            invertebrates_top_users_records_year_1.count,
+            row_number() OVER (ORDER BY invertebrates_top_users_records_year_1.count DESC) AS \\"position\\"
+           FROM public.invertebrates_top_users_records_year invertebrates_top_users_records_year_1) invertebrates_top_users_records_year USING (user_id))
+     FULL JOIN ( SELECT plants_top_users_species_year_1.user_id,
+            plants_top_users_species_year_1.count,
+            row_number() OVER (ORDER BY plants_top_users_species_year_1.count DESC) AS \\"position\\"
+           FROM public.plants_top_users_species_year plants_top_users_species_year_1) plants_top_users_species_year USING (user_id))
+     FULL JOIN ( SELECT plants_top_users_records_year_1.user_id,
+            plants_top_users_records_year_1.count,
+            row_number() OVER (ORDER BY plants_top_users_records_year_1.count DESC) AS \\"position\\"
+           FROM public.plants_top_users_records_year plants_top_users_records_year_1) plants_top_users_records_year USING (user_id))
+  ORDER BY user_id;
+
+
+--
+-- Name: user_stats; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.user_stats AS
+ SELECT users.id,
+    ((((((COALESCE(cbm.species_count, (0)::bigint) + COALESCE(birds.species_count, (0)::bigint)) + COALESCE(herps.species_count, (0)::bigint)) + COALESCE(herptiles.species_count, (0)::bigint)) + COALESCE(mammals.species_count, (0)::bigint)) + COALESCE(invertebrates.species_count, (0)::bigint)) + COALESCE(plants.species_count, (0)::bigint)) AS species_count,
+    ((((((COALESCE(cbm.count, (0)::bigint) + COALESCE(birds.count, (0)::bigint)) + COALESCE(herps.count, (0)::bigint)) + COALESCE(herptiles.count, (0)::bigint)) + COALESCE(mammals.count, (0)::bigint)) + COALESCE(invertebrates.count, (0)::bigint)) + COALESCE(plants.count, (0)::bigint)) AS entry_count,
+    users.\\"firstName\\" AS first_name,
+    users.\\"lastName\\" AS last_name
+   FROM (((((((public.\\"Users\\" users
+     LEFT JOIN ( SELECT cbm_1.\\"userId\\" AS id,
+            count(DISTINCT cbm_1.species) AS species_count,
+            count(*) AS count
+           FROM public.\\"FormCBM\\" cbm_1
+          GROUP BY cbm_1.\\"userId\\") cbm USING (id))
+     LEFT JOIN ( SELECT birds_1.\\"userId\\" AS id,
+            count(DISTINCT birds_1.species) AS species_count,
+            count(*) AS count
+           FROM public.\\"FormBirds\\" birds_1
+          GROUP BY birds_1.\\"userId\\") birds USING (id))
+     LEFT JOIN ( SELECT herps_1.\\"userId\\" AS id,
+            count(DISTINCT herps_1.species) AS species_count,
+            count(*) AS count
+           FROM public.\\"FormHerps\\" herps_1
+          GROUP BY herps_1.\\"userId\\") herps USING (id))
+     LEFT JOIN ( SELECT herptiles_1.\\"userId\\" AS id,
+            count(DISTINCT herptiles_1.species) AS species_count,
+            count(*) AS count
+           FROM public.\\"FormHerptiles\\" herptiles_1
+          GROUP BY herptiles_1.\\"userId\\") herptiles USING (id))
+     LEFT JOIN ( SELECT mammals_1.\\"userId\\" AS id,
+            count(DISTINCT mammals_1.species) AS species_count,
+            count(*) AS count
+           FROM public.\\"FormMammals\\" mammals_1
+          GROUP BY mammals_1.\\"userId\\") mammals USING (id))
+     LEFT JOIN ( SELECT invertebrates_1.\\"userId\\" AS id,
+            count(DISTINCT invertebrates_1.species) AS species_count,
+            count(*) AS count
+           FROM public.\\"FormInvertebrates\\" invertebrates_1
+          GROUP BY invertebrates_1.\\"userId\\") invertebrates USING (id))
+     LEFT JOIN ( SELECT plants_1.\\"userId\\" AS id,
+            count(DISTINCT plants_1.species) AS species_count,
+            count(*) AS count
+           FROM public.\\"FormPlants\\" plants_1
+          GROUP BY plants_1.\\"userId\\") plants USING (id));
+
+
+--
+-- Name: FormBirds id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormBirds\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"FormBirds_id_seq\\"'::regclass);
+
+
+--
+-- Name: FormCBM id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormCBM\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"FormCBM_id_seq\\"'::regclass);
+
+
+--
+-- Name: FormCiconia id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormCiconia\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"FormCiconia_id_seq\\"'::regclass);
+
+
+--
+-- Name: FormHerps id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormHerps\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"FormHerps_id_seq\\"'::regclass);
+
+
+--
+-- Name: FormHerptiles id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormHerptiles\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"FormHerptiles_id_seq\\"'::regclass);
+
+
+--
+-- Name: FormInvertebrates id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormInvertebrates\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"FormInvertebrates_id_seq\\"'::regclass);
+
+
+--
+-- Name: FormMammals id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormMammals\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"FormMammals_id_seq\\"'::regclass);
+
+
+--
+-- Name: FormPlants id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormPlants\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"FormPlants_id_seq\\"'::regclass);
+
+
+--
+-- Name: FormPylons id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormPylons\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"FormPylons_id_seq\\"'::regclass);
+
+
+--
+-- Name: FormPylonsCasualties id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormPylonsCasualties\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"FormPylonsCasualties_id_seq\\"'::regclass);
+
+
+--
+-- Name: FormThreats id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormThreats\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"FormThreats_id_seq\\"'::regclass);
+
+
+--
+-- Name: Locations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"Locations\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"Locations_id_seq\\"'::regclass);
+
+
+--
+-- Name: Nomenclatures id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"Nomenclatures\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"Nomenclatures_id_seq\\"'::regclass);
+
+
+--
+-- Name: Organizations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"Organizations\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"Organizations_id_seq\\"'::regclass);
+
+
+--
+-- Name: Shares id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"Shares\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"Shares_id_seq\\"'::regclass);
+
+
+--
+-- Name: Species id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"Species\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"Species_id_seq\\"'::regclass);
+
+
+--
+-- Name: Users id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"Users\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"Users_id_seq\\"'::regclass);
+
+
+--
+-- Name: Visits id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"Visits\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"Visits_id_seq\\"'::regclass);
+
+
+--
+-- Name: duplicates id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.duplicates ALTER COLUMN id SET DEFAULT nextval('public.duplicates_id_seq'::regclass);
+
+
+--
+-- Name: pois id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pois ALTER COLUMN id SET DEFAULT nextval('public.pois_id_seq'::regclass);
+
+
+--
+-- Name: settlements id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.settlements ALTER COLUMN id SET DEFAULT nextval('public.settlements_id_seq'::regclass);
+
+
+--
+-- Name: FormBirdsMigrations FormBirdsMigrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormBirdsMigrations\\"
+    ADD CONSTRAINT \\"FormBirdsMigrations_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: FormBirds FormBirds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormBirds\\"
+    ADD CONSTRAINT \\"FormBirds_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: FormCBM FormCBM_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormCBM\\"
+    ADD CONSTRAINT \\"FormCBM_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: FormCiconia FormCiconia_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormCiconia\\"
+    ADD CONSTRAINT \\"FormCiconia_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: FormFishes FormFishes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormFishes\\"
+    ADD CONSTRAINT \\"FormFishes_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: FormHerps FormHerps_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormHerps\\"
+    ADD CONSTRAINT \\"FormHerps_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: FormHerptiles FormHerptiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormHerptiles\\"
+    ADD CONSTRAINT \\"FormHerptiles_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: FormInvertebrates FormInvertebrates_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormInvertebrates\\"
+    ADD CONSTRAINT \\"FormInvertebrates_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: FormMammals FormMammals_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormMammals\\"
+    ADD CONSTRAINT \\"FormMammals_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: FormPlants FormPlants_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormPlants\\"
+    ADD CONSTRAINT \\"FormPlants_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: FormPylonsCasualties FormPylonsCasualties_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormPylonsCasualties\\"
+    ADD CONSTRAINT \\"FormPylonsCasualties_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: FormPylons FormPylons_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormPylons\\"
+    ADD CONSTRAINT \\"FormPylons_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: FormThreats FormThreats_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormThreats\\"
+    ADD CONSTRAINT \\"FormThreats_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: Locations Locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"Locations\\"
+    ADD CONSTRAINT \\"Locations_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: Nomenclatures Nomenclatures_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"Nomenclatures\\"
+    ADD CONSTRAINT \\"Nomenclatures_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: Organizations Organizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"Organizations\\"
+    ADD CONSTRAINT \\"Organizations_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: SequelizeMeta SequelizeMeta_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"SequelizeMeta\\"
+    ADD CONSTRAINT \\"SequelizeMeta_pkey\\" PRIMARY KEY (name);
+
+
+--
+-- Name: Shares Shares_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"Shares\\"
+    ADD CONSTRAINT \\"Shares_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: Species Species_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"Species\\"
+    ADD CONSTRAINT \\"Species_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: Users Users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"Users\\"
+    ADD CONSTRAINT \\"Users_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: Visits Visits_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"Visits\\"
+    ADD CONSTRAINT \\"Visits_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: Zones Zones_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"Zones\\"
+    ADD CONSTRAINT \\"Zones_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: bgatlas2008_cell_status bgatlas2008_cell_status_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bgatlas2008_cell_status
+    ADD CONSTRAINT bgatlas2008_cell_status_pkey PRIMARY KEY (utm_code);
+
+
+--
+-- Name: bgatlas2008_cells bgatlas2008_cells_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bgatlas2008_cells
+    ADD CONSTRAINT bgatlas2008_cells_pkey PRIMARY KEY (utm_code);
+
+
+--
+-- Name: bgatlas2008_species bgatlas2008_species_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bgatlas2008_species
+    ADD CONSTRAINT bgatlas2008_species_pkey PRIMARY KEY (utm_code, species);
+
+
+--
+-- Name: bgatlas2008_user_selected bgatlas2008_user_selected_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bgatlas2008_user_selected
+    ADD CONSTRAINT bgatlas2008_user_selected_pkey PRIMARY KEY (user_id, utm_code);
+
+
+--
+-- Name: duplicates duplicates_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.duplicates
+    ADD CONSTRAINT duplicates_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pois pois_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pois
+    ADD CONSTRAINT pois_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: settlements settlements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.settlements
+    ADD CONSTRAINT settlements_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: FormBirds_threatsEn; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX \\"FormBirds_threatsEn\\" ON public.\\"FormBirds\\" USING btree (\\"threatsEn\\");
+
+
+--
+-- Name: FormCBM_threatsEn; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX \\"FormCBM_threatsEn\\" ON public.\\"FormCBM\\" USING btree (\\"threatsEn\\");
+
+
+--
+-- Name: FormCiconia_threatsEn; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX \\"FormCiconia_threatsEn\\" ON public.\\"FormCiconia\\" USING btree (\\"threatsEn\\");
+
+
+--
+-- Name: FormHerps_threatsEn; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX \\"FormHerps_threatsEn\\" ON public.\\"FormHerps\\" USING btree (\\"threatsEn\\");
+
+
+--
+-- Name: FormHerptiles_threatsEn; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX \\"FormHerptiles_threatsEn\\" ON public.\\"FormHerptiles\\" USING btree (\\"threatsEn\\");
+
+
+--
+-- Name: FormInvertebrates_threatsEn; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX \\"FormInvertebrates_threatsEn\\" ON public.\\"FormInvertebrates\\" USING btree (\\"threatsEn\\");
+
+
+--
+-- Name: FormMammals_threatsEn; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX \\"FormMammals_threatsEn\\" ON public.\\"FormMammals\\" USING btree (\\"threatsEn\\");
+
+
+--
+-- Name: FormPlants_threatsEn; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX \\"FormPlants_threatsEn\\" ON public.\\"FormPlants\\" USING btree (\\"threatsEn\\");
+
+
+--
+-- Name: bgatlas2008_cell_status_completed; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX bgatlas2008_cell_status_completed ON public.bgatlas2008_cell_status USING btree (completed);
+
+
+--
+-- Name: bgatlas2008_cells_lat1; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX bgatlas2008_cells_lat1 ON public.bgatlas2008_cells USING btree (lat1);
+
+
+--
+-- Name: bgatlas2008_cells_lat2; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX bgatlas2008_cells_lat2 ON public.bgatlas2008_cells USING btree (lat2);
+
+
+--
+-- Name: bgatlas2008_cells_lat3; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX bgatlas2008_cells_lat3 ON public.bgatlas2008_cells USING btree (lat3);
+
+
+--
+-- Name: bgatlas2008_cells_lat4; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX bgatlas2008_cells_lat4 ON public.bgatlas2008_cells USING btree (lat4);
+
+
+--
+-- Name: bgatlas2008_cells_lon1; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX bgatlas2008_cells_lon1 ON public.bgatlas2008_cells USING btree (lon1);
+
+
+--
+-- Name: bgatlas2008_cells_lon2; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX bgatlas2008_cells_lon2 ON public.bgatlas2008_cells USING btree (lon2);
+
+
+--
+-- Name: bgatlas2008_cells_lon3; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX bgatlas2008_cells_lon3 ON public.bgatlas2008_cells USING btree (lon3);
+
+
+--
+-- Name: bgatlas2008_cells_lon4; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX bgatlas2008_cells_lon4 ON public.bgatlas2008_cells USING btree (lon4);
+
+
+--
+-- Name: bgatlas2008_user_selected_utm_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX bgatlas2008_user_selected_utm_code ON public.bgatlas2008_user_selected USING btree (utm_code);
+
+
+--
+-- Name: duplicates_form_hash; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX duplicates_form_hash ON public.duplicates USING btree (form, hash);
+
+
+--
+-- Name: duplicates_form_id1; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX duplicates_form_id1 ON public.duplicates USING btree (form, id1);
+
+
+--
+-- Name: form_birds_auto_location_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_auto_location_en ON public.\\"FormBirds\\" USING btree (\\"autoLocationEn\\");
+
+
+--
+-- Name: form_birds_auto_location_local; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_auto_location_local ON public.\\"FormBirds\\" USING btree (\\"autoLocationLocal\\");
+
+
+--
+-- Name: form_birds_bgatlas2008_utm_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_bgatlas2008_utm_code ON public.\\"FormBirds\\" USING btree (\\"bgatlas2008UtmCode\\");
+
+
+--
+-- Name: form_birds_hash; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX form_birds_hash ON public.\\"FormBirds\\" USING btree (hash);
+
+
+--
+-- Name: form_birds_location; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_location ON public.\\"FormBirds\\" USING btree (location);
+
+
+--
+-- Name: form_birds_migrations_auto_location_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_migrations_auto_location_en ON public.\\"FormBirdsMigrations\\" USING btree (\\"autoLocationEn\\");
+
+
+--
+-- Name: form_birds_migrations_bgatlas2008_utm_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_migrations_bgatlas2008_utm_code ON public.\\"FormBirdsMigrations\\" USING btree (\\"bgatlas2008UtmCode\\");
+
+
+--
+-- Name: form_birds_migrations_hash; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX form_birds_migrations_hash ON public.\\"FormBirdsMigrations\\" USING btree (hash);
+
+
+--
+-- Name: form_birds_migrations_location; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_migrations_location ON public.\\"FormBirdsMigrations\\" USING btree (location);
+
+
+--
+-- Name: form_birds_migrations_migration_point_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_migrations_migration_point_en ON public.\\"FormBirdsMigrations\\" USING btree (\\"migrationPointEn\\");
+
+
+--
+-- Name: form_birds_migrations_moderator_review; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_migrations_moderator_review ON public.\\"FormBirdsMigrations\\" USING btree (\\"moderatorReview\\");
+
+
+--
+-- Name: form_birds_migrations_monitoring_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_migrations_monitoring_code ON public.\\"FormBirdsMigrations\\" USING btree (\\"monitoringCode\\");
+
+
+--
+-- Name: form_birds_migrations_new_species_moderator_review; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_migrations_new_species_moderator_review ON public.\\"FormBirdsMigrations\\" USING btree (\\"newSpeciesModeratorReview\\");
+
+
+--
+-- Name: form_birds_migrations_observation_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_migrations_observation_date_time ON public.\\"FormBirdsMigrations\\" USING btree (\\"observationDateTime\\");
+
+
+--
+-- Name: form_birds_migrations_organization; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_migrations_organization ON public.\\"FormBirdsMigrations\\" USING btree (organization);
+
+
+--
+-- Name: form_birds_migrations_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_migrations_user_id ON public.\\"FormBirdsMigrations\\" USING btree (\\"userId\\");
+
+
+--
+-- Name: form_birds_moderator_review; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_moderator_review ON public.\\"FormBirds\\" USING btree (\\"moderatorReview\\");
+
+
+--
+-- Name: form_birds_monitoring_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_monitoring_code ON public.\\"FormBirds\\" USING btree (\\"monitoringCode\\");
+
+
+--
+-- Name: form_birds_new_species_moderator_review; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_new_species_moderator_review ON public.\\"FormBirds\\" USING btree (\\"newSpeciesModeratorReview\\");
+
+
+--
+-- Name: form_birds_observation_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_observation_date_time ON public.\\"FormBirds\\" USING btree (\\"observationDateTime\\");
+
+
+--
+-- Name: form_birds_organization; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_organization ON public.\\"FormBirds\\" USING btree (organization);
+
+
+--
+-- Name: form_birds_species; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_species ON public.\\"FormBirds\\" USING btree (species);
+
+
+--
+-- Name: form_birds_start_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_start_date_time ON public.\\"FormBirds\\" USING btree (\\"startDateTime\\");
+
+
+--
+-- Name: form_birds_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_user_id ON public.\\"FormBirds\\" USING btree (\\"userId\\");
+
+
+--
+-- Name: form_c_b_m_auto_location_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_c_b_m_auto_location_en ON public.\\"FormCBM\\" USING btree (\\"autoLocationEn\\");
+
+
+--
+-- Name: form_c_b_m_auto_location_local; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_c_b_m_auto_location_local ON public.\\"FormCBM\\" USING btree (\\"autoLocationLocal\\");
+
+
+--
+-- Name: form_c_b_m_auto_visit_observation_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_c_b_m_auto_visit_observation_date_time ON public.\\"FormCBM\\" USING btree (auto_visit, \\"observationDateTime\\");
+
+
+--
+-- Name: form_c_b_m_bgatlas2008_utm_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_c_b_m_bgatlas2008_utm_code ON public.\\"FormCBM\\" USING btree (\\"bgatlas2008UtmCode\\");
+
+
+--
+-- Name: form_c_b_m_hash; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX form_c_b_m_hash ON public.\\"FormCBM\\" USING btree (hash);
+
+
+--
+-- Name: form_c_b_m_moderator_review; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_c_b_m_moderator_review ON public.\\"FormCBM\\" USING btree (\\"moderatorReview\\");
+
+
+--
+-- Name: form_c_b_m_new_species_moderator_review; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_c_b_m_new_species_moderator_review ON public.\\"FormCBM\\" USING btree (\\"newSpeciesModeratorReview\\");
+
+
+--
+-- Name: form_c_b_m_observation_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_c_b_m_observation_date_time ON public.\\"FormCBM\\" USING btree (\\"observationDateTime\\");
+
+
+--
+-- Name: form_c_b_m_organization; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_c_b_m_organization ON public.\\"FormCBM\\" USING btree (organization);
+
+
+--
+-- Name: form_c_b_m_species; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_c_b_m_species ON public.\\"FormCBM\\" USING btree (species);
+
+
+--
+-- Name: form_c_b_m_start_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_c_b_m_start_date_time ON public.\\"FormCBM\\" USING btree (\\"startDateTime\\");
+
+
+--
+-- Name: form_c_b_m_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_c_b_m_user_id ON public.\\"FormCBM\\" USING btree (\\"userId\\");
+
+
+--
+-- Name: form_c_b_m_visit_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_c_b_m_visit_en ON public.\\"FormCBM\\" USING btree (\\"visitEn\\");
+
+
+--
+-- Name: form_c_b_m_visit_local_visit_lang; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_c_b_m_visit_local_visit_lang ON public.\\"FormCBM\\" USING btree (\\"visitLocal\\", \\"visitLang\\");
+
+
+--
+-- Name: form_c_b_m_zone_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_c_b_m_zone_id ON public.\\"FormCBM\\" USING btree (\\"zoneId\\");
+
+
+--
+-- Name: form_ciconia_auto_location_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_ciconia_auto_location_en ON public.\\"FormCiconia\\" USING btree (\\"autoLocationEn\\");
+
+
+--
+-- Name: form_ciconia_auto_location_local; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_ciconia_auto_location_local ON public.\\"FormCiconia\\" USING btree (\\"autoLocationLocal\\");
+
+
+--
+-- Name: form_ciconia_bgatlas2008_utm_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_ciconia_bgatlas2008_utm_code ON public.\\"FormCiconia\\" USING btree (\\"bgatlas2008UtmCode\\");
+
+
+--
+-- Name: form_ciconia_hash; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX form_ciconia_hash ON public.\\"FormCiconia\\" USING btree (hash);
+
+
+--
+-- Name: form_ciconia_location; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_ciconia_location ON public.\\"FormCiconia\\" USING btree (location);
+
+
+--
+-- Name: form_ciconia_moderator_review; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_ciconia_moderator_review ON public.\\"FormCiconia\\" USING btree (\\"moderatorReview\\");
+
+
+--
+-- Name: form_ciconia_monitoring_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_ciconia_monitoring_code ON public.\\"FormCiconia\\" USING btree (\\"monitoringCode\\");
+
+
+--
+-- Name: form_ciconia_new_species_moderator_review; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_ciconia_new_species_moderator_review ON public.\\"FormCiconia\\" USING btree (\\"newSpeciesModeratorReview\\");
+
+
+--
+-- Name: form_ciconia_observation_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_ciconia_observation_date_time ON public.\\"FormCiconia\\" USING btree (\\"observationDateTime\\");
+
+
+--
+-- Name: form_ciconia_organization; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_ciconia_organization ON public.\\"FormCiconia\\" USING btree (organization);
+
+
+--
+-- Name: form_ciconia_start_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_ciconia_start_date_time ON public.\\"FormCiconia\\" USING btree (\\"startDateTime\\");
+
+
+--
+-- Name: form_ciconia_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_ciconia_user_id ON public.\\"FormCiconia\\" USING btree (\\"userId\\");
+
+
+--
+-- Name: form_herps_hash; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX form_herps_hash ON public.\\"FormHerps\\" USING btree (hash);
+
+
+--
+-- Name: form_herps_location; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_herps_location ON public.\\"FormHerps\\" USING btree (location);
+
+
+--
+-- Name: form_herps_monitoring_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_herps_monitoring_code ON public.\\"FormHerps\\" USING btree (\\"monitoringCode\\");
+
+
+--
+-- Name: form_herps_observation_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_herps_observation_date_time ON public.\\"FormHerps\\" USING btree (\\"observationDateTime\\");
+
+
+--
+-- Name: form_herps_species; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_herps_species ON public.\\"FormHerps\\" USING btree (species);
+
+
+--
+-- Name: form_herps_start_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_herps_start_date_time ON public.\\"FormHerps\\" USING btree (\\"startDateTime\\");
+
+
+--
+-- Name: form_herps_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_herps_user_id ON public.\\"FormHerps\\" USING btree (\\"userId\\");
+
+
+--
+-- Name: form_herptiles_auto_location_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_herptiles_auto_location_en ON public.\\"FormHerptiles\\" USING btree (\\"autoLocationEn\\");
+
+
+--
+-- Name: form_herptiles_auto_location_local; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_herptiles_auto_location_local ON public.\\"FormHerptiles\\" USING btree (\\"autoLocationLocal\\");
+
+
+--
+-- Name: form_herptiles_hash; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX form_herptiles_hash ON public.\\"FormHerptiles\\" USING btree (hash);
+
+
+--
+-- Name: form_herptiles_location; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_herptiles_location ON public.\\"FormHerptiles\\" USING btree (location);
+
+
+--
+-- Name: form_herptiles_moderator_review; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_herptiles_moderator_review ON public.\\"FormHerptiles\\" USING btree (\\"moderatorReview\\");
+
+
+--
+-- Name: form_herptiles_monitoring_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_herptiles_monitoring_code ON public.\\"FormHerptiles\\" USING btree (\\"monitoringCode\\");
+
+
+--
+-- Name: form_herptiles_observation_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_herptiles_observation_date_time ON public.\\"FormHerptiles\\" USING btree (\\"observationDateTime\\");
+
+
+--
+-- Name: form_herptiles_organization; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_herptiles_organization ON public.\\"FormHerptiles\\" USING btree (organization);
+
+
+--
+-- Name: form_herptiles_species; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_herptiles_species ON public.\\"FormHerptiles\\" USING btree (species);
+
+
+--
+-- Name: form_herptiles_start_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_herptiles_start_date_time ON public.\\"FormHerptiles\\" USING btree (\\"startDateTime\\");
+
+
+--
+-- Name: form_herptiles_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_herptiles_user_id ON public.\\"FormHerptiles\\" USING btree (\\"userId\\");
+
+
+--
+-- Name: form_invertebrates_auto_location_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_invertebrates_auto_location_en ON public.\\"FormInvertebrates\\" USING btree (\\"autoLocationEn\\");
+
+
+--
+-- Name: form_invertebrates_auto_location_local; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_invertebrates_auto_location_local ON public.\\"FormInvertebrates\\" USING btree (\\"autoLocationLocal\\");
+
+
+--
+-- Name: form_invertebrates_hash; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX form_invertebrates_hash ON public.\\"FormInvertebrates\\" USING btree (hash);
+
+
+--
+-- Name: form_invertebrates_location; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_invertebrates_location ON public.\\"FormInvertebrates\\" USING btree (location);
+
+
+--
+-- Name: form_invertebrates_moderator_review; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_invertebrates_moderator_review ON public.\\"FormInvertebrates\\" USING btree (\\"moderatorReview\\");
+
+
+--
+-- Name: form_invertebrates_monitoring_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_invertebrates_monitoring_code ON public.\\"FormInvertebrates\\" USING btree (\\"monitoringCode\\");
+
+
+--
+-- Name: form_invertebrates_observation_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_invertebrates_observation_date_time ON public.\\"FormInvertebrates\\" USING btree (\\"observationDateTime\\");
+
+
+--
+-- Name: form_invertebrates_organization; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_invertebrates_organization ON public.\\"FormInvertebrates\\" USING btree (organization);
+
+
+--
+-- Name: form_invertebrates_species; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_invertebrates_species ON public.\\"FormInvertebrates\\" USING btree (species);
+
+
+--
+-- Name: form_invertebrates_start_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_invertebrates_start_date_time ON public.\\"FormInvertebrates\\" USING btree (\\"startDateTime\\");
+
+
+--
+-- Name: form_invertebrates_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_invertebrates_user_id ON public.\\"FormInvertebrates\\" USING btree (\\"userId\\");
+
+
+--
+-- Name: form_mammals_auto_location_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_mammals_auto_location_en ON public.\\"FormMammals\\" USING btree (\\"autoLocationEn\\");
+
+
+--
+-- Name: form_mammals_auto_location_local; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_mammals_auto_location_local ON public.\\"FormMammals\\" USING btree (\\"autoLocationLocal\\");
+
+
+--
+-- Name: form_mammals_hash; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX form_mammals_hash ON public.\\"FormMammals\\" USING btree (hash);
+
+
+--
+-- Name: form_mammals_location; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_mammals_location ON public.\\"FormMammals\\" USING btree (location);
+
+
+--
+-- Name: form_mammals_moderator_review; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_mammals_moderator_review ON public.\\"FormMammals\\" USING btree (\\"moderatorReview\\");
+
+
+--
+-- Name: form_mammals_monitoring_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_mammals_monitoring_code ON public.\\"FormMammals\\" USING btree (\\"monitoringCode\\");
+
+
+--
+-- Name: form_mammals_observation_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_mammals_observation_date_time ON public.\\"FormMammals\\" USING btree (\\"observationDateTime\\");
+
+
+--
+-- Name: form_mammals_organization; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_mammals_organization ON public.\\"FormMammals\\" USING btree (organization);
+
+
+--
+-- Name: form_mammals_species; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_mammals_species ON public.\\"FormMammals\\" USING btree (species);
+
+
+--
+-- Name: form_mammals_start_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_mammals_start_date_time ON public.\\"FormMammals\\" USING btree (\\"startDateTime\\");
+
+
+--
+-- Name: form_mammals_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_mammals_user_id ON public.\\"FormMammals\\" USING btree (\\"userId\\");
+
+
+--
+-- Name: form_plants_auto_location_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_plants_auto_location_en ON public.\\"FormPlants\\" USING btree (\\"autoLocationEn\\");
+
+
+--
+-- Name: form_plants_auto_location_local; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_plants_auto_location_local ON public.\\"FormPlants\\" USING btree (\\"autoLocationLocal\\");
+
+
+--
+-- Name: form_plants_hash; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX form_plants_hash ON public.\\"FormPlants\\" USING btree (hash);
+
+
+--
+-- Name: form_plants_location; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_plants_location ON public.\\"FormPlants\\" USING btree (location);
+
+
+--
+-- Name: form_plants_moderator_review; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_plants_moderator_review ON public.\\"FormPlants\\" USING btree (\\"moderatorReview\\");
+
+
+--
+-- Name: form_plants_monitoring_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_plants_monitoring_code ON public.\\"FormPlants\\" USING btree (\\"monitoringCode\\");
+
+
+--
+-- Name: form_plants_observation_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_plants_observation_date_time ON public.\\"FormPlants\\" USING btree (\\"observationDateTime\\");
+
+
+--
+-- Name: form_plants_organization; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_plants_organization ON public.\\"FormPlants\\" USING btree (organization);
+
+
+--
+-- Name: form_plants_species; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_plants_species ON public.\\"FormPlants\\" USING btree (species);
+
+
+--
+-- Name: form_plants_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_plants_user_id ON public.\\"FormPlants\\" USING btree (\\"userId\\");
+
+
+--
+-- Name: form_pylons_auto_location_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_pylons_auto_location_en ON public.\\"FormPylons\\" USING btree (\\"autoLocationEn\\");
+
+
+--
+-- Name: form_pylons_casualties_auto_location_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_pylons_casualties_auto_location_en ON public.\\"FormPylonsCasualties\\" USING btree (\\"autoLocationEn\\");
+
+
+--
+-- Name: form_pylons_casualties_hash; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX form_pylons_casualties_hash ON public.\\"FormPylonsCasualties\\" USING btree (hash);
+
+
+--
+-- Name: form_pylons_casualties_location; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_pylons_casualties_location ON public.\\"FormPylonsCasualties\\" USING btree (location);
+
+
+--
+-- Name: form_pylons_casualties_moderator_review; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_pylons_casualties_moderator_review ON public.\\"FormPylonsCasualties\\" USING btree (\\"moderatorReview\\");
+
+
+--
+-- Name: form_pylons_casualties_monitoring_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_pylons_casualties_monitoring_code ON public.\\"FormPylonsCasualties\\" USING btree (\\"monitoringCode\\");
+
+
+--
+-- Name: form_pylons_casualties_observation_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_pylons_casualties_observation_date_time ON public.\\"FormPylonsCasualties\\" USING btree (\\"observationDateTime\\");
+
+
+--
+-- Name: form_pylons_casualties_organization; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_pylons_casualties_organization ON public.\\"FormPylonsCasualties\\" USING btree (organization);
+
+
+--
+-- Name: form_pylons_casualties_species; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_pylons_casualties_species ON public.\\"FormPylonsCasualties\\" USING btree (species);
+
+
+--
+-- Name: form_pylons_casualties_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_pylons_casualties_user_id ON public.\\"FormPylonsCasualties\\" USING btree (\\"userId\\");
+
+
+--
+-- Name: form_pylons_hash; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX form_pylons_hash ON public.\\"FormPylons\\" USING btree (hash);
+
+
+--
+-- Name: form_pylons_location; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_pylons_location ON public.\\"FormPylons\\" USING btree (location);
+
+
+--
+-- Name: form_pylons_moderator_review; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_pylons_moderator_review ON public.\\"FormPylons\\" USING btree (\\"moderatorReview\\");
+
+
+--
+-- Name: form_pylons_monitoring_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_pylons_monitoring_code ON public.\\"FormPylons\\" USING btree (\\"monitoringCode\\");
+
+
+--
+-- Name: form_pylons_observation_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_pylons_observation_date_time ON public.\\"FormPylons\\" USING btree (\\"observationDateTime\\");
+
+
+--
+-- Name: form_pylons_organization; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_pylons_organization ON public.\\"FormPylons\\" USING btree (organization);
+
+
+--
+-- Name: form_pylons_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_pylons_user_id ON public.\\"FormPylons\\" USING btree (\\"userId\\");
+
+
+--
+-- Name: form_threats_auto_location_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_threats_auto_location_en ON public.\\"FormThreats\\" USING btree (\\"autoLocationEn\\");
+
+
+--
+-- Name: form_threats_auto_location_local; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_threats_auto_location_local ON public.\\"FormThreats\\" USING btree (\\"autoLocationLocal\\");
+
+
+--
+-- Name: form_threats_hash; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX form_threats_hash ON public.\\"FormThreats\\" USING btree (hash);
+
+
+--
+-- Name: form_threats_location; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_threats_location ON public.\\"FormThreats\\" USING btree (location);
+
+
+--
+-- Name: form_threats_moderator_review; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_threats_moderator_review ON public.\\"FormThreats\\" USING btree (\\"moderatorReview\\");
+
+
+--
+-- Name: form_threats_monitoring_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_threats_monitoring_code ON public.\\"FormThreats\\" USING btree (\\"monitoringCode\\");
+
+
+--
+-- Name: form_threats_observation_date_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_threats_observation_date_time ON public.\\"FormThreats\\" USING btree (\\"observationDateTime\\");
+
+
+--
+-- Name: form_threats_organization; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_threats_organization ON public.\\"FormThreats\\" USING btree (organization);
+
+
+--
+-- Name: form_threats_species; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_threats_species ON public.\\"FormThreats\\" USING btree (species);
+
+
+--
+-- Name: form_threats_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_threats_user_id ON public.\\"FormThreats\\" USING btree (\\"userId\\");
+
+
+--
+-- Name: locations_area_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX locations_area_en ON public.\\"Locations\\" USING btree (\\"areaEn\\");
+
+
+--
+-- Name: locations_area_local_area_lang; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX locations_area_local_area_lang ON public.\\"Locations\\" USING btree (\\"areaLocal\\", \\"areaLang\\");
+
+
+--
+-- Name: locations_name_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX locations_name_en ON public.\\"Locations\\" USING btree (\\"nameEn\\");
+
+
+--
+-- Name: locations_name_local_name_lang; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX locations_name_local_name_lang ON public.\\"Locations\\" USING btree (\\"nameLocal\\", \\"nameLang\\");
+
+
+--
+-- Name: nomenclatures_type_label_ar; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX nomenclatures_type_label_ar ON public.\\"Nomenclatures\\" USING btree (type, \\"labelAr\\");
+
+
+--
+-- Name: nomenclatures_type_label_bg; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX nomenclatures_type_label_bg ON public.\\"Nomenclatures\\" USING btree (type, \\"labelBg\\");
+
+
+--
+-- Name: nomenclatures_type_label_el; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX nomenclatures_type_label_el ON public.\\"Nomenclatures\\" USING btree (type, \\"labelEl\\");
+
+
+--
+-- Name: nomenclatures_type_label_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX nomenclatures_type_label_en ON public.\\"Nomenclatures\\" USING btree (type, \\"labelEn\\");
+
+
+--
+-- Name: nomenclatures_type_label_fr; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX nomenclatures_type_label_fr ON public.\\"Nomenclatures\\" USING btree (type, \\"labelFr\\");
+
+
+--
+-- Name: nomenclatures_type_label_mk; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX nomenclatures_type_label_mk ON public.\\"Nomenclatures\\" USING btree (type, \\"labelMk\\");
+
+
+--
+-- Name: nomenclatures_type_label_sq; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX nomenclatures_type_label_sq ON public.\\"Nomenclatures\\" USING btree (type, \\"labelSq\\");
+
+
+--
+-- Name: nomenclatures_type_label_tr; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX nomenclatures_type_label_tr ON public.\\"Nomenclatures\\" USING btree (type, \\"labelTr\\");
+
+
+--
+-- Name: organizations_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX organizations_slug ON public.\\"Organizations\\" USING btree (slug);
+
+
+--
+-- Name: pois_latitude; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX pois_latitude ON public.pois USING btree (latitude);
+
+
+--
+-- Name: pois_longitude; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX pois_longitude ON public.pois USING btree (longitude);
+
+
+--
+-- Name: pois_type_label_ar; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX pois_type_label_ar ON public.pois USING btree (type, label_ar);
+
+
+--
+-- Name: pois_type_label_bg; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX pois_type_label_bg ON public.pois USING btree (type, label_bg);
+
+
+--
+-- Name: pois_type_label_el; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX pois_type_label_el ON public.pois USING btree (type, label_el);
+
+
+--
+-- Name: pois_type_label_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX pois_type_label_en ON public.pois USING btree (type, label_en);
+
+
+--
+-- Name: pois_type_label_fr; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX pois_type_label_fr ON public.pois USING btree (type, label_fr);
+
+
+--
+-- Name: pois_type_label_mk; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX pois_type_label_mk ON public.pois USING btree (type, label_mk);
+
+
+--
+-- Name: pois_type_label_sq; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX pois_type_label_sq ON public.pois USING btree (type, label_sq);
+
+
+--
+-- Name: pois_type_label_tr; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX pois_type_label_tr ON public.pois USING btree (type, label_tr);
+
+
+--
+-- Name: settlements_latitude; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX settlements_latitude ON public.settlements USING btree (latitude);
+
+
+--
+-- Name: settlements_longitude; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX settlements_longitude ON public.settlements USING btree (longitude);
+
+
+--
+-- Name: species_type_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX species_type_code ON public.\\"Species\\" USING btree (type, code);
+
+
+--
+-- Name: species_type_euring; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX species_type_euring ON public.\\"Species\\" USING btree (type, euring);
+
+
+--
+-- Name: species_type_label_ar; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX species_type_label_ar ON public.\\"Species\\" USING btree (type, \\"labelAr\\");
+
+
+--
+-- Name: species_type_label_bg; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX species_type_label_bg ON public.\\"Species\\" USING btree (type, \\"labelBg\\");
+
+
+--
+-- Name: species_type_label_el; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX species_type_label_el ON public.\\"Species\\" USING btree (type, \\"labelEl\\");
+
+
+--
+-- Name: species_type_label_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX species_type_label_en ON public.\\"Species\\" USING btree (type, \\"labelEn\\");
+
+
+--
+-- Name: species_type_label_fr; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX species_type_label_fr ON public.\\"Species\\" USING btree (type, \\"labelFr\\");
+
+
+--
+-- Name: species_type_label_la; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX species_type_label_la ON public.\\"Species\\" USING btree (type, \\"labelLa\\");
+
+
+--
+-- Name: species_type_label_mk; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX species_type_label_mk ON public.\\"Species\\" USING btree (type, \\"labelMk\\");
+
+
+--
+-- Name: species_type_label_sq; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX species_type_label_sq ON public.\\"Species\\" USING btree (type, \\"labelSq\\");
+
+
+--
+-- Name: species_type_label_tr; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX species_type_label_tr ON public.\\"Species\\" USING btree (type, \\"labelTr\\");
+
+
+--
+-- Name: users_email; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX users_email ON public.\\"Users\\" USING btree (email);
+
+
+--
+-- Name: visits_year; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX visits_year ON public.\\"Visits\\" USING btree (year);
+
+
+--
+-- Name: zones_location_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX zones_location_id ON public.\\"Zones\\" USING btree (\\"locationId\\");
+
+
+--
+-- Name: zones_owner_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX zones_owner_id ON public.\\"Zones\\" USING btree (\\"ownerId\\");
+
+
+--
+-- Name: zones_status; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX zones_status ON public.\\"Zones\\" USING btree (status);
+
+
+--
+-- Name: cbm_stats _RETURN; Type: RULE; Schema: public; Owner: -
+--
+
+CREATE OR REPLACE VIEW public.cbm_stats AS
+ SELECT zones.id,
+    ((((zones.lat1 + zones.lat2) + zones.lat3) + zones.lat4) / (4)::double precision) AS latitude,
+    ((((zones.lon1 + zones.lon2) + zones.lon3) + zones.lon4) / (4)::double precision) AS longitude,
+    count(DISTINCT cbm.species) AS species_count,
+    (sum(cbm.count) / count(DISTINCT cbm.\\"startDateTime\\")) AS units_count,
+    count(DISTINCT cbm.\\"startDateTime\\") AS visits_count,
+    max((users.\\"firstName\\")::text) AS first_name,
+    max((users.\\"lastName\\")::text) AS last_name
+   FROM ((public.\\"Zones\\" zones
+     JOIN public.\\"FormCBM\\" cbm ON (((cbm.\\"zoneId\\")::text = (zones.id)::text)))
+     JOIN public.\\"Users\\" users ON ((users.id = zones.\\"ownerId\\")))
+  GROUP BY zones.id
+  ORDER BY count(DISTINCT cbm.species) DESC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+"
+`;

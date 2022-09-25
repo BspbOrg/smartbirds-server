@@ -1,7 +1,5 @@
 'use strict'
 
-const Promise = require('bluebird')
-
 const getColumns = function (Sequelize) {
   return {
     regionEn: Sequelize.TEXT,
@@ -14,17 +12,17 @@ const getColumns = function (Sequelize) {
 }
 
 module.exports = {
-  up: function (queryInterface, Sequelize) {
+  up: async (queryInterface, Sequelize) => {
     const columns = getColumns(Sequelize)
-    return Promise.map(Object.keys(columns), function (columnName) {
-      return queryInterface.addColumn('Locations', columnName, columns[columnName])
-    })
+    for (const columnName in columns) {
+      await queryInterface.addColumn('Locations', columnName, columns[columnName])
+    }
   },
 
-  down: function (queryInterface, Sequelize) {
+  down: async (queryInterface, Sequelize) => {
     const columns = getColumns(Sequelize)
-    return Promise.map(Object.keys(columns), function (columnName) {
-      return queryInterface.removeColumn('Locations', columnName)
-    })
+    for (const columnName in columns) {
+      await queryInterface.removeColumn('Locations', columnName)
+    }
   }
 }
