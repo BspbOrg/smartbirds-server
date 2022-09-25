@@ -5,10 +5,6 @@ const { exec } = require('child_process')
 const api = setup.api
 
 test('db schema', async () => {
-  // console.log('schemas', await api.sequelize.sequelize.query('show Tables', {type: QueryTypes.SHOWTABLES}))
-  // const queryInterface = api.sequelize.sequelize.getQueryInterface()
-  // const schemas = await queryInterface.showAllSchemas({})
-  // console.log(schemas)
   const { error, stdout, stderr } = await new Promise((resolve, reject) => {
     exec('pg_dump --schema-only --format=plain --no-owner --no-privileges', {
       env: {
@@ -25,5 +21,8 @@ test('db schema', async () => {
 
   expect(error).toBeFalsy()
   expect(stderr).toBeFalsy()
+  const serverVersion = stdout.match(/-- Dumped from (.*)/g).pop().replace('-- Dumped from database version ', '')
+  const dumpVersion = stdout.match(/-- Dumped by (.*)/g).pop().replace('-- Dumped by pg_dump version ', '').replaceAll(/ \(.*\)/g, '')
+  console.log({ serverVersion, dumpVersion })
   expect(stdout.replaceAll(/-- Dumped (from|by) .*/g, '')).toMatchSnapshot('schema')
 })
