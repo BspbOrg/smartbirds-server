@@ -19,7 +19,7 @@
     "sequelize-fixtures": "^1.2.0",
     "should": "^13.2.3",
     "should-sinon": "^0.0.6",
-    "sinon": "^13.0.1",
+    "sinon": "^14.0.0",
     "sqlite3": "^5.0.11",
     "standard": "^16.0.4"
   },
@@ -57,7 +57,7 @@
     "content-addressable-blob-store": "^5.1.0",
     "csv-parse": "~5.0.4",
     "csv-stringify": "^6.0.5",
-    "date-fns": "^2.28.0",
+    "date-fns": "^2.29.3",
     "debug": "^4.3.3",
     "ejs": "^3.1.8",
     "email-templates": "^10.0.1",
