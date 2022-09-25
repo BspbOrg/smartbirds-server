@@ -21,7 +21,7 @@
     "should-sinon": "^0.0.6",
     "sinon": "^14.0.0",
     "sqlite3": "^5.1.1",
-    "standard": "^16.0.4"
+    "standard": "^17.0.0"
   },
   "scripts": {
     "commit": "git-cz",
