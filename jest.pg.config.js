@@ -10,6 +10,7 @@ module.exports = {
   testEnvironment: './__utils__/jest-environment-ah',
   testPathIgnorePatterns: [
     '/node_modules/',
-    '<rootDir>/test'
-  ]
+    '<rootDir>/test',
+    process.env.DB_SCHEMA === 'y' ? null : '<rootDir>/__tests__/db-schema.js'
+  ].filter(Boolean)
 }

@@ -5,7 +5,7 @@ const { exec } = require('child_process')
 const api = setup.api
 
 test('db schema', async () => {
-  const { error, stdout, stderr } = await new Promise((resolve, reject) => {
+  const { error, stdout, stderr } = await new Promise((resolve) => {
     exec('pg_dump --schema-only --format=plain --no-owner --no-privileges', {
       env: {
         PGHOST: api.config.sequelize.host,
@@ -21,8 +21,5 @@ test('db schema', async () => {
 
   expect(error).toBeFalsy()
   expect(stderr).toBeFalsy()
-  const serverVersion = stdout.match(/-- Dumped from (.*)/g).pop().replace('-- Dumped from database version ', '')
-  const dumpVersion = stdout.match(/-- Dumped by (.*)/g).pop().replace('-- Dumped by pg_dump version ', '').replaceAll(/ \(.*\)/g, '')
-  console.log({ serverVersion, dumpVersion })
   expect(stdout.replaceAll(/-- Dumped (from|by) .*/g, '')).toMatchSnapshot('schema')
 })

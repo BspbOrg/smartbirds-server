@@ -35,6 +35,7 @@
     "test": "npm run test:sqlite && npm run test:pg",
     "test:sqlite": "TEST_DATABASE_URL='' npm run jest --",
     "test:pg": "TEST_DATABASE_URL=${TEST_DATABASE_URL:=postgres://testuser:testpass@localhost:5434/testdb} npm run jest -- --config jest.pg.config.js",
+    "test:dbschema": "DB_SCHEMA=y npm run test:pg db-schema",
     "test:watch": "npm run jest -- --watch",
     "dev": "docker-compose start",
     "prestart": "npm run migrate",
