@@ -1,4 +1,4 @@
-const forms = ['birds', 'herptiles', 'mammals', 'invertebrates', 'plants']
+const forms = require('./_forms')
 
 module.exports = {
   up: `

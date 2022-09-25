@@ -1,3 +1,5 @@
+const forms = require('./_forms')
+
 module.exports = {
   up: `
       CREATE OR REPLACE VIEW user_stats (
@@ -5,68 +7,22 @@ module.exports = {
       ) AS
        SELECT
          users.id as id,
-         coalesce(cbm.species_count, 0) + coalesce(birds.species_count, 0) + coalesce(herps.species_count, 0) + coalesce(herptiles.species_count, 0) + coalesce(mammals.species_count, 0) + coalesce(invertebrates.species_count, 0) + coalesce(plants.species_count, 0) AS species_count,
-         coalesce(cbm.count, 0) + coalesce(birds.count, 0) + coalesce(herps.count, 0) + coalesce(herptiles.count, 0) + coalesce(mammals.count, 0) + coalesce(invertebrates.count, 0) + coalesce(plants.count, 0) AS entry_count,
+         ${forms.map(form => `coalesce(${form}.species_count, 0)`).join(' + ')} AS species_count,
+         ${forms.map(form => `coalesce(${form}.count, 0)`).join(' + ')} AS entry_count,
          users."firstName" as first_name,
          users."lastName" as last_name
 
        FROM "Users" users
-       LEFT JOIN (
-         SELECT
-           "userId" as id,
-           count(DISTINCT species) as species_count,
-           count(*) as count
-         FROM "FormCBM" as cbm
-         GROUP BY "userId"
-      ) cbm USING (id)
-       LEFT JOIN (
-         SELECT
-           "userId" as id,
-           count(DISTINCT species) as species_count,
-           count(*) as count
-         FROM "FormBirds" as birds
-         GROUP BY "userId"
-      ) birds USING (id)
-       LEFT JOIN (
-         SELECT
-           "userId" as id,
-           count(DISTINCT species) as species_count,
-           count(*) as count
-         FROM "FormHerps" as herps
-         GROUP BY "userId"
-      ) herps USING (id)
-       LEFT JOIN (
-         SELECT
-           "userId" as id,
-           count(DISTINCT species) as species_count,
-           count(*) as count
-         FROM "FormHerptiles" as herptiles
-         GROUP BY "userId"
-      ) herptiles USING (id)
-       LEFT JOIN (
-         SELECT
-           "userId" as id,
-           count(DISTINCT species) as species_count,
-           count(*) as count
-         FROM "FormMammals" as mammals
-         GROUP BY "userId"
-      ) mammals USING (id)
-       LEFT JOIN (
-         SELECT
-           "userId" as id,
-           count(DISTINCT species) as species_count,
-           count(*) as count
-         FROM "FormInvertebrates" as invertebrates
-         GROUP BY "userId"
-      ) invertebrates USING (id)
-       LEFT JOIN (
-         SELECT
-           "userId" as id,
-           count(DISTINCT species) as species_count,
-           count(*) as count
-         FROM "FormPlants" as plants
-         GROUP BY "userId"
-      ) plants USING (id)
+       ${forms.map(form => `
+         LEFT JOIN (
+           SELECT
+             user_id as id,
+             count(DISTINCT species) as species_count,
+             count(*) as count
+           FROM ${form}_observations as ${form}
+           GROUP BY user_id
+         ) ${form} USING (id)
+       `).join('\n')}
   `,
   down: `
       DROP VIEW IF EXISTS user_stats

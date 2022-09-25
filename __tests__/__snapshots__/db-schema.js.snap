@@ -2142,6 +2142,34 @@ ALTER SEQUENCE public.duplicates_id_seq OWNED BY public.duplicates.id;
 
 
 --
+-- Name: herptiles_observations; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.herptiles_observations AS
+ SELECT 'FormHerptiles' AS form_name,
+    \\"FormHerptiles\\".id,
+    \\"FormHerptiles\\".latitude,
+    \\"FormHerptiles\\".longitude,
+    \\"FormHerptiles\\".\\"userId\\" AS user_id,
+    \\"FormHerptiles\\".organization,
+    \\"FormHerptiles\\".\\"observationDateTime\\" AS observation_date_time,
+    \\"FormHerptiles\\".species,
+    \\"FormHerptiles\\".count,
+    \\"FormHerptiles\\".\\"monitoringCode\\" AS monitoring,
+    \\"FormHerptiles\\".\\"startDateTime\\" AS start_datetime,
+    \\"FormHerptiles\\".\\"endDateTime\\" AS end_datetime,
+    \\"FormHerptiles\\".confidential,
+    \\"FormHerptiles\\".\\"moderatorReview\\" AS moderator_review,
+    \\"FormHerptiles\\".\\"autoLocationEn\\" AS auto_location_en,
+    \\"FormHerptiles\\".\\"autoLocationLocal\\" AS auto_location_local,
+    \\"FormHerptiles\\".\\"autoLocationLang\\" AS auto_location_lang,
+    \\"FormHerptiles\\".\\"observationMethodologyEn\\" AS observation_methodology_en,
+    \\"FormHerptiles\\".\\"observationMethodologyLocal\\" AS observation_methodology_local,
+    \\"FormHerptiles\\".\\"observationMethodologyLang\\" AS observation_methodology_lang
+   FROM public.\\"FormHerptiles\\";
+
+
+--
 -- Name: herptiles_stats; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -2213,6 +2241,34 @@ CREATE VIEW public.herptiles_top_users_species_year AS
   WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
   GROUP BY form.\\"userId\\"
   ORDER BY count(DISTINCT form.species) DESC;
+
+
+--
+-- Name: invertebrates_observations; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.invertebrates_observations AS
+ SELECT 'FormInvertebrates' AS form_name,
+    \\"FormInvertebrates\\".id,
+    \\"FormInvertebrates\\".latitude,
+    \\"FormInvertebrates\\".longitude,
+    \\"FormInvertebrates\\".\\"userId\\" AS user_id,
+    \\"FormInvertebrates\\".organization,
+    \\"FormInvertebrates\\".\\"observationDateTime\\" AS observation_date_time,
+    \\"FormInvertebrates\\".species,
+    \\"FormInvertebrates\\".count,
+    \\"FormInvertebrates\\".\\"monitoringCode\\" AS monitoring,
+    \\"FormInvertebrates\\".\\"startDateTime\\" AS start_datetime,
+    \\"FormInvertebrates\\".\\"endDateTime\\" AS end_datetime,
+    \\"FormInvertebrates\\".confidential,
+    \\"FormInvertebrates\\".\\"moderatorReview\\" AS moderator_review,
+    \\"FormInvertebrates\\".\\"autoLocationEn\\" AS auto_location_en,
+    \\"FormInvertebrates\\".\\"autoLocationLocal\\" AS auto_location_local,
+    \\"FormInvertebrates\\".\\"autoLocationLang\\" AS auto_location_lang,
+    \\"FormInvertebrates\\".\\"observationMethodologyEn\\" AS observation_methodology_en,
+    \\"FormInvertebrates\\".\\"observationMethodologyLocal\\" AS observation_methodology_local,
+    \\"FormInvertebrates\\".\\"observationMethodologyLang\\" AS observation_methodology_lang
+   FROM public.\\"FormInvertebrates\\";
 
 
 --
@@ -2290,6 +2346,34 @@ CREATE VIEW public.invertebrates_top_users_species_year AS
 
 
 --
+-- Name: mammals_observations; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.mammals_observations AS
+ SELECT 'FormMammals' AS form_name,
+    \\"FormMammals\\".id,
+    \\"FormMammals\\".latitude,
+    \\"FormMammals\\".longitude,
+    \\"FormMammals\\".\\"userId\\" AS user_id,
+    \\"FormMammals\\".organization,
+    \\"FormMammals\\".\\"observationDateTime\\" AS observation_date_time,
+    \\"FormMammals\\".species,
+    \\"FormMammals\\".count,
+    \\"FormMammals\\".\\"monitoringCode\\" AS monitoring,
+    \\"FormMammals\\".\\"startDateTime\\" AS start_datetime,
+    \\"FormMammals\\".\\"endDateTime\\" AS end_datetime,
+    \\"FormMammals\\".confidential,
+    \\"FormMammals\\".\\"moderatorReview\\" AS moderator_review,
+    \\"FormMammals\\".\\"autoLocationEn\\" AS auto_location_en,
+    \\"FormMammals\\".\\"autoLocationLocal\\" AS auto_location_local,
+    \\"FormMammals\\".\\"autoLocationLang\\" AS auto_location_lang,
+    \\"FormMammals\\".\\"observationMethodologyEn\\" AS observation_methodology_en,
+    \\"FormMammals\\".\\"observationMethodologyLocal\\" AS observation_methodology_local,
+    \\"FormMammals\\".\\"observationMethodologyLang\\" AS observation_methodology_lang
+   FROM public.\\"FormMammals\\";
+
+
+--
 -- Name: mammals_stats; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -2361,6 +2445,34 @@ CREATE VIEW public.mammals_top_users_species_year AS
   WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
   GROUP BY form.\\"userId\\"
   ORDER BY count(DISTINCT form.species) DESC;
+
+
+--
+-- Name: plants_observations; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.plants_observations AS
+ SELECT 'FormPlants' AS form_name,
+    \\"FormPlants\\".id,
+    \\"FormPlants\\".latitude,
+    \\"FormPlants\\".longitude,
+    \\"FormPlants\\".\\"userId\\" AS user_id,
+    \\"FormPlants\\".organization,
+    \\"FormPlants\\".\\"observationDateTime\\" AS observation_date_time,
+    \\"FormPlants\\".species,
+    \\"FormPlants\\".count,
+    \\"FormPlants\\".\\"monitoringCode\\" AS monitoring,
+    \\"FormPlants\\".\\"startDateTime\\" AS start_datetime,
+    \\"FormPlants\\".\\"endDateTime\\" AS end_datetime,
+    \\"FormPlants\\".confidential,
+    \\"FormPlants\\".\\"moderatorReview\\" AS moderator_review,
+    \\"FormPlants\\".\\"autoLocationEn\\" AS auto_location_en,
+    \\"FormPlants\\".\\"autoLocationLocal\\" AS auto_location_local,
+    \\"FormPlants\\".\\"autoLocationLang\\" AS auto_location_lang,
+    \\"FormPlants\\".\\"observationMethodologyEn\\" AS observation_methodology_en,
+    \\"FormPlants\\".\\"observationMethodologyLocal\\" AS observation_methodology_local,
+    \\"FormPlants\\".\\"observationMethodologyLang\\" AS observation_methodology_lang
+   FROM public.\\"FormPlants\\";
 
 
 --
@@ -2631,54 +2743,40 @@ CREATE VIEW public.threats_stats AS
 CREATE VIEW public.total_users_records_year AS
  SELECT all_forms.user_id,
     sum(all_forms.count) AS count
-   FROM ( SELECT form.\\"userId\\" AS user_id,
+   FROM ( SELECT form.user_id,
             count(*) AS count
-           FROM (public.\\"FormBirds\\" form
-             JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
-          WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
-          GROUP BY form.\\"userId\\"
+           FROM (public.birds_observations form
+             JOIN public.\\"Users\\" u ON ((form.user_id = u.id)))
+          WHERE ((form.observation_date_time >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+          GROUP BY form.user_id
         UNION ALL
-         SELECT form.\\"userId\\" AS user_id,
+         SELECT form.user_id,
             count(*) AS count
-           FROM (public.\\"FormHerptiles\\" form
-             JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
-          WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
-          GROUP BY form.\\"userId\\"
+           FROM (public.herptiles_observations form
+             JOIN public.\\"Users\\" u ON ((form.user_id = u.id)))
+          WHERE ((form.observation_date_time >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+          GROUP BY form.user_id
         UNION ALL
-         SELECT form.\\"userId\\" AS user_id,
+         SELECT form.user_id,
             count(*) AS count
-           FROM (public.\\"FormMammals\\" form
-             JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
-          WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
-          GROUP BY form.\\"userId\\"
+           FROM (public.invertebrates_observations form
+             JOIN public.\\"Users\\" u ON ((form.user_id = u.id)))
+          WHERE ((form.observation_date_time >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+          GROUP BY form.user_id
         UNION ALL
-         SELECT form.\\"userId\\" AS user_id,
+         SELECT form.user_id,
             count(*) AS count
-           FROM (public.\\"FormPlants\\" form
-             JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
-          WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
-          GROUP BY form.\\"userId\\"
+           FROM (public.mammals_observations form
+             JOIN public.\\"Users\\" u ON ((form.user_id = u.id)))
+          WHERE ((form.observation_date_time >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+          GROUP BY form.user_id
         UNION ALL
-         SELECT form.\\"userId\\" AS user_id,
+         SELECT form.user_id,
             count(*) AS count
-           FROM (public.\\"FormInvertebrates\\" form
-             JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
-          WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
-          GROUP BY form.\\"userId\\"
-        UNION ALL
-         SELECT form.\\"userId\\" AS user_id,
-            count(*) AS count
-           FROM (public.\\"FormCBM\\" form
-             JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
-          WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
-          GROUP BY form.\\"userId\\"
-        UNION ALL
-         SELECT form.\\"userId\\" AS user_id,
-            count(*) AS count
-           FROM (public.\\"FormCiconia\\" form
-             JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
-          WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
-          GROUP BY form.\\"userId\\") all_forms
+           FROM (public.plants_observations form
+             JOIN public.\\"Users\\" u ON ((form.user_id = u.id)))
+          WHERE ((form.observation_date_time >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+          GROUP BY form.user_id) all_forms
   GROUP BY all_forms.user_id
   ORDER BY sum(all_forms.count) DESC;
 
@@ -2697,14 +2795,14 @@ CREATE VIEW public.user_rank_stats AS
     herptiles_top_users_species_year.\\"position\\" AS \\"herptilesSpeciesPosition\\",
     herptiles_top_users_records_year.count AS \\"herptilesRecordsCount\\",
     herptiles_top_users_records_year.\\"position\\" AS \\"herptilesRecordsPosition\\",
-    mammals_top_users_species_year.count AS \\"mammalsSpeciesCount\\",
-    mammals_top_users_species_year.\\"position\\" AS \\"mammalsSpeciesPosition\\",
-    mammals_top_users_records_year.count AS \\"mammalsRecordsCount\\",
-    mammals_top_users_records_year.\\"position\\" AS \\"mammalsRecordsPosition\\",
     invertebrates_top_users_species_year.count AS \\"invertebratesSpeciesCount\\",
     invertebrates_top_users_species_year.\\"position\\" AS \\"invertebratesSpeciesPosition\\",
     invertebrates_top_users_records_year.count AS \\"invertebratesRecordsCount\\",
     invertebrates_top_users_records_year.\\"position\\" AS \\"invertebratesRecordsPosition\\",
+    mammals_top_users_species_year.count AS \\"mammalsSpeciesCount\\",
+    mammals_top_users_species_year.\\"position\\" AS \\"mammalsSpeciesPosition\\",
+    mammals_top_users_records_year.count AS \\"mammalsRecordsCount\\",
+    mammals_top_users_records_year.\\"position\\" AS \\"mammalsRecordsPosition\\",
     plants_top_users_species_year.count AS \\"plantsSpeciesCount\\",
     plants_top_users_species_year.\\"position\\" AS \\"plantsSpeciesPosition\\",
     plants_top_users_records_year.count AS \\"plantsRecordsCount\\",
@@ -2725,14 +2823,6 @@ CREATE VIEW public.user_rank_stats AS
             herptiles_top_users_records_year_1.count,
             row_number() OVER (ORDER BY herptiles_top_users_records_year_1.count DESC) AS \\"position\\"
            FROM public.herptiles_top_users_records_year herptiles_top_users_records_year_1) herptiles_top_users_records_year USING (user_id))
-     FULL JOIN ( SELECT mammals_top_users_species_year_1.user_id,
-            mammals_top_users_species_year_1.count,
-            row_number() OVER (ORDER BY mammals_top_users_species_year_1.count DESC) AS \\"position\\"
-           FROM public.mammals_top_users_species_year mammals_top_users_species_year_1) mammals_top_users_species_year USING (user_id))
-     FULL JOIN ( SELECT mammals_top_users_records_year_1.user_id,
-            mammals_top_users_records_year_1.count,
-            row_number() OVER (ORDER BY mammals_top_users_records_year_1.count DESC) AS \\"position\\"
-           FROM public.mammals_top_users_records_year mammals_top_users_records_year_1) mammals_top_users_records_year USING (user_id))
      FULL JOIN ( SELECT invertebrates_top_users_species_year_1.user_id,
             invertebrates_top_users_species_year_1.count,
             row_number() OVER (ORDER BY invertebrates_top_users_species_year_1.count DESC) AS \\"position\\"
@@ -2741,6 +2831,14 @@ CREATE VIEW public.user_rank_stats AS
             invertebrates_top_users_records_year_1.count,
             row_number() OVER (ORDER BY invertebrates_top_users_records_year_1.count DESC) AS \\"position\\"
            FROM public.invertebrates_top_users_records_year invertebrates_top_users_records_year_1) invertebrates_top_users_records_year USING (user_id))
+     FULL JOIN ( SELECT mammals_top_users_species_year_1.user_id,
+            mammals_top_users_species_year_1.count,
+            row_number() OVER (ORDER BY mammals_top_users_species_year_1.count DESC) AS \\"position\\"
+           FROM public.mammals_top_users_species_year mammals_top_users_species_year_1) mammals_top_users_species_year USING (user_id))
+     FULL JOIN ( SELECT mammals_top_users_records_year_1.user_id,
+            mammals_top_users_records_year_1.count,
+            row_number() OVER (ORDER BY mammals_top_users_records_year_1.count DESC) AS \\"position\\"
+           FROM public.mammals_top_users_records_year mammals_top_users_records_year_1) mammals_top_users_records_year USING (user_id))
      FULL JOIN ( SELECT plants_top_users_species_year_1.user_id,
             plants_top_users_species_year_1.count,
             row_number() OVER (ORDER BY plants_top_users_species_year_1.count DESC) AS \\"position\\"
@@ -2758,46 +2856,36 @@ CREATE VIEW public.user_rank_stats AS
 
 CREATE VIEW public.user_stats AS
  SELECT users.id,
-    ((((((COALESCE(cbm.species_count, (0)::bigint) + COALESCE(birds.species_count, (0)::bigint)) + COALESCE(herps.species_count, (0)::bigint)) + COALESCE(herptiles.species_count, (0)::bigint)) + COALESCE(mammals.species_count, (0)::bigint)) + COALESCE(invertebrates.species_count, (0)::bigint)) + COALESCE(plants.species_count, (0)::bigint)) AS species_count,
-    ((((((COALESCE(cbm.count, (0)::bigint) + COALESCE(birds.count, (0)::bigint)) + COALESCE(herps.count, (0)::bigint)) + COALESCE(herptiles.count, (0)::bigint)) + COALESCE(mammals.count, (0)::bigint)) + COALESCE(invertebrates.count, (0)::bigint)) + COALESCE(plants.count, (0)::bigint)) AS entry_count,
+    ((((COALESCE(birds.species_count, (0)::bigint) + COALESCE(herptiles.species_count, (0)::bigint)) + COALESCE(invertebrates.species_count, (0)::bigint)) + COALESCE(mammals.species_count, (0)::bigint)) + COALESCE(plants.species_count, (0)::bigint)) AS species_count,
+    ((((COALESCE(birds.count, (0)::bigint) + COALESCE(herptiles.count, (0)::bigint)) + COALESCE(invertebrates.count, (0)::bigint)) + COALESCE(mammals.count, (0)::bigint)) + COALESCE(plants.count, (0)::bigint)) AS entry_count,
     users.\\"firstName\\" AS first_name,
     users.\\"lastName\\" AS last_name
-   FROM (((((((public.\\"Users\\" users
-     LEFT JOIN ( SELECT cbm_1.\\"userId\\" AS id,
-            count(DISTINCT cbm_1.species) AS species_count,
-            count(*) AS count
-           FROM public.\\"FormCBM\\" cbm_1
-          GROUP BY cbm_1.\\"userId\\") cbm USING (id))
-     LEFT JOIN ( SELECT birds_1.\\"userId\\" AS id,
+   FROM (((((public.\\"Users\\" users
+     LEFT JOIN ( SELECT birds_1.user_id AS id,
             count(DISTINCT birds_1.species) AS species_count,
             count(*) AS count
-           FROM public.\\"FormBirds\\" birds_1
-          GROUP BY birds_1.\\"userId\\") birds USING (id))
-     LEFT JOIN ( SELECT herps_1.\\"userId\\" AS id,
-            count(DISTINCT herps_1.species) AS species_count,
-            count(*) AS count
-           FROM public.\\"FormHerps\\" herps_1
-          GROUP BY herps_1.\\"userId\\") herps USING (id))
-     LEFT JOIN ( SELECT herptiles_1.\\"userId\\" AS id,
+           FROM public.birds_observations birds_1
+          GROUP BY birds_1.user_id) birds USING (id))
+     LEFT JOIN ( SELECT herptiles_1.user_id AS id,
             count(DISTINCT herptiles_1.species) AS species_count,
             count(*) AS count
-           FROM public.\\"FormHerptiles\\" herptiles_1
-          GROUP BY herptiles_1.\\"userId\\") herptiles USING (id))
-     LEFT JOIN ( SELECT mammals_1.\\"userId\\" AS id,
-            count(DISTINCT mammals_1.species) AS species_count,
-            count(*) AS count
-           FROM public.\\"FormMammals\\" mammals_1
-          GROUP BY mammals_1.\\"userId\\") mammals USING (id))
-     LEFT JOIN ( SELECT invertebrates_1.\\"userId\\" AS id,
+           FROM public.herptiles_observations herptiles_1
+          GROUP BY herptiles_1.user_id) herptiles USING (id))
+     LEFT JOIN ( SELECT invertebrates_1.user_id AS id,
             count(DISTINCT invertebrates_1.species) AS species_count,
             count(*) AS count
-           FROM public.\\"FormInvertebrates\\" invertebrates_1
-          GROUP BY invertebrates_1.\\"userId\\") invertebrates USING (id))
-     LEFT JOIN ( SELECT plants_1.\\"userId\\" AS id,
+           FROM public.invertebrates_observations invertebrates_1
+          GROUP BY invertebrates_1.user_id) invertebrates USING (id))
+     LEFT JOIN ( SELECT mammals_1.user_id AS id,
+            count(DISTINCT mammals_1.species) AS species_count,
+            count(*) AS count
+           FROM public.mammals_observations mammals_1
+          GROUP BY mammals_1.user_id) mammals USING (id))
+     LEFT JOIN ( SELECT plants_1.user_id AS id,
             count(DISTINCT plants_1.species) AS species_count,
             count(*) AS count
-           FROM public.\\"FormPlants\\" plants_1
-          GROUP BY plants_1.\\"userId\\") plants USING (id));
+           FROM public.plants_observations plants_1
+          GROUP BY plants_1.user_id) plants USING (id));
 
 
 --
