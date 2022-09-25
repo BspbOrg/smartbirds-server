@@ -2198,19 +2198,6 @@ ALTER SEQUENCE public.duplicates_id_seq OWNED BY public.duplicates.id;
 
 
 --
--- Name: herps_stats; Type: VIEW; Schema: public; Owner: -
---
-
-CREATE VIEW public.herps_stats AS
- SELECT (round((form.latitude / (0.05)::double precision)) * (0.05)::double precision) AS latitude,
-    (round((form.longitude / (0.05)::double precision)) * (0.05)::double precision) AS longitude,
-    count(DISTINCT form.species) AS species_count,
-    sum(form.count) AS units_count
-   FROM public.\\"FormHerps\\" form
-  GROUP BY (round((form.latitude / (0.05)::double precision)) * (0.05)::double precision), (round((form.longitude / (0.05)::double precision)) * (0.05)::double precision);
-
-
---
 -- Name: herptiles_stats; Type: VIEW; Schema: public; Owner: -
 --
 
