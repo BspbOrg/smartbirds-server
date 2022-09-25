@@ -1,5 +1,10 @@
 module.exports = [
   {
+    tableName: 'FormFishes',
+    speciesType: 'fishes',
+    viewPrefix: 'fishes'
+  },
+  {
     tableName: 'FormHerptiles',
     speciesType: 'herptiles',
     viewPrefix: 'herptiles'

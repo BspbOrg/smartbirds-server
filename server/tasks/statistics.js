@@ -24,6 +24,7 @@ module.exports.generateStatistics = upgradeTask('ah17', {
         birds_stats: api.models.birds_stats.findAll(),
         cbm_stats: api.models.cbm_stats.findAll(),
         ciconia_stats: api.models.ciconia_stats.findAll(),
+        fishes_stats: api.models.fishes_stats.findAll(),
         herptiles_stats: api.models.herptiles_stats.findAll(),
         mammals_stats: api.models.mammals_stats.findAll(),
         invertebrates_stats: api.models.invertebrates_stats.findAll(),
@@ -105,7 +106,7 @@ module.exports.generateStatistics = upgradeTask('ah17', {
             limit: 20
           }).then(records => records.map(r => r.apiData(api)))
         }),
-        ...(['herptiles', 'mammals', 'plants', 'invertebrates'].map(form => ({
+        ...(['fishes', 'herptiles', 'invertebrates', 'mammals', 'plants'].map(form => ({
           [form + '_top_stats']: Promise.props({
             top_users_species_year: api.models[form + '_top_users_species_year'].findAll({
               limit: 10,
