@@ -1,4 +1,4 @@
-const NodeEnvironment = require('jest-environment-node')
+const NodeEnvironment = require('jest-environment-node').default
 const setup = require('../../test/_setup')
 
 class ActionheroEnvironment extends NodeEnvironment {
