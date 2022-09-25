@@ -7,6 +7,10 @@ module.exports = {
   setupFilesAfterEnv: [
     './__test_utils__/matchers.js'
   ],
+  snapshotFormat: {
+    escapeString: true,
+    printBasicPrototype: true
+  },
   testEnvironment: './__utils__/jest-environment-ah',
   testPathIgnorePatterns: [
     '/node_modules/',
