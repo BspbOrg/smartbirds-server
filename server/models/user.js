@@ -90,7 +90,9 @@ module.exports = function (sequelize, DataTypes) {
     organizationSlug: {
       type: DataTypes.STRING,
       allowNull: false
-    }
+    },
+    allowDataMosv: DataTypes.BOOLEAN,
+    allowDataSciencePublications: DataTypes.BOOLEAN
   }, {
     indexes: [
       {
@@ -231,7 +233,9 @@ module.exports = function (sequelize, DataTypes) {
               forms: this.forms,
               privacy: this.privacy,
               gdprConsent: this.gdprConsent,
-              organization: this.organizationSlug
+              organization: this.organizationSlug,
+              allowDataMosv: this.allowDataMosv,
+              allowDataSciencePublications: this.allowDataSciencePublications
             }
         }
       },
