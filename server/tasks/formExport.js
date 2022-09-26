@@ -18,7 +18,7 @@ async function exportCsv (api, records, formName, outputFilename) {
 
   if (!outputFilename) return convert
 
-  fs.writeFileSync(outputFilename, await convert)
+  fs.writeFileSync(outputFilename, '\ufeff' + await convert)
 }
 
 function appendFile (api, archive, fileMap, filename, id) {
@@ -146,7 +146,7 @@ exports.task = upgradeTask('ah17', {
         })
       })
 
-      api.log('Scheduling delete in 24h', 'notice', { key: key })
+      api.log('Scheduling delete in 24h', 'notice', { key })
       const successDelete = await api.tasks.enqueueIn(1000 * 60 * 60 * 24, 'storage:delete', { key }, 'low')
 
       api.log('Sending email notification', 'notice', { key, user })
