@@ -8,6 +8,7 @@ const writeFile = Promise.promisify(require('fs').writeFile)
 const { upgradeTask } = require('../utils/upgrade')
 const languages = require('../../config/languages')
 const capitalizeFirstLetter = require('../utils/capitalizeFirstLetter')
+const { QueryTypes } = require('sequelize')
 
 module.exports.generateStatistics = upgradeTask('ah17', {
   name: 'stats:generate',
@@ -18,6 +19,7 @@ module.exports.generateStatistics = upgradeTask('ah17', {
   frequency: 0,
   run: async function (api, params, next) {
     try {
+      const currentYear = new Date().getFullYear()
       const stats = await Promise.props({
 
         campaign_stats: api.sequelize.sequelize.query('select last_value as total_count from "FormBirds_id_seq"', { type: api.sequelize.sequelize.QueryTypes.SELECT }).then(rows => rows[0]),
@@ -140,7 +142,10 @@ module.exports.generateStatistics = upgradeTask('ah17', {
           include: [
             api.models.bgatlas2008_stats_global.associations.utmCoordinates
           ]
-        }).map((r) => r.apiData())
+        }).map((r) => r.apiData()),
+        [`birds_migrations_peak_daily_species_${currentYear}`]: api.sequelize.sequelize.query(`select * from birds_migrations_peak_daily_species where year = ${currentYear}`, { type: QueryTypes.SELECT }).then(results => results.map(({ migration_point_bg: migrationPointBg, migration_point_en: migrationPointEn, ...row }) => ({ ...row, migration_point: { label: { bg: migrationPointBg, en: migrationPointEn } } }))),
+        [`birds_migrations_season_totals_${currentYear}`]: api.sequelize.sequelize.query(`select * from birds_migrations_season_totals where year = ${currentYear}`, { type: QueryTypes.SELECT }).then(results => results.map(({ migration_point_bg: migrationPointBg, migration_point_en: migrationPointEn, ...row }) => ({ ...row, migration_point: { label: { bg: migrationPointBg, en: migrationPointEn } } }))),
+        birds_migrations_top_interesting_species_month: api.sequelize.sequelize.query('select * from birds_migrations_top_interesting_species_month', { type: QueryTypes.SELECT }).then(results => results.map(({ migration_point_bg: migrationPointBg, migration_point_en: migrationPointEn, ...row }) => ({ ...row, migration_point: { label: { bg: migrationPointBg, en: migrationPointEn } } })))
       })
 
       await Promise.props(_.mapValues(stats, function (stat, name) {
