@@ -2051,7 +2051,7 @@ CREATE VIEW public.birds_migrations_season_totals AS
      LEFT JOIN public.\\"Species\\" s ON (((s.\\"labelLa\\" = birds_migrations_observations.species) AND ((s.type)::text = 'birds'::text))))
   WHERE ((((((birds_migrations_observations.season IS NOT NULL) AND (birds_migrations_observations.observation_date_time >= date_trunc('year'::text, (('now'::text)::date - '1 year'::interval)))) AND (birds_migrations_observations.count > 0)) AND ((NOT birds_migrations_observations.confidential) OR (birds_migrations_observations.confidential IS NULL))) AND ((NOT s.sensitive) OR (s.sensitive IS NULL))) AND ((u.privacy)::text = 'public'::text))
   GROUP BY date_part('year'::text, birds_migrations_observations.observation_date_time), birds_migrations_observations.season, birds_migrations_observations.migration_point_en, birds_migrations_observations.species
-  ORDER BY (date_part('year'::text, birds_migrations_observations.observation_date_time))::integer DESC, (birds_migrations_observations.season = 'spring'::text), birds_migrations_observations.migration_point_en, sum(birds_migrations_observations.count) DESC;
+  ORDER BY (date_part('year'::text, birds_migrations_observations.observation_date_time))::integer DESC, (birds_migrations_observations.season = 'spring'::text), sum(birds_migrations_observations.count) DESC, birds_migrations_observations.migration_point_en;
 
 
 --

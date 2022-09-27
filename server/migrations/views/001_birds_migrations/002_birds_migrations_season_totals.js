@@ -17,7 +17,7 @@ module.exports = {
     AND (NOT sensitive OR sensitive IS NULL)
     AND u.privacy = 'public'
     GROUP BY extract(year from observation_date_time), season, migration_point_en, species
-    ORDER BY year DESC, season = 'spring', migration_point_en, count desc
+    ORDER BY year DESC, season = 'spring', count desc, migration_point_en
   `,
   down: `
     DROP VIEW IF EXISTS birds_migrations_season_totals

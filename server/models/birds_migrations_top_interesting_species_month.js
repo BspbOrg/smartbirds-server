@@ -51,7 +51,7 @@ module.exports = function (sequelize, DataTypes) {
           observer: this.user ? this.user.apiData(api, 'public') : null,
           species: this.speciesInfo ? this.speciesInfo.apiData(api, 'public') : null,
           migrationPoint: this.migrationPoint ? this.migrationPoint.apiData(api) : null,
-          date: this.observation_date_time,
+          date: this.observationDateTime,
           count: this.count
         }
       }
