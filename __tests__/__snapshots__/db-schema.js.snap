@@ -1607,7 +1607,9 @@ CREATE TABLE public.\\"Users\\" (
     forms character varying(255),
     privacy character varying(255) DEFAULT 'public'::character varying NOT NULL,
     \\"gdprConsent\\" boolean,
-    \\"organizationSlug\\" text NOT NULL
+    \\"organizationSlug\\" text NOT NULL,
+    \\"allowDataMosv\\" boolean,
+    \\"allowDataSciencePublications\\" boolean
 );
 
 
@@ -1976,6 +1978,157 @@ CREATE VIEW public.bgatlas2008_stats_user_rank AS
              JOIN public.\\"Users\\" u ON ((u.id = user_cells.user_id)))
           WHERE ((u.privacy)::text = 'public'::text)
           GROUP BY user_cells.user_id) user_counts;
+
+
+--
+-- Name: birds_migrations_observations; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.birds_migrations_observations AS
+ SELECT 'FormBirdsMigrations'::text AS form_name,
+    \\"FormBirdsMigrations\\".id,
+    \\"FormBirdsMigrations\\".latitude,
+    \\"FormBirdsMigrations\\".longitude,
+    \\"FormBirdsMigrations\\".\\"userId\\" AS user_id,
+    \\"FormBirdsMigrations\\".organization,
+    \\"FormBirdsMigrations\\".\\"observationDateTime\\" AS observation_date_time,
+    \\"FormBirdsMigrations\\".species,
+    \\"FormBirdsMigrations\\".count,
+    \\"FormBirdsMigrations\\".\\"monitoringCode\\" AS monitoring,
+    \\"FormBirdsMigrations\\".\\"startDateTime\\" AS start_datetime,
+    \\"FormBirdsMigrations\\".\\"endDateTime\\" AS end_datetime,
+    \\"FormBirdsMigrations\\".confidential,
+    \\"FormBirdsMigrations\\".\\"moderatorReview\\" AS moderator_review,
+    \\"FormBirdsMigrations\\".\\"newSpeciesModeratorReview\\" AS new_species_moderator_review,
+    \\"FormBirdsMigrations\\".\\"autoLocationEn\\" AS auto_location_en,
+    \\"FormBirdsMigrations\\".\\"autoLocationLocal\\" AS auto_location_local,
+    \\"FormBirdsMigrations\\".\\"autoLocationLang\\" AS auto_location_lang,
+    \\"FormBirdsMigrations\\".\\"bgatlas2008UtmCode\\" AS bgatlas2008_utm_code,
+    \\"FormBirdsMigrations\\".\\"observationMethodologyEn\\" AS observation_methodology_en,
+    \\"FormBirdsMigrations\\".\\"observationMethodologyLocal\\" AS observation_methodology_local,
+    \\"FormBirdsMigrations\\".\\"observationMethodologyLang\\" AS observation_methodology_lang,
+        CASE
+            WHEN ((\\"FormBirdsMigrations\\".\\"observationDateTime\\" >= make_date((date_part('year'::text, \\"FormBirdsMigrations\\".\\"observationDateTime\\"))::integer, 3, 1)) AND (\\"FormBirdsMigrations\\".\\"observationDateTime\\" <= make_date((date_part('year'::text, \\"FormBirdsMigrations\\".\\"observationDateTime\\"))::integer, 5, 31))) THEN 'spring'::text
+            WHEN ((\\"FormBirdsMigrations\\".\\"observationDateTime\\" >= make_date((date_part('year'::text, \\"FormBirdsMigrations\\".\\"observationDateTime\\"))::integer, 8, 10)) AND (\\"FormBirdsMigrations\\".\\"observationDateTime\\" <= make_date((date_part('year'::text, \\"FormBirdsMigrations\\".\\"observationDateTime\\"))::integer, 10, 30))) THEN 'fall'::text
+            ELSE NULL::text
+        END AS season,
+    \\"FormBirdsMigrations\\".\\"migrationPointEn\\" AS migration_point_en,
+    \\"FormBirdsMigrations\\".\\"migrationPointLocal\\" AS migration_point_local,
+    \\"FormBirdsMigrations\\".\\"migrationPointLang\\" AS migration_point_lang
+   FROM public.\\"FormBirdsMigrations\\";
+
+
+--
+-- Name: pois; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.pois (
+    id integer NOT NULL,
+    type character varying(32) NOT NULL,
+    label_en text NOT NULL,
+    label_bg text,
+    label_sq text,
+    label_mk text,
+    label_el text,
+    label_tr text,
+    label_ar text,
+    label_fr text,
+    longitude double precision NOT NULL,
+    latitude double precision NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+--
+-- Name: birds_migrations_peak_daily_species; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.birds_migrations_peak_daily_species AS
+ SELECT (date_part('year'::text, date_trunc('day'::text, birds_migrations_observations.observation_date_time)))::integer AS year,
+    date_trunc('day'::text, birds_migrations_observations.observation_date_time) AS observation_date,
+    birds_migrations_observations.season,
+    birds_migrations_observations.migration_point_en,
+    p.label_bg AS migration_point_bg,
+    birds_migrations_observations.species,
+    sum(birds_migrations_observations.count) AS count
+   FROM (((public.birds_migrations_observations
+     LEFT JOIN public.\\"Users\\" u ON ((birds_migrations_observations.user_id = u.id)))
+     LEFT JOIN public.\\"Species\\" s ON (((s.\\"labelLa\\" = birds_migrations_observations.species) AND ((s.type)::text = 'birds'::text))))
+     LEFT JOIN public.pois p ON ((p.label_en = birds_migrations_observations.migration_point_en)))
+  WHERE (((((birds_migrations_observations.season IS NOT NULL) AND (birds_migrations_observations.count > 0)) AND ((NOT birds_migrations_observations.confidential) OR (birds_migrations_observations.confidential IS NULL))) AND ((NOT s.sensitive) OR (s.sensitive IS NULL))) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY date_trunc('day'::text, birds_migrations_observations.observation_date_time), birds_migrations_observations.season, birds_migrations_observations.migration_point_en, p.label_bg, birds_migrations_observations.species
+  ORDER BY date_trunc('day'::text, birds_migrations_observations.observation_date_time) DESC, (birds_migrations_observations.season = 'spring'::text), birds_migrations_observations.migration_point_en, sum(birds_migrations_observations.count) DESC;
+
+
+--
+-- Name: birds_migrations_season_totals; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.birds_migrations_season_totals AS
+ SELECT (date_part('year'::text, birds_migrations_observations.observation_date_time))::integer AS year,
+    birds_migrations_observations.season,
+    birds_migrations_observations.migration_point_en,
+    p.label_bg AS migration_point_bg,
+    birds_migrations_observations.species,
+    sum(birds_migrations_observations.count) AS count
+   FROM (((public.birds_migrations_observations
+     LEFT JOIN public.\\"Users\\" u ON ((birds_migrations_observations.user_id = u.id)))
+     LEFT JOIN public.\\"Species\\" s ON (((s.\\"labelLa\\" = birds_migrations_observations.species) AND ((s.type)::text = 'birds'::text))))
+     LEFT JOIN public.pois p ON ((p.label_en = birds_migrations_observations.migration_point_en)))
+  WHERE (((((birds_migrations_observations.season IS NOT NULL) AND (birds_migrations_observations.count > 0)) AND ((NOT birds_migrations_observations.confidential) OR (birds_migrations_observations.confidential IS NULL))) AND ((NOT s.sensitive) OR (s.sensitive IS NULL))) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY date_part('year'::text, birds_migrations_observations.observation_date_time), birds_migrations_observations.season, birds_migrations_observations.migration_point_en, p.label_bg, birds_migrations_observations.species
+  ORDER BY (date_part('year'::text, birds_migrations_observations.observation_date_time))::integer DESC, (birds_migrations_observations.season = 'spring'::text), birds_migrations_observations.migration_point_en, sum(birds_migrations_observations.count) DESC;
+
+
+--
+-- Name: birds_migrations_top_interesting_species_month; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.birds_migrations_top_interesting_species_month AS
+ SELECT birds_migrations_observations.form_name,
+    birds_migrations_observations.user_id,
+    birds_migrations_observations.species,
+    birds_migrations_observations.migration_point_en,
+    p.label_bg AS migration_point_bg,
+    (date_part('year'::text, date_trunc('day'::text, birds_migrations_observations.observation_date_time)))::integer AS year,
+    date_trunc('day'::text, birds_migrations_observations.observation_date_time) AS \\"observationDateTime\\",
+    (sum(birds_migrations_observations.count))::integer AS count
+   FROM (((public.birds_migrations_observations
+     LEFT JOIN public.\\"Users\\" u ON ((birds_migrations_observations.user_id = u.id)))
+     LEFT JOIN public.\\"Species\\" s ON (((s.\\"labelLa\\" = birds_migrations_observations.species) AND ((s.type)::text = 'birds'::text))))
+     LEFT JOIN public.pois p ON ((p.label_en = birds_migrations_observations.migration_point_en)))
+  WHERE ((((((birds_migrations_observations.observation_date_time >= (('now'::text)::date - '1 mon'::interval)) AND (birds_migrations_observations.count > 0)) AND ((NOT birds_migrations_observations.confidential) OR (birds_migrations_observations.confidential IS NULL))) AND (s.interesting = true)) AND ((NOT s.sensitive) OR (s.sensitive IS NULL))) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY birds_migrations_observations.form_name, birds_migrations_observations.user_id, birds_migrations_observations.species, birds_migrations_observations.migration_point_en, p.label_bg, date_trunc('day'::text, birds_migrations_observations.observation_date_time)
+  ORDER BY date_trunc('day'::text, birds_migrations_observations.observation_date_time) DESC;
+
+
+--
+-- Name: birds_migrations_top_users_records_year; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.birds_migrations_top_users_records_year AS
+ SELECT form.user_id,
+    count(*) AS count
+   FROM (public.birds_migrations_observations form
+     JOIN public.\\"Users\\" u ON ((form.user_id = u.id)))
+  WHERE ((form.observation_date_time >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.user_id
+  ORDER BY count(*) DESC;
+
+
+--
+-- Name: birds_migrations_top_users_species_year; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.birds_migrations_top_users_species_year AS
+ SELECT form.user_id,
+    count(DISTINCT form.species) AS count
+   FROM (public.birds_migrations_observations form
+     JOIN public.\\"Users\\" u ON ((form.user_id = u.id)))
+  WHERE ((form.observation_date_time >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.user_id
+  ORDER BY count(DISTINCT form.species) DESC;
 
 
 --
@@ -2652,28 +2805,6 @@ CREATE VIEW public.plants_top_users_species_year AS
 
 
 --
--- Name: pois; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.pois (
-    id integer NOT NULL,
-    type character varying(32) NOT NULL,
-    label_en text NOT NULL,
-    label_bg text,
-    label_sq text,
-    label_mk text,
-    label_el text,
-    label_tr text,
-    label_ar text,
-    label_fr text,
-    longitude double precision NOT NULL,
-    latitude double precision NOT NULL,
-    created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone NOT NULL
-);
-
-
---
 -- Name: pois_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -2854,6 +2985,13 @@ CREATE VIEW public.total_users_records_year AS
         UNION ALL
          SELECT form.user_id,
             count(*) AS count
+           FROM (public.birds_migrations_observations form
+             JOIN public.\\"Users\\" u ON ((form.user_id = u.id)))
+          WHERE ((form.observation_date_time >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+          GROUP BY form.user_id
+        UNION ALL
+         SELECT form.user_id,
+            count(*) AS count
            FROM (public.fishes_observations form
              JOIN public.\\"Users\\" u ON ((form.user_id = u.id)))
           WHERE ((form.observation_date_time >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
@@ -2900,6 +3038,10 @@ CREATE VIEW public.user_rank_stats AS
     birds_top_users_species_year.\\"position\\" AS \\"birdsSpeciesPosition\\",
     birds_top_users_records_year.count AS \\"birdsRecordsCount\\",
     birds_top_users_records_year.\\"position\\" AS \\"birdsRecordsPosition\\",
+    birds_migrations_top_users_species_year.count AS \\"birds_migrationsSpeciesCount\\",
+    birds_migrations_top_users_species_year.\\"position\\" AS \\"birds_migrationsSpeciesPosition\\",
+    birds_migrations_top_users_records_year.count AS \\"birds_migrationsRecordsCount\\",
+    birds_migrations_top_users_records_year.\\"position\\" AS \\"birds_migrationsRecordsPosition\\",
     fishes_top_users_species_year.count AS \\"fishesSpeciesCount\\",
     fishes_top_users_species_year.\\"position\\" AS \\"fishesSpeciesPosition\\",
     fishes_top_users_records_year.count AS \\"fishesRecordsCount\\",
@@ -2920,7 +3062,7 @@ CREATE VIEW public.user_rank_stats AS
     plants_top_users_species_year.\\"position\\" AS \\"plantsSpeciesPosition\\",
     plants_top_users_records_year.count AS \\"plantsRecordsCount\\",
     plants_top_users_records_year.\\"position\\" AS \\"plantsRecordsPosition\\"
-   FROM (((((((((((( SELECT birds_top_users_species_year_1.user_id,
+   FROM (((((((((((((( SELECT birds_top_users_species_year_1.user_id,
             birds_top_users_species_year_1.count,
             row_number() OVER (ORDER BY birds_top_users_species_year_1.count DESC) AS \\"position\\"
            FROM public.birds_top_users_species_year birds_top_users_species_year_1) birds_top_users_species_year
@@ -2928,6 +3070,14 @@ CREATE VIEW public.user_rank_stats AS
             birds_top_users_records_year_1.count,
             row_number() OVER (ORDER BY birds_top_users_records_year_1.count DESC) AS \\"position\\"
            FROM public.birds_top_users_records_year birds_top_users_records_year_1) birds_top_users_records_year USING (user_id))
+     FULL JOIN ( SELECT birds_migrations_top_users_species_year_1.user_id,
+            birds_migrations_top_users_species_year_1.count,
+            row_number() OVER (ORDER BY birds_migrations_top_users_species_year_1.count DESC) AS \\"position\\"
+           FROM public.birds_migrations_top_users_species_year birds_migrations_top_users_species_year_1) birds_migrations_top_users_species_year USING (user_id))
+     FULL JOIN ( SELECT birds_migrations_top_users_records_year_1.user_id,
+            birds_migrations_top_users_records_year_1.count,
+            row_number() OVER (ORDER BY birds_migrations_top_users_records_year_1.count DESC) AS \\"position\\"
+           FROM public.birds_migrations_top_users_records_year birds_migrations_top_users_records_year_1) birds_migrations_top_users_records_year USING (user_id))
      FULL JOIN ( SELECT fishes_top_users_species_year_1.user_id,
             fishes_top_users_species_year_1.count,
             row_number() OVER (ORDER BY fishes_top_users_species_year_1.count DESC) AS \\"position\\"
@@ -2977,16 +3127,21 @@ CREATE VIEW public.user_rank_stats AS
 
 CREATE VIEW public.user_stats AS
  SELECT users.id,
-    (((((COALESCE(birds.species_count, (0)::bigint) + COALESCE(fishes.species_count, (0)::bigint)) + COALESCE(herptiles.species_count, (0)::bigint)) + COALESCE(invertebrates.species_count, (0)::bigint)) + COALESCE(mammals.species_count, (0)::bigint)) + COALESCE(plants.species_count, (0)::bigint)) AS species_count,
-    (((((COALESCE(birds.count, (0)::bigint) + COALESCE(fishes.count, (0)::bigint)) + COALESCE(herptiles.count, (0)::bigint)) + COALESCE(invertebrates.count, (0)::bigint)) + COALESCE(mammals.count, (0)::bigint)) + COALESCE(plants.count, (0)::bigint)) AS entry_count,
+    ((((((COALESCE(birds.species_count, (0)::bigint) + COALESCE(birds_migrations.species_count, (0)::bigint)) + COALESCE(fishes.species_count, (0)::bigint)) + COALESCE(herptiles.species_count, (0)::bigint)) + COALESCE(invertebrates.species_count, (0)::bigint)) + COALESCE(mammals.species_count, (0)::bigint)) + COALESCE(plants.species_count, (0)::bigint)) AS species_count,
+    ((((((COALESCE(birds.count, (0)::bigint) + COALESCE(birds_migrations.count, (0)::bigint)) + COALESCE(fishes.count, (0)::bigint)) + COALESCE(herptiles.count, (0)::bigint)) + COALESCE(invertebrates.count, (0)::bigint)) + COALESCE(mammals.count, (0)::bigint)) + COALESCE(plants.count, (0)::bigint)) AS entry_count,
     users.\\"firstName\\" AS first_name,
     users.\\"lastName\\" AS last_name
-   FROM ((((((public.\\"Users\\" users
+   FROM (((((((public.\\"Users\\" users
      LEFT JOIN ( SELECT birds_1.user_id AS id,
             count(DISTINCT birds_1.species) AS species_count,
             count(*) AS count
            FROM public.birds_observations birds_1
           GROUP BY birds_1.user_id) birds USING (id))
+     LEFT JOIN ( SELECT birds_migrations_1.user_id AS id,
+            count(DISTINCT birds_migrations_1.species) AS species_count,
+            count(*) AS count
+           FROM public.birds_migrations_observations birds_migrations_1
+          GROUP BY birds_migrations_1.user_id) birds_migrations USING (id))
      LEFT JOIN ( SELECT fishes_1.user_id AS id,
             count(DISTINCT fishes_1.species) AS species_count,
             count(*) AS count
