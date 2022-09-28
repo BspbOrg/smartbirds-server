@@ -160,6 +160,13 @@ module.exports.generateStatistics = upgradeTask('ah17', {
             api.models.birds_migrations_season_totals.associations.migrationPoint,
             api.models.birds_migrations_season_totals.associations.speciesInfo
           ]
+        }).then(records => records.map(r => r.apiData(api))),
+        birds_migrations_top_species_month_stats: api.models.birds_migrations_top_species_month.findAll({
+          limit: 10,
+          include: [
+            api.models.birds_migrations_top_species_month.associations.speciesInfo
+          ],
+          order: [['count', 'DESC']]
         }).then(records => records.map(r => r.apiData(api)))
       })
 

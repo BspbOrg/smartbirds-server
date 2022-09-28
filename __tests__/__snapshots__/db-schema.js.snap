@@ -2074,6 +2074,19 @@ CREATE VIEW public.birds_migrations_top_interesting_species_month AS
 
 
 --
+-- Name: birds_migrations_top_species_month; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.birds_migrations_top_species_month AS
+ SELECT form.species,
+    count(*) AS count
+   FROM public.birds_migrations_observations form
+  WHERE (form.observation_date_time >= (('now'::text)::date - '1 mon'::interval))
+  GROUP BY form.species
+  ORDER BY count(*) DESC;
+
+
+--
 -- Name: birds_migrations_top_users_records_year; Type: VIEW; Schema: public; Owner: -
 --
 
