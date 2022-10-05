@@ -17,7 +17,7 @@ module.exports = {
     AND (NOT sensitive OR sensitive IS NULL)
     AND u.privacy = 'public'
     GROUP BY DATE_TRUNC('day', observation_date_time), season, migration_point_en, species
-    ORDER BY observation_date DESC
+    ORDER BY observation_date DESC, count DESC
   `,
   down: `
     DROP VIEW IF EXISTS birds_migrations_peak_daily_species
