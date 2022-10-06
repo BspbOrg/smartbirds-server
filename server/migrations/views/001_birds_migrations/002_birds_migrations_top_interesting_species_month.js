@@ -14,8 +14,7 @@ module.exports = {
     WHERE observation_date_time >= CURRENT_DATE - INTERVAL '1 month'
     AND count > 0
     AND (NOT confidential OR confidential IS NULL)
-    AND interesting = true
-    AND (NOT sensitive OR sensitive IS NULL)
+    AND s.interesting = true
     AND u.privacy = 'public'
     GROUP BY form_name, user_id, species, migration_point_en, DATE_TRUNC('day', observation_date_time)
     ORDER BY "observationDateTime" DESC

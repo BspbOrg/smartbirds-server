@@ -9,12 +9,10 @@ module.exports = {
       sum(count) as count
     FROM birds_migrations_observations
     LEFT OUTER JOIN "Users" u ON user_id = u.id
-    LEFT OUTER JOIN "Species" s ON "labelLa" = species AND type = 'birds'
     WHERE season is not null
     AND observation_date_time >= DATE_TRUNC('year', CURRENT_DATE - INTERVAL '1 year')
     AND count > 0
     AND (NOT confidential OR confidential IS NULL)
-    AND (NOT sensitive OR sensitive IS NULL)
     AND u.privacy = 'public'
     GROUP BY DATE_TRUNC('day', observation_date_time), season, migration_point_en, species
     ORDER BY observation_date DESC, count DESC
