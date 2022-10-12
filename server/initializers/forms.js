@@ -11,6 +11,7 @@ const { upgradeInitializer } = require('../utils/upgrade')
 const localField = require('../utils/localField')
 const { mapObject } = require('../utils/object')
 const languages = Object.keys(require('../../config/languages'))
+const { api } = require('actionhero')
 
 // Add custom hooks to sequelize hooks list
 hooks.beforeApiUpdate = { params: 2 }
@@ -273,7 +274,18 @@ function generateApiData (fields) {
 }
 
 function generateExportData (form) {
-  return async function (api) {
+  const filterExportFields = (exportType) => {
+    switch (exportType) {
+      case 'full': return () => true
+      case 'simple': return ([key]) => form.simpleExportFields.includes(key)
+      default: {
+        api.log('Unknown export type: ' + exportType, 'error')
+        return () => false
+      }
+    }
+  }
+
+  return async function (api, exportType = 'full') {
     const pre = {
       startTime: moment.tz(this.startDateTime, api.config.formats.tz).format(api.config.formats.time),
       startDate: moment.tz(this.startDateTime, api.config.formats.tz).format(api.config.formats.date),
@@ -329,7 +341,7 @@ function generateExportData (form) {
       delete prepared.organization
       prepared.organization = organization
     }
-    return prepared
+    return Object.fromEntries(Object.entries(prepared).filter(filterExportFields(exportType)))
   }
 }
 

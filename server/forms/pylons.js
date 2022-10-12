@@ -57,3 +57,35 @@ exports.fields = assign(exports.fields, {
     uniqueHash: true
   }
 })
+
+exports.simpleExportFields = [
+  'observationDate',
+  'observationTime',
+  'otherObservers',
+  'email',
+  'firstName',
+  'lastName',
+  'id',
+  'autoLocationEn',
+  'autoLocationLocal',
+  'sourceEn',
+  'sourceLocal',
+  'latitude',
+  'longitude',
+  'threatsEn',
+  'threatsLocal',
+  'location',
+  'pylonTypeEn',
+  'pylonTypeLocal',
+  'speciesNestOnPylon',
+  'typeNestEn',
+  'typeNestLocal',
+  'pylonInsulated',
+  'damagedInsulation',
+  'habitat100mPrimeEn',
+  'habitat100mPrimeLocal',
+  'habitat100mSecondEn',
+  'habitat100mSecondLocal',
+  'notes',
+  'speciesNotes'
+]

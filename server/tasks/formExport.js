@@ -7,8 +7,8 @@ const path = require('path')
 const { v4: uuidv4 } = require('uuid')
 const { upgradeTask } = require('../utils/upgrade')
 
-async function exportCsv (api, records, formName, outputFilename) {
-  records = await Promise.all(records.map(async (record) => record.exportData(api)))
+async function exportCsv (api, records, formName, outputFilename, exportType) {
+  records = await Promise.all(records.map(async (record) => record.exportData(api, exportType)))
   const convert = new Promise((resolve, reject) => {
     csv(records, { delimiter: ';', header: true }, (err, res) => {
       if (err) return reject(err)
@@ -42,8 +42,8 @@ function appendFile (api, archive, fileMap, filename, id) {
   })
 }
 
-async function exportZip (api, records, formName, outputFilename) {
-  const csvOutput = await exportCsv(api, records, formName)
+async function exportZip (api, records, formName, outputFilename, exportType) {
+  const csvOutput = await exportCsv(api, records, formName, exportType)
   return new Promise(function (resolve, reject) {
     try {
       const archive = archiver.create('zip', {})
@@ -108,7 +108,7 @@ exports.task = upgradeTask('ah17', {
   queue: 'low',
   middleware: [],
 
-  run: async function (api, { params, formName, outputType, user }, next) {
+  run: async function (api, { params, formName, outputType, user, exportType = 'full' }, next) {
     try {
       const form = api.forms[formName]
       if (!form) throw new Error(`Unknown form ${formName}`)
@@ -132,10 +132,10 @@ exports.task = upgradeTask('ah17', {
 
       switch (outputType) {
         case 'csv':
-          await exportCsv(api, result.rows, formName, outputFilename)
+          await exportCsv(api, result.rows, formName, outputFilename, exportType)
           break
         case 'zip':
-          await exportZip(api, result.rows, formName, outputFilename)
+          await exportZip(api, result.rows, formName, outputFilename, exportType)
           break
       }
 

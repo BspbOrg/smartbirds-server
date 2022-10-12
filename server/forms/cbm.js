@@ -185,6 +185,42 @@ exports.fields = {
   ...extra.fields
 }
 
+exports.simpleExportFields = [
+  'observationDate',
+  'observationTime',
+  'otherObservers',
+  'email',
+  'firstName',
+  'lastName',
+  'threatsEn',
+  'observers',
+  'zone',
+  'longitude',
+  'distanceLocal',
+  'distanceEn',
+  'secondaryHabitatLocal',
+  'secondaryHabitatEn',
+  'plotSectionLocal',
+  'plotSectionEn',
+  'latitude',
+  'species',
+  'visitLocal',
+  'visitEn',
+  'count',
+  'primaryHabitatLocal',
+  'primaryHabitatEn',
+  'speciesEuringCode',
+  'speciesCode',
+  'id',
+  'auto_visit',
+  'autoLocationEn',
+  'autoLocationLocal',
+  'notes',
+  'speciesNotes',
+  'speciesBg',
+  'speciesEn'
+]
+
 exports.foreignKeys.push({ targetModelName: 'zone', as: 'zone' })
 exports.foreignKeys.push({
   targetModelName: 'species',

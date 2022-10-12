@@ -81,6 +81,43 @@ exports.fields = assign(exports.fields, {
   }
 })
 
+exports.simpleExportFields = [
+  'observationDate',
+  'observationTime',
+  'otherObservers',
+  'email',
+  'firstName',
+  'lastName',
+  'id',
+  'autoLocationEn',
+  'autoLocationLocal',
+  'sourceEn',
+  'sourceLocal',
+  'latitude',
+  'longitude',
+  'threatsEn',
+  'threatsLocal',
+  'location',
+  'species',
+  'elevation',
+  'habitatEn',
+  'habitatLocal',
+  'accompanyingSpecies',
+  'reportingUnitEn',
+  'reportingUnitLocal',
+  'phenologicalPhaseEn',
+  'phenologicalPhaseLocal',
+  'count',
+  'density',
+  'cover',
+  'threatsPlantsEn',
+  'threatsPlantsLocal',
+  'notes',
+  'speciesNotes',
+  'speciesBg',
+  'speciesEn'
+]
+
 exports.foreignKeys.push({
   targetModelName: 'species',
   as: 'speciesInfo',

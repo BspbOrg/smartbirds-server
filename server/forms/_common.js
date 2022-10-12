@@ -114,6 +114,8 @@ exports.indexes = [
   { fields: ['organization'] }
 ]
 
+exports.simpleExportFields = ['id']
+
 exports.exportSkipFields = [
   'observers',
   'hash',

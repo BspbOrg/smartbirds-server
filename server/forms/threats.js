@@ -88,6 +88,63 @@ exports.fields = assign(exports.fields, {
   }
 })
 
+exports.simpleExportFields = [
+  'observationDate',
+  'observationTime',
+  'otherObservers',
+  'email',
+  'firstName',
+  'lastName',
+  'id',
+  'autoLocationEn',
+  'autoLocationLocal',
+  'sourceEn',
+  'sourceLocal',
+  'latitude',
+  'longitude',
+  'mto',
+  'threatsEn',
+  'threatsLocal',
+  'location',
+  'categoryEn',
+  'categoryLocal',
+  'species',
+  'estimateEn',
+  'estimateLocal',
+  'poisonedType',
+  'stateCarcassEn',
+  'stateCarcassLocal',
+  'sampleTaken1En',
+  'sampleTaken1Local',
+  'sampleTaken2En',
+  'sampleTaken2Local',
+  'sampleTaken3En',
+  'sampleTaken3Local',
+  'class',
+  'sampleCode1',
+  'sampleCode2',
+  'sampleCode3',
+  'count',
+  'threatsNotes',
+  'primaryType',
+  'speciesThreats',
+  'countThreats',
+  'deadSpecies',
+  'deadSpeciesCount',
+  'aliveAnimal',
+  'aliveAnimalCount',
+  'poisonBaits',
+  'poisonBaitsCount',
+  'categoryThreatsEn',
+  'categoryThreatsBg',
+  'estimateThreatsEn',
+  'estimateThreatsBg',
+  'notes',
+  'speciesNotes',
+  'speciesBg',
+  'speciesEn'
+]
+
 exports.foreignKeys.push({
   targetModelName: 'species',
   as: 'speciesInfo',
@@ -169,7 +226,7 @@ const afterApiUpdate = function (threat, options) {
 }
 
 exports.hooks = {
-  afterApiUpdate: afterApiUpdate
+  afterApiUpdate
 }
 
 exports.validate = {

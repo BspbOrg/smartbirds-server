@@ -18,7 +18,7 @@ function generateInsertAction (form) {
       record = await record.apiUpdate(data.params, data.session.user.language)
       const hash = record.calculateHash()
       api.log('looking for %s with hash %s', 'info', form.modelName, hash)
-      const existing = await api.models[form.modelName].findOne({ where: { hash: hash } })
+      const existing = await api.models[form.modelName].findOne({ where: { hash } })
       if (existing) {
         api.log('found %s with hash %s, updating', 'info', form.modelName, hash)
         data.response.existing = true
@@ -144,7 +144,8 @@ function generateExportAction (form) {
         params: data.params,
         outputType,
         user: data.session.user,
-        formName: form.modelName
+        formName: form.modelName,
+        exportType: data.params.exportType
       }, 'low')
       next()
     } catch (error) {
@@ -193,6 +194,14 @@ function generateFormActions (form) {
   form.listInputs || {})
 
   const exportInputs = _.extend({}, listInputs, {
+    exportType: {
+      validator: (param) => {
+        if (param && !['full', 'simple'].includes(param)) {
+          return 'Invalid export type'
+        }
+        return true
+      }
+    },
     outputType: {
       required: true,
       validator: (param) => {
