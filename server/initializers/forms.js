@@ -274,13 +274,13 @@ function generateApiData (fields) {
 }
 
 function generateExportData (form) {
-  const filterExportFields = (exportType) => {
+  const orderExportFields = (exportType, record) => {
     switch (exportType) {
-      case 'full': return () => true
-      case 'simple': return ([key]) => form.simpleExportFields.includes(key)
+      case 'full': return record
+      case 'simple': return Object.fromEntries(form.simpleExportFields.map(key => [key, record[key]]))
       default: {
         api.log('Unknown export type: ' + exportType, 'error')
-        return () => false
+        return { error: 'Unknown export type: ' + exportType }
       }
     }
   }
@@ -341,7 +341,7 @@ function generateExportData (form) {
       delete prepared.organization
       prepared.organization = organization
     }
-    return Object.fromEntries(Object.entries(prepared).filter(filterExportFields(exportType)))
+    return orderExportFields(exportType, prepared)
   }
 }
 
