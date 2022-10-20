@@ -5,6 +5,8 @@ exports.default = {
     return {
 
       get: [
+        { path: '/autocomplete', action: 'autocomplete' },
+
         { path: '/user', action: 'user:list' },
         { path: '/user/:id', action: 'user:view' },
         { path: '/user/:id/sharers', action: 'user:sharers' },
@@ -22,13 +24,15 @@ exports.default = {
         { path: '/status', action: 'status' },
         { path: '/i18n', action: 'i18n' },
 
+        { path: '/map-layers', action: 'mapLayer:types' },
+        { path: '/map-layers/:type', action: 'mapLayer:typeList' },
+        { path: '/map-layers/:type/:id', action: 'mapLayer:view' },
+
         { path: '/nomenclature', action: 'nomenclature:types' },
         { path: '/nomenclature/:type', action: 'nomenclature:typeList' },
         ...Object.keys(languages).map((langId) => {
           return { path: `/nomenclature/:type/${langId}/:value`, action: `nomenclature:${langId}:view` }
         }),
-
-        { path: '/autocomplete', action: 'autocomplete' },
 
         { path: '/pois', action: 'poi:types' },
         { path: '/pois/:type', action: 'poi:typeList' },
@@ -189,6 +193,7 @@ exports.default = {
       put: [
         { path: '/session', action: 'session:check' },
         { path: '/zone/:id/owner', action: 'zone:setOwner' },
+        { path: '/map-layers/:type', action: 'mapLayer:updateType' },
         { path: '/nomenclature/:type', action: 'nomenclature:updateType' },
         { path: '/pois/:type', action: 'poi:updateType' },
         { path: '/species/:type', action: 'species:updateType' }

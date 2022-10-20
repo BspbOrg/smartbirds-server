@@ -31,6 +31,9 @@ _.forOwn({
   },
   species: {
     keys: 'labelLa'
+  },
+  mapLayer: {
+    keys: 'id'
   }
 }, function (definition, model) {
   exports[model + 'UpdateType'] = upgradeAction('ah17', {
@@ -127,7 +130,7 @@ _.forOwn({
             .then(function (rows) {
               return {
                 count: result.count,
-                rows: rows
+                rows
               }
             })
         })
@@ -182,7 +185,7 @@ _.forOwn({
             .then(function (rows) {
               return {
                 count: result.count,
-                rows: rows
+                rows
               }
             })
         })
