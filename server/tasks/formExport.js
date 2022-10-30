@@ -10,15 +10,15 @@ const { upgradeTask } = require('../utils/upgrade')
 async function exportCsv (api, records, formName, outputFilename, exportType) {
   records = await Promise.all(records.map(async (record) => record.exportData(api, exportType)))
   const convert = new Promise((resolve, reject) => {
-    csv(records, { delimiter: ';', header: true }, (err, res) => {
+    csv(records, { bom: true, delimiter: ';', header: true }, (err, res) => {
       if (err) return reject(err)
       return resolve(res)
     })
   })
 
-  if (!outputFilename) return convert
+  if (!outputFilename) return Buffer.from(await convert, 'utf8')
 
-  fs.writeFileSync(outputFilename, '\ufeff' + await convert)
+  fs.writeFileSync(outputFilename, await convert)
 }
 
 function appendFile (api, archive, fileMap, filename, id) {
@@ -43,7 +43,7 @@ function appendFile (api, archive, fileMap, filename, id) {
 }
 
 async function exportZip (api, records, formName, outputFilename, exportType) {
-  const csvOutput = await exportCsv(api, records, formName, exportType)
+  const csvOutput = await exportCsv(api, records, formName, null, exportType)
   return new Promise(function (resolve, reject) {
     try {
       const archive = archiver.create('zip', {})
@@ -73,7 +73,7 @@ async function exportZip (api, records, formName, outputFilename, exportType) {
           const pictures = JSON.parse(record.pictures) || []
           pictures.forEach((picture) => {
             try {
-              ops.push(appendFile(api, archive, fileMap, `${picture.url.split('/').slice(-1)[0]}.jpg`))
+              ops.push(appendFile(api, archive, fileMap, `${picture.url.split('/').slice(-1).shift().split('?').shift()}.jpg`))
             } catch (error) {
               api.log(`Error appending picture: ${error.message}`, 'notice', error)
             }
