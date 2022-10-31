@@ -1425,6 +1425,64 @@ ALTER SEQUENCE public.\\"Locations_id_seq\\" OWNED BY public.\\"Locations\\".id;
 
 
 --
+-- Name: MapLayers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"MapLayers\\" (
+    id integer NOT NULL,
+    enabled boolean DEFAULT false NOT NULL,
+    type character varying(32) NOT NULL,
+    \\"labelEn\\" text NOT NULL,
+    \\"labelBg\\" text,
+    \\"labelSq\\" text,
+    \\"labelMk\\" text,
+    \\"labelEl\\" text,
+    \\"labelTr\\" text,
+    \\"labelAr\\" text,
+    \\"labelFr\\" text,
+    \\"summaryEn\\" text NOT NULL,
+    \\"summaryBg\\" text,
+    \\"summarySq\\" text,
+    \\"summaryMk\\" text,
+    \\"summaryEl\\" text,
+    \\"summaryTr\\" text,
+    \\"summaryAr\\" text,
+    \\"summaryFr\\" text,
+    \\"urlEn\\" text NOT NULL,
+    \\"urlBg\\" text,
+    \\"urlSq\\" text,
+    \\"urlMk\\" text,
+    \\"urlEl\\" text,
+    \\"urlTr\\" text,
+    \\"urlAr\\" text,
+    \\"urlFr\\" text,
+    \\"tileWidth\\" integer,
+    \\"tileHeight\\" integer,
+    \\"createdAt\\" timestamp with time zone NOT NULL,
+    \\"updatedAt\\" timestamp with time zone NOT NULL
+);
+
+
+--
+-- Name: MapLayers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.\\"MapLayers_id_seq\\"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: MapLayers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.\\"MapLayers_id_seq\\" OWNED BY public.\\"MapLayers\\".id;
+
+
+--
 -- Name: Nomenclatures; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2028,12 +2086,11 @@ CREATE VIEW public.birds_migrations_peak_daily_species AS
     birds_migrations_observations.migration_point_en,
     birds_migrations_observations.species,
     sum(birds_migrations_observations.count) AS count
-   FROM ((public.birds_migrations_observations
+   FROM (public.birds_migrations_observations
      LEFT JOIN public.\\"Users\\" u ON ((birds_migrations_observations.user_id = u.id)))
-     LEFT JOIN public.\\"Species\\" s ON (((s.\\"labelLa\\" = birds_migrations_observations.species) AND ((s.type)::text = 'birds'::text))))
-  WHERE ((((((birds_migrations_observations.season IS NOT NULL) AND (birds_migrations_observations.observation_date_time >= date_trunc('year'::text, (('now'::text)::date - '1 year'::interval)))) AND (birds_migrations_observations.count > 0)) AND ((NOT birds_migrations_observations.confidential) OR (birds_migrations_observations.confidential IS NULL))) AND ((NOT s.sensitive) OR (s.sensitive IS NULL))) AND ((u.privacy)::text = 'public'::text))
+  WHERE (((((birds_migrations_observations.season IS NOT NULL) AND (birds_migrations_observations.observation_date_time >= date_trunc('year'::text, (('now'::text)::date - '1 year'::interval)))) AND (birds_migrations_observations.count > 0)) AND ((NOT birds_migrations_observations.confidential) OR (birds_migrations_observations.confidential IS NULL))) AND ((u.privacy)::text = 'public'::text))
   GROUP BY date_trunc('day'::text, birds_migrations_observations.observation_date_time), birds_migrations_observations.season, birds_migrations_observations.migration_point_en, birds_migrations_observations.species
-  ORDER BY date_trunc('day'::text, birds_migrations_observations.observation_date_time) DESC;
+  ORDER BY date_trunc('day'::text, birds_migrations_observations.observation_date_time) DESC, sum(birds_migrations_observations.count) DESC;
 
 
 --
@@ -2046,10 +2103,9 @@ CREATE VIEW public.birds_migrations_season_totals AS
     birds_migrations_observations.migration_point_en,
     birds_migrations_observations.species,
     sum(birds_migrations_observations.count) AS count
-   FROM ((public.birds_migrations_observations
+   FROM (public.birds_migrations_observations
      LEFT JOIN public.\\"Users\\" u ON ((birds_migrations_observations.user_id = u.id)))
-     LEFT JOIN public.\\"Species\\" s ON (((s.\\"labelLa\\" = birds_migrations_observations.species) AND ((s.type)::text = 'birds'::text))))
-  WHERE ((((((birds_migrations_observations.season IS NOT NULL) AND (birds_migrations_observations.observation_date_time >= date_trunc('year'::text, (('now'::text)::date - '1 year'::interval)))) AND (birds_migrations_observations.count > 0)) AND ((NOT birds_migrations_observations.confidential) OR (birds_migrations_observations.confidential IS NULL))) AND ((NOT s.sensitive) OR (s.sensitive IS NULL))) AND ((u.privacy)::text = 'public'::text))
+  WHERE (((((birds_migrations_observations.season IS NOT NULL) AND (birds_migrations_observations.observation_date_time >= date_trunc('year'::text, (('now'::text)::date - '1 year'::interval)))) AND (birds_migrations_observations.count > 0)) AND ((NOT birds_migrations_observations.confidential) OR (birds_migrations_observations.confidential IS NULL))) AND ((u.privacy)::text = 'public'::text))
   GROUP BY date_part('year'::text, birds_migrations_observations.observation_date_time), birds_migrations_observations.season, birds_migrations_observations.migration_point_en, birds_migrations_observations.species
   ORDER BY (date_part('year'::text, birds_migrations_observations.observation_date_time))::integer DESC, (birds_migrations_observations.season = 'spring'::text), sum(birds_migrations_observations.count) DESC, birds_migrations_observations.migration_point_en;
 
@@ -2068,7 +2124,7 @@ CREATE VIEW public.birds_migrations_top_interesting_species_month AS
    FROM ((public.birds_migrations_observations
      LEFT JOIN public.\\"Users\\" u ON ((birds_migrations_observations.user_id = u.id)))
      LEFT JOIN public.\\"Species\\" s ON (((s.\\"labelLa\\" = birds_migrations_observations.species) AND ((s.type)::text = 'birds'::text))))
-  WHERE ((((((birds_migrations_observations.observation_date_time >= (('now'::text)::date - '1 mon'::interval)) AND (birds_migrations_observations.count > 0)) AND ((NOT birds_migrations_observations.confidential) OR (birds_migrations_observations.confidential IS NULL))) AND (s.interesting = true)) AND ((NOT s.sensitive) OR (s.sensitive IS NULL))) AND ((u.privacy)::text = 'public'::text))
+  WHERE (((((birds_migrations_observations.observation_date_time >= (('now'::text)::date - '1 mon'::interval)) AND (birds_migrations_observations.count > 0)) AND ((NOT birds_migrations_observations.confidential) OR (birds_migrations_observations.confidential IS NULL))) AND (s.interesting = true)) AND ((u.privacy)::text = 'public'::text))
   GROUP BY birds_migrations_observations.form_name, birds_migrations_observations.user_id, birds_migrations_observations.species, birds_migrations_observations.migration_point_en, date_trunc('day'::text, birds_migrations_observations.observation_date_time)
   ORDER BY date_trunc('day'::text, birds_migrations_observations.observation_date_time) DESC;
 
@@ -2079,11 +2135,11 @@ CREATE VIEW public.birds_migrations_top_interesting_species_month AS
 
 CREATE VIEW public.birds_migrations_top_species_month AS
  SELECT form.species,
-    count(*) AS count
+    sum(form.count) AS count
    FROM public.birds_migrations_observations form
   WHERE (form.observation_date_time >= (('now'::text)::date - '1 mon'::interval))
   GROUP BY form.species
-  ORDER BY count(*) DESC;
+  ORDER BY sum(form.count) DESC;
 
 
 --
@@ -3259,6 +3315,13 @@ ALTER TABLE ONLY public.\\"Locations\\" ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
+-- Name: MapLayers id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"MapLayers\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"MapLayers_id_seq\\"'::regclass);
+
+
+--
 -- Name: Nomenclatures id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3431,6 +3494,14 @@ ALTER TABLE ONLY public.\\"FormThreats\\"
 
 ALTER TABLE ONLY public.\\"Locations\\"
     ADD CONSTRAINT \\"Locations_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: MapLayers MapLayers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"MapLayers\\"
+    ADD CONSTRAINT \\"MapLayers_pkey\\" PRIMARY KEY (id);
 
 
 --
