@@ -24,9 +24,9 @@ exports.default = {
         { path: '/status', action: 'status' },
         { path: '/i18n', action: 'i18n' },
 
-        { path: '/map-layers', action: 'mapLayer:types' },
-        { path: '/map-layers/:type', action: 'mapLayer:typeList' },
-        { path: '/map-layers/:type/:id', action: 'mapLayer:view' },
+        { path: '/map-layers', action: 'map_layer:types' },
+        { path: '/map-layers/:type', action: 'map_layer:typeList' },
+        { path: '/map-layers/:type/:id', action: 'map_layer:view' },
 
         { path: '/nomenclature', action: 'nomenclature:types' },
         { path: '/nomenclature/:type', action: 'nomenclature:typeList' },
@@ -193,7 +193,7 @@ exports.default = {
       put: [
         { path: '/session', action: 'session:check' },
         { path: '/zone/:id/owner', action: 'zone:setOwner' },
-        { path: '/map-layers/:type', action: 'mapLayer:updateType' },
+        { path: '/map-layers/:type', action: 'map_layer:updateType' },
         { path: '/nomenclature/:type', action: 'nomenclature:updateType' },
         { path: '/pois/:type', action: 'poi:updateType' },
         { path: '/species/:type', action: 'species:updateType' }

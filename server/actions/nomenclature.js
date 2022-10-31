@@ -32,7 +32,7 @@ _.forOwn({
   species: {
     keys: 'labelLa'
   },
-  mapLayer: {
+  map_layer: {
     keys: 'id'
   }
 }, function (definition, model) {
