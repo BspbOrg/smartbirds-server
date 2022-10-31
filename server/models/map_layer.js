@@ -46,7 +46,7 @@ module.exports = function (sequelize, DataTypes) {
           summaryField.update(this, data.summary)
         }
         if (data.url) {
-          summaryField.update(this, data.url)
+          urlField.update(this, data.url)
         }
         if (data.tileWidth != null) {
           this.tileWidth = data.tileWidth
