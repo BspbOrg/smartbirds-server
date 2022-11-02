@@ -177,6 +177,7 @@ function generateFormActions (form) {
     latitude: {},
     longitude: {},
     radius: {},
+    source: {},
     moderatorReview: {
       formatter: function (value) {
         return value != null ? boolean(value) : value

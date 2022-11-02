@@ -15,7 +15,7 @@ function generatePrepareQuery (form) {
 
     query = _.extend(query, {
       order: [['observationDateTime', 'DESC']],
-      offset: offset
+      offset
     })
     if (limit !== -1) {
       query.limit = limit
@@ -71,6 +71,26 @@ function generatePrepareQuery (form) {
                   }
                 }
             )
+      ]
+    }
+
+    if (params.source) {
+      query.where = query.where || {}
+      query.where[Op.and] = query.where[Op.and] || []
+      query.where[Op.and] = [
+        ...query.where[Op.and],
+        {
+          [Op.or]: {
+            sourceEn: {
+              [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
+                `${params.source}%`
+            },
+            sourceLocal: {
+              [api.sequelize.sequelize.options.dialect === 'postgres' ? '$ilike' : '$like']:
+                `${params.source}%`
+            }
+          }
+        }
       ]
     }
 

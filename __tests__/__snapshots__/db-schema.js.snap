@@ -3870,6 +3870,20 @@ CREATE INDEX form_birds_migrations_organization ON public.\\"FormBirdsMigrations
 
 
 --
+-- Name: form_birds_migrations_source_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_migrations_source_en ON public.\\"FormBirdsMigrations\\" USING btree (\\"sourceEn\\");
+
+
+--
+-- Name: form_birds_migrations_source_local; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_migrations_source_local ON public.\\"FormBirdsMigrations\\" USING btree (\\"sourceLocal\\");
+
+
+--
 -- Name: form_birds_migrations_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3909,6 +3923,20 @@ CREATE INDEX form_birds_observation_date_time ON public.\\"FormBirds\\" USING bt
 --
 
 CREATE INDEX form_birds_organization ON public.\\"FormBirds\\" USING btree (organization);
+
+
+--
+-- Name: form_birds_source_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_source_en ON public.\\"FormBirds\\" USING btree (\\"sourceEn\\");
+
+
+--
+-- Name: form_birds_source_local; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_source_local ON public.\\"FormBirds\\" USING btree (\\"sourceLocal\\");
 
 
 --
@@ -4038,6 +4066,20 @@ CREATE INDEX form_c_b_m_zone_id ON public.\\"FormCBM\\" USING btree (\\"zoneId\\
 
 
 --
+-- Name: form_cbm_source_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_cbm_source_en ON public.\\"FormCBM\\" USING btree (\\"sourceEn\\");
+
+
+--
+-- Name: form_cbm_source_local; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_cbm_source_local ON public.\\"FormCBM\\" USING btree (\\"sourceLocal\\");
+
+
+--
 -- Name: form_ciconia_auto_location_en; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4119,6 +4161,20 @@ CREATE INDEX form_ciconia_start_date_time ON public.\\"FormCiconia\\" USING btre
 --
 
 CREATE INDEX form_ciconia_user_id ON public.\\"FormCiconia\\" USING btree (\\"userId\\");
+
+
+--
+-- Name: form_fishes_source_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_fishes_source_en ON public.\\"FormFishes\\" USING btree (\\"sourceEn\\");
+
+
+--
+-- Name: form_fishes_source_local; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_fishes_source_local ON public.\\"FormFishes\\" USING btree (\\"sourceLocal\\");
 
 
 --
@@ -4227,6 +4283,20 @@ CREATE INDEX form_herptiles_organization ON public.\\"FormHerptiles\\" USING btr
 
 
 --
+-- Name: form_herptiles_source_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_herptiles_source_en ON public.\\"FormHerptiles\\" USING btree (\\"sourceEn\\");
+
+
+--
+-- Name: form_herptiles_source_local; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_herptiles_source_local ON public.\\"FormHerptiles\\" USING btree (\\"sourceLocal\\");
+
+
+--
 -- Name: form_herptiles_species; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4301,6 +4371,20 @@ CREATE INDEX form_invertebrates_observation_date_time ON public.\\"FormInvertebr
 --
 
 CREATE INDEX form_invertebrates_organization ON public.\\"FormInvertebrates\\" USING btree (organization);
+
+
+--
+-- Name: form_invertebrates_source_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_invertebrates_source_en ON public.\\"FormInvertebrates\\" USING btree (\\"sourceEn\\");
+
+
+--
+-- Name: form_invertebrates_source_local; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_invertebrates_source_local ON public.\\"FormInvertebrates\\" USING btree (\\"sourceLocal\\");
 
 
 --
@@ -4381,6 +4465,20 @@ CREATE INDEX form_mammals_organization ON public.\\"FormMammals\\" USING btree (
 
 
 --
+-- Name: form_mammals_source_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_mammals_source_en ON public.\\"FormMammals\\" USING btree (\\"sourceEn\\");
+
+
+--
+-- Name: form_mammals_source_local; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_mammals_source_local ON public.\\"FormMammals\\" USING btree (\\"sourceLocal\\");
+
+
+--
 -- Name: form_mammals_species; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4458,6 +4556,20 @@ CREATE INDEX form_plants_organization ON public.\\"FormPlants\\" USING btree (or
 
 
 --
+-- Name: form_plants_source_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_plants_source_en ON public.\\"FormPlants\\" USING btree (\\"sourceEn\\");
+
+
+--
+-- Name: form_plants_source_local; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_plants_source_local ON public.\\"FormPlants\\" USING btree (\\"sourceLocal\\");
+
+
+--
 -- Name: form_plants_species; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4528,6 +4640,20 @@ CREATE INDEX form_pylons_casualties_organization ON public.\\"FormPylonsCasualti
 
 
 --
+-- Name: form_pylons_casualties_source_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_pylons_casualties_source_en ON public.\\"FormPylonsCasualties\\" USING btree (\\"sourceEn\\");
+
+
+--
+-- Name: form_pylons_casualties_source_local; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_pylons_casualties_source_local ON public.\\"FormPylonsCasualties\\" USING btree (\\"sourceLocal\\");
+
+
+--
 -- Name: form_pylons_casualties_species; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4581,6 +4707,20 @@ CREATE INDEX form_pylons_observation_date_time ON public.\\"FormPylons\\" USING 
 --
 
 CREATE INDEX form_pylons_organization ON public.\\"FormPylons\\" USING btree (organization);
+
+
+--
+-- Name: form_pylons_source_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_pylons_source_en ON public.\\"FormPylons\\" USING btree (\\"sourceEn\\");
+
+
+--
+-- Name: form_pylons_source_local; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_pylons_source_local ON public.\\"FormPylons\\" USING btree (\\"sourceLocal\\");
 
 
 --
@@ -4644,6 +4784,20 @@ CREATE INDEX form_threats_observation_date_time ON public.\\"FormThreats\\" USIN
 --
 
 CREATE INDEX form_threats_organization ON public.\\"FormThreats\\" USING btree (organization);
+
+
+--
+-- Name: form_threats_source_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_threats_source_en ON public.\\"FormThreats\\" USING btree (\\"sourceEn\\");
+
+
+--
+-- Name: form_threats_source_local; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_threats_source_local ON public.\\"FormThreats\\" USING btree (\\"sourceLocal\\");
 
 
 --
