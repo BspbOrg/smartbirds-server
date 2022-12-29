@@ -63,7 +63,7 @@
     "email-templates": "^10.0.1",
     "form-data": "^4.0.0",
     "geolib": "^3.3.3",
-    "husky": "^8.0.1",
+    "husky": "^8.0.2",
     "ioredis": "^5.2.4",
     "lodash": "^4.17.21",
     "mailchimp-api-v3": "^1.15.0",
