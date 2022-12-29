@@ -132,7 +132,14 @@ module.exports = [
       type: 'fishes',
       labelLa: 'Eudontomyzon mariae'
     }
-  }
+  },
+  {
+    model: 'species',
+    data: {
+      type: 'bats',
+      labelLa: 'Myotis sp.'
+    }
+  },
 ]
 
 for (let i = 1; i < 10; i++) {
