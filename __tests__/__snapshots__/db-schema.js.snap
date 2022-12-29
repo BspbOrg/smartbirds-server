@@ -162,6 +162,106 @@ ALTER SEQUENCE public.\\"FormBirds_id_seq\\" OWNED BY public.\\"FormBirds\\".id;
 
 
 --
+-- Name: FormBats; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"FormBats\\" (
+    \\"autoLocationEn\\" text,
+    \\"autoLocationLocal\\" text,
+    \\"autoLocationLang\\" character varying(3),
+    \\"observationMethodologyEn\\" text,
+    \\"observationMethodologyLocal\\" text,
+    \\"observationMethodologyLang\\" character varying(3),
+    \\"moderatorReview\\" boolean,
+    \\"sourceEn\\" text,
+    \\"sourceLocal\\" text,
+    \\"sourceLang\\" character varying(3),
+    latitude double precision,
+    longitude double precision,
+    \\"observationDateTime\\" timestamp with time zone,
+    \\"monitoringCode\\" text,
+    \\"endDateTime\\" timestamp with time zone,
+    \\"startDateTime\\" timestamp with time zone,
+    observers text,
+    \\"rainEn\\" text,
+    \\"rainLocal\\" text,
+    \\"rainLang\\" character varying(3),
+    temperature double precision,
+    \\"windDirectionEn\\" text,
+    \\"windDirectionLocal\\" text,
+    \\"windDirectionLang\\" character varying(3),
+    \\"windSpeedEn\\" text,
+    \\"windSpeedLocal\\" text,
+    \\"windSpeedLang\\" character varying(3),
+    \\"cloudinessEn\\" text,
+    \\"cloudinessLocal\\" text,
+    \\"cloudinessLang\\" character varying(3),
+    \\"cloudsType\\" text,
+    visibility double precision,
+    mto text,
+    notes text,
+    \\"threatsEn\\" text,
+    \\"threatsLocal\\" text,
+    \\"threatsLang\\" character varying(3),
+    pictures text,
+    track text,
+    confidential boolean,
+    \\"geolocationAccuracy\\" double precision,
+    location text,
+    \\"userId\\" integer,
+    organization text,
+    imported integer,
+    \\"metodologyEn\\" text,
+    \\"metodologyLocal\\" text,
+    \\"metodologyLang\\" character varying(3),
+    \\"tCave\\" double precision,
+    \\"hCave\\" double precision,
+    \\"typlocEn\\" text,
+    \\"typlocLocal\\" text,
+    \\"typlocLang\\" character varying(3),
+    sublocality text,
+    species text NOT NULL,
+    count integer NOT NULL,
+    swarming boolean,
+    \\"sexEn\\" text,
+    \\"sexLocal\\" text,
+    \\"sexLang\\" character varying(3),
+    \\"ageEn\\" text,
+    \\"ageLocal\\" text,
+    \\"ageLang\\" character varying(3),
+    \\"habitatsEn\\" text,
+    \\"habitatsLocal\\" text,
+    \\"habitatsLang\\" character varying(3),
+    \\"conditionEn\\" text,
+    \\"conditionLocal\\" text,
+    \\"conditionLang\\" character varying(3),
+    \\"typeCondEn\\" text,
+    \\"typeCondLocal\\" text,
+    \\"typeCondLang\\" character varying(3),
+    \\"reproductiveStatusEn\\" text,
+    \\"reproductiveStatusLocal\\" text,
+    \\"reproductiveStatusLang\\" character varying(3),
+    \\"ringEn\\" text,
+    \\"ringLocal\\" text,
+    \\"ringLang\\" character varying(3),
+    \\"ringN\\" text,
+    \\"bodyLength\\" double precision,
+    \\"tailLength\\" double precision,
+    \\"earLength\\" double precision,
+    \\"forearmLength\\" double precision,
+    \\"lengthThirdDigit\\" double precision,
+    \\"lengthFifthDigit\\" double precision,
+    \\"lengthWS\\" double precision,
+    weight double precision,
+    \\"speciesNotes\\" text,
+    \\"createdAt\\" timestamp with time zone,
+    \\"updatedAt\\" timestamp with time zone,
+    id integer DEFAULT nextval('public.\\"FormBirds_id_seq\\"'::regclass) NOT NULL,
+    hash character varying(64)
+);
+
+
+--
 -- Name: FormBirdsMigrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1489,7 +1589,7 @@ ALTER SEQUENCE public.\\"MapLayers_id_seq\\" OWNED BY public.\\"MapLayers\\".id;
 CREATE TABLE public.\\"Nomenclatures\\" (
     id integer NOT NULL,
     type character varying(32) NOT NULL,
-    \\"labelBg\\" text NOT NULL,
+    \\"labelBg\\" text,
     \\"labelEn\\" text NOT NULL,
     \\"createdAt\\" timestamp with time zone NOT NULL,
     \\"updatedAt\\" timestamp with time zone NOT NULL,
@@ -3382,6 +3482,14 @@ ALTER TABLE ONLY public.pois ALTER COLUMN id SET DEFAULT nextval('public.pois_id
 --
 
 ALTER TABLE ONLY public.settlements ALTER COLUMN id SET DEFAULT nextval('public.settlements_id_seq'::regclass);
+
+
+--
+-- Name: FormBats FormBats_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormBats\\"
+    ADD CONSTRAINT \\"FormBats_pkey\\" PRIMARY KEY (id);
 
 
 --
