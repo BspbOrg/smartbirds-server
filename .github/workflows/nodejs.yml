@@ -15,7 +15,6 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
         redis-version: [3, latest]
 
     steps:
@@ -24,7 +23,7 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: .nvmrc
 
       - name: Start Redis ${{ matrix.redis-version }}
         uses: zhulik/redis-action@1.1.0
@@ -41,7 +40,6 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
         redis-version: [3, latest]
         postgresql-version: [9.4-alpine, latest]
 
@@ -59,7 +57,7 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: .nvmrc
 
       - name: Start Redis ${{ matrix.redis-version }}
         uses: zhulik/redis-action@1.1.0
@@ -77,7 +75,6 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
         redis-version: [3]
         postgresql-version: [9.4-alpine]
 
@@ -95,7 +92,7 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: .nvmrc
 
       - name: Start Redis ${{ matrix.redis-version }}
         uses: zhulik/redis-action@1.1.0
