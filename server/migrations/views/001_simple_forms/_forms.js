@@ -15,11 +15,6 @@ module.exports = [
     viewPrefix: 'invertebrates'
   },
   {
-    tableName: 'FormMammals',
-    speciesType: 'mammals',
-    viewPrefix: 'mammals'
-  },
-  {
     tableName: 'FormPlants',
     speciesType: 'plants',
     viewPrefix: 'plants'
