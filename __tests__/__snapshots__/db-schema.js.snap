@@ -2744,27 +2744,90 @@ CREATE VIEW public.invertebrates_top_users_species_year AS
 --
 
 CREATE VIEW public.mammals_observations AS
- SELECT 'FormMammals' AS form_name,
-    \\"FormMammals\\".id,
-    \\"FormMammals\\".latitude,
-    \\"FormMammals\\".longitude,
-    \\"FormMammals\\".\\"userId\\" AS user_id,
-    \\"FormMammals\\".organization,
-    \\"FormMammals\\".\\"observationDateTime\\" AS observation_date_time,
-    \\"FormMammals\\".species,
-    \\"FormMammals\\".count,
-    \\"FormMammals\\".\\"monitoringCode\\" AS monitoring,
-    \\"FormMammals\\".\\"startDateTime\\" AS start_datetime,
-    \\"FormMammals\\".\\"endDateTime\\" AS end_datetime,
-    \\"FormMammals\\".confidential,
-    \\"FormMammals\\".\\"moderatorReview\\" AS moderator_review,
-    \\"FormMammals\\".\\"autoLocationEn\\" AS auto_location_en,
-    \\"FormMammals\\".\\"autoLocationLocal\\" AS auto_location_local,
-    \\"FormMammals\\".\\"autoLocationLang\\" AS auto_location_lang,
-    \\"FormMammals\\".\\"observationMethodologyEn\\" AS observation_methodology_en,
-    \\"FormMammals\\".\\"observationMethodologyLocal\\" AS observation_methodology_local,
-    \\"FormMammals\\".\\"observationMethodologyLang\\" AS observation_methodology_lang
-   FROM public.\\"FormMammals\\";
+ SELECT mammals_observations.form_name,
+    mammals_observations.id,
+    mammals_observations.latitude,
+    mammals_observations.longitude,
+    mammals_observations.\\"geolocationAccuracy\\",
+    mammals_observations.\\"userId\\" AS user_id,
+    mammals_observations.organization,
+    mammals_observations.\\"observationDateTime\\" AS observation_date_time,
+    mammals_observations.species,
+    mammals_observations.count,
+    mammals_observations.\\"monitoringCode\\" AS monitoring,
+    mammals_observations.\\"startDateTime\\" AS start_datetime,
+    mammals_observations.\\"endDateTime\\" AS end_datetime,
+    mammals_observations.confidential,
+    mammals_observations.\\"moderatorReview\\" AS moderator_review,
+    mammals_observations.\\"autoLocationEn\\" AS auto_location_en,
+    mammals_observations.\\"autoLocationLocal\\" AS auto_location_local,
+    mammals_observations.\\"autoLocationLang\\" AS auto_location_lang,
+    mammals_observations.\\"observationMethodologyEn\\" AS observation_methodology_en,
+    mammals_observations.\\"observationMethodologyLocal\\" AS observation_methodology_local,
+    mammals_observations.\\"observationMethodologyLang\\" AS observation_methodology_lang,
+    mammals_observations.\\"sourceLocal\\",
+    mammals_observations.\\"sourceLang\\",
+    mammals_observations.\\"sourceEn\\",
+    mammals_observations.location,
+    mammals_observations.\\"createdAt\\",
+    mammals_observations.\\"updatedAt\\"
+   FROM ( SELECT 'FormMammals'::text AS form_name,
+            \\"FormMammals\\".id,
+            \\"FormMammals\\".latitude,
+            \\"FormMammals\\".longitude,
+            \\"FormMammals\\".\\"geolocationAccuracy\\",
+            \\"FormMammals\\".\\"userId\\",
+            \\"FormMammals\\".organization,
+            \\"FormMammals\\".\\"observationDateTime\\",
+            \\"FormMammals\\".species,
+            \\"FormMammals\\".count,
+            \\"FormMammals\\".\\"monitoringCode\\",
+            \\"FormMammals\\".\\"startDateTime\\",
+            \\"FormMammals\\".\\"endDateTime\\",
+            \\"FormMammals\\".confidential,
+            \\"FormMammals\\".\\"moderatorReview\\",
+            \\"FormMammals\\".\\"autoLocationEn\\",
+            \\"FormMammals\\".\\"autoLocationLocal\\",
+            \\"FormMammals\\".\\"autoLocationLang\\",
+            \\"FormMammals\\".\\"observationMethodologyEn\\",
+            \\"FormMammals\\".\\"observationMethodologyLocal\\",
+            \\"FormMammals\\".\\"observationMethodologyLang\\",
+            \\"FormMammals\\".\\"sourceLocal\\",
+            \\"FormMammals\\".\\"sourceLang\\",
+            \\"FormMammals\\".\\"sourceEn\\",
+            \\"FormMammals\\".location,
+            \\"FormMammals\\".\\"createdAt\\",
+            \\"FormMammals\\".\\"updatedAt\\"
+           FROM public.\\"FormMammals\\"
+        UNION ALL
+         SELECT 'FormBats'::text AS form_name,
+            \\"FormBats\\".id,
+            \\"FormBats\\".latitude,
+            \\"FormBats\\".longitude,
+            \\"FormBats\\".\\"geolocationAccuracy\\",
+            \\"FormBats\\".\\"userId\\",
+            \\"FormBats\\".organization,
+            \\"FormBats\\".\\"observationDateTime\\",
+            \\"FormBats\\".species,
+            \\"FormBats\\".count,
+            \\"FormBats\\".\\"monitoringCode\\",
+            \\"FormBats\\".\\"startDateTime\\",
+            \\"FormBats\\".\\"endDateTime\\",
+            \\"FormBats\\".confidential,
+            \\"FormBats\\".\\"moderatorReview\\",
+            \\"FormBats\\".\\"autoLocationEn\\",
+            \\"FormBats\\".\\"autoLocationLocal\\",
+            \\"FormBats\\".\\"autoLocationLang\\",
+            \\"FormBats\\".\\"observationMethodologyEn\\",
+            \\"FormBats\\".\\"observationMethodologyLocal\\",
+            \\"FormBats\\".\\"observationMethodologyLang\\",
+            \\"FormBats\\".\\"sourceLocal\\",
+            \\"FormBats\\".\\"sourceLang\\",
+            \\"FormBats\\".\\"sourceEn\\",
+            \\"FormBats\\".location,
+            \\"FormBats\\".\\"createdAt\\",
+            \\"FormBats\\".\\"updatedAt\\"
+           FROM public.\\"FormBats\\") mammals_observations;
 
 
 --
@@ -2776,7 +2839,7 @@ CREATE VIEW public.mammals_stats AS
     (round((form.longitude / (0.05)::double precision)) * (0.05)::double precision) AS longitude,
     count(DISTINCT form.species) AS species_count,
     sum(form.count) AS units_count
-   FROM public.\\"FormMammals\\" form
+   FROM public.mammals_observations form
   GROUP BY (round((form.latitude / (0.05)::double precision)) * (0.05)::double precision), (round((form.longitude / (0.05)::double precision)) * (0.05)::double precision);
 
 
@@ -2785,19 +2848,19 @@ CREATE VIEW public.mammals_stats AS
 --
 
 CREATE VIEW public.mammals_top_interesting_species_month AS
- SELECT form.\\"userId\\" AS user_id,
+ SELECT form.user_id,
     form.species,
     form.count,
-    form.\\"observationDateTime\\",
+    form.observation_date_time AS \\"observationDateTime\\",
     form.location,
-    form.\\"autoLocationEn\\",
-    form.\\"autoLocationLocal\\",
-    form.\\"autoLocationLang\\"
-   FROM ((public.\\"FormMammals\\" form
-     LEFT JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
-     LEFT JOIN public.\\"Species\\" s ON (((s.\\"labelLa\\" = form.species) AND ((s.type)::text = 'mammals'::text))))
-  WHERE ((((((form.\\"observationDateTime\\" >= (('now'::text)::date - '1 mon'::interval)) AND (form.count > 0)) AND ((NOT form.confidential) OR (form.confidential IS NULL))) AND (s.interesting = true)) AND ((NOT s.sensitive) OR (s.sensitive IS NULL))) AND ((u.privacy)::text = 'public'::text))
-  ORDER BY form.\\"observationDateTime\\" DESC;
+    form.auto_location_en AS \\"autoLocationEn\\",
+    form.auto_location_local AS \\"autoLocationLocal\\",
+    form.auto_location_lang AS \\"autoLocationLang\\"
+   FROM ((public.mammals_observations form
+     LEFT JOIN public.\\"Users\\" u ON ((form.user_id = u.id)))
+     LEFT JOIN public.\\"Species\\" s ON (((s.\\"labelLa\\" = form.species) AND (((form.form_name = 'FormMammals'::text) AND ((s.type)::text = 'mammals'::text)) OR ((form.form_name = 'FormBats'::text) AND ((s.type)::text = 'bats'::text))))))
+  WHERE ((((((form.observation_date_time >= (('now'::text)::date - '1 mon'::interval)) AND (form.count > 0)) AND ((NOT form.confidential) OR (form.confidential IS NULL))) AND (s.interesting = true)) AND ((NOT s.sensitive) OR (s.sensitive IS NULL))) AND ((u.privacy)::text = 'public'::text))
+  ORDER BY form.observation_date_time DESC;
 
 
 --
@@ -2807,8 +2870,8 @@ CREATE VIEW public.mammals_top_interesting_species_month AS
 CREATE VIEW public.mammals_top_species_month AS
  SELECT form.species,
     count(*) AS count
-   FROM public.\\"FormMammals\\" form
-  WHERE (form.\\"observationDateTime\\" >= (('now'::text)::date - '1 mon'::interval))
+   FROM public.mammals_observations form
+  WHERE (form.observation_date_time >= (('now'::text)::date - '1 mon'::interval))
   GROUP BY form.species
   ORDER BY count(*) DESC;
 
@@ -2818,12 +2881,12 @@ CREATE VIEW public.mammals_top_species_month AS
 --
 
 CREATE VIEW public.mammals_top_users_records_year AS
- SELECT form.\\"userId\\" AS user_id,
+ SELECT form.user_id,
     count(*) AS count
-   FROM (public.\\"FormMammals\\" form
-     JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
-  WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
-  GROUP BY form.\\"userId\\"
+   FROM (public.mammals_observations form
+     JOIN public.\\"Users\\" u ON ((form.user_id = u.id)))
+  WHERE ((form.observation_date_time >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.user_id
   ORDER BY count(*) DESC;
 
 
@@ -2832,12 +2895,12 @@ CREATE VIEW public.mammals_top_users_records_year AS
 --
 
 CREATE VIEW public.mammals_top_users_species_year AS
- SELECT form.\\"userId\\" AS user_id,
+ SELECT form.user_id,
     count(DISTINCT form.species) AS count
-   FROM (public.\\"FormMammals\\" form
-     JOIN public.\\"Users\\" u ON ((form.\\"userId\\" = u.id)))
-  WHERE ((form.\\"observationDateTime\\" >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
-  GROUP BY form.\\"userId\\"
+   FROM (public.mammals_observations form
+     JOIN public.\\"Users\\" u ON ((form.user_id = u.id)))
+  WHERE ((form.observation_date_time >= date_trunc('year'::text, now())) AND ((u.privacy)::text = 'public'::text))
+  GROUP BY form.user_id
   ORDER BY count(DISTINCT form.species) DESC;
 
 
