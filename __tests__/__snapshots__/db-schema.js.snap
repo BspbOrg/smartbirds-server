@@ -257,7 +257,9 @@ CREATE TABLE public.\\"FormBats\\" (
     \\"createdAt\\" timestamp with time zone,
     \\"updatedAt\\" timestamp with time zone,
     id integer DEFAULT nextval('public.\\"FormBirds_id_seq\\"'::regclass) NOT NULL,
-    hash character varying(64)
+    hash character varying(64),
+    tragus integer,
+    \\"upperMolar\\" integer
 );
 
 
