@@ -258,8 +258,8 @@ CREATE TABLE public.\\"FormBats\\" (
     \\"updatedAt\\" timestamp with time zone,
     id integer DEFAULT nextval('public.\\"FormBirds_id_seq\\"'::regclass) NOT NULL,
     hash character varying(64),
-    tragus integer,
-    \\"upperMolar\\" integer
+    tragus double precision,
+    \\"upperMolar\\" double precision
 );
 
 

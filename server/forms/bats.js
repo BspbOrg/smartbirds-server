@@ -150,12 +150,10 @@ exports.fields = assign(exports.fields, {
     uniqueHash: true
   },
   tragus: {
-    type: '+int',
-    uniqueHash: true
+    type: 'num'
   },
   upperMolar: {
-    type: '+int',
-    uniqueHash: true
+    type: 'num'
   },
 
   speciesNotes: {
