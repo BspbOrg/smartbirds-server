@@ -155,6 +155,50 @@ function generateExportAction (form) {
   }
 }
 
+/**
+ * @param {{modelName: String}} form
+ * @returns {Function}
+ */
+function generateImportAction (form) {
+  return async function (api, data, next) {
+    await api.sequelize.sequelize.transaction(async (t) => {
+      api.log(JSON.stringify(data.params.items[0]), 'info')
+      try {
+        if ((!api.forms.userCanManage(data.session.user, form.modelName)) || !data.params.user) {
+          data.params.user = data.session.userId
+        }
+
+        for (let i = 0; i < data.params.items.length; i++) {
+          const itemData = {
+            ...data.params.items[i],
+            organization: data.session.user.organizationSlug,
+            user: data.params.user
+          }
+          let record = await api.models[form.modelName].build({})
+          record = await record.apiUpdate(itemData, data.session.user.language)
+          const hash = record.calculateHash()
+          api.log('looking for %s with hash %s', 'info', form.modelName, hash)
+          const existing = await api.models[form.modelName].findOne({ where: { hash }, transaction: t })
+          if (existing) {
+            api.log('found %s with hash %s, updating', 'info', form.modelName, hash)
+            await existing.apiUpdate(itemData, data.session.user.language)
+            record = await existing.save({ transaction: t })
+          } else {
+            api.log('not found %s with hash %s, creating', 'info', form.modelName, hash)
+            api.log(JSON.stringify(record), 'error')
+            record = await record.save({ transaction: t })
+          }
+        }
+      } catch (error) {
+        api.log(error + '===================', 'error')
+        throw error
+      }
+    })
+
+    next()
+  }
+}
+
 function generateFormActions (form) {
   const actions = {}
 
@@ -271,6 +315,16 @@ function generateFormActions (form) {
     middleware: ['auth'],
     inputs: exportInputs,
     run: generateExportAction(form)
+  }
+
+  actions.formImport = {
+    name: `${form.modelName}:import`,
+    description: `${form.modelName}:import`,
+    middleware: ['auth'],
+    inputs: {
+      items: { required: true }
+    },
+    run: generateImportAction(form)
   }
 
   return actions
