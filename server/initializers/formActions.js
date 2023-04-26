@@ -162,7 +162,6 @@ function generateExportAction (form) {
 function generateImportAction (form) {
   return async function (api, data, next) {
     await api.sequelize.sequelize.transaction(async (t) => {
-      api.log(JSON.stringify(data.params.items[0]), 'info')
       try {
         if ((!api.forms.userCanManage(data.session.user, form.modelName)) || !data.params.user) {
           data.params.user = data.session.userId
@@ -185,12 +184,14 @@ function generateImportAction (form) {
             record = await existing.save({ transaction: t })
           } else {
             api.log('not found %s with hash %s, creating', 'info', form.modelName, hash)
-            api.log(JSON.stringify(record), 'error')
             record = await record.save({ transaction: t })
           }
         }
+
+        data.response.success = true
       } catch (error) {
-        api.log(error + '===================', 'error')
+        data.response.error = error.message
+        api.log(error, 'error')
         throw error
       }
     })
