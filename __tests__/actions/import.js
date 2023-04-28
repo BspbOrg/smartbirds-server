@@ -25,8 +25,7 @@ describe('Import', () => {
       const records = []
       for (let i = 0; i < 5; i++) {
         const recordData = await form.generator(setup.api, { notes: 'from import' }, { create: false })
-        const record = await setup.api.models[form.name].build(recordData)
-        records.push(await record.apiData(setup.api))
+        records.push(recordData)
       }
 
       return runAction(`${form.name}:import`, { items: records }).then(function (response) {

@@ -185,7 +185,22 @@ exports.default = {
         { path: '/export/plants', action: 'formPlants:export' },
         { path: '/export/pylons', action: 'formPylons:export' },
         { path: '/export/pylons-casualties', action: 'formPylonsCasualties:export' },
-        { path: '/export/threats', action: 'formThreats:export' }
+        { path: '/export/threats', action: 'formThreats:export' },
+
+        // form imports
+        { path: '/import/bats', action: 'formBats:import' },
+        { path: '/import/birds', action: 'formBirds:import' },
+        { path: '/import/birds-migrations', action: 'formBirdsMigrations:import' },
+        { path: '/import/cbm', action: 'formCBM:import' },
+        { path: '/import/ciconia', action: 'formCiconia:import' },
+        { path: '/import/fishes', action: 'formFishes:import' },
+        { path: '/import/herptiles', action: 'formHerptiles:import' },
+        { path: '/import/invertebrates', action: 'formInvertebrates:import' },
+        { path: '/import/mammals', action: 'formMammals:import' },
+        { path: '/import/plants', action: 'formPlants:import' },
+        { path: '/import/pylons', action: 'formPylons:import' },
+        { path: '/import/pylons-casualties', action: 'formPylonsCasualties:import' },
+        { path: '/import/threats', action: 'formThreats:import' }
       ],
 
       put: [

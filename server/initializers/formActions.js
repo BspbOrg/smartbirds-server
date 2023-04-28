@@ -173,14 +173,16 @@ function generateImportAction (form) {
             organization: data.session.user.organizationSlug,
             user: data.params.user
           }
+
           let record = await api.models[form.modelName].build({})
-          record = await record.apiUpdate(itemData, data.session.user.language)
+          record = await record.importData(itemData)
+
           const hash = record.calculateHash()
           api.log('looking for %s with hash %s', 'info', form.modelName, hash)
           const existing = await api.models[form.modelName].findOne({ where: { hash }, transaction: t })
           if (existing) {
             api.log('found %s with hash %s, updating', 'info', form.modelName, hash)
-            await existing.apiUpdate(itemData, data.session.user.language)
+            await existing.importData(itemData)
             record = await existing.save({ transaction: t })
           } else {
             api.log('not found %s with hash %s, creating', 'info', form.modelName, hash)
