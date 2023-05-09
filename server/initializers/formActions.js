@@ -203,6 +203,8 @@ function generateImportAction (form) {
             api.log(error, 'error')
             importResult.errors.push({ row: i + 1, error: error.message })
             if (!data.params.skipErrors) {
+              importResult.created = 0
+              importResult.updated = 0
               throw error
             }
           }
@@ -210,7 +212,7 @@ function generateImportAction (form) {
           importResult.processed++
         }
 
-        data.response.success = importResult.errors.length === 0
+        data.response.success = importResult.errors.length === 0 || data.params.skipErrors
       })
     } catch (error) {
       api.log('Error from transaction function', 'error')
