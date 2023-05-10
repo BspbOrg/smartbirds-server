@@ -155,6 +155,76 @@ function generateExportAction (form) {
   }
 }
 
+/**
+ * @param {{modelName: String}} form
+ * @returns {Function}
+ */
+function generateImportAction (form) {
+  return async function (api, data, next) {
+    const importResult = {
+      total: data.params.items.length,
+      processed: 0,
+      created: 0,
+      updated: 0,
+      errors: []
+    }
+
+    try {
+      await api.sequelize.sequelize.transaction(async (t) => {
+        if ((!api.forms.userCanManage(data.session.user, form.modelName)) || !data.params.user) {
+          data.params.user = data.session.userId
+        }
+
+        for (let i = 0; i < data.params.items.length; i++) {
+          try {
+            const itemData = {
+              ...data.params.items[i],
+              organization: data.session.user.organizationSlug,
+              user: data.params.user
+            }
+
+            let record = await api.models[form.modelName].build({})
+            record = await record.importData(itemData)
+
+            const hash = record.calculateHash()
+            api.log('looking for %s with hash %s', 'info', form.modelName, hash)
+            const existing = await api.models[form.modelName].findOne({ where: { hash }, transaction: t })
+            if (existing) {
+              api.log('found %s with hash %s, updating', 'info', form.modelName, hash)
+              await existing.importData(itemData)
+              record = await existing.save({ transaction: t })
+              importResult.updated++
+            } else {
+              api.log('not found %s with hash %s, creating', 'info', form.modelName, hash)
+              record = await record.save({ transaction: t })
+              importResult.created++
+            }
+          } catch (error) {
+            api.log(error, 'error')
+            importResult.errors.push({ row: i + 1, error: error.message })
+            if (!data.params.skipErrors) {
+              importResult.created = 0
+              importResult.updated = 0
+              throw error
+            }
+          }
+
+          importResult.processed++
+        }
+
+        data.response.success = importResult.errors.length === 0 || data.params.skipErrors
+      })
+    } catch (error) {
+      api.log('Error from transaction function', 'error')
+      data.response.data = importResult
+      next(error)
+    }
+
+    data.response.data = importResult
+    next()
+  }
+}
+
 function generateFormActions (form) {
   const actions = {}
 
@@ -271,6 +341,18 @@ function generateFormActions (form) {
     middleware: ['auth'],
     inputs: exportInputs,
     run: generateExportAction(form)
+  }
+
+  actions.formImport = {
+    name: `${form.modelName}:import`,
+    description: `${form.modelName}:import`,
+    middleware: ['auth'],
+    inputs: {
+      items: { required: true },
+      skipErrors: { default: false }
+
+    },
+    run: generateImportAction(form)
   }
 
   return actions
