@@ -537,7 +537,7 @@ function generateImportData (form) {
       if (importSkipFields.includes(name)) return
 
       this[name] = value
-      if (name.endsWith('Local')) {
+      if (name.endsWith('Local') && data.language && data.language !== 'en') {
         this[`${name.substring(0, name.length - 5)}Lang`] = data.language || null
       }
     })
