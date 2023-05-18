@@ -180,7 +180,8 @@ function generateImportAction (form) {
             const itemData = {
               ...data.params.items[i],
               organization: data.session.user.organizationSlug,
-              user: data.params.user
+              user: data.params.user,
+              language: data.params.language
             }
 
             let record = await api.models[form.modelName].build({})
@@ -349,7 +350,8 @@ function generateFormActions (form) {
     middleware: ['auth'],
     inputs: {
       items: { required: true },
-      skipErrors: { default: false }
+      skipErrors: { default: false },
+      language: { default: 'en' }
 
     },
     run: generateImportAction(form)
