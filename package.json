@@ -61,7 +61,7 @@
     "date-fns": "^2.29.3",
     "debug": "^4.3.3",
     "ejs": "^3.1.9",
-    "email-templates": "^10.0.1",
+    "email-templates": "^11.0.5",
     "form-data": "^4.0.0",
     "geolib": "^3.3.3",
     "husky": "^8.0.3",
