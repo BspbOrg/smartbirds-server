@@ -143,7 +143,7 @@ describe('Action user:', function () {
           call.args[ 0 ].should.be.equal('mail:send')
           call.args[ 1 ].should.have.property('locals')
           call.args[ 1 ].locals.should.have.property('passwordToken').and.not.be.empty()
-          call.args[ 1 ].locals.should.have.property('email').and.be.equal(user.email)
+          call.args[ 1 ].locals.should.have.property('email').and.be.equal(encodeURIComponent(user.email))
         }).catch(function (error) {
           stub.restore()
           return Promise.reject(error)
