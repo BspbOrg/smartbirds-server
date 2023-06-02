@@ -83,8 +83,8 @@ exports.userLost = upgradeAction('ah17', {
             mail: { to: userObj.email, subject: 'Възстановяване на парола' },
             template: 'lost_password',
             locals: {
-              passwordToken: passwordToken,
-              email: userObj.email
+              passwordToken,
+              email: encodeURIComponent(userObj.email)
             }
           }, 'default').then(function (toRun) {
             data.response.data = { success: toRun }
@@ -305,7 +305,7 @@ exports.userList = upgradeAction('ah17', {
     const offset = data.params.offset || 0
 
     const q = {
-      offset: offset
+      offset
     }
 
     if (limit !== -1) {
