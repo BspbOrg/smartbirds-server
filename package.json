@@ -71,7 +71,7 @@
     "mime-types": "^2.1.35",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
-    "node-fetch": "^2.6.9",
+    "node-fetch": "^2.6.12",
     "nodemailer-mailgun-transport": "^2.1.5",
     "pg": "^8.10.0",
     "pg-hstore": "^2.3.4",
