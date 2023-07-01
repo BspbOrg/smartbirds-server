@@ -76,7 +76,7 @@
     "pg": "^8.10.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^5.22.3",
-    "sequelize-cli": "^6.6.0",
+    "sequelize-cli": "^6.6.1",
     "sharp": "^0.32.0",
     "umzug": "~3.2.1",
     "uuid": "^9.0.0",
