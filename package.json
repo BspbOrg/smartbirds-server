@@ -63,7 +63,7 @@
     "ejs": "^3.1.9",
     "email-templates": "^10.0.1",
     "form-data": "^4.0.0",
-    "geolib": "^3.3.3",
+    "geolib": "^3.3.4",
     "husky": "^8.0.3",
     "ioredis": "^5.3.2",
     "lodash": "^4.17.21",
