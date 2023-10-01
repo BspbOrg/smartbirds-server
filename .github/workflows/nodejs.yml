@@ -18,7 +18,7 @@ jobs:
         redis-version: [3, latest]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -44,7 +44,7 @@ jobs:
         postgresql-version: [9.4-alpine, latest]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Start Postgres ${{ matrix.postgresql-version }}
         uses: harmon758/postgresql-action@v1
@@ -79,7 +79,7 @@ jobs:
         postgresql-version: [9.4-alpine]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Start Postgres ${{ matrix.postgresql-version }}
         uses: harmon758/postgresql-action@v1
