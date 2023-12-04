@@ -23,7 +23,7 @@ test.each([
     },
     formName,
     outputType: 'csv',
-    user: user
+    user
   })
 
   expect(api.tasks.enqueue).toHaveBeenCalledWith('mail:send', {

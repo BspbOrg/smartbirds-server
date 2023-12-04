@@ -10,9 +10,9 @@ function makeNomenclature (type, labelEn, labelBg) {
     console.error("TYPE too long: '" + type + "'")
   }
   return {
-    type: type,
-    labelEn: labelEn,
-    labelBg: labelBg,
+    type,
+    labelEn,
+    labelBg,
     createdAt: new Date(),
     updatedAt: new Date()
   }

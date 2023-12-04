@@ -84,8 +84,8 @@ exports.default = {
 
       dataLengthTooLarge: function (maxLength, receivedLength) {
         return api.i18n.localize(['actionhero.errors.dataLengthTooLarge', {
-          maxLength: maxLength,
-          receivedLength: receivedLength
+          maxLength,
+          receivedLength
         }])
       },
 
@@ -114,11 +114,11 @@ exports.default = {
       // ///////////////
 
       verbNotFound: function (connection, verb) {
-        return connection.localize(['actionhero.errors.verbNotFound', { verb: verb }])
+        return connection.localize(['actionhero.errors.verbNotFound', { verb }])
       },
 
       verbNotAllowed: function (connection, verb) {
-        return connection.localize(['actionhero.errors.verbNotAllowed', { verb: verb }])
+        return connection.localize(['actionhero.errors.verbNotAllowed', { verb }])
       },
 
       connectionRoomAndMessage: function (connection) {
@@ -126,11 +126,11 @@ exports.default = {
       },
 
       connectionNotInRoom: function (connection, room) {
-        return connection.localize(['actionhero.errors.connectionNotInRoom', { room: room }])
+        return connection.localize(['actionhero.errors.connectionNotInRoom', { room }])
       },
 
       connectionAlreadyInRoom: function (connection, room) {
-        return connection.localize(['actionhero.errors.connectionAlreadyInRoom', { room: room }])
+        return connection.localize(['actionhero.errors.connectionAlreadyInRoom', { room }])
       },
 
       connectionRoomHasBeenDeleted: function (room) {

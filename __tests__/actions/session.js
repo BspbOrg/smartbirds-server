@@ -91,7 +91,7 @@ describe('Action session', () => {
       conn = await setup.api.specHelper.Connection.createAsync()
       conn.params = {
         email: user.email,
-        password: password
+        password
       }
 
       csrfToken = await setup.runAction('session:create', conn)

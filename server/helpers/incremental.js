@@ -3,9 +3,9 @@ const inputHelpers = require('./inputs')
 const links = require('./links')
 
 module.exports = {
-  declareInputs: declareInputs,
-  prepareQuery: prepareQuery,
-  generateMeta: generateMeta
+  declareInputs,
+  prepareQuery,
+  generateMeta
 }
 
 /**

@@ -105,8 +105,8 @@ exports.zoneView = upgradeAction('ah17', {
       return zone
     }).then(function (zone) {
       switch (data.connection.extension) {
-        case 'gpx': return api.template.render('/zone.gpx.ejs', { zone: zone })
-        case 'kml': return api.template.render('/zone.kml.ejs', { zone: zone })
+        case 'gpx': return api.template.render('/zone.gpx.ejs', { zone })
+        case 'kml': return api.template.render('/zone.kml.ejs', { zone })
         default:
           return { data: zone.apiData(api) }
       }
