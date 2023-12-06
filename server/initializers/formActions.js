@@ -2,6 +2,7 @@ const { boolean } = require('boolean')
 const _ = require('lodash')
 const inputHelpers = require('../helpers/inputs')
 const { upgradeInitializer, upgradeAction } = require('../utils/upgrade')
+const { prepareImportData } = require('../utils/import')
 
 /**
  * @param {{modelName: String}} form
@@ -177,22 +178,21 @@ function generateImportAction (form) {
 
         for (let i = 0; i < data.params.items.length; i++) {
           try {
-            const itemData = {
-              ...data.params.items[i],
-              organization: data.session.user.organizationSlug,
-              user: data.params.user,
-              language: data.params.language
-            }
+            const itemData = prepareImportData(
+              data.params.items[i],
+              data.params.user,
+              data.params.language,
+              data.session.user.organizationSlug
+            )
 
             let record = await api.models[form.modelName].build({})
-            record = await record.importData(itemData)
-
+            record = await record.apiUpdate(itemData, data.params.language)
             const hash = record.calculateHash()
             api.log('looking for %s with hash %s', 'info', form.modelName, hash)
             const existing = await api.models[form.modelName].findOne({ where: { hash }, transaction: t })
             if (existing) {
               api.log('found %s with hash %s, updating', 'info', form.modelName, hash)
-              await existing.importData(itemData)
+              await existing.apiUpdate(itemData, data.params.language)
               record = await existing.save({ transaction: t })
               importResult.updated++
             } else {

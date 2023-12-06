@@ -24,7 +24,7 @@ describe('Import', () => {
     test.each(formsWithGenerators.map(form => [form.name, form]))('imports %s records', async (name, form) => {
       const records = []
       for (let i = 0; i < 5; i++) {
-        const recordData = await form.generator(setup.api, { notes: 'from import' }, { create: false })
+        const recordData = await form.generator(setup.api, { notes: 'from import' }, { create: false, apiInsertFormat: true })
         records.push(recordData)
       }
 

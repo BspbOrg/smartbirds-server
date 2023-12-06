@@ -8,7 +8,8 @@ async function formThreatsFactory (api, {
   primaryType = 'threat',
   ...otherProps
 } = {}, {
-  create = true
+  create = true,
+  apiInsertFormat = false
 } = {}) {
   species = await species
   const record = {
@@ -16,7 +17,7 @@ async function formThreatsFactory (api, {
     species: species.labelLa || species,
     count,
     primaryType,
-    ...localFieldFactory('category'),
+    ...localFieldFactory('category', {}, { apiInsertFormat }),
     ...otherProps
   }
 

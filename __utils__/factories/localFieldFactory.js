@@ -6,14 +6,27 @@ function localFieldFactory (prefix, {
   en = `${prefix} en ${sequence++}`,
   local = `${prefix} local ${sequence++}`,
   lang = 'xx'
-} = {}) {
+} = {},
+{
+  apiInsertFormat = false
+} = {}
+) {
   const field = localField(prefix)
 
-  return {
-    [field.fieldNames.en]: en,
-    [field.fieldNames.local]: local,
-    [field.fieldNames.lang]: lang
-  }
+  return apiInsertFormat
+    ? {
+        [prefix]: {
+          label: {
+            en,
+            local
+          }
+        }
+      }
+    : {
+        [field.fieldNames.en]: en,
+        [field.fieldNames.local]: local,
+        [field.fieldNames.lang]: lang
+      }
 }
 
 module.exports = localFieldFactory

@@ -2,13 +2,14 @@ const localFieldFactory = require('./localFieldFactory')
 let sequence = 0
 
 async function settlementFactory (api, propOverrides, {
-  create = true
+  create = true,
+  apiInsertFormat = false
 } = {}) {
   sequence++
   const record = {
     longitude: (sequence % 3600) / 10 - 180,
     latitude: sequence / 36000,
-    ...localFieldFactory('name'),
+    ...localFieldFactory('name', {}, { apiInsertFormat }),
     ...propOverrides
   }
 

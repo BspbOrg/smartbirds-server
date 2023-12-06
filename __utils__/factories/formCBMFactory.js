@@ -9,15 +9,17 @@ async function formCBMFactory (api, {
   zone = zoneFactory(api),
   ...otherProps
 } = {}, {
-  create = true
+  create = true,
+  apiInsertFormat = false
 } = {}) {
   species = await species
   zone = await zone
   const record = {
     ...await formCommonFactory(api, otherProps),
-    ...localFieldFactory('distance'),
+    ...localFieldFactory('distance', {}, { apiInsertFormat }),
     species: species.labelLa || species,
     count,
+    ...(apiInsertFormat ? { zone: zone.id } : { zoneId: zone.id }),
     zoneId: zone.id,
     ...otherProps
   }
