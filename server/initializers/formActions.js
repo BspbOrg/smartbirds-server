@@ -185,8 +185,37 @@ function generateImportAction (form) {
               data.session.user.organizationSlug
             )
 
+            const nomenclatures = await api.models.nomenclature.findAll()
+            const species = await api.models.species.findAll()
+
+            const normalized = {
+              nomenclatures: (nomenclatures?.map(n => n.apiData()) || []).reduce((acc, n) => {
+                if (!acc[n.type]) {
+                  acc[n.type] = []
+                }
+                acc[n.type].push(n)
+                return acc
+              }, {}),
+              species: (species?.map(s => s.apiData()) || []).reduce((acc, s) => {
+                if (!acc[s.type]) {
+                  acc[s.type] = []
+                }
+                acc[s.type].push(s)
+                return acc
+              }, {})
+            }
+
             let record = await api.models[form.modelName].build({})
-            record = await record.apiUpdate(itemData, data.params.language)
+            record = await record.apiUpdate(
+              itemData,
+              data.params.language,
+              null,
+              {
+                validateNomenclatures: true,
+                nomenclatures: normalized.nomenclatures,
+                species: normalized.species
+              })
+
             const hash = record.calculateHash()
             api.log('looking for %s with hash %s', 'info', form.modelName, hash)
             const existing = await api.models[form.modelName].findOne({ where: { hash }, transaction: t })

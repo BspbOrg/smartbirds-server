@@ -346,7 +346,7 @@ function generateExportData (form) {
 }
 
 function generateApiUpdate (fields) {
-  return async function (data, language, role) {
+  return async function (data, language, role, { validateNomenclatures = false, nomenclatures = [], species = [] } = {}) {
     const modelName = this.constructor.tableName
     await this.constructor.runHooks('beforeApiUpdate', this, data)
     await runFieldHooks(fields, 'beforeApiUpdate', this, data, language)
@@ -362,6 +362,14 @@ function generateApiUpdate (fields) {
 
               // localField works with {bg, en}, while the multi nomenclature use [{label: {bg, en}}, ...]
               const val = data[name]
+
+              if (validateNomenclatures) {
+                const fieldNomenclatures = nomenclatures[field.relation.filter?.type] || []
+                const found = (_.isArray(val) ? val : [val]).every(v => fieldNomenclatures.find(n => n.label?.en === v.label?.en))
+                if (!found) {
+                  throw new Error(`[${modelName}.${name}] Invalid value: ${data[name]?.label?.en}`)
+                }
+              }
 
               // directly set if null or not array
               if (val == null || !Array.isArray(val)) {
@@ -393,7 +401,17 @@ function generateApiUpdate (fields) {
 
               if (!val) {
                 this[name] = null
+                return
               }
+
+              if (field.relation.model === 'species' && validateNomenclatures) {
+                const modelSpecies = species[field.relation.filter?.type] || []
+                const found = (_.isArray(val) ? val : [val]).every(v => modelSpecies.find(s => s.label?.la === v))
+                if (!found) {
+                  throw new Error(`[${modelName}.${name}] Invalid value: ${data[name]}`)
+                }
+              }
+
               if (!_.isArray(val)) val = [val]
               this[name] = _.reduce(val, (sum, v) => sum + (sum ? ' | ' : '') + v, '')
 
@@ -411,12 +429,28 @@ function generateApiUpdate (fields) {
             case 'settlement': {
               if (!_.has(data, name)) return
 
+              if (field.relation.model === 'nomenclature' && validateNomenclatures) {
+                const fieldNomenclatures = nomenclatures[field.relation.filter?.type] || []
+                const found = fieldNomenclatures.find(n => n.label?.en === data[name]?.label?.en)
+                if (!found) {
+                  throw new Error(`[${modelName}.${name}] Invalid value: ${data[name]?.label?.en}`)
+                }
+              }
+
               localField(name).update(this, data[name] != null ? data[name].label : null, language)
               break
             }
             case 'organization':
             case 'species': {
               if (!_.has(data, name)) return
+
+              if (field.relation.model === 'species' && validateNomenclatures) {
+                const modelSpecies = species[field.relation.filter?.type] || []
+                const found = modelSpecies.find(s => s.label?.la === data[name])
+                if (!found) {
+                  throw new Error(`[${modelName}.${name}] Invalid value: ${data[name]}`)
+                }
+              }
 
               this[name] = data[name]
               break
