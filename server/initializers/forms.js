@@ -498,6 +498,14 @@ function generateApiUpdate (fields) {
 
           if (data[name] === true || data[name] === false) {
             this[name] = data[name]
+          } else if (data[name] === 'true') {
+            this[name] = true
+          } else if (data[name] === 'false') {
+            this[name] = false
+          } else if (data[name] === '1') {
+            this[name] = true
+          } else if (data[name] === '0') {
+            this[name] = false
           } else if (data[name] == null) {
             this[name] = null
           } else {
