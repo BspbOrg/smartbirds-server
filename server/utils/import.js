@@ -25,8 +25,27 @@ const prepareImportData = (data, user, language, organization) => {
   _.forEach(data, (value, name) => {
     if (value === '') return
     if (importSkipFields.includes(name)) return
-
-    importItem[name] = value
+    // check if value is object
+    if (typeof value === 'object' && value?.label?.en.includes(' | ')) {
+      importItem[name] = []
+      const labelValues = Object.entries(value.label).map(([key, langValues]) => {
+        return { language: key, value: langValues.split(' | ') }
+      }).reduce((acc, curr) => {
+        acc[curr.language] = curr.value
+        return acc
+      }, {})
+      labelValues.en.forEach((labelValue, index) => {
+        importItem[name].push({
+          ...value,
+          label: Object.keys(labelValues).reduce((acc, curr) => {
+            acc[curr] = labelValues[curr][index]
+            return acc
+          }, {})
+        })
+      })
+    } else {
+      importItem[name] = value
+    }
   })
 
   importItem.startDateTime = data.startDateTime || moment(data.startDate + ' ' + data.startTime, api.config.formats.date + ' ' + api.config.formats.time).tz(api.config.formats.tz).toDate()
