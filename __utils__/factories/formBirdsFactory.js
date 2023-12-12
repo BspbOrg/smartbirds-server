@@ -17,8 +17,16 @@ async function formBirdsFactory (api, {
   const record = {
     ...await formCommonFactory(api, otherProps),
     species: species.labelLa || species,
-    ...localFieldFactory('countUnit', {}, { apiInsertFormat }),
-    ...localFieldFactory('typeUnit', {}, { apiInsertFormat }),
+    ...await localFieldFactory(api, 'birds_count_units', 'countUnit',
+      {
+        apiInsertFormat
+      }
+    ),
+    ...await localFieldFactory(api, 'birds_count_type', 'typeUnit',
+      {
+        apiInsertFormat
+      }
+    ),
     count,
     countMin,
     countMax,

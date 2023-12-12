@@ -15,9 +15,10 @@ async function formThreatsFactory (api, {
   const record = {
     ...await formCommonFactory(api, otherProps),
     species: species.labelLa || species,
+    class: 'mammals',
     count,
     primaryType,
-    ...localFieldFactory('category', {}, { apiInsertFormat }),
+    ...await localFieldFactory(api, 'threats_category', 'category', { apiInsertFormat }),
     ...otherProps
   }
 

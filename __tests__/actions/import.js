@@ -11,7 +11,7 @@ const formsWithGenerators = forms.map((form) => {
 })
 
 // Temporary skip all tests
-describe.skip('Import', () => {
+describe('Import', () => {
   afterEach(() => {
     return Promise.all(forms.map(form => {
       return setup.api.models[form].destroy({

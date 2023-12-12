@@ -2,16 +2,25 @@ const localField = require('../../server/utils/localField')
 
 let sequence = 0
 
-function localFieldFactory (prefix, {
-  en = `${prefix} en ${sequence++}`,
-  local = `${prefix} local ${sequence++}`,
-  lang = 'xx'
-} = {},
-{
-  apiInsertFormat = false
-} = {}
+async function localFieldFactory (
+  api,
+  type,
+  prefix,
+  {
+    en = `${prefix} en ${sequence++}`,
+    local = `${prefix} local ${sequence++}`,
+    lang = 'xx',
+    apiInsertFormat = false
+  } = {}
 ) {
   const field = localField(prefix)
+
+  if (api && type) {
+    await api.models.nomenclature.create({
+      type,
+      labelEn: en
+    })
+  }
 
   return apiInsertFormat
     ? {

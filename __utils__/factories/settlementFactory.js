@@ -9,7 +9,7 @@ async function settlementFactory (api, propOverrides, {
   const record = {
     longitude: (sequence % 3600) / 10 - 180,
     latitude: sequence / 36000,
-    ...localFieldFactory('name', {}, { apiInsertFormat }),
+    ...await localFieldFactory(api, null, 'name', { apiInsertFormat }),
     ...propOverrides
   }
 

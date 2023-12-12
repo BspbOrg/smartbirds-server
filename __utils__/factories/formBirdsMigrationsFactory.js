@@ -18,7 +18,7 @@ async function formBirdsMigrationsFactory (api, {
     ...await formCommonFactory(api, otherProps),
     species: species.labelLa || species,
     count,
-    ...localFieldFactory('migrationPoint', { en: migrationPoint.labelEn }, { apiInsertFormat }),
+    ...await localFieldFactory(api, 'birds_migration_point', 'migrationPoint', { en: migrationPoint.labelEn, apiInsertFormat }),
     ...otherProps
   }
 

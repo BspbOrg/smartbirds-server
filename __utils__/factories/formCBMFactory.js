@@ -16,7 +16,7 @@ async function formCBMFactory (api, {
   zone = await zone
   const record = {
     ...await formCommonFactory(api, otherProps),
-    ...localFieldFactory('distance', {}, { apiInsertFormat }),
+    ...await localFieldFactory(api, 'cbm_distance', 'distance', { apiInsertFormat }),
     species: species.labelLa || species,
     count,
     ...(apiInsertFormat ? { zone: zone.id } : { zoneId: zone.id }),

@@ -405,7 +405,7 @@ function generateApiUpdate (fields) {
               }
 
               if (field.relation.model === 'species' && validateNomenclatures) {
-                const modelSpecies = species[field.relation.filter?.type] || []
+                const modelSpecies = species[modelName === 'FormThreats' ? data.class : field.relation.filter?.type] || []
                 const found = (_.isArray(val) ? val : [val]).every(v => modelSpecies.find(s => s.label?.la === v))
                 if (!found) {
                   throw new Error(`[${modelName}.${name}] Invalid value: ${data[name]}`)
@@ -445,7 +445,7 @@ function generateApiUpdate (fields) {
               if (!_.has(data, name)) return
 
               if (field.relation.model === 'species' && validateNomenclatures) {
-                const modelSpecies = species[field.relation.filter?.type] || []
+                const modelSpecies = species[modelName === 'FormThreats' ? data.class : field.relation.filter?.type] || []
                 const found = modelSpecies.find(s => s.label?.la === data[name])
                 if (!found) {
                   throw new Error(`[${modelName}.${name}] Invalid value: ${data[name]}`)
