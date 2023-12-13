@@ -48,12 +48,35 @@ const prepareImportData = (data, user, language, organization) => {
     }
   })
 
-  importItem.startDateTime = data.startDateTime || moment(data.startDate + ' ' + data.startTime, api.config.formats.date + ' ' + api.config.formats.time).tz(api.config.formats.tz).toDate()
-  importItem.endDateTime = data.endDateTime || moment(data.endDate + ' ' + data.endTime, api.config.formats.date + ' ' + api.config.formats.time).tz(api.config.formats.tz).toDate()
   importItem.observationDateTime = data.observationDateTime || moment(data.observationDate + ' ' + data.observationTime, api.config.formats.date + ' ' + api.config.formats.time).tz(api.config.formats.tz).toDate()
+  if (data.startDateTime) {
+    importItem.startDateTime = data.startDateTime || moment(data.startDate + ' ' + data.startTime, api.config.formats.date + ' ' + api.config.formats.time).tz(api.config.formats.tz).toDate() || importItem.observationDateTime
+  } else {
+    importItem.startDateTime =
+      (data.startDate && data.startTime)
+        ? moment(data.startDate + ' ' + data.startTime, api.config.formats.date + ' ' + api.config.formats.time).tz(api.config.formats.tz).toDate()
+        : importItem.observationDateTime
+  }
+
+  if (data.endDateTime) {
+    importItem.endDateTime = data.endDateTime
+  } else {
+    importItem.endDateTime =
+      (data.endDate && data.endTime)
+        ? moment(data.endDate + ' ' + data.endTime, api.config.formats.date + ' ' + api.config.formats.time).tz(api.config.formats.tz).toDate()
+        : importItem.observationDateTime
+  }
+
   importItem.userId = data.userId || data.user
+  importItem.monitoringCode = data.monitoringCode || generateMonitoringCode(importItem)
 
   return importItem
+}
+
+const generateMonitoringCode = (data) => {
+  let date = data.observationDateTime || data.startDateTime
+  if (date && date.toJSON) { date = date.toJSON() }
+  return '!IMPORT-' + date
 }
 
 module.exports = {
