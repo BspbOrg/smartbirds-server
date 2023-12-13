@@ -2,6 +2,8 @@
 /* globals setup */
 
 const forms = require('../../__utils__/forms.js')
+const userFactory = require('../../__utils__/factories/userFactory')
+const _ = require('lodash')
 
 const formsWithGenerators = forms.map((form) => {
   return {
@@ -21,18 +23,29 @@ describe('Import', () => {
     }))
   })
 
-  setup.describeAsAuth((runAction) => {
-    test.each(formsWithGenerators.map(form => [form.name, form]))('imports %s records', async (name, form) => {
-      const records = []
-      for (let i = 0; i < 5; i++) {
-        const recordData = await form.generator(setup.api, { notes: 'from import' }, { create: false, apiInsertFormat: true })
-        records.push(recordData)
-      }
+  const roles = ['user', 'admin']
 
-      return runAction(`${form.name}:import`, { items: records }).then(function (response) {
-        return setup.api.models[form.name].findAll({ where: { notes: 'from import' } }).then(function (items) {
-          expect(items.length).toBe(5)
-        })
+  roles.forEach((role) => {
+    setup[`describeAs${_.capitalize(role.toLowerCase())}`]((specs) => {
+      test.each(formsWithGenerators.map(form => [form.name, form]))('imports %s records', async (name, form) => {
+        const user = await userFactory(setup.api, { role })
+
+        const records = []
+        for (let i = 0; i < 5; i++) {
+          const recordData = await form.generator(setup.api, { notes: 'from import' }, { create: false, apiInsertFormat: true })
+          records.push(recordData)
+        }
+
+        await setup.api.tasks.tasks['form:import'].run(
+          {
+            params: { items: records, user: user.id, language: 'en' },
+            user,
+            formName: form.name
+          }
+        )
+
+        const expectedItems = await setup.api.models[form.name].findAll({ where: { notes: 'from import' } })
+        expect(expectedItems.length).toBe(5)
       })
     })
   })
