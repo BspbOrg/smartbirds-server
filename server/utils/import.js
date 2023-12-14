@@ -2,7 +2,7 @@ const _ = require('lodash')
 const moment = require('moment/moment')
 const { api } = require('actionhero')
 
-const prepareImportData = (data, user, language, organization) => {
+const prepareImportData = (data, userId, language, organization) => {
   const importSkipFields = [
     'id',
     'pictures',
@@ -17,7 +17,7 @@ const prepareImportData = (data, user, language, organization) => {
   ]
 
   const importItem = {
-    user,
+    userId,
     language,
     organization
   }
@@ -67,7 +67,8 @@ const prepareImportData = (data, user, language, organization) => {
         : importItem.observationDateTime
   }
 
-  importItem.userId = data.userId || data.user
+  importItem.userId = userId
+  importItem.user = userId
   importItem.monitoringCode = data.monitoringCode || generateMonitoringCode(importItem)
 
   return importItem

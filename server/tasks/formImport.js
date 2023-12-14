@@ -43,13 +43,17 @@ module.exports = class FormImport extends Task {
 
     try {
       const form = api.forms[formName]
+      let userAllowed = false
+      if (api.forms.userCanManage(user, form.modelName)) {
+        userAllowed = true
+      }
 
       await api.sequelize.sequelize.transaction(async (t) => {
         for (let i = 0; i < params.items.length; i++) {
           try {
             const itemData = prepareImportData(
               params.items[i],
-              params.user,
+              (userAllowed ? params.items[i]?.userId : user.id) || user.id,
               params.language,
               user.organizationSlug
             )

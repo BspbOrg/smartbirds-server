@@ -563,40 +563,6 @@ function generateApiUpdate (fields) {
   }
 }
 
-function generateImportData (form) {
-  const importSkipFields = [
-    'id',
-    'pictures',
-    'track',
-    'moderatorReview',
-    'startDate',
-    'startTime',
-    'endDate',
-    'endTime',
-    'observationDate',
-    'observationTime'
-  ]
-
-  return async function (data) {
-    _.forEach(data, (value, name) => {
-      if (value === '') return
-      if (importSkipFields.includes(name)) return
-
-      this[name] = value
-      if (name.endsWith('Local') && data.language && data.language !== 'en') {
-        this[`${name.substring(0, name.length - 5)}Lang`] = data.language || null
-      }
-    })
-
-    this.startDateTime = data.startDateTime || moment(data.startDate + ' ' + data.startTime, api.config.formats.date + ' ' + api.config.formats.time).tz(api.config.formats.tz).toDate()
-    this.endDateTime = data.endDateTime || moment(data.endDate + ' ' + data.endTime, api.config.formats.date + ' ' + api.config.formats.time).tz(api.config.formats.tz).toDate()
-    this.observationDateTime = data.observationDateTime || moment(data.observationDate + ' ' + data.observationTime, api.config.formats.date + ' ' + api.config.formats.time).tz(api.config.formats.tz).toDate()
-    this.userId = data.userId || data.user
-
-    return this
-  }
-}
-
 function formOptions (form) {
   return {
     freezeTableName: true,
@@ -618,8 +584,7 @@ function formOptions (form) {
       calculateHash: generateCalcHash(form.fields),
       apiData: generateApiData(form.fields),
       apiUpdate: generateApiUpdate(form.fields),
-      exportData: generateExportData(form),
-      importData: generateImportData(form)
+      exportData: generateExportData(form)
     },
     hooks: form.hooks,
     validate: form.validate
