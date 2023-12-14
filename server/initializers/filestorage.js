@@ -60,7 +60,7 @@ module.exports = upgradeInitializer('ah17', {
             length: wb.size,
             custom: extra,
             type: mime,
-            filters: filters
+            filters
           }
           wm.write(JSON.stringify(meta))
           wm.end(function () {
@@ -87,7 +87,7 @@ module.exports = upgradeInitializer('ah17', {
         rm.pipe(concat(function (data) {
           try {
             const meta = JSON.parse(data)
-            api.log('blob', 'debug', { id: id, meta: meta })
+            api.log('blob', 'debug', { id, meta })
             const inflator = api.filestorage.inflator(meta.type || 'application/octet-stream', meta.filters || {}, meta)
             const strm = self.storage.createReadStream(meta.blob).pipe(inflator)
             next(null, strm, meta)
@@ -104,7 +104,7 @@ module.exports = upgradeInitializer('ah17', {
         rm.pipe(concat(function (data) {
           try {
             const meta = JSON.parse(data)
-            api.log('blob', 'debug', { id: id, meta: meta })
+            api.log('blob', 'debug', { id, meta })
             self.storage.remove(meta.blob, function (err, res) {
               if (err) return next(err)
               self.storage.remove(id, next)

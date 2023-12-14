@@ -1,0 +1,61 @@
+<div lang="en">
+    <p>Your import is ready.</p>
+
+    <div>
+        <h3>Summary</h3>
+        <ul>
+            <li><strong>Total: </strong> <%= importResult.total %></li>
+            <li><strong>Processed: </strong> <%= importResult.processed %></li>
+            <li><strong>Inserted: </strong> <%= importResult.created %></li>
+            <li><strong>Updated: </strong> <%= importResult.updated %></li>
+
+            <% if (importResult.errors && importResult.errors.lenght > 0) { %>
+                <li>
+                    <strong>Errors: </strong> <%= importResult.errors.length %>
+                    <ul>
+                        <% importResult.errors.forEach(function(error) { %>
+                            <li><strong>Row <%= error.row %>:</strong> <%= error.error %></li>
+                        <% }); %>
+                    </ul>
+                </li>
+            <% } %>
+        </ul>
+    </div>
+
+    <% if (importResult.errors && importResult.errors.lenght > 0) { %>
+        <p>If you want to skip the rows with errors, check the "Ignore errors" when importing the data.</p>
+    <% } %>
+
+</div>
+
+<hr>
+
+<div lang="en">
+    <p>Вашето импортиране е готово.</p>
+
+    <div>
+        <h3>Обобщение</h3>
+        <ul>
+            <li><strong>Общо: </strong> <%= importResult.total %></li>
+            <li><strong>Обработени: </strong> <%= importResult.processed %></li>
+            <li><strong>Добавени: </strong> <%= importResult.created %></li>
+            <li><strong>Обновени: </strong> <%= importResult.updated %></li>
+
+            <% if (importResult.errors && importResult.errors.lenght > 0) { %>
+                <li>
+                    <strong>Грешки: </strong> <%= importResult.errors.length %>
+                    <ul>
+                        <% importResult.errors.forEach(function(error) { %>
+                            <li><strong>Ред <%= error.row %>:</strong> <%= error.error %></li>
+                        <% }); %>
+                    </ul>
+                </li>
+            <% } %>
+        </ul>
+    </div>
+
+    <% if (importResult.errors && importResult.errors.lenght > 0) { %>
+        <p>Ако желаете да импортирате данните, като пропуснете редовете с грешка, маркирайте "Игнорирай грешките" при импорта.</p>
+    <% } %>
+
+</div>

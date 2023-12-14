@@ -31,9 +31,9 @@ module.exports = upgradeInitializer('ah17', {
 
           const sessionData = {
             userId: user.id,
-            csrfToken: csrfToken,
+            csrfToken,
             sesionCreatedAt: new Date().getTime(),
-            user: user
+            user
           }
 
           user.update({ lastLoginAt: new Date() }).then(function () {

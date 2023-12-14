@@ -15,7 +15,7 @@ exports.uploader = upgradeAction('ah17', {
     }, function (err, id, stat) {
       if (err) return next(err)
       api.log('saved as #' + id, 'info', stat)
-      data.response.data = { id: id }
+      data.response.data = { id }
       next()
     })
   }

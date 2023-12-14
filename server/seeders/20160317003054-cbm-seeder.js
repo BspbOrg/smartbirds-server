@@ -203,7 +203,7 @@ module.exports = {
                         return queryInterface.rawSelect('Users', {
                           attributes: ['id'],
                           where: {
-                            email: email
+                            email
                           }
                         }, 'id').then(function (id) {
                           if (id != null) {

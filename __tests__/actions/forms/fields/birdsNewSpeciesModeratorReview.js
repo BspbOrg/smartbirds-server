@@ -43,7 +43,7 @@ describe('birdsNewSpeciesModeratorReview', () => {
           await bgatlasSpeciesFactory(setup.api, cell, species)
 
           const { id } = await formFactory(setup.api, {
-            species: species,
+            species,
             user: user.email,
             ...getCenter(cell.coordinates())
           })
@@ -89,13 +89,13 @@ describe('birdsNewSpeciesModeratorReview', () => {
         const species = await speciesFactory(setup.api, 'birds')
 
         const { id: record1 } = await formFactory(setup.api, {
-          species: species,
+          species,
           user: user.email,
           ...getCenter(cell.coordinates())
         })
 
         const { id: record2 } = await formFactory(setup.api, {
-          species: species,
+          species,
           user: user.email,
           ...getCenter(cell.coordinates())
         })

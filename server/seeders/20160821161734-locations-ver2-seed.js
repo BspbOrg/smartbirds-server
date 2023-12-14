@@ -123,7 +123,7 @@ module.exports = {
               // update zone with the location id
               .then(function (locationId) {
                 return queryInterface.bulkUpdate('Zones', {
-                  locationId: locationId
+                  locationId
                 }, { id: zoneId })
               })
 

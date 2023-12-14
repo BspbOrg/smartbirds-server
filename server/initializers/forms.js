@@ -346,7 +346,7 @@ function generateExportData (form) {
 }
 
 function generateApiUpdate (fields) {
-  return async function (data, language, role) {
+  return async function (data, language, role, { validateNomenclatures = false, nomenclatures = [], species = [] } = {}) {
     const modelName = this.constructor.tableName
     await this.constructor.runHooks('beforeApiUpdate', this, data)
     await runFieldHooks(fields, 'beforeApiUpdate', this, data, language)
@@ -362,6 +362,16 @@ function generateApiUpdate (fields) {
 
               // localField works with {bg, en}, while the multi nomenclature use [{label: {bg, en}}, ...]
               const val = data[name]
+
+              if (validateNomenclatures) {
+                const fieldNomenclatures = nomenclatures[field.relation.filter?.type] || []
+                const found = (_.isArray(val) ? val : [val])
+                  .filter(v => v?.label?.en)
+                  .every(v => fieldNomenclatures.find(n => n.label?.en === v.label?.en))
+                if (!found) {
+                  throw new Error(`[${modelName}.${name}] Invalid value: ${data[name]?.label?.en}`)
+                }
+              }
 
               // directly set if null or not array
               if (val == null || !Array.isArray(val)) {
@@ -393,7 +403,19 @@ function generateApiUpdate (fields) {
 
               if (!val) {
                 this[name] = null
+                return
               }
+
+              if (field.relation.model === 'species' && validateNomenclatures) {
+                const modelSpecies = species[modelName === 'FormThreats' ? data.class : field.relation.filter?.type] || []
+                const found = (_.isArray(val) ? val : [val])
+                  .filter(v => v)
+                  .every(v => modelSpecies.find(s => s.label?.la === v))
+                if (!found) {
+                  throw new Error(`[${modelName}.${name}] Invalid value: ${data[name]}`)
+                }
+              }
+
               if (!_.isArray(val)) val = [val]
               this[name] = _.reduce(val, (sum, v) => sum + (sum ? ' | ' : '') + v, '')
 
@@ -411,12 +433,28 @@ function generateApiUpdate (fields) {
             case 'settlement': {
               if (!_.has(data, name)) return
 
+              if (field.relation.model === 'nomenclature' && validateNomenclatures && data[name]?.label?.en) {
+                const fieldNomenclatures = nomenclatures[field.relation.filter?.type] || []
+                const found = fieldNomenclatures.find(n => n.label?.en === data[name]?.label?.en)
+                if (!found) {
+                  throw new Error(`[${modelName}.${name}] Invalid value: ${data[name]?.label?.en}`)
+                }
+              }
+
               localField(name).update(this, data[name] != null ? data[name].label : null, language)
               break
             }
             case 'organization':
             case 'species': {
               if (!_.has(data, name)) return
+
+              if (field.relation.model === 'species' && validateNomenclatures && data[name]) {
+                const modelSpecies = species[modelName === 'FormThreats' ? data.class : field.relation.filter?.type] || []
+                const found = modelSpecies.find(s => s.label?.la === data[name])
+                if (!found) {
+                  throw new Error(`[${modelName}.${name}] Invalid value: ${data[name]}`)
+                }
+              }
 
               this[name] = data[name]
               break
@@ -498,6 +536,14 @@ function generateApiUpdate (fields) {
 
           if (data[name] === true || data[name] === false) {
             this[name] = data[name]
+          } else if (data[name] === 'true') {
+            this[name] = true
+          } else if (data[name] === 'false') {
+            this[name] = false
+          } else if (data[name] === '1') {
+            this[name] = true
+          } else if (data[name] === '0') {
+            this[name] = false
           } else if (data[name] == null) {
             this[name] = null
           } else {
@@ -513,40 +559,6 @@ function generateApiUpdate (fields) {
     await runFieldHooks(fields, `afterApiUpdate:${role}`, this, data, language)
     await runFieldHooks(fields, 'afterApiUpdate', this, data, language)
     await this.constructor.runHooks('afterApiUpdate', this, data)
-    return this
-  }
-}
-
-function generateImportData (form) {
-  const importSkipFields = [
-    'id',
-    'pictures',
-    'track',
-    'moderatorReview',
-    'startDate',
-    'startTime',
-    'endDate',
-    'endTime',
-    'observationDate',
-    'observationTime'
-  ]
-
-  return async function (data) {
-    _.forEach(data, (value, name) => {
-      if (value === '') return
-      if (importSkipFields.includes(name)) return
-
-      this[name] = value
-      if (name.endsWith('Local') && data.language && data.language !== 'en') {
-        this[`${name.substring(0, name.length - 5)}Lang`] = data.language || null
-      }
-    })
-
-    this.startDateTime = data.startDateTime || moment(data.startDate + ' ' + data.startTime, api.config.formats.date + ' ' + api.config.formats.time).tz(api.config.formats.tz).toDate()
-    this.endDateTime = data.endDateTime || moment(data.endDate + ' ' + data.endTime, api.config.formats.date + ' ' + api.config.formats.time).tz(api.config.formats.tz).toDate()
-    this.observationDateTime = data.observationDateTime || moment(data.observationDate + ' ' + data.observationTime, api.config.formats.date + ' ' + api.config.formats.time).tz(api.config.formats.tz).toDate()
-    this.userId = data.userId || data.user
-
     return this
   }
 }
@@ -572,8 +584,7 @@ function formOptions (form) {
       calculateHash: generateCalcHash(form.fields),
       apiData: generateApiData(form.fields),
       apiUpdate: generateApiUpdate(form.fields),
-      exportData: generateExportData(form),
-      importData: generateImportData(form)
+      exportData: generateExportData(form)
     },
     hooks: form.hooks,
     validate: form.validate

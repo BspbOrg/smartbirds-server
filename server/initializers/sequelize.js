@@ -129,7 +129,7 @@ module.exports = upgradeInitializer('ah17', {
 
       sequelize: sequelizeInstance,
 
-      umzug: umzug,
+      umzug,
 
       connect: function (next) {
         const dir = path.normalize(api.projectRoot + '/models')

@@ -9,7 +9,8 @@ async function formBirdsMigrationsFactory (api, {
   migrationPoint = poisFactory(api, { type: 'birds_migration_point' }),
   ...otherProps
 } = {}, {
-  create = true
+  create = true,
+  apiInsertFormat = false
 } = {}) {
   species = await species
   migrationPoint = await migrationPoint
@@ -17,7 +18,7 @@ async function formBirdsMigrationsFactory (api, {
     ...await formCommonFactory(api, otherProps),
     species: species.labelLa || species,
     count,
-    ...localFieldFactory('migrationPoint', { en: migrationPoint.labelEn }),
+    ...await localFieldFactory(api, 'birds_migration_point', 'migrationPoint', { en: migrationPoint.labelEn, apiInsertFormat }),
     ...otherProps
   }
 

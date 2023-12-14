@@ -2,7 +2,7 @@ const formCommonFactory = require('./formCommonFactory')
 const speciesFactory = require('./speciesFactory')
 
 async function formInvertebratesFactory (api, {
-  species = speciesFactory(api, 'invertebrates'),
+  species = speciesFactory(api, 'invertebrates_name'),
   count = 1,
   ...otherProps
 } = {}, {

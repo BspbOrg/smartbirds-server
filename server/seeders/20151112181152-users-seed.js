@@ -39,7 +39,7 @@ module.exports = {
           .rawSelect('Users', {
             attributes: ['id'],
             where: {
-              email: email
+              email
             }
           }, 'id')
           .then(function (id) {
@@ -51,7 +51,7 @@ module.exports = {
                 return queryInterface.rawSelect('Users', {
                   attributes: ['id'],
                   where: {
-                    email: email
+                    email
                   }
                 }, 'id')
               })
@@ -78,7 +78,7 @@ module.exports = {
             }
 
             inserts.push(findId({
-              email: email,
+              email,
               passwordHash: 'imported hash',
               firstName: record['Име'] && record['Име'].trim(),
               lastName: record['Фамилия'] && record['Фамилия'].trim(),

@@ -7,9 +7,9 @@ module.exports = {
    * Default limit to use when no other value is specified
    */
   defaultLimit: 20,
-  declareInputs: declareInputs,
-  prepareQuery: prepareQuery,
-  generateMeta: generateMeta
+  declareInputs,
+  prepareQuery,
+  generateMeta
 }
 
 /**

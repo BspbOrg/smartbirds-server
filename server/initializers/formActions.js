@@ -161,68 +161,31 @@ function generateExportAction (form) {
  */
 function generateImportAction (form) {
   return async function (api, data, next) {
-    const importResult = {
-      total: data.params.items.length,
-      processed: 0,
-      created: 0,
-      updated: 0,
-      errors: []
-    }
-
     try {
-      await api.sequelize.sequelize.transaction(async (t) => {
-        if ((!api.forms.userCanManage(data.session.user, form.modelName)) || !data.params.user) {
-          data.params.user = data.session.userId
-        }
+      let allowed = false
+      if (api.forms.userCanManage(data.session.user, form.modelName)) {
+        allowed = true
+      } else if (!data.params.user) {
+        // regular users can only import own data
+        data.params.user = data.session.userId
+        allowed = true
+      } else if (data.session.userId === data.params.user) {
+        // need to have specified own user
+        allowed = true
+      }
 
-        for (let i = 0; i < data.params.items.length; i++) {
-          try {
-            const itemData = {
-              ...data.params.items[i],
-              organization: data.session.user.organizationSlug,
-              user: data.params.user,
-              language: data.params.language
-            }
+      if (!allowed) throw new Error(api.config.errors.sessionNoPermission(data.connection))
 
-            let record = await api.models[form.modelName].build({})
-            record = await record.importData(itemData)
-
-            const hash = record.calculateHash()
-            api.log('looking for %s with hash %s', 'info', form.modelName, hash)
-            const existing = await api.models[form.modelName].findOne({ where: { hash }, transaction: t })
-            if (existing) {
-              api.log('found %s with hash %s, updating', 'info', form.modelName, hash)
-              await existing.importData(itemData)
-              record = await existing.save({ transaction: t })
-              importResult.updated++
-            } else {
-              api.log('not found %s with hash %s, creating', 'info', form.modelName, hash)
-              record = await record.save({ transaction: t })
-              importResult.created++
-            }
-          } catch (error) {
-            api.log(error, 'error')
-            importResult.errors.push({ row: i + 1, error: error.message })
-            if (!data.params.skipErrors) {
-              importResult.created = 0
-              importResult.updated = 0
-              throw error
-            }
-          }
-
-          importResult.processed++
-        }
-
-        data.response.success = importResult.errors.length === 0 || data.params.skipErrors
-      })
+      data.response.success = await api.tasks.enqueue('form:import', {
+        params: data.params,
+        user: data.session.user,
+        formName: form.modelName
+      }, 'low')
+      next()
     } catch (error) {
-      api.log('Error from transaction function', 'error')
-      data.response.data = importResult
+      api.log(error, 'error')
       next(error)
     }
-
-    data.response.data = importResult
-    next()
   }
 }
 
