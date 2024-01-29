@@ -92,7 +92,7 @@ module.exports = class FormImport extends Task {
             if (!params.skipErrors) {
               importResult.created = 0
               importResult.updated = 0
-              throw error
+              break
             }
           }
 
@@ -107,6 +107,10 @@ module.exports = class FormImport extends Task {
           template: 'import_ready',
           locals: { importResult, user }
         }, 'default')
+
+        if (!success && !params.skipErrors) {
+          throw new Error('Errors during import')
+        }
 
         return { success, successEmail }
       })
