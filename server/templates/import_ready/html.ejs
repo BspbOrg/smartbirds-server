@@ -9,7 +9,7 @@
             <li><strong>Inserted: </strong> <%= importResult.created %></li>
             <li><strong>Updated: </strong> <%= importResult.updated %></li>
 
-            <% if (importResult.errors && importResult.errors.lenght > 0) { %>
+            <% if (importResult.errors && importResult.errors.length > 0) { %>
                 <li>
                     <strong>Errors: </strong> <%= importResult.errors.length %>
                     <ul>
@@ -22,7 +22,7 @@
         </ul>
     </div>
 
-    <% if (importResult.errors && importResult.errors.lenght > 0) { %>
+    <% if (importResult.errors && importResult.errors.length > 0) { %>
         <p>If you want to skip the rows with errors, check the "Ignore errors" when importing the data.</p>
     <% } %>
 
@@ -41,7 +41,7 @@
             <li><strong>Добавени: </strong> <%= importResult.created %></li>
             <li><strong>Обновени: </strong> <%= importResult.updated %></li>
 
-            <% if (importResult.errors && importResult.errors.lenght > 0) { %>
+            <% if (importResult.errors && importResult.errors.length > 0) { %>
                 <li>
                     <strong>Грешки: </strong> <%= importResult.errors.length %>
                     <ul>
@@ -54,7 +54,7 @@
         </ul>
     </div>
 
-    <% if (importResult.errors && importResult.errors.lenght > 0) { %>
+    <% if (importResult.errors && importResult.errors.length > 0) { %>
         <p>Ако желаете да импортирате данните, като пропуснете редовете с грешка, маркирайте "Игнорирай грешките" при импорта.</p>
     <% } %>
 
