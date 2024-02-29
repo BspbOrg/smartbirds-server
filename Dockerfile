@@ -47,6 +47,8 @@ RUN chown -R root:node-app /app && \
     chmod g+w /app/pids /app/log /app/uploads/files /app/uploads/tmp /app/public && \
     rm -rf /tmp/*
 
+RUN chown -R 1000:1000 /app
+
 # change to app user
 USER node-app
 
