@@ -16,7 +16,18 @@ module.exports = upgradeInitializer('ah17', {
           if (error) {
             return callback(error)
           } else if (data) {
-            return callback(null, JSON.parse(data))
+            const sessionData = JSON.parse(data)
+            if (!sessionData.userId) {
+              return callback(null, false)
+            }
+            api.models.user.findByPk(sessionData.userId)
+              .then(function (user) {
+                if (!user) {
+                  callback(null, false)
+                }
+                sessionData.user = user
+                callback(null, sessionData)
+              }).catch(callback)
           } else {
             return callback(null, false)
           }
