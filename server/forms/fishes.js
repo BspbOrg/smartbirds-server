@@ -151,6 +151,13 @@ exports.fields = assign(exports.fields, {
     }
   },
   naturalBarriers: 'boolean',
+  totalLength: {
+    type: 'choice',
+    relation: {
+      model: 'nomenclature',
+      filter: { type: 'fishes_total_length' }
+    }
+  },
 
   speciesNotes: {
     type: 'text'

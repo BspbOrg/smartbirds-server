@@ -700,7 +700,10 @@ CREATE TABLE public.\\"FormFishes\\" (
     \\"updatedAt\\" timestamp with time zone,
     id integer DEFAULT nextval('public.\\"FormBirds_id_seq\\"'::regclass) NOT NULL,
     hash character varying(64),
-    \\"naturalBarriers\\" boolean
+    \\"naturalBarriers\\" boolean,
+    \\"totalLengthEn\\" text,
+    \\"totalLengthLocal\\" text,
+    \\"totalLengthLang\\" character varying(3)
 );
 
 
