@@ -31,7 +31,9 @@ module.exports = upgradeInitializer('ah17', {
                 if (!user) {
                   callback(null, false)
                 }
-                sessionData.user = user
+
+                // store plain user data in session
+                sessionData.user = user.get({ plain: true })
                 callback(null, sessionData)
               }).catch(callback)
           } else {
