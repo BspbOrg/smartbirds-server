@@ -379,19 +379,23 @@ function generateApiUpdate (fields) {
               } else {
                 // convert [{label: {bg, en, ...}}] into {bg: [...], en: [...], ...}
                 const mergedValues = {}
-                val.forEach((v) => {
-                  // iterate over our defined languages as this is user provided structure and may contain unsafe keys
-                  for (const lang of languages) {
-                    if (lang in v.label) {
-                      if (mergedValues[lang] == null) {
-                        mergedValues[lang] = []
+                if (val.length === 0) {
+                  localField(name).update(this, null, language)
+                } else {
+                  val.forEach((v) => {
+                    // iterate over our defined languages as this is user provided structure and may contain unsafe keys
+                    for (const lang of languages) {
+                      if (lang in v.label) {
+                        if (mergedValues[lang] == null) {
+                          mergedValues[lang] = []
+                        }
+                        mergedValues[lang].push(v.label[lang])
                       }
-                      mergedValues[lang].push(v.label[lang])
                     }
-                  }
-                })
-                const joinedValues = mapObject(mergedValues, (values) => values.join(' | '))
-                localField(name).update(this, joinedValues, language)
+                  })
+                  const joinedValues = mapObject(mergedValues, (values) => values.join(' | '))
+                  localField(name).update(this, joinedValues, language)
+                }
               }
               break
             }
