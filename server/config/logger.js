@@ -11,7 +11,7 @@ const buildConsoleLogger = api => {
       winston.format.timestamp(),
       winston.format.colorize(),
       winston.format.printf(info => {
-        return `${api.id} @ ${info.timestamp} - ${info.level}: ${info.message}`
+        return `${api.id} @ ${info.timestamp} - ${info.level}:${info.class ? ' [' + info.class + ']' : ''} ${info.message}`
       })
     ),
     levels: winston.config.syslog.levels,
@@ -37,7 +37,7 @@ const buildFileLogger = api => {
       winston.format.splat(),
       winston.format.timestamp(),
       winston.format.printf(info => {
-        return `${api.id} @ ${info.timestamp} - ${info.level}: ${info.message}`
+        return `${api.id} @ ${info.timestamp} - ${info.level}:${info.class ? ' [' + info.class + ']' : ''} ${info.message}`
       })),
     transports: [
       new winston.transports.File({
