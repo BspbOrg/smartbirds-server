@@ -1,47 +1,48 @@
-web:
-  build: .
-  links:
-    - db
-    - redis
-  ports:
-    - "5000:5000"
-  environment:
-    PORT: 5000
-    DATABASE_URL: 'postgres://smartbirds:secret@db:5432/smartbirds'
-    REDIS_HOST: redis
-    REDIS_PORT: 6379
-    REDIS_DB: 0
-  volumes:
-    - ./uploads/files:/app/uploads/files
-    - ./uploads/tmp:/app/uploads/tmp
-    - ./public:/app/public
-    - ./log:/app/log
+services:
+  web:
+    build: .
+    links:
+      - db
+      - redis
+    ports:
+      - "5000:5000"
+    environment:
+      PORT: 5000
+      DATABASE_URL: 'postgres://smartbirds:secret@db:5432/smartbirds'
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_DB: 0
+    volumes:
+      - ./uploads/files:/app/uploads/files
+      - ./uploads/tmp:/app/uploads/tmp
+      - ./public:/app/public
+      - ./log:/app/log
 
-db:
-  image: postgres:9.4
-  environment:
-    POSTGRES_PASSWORD: 'secret'
-    POSTGRES_USER: 'smartbirds'
-  ports:
-    - "5432:5432"
+  db:
+    image: postgres:9.4
+    environment:
+      POSTGRES_PASSWORD: 'secret'
+      POSTGRES_USER: 'smartbirds'
+    ports:
+      - "5432:5432"
 
-testdb:
-  image: postgres:9.4
-  environment:
-    POSTGRES_PASSWORD: 'testpass'
-    POSTGRES_USER: 'testuser'
-  ports:
-    - "5434:5432"
+  testdb:
+    image: postgres:9.4
+    environment:
+      POSTGRES_PASSWORD: 'testpass'
+      POSTGRES_USER: 'testuser'
+    ports:
+      - "5434:5432"
 
-dbadmin:
-  image: adminer
-  links:
-    - db
-    - testdb
-  ports:
-    - "8080:8080"
+  dbadmin:
+    image: adminer
+    links:
+      - db
+      - testdb
+    ports:
+      - "8080:8080"
 
-redis:
-  image: redis
-  ports:
-    - "6379:6379"
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
