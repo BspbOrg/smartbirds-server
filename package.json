@@ -60,7 +60,7 @@
     "csv-stringify": "^6.4.0",
     "date-fns": "^2.30.0",
     "debug": "^4.3.6",
-    "ejs": "^3.1.9",
+    "ejs": "^3.1.10",
     "email-templates": "^10.0.1",
     "form-data": "^4.0.0",
     "geolib": "^3.3.4",
