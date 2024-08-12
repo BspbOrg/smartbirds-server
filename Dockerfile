@@ -52,7 +52,5 @@ USER node-app
 
 EXPOSE 5000
 
-VOLUME /app/uploads/files /app/public
-
 ENTRYPOINT ["npm"]
 CMD ["start"]
