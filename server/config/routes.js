@@ -132,6 +132,7 @@ exports.default = {
         { path: '/visit/:year', action: 'visit:edit' },
         { path: '/zone/:id/owner', action: 'zone:requestOwnership' },
         { path: '/zone/:id/owner/response', action: 'zone:respondOwnershipRequest' },
+        { path: '/tasks/auto-translate-nomenclatures', action: 'tasks:enqueue:autoTranslateNomenclatures' },
 
         // forms
         { path: '/bats', action: 'formBats:create' },

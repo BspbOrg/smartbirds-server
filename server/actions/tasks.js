@@ -98,3 +98,15 @@ module.exports.birdsNewSpeciesModeratorReview = class EnqueueAutoVisit extends B
     return await api.tasks.enqueue('birdsNewSpeciesModeratorReview', { form, id, limit, force })
   }
 }
+
+module.exports.autoTranslateNomenclatures = class EnqueueAutoTranslateNomenclatures extends BaseAction {
+  constructor () {
+    super()
+    this.name = 'tasks:enqueue:autoTranslateNomenclatures'
+    this.description = 'Trigger autoTranslateNomenclatures'
+  }
+
+  async enqueue ({ form, id, limit, force }) {
+    return await api.tasks.enqueue('autoTranslateNomenclatures', { form, id, limit, force })
+  }
+}
