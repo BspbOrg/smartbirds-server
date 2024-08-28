@@ -61,27 +61,43 @@ module.exports = class AutoTranslateNomenclatures extends FormsTask {
   }
 
   async processRecord (record, form) {
-    api.log(`processing ${record.id} ${record.species}`, 'info')
-
     const nomenclatureFields = this.findNomenclatureFields(form)
 
     for (const nomenclatureField of nomenclatureFields) {
-      if (nomenclatureField.type !== 'choice') {
-        continue
-      }
       const key = nomenclatureField.key
 
       if (record[`${key}En`] !== null && record[`${key}En`] !== '' && (record[`${key}Local`] === null || record[`${key}Local`] === '')) {
-        const nomenclatures = await api.models.nomenclature.findAll({
-          attributes: ['labelBg'],
-          where: {
-            type: nomenclatureField.nomenclature,
-            labelEn: record[key + 'En']
+        if (nomenclatureField.type === 'choice') {
+          const nomenclatures = await api.models.nomenclature.findAll({
+            attributes: ['labelBg'],
+            where: {
+              type: nomenclatureField.nomenclature,
+              labelEn: record[key + 'En']
+            }
+          })
+          if (nomenclatures?.length > 0 && nomenclatures[0].labelBg) {
+            record[key + 'Local'] = nomenclatures[0].labelBg
+            record[key + 'Lang'] = 'bg'
           }
-        })
-        if (nomenclatures?.length > 0 && nomenclatures[0].labelBg) {
-          record[key + 'Local'] = nomenclatures[0].labelBg
-          record[key + 'Lang'] = 'bg'
+        } else if (nomenclatureField.type === 'multi') {
+          const nomenclatures = await api.models.nomenclature.findAll({
+            attributes: ['labelBg'],
+            where: {
+              type: nomenclatureField.nomenclature,
+              labelEn: record[key + 'En'].split(' | ')
+            }
+          })
+
+          if (nomenclatures?.length > 0 && nomenclatures[0].labelBg) {
+            record[key + 'Local'] = nomenclatures.reduce((acc, nomenclature) => {
+              if (acc === '') {
+                return nomenclature.labelBg
+              } else {
+                return `${acc} | ${nomenclature.labelBg}`
+              }
+            }, '')
+            record[key + 'Lang'] = 'bg'
+          }
         }
       }
     }
