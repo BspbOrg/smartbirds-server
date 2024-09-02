@@ -80,22 +80,21 @@ module.exports = class AutoTranslateNomenclatures extends FormsTask {
             record[key + 'Lang'] = 'bg'
           }
         } else if (nomenclatureField.type === 'multi') {
+          const enValues = record[key + 'En'].split(' | ')
+
           const nomenclatures = await api.models.nomenclature.findAll({
-            attributes: ['labelBg'],
+            attributes: ['labelBg', 'labelEn'],
             where: {
               type: nomenclatureField.nomenclature,
-              labelEn: record[key + 'En'].split(' | ')
+              labelEn: enValues
             }
           })
 
-          if (nomenclatures?.length > 0 && nomenclatures[0].labelBg) {
-            record[key + 'Local'] = nomenclatures.reduce((acc, nomenclature) => {
-              if (acc === '') {
-                return nomenclature.labelBg
-              } else {
-                return `${acc} | ${nomenclature.labelBg}`
-              }
-            }, '')
+          if (nomenclatures?.length > 0) {
+            record[key + 'Local'] = enValues.map((enValue) => {
+              const nomenclature = nomenclatures.find((nomenclature) => nomenclature.labelEn === enValue)
+              return nomenclature?.labelBg
+            }).filter(Boolean).join(' | ')
             record[key + 'Lang'] = 'bg'
           }
         }
