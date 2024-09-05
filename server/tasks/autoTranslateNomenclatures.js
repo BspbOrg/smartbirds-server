@@ -10,8 +10,7 @@ module.exports = class AutoTranslateNomenclatures extends FormsTask {
     // use cronjob to schedule the task
     // npm run enqueue autoLocation
     this.frequency = 0
-    // this.defaultLimit = api.config.app.location.maxRecords
-    this.defaultLimit = 10
+    this.defaultLimit = api.config.app.translate.maxRecords
   }
 
   findNomenclatureFields = (form) => {
@@ -78,6 +77,9 @@ module.exports = class AutoTranslateNomenclatures extends FormsTask {
           if (nomenclatures?.length > 0 && nomenclatures[0].labelBg) {
             record[key + 'Local'] = nomenclatures[0].labelBg
             record[key + 'Lang'] = 'bg'
+          } else {
+            record[key + 'Local'] = '|'
+            record[key + 'Lang'] = null
           }
         } else if (nomenclatureField.type === 'multi') {
           const enValues = record[key + 'En'].split(' | ')
@@ -90,12 +92,15 @@ module.exports = class AutoTranslateNomenclatures extends FormsTask {
             }
           })
 
-          if (nomenclatures?.length > 0) {
+          if (nomenclatures?.length > 0 && nomenclatures.length === enValues.length) {
             record[key + 'Local'] = enValues.map((enValue) => {
               const nomenclature = nomenclatures.find((nomenclature) => nomenclature.labelEn === enValue)
               return nomenclature?.labelBg
             }).filter(Boolean).join(' | ')
             record[key + 'Lang'] = 'bg'
+          } else {
+            record[key + 'Local'] = '|'
+            record[key + 'Lang'] = null
           }
         }
       }

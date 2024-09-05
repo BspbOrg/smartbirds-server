@@ -23,6 +23,10 @@ exports.default = {
     visit: {
       // max records per task
       maxRecords: parseInt(process.env.AUTO_VISIT_MAX_RECORDS, 10) || 100
+    },
+    translate: {
+      // max records per task
+      maxRecords: parseInt(process.env.AUTO_TRANSLATE_MAX_RECORDS, 10) || 100
     }
   }
 }
