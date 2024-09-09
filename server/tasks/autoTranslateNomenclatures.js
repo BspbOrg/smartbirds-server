@@ -8,7 +8,7 @@ module.exports = class AutoTranslateNomenclatures extends FormsTask {
     this.name = 'autoTranslateNomenclatures'
     this.description = 'Translate nomenclatures'
     // use cronjob to schedule the task
-    // npm run enqueue autoLocation
+    // npm run enqueue autoTranslateNomenclatures
     this.frequency = 0
     this.defaultLimit = api.config.app.translate.maxRecords
   }

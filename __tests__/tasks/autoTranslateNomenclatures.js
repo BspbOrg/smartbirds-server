@@ -86,4 +86,19 @@ describe('autoTranslateNomenclatures task', () => {
       ageLang: 'bg'
     }))
   })
+
+  it('Set *Local to "|" when nomenclature is not found', async () => {
+    const species = await speciesFactory(setup.api)
+    const record = await formBirdsFactory(setup.api, {
+      species,
+      ageEn: 'missing-value'
+    })
+
+    await run({ form: 'formBirds', id: record.id })
+
+    const reloaded = await record.reload()
+    expect(reloaded.dataValues).toEqual(expect.objectContaining({
+      ageLocal: '|'
+    }))
+  })
 })
