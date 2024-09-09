@@ -86,7 +86,7 @@ function localField (prefix, {
     }
 
     // fill the local label if available
-    if (model[langFieldName] != null && model[localFieldName]) {
+    if (model[langFieldName] != null && model[localFieldName] && model[localFieldName] !== '|') {
       vals[genKey(getLocalLang(model, prefix, langFieldName))] = model[localFieldName]
     }
 

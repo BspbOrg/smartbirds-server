@@ -14,7 +14,7 @@ module.exports = class FormsTask extends Task {
     return Object.values(api.forms).filter((form) => form.$isForm)
   }
 
-  filterRecords ({ force = false }) {
+  filterRecords ({ force = false, form = null }) {
     throw new Error(`You need to implement filterRecords in ${this.name} to return a sequelize where filter`)
   }
 
@@ -42,7 +42,7 @@ module.exports = class FormsTask extends Task {
           : {
               [Op.and]: [
                 lastId != null ? { id: { [Op.lt]: lastId } } : {},
-                this.filterRecords({ force }),
+                this.filterRecords({ force, form }),
                 filter
               ]
             },
