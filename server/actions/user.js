@@ -594,7 +594,7 @@ exports.userDelete = upgradeAction('ah17', {
   name: 'user:delete',
   description: 'user:delete',
   outputExample: {},
-  middleware: ['auth', 'admin'],
+  middleware: ['auth'],
 
   inputs: {
     id: { required: true }
@@ -602,8 +602,30 @@ exports.userDelete = upgradeAction('ah17', {
 
   run: async function (api, data, next) {
     data.response.success = false
+    const sessionUser = data.session.user
+    const userId = parseInt(data.params.id)
+
+    const q = {
+      where: {
+        id: userId
+      }
+    }
+
+    if (sessionUser.isAdmin) {
+      // allow access
+    } else if (sessionUser.isOrgAdmin) {
+      // allow access only to same org users
+      q.where.organizationSlug = sessionUser.organizationSlug
+    } else {
+      // everybody else can only delete self
+      if (userId !== sessionUser.id) {
+        // id is required so looking for null value shouldn't find any record
+        q.where.id = null
+      }
+    }
+
     try {
-      const user = await api.models.user.findOne({ where: { id: data.params.id } })
+      const user = await api.models.user.findOne(q)
       if (!user) {
         data.connection.rawConnection.responseHttpCode = 404
         return next(new Error('Няма такъв потребител'))
@@ -627,7 +649,12 @@ exports.userDelete = upgradeAction('ah17', {
       await user.destroy()
 
       data.response.success = true
-      next()
+
+      if (userId === sessionUser.id) {
+        api.session.destroy(data.connection, next)
+      } else {
+        next()
+      }
     } catch (e) {
       next(e)
     }
