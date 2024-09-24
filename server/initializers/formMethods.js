@@ -20,7 +20,7 @@ function generatePrepareQuery (form) {
     if (limit !== -1) {
       query.limit = limit
     } else {
-      query.limit = 20000
+      query.limit = user.isAdmin ? 50000 : 20000
     }
     if (params.context === 'public') {
       query.limit = Math.max(0, Math.min(query.limit, 1000 - query.offset))
