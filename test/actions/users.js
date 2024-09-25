@@ -1,14 +1,14 @@
 /* global describe, before, after, afterEach, beforeEach, it */
 
-var _ = require('lodash')
-var should = require('should')
-var sinon = require('sinon')
-var setup = require('../_setup')
+const _ = require('lodash')
+const should = require('should')
+const sinon = require('sinon')
+const setup = require('../_setup')
 require('should-sinon')
 const capitalizeFirstLetter = require('../../server/utils/capitalizeFirstLetter')
 
 describe('Action user:', function () {
-  var user = { email: 'user@acme.corp', password: 'secret', firstName: 'User', lastName: 'Model', gdprConsent: true, organization: 'bspb' }
+  const user = { email: 'user@acme.corp', password: 'secret', firstName: 'User', lastName: 'Model', gdprConsent: true, organization: 'bspb' }
 
   before(function () {
     return setup.init()
@@ -68,7 +68,7 @@ describe('Action user:', function () {
       })
     }) // describeAllRoles
 
-    setup.describeAsRoles([ 'Guest', 'User', 'Birds' ], function (runAction) {
+    setup.describeAsRoles(['Guest', 'User', 'Birds'], function (runAction) {
       it('cannot create admin', function () {
         return runAction('user:create', _.assign({}, user, { role: 'admin' })).then(function (response) {
           should.not.exist(response.error)
@@ -133,17 +133,17 @@ describe('Action user:', function () {
       })
 
       it('sends email', function () {
-        var stub = sinon.stub(setup.api.tasks, 'enqueue')
+        const stub = sinon.stub(setup.api.tasks, 'enqueue')
         stub.yields(null, true)
         return runAction('user:lost', { email: user.email }).then(function (response) {
           stub.restore()
           stub.should.be.calledOnce()
-          var call = stub.getCall(0)
+          const call = stub.getCall(0)
           call.args.length.should.be.greaterThanOrEqual(2)
-          call.args[ 0 ].should.be.equal('mail:send')
-          call.args[ 1 ].should.have.property('locals')
-          call.args[ 1 ].locals.should.have.property('passwordToken').and.not.be.empty()
-          call.args[ 1 ].locals.should.have.property('email').and.be.equal(encodeURIComponent(user.email))
+          call.args[0].should.be.equal('mail:send')
+          call.args[1].should.have.property('locals')
+          call.args[1].locals.should.have.property('passwordToken').and.not.be.empty()
+          call.args[1].locals.should.have.property('email').and.be.equal(encodeURIComponent(user.email))
         }).catch(function (error) {
           stub.restore()
           return Promise.reject(error)
@@ -151,15 +151,15 @@ describe('Action user:', function () {
       })
 
       describe('given password reset token', function () {
-        var token
-        var enqueueStub
+        let token
+        let enqueueStub
 
         beforeEach(function () {
           enqueueStub = sinon.stub(setup.api.tasks, 'enqueue')
           enqueueStub.yields(null, true)
           return runAction('user:lost', { email: user.email }).then(function (response) {
-            var call = enqueueStub.getCall(0)
-            token = call.args[ 1 ].locals.passwordToken
+            const call = enqueueStub.getCall(0)
+            token = call.args[1].locals.passwordToken
             return token
           })
         })
@@ -169,12 +169,12 @@ describe('Action user:', function () {
         })
 
         it('cannot update password with expired token', function () {
-          var now = Date.now()
-          var stub = sinon.stub(Date, 'now')
+          const now = Date.now()
+          const stub = sinon.stub(Date, 'now')
           stub.returns(now + 60 * 60 * 1000)
           return runAction('user:reset', {
             email: user.email,
-            token: token,
+            token,
             password: 'secret'
           }).then(function (response) {
             stub.restore()
@@ -198,7 +198,7 @@ describe('Action user:', function () {
         it('cannot update password with others token', function () {
           return runAction('user:reset', {
             email: 'user@smartbirds.com',
-            token: token,
+            token,
             password: 'secret'
           }).then(function (response) {
             response.should.have.property('error').and.not.empty()
@@ -208,7 +208,7 @@ describe('Action user:', function () {
         it('can update password with reset token', function () {
           return runAction('user:reset', {
             email: user.email,
-            token: token,
+            token,
             password: 'secret'
           }).then(function (response) {
             response.should.not.have.property('error')
@@ -216,10 +216,10 @@ describe('Action user:', function () {
         })
 
         it('password is updated with reset token', function () {
-          var pass = 'secret_' + Date.now()
+          const pass = 'secret_' + Date.now()
           return runAction('user:reset', {
             email: user.email,
-            token: token,
+            token,
             password: pass
           }).then(function (response) {
             return runAction('session:create', {
@@ -233,7 +233,7 @@ describe('Action user:', function () {
       })
     }) // describeAllRoles
 
-    setup.describeAsRoles([ 'Guest', 'User' ], function (runAction) {
+    setup.describeAsRoles(['Guest', 'User'], function (runAction) {
       it('cannot view user', function () {
         return runAction('user:view', { id: userId }).then(function (response) {
           response.should.have.property('error').and.not.be.empty()
@@ -261,13 +261,13 @@ describe('Action user:', function () {
           response.should.not.have.property('error')
           response.should.have.property('data')
           response.data.should.have.length(1)
-          response.data[ 0 ].should.have.property('id')
-          response.data[ 0 ].id.should.be.equal(1)
+          response.data[0].should.have.property('id')
+          response.data[0].id.should.be.equal(1)
         })
       })
     })
 
-    setup.describeAsRoles([ 'admin', 'birds' ], function (runAction) {
+    setup.describeAsRoles(['admin', 'birds'], function (runAction) {
       it('can view user', function () {
         return runAction('user:view', { id: userId }).then(function (response) {
           response.should.not.have.property('error')
@@ -317,14 +317,14 @@ describe('Action user:', function () {
     })
 
     describe('DELETE', function () {
-      setup.describeAsRoles([ 'guest', 'user', 'birds' ], function (runAction) {
+      setup.describeAsRoles(['guest', 'user', 'birds'], function (runAction) {
         it('cannot delete user', async function () {
           const response = await runAction('user:delete', { id: userId })
           response.should.have.property('error')
         })
       })
 
-      setup.describeAsRoles([ 'admin' ], function (runAction) {
+      setup.describeAsRoles(['admin'], function (runAction) {
         describe('when deleting user', function () {
           let deleteResponse
           beforeEach(async function () {
@@ -346,7 +346,7 @@ describe('Action user:', function () {
         })
 
         describe('given user with records', function () {
-          let records = []
+          const records = []
           beforeEach(async function () {
             const record = await setup.api.models.formBirds.findOne({})
             record.userId = userId
@@ -356,7 +356,7 @@ describe('Action user:', function () {
           })
           afterEach(async function () {
             await Promise.all(records.map(async function (record) {
-              return setup.api.models[ `form${capitalizeFirstLetter(record.type)}` ].destroy({
+              return setup.api.models[`form${capitalizeFirstLetter(record.type)}`].destroy({
                 where: { id: record.id },
                 force: true
               })
@@ -369,8 +369,8 @@ describe('Action user:', function () {
             response.should.have.property('success', true)
 
             for (let i = 0; i < records.length; i++) {
-              const record = records[ i ]
-              const r = await setup.api.models[ `form${capitalizeFirstLetter(record.type)}` ].findByPk(record.id)
+              const record = records[i]
+              const r = await setup.api.models[`form${capitalizeFirstLetter(record.type)}`].findByPk(record.id)
               should(r).be.ok()
               r.userId.should.not.equal(userId)
             }
@@ -381,11 +381,11 @@ describe('Action user:', function () {
   }) // given a user
 
   describe('given owner', function () {
-    var email = 'user@smartbirds.com'
-    var userId
+    const email = 'user@smartbirds.com'
+    let userId
 
     before(function () {
-      return setup.api.models.user.findOne({ where: { email: email } }).then(function (user) {
+      return setup.api.models.user.findOne({ where: { email } }).then(function (user) {
         if (!user) return Promise.reject(new Error('User doesn\'t exists'))
         userId = user.id
       })
@@ -459,11 +459,11 @@ describe('Action user:', function () {
   }) // given owner
 
   describe('given moderator', function () {
-    var email = 'birds@smartbirds.com'
-    var userId
+    const email = 'birds@smartbirds.com'
+    let userId
 
     before(function () {
-      return setup.api.models.user.findOne({ where: { email: email } }).then(function (user) {
+      return setup.api.models.user.findOne({ where: { email } }).then(function (user) {
         if (!user) return Promise.reject(new Error('User doesn\'t exists'))
         userId = user.id
       })
@@ -502,7 +502,7 @@ describe('Action user:', function () {
   }) // given moderator
 
   describe('changing organization', function () {
-    var baseUser = {
+    const baseUser = {
       email: 'baseuser@test.test',
       password: 'secret',
       firstName: 'userFirstName',
@@ -511,14 +511,14 @@ describe('Action user:', function () {
       organization: 'bspb'
     }
 
-    var targetUser
+    let targetUser
 
     beforeEach(async () => {
       targetUser = (await setup.runActionAsGuest('user:create', baseUser)).data
     })
 
     afterEach(async () => {
-      await setup.runActionAsAdmin('user:delete', {id: targetUser.id})
+      await setup.runActionAsAdmin('user:delete', { id: targetUser.id })
     })
 
     describe('by administrator', () => {
@@ -526,25 +526,25 @@ describe('Action user:', function () {
         beforeEach(() => makeUserAdmin(targetUser))
 
         it('sets role to "user" without providing role', async () => {
-          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent'})
+          const updatedUser = await setup.runActionAsAdmin('user:edit', { id: targetUser.id, organization: 'independent' })
 
           updatedUser.data.should.have.property('role').and.be.equal('user')
         })
 
         it('sets the provided admin role', async () => {
-          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent', role: 'admin'})
+          const updatedUser = await setup.runActionAsAdmin('user:edit', { id: targetUser.id, organization: 'independent', role: 'admin' })
 
           updatedUser.data.should.have.property('role').and.be.equal('admin')
         })
 
         it('sets the provided moderator role', async () => {
-          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent', role: 'moderator'})
+          const updatedUser = await setup.runActionAsAdmin('user:edit', { id: targetUser.id, organization: 'independent', role: 'moderator' })
 
           updatedUser.data.should.have.property('role').and.be.equal('moderator')
         })
 
         it('sets the provided user role', async () => {
-          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent', role: 'user'})
+          const updatedUser = await setup.runActionAsAdmin('user:edit', { id: targetUser.id, organization: 'independent', role: 'user' })
 
           updatedUser.data.should.have.property('role').and.be.equal('user')
         })
@@ -554,25 +554,25 @@ describe('Action user:', function () {
         beforeEach(() => makeUserModerator(targetUser))
 
         it('sets role to "user" without providing role', async () => {
-          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent'})
+          const updatedUser = await setup.runActionAsAdmin('user:edit', { id: targetUser.id, organization: 'independent' })
 
           updatedUser.data.should.have.property('role').and.be.equal('user')
         })
 
         it('sets the provided admin role', async () => {
-          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent', role: 'admin'})
+          const updatedUser = await setup.runActionAsAdmin('user:edit', { id: targetUser.id, organization: 'independent', role: 'admin' })
 
           updatedUser.data.should.have.property('role').and.be.equal('admin')
         })
 
         it('sets the provided moderator role', async () => {
-          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent', role: 'moderator'})
+          const updatedUser = await setup.runActionAsAdmin('user:edit', { id: targetUser.id, organization: 'independent', role: 'moderator' })
 
           updatedUser.data.should.have.property('role').and.be.equal('moderator')
         })
 
         it('sets the provided user role', async () => {
-          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent', role: 'user'})
+          const updatedUser = await setup.runActionAsAdmin('user:edit', { id: targetUser.id, organization: 'independent', role: 'user' })
 
           updatedUser.data.should.have.property('role').and.be.equal('user')
         })
@@ -582,25 +582,25 @@ describe('Action user:', function () {
         beforeEach(() => makeUserModerator(targetUser))
 
         it('sets role to "user" without providing role', async () => {
-          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent'})
+          const updatedUser = await setup.runActionAsAdmin('user:edit', { id: targetUser.id, organization: 'independent' })
 
           updatedUser.data.should.have.property('role').and.be.equal('user')
         })
 
         it('sets the provided admin role', async () => {
-          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent', role: 'admin'})
+          const updatedUser = await setup.runActionAsAdmin('user:edit', { id: targetUser.id, organization: 'independent', role: 'admin' })
 
           updatedUser.data.should.have.property('role').and.be.equal('admin')
         })
 
         it('sets the provided moderator role', async () => {
-          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent', role: 'moderator'})
+          const updatedUser = await setup.runActionAsAdmin('user:edit', { id: targetUser.id, organization: 'independent', role: 'moderator' })
 
           updatedUser.data.should.have.property('role').and.be.equal('moderator')
         })
 
         it('sets the provided user role', async () => {
-          var updatedUser = await setup.runActionAsAdmin('user:edit', {id: targetUser.id, organization: 'independent', role: 'user'})
+          const updatedUser = await setup.runActionAsAdmin('user:edit', { id: targetUser.id, organization: 'independent', role: 'user' })
 
           updatedUser.data.should.have.property('role').and.be.equal('user')
         })
@@ -611,7 +611,7 @@ describe('Action user:', function () {
           beforeEach(() => makeUserAdmin(targetUser))
 
           it('sets the role to "user" without provided role', async () => {
-            var updatedUser = await setup.runActionAs('user:edit', {
+            const updatedUser = await setup.runActionAs('user:edit', {
               id: targetUser.id,
               organization: 'independent'
             }, targetUser.email)
@@ -620,7 +620,7 @@ describe('Action user:', function () {
           })
 
           it('sets the role to "user" when provided "admin" role', async () => {
-            var updatedUser = await setup.runActionAs('user:edit', {
+            const updatedUser = await setup.runActionAs('user:edit', {
               id: targetUser.id,
               organization: 'independent',
               role: 'admin'
@@ -630,7 +630,7 @@ describe('Action user:', function () {
           })
 
           it('sets the role to "user" when provided "moderator" role', async () => {
-            var updatedUser = await setup.runActionAs('user:edit', {
+            const updatedUser = await setup.runActionAs('user:edit', {
               id: targetUser.id,
               organization: 'independent',
               role: 'moderator'
@@ -644,7 +644,7 @@ describe('Action user:', function () {
           beforeEach(() => makeUserModerator(targetUser))
 
           it('sets the role to "user" without provided role', async () => {
-            var updatedUser = await setup.runActionAs('user:edit', {
+            const updatedUser = await setup.runActionAs('user:edit', {
               id: targetUser.id,
               organization: 'independent'
             }, targetUser.email)
@@ -653,7 +653,7 @@ describe('Action user:', function () {
           })
 
           it('sets the role to "user" when provided "admin" role', async () => {
-            var updatedUser = await setup.runActionAs('user:edit', {
+            const updatedUser = await setup.runActionAs('user:edit', {
               id: targetUser.id,
               organization: 'independent',
               role: 'admin'
@@ -663,7 +663,7 @@ describe('Action user:', function () {
           })
 
           it('sets the role to "user" when provided "moderator" role', async () => {
-            var updatedUser = await setup.runActionAs('user:edit', {
+            const updatedUser = await setup.runActionAs('user:edit', {
               id: targetUser.id,
               organization: 'independent',
               role: 'moderator'
@@ -673,7 +673,7 @@ describe('Action user:', function () {
           })
 
           it('sets role to "user" when updated by admin without providing role', async () => {
-            var updatedUser = await setup.runActionAsAdmin('user:edit', {
+            const updatedUser = await setup.runActionAsAdmin('user:edit', {
               id: targetUser.id,
               organization: 'independent'
             })
@@ -686,7 +686,7 @@ describe('Action user:', function () {
           beforeEach(() => makeUserModerator(targetUser))
 
           it('sets the role to "user" without provided role', async () => {
-            var updatedUser = await setup.runActionAs('user:edit', {
+            const updatedUser = await setup.runActionAs('user:edit', {
               id: targetUser.id,
               organization: 'independent'
             }, targetUser.email)
@@ -695,7 +695,7 @@ describe('Action user:', function () {
           })
 
           it('sets the role to "user" when provided "admin" role', async () => {
-            var updatedUser = await setup.runActionAs('user:edit', {
+            const updatedUser = await setup.runActionAs('user:edit', {
               id: targetUser.id,
               organization: 'independent',
               role: 'admin'
@@ -705,7 +705,7 @@ describe('Action user:', function () {
           })
 
           it('sets the role to "user" when provided "moderator" role', async () => {
-            var updatedUser = await setup.runActionAs('user:edit', {
+            const updatedUser = await setup.runActionAs('user:edit', {
               id: targetUser.id,
               organization: 'independent',
               role: 'moderator'
@@ -715,7 +715,7 @@ describe('Action user:', function () {
           })
 
           it('sets role to "user" when updated by admin without providing role', async () => {
-            var updatedUser = await setup.runActionAsAdmin('user:edit', {
+            const updatedUser = await setup.runActionAsAdmin('user:edit', {
               id: targetUser.id,
               organization: 'independent'
             })
@@ -726,16 +726,82 @@ describe('Action user:', function () {
       })
     })
   }) // changing organization
+
+  describe('Delete user', function () {
+    let userModel
+    beforeEach(async function () {
+      await setup.api.models.user.destroy({ where: { email: user.email }, force: true })
+      const model = await setup.api.models.user.build(user)
+      await model.updatePassword(user.password)
+      await model.save()
+      userModel = model
+    })
+    afterEach(async function () {
+      await setup.api.models.user.destroy({ where: { id: userModel.id }, force: true })
+    })
+
+    it('should allow user to delete own account', async function () {
+      const response = await setup.runActionAs('user:delete', { id: userModel.id }, user)
+      response.should.not.have.property('error')
+      response.should.have.property('success', true)
+    })
+
+    it('should allow admin to delete user account', async function () {
+      const response = await setup.runActionAsAdmin('user:delete', { id: userModel.id })
+      response.should.not.have.property('error')
+      response.should.have.property('success', true)
+    })
+
+    it('should not allow user to delete other user account', async function () {
+      const anotherUser = await setup.api.models.user.findOne({ where: { email: 'user2@smartbirds.com' } })
+      const response = await setup.runActionAs('user:delete', { id: anotherUser.id }, userModel)
+      response.should.have.property('error')
+    })
+
+    it('should allow organization admin to delete user account in the same organization', async function () {
+      const testOrgUser = await setup.createUser({
+        email: 'user-test-org@smartbirds.com',
+        organization: 'testorg',
+        firstName: 'Test',
+        lastName: 'User'
+      })
+      await makeUserOrganizationAdmin(userModel, 'testorg')
+      const response = await setup.runActionAs('user:delete', { id: testOrgUser.id }, userModel)
+      response.should.not.have.property('error')
+      response.should.have.property('success', true)
+    })
+
+    it('should not allow organization admin to delete user account in another organization', async function () {
+      const testOrgUser = await setup.createUser({
+        email: 'user-test-org@smartbirds.com',
+        organization: 'testorgnew',
+        firstName: 'Test',
+        lastName: 'User'
+      })
+      await makeUserOrganizationAdmin(userModel, 'testorg')
+      const response = await setup.runActionAs('user:delete', { id: testOrgUser.id }, userModel)
+      response.should.have.property('error')
+    })
+
+    it('should not allow to delete user when not logged in', async function () {
+      const response = await setup.runActionAsGuest('user:delete', { id: userModel.id })
+      response.should.have.property('error')
+    })
+  }) // Delete user
 }) // Action: user
 
-makeUserAdmin = async (user) => {
-  user = await setup.runActionAsAdmin('user:edit', {id: user.id, role: 'admin'})
+const makeUserAdmin = async (user) => {
+  user = await setup.runActionAsAdmin('user:edit', { id: user.id, role: 'admin' })
 }
 
-makeUserModerator = async (user) => {
-  user = await setup.runActionAsAdmin('user:edit', {id: user.id, role: 'moderator', forms: {formBirds: true}})
+const makeUserModerator = async (user) => {
+  user = await setup.runActionAsAdmin('user:edit', { id: user.id, role: 'moderator', forms: { formBirds: true } })
 }
 
-makeUserUser = async (user) => {
-  user = await setup.runActionAsAdmin('user:edit', {id: user.id, role: 'user'})
+const makeUserUser = async (user) => {
+  user = await setup.runActionAsAdmin('user:edit', { id: user.id, role: 'user' })
+}
+
+const makeUserOrganizationAdmin = async (user, organization) => {
+  user = await setup.runActionAsAdmin('user:edit', { id: user.id, role: 'org-admin', organization })
 }
