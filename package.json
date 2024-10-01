@@ -21,7 +21,7 @@
     "should-sinon": "^0.0.6",
     "sinon": "^15.2.0",
     "sqlite3": "^5.1.7",
-    "standard": "^17.0.0"
+    "standard": "^17.1.2"
   },
   "scripts": {
     "deploy": "yarn version && git push && git push --tags && while ! git push origin HEAD:production; do sleep 1m; done && echo 'ssh smartbirds.org \"smartbirds update-srv\"'",
