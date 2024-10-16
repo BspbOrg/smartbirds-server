@@ -15,13 +15,13 @@ services:
       - --entrypoints.web.address=:80
     labels:
       - "traefik.enable=true"
-#      # Dashboard
+      # Dashboard
       - "traefik.http.routers.traefik.entrypoints=web"
       - "traefik.http.routers.traefik.rule=Host(`traefik.localhost`)"
       - "traefik.http.routers.traefik.service=api@internal"
     ports:
       # The HTTP port
-      - "80:80"
+      - "8181:80"
       # The Web UI (enabled by --api.insecure=true)
       - "8282:8080"
     volumes:
@@ -39,6 +39,8 @@ services:
 
   server:
     build: .
+    entrypoint: ./entrypoint.sh
+    command: start
 #    env_file:
 #      - sb-server.env
     environment:
@@ -59,6 +61,7 @@ services:
       - ./uploads:/app/uploads
       - public:/app/public
       - ./log:/app/log
+      - ./entrypoint.sh:/app/entrypoint.sh
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.sbserver.entrypoints=web"
@@ -75,6 +78,13 @@ services:
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -h localhost | grep accepting" ]
 
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
+
   testdb:
     image: postgres:9.4
     environment:
@@ -82,6 +92,8 @@ services:
       POSTGRES_USER: 'testuser'
     ports:
       - "5434:5432"
+    profiles:
+      - test
 
   dbadmin:
     image: adminer
@@ -90,13 +102,8 @@ services:
       - testdb
     ports:
       - "8080:8080"
-
-  redis:
-    image: redis
-    ports:
-      - "6379:6379"
-    healthcheck:
-      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
+    profiles:
+      - tools
 
 volumes:
   public:
