@@ -42,7 +42,7 @@ COPY --from=build /app/node_modules ./node_modules
 COPY . .
 
 # Chown & Clean up
-RUN chown -R root:node-app /app && \
+RUN chown -R 1000:1000 /app && \
     chmod -R go-w /app && \
     chmod g+w /app/pids /app/log /app/uploads/files /app/uploads/tmp /app/public && \
     rm -rf /tmp/*
