@@ -87,6 +87,7 @@ services:
 
   testdb:
     image: postgres:9.4
+    restart: no
     environment:
       POSTGRES_PASSWORD: 'testpass'
       POSTGRES_USER: 'testuser'
@@ -97,13 +98,27 @@ services:
 
   dbadmin:
     image: adminer
+    restart: no
     links:
       - db
-      - testdb
     ports:
       - "8080:8080"
     profiles:
       - tools
+
+  db-tools:
+    build: docker/db-tools
+    restart: no
+    environment:
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      DATABASE_NAME: smartbirds
+      DATABASE_PASSWORD: 'secret'
+      DATABASE_USER: 'smartbirds'
+      BACKUP_ZIP_PASSWORD: ${BACKUP_ZIP_PASSWORD}
+    volumes:
+      - ./backups:/backups
+      - ./restore:/restore
 
 volumes:
   public:

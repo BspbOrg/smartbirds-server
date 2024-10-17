@@ -1,3 +1,4 @@
+.npm/
 .idea/
 node_modules/
 bower_components/
@@ -9,3 +10,6 @@ public/css/main.css*
 uploads/
 public/*_stats.json
 public/organizations.json
+.env
+backups/
+restore/
