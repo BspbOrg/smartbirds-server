@@ -65,7 +65,41 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.sbserver.entrypoints=web"
-      - "traefik.http.routers.sbserver.rule=(Host(`sb.localhost`) && PathPrefix(`/api`))"
+      - >-
+        traefik.http.routers.sbserver.rule=
+          (Host(`${SB_DOMAIN}`) && PathPrefix(`/api`)) ||
+          (Host(`${SB_DOMAIN}`) && PathPrefix(`/banner`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/organizations.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/atlas_bspb_summer_species.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/atlas_bspb_winter_species.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/bgatlas2008_global_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_migrations_peak_daily_species_2022.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_migrations_peak_daily_species_2022_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_migrations_peak_daily_species_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_migrations_season_totals_2022.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_migrations_season_totals_2022_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_migrations_season_totals_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_migrations_top_interesting_species_month.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_migrations_top_interesting_species_month_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_migrations_top_species_month_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_top_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/campaign_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/cbm_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/ciconia_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/fishes_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/fishes_top_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/herptiles_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/herptiles_top_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/invertebrates_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/invertebrates_top_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/mammals_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/mammals_top_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/plants_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/plants_top_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/threats_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/total_user_records_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/user_rank_stats.json`))
       - "traefik.http.services.sbserver.loadbalancer.server.port=5000"
 
   db:
