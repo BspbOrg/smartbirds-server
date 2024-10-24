@@ -34,7 +34,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.sbweb.entrypoints=web"
-      - "traefik.http.routers.sbweb.rule=Host(`sb.localhost`)"
+      - "traefik.http.routers.sbweb.rule=Host(`${SB_DOMAIN}`)"
       - "traefik.http.services.sbweb.loadbalancer.server.port=80"
 
   server:
@@ -103,7 +103,7 @@ services:
       - "traefik.http.services.sbserver.loadbalancer.server.port=5000"
 
   db:
-    image: postgres:9.4
+    image: postgis/postgis:17-3.5
     environment:
       POSTGRES_PASSWORD: 'secret'
       POSTGRES_USER: 'smartbirds'
@@ -120,7 +120,7 @@ services:
       test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
 
   testdb:
-    image: postgres:9.4
+    image: postgres:17.0
     restart: no
     environment:
       POSTGRES_PASSWORD: 'testpass'
