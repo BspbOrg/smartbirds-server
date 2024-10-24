@@ -1,0 +1,158 @@
+services:
+  reverse-proxy:
+    image: traefik:v2.11.0
+    # Enables the web UI and tells Traefik to listen to docker
+    command:
+      - --api=true
+      - --api.insecure=true
+      - --api.dashboard=true
+      - --providers.docker
+      - --providers.docker.exposedByDefault=false
+      - --global.checkNewVersion=false
+      - --global.sendAnonymousUsage=false
+      - --log.level=debug
+      # Entrypoints
+      - --entrypoints.web.address=:80
+    labels:
+      - "traefik.enable=true"
+      # Dashboard
+      - "traefik.http.routers.traefik.entrypoints=web"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.traefik.service=api@internal"
+    ports:
+      # The HTTP port
+      - "8181:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8282:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  web:
+    image: 'ghcr.io/bspborg/smartbirds-web:latest'
+#    build: ../smartbirds-web/.
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sbweb.entrypoints=web"
+      - "traefik.http.routers.sbweb.rule=Host(`${SB_DOMAIN}`)"
+      - "traefik.http.services.sbweb.loadbalancer.server.port=80"
+
+  server:
+    build: .
+    entrypoint: ./entrypoint.sh
+    command: start
+#    env_file:
+#      - sb-server.env
+    environment:
+      PORT: 5000
+      DATABASE_URL: 'postgres://smartbirds:secret@db:5432/smartbirds'
+      DATABASE_PASSWORD: 'secret'
+      DATABASE_USER: 'smartbirds'
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_DB: 0
+    depends_on:
+      redis:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - ./uploads:/app/uploads
+      - public:/app/public
+      - ./log:/app/log
+      - ./entrypoint.sh:/app/entrypoint.sh
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sbserver.entrypoints=web"
+      - >-
+        traefik.http.routers.sbserver.rule=
+          (Host(`${SB_DOMAIN}`) && PathPrefix(`/api`)) ||
+          (Host(`${SB_DOMAIN}`) && PathPrefix(`/banner`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/organizations.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/atlas_bspb_summer_species.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/atlas_bspb_winter_species.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/bgatlas2008_global_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_migrations_peak_daily_species_2022.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_migrations_peak_daily_species_2022_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_migrations_peak_daily_species_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_migrations_season_totals_2022.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_migrations_season_totals_2022_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_migrations_season_totals_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_migrations_top_interesting_species_month.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_migrations_top_interesting_species_month_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_migrations_top_species_month_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/birds_top_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/campaign_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/cbm_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/ciconia_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/fishes_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/fishes_top_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/herptiles_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/herptiles_top_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/invertebrates_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/invertebrates_top_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/mammals_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/mammals_top_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/plants_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/plants_top_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/threats_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/total_user_records_stats.json`)) ||
+          (Host(`${SB_DOMAIN}`) && Path(`/user_rank_stats.json`))
+      - "traefik.http.services.sbserver.loadbalancer.server.port=5000"
+
+  db:
+    image: postgis/postgis:17-3.5
+    environment:
+      POSTGRES_PASSWORD: 'secret'
+      POSTGRES_USER: 'smartbirds'
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -h localhost | grep accepting" ]
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
+
+  testdb:
+    image: postgres:17.0
+    restart: no
+    environment:
+      POSTGRES_PASSWORD: 'testpass'
+      POSTGRES_USER: 'testuser'
+    ports:
+      - "5434:5432"
+    profiles:
+      - test
+
+  dbadmin:
+    image: adminer
+    restart: no
+    links:
+      - db
+    ports:
+      - "8080:8080"
+    profiles:
+      - tools
+
+  db-tools:
+    build: docker/db-tools
+    restart: no
+    environment:
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      DATABASE_NAME: smartbirds
+      DATABASE_PASSWORD: 'secret'
+      DATABASE_USER: 'smartbirds'
+      BACKUP_ZIP_PASSWORD: ${BACKUP_ZIP_PASSWORD}
+    volumes:
+      - ./backups:/backups
+      - ./restore:/restore
+
+volumes:
+  public:
