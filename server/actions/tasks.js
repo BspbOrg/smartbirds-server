@@ -110,3 +110,19 @@ module.exports.autoTranslateNomenclatures = class EnqueueAutoTranslateNomenclatu
     return await api.tasks.enqueue('autoTranslateNomenclatures', { form, id, limit, force })
   }
 }
+
+module.exports.etrs89Codes = class EnqueueFillEtrs89Codes extends BaseAction {
+  constructor () {
+    super()
+    this.name = 'tasks:enqueue:etrs89Codes'
+    this.description = 'Trigger filling ETRS89-LAEA codes'
+  }
+
+  availableForms () {
+    return super.availableForms().filter(k => api.forms[k].hasEtrs89GridCode)
+  }
+
+  async enqueue ({ form, id, limit, force }) {
+    return await api.tasks.enqueue('fill-etrs89-codes', { form, id, limit, force })
+  }
+}
