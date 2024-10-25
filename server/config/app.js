@@ -27,6 +27,15 @@ exports.default = {
     translate: {
       // max records per task
       maxRecords: parseInt(process.env.AUTO_TRANSLATE_MAX_RECORDS, 10) || 100
+    },
+    // ETRS89 configuration
+    etrs89: {
+      // size of the grid cell in meters
+      gridSize: 10000,
+      // max records per task
+      maxRecords: parseInt(process.env.ETRS89_TASK_MAX_RECORDS, 10) || 100,
+      // consider records newer than this timestamp
+      startTimestamp: parseInt(process.env.ETRS89_TASK_START_TIME, 10) || new Date('2024-07-01').getTime()
     }
   }
 }

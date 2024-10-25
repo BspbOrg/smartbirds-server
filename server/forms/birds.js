@@ -10,6 +10,7 @@ exports.tableName = 'FormBirds'
 exports.hasSpecies = true
 exports.hasThreats = true
 exports.hasBgAtlas2008 = true
+exports.hasEtrs89GridCode = true
 
 exports.fields = assign(exports.fields, {
   ...bgatlas2008.fields,

@@ -15,6 +15,7 @@ exports.tableName = 'FormCBM'
 exports.hasSpecies = true
 exports.hasThreats = true
 exports.hasBgAtlas2008 = true
+exports.hasEtrs89GridCode = true
 
 exports.fields = {
   ...bgatlas2008.fields,
