@@ -133,6 +133,7 @@ exports.default = {
         { path: '/zone/:id/owner', action: 'zone:requestOwnership' },
         { path: '/zone/:id/owner/response', action: 'zone:respondOwnershipRequest' },
         { path: '/tasks/auto-translate-nomenclatures', action: 'tasks:enqueue:autoTranslateNomenclatures' },
+        { path: '/tasks/etrs89', action: 'tasks:enqueue:etrs89Codes' },
 
         // forms
         { path: '/bats', action: 'formBats:create' },
