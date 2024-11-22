@@ -6,7 +6,7 @@ module.exports = {
   up: async function (queryInterface, Sequelize) {
     await queryInterface.createTable(tableName, {
       code: {
-        type: Sequelize.STRING(8),
+        type: Sequelize.STRING(20),
         primaryKey: true
       },
       lat1: {
