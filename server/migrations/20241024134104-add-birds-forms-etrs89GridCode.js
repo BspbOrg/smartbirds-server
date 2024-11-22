@@ -9,7 +9,7 @@ const tables = [
 module.exports = {
   up: async function (queryInterface, DataTypes) {
     await Promise.all(tables.map(async (table) => {
-      await queryInterface.addColumn(table, 'etrs89GridCode', DataTypes.STRING(8))
+      await queryInterface.addColumn(table, 'etrs89GridCode', DataTypes.STRING(20))
       await queryInterface.addIndex(table, { fields: ['etrs89GridCode'] })
     }))
   },
