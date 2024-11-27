@@ -1,38 +1,36 @@
 'use strict'
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define('birds_ebp', {
+  return sequelize.define('ebp_birds', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
-    sbNameLa: {
-      type: DataTypes.STRING,
+    ebpId: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     ebpNameLa: {
-      type: DataTypes.STRING,
-      allowNull: true
+      type: DataTypes.TEXT
     },
-    ebpId: {
-      type: DataTypes.STRING,
-      allowNull: false
+    sbNameLa: {
+      type: DataTypes.TEXT
     }
   }, {
-    tableName: 'birds_ebp',
+    tableName: 'ebp_birds',
     instanceMethods: {
       apiData: function () {
         return {
           id: this.id,
-          sbNameLa: this.sbNameLa,
+          ebpId: this.ebpId,
           ebpNameLa: this.ebpNameLa,
-          ebpId: this.ebpId
+          sbNameLa: this.sbNameLa
         }
       },
       apiUpdate: function (data) {
-        this.sbNameLa = data.sbNameLa
-        this.ebpNameLa = data.ebpNameLa
         this.ebpId = data.ebpId
+        this.ebpNameLa = data.ebpNameLa
+        this.sbNameLa = data.sbNameLa
       }
     }
   })

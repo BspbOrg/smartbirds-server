@@ -1,6 +1,6 @@
 'use strict'
 
-const tableName = 'birds_ebp'
+const tableName = 'ebp_birds'
 
 module.exports = {
   up: async function (queryInterface, Sequelize) {
@@ -10,16 +10,15 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true
       },
-      sbNameLa: {
-        type: Sequelize.TEXT,
+      ebpId: {
+        type: Sequelize.INTEGER,
         allowNull: false
       },
       ebpNameLa: {
         type: Sequelize.TEXT
       },
-      ebpId: {
-        type: Sequelize.INTEGER,
-        allowNull: false
+      sbNameLa: {
+        type: Sequelize.TEXT
       }
     })
 
