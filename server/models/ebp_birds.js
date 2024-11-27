@@ -18,6 +18,10 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     tableName: 'ebp_birds',
+    indexes: [
+      { unique: true, fields: ['ebpId'] },
+      { unique: true, fields: ['sbNameLa'] }
+    ],
     instanceMethods: {
       apiData: function () {
         return {

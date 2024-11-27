@@ -22,9 +22,8 @@ module.exports = {
       }
     })
 
-    await queryInterface.addIndex(tableName, { name: `${tableName}_sbNameLa`, fields: ['sbNameLa'] })
-    await queryInterface.addIndex(tableName, { name: `${tableName}_ebpNameLa`, fields: ['ebpNameLa'] })
-    await queryInterface.addIndex(tableName, { name: `${tableName}_ebpId`, fields: ['ebpId'] })
+    await queryInterface.addIndex(tableName, { unique: true, fields: ['ebpId'] })
+    await queryInterface.addIndex(tableName, { unique: true, fields: ['sbNameLa'] })
   },
 
   down: async function (queryInterface, Sequelize) {
