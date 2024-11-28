@@ -41,6 +41,11 @@ services:
     build: .
     entrypoint: ./entrypoint.sh
     command: start
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "10m"
+            max-file: "3"
 #    env_file:
 #      - sb-server.env
     environment:
@@ -51,6 +56,7 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_DB: 0
+      EBP_API_TOKEN: ${EBP_API_TOKEN}
     depends_on:
       redis:
         condition: service_healthy
