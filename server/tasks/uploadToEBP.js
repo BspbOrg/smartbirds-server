@@ -1,6 +1,9 @@
 const { Task, api } = require('actionhero')
 const sequelize = require('sequelize')
 const { Op } = sequelize
+const startOfDay = require('date-fns/startOfDay')
+const endOfDay = require('date-fns/endOfDay')
+const format = require('date-fns/format')
 
 // const availableForms = [api.forms.formCBM, api.forms.formBirds, api.forms.formCiconia]
 const availableForms = [api.forms.formBirds]
@@ -79,10 +82,27 @@ const excludedSources = () => {
   return ['Project NMNH-BAS & MOEW', 'Research of breeding birds, BSPB-NMNH']
 }
 
+const getSensitiveSpecies = async () => {
+  return api.models.species.findAll({
+    where: {
+      sensitive: true,
+      type: 'birds'
+    }
+  } || [])
+}
+
 const getEbpSpecies = async () => {
   return api.models.ebp_birds.findAll({
     where: {
       sbNameLa: { [Op.not]: null }
+    }
+  })
+}
+
+const getEbpSpeciesStatus = async () => {
+  return api.models.ebp_birds_status.findAll({
+    where: {
+      sbNameEn: { [Op.not]: null }
     }
   })
 }
@@ -94,8 +114,8 @@ const loadRecords = async (forms, date) => {
         etrs89GridCode: { [Op.not]: null },
         observationDateTime: {
           [Op.and]: [
-            { [Op.gte]: '2024-01-13 00:00:00' },
-            { [Op.lte]: '2024-01-13 23:59:59' }
+            { [Op.gte]: startOfDay(date) },
+            { [Op.lte]: endOfDay(date) }
           ]
         },
         organization: { [Op.in]: allowedOrganizations() },
@@ -115,9 +135,33 @@ const loadRecords = async (forms, date) => {
 
 const prepareEbpData = async (date = new Date()) => {
   const ebpSpecies = await getEbpSpecies()
+  const sensitiveSpecies = await getSensitiveSpecies()
+  const ebpSpeciesStatus = await getEbpSpeciesStatus()
+
   console.log('+++++ EBP SPECIES: ', ebpSpecies?.length)
+  console.log('+++++ SENSITIVE SPECIES: ', sensitiveSpecies?.length)
+
+  // load all records for the given date
   const records = await loadRecords(availableForms, date)
-  return records
+
+  console.log('+++++ RECORDS: ', records?.length)
+  // filter records by EBP species
+  let filtered = records.filter(record => ebpSpecies.find(species => {
+    return species.sbNameLa === record.species
+  }))
+  console.log('+++++ FILTERED BY EBP SPECIES: ', filtered?.length)
+
+  // filter records by sensitive species
+  filtered = filtered.filter(record => !sensitiveSpecies.find(species => {
+    return species.labelLa === record.species
+  }))
+  console.log('+++++ FILTERED BY SENSITIVE SPECIES: ', filtered?.length)
+
+  // filter records by EBP species status
+  filtered = filtered.filter(record => record.speciesStatusEn === null || ebpSpeciesStatus.find(status => status.sbNameEn === record.speciesStatusEn))
+  console.log('+++++ FILTERED BY EBP SPECIES STATUS: ', filtered?.length)
+
+  return filtered
 }
 
 module.exports = class UploadToEBP extends Task {
@@ -131,7 +175,40 @@ module.exports = class UploadToEBP extends Task {
   }
 
   async run () {
-    const ebpData = await prepareEbpData(new Date())
-    console.log('+++++ EBP DATA: ', ebpData?.length)
+    const recordsDate = new Date('2024-01-13')
+    const startTimestamp = new Date().getTime()
+
+    const ebpEvent = {
+      data_type: apiParams.dataType.casual.code,
+      locationMode: apiParams.locationMode.aggregatedLocation.code,
+      date: format(recordsDate, 'yyyy-MM-dd'),
+      state: apiParams.eventState.modified.code
+    }
+
+    const ebpRecords = []
+
+    const birdsRecords = await prepareEbpData(recordsDate)
+
+    const ebpEvents = birdsRecords.reduce((acc, record) => {
+      if (!acc[record.etrs89GridCode]) {
+        acc[record.etrs89GridCode] = []
+      }
+      acc[record.etrs89GridCode].push(record)
+
+      return acc
+    }, {})
+
+    const etrs89GridCodeCounts = Object.entries(ebpEvents).reduce((acc, [key, value]) => {
+      acc[key] = value.length
+      return acc
+    }, {})
+
+    const operationTime = new Date().getTime() - startTimestamp
+
+    console.log('+++++ EBP DATA: ', birdsRecords?.length)
+    console.log('+++++ EBP RECORDS: ', ebpRecords?.length)
+    console.log('+++++ EBP EVENT: ', ebpEvent)
+    console.log('+++++ ETRS codes counts: ', etrs89GridCodeCounts)
+    console.log('+++++ OPERATION TIME: ', operationTime)
   }
 }

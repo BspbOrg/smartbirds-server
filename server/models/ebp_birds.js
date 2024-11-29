@@ -18,6 +18,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     tableName: 'ebp_birds',
+    timestamps: false,
     indexes: [
       { unique: true, fields: ['ebpId'] },
       { unique: true, fields: ['sbNameLa'] }

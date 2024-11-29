@@ -15,6 +15,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     tableName: 'ebp_birds_status',
+    timestamps: false,
     indexes: [
       { unique: true, fields: ['sbNameEn'] }
     ],
