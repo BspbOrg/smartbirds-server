@@ -4,6 +4,7 @@ const { Op } = sequelize
 const startOfDay = require('date-fns/startOfDay')
 const endOfDay = require('date-fns/endOfDay')
 const format = require('date-fns/format')
+const fetch = require('node-fetch')
 
 // const availableForms = [api.forms.formCBM, api.forms.formBirds, api.forms.formCiconia]
 const availableForms = [api.forms.formBirds]
@@ -12,6 +13,7 @@ const availableForms = [api.forms.formBirds]
 const API_TOKEN = process.env.EBP_API_TOKEN
 // eslint-disable-next-line no-unused-vars
 const apiParams = {
+  partnerSource: 'BUL_SBI',
   provisionMode: {
     bulk: { // all data is replaced
       code: 'B'
@@ -165,7 +167,7 @@ const prepareEbpData = async (date = new Date()) => {
   // common event data
   const ebpEvent = {
     data_type: apiParams.dataType.casual.code,
-    locationMode: apiParams.locationMode.aggregatedLocation.code,
+    location_mode: apiParams.locationMode.aggregatedLocation.code,
     date: format(date, 'yyyy-MM-dd'),
     state: apiParams.eventState.modified.code
   }
@@ -185,6 +187,7 @@ const prepareEbpData = async (date = new Date()) => {
     const eventData = {
       event: {
         event_id: generateEventId(etrsCode, date),
+        location: etrsCode,
         ...ebpEvent
       },
       records: []
@@ -195,11 +198,13 @@ const prepareEbpData = async (date = new Date()) => {
 
     // group records by species
     const speciesRecords = records.reduce((acc, record) => {
+      // count unique species-users records
       const key = `${record.species}_${record.userId}`
       if (!speciesUsersRecords.includes(key)) {
         speciesUsersRecords.push(key)
       }
 
+      // count unique observers
       if (!observers.includes(record.userId)) {
         observers.push(record.userId)
       }
@@ -235,7 +240,7 @@ const prepareEbpData = async (date = new Date()) => {
         event_id: eventData.event.event_id,
         record_id: eventData.event.event_id + '_' + speciesRecord.species_code,
         species_code: speciesRecord.species_code,
-        count: speciesRecord.records.reduce((acc, record) => acc + record.count, 0),
+        count: speciesRecord.records.reduce((acc, record) => acc + Math.max(record.count, record.countMin, record.countMax), 0),
         records_of_species: speciesRecord.users.length,
         breeding_code: speciesRecord.breeding_code,
         state: apiParams.recordState.modified.code
@@ -243,15 +248,20 @@ const prepareEbpData = async (date = new Date()) => {
     })
 
     eventData.event.records = speciesUsersRecords.length
-    eventData.event.observers = observers.length
+    eventData.event.observer = observers.length?.toString()
 
     acc.push(eventData)
     return acc
   }, [])
 
-  console.log('+++++ EBP EVENTS: ', JSON.stringify(ebpEvents))
-
-  return ebpEvents
+  return {
+    mode: apiParams.provisionMode.test.code,
+    partner_source: apiParams.partnerSource,
+    start_date: format(date, 'yyyy-MM-dd'),
+    end_date: format(date, 'yyyy-MM-dd'),
+    events: ebpEvents.map(event => event.event),
+    records: ebpEvents.map(event => event.records).flat()
+  }
 }
 
 module.exports = class UploadToEBP extends Task {
@@ -264,15 +274,32 @@ module.exports = class UploadToEBP extends Task {
     this.frequency = 0
   }
 
-  async run () {
-    const recordsDate = new Date('2024-01-13')
+  async run ({ date } = {}) {
+    console.log('+++++ UPLOAD TO EBP TASK: ', date)
+    const recordsDate = new Date(date || '2024-01-15')
     const startTimestamp = new Date().getTime()
 
-    const ebpData = await prepareEbpData(recordsDate)
+    const eventsData = await prepareEbpData(recordsDate)
 
     const operationTime = new Date().getTime() - startTimestamp
 
-    console.log('+++++ EBP DATA: ', ebpData)
+    try {
+      const response = await fetch('https://api-v2.eurobirdportal.org/data/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${API_TOKEN}`
+        },
+        body: JSON.stringify(eventsData)
+      })
+
+      console.log('+++++ EBP RESPONSE: ', response.status)
+      console.log('+++++ RESPONSE: ', await response.json())
+    } catch (error) {
+      console.log('+++++ ERROR: ', error)
+    }
+
+    console.log('+++++ EBP DATA: ', JSON.stringify(eventsData))
     console.log('+++++ OPERATION TIME: ', operationTime)
   }
 }
