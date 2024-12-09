@@ -11,6 +11,7 @@ const availableForms = [api.forms.formBirds]
 
 // eslint-disable-next-line no-unused-vars
 const API_TOKEN = process.env.EBP_API_TOKEN
+const API_URL = 'https://api-v2.eurobirdportal.org'
 // eslint-disable-next-line no-unused-vars
 const apiParams = {
   partnerSource: 'BUL_SBI',
@@ -122,7 +123,8 @@ const loadRecords = async (forms, date) => {
         },
         organization: { [Op.in]: allowedOrganizations() },
         sourceEn: { [Op.notIn]: excludedSources() }
-      }
+      },
+      limit: 5
     })
   }))
 
@@ -159,7 +161,6 @@ const prepareEbpData = async (date = new Date()) => {
 
   // load all records for the given date
   const records = await loadRecords(availableForms, date)
-  console.log('+++++ RECORDS: ', records?.length)
 
   // additional filtering
   const filtered = await filterRecords(records, ebpSpecies, ebpSpeciesStatus)
@@ -275,16 +276,15 @@ module.exports = class UploadToEBP extends Task {
   }
 
   async run ({ date } = {}) {
-    console.log('+++++ UPLOAD TO EBP TASK: ', date)
     const recordsDate = new Date(date || '2024-01-15')
-    const startTimestamp = new Date().getTime()
+    // const startTimestamp = new Date().getTime()
 
     const eventsData = await prepareEbpData(recordsDate)
 
-    const operationTime = new Date().getTime() - startTimestamp
+    // const operationTime = new Date().getTime() - startTimestamp
 
     try {
-      const response = await fetch('https://api-v2.eurobirdportal.org/data/', {
+      const response = await fetch(`${API_URL}/data/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -293,13 +293,13 @@ module.exports = class UploadToEBP extends Task {
         body: JSON.stringify(eventsData)
       })
 
-      console.log('+++++ EBP RESPONSE: ', response.status)
-      console.log('+++++ RESPONSE: ', await response.json())
+      api.log(`Successfully uploaded  ${eventsData.events.length} events and ${eventsData.records.length} records to EBP`, 'info')
+      api.log(`EBP response: ${response.status} ${response.statusText}`, 'info')
     } catch (error) {
-      console.log('+++++ ERROR: ', error)
+      console.log('Failed to upload data to EBP', error)
     }
 
-    console.log('+++++ EBP DATA: ', JSON.stringify(eventsData))
-    console.log('+++++ OPERATION TIME: ', operationTime)
+    // console.log('+++++ EBP DATA: ', JSON.stringify(eventsData))
+    // console.log('+++++ OPERATION TIME: ', operationTime)
   }
 }
