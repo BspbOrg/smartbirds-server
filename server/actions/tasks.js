@@ -1,4 +1,5 @@
 const { Action, api } = require('actionhero')
+const differenceInDays = require('date-fns/differenceInDays')
 
 class BaseAction extends Action {
   constructor () {
@@ -124,5 +125,34 @@ module.exports.etrs89Codes = class EnqueueFillEtrs89Codes extends BaseAction {
 
   async enqueue ({ form, id, limit, force }) {
     return await api.tasks.enqueue('fill-etrs89-codes', { form, id, limit, force })
+  }
+}
+
+module.exports.ebpUpload = class EnqueueEbpUpload extends Action {
+  constructor () {
+    super()
+    this.name = 'tasks:enqueue:ebpUpload'
+    this.description = 'Trigger EBP upload'
+    this.middleware = ['auth', 'admin']
+    this.inputs = {
+      startDate: {},
+      endDate: {},
+      mode: {}
+    }
+  }
+
+  async run ({ params: { startDate, endDate, mode }, response }) {
+    if (startDate && endDate) {
+      // check if startDate is before endDate
+      if (new Date(startDate) > new Date(endDate)) {
+        throw new Error('startDate must be before endDate')
+      }
+
+      if (differenceInDays(new Date(endDate), new Date(startDate)) > 31) {
+        throw new Error('Date range must be less than 31 days')
+      }
+    }
+
+    response.result = await api.tasks.enqueue('ebpUpload', { startDate, endDate, mode: mode || 'insert' })
   }
 }

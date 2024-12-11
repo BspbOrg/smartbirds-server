@@ -134,6 +134,7 @@ exports.default = {
         { path: '/zone/:id/owner/response', action: 'zone:respondOwnershipRequest' },
         { path: '/tasks/auto-translate-nomenclatures', action: 'tasks:enqueue:autoTranslateNomenclatures' },
         { path: '/tasks/etrs89', action: 'tasks:enqueue:etrs89Codes' },
+        { path: '/tasks/ebp-upload', action: 'tasks:enqueue:ebpUpload' },
 
         // forms
         { path: '/bats', action: 'formBats:create' },

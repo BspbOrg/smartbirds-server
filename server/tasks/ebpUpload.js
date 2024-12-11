@@ -1,8 +1,6 @@
 const { Task, api } = require('actionhero')
 const sequelize = require('sequelize')
 const { Op } = sequelize
-const startOfDay = require('date-fns/startOfDay')
-const endOfDay = require('date-fns/endOfDay')
 const format = require('date-fns/format')
 const fetch = require('node-fetch')
 
@@ -110,21 +108,21 @@ const getEbpSpeciesStatus = async () => {
   })
 }
 
-const loadRecords = async (forms, date) => {
+const loadRecords = async (forms, startDate, endDate) => {
   const records = await Promise.allSettled(forms.map(async form => {
     return form.model.findAll({
       where: {
         etrs89GridCode: { [Op.not]: null },
         observationDateTime: {
           [Op.and]: [
-            { [Op.gte]: startOfDay(date) },
-            { [Op.lte]: endOfDay(date) }
+            { [Op.gte]: startDate },
+            { [Op.lte]: endDate }
           ]
         },
         organization: { [Op.in]: allowedOrganizations() },
         sourceEn: { [Op.notIn]: excludedSources() }
-      },
-      limit: 5
+      }
+
     })
   }))
 
@@ -155,133 +153,153 @@ const generateEventId = (etrsCode, date) => {
   return format(date, 'yyyyMMdd') + '_' + etrsCode
 }
 
-const prepareEbpData = async (date = new Date()) => {
+const prepareEbpData = async (startDate, endDate, mode) => {
   const ebpSpecies = await getEbpSpecies()
   const ebpSpeciesStatus = await getEbpSpeciesStatus()
 
   // load all records for the given date
-  const records = await loadRecords(availableForms, date)
+  const records = await loadRecords(availableForms, startDate, endDate)
 
   // additional filtering
   const filtered = await filterRecords(records, ebpSpecies, ebpSpeciesStatus)
+
+  // set event and records state based on the mode
+  const eventState = mode === 'delete' ? apiParams.eventState.removed.code : apiParams.eventState.modified.code
+  const recordsUpdateMode = mode === 'replace' ? apiParams.updateMode.all.code : apiParams.updateMode.modify.code
+  const recordState = mode === 'delete' ? apiParams.recordState.removed.code : apiParams.recordState.modified.code
 
   // common event data
   const ebpEvent = {
     data_type: apiParams.dataType.casual.code,
     location_mode: apiParams.locationMode.aggregatedLocation.code,
-    date: format(date, 'yyyy-MM-dd'),
-    state: apiParams.eventState.modified.code
+    state: eventState,
+    record_updates_mode: recordsUpdateMode
   }
 
-  // group records by ETRS89 grid code
-  const etrsRecords = filtered.reduce((acc, record) => {
-    if (!acc[record.etrs89GridCode]) {
-      acc[record.etrs89GridCode] = []
+  // group records by date
+  const recordsByDate = filtered.reduce((acc, record) => {
+    const formattedDate = format(record.observationDateTime, 'yyyy-MM-dd')
+    if (!acc[formattedDate]) {
+      acc[formattedDate] = []
     }
-    acc[record.etrs89GridCode].push(record)
+    acc[formattedDate].push(record)
 
     return acc
   }, {})
 
-  // prepare EBP events
-  const ebpEvents = Object.entries(etrsRecords).reduce((acc, [etrsCode, records]) => {
-    const eventData = {
-      event: {
-        event_id: generateEventId(etrsCode, date),
-        location: etrsCode,
-        ...ebpEvent
-      },
-      records: []
-    }
+  const ebpEvents = []
 
-    const observers = []
-    const speciesUsersRecords = []
-
-    // group records by species
-    const speciesRecords = records.reduce((acc, record) => {
-      // count unique species-users records
-      const key = `${record.species}_${record.userId}`
-      if (!speciesUsersRecords.includes(key)) {
-        speciesUsersRecords.push(key)
+  for (const [formattedDate, records] of Object.entries(recordsByDate)) {
+    // group records by ETRS89 grid code
+    const etrsRecords = records.reduce((acc, record) => {
+      if (!acc[record.etrs89GridCode]) {
+        acc[record.etrs89GridCode] = []
       }
-
-      // count unique observers
-      if (!observers.includes(record.userId)) {
-        observers.push(record.userId)
-      }
-
-      if (!acc[record.species]) {
-        acc[record.species] = {
-          species: record.species,
-          species_code: ebpSpecies.find(species => species.sbNameLa === record.species)?.ebpId,
-          breeding_code: null,
-          users: [],
-          records: []
-        }
-      }
-
-      if (!acc[record.species].users.includes(record.userId)) {
-        acc[record.species].users.push(record.userId)
-      }
-
-      if (record.speciesStatusEn) {
-        const breedingCode = ebpSpeciesStatus.find(status => status.sbNameEn === record.speciesStatusEn)?.ebpId
-        if (!acc[record.species].breeding_code || acc[record.species].breeding_code < breedingCode) {
-          acc[record.species].breeding_code = breedingCode
-        }
-      }
-
-      acc[record.species].records.push(record)
+      acc[record.etrs89GridCode].push(record)
 
       return acc
     }, {})
 
-    eventData.records = Object.values(speciesRecords).map(speciesRecord => {
-      return {
-        event_id: eventData.event.event_id,
-        record_id: eventData.event.event_id + '_' + speciesRecord.species_code,
-        species_code: speciesRecord.species_code,
-        count: speciesRecord.records.reduce((acc, record) => acc + Math.max(record.count, record.countMin, record.countMax), 0),
-        records_of_species: speciesRecord.users.length,
-        breeding_code: speciesRecord.breeding_code,
-        state: apiParams.recordState.modified.code
+    // prepare EBP events
+    ebpEvents.push(Object.entries(etrsRecords).reduce((acc, [etrsCode, records]) => {
+      const eventData = {
+        event: {
+          event_id: generateEventId(etrsCode, new Date(formattedDate)),
+          location: etrsCode,
+          date: formattedDate,
+          ...ebpEvent
+        },
+        records: []
       }
-    })
 
-    eventData.event.records = speciesUsersRecords.length
-    eventData.event.observer = observers.length?.toString()
+      const observers = []
+      const speciesUsersRecords = []
 
-    acc.push(eventData)
-    return acc
-  }, [])
+      // group records by species
+      const speciesRecords = records.reduce((acc, record) => {
+        // count unique species-users records
+        const key = `${record.species}_${record.userId}`
+        if (!speciesUsersRecords.includes(key)) {
+          speciesUsersRecords.push(key)
+        }
+
+        // count unique observers
+        if (!observers.includes(record.userId)) {
+          observers.push(record.userId)
+        }
+
+        if (!acc[record.species]) {
+          acc[record.species] = {
+            species: record.species,
+            species_code: ebpSpecies.find(species => species.sbNameLa === record.species)?.ebpId,
+            breeding_code: null,
+            users: [],
+            records: []
+          }
+        }
+
+        if (!acc[record.species].users.includes(record.userId)) {
+          acc[record.species].users.push(record.userId)
+        }
+
+        if (record.speciesStatusEn) {
+          const breedingCode = ebpSpeciesStatus.find(status => status.sbNameEn === record.speciesStatusEn)?.ebpId
+          if (!acc[record.species].breeding_code || acc[record.species].breeding_code < breedingCode) {
+            acc[record.species].breeding_code = breedingCode
+          }
+        }
+
+        acc[record.species].records.push(record)
+
+        return acc
+      }, {})
+
+      eventData.records = Object.values(speciesRecords).map(speciesRecord => {
+        return {
+          event_id: eventData.event.event_id,
+          record_id: eventData.event.event_id + '_' + speciesRecord.species_code,
+          species_code: speciesRecord.species_code,
+          count: speciesRecord.records.reduce((acc, record) => acc + Math.max(record.count, record.countMin, record.countMax), 0),
+          records_of_species: speciesRecord.users.length,
+          breeding_code: speciesRecord.breeding_code,
+          state: recordState
+        }
+      })
+
+      eventData.event.records = speciesUsersRecords.length
+      eventData.event.observer = observers.length?.toString()
+
+      acc.push(eventData)
+      return acc
+    }, []))
+  }
 
   return {
-    mode: apiParams.provisionMode.test.code,
+    mode: apiParams.provisionMode.standard.code,
     partner_source: apiParams.partnerSource,
-    start_date: format(date, 'yyyy-MM-dd'),
-    end_date: format(date, 'yyyy-MM-dd'),
-    events: ebpEvents.map(event => event.event),
-    records: ebpEvents.map(event => event.records).flat()
+    start_date: format(startDate, 'yyyy-MM-dd'),
+    end_date: format(endDate, 'yyyy-MM-dd'),
+    events: ebpEvents.flat().map(event => event.event),
+    records: ebpEvents.flat().map(event => event.records).flat()
   }
 }
 
 module.exports = class UploadToEBP extends Task {
   constructor () {
     super()
-    this.name = 'upload-to-ebp'
+    this.name = 'ebpUpload'
     this.description = 'Upload records to EBP'
     // use cronjob to schedule the task
     // npm run enqueue upload-to-ebp
     this.frequency = 0
   }
 
-  async run ({ date } = {}) {
-    const recordsDate = new Date(date || '2024-01-15')
-    // const startTimestamp = new Date().getTime()
+  async run ({ startDate, endDate, mode } = {}) {
+    const startTimestamp = new Date().getTime()
 
-    const eventsData = await prepareEbpData(recordsDate)
+    const eventsData = await prepareEbpData(startDate ? new Date(startDate) : new Date(), endDate ? new Date(endDate) : new Date(), mode)
 
-    // const operationTime = new Date().getTime() - startTimestamp
+    const operationTime = new Date().getTime() - startTimestamp
 
     try {
       const response = await fetch(`${API_URL}/data/`, {
@@ -299,7 +317,7 @@ module.exports = class UploadToEBP extends Task {
       console.log('Failed to upload data to EBP', error)
     }
 
-    // console.log('+++++ EBP DATA: ', JSON.stringify(eventsData))
-    // console.log('+++++ OPERATION TIME: ', operationTime)
+    console.log('+++++ EBP DATA: ', JSON.stringify(eventsData))
+    console.log('+++++ OPERATION TIME: ', operationTime)
   }
 }
