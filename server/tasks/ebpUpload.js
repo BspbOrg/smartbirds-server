@@ -266,10 +266,10 @@ const prepareEbpData = async (startDate, endDate, mode) => {
             state: recordState
           }
         })
-      }
 
-      eventData.event.records = speciesUsersRecords.length
-      eventData.event.observer = observers.length?.toString()
+        eventData.event.records = speciesUsersRecords.length
+        eventData.event.observer = observers.length?.toString()
+      }
 
       acc.push(eventData)
       return acc
