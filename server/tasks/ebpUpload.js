@@ -215,56 +215,58 @@ const prepareEbpData = async (startDate, endDate, mode) => {
       const observers = []
       const speciesUsersRecords = []
 
-      // group records by species
-      const speciesRecords = records.reduce((acc, record) => {
-        // count unique species-users records
-        const key = `${record.species}_${record.userId}`
-        if (!speciesUsersRecords.includes(key)) {
-          speciesUsersRecords.push(key)
-        }
-
-        // count unique observers
-        if (!observers.includes(record.userId)) {
-          observers.push(record.userId)
-        }
-
-        if (!acc[record.species]) {
-          acc[record.species] = {
-            species: record.species,
-            species_code: ebpSpecies.find(species => species.sbNameLa === record.species)?.ebpId,
-            breeding_code: null,
-            users: [],
-            records: []
+      if (mode !== 'delete') {
+        // group records by species
+        const speciesRecords = records.reduce((acc, record) => {
+          // count unique species-users records
+          const key = `${record.species}_${record.userId}`
+          if (!speciesUsersRecords.includes(key)) {
+            speciesUsersRecords.push(key)
           }
-        }
 
-        if (!acc[record.species].users.includes(record.userId)) {
-          acc[record.species].users.push(record.userId)
-        }
-
-        if (record.speciesStatusEn) {
-          const breedingCode = ebpSpeciesStatus.find(status => status.sbNameEn === record.speciesStatusEn)?.ebpId
-          if (!acc[record.species].breeding_code || acc[record.species].breeding_code < breedingCode) {
-            acc[record.species].breeding_code = breedingCode
+          // count unique observers
+          if (!observers.includes(record.userId)) {
+            observers.push(record.userId)
           }
-        }
 
-        acc[record.species].records.push(record)
+          if (!acc[record.species]) {
+            acc[record.species] = {
+              species: record.species,
+              species_code: ebpSpecies.find(species => species.sbNameLa === record.species)?.ebpId,
+              breeding_code: null,
+              users: [],
+              records: []
+            }
+          }
 
-        return acc
-      }, {})
+          if (!acc[record.species].users.includes(record.userId)) {
+            acc[record.species].users.push(record.userId)
+          }
 
-      eventData.records = Object.values(speciesRecords).map(speciesRecord => {
-        return {
-          event_id: eventData.event.event_id,
-          record_id: eventData.event.event_id + '_' + speciesRecord.species_code,
-          species_code: speciesRecord.species_code,
-          count: speciesRecord.records.reduce((acc, record) => acc + Math.max(record.count, record.countMin, record.countMax), 0),
-          records_of_species: speciesRecord.users.length,
-          breeding_code: speciesRecord.breeding_code,
-          state: recordState
-        }
-      })
+          if (record.speciesStatusEn) {
+            const breedingCode = ebpSpeciesStatus.find(status => status.sbNameEn === record.speciesStatusEn)?.ebpId
+            if (!acc[record.species].breeding_code || acc[record.species].breeding_code < breedingCode) {
+              acc[record.species].breeding_code = breedingCode
+            }
+          }
+
+          acc[record.species].records.push(record)
+
+          return acc
+        }, {})
+
+        eventData.records = Object.values(speciesRecords).map(speciesRecord => {
+          return {
+            event_id: eventData.event.event_id,
+            record_id: eventData.event.event_id + '_' + speciesRecord.species_code,
+            species_code: speciesRecord.species_code,
+            count: speciesRecord.records.reduce((acc, record) => acc + Math.max(record.count, record.countMin, record.countMax), 0),
+            records_of_species: speciesRecord.users.length,
+            breeding_code: speciesRecord.breeding_code,
+            state: recordState
+          }
+        })
+      }
 
       eventData.event.records = speciesUsersRecords.length
       eventData.event.observer = observers.length?.toString()
@@ -280,7 +282,7 @@ const prepareEbpData = async (startDate, endDate, mode) => {
     start_date: format(startDate, 'yyyy-MM-dd'),
     end_date: format(endDate, 'yyyy-MM-dd'),
     events: ebpEvents.flat().map(event => event.event),
-    records: ebpEvents.flat().map(event => event.records).flat()
+    records: mode !== 'delete' ? ebpEvents.flat().map(event => event.records).flat() : []
   }
 }
 
