@@ -112,7 +112,9 @@ exports.default = {
         { path: '/threats', action: 'formThreats:list' },
         { path: '/threats.csv', action: 'formThreats:list' },
         { path: '/threats.zip', action: 'formThreats:list' },
-        { path: '/threats/:id', action: 'formThreats:view' }
+        { path: '/threats/:id', action: 'formThreats:view' },
+
+        { path: '/ebp-species', action: 'ebp:speciesList' }
       ],
 
       post: [
