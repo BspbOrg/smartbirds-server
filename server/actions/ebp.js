@@ -12,9 +12,10 @@ exports.ebbSpeciesList = upgradeAction('ah17', {
 
   run: function (api, data, next) {
     try {
-      let q = {}
+      let q = {
+        order: [['sbNameLa', 'ASC']]
+      }
       q = paging.prepareQuery(q, data.params)
-      q = incremental.prepareQuery(q, data.params)
       return api.models.ebp_birds.findAndCountAll(q).then(function (result) {
         data.response.count = result.count
         data.response.meta = incremental.generateMeta(data, paging.generateMeta(result.count, data))
