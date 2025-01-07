@@ -114,7 +114,8 @@ exports.default = {
         { path: '/threats.zip', action: 'formThreats:list' },
         { path: '/threats/:id', action: 'formThreats:view' },
 
-        { path: '/ebp-species', action: 'ebp:speciesList' }
+        { path: '/ebp-species', action: 'ebp:speciesList' },
+        { path: '/ebp-species-status', action: 'ebp:speciesStatusList' }
       ],
 
       post: [
@@ -215,7 +216,8 @@ exports.default = {
         { path: '/session', action: 'session:check' },
         { path: '/species/:type', action: 'species:updateType' },
         { path: '/zone/:id/owner', action: 'zone:setOwner' },
-        { path: '/ebp-species', action: 'ebp:speciesUpdate' }
+        { path: '/ebp-species', action: 'ebp:speciesUpdate' },
+        { path: '/ebp-species-status', action: 'ebp:speciesStatusUpdate' }
       ],
 
       patch: [
