@@ -214,7 +214,8 @@ exports.default = {
         { path: '/pois/:type', action: 'poi:updateType' },
         { path: '/session', action: 'session:check' },
         { path: '/species/:type', action: 'species:updateType' },
-        { path: '/zone/:id/owner', action: 'zone:setOwner' }
+        { path: '/zone/:id/owner', action: 'zone:setOwner' },
+        { path: '/ebp-species', action: 'ebp:speciesUpdate' }
       ],
 
       patch: [
