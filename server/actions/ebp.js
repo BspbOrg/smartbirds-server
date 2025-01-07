@@ -89,3 +89,85 @@ exports.ebbSpeciesUpdate = upgradeAction('ah17', {
       })
   }
 })
+
+exports.ebpSpeciesStatusList = upgradeAction('ah17', {
+  name: 'ebp:speciesStatusList',
+  description: 'ebp:speciesStatusList',
+  middleware: ['admin'],
+
+  run: function (api, data, next) {
+    try {
+      const q = {
+        order: [['ebpId', 'ASC']]
+      }
+      return api.models.ebp_birds_status.findAndCountAll(q).then(function (result) {
+        data.response.count = result.count
+        data.response.data = result.rows.map(function (ebpSpeciesStatus) {
+          return ebpSpeciesStatus.apiData(api)
+        })
+        return next()
+      }).catch(function (e) {
+        console.error('Failure for list EBP species statuses', e)
+        return next(e)
+      })
+    } catch (e) {
+      console.error(e)
+      return next(e)
+    }
+  }
+})
+
+exports.ebbSpeciesStatusUpdate = upgradeAction('ah17', {
+  name: 'ebp:speciesStatusUpdate',
+  description: 'ebp:speciesStatusUpdate',
+  middleware: ['admin'],
+  inputs: {
+    items: { required: true }
+  },
+
+  run: function (api, data, next) {
+    Promise.resolve()
+      .then(function () {
+        if (!(data.params.items instanceof Array)) {
+          data.connection.rawConnection.responseHttpCode = 400
+          throw new Error('items is not array')
+        }
+        if (data.params.items.length <= 0) {
+          data.connection.rawConnection.responseHttpCode = 400
+          throw new Error('cannot update with empty items')
+        }
+        return data.params.items.map(function (item) {
+          const record = api.models.ebp_birds_status.build({})
+          record.apiUpdate(item)
+          return record
+        })
+      })
+      .then(function (models) {
+        return api.sequelize.sequelize.transaction(function (t) {
+          return api.models.ebp_birds_status
+            .destroy({
+              where: {},
+              transaction: t
+            })
+            .then(function (deleted) {
+              api.log('replacing ebp_birds_status %d with %d', 'info', deleted, models.length)
+            })
+            .then(function () {
+              return Promise.map(models, function (item) {
+                return item.save({ transaction: t }).then((m) => m.apiData())
+              })
+            })
+        })
+      })
+      .then(function (result) {
+        data.response.count = result.length
+        data.response.data = result
+      })
+      .then(function () {
+        return next()
+      }, function (e) {
+        api.log('Failure to update ebp_birds_status', 'error', e)
+        return next(e)
+      })
+  }
+})
