@@ -171,3 +171,55 @@ exports.ebbSpeciesStatusUpdate = upgradeAction('ah17', {
       })
   }
 })
+
+exports.ebpOrganizationsList = upgradeAction('ah17', {
+  name: 'ebp:organizationsList',
+  description: 'ebp:organizationsList',
+  middleware: ['admin'],
+
+  run: function (api, data, next) {
+    try {
+      return api.models.settings.findOne({
+        where: {
+          name: 'ebp_organizations'
+        }
+      }).then(function (ebpOrganizations) {
+        data.response.data = JSON.parse(ebpOrganizations?.value || '[]')
+        return next()
+      })
+    } catch (e) {
+      console.error(e)
+      return next(e)
+    }
+  }
+})
+
+exports.ebpOrganizationsUpdate = upgradeAction('ah17', {
+  name: 'ebp:organizationsUpdate',
+  description: 'ebp:organizationsUpdate',
+  middleware: ['admin'],
+  inputs: {
+    items: { required: true }
+  },
+  run: function (api, data, next) {
+    try {
+      return api.models.settings.findOne({
+        where: {
+          name: 'ebp_organizations'
+        }
+      }).then(function (ebpOrganizations) {
+        if (!ebpOrganizations) {
+          ebpOrganizations = api.models.settings.build({
+            name: 'ebp_organizations'
+          })
+        }
+        ebpOrganizations.value = JSON.stringify(data.params.items)
+        ebpOrganizations.save()
+        return next()
+      })
+    } catch (e) {
+      console.error(e)
+      return next(e)
+    }
+  }
+})
