@@ -117,7 +117,8 @@ exports.default = {
         { path: '/ebp-species', action: 'ebp:speciesList' },
         { path: '/ebp-species-status', action: 'ebp:speciesStatusList' },
         { path: '/ebp/organizations', action: 'ebp:organizationsList' },
-        { path: '/ebp/sources', action: 'ebp:sourcesList' }
+        { path: '/ebp/sources', action: 'ebp:sourcesList' },
+        { path: '/ebp/protocol', action: 'ebp:protocolGet' }
       ],
 
       post: [
@@ -221,7 +222,8 @@ exports.default = {
         { path: '/ebp-species', action: 'ebp:speciesUpdate' },
         { path: '/ebp-species-status', action: 'ebp:speciesStatusUpdate' },
         { path: '/ebp/organizations', action: 'ebp:organizationsUpdate' },
-        { path: '/ebp/sources', action: 'ebp:sourcesUpdate' }
+        { path: '/ebp/sources', action: 'ebp:sourcesUpdate' },
+        { path: '/ebp/protocol', action: 'ebp:protocolUpdate' }
       ],
 
       patch: [
