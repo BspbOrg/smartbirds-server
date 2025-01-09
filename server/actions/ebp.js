@@ -223,3 +223,55 @@ exports.ebpOrganizationsUpdate = upgradeAction('ah17', {
     }
   }
 })
+
+exports.ebpSourcesList = upgradeAction('ah17', {
+  name: 'ebp:sourcesList',
+  description: 'ebp:sourcesList',
+  middleware: ['admin'],
+
+  run: function (api, data, next) {
+    try {
+      return api.models.settings.findOne({
+        where: {
+          name: 'ebp_sources'
+        }
+      }).then(function (ebpSources) {
+        data.response.data = JSON.parse(ebpSources?.value || '[]')
+        return next()
+      })
+    } catch (e) {
+      console.error(e)
+      return next(e)
+    }
+  }
+})
+
+exports.ebpSourcesUpdate = upgradeAction('ah17', {
+  name: 'ebp:sourcesUpdate',
+  description: 'ebp:sourcesUpdate',
+  middleware: ['admin'],
+  inputs: {
+    items: { required: true }
+  },
+  run: function (api, data, next) {
+    try {
+      return api.models.settings.findOne({
+        where: {
+          name: 'ebp_sources'
+        }
+      }).then(function (ebpSources) {
+        if (!ebpSources) {
+          ebpSources = api.models.settings.build({
+            name: 'ebp_sources'
+          })
+        }
+        ebpSources.value = JSON.stringify(data.params.items)
+        ebpSources.save()
+        return next()
+      })
+    } catch (e) {
+      console.error(e)
+      return next(e)
+    }
+  }
+})

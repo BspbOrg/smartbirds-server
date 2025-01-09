@@ -116,7 +116,8 @@ exports.default = {
 
         { path: '/ebp-species', action: 'ebp:speciesList' },
         { path: '/ebp-species-status', action: 'ebp:speciesStatusList' },
-        { path: '/ebp/organizations', action: 'ebp:organizationsList' }
+        { path: '/ebp/organizations', action: 'ebp:organizationsList' },
+        { path: '/ebp/sources', action: 'ebp:sourcesList' }
       ],
 
       post: [
@@ -219,7 +220,8 @@ exports.default = {
         { path: '/zone/:id/owner', action: 'zone:setOwner' },
         { path: '/ebp-species', action: 'ebp:speciesUpdate' },
         { path: '/ebp-species-status', action: 'ebp:speciesStatusUpdate' },
-        { path: '/ebp/organizations', action: 'ebp:organizationsUpdate' }
+        { path: '/ebp/organizations', action: 'ebp:organizationsUpdate' },
+        { path: '/ebp/sources', action: 'ebp:sourcesUpdate' }
       ],
 
       patch: [
