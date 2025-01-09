@@ -275,3 +275,57 @@ exports.ebpSourcesUpdate = upgradeAction('ah17', {
     }
   }
 })
+
+exports.ebpProtocolGet = upgradeAction('ah17', {
+  name: 'ebp:protocolGet',
+  description: 'ebp:protocolGet',
+  middleware: ['admin'],
+
+  run: function (api, data, next) {
+    try {
+      return api.models.settings.findOne({
+        where: {
+          name: 'ebp_protocol'
+        }
+      }).then(function (setting) {
+        data.response.data = {
+          protocol: setting?.value || ''
+        }
+        return next()
+      })
+    } catch (e) {
+      console.error(e)
+      return next(e)
+    }
+  }
+})
+
+exports.ebpProtocolUpdate = upgradeAction('ah17', {
+  name: 'ebp:protocolUpdate',
+  description: 'ebp:protocolUpdate',
+  middleware: ['admin'],
+  inputs: {
+    protocol: {}
+  },
+  run: function (api, data, next) {
+    try {
+      return api.models.settings.findOne({
+        where: {
+          name: 'ebp_protocol'
+        }
+      }).then(function (setting) {
+        if (!setting) {
+          setting = api.models.settings.build({
+            name: 'ebp_protocol'
+          })
+        }
+        setting.value = data.params.protocol
+        setting.save()
+        return next()
+      })
+    } catch (e) {
+      console.error(e)
+      return next(e)
+    }
+  }
+})
