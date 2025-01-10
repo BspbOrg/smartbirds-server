@@ -114,8 +114,8 @@ exports.default = {
         { path: '/threats.zip', action: 'formThreats:list' },
         { path: '/threats/:id', action: 'formThreats:view' },
 
-        { path: '/ebp-species', action: 'ebp:speciesList' },
-        { path: '/ebp-species-status', action: 'ebp:speciesStatusList' },
+        { path: '/ebp/species', action: 'ebp:speciesList' },
+        { path: '/ebp/species-status', action: 'ebp:speciesStatusList' },
         { path: '/ebp/organizations', action: 'ebp:organizationsList' },
         { path: '/ebp/sources', action: 'ebp:sourcesList' },
         { path: '/ebp/protocol', action: 'ebp:protocolGet' }
@@ -219,8 +219,8 @@ exports.default = {
         { path: '/session', action: 'session:check' },
         { path: '/species/:type', action: 'species:updateType' },
         { path: '/zone/:id/owner', action: 'zone:setOwner' },
-        { path: '/ebp-species', action: 'ebp:speciesUpdate' },
-        { path: '/ebp-species-status', action: 'ebp:speciesStatusUpdate' },
+        { path: '/ebp/species', action: 'ebp:speciesUpdate' },
+        { path: '/ebp/species-status', action: 'ebp:speciesStatusUpdate' },
         { path: '/ebp/organizations', action: 'ebp:organizationsUpdate' },
         { path: '/ebp/sources', action: 'ebp:sourcesUpdate' },
         { path: '/ebp/protocol', action: 'ebp:protocolUpdate' }
