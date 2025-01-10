@@ -75,12 +75,24 @@ const apiParams = {
   }
 }
 
-const allowedOrganizations = () => {
-  return ['bspb', 'independent']
+const getAllowedOrganizations = async () => {
+  const organizationsSetting = await api.models.settings.findOne({
+    where: {
+      name: 'ebp_organizations'
+    }
+  })
+
+  return JSON.parse(organizationsSetting?.value || '[]')
 }
 
-const excludedSources = () => {
-  return ['Project NMNH-BAS & MOEW', 'Research of breeding birds, BSPB-NMNH']
+const getAllowedSources = async () => {
+  const sourcesSetting = await api.models.settings.findOne({
+    where: {
+      name: 'ebp_sources'
+    }
+  })
+
+  return JSON.parse(sourcesSetting?.value || '[]')
 }
 
 const getSensitiveSpecies = async () => {
@@ -109,6 +121,9 @@ const getEbpSpeciesStatus = async () => {
 }
 
 const loadRecords = async (forms, startDate, endDate) => {
+  const allowedOrganizations = await getAllowedOrganizations()
+  const allowedSources = await getAllowedSources()
+
   const records = await Promise.allSettled(forms.map(async form => {
     return form.model.findAll({
       where: {
@@ -119,8 +134,8 @@ const loadRecords = async (forms, startDate, endDate) => {
             { [Op.lte]: endDate }
           ]
         },
-        organization: { [Op.in]: allowedOrganizations() },
-        sourceEn: { [Op.notIn]: excludedSources() }
+        organization: { [Op.in]: allowedOrganizations },
+        sourceEn: { [Op.in]: allowedSources }
       }
 
     })
