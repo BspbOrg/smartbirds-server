@@ -118,7 +118,8 @@ exports.default = {
         { path: '/ebp/species-status', action: 'ebp:speciesStatusList' },
         { path: '/ebp/organizations', action: 'ebp:organizationsList' },
         { path: '/ebp/sources', action: 'ebp:sourcesList' },
-        { path: '/ebp/protocol', action: 'ebp:protocolGet' }
+        { path: '/ebp/protocol', action: 'ebp:protocolGet' },
+        { path: '/config', action: 'server-config:get' }
       ],
 
       post: [
