@@ -117,7 +117,9 @@ exports.default = {
         { path: '/ebp/species', action: 'ebp:speciesList' },
         { path: '/ebp/species-status', action: 'ebp:speciesStatusList' },
 
-        { path: '/settings/:key', action: 'settings:read' }
+        { path: '/settings/:key', action: 'settings:read' },
+
+        { path: '/config', action: 'server-config:get' }
       ],
 
       post: [
@@ -221,7 +223,9 @@ exports.default = {
         { path: '/ebp/species', action: 'ebp:speciesUpdate' },
         { path: '/ebp/species-status', action: 'ebp:speciesStatusUpdate' },
 
-        { path: '/settings/:key', action: 'settings:update' }
+        { path: '/settings/:key', action: 'settings:update' },
+
+        { path: '/config', action: 'server-config:update' }
       ],
 
       patch: [
