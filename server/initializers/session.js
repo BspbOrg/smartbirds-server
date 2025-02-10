@@ -165,6 +165,10 @@ module.exports = upgradeInitializer('ah17', {
 
     api.params.globalSafeParams.push('csrfToken')
 
+    console.log('++++++++++++++++++++++++++++++++++++++++++++++++')
+    console.log('APP CONFIG', api.config.app)
+    console.log('++++++++++++++++++++++++++++++++++++++++++++++++')
+
     next()
   },
 
