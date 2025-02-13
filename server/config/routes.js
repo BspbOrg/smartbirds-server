@@ -224,7 +224,8 @@ exports.default = {
         { path: '/ebp/species-status', action: 'ebp:speciesStatusUpdate' },
         { path: '/ebp/organizations', action: 'ebp:organizationsUpdate' },
         { path: '/ebp/sources', action: 'ebp:sourcesUpdate' },
-        { path: '/ebp/protocol', action: 'ebp:protocolUpdate' }
+        { path: '/ebp/protocol', action: 'ebp:protocolUpdate' },
+        { path: '/config', action: 'server-config:update' }
       ],
 
       patch: [

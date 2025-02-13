@@ -39,6 +39,7 @@ exports.readServerConfig = upgradeAction('ah17', {
       console.log('process.env', process.env)
       data.response.data = {
         config: {
+          pendingConfigurationChange: api.config.pendingConfigurationChange,
           environmentVariables: supportedVariables.map(key => {
             return {
               key,
@@ -60,20 +61,19 @@ exports.updateServerConfig = upgradeAction('ah17', {
   description: 'server-config:update',
   middleware: ['admin'],
   inputs: {
-    key: {
-      required: true,
-      validator: (value) => {
-        return supportedVariables.includes(value)
-      }
-    },
-    value: {
-      required: true
-    }
+    updatedConfigs: { required: true }
   },
 
   run: function (api, data, next) {
     try {
-      console.log('Updating config variable', data.params.key, 'to', data.params.value)
+      console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+      console.log('Updating server configuration', data.params.updatedConfigs)
+      console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+
+      if (data.params.updatedConfigs.length > 0) {
+        api.pendingConfigurationChange = true
+      }
+
       return next()
     } catch (e) {
       console.error(e)
