@@ -60,6 +60,7 @@
     "csv-stringify": "^6.4.0",
     "date-fns": "^2.30.0",
     "debug": "^4.3.6",
+    "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "email-templates": "^10.0.1",
     "form-data": "^4.0.0",
