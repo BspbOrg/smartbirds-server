@@ -1,5 +1,5 @@
 const { Initializer, api } = require('actionhero')
-const { readFileSync, writeFileSync } = require('fs')
+const { readFileSync, writeFileSync, existsSync } = require('fs')
 const { resolve } = require('path')
 const { parse } = require('dotenv')
 
@@ -43,13 +43,18 @@ module.exports = class ServerConfigInit extends Initializer {
       ],
       get: async () => {
         try {
-          const fileEnv = parse(readFileSync(resolve(api.config.serverConfig.configPath, api.config.serverConfig.configFilename)))
+          // check if the config file exists in the filesystem
+          const envFileExists = existsSync(resolve(api.config.serverConfig.configPath, api.config.serverConfig.configFilename))
+          let fileEnv = {}
+          if (envFileExists) {
+            fileEnv = parse(readFileSync(resolve(api.config.serverConfig.configPath, api.config.serverConfig.configFilename)))
+          }
+
           const processEnv = api.serverConfig.supportedConfigVariables.reduce((acc, key) => {
             acc[key] = process.env[key] || ''
             return acc
           }, {})
-          console.log('fileEnv', fileEnv)
-          console.log('processEnv', processEnv)
+
           return Object.assign({}, processEnv, fileEnv)
         } catch (e) {
           console.error(e)
@@ -64,13 +69,16 @@ module.exports = class ServerConfigInit extends Initializer {
         }
 
         try {
-          // read current config from the config file
-          const currentConfig = parse(readFileSync(resolve(api.config.serverConfig.configPath, api.config.serverConfig.configFilename)))
-          console.log('currentConfig', currentConfig)
+          // check if the config file exists in the filesystem
+          const envFileExists = existsSync(resolve(api.config.serverConfig.configPath, api.config.serverConfig.configFilename))
+          let currentConfig = {}
+          if (envFileExists) {
+            // read current config from the config file
+            currentConfig = parse(readFileSync(resolve(api.config.serverConfig.configPath, api.config.serverConfig.configFilename)))
+          }
 
           // merge the current config with the new config
           const newConfig = Object.assign({}, currentConfig, config)
-          console.log('newConfig', newConfig)
 
           // write the new config to the config file
           const env = Object.entries(newConfig).map(([key, value]) => `${key}=${value}`).join('\n')
