@@ -70,7 +70,6 @@ services:
       - public:/app/public
       - ./log:/app/log
       - ./entrypoint.sh:/app/entrypoint.sh
-      - ./config/config.env:/app/config.env
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.sbserver.entrypoints=web"
