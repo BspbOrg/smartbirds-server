@@ -127,7 +127,12 @@ const loadRecords = async (forms, startDate, endDate) => {
   const records = await Promise.allSettled(forms.map(async form => {
     return form.model.findAll({
       where: {
-        etrs89GridCode: { [Op.not]: null },
+        etrs89GridCode: {
+          [Op.and]: [
+            { [Op.not]: null },
+            { [Op.ne]: '' }
+          ]
+        },
         observationDateTime: {
           [Op.and]: [
             { [Op.gte]: startDate },
@@ -135,7 +140,12 @@ const loadRecords = async (forms, startDate, endDate) => {
           ]
         },
         organization: { [Op.in]: allowedOrganizations },
-        sourceEn: { [Op.in]: allowedSources }
+        sourceEn: {
+          [Op.or]: [
+            { [Op.in]: allowedSources },
+            { [Op.is]: null }
+          ]
+        }
       }
 
     })
@@ -292,7 +302,7 @@ const prepareEbpData = async (startDate, endDate, mode) => {
   }
 
   return {
-    mode: apiParams.provisionMode.standard.code,
+    mode: apiParams.provisionMode.test.code,
     partner_source: apiParams.partnerSource,
     start_date: format(startDate, 'yyyy-MM-dd'),
     end_date: format(endDate, 'yyyy-MM-dd'),
@@ -334,7 +344,8 @@ module.exports = class UploadToEBP extends Task {
       console.log('Failed to upload data to EBP', error)
     }
 
-    console.log('+++++ EBP DATA: ', JSON.stringify(eventsData))
+    // api.log(`Successfully uploaded  ${eventsData.events.length} events and ${eventsData.records.length} records to EBP`, 'info')
+    // console.log('+++++ EBP DATA: ', JSON.stringify(eventsData))
     console.log('+++++ OPERATION TIME: ', operationTime)
   }
 }
