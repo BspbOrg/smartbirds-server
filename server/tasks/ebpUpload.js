@@ -4,8 +4,7 @@ const { Op } = sequelize
 const format = require('date-fns/format')
 const fetch = require('node-fetch')
 
-// const availableForms = [api.forms.formCBM, api.forms.formBirds, api.forms.formCiconia]
-const availableForms = [api.forms.formBirds]
+const availableForms = [api.forms.formCBM, api.forms.formBirds, api.forms.formCiconia]
 
 // eslint-disable-next-line no-unused-vars
 const API_TOKEN = process.env.EBP_API_TOKEN
@@ -120,6 +119,16 @@ const getEbpSpeciesStatus = async () => {
   })
 }
 
+const getProtocol = async () => {
+  const protocolSetting = await api.models.settings.findOne({
+    where: {
+      name: 'ebp_protocol'
+    }
+  })
+
+  return protocolSetting?.value
+}
+
 const loadRecords = async (forms, startDate, endDate) => {
   const allowedOrganizations = await getAllowedOrganizations()
   const allowedSources = await getAllowedSources()
@@ -181,6 +190,7 @@ const generateEventId = (etrsCode, date) => {
 const prepareEbpData = async (startDate, endDate, mode) => {
   const ebpSpecies = await getEbpSpecies()
   const ebpSpeciesStatus = await getEbpSpeciesStatus()
+  const protocol = await getProtocol()
 
   // load all records for the given date
   const records = await loadRecords(availableForms, startDate, endDate)
@@ -199,6 +209,10 @@ const prepareEbpData = async (startDate, endDate, mode) => {
     location_mode: apiParams.locationMode.aggregatedLocation.code,
     state: eventState,
     record_updates_mode: recordsUpdateMode
+  }
+
+  if (protocol) {
+    ebpEvent.protocol_id = protocol
   }
 
   // group records by date
