@@ -35,7 +35,7 @@ exports.default = {
       // max records per task
       maxRecords: parseInt(process.env.ETRS89_TASK_MAX_RECORDS, 10) || 100,
       // consider records newer than this timestamp
-      startTimestamp: parseInt(process.env.ETRS89_TASK_START_TIME, 10) || new Date('2024-01-01').getTime()
+      startTimestamp: parseInt(process.env.ETRS89_TASK_START_TIME, 10) || new Date('2010-01-01').getTime()
     }
   }
 }
