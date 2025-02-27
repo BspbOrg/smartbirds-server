@@ -18,6 +18,9 @@ jobs:
         redis-version: [3, latest]
 
     steps:
+      - name: Install imagemagick
+        run: |
+          sudo apt-get install imagemagick -y
       - uses: actions/checkout@v4
 
       - name: Use Node.js ${{ matrix.node-version }}
