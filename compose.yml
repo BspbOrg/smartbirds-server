@@ -103,7 +103,7 @@ services:
       - "traefik.http.services.sbserver.loadbalancer.server.port=5000"
 
   db:
-    image: postgres:17.0
+    image: postgres:17.3
     environment:
       POSTGRES_PASSWORD: 'secret'
       POSTGRES_USER: 'smartbirds'
@@ -120,7 +120,7 @@ services:
       test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
 
   testdb:
-    image: postgres:17.0
+    image: postgres:17.3
     restart: no
     environment:
       POSTGRES_PASSWORD: 'testpass'
