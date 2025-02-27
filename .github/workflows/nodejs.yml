@@ -41,7 +41,7 @@ jobs:
     strategy:
       matrix:
         redis-version: [3, latest]
-        postgresql-version: [9.4-alpine, latest]
+        postgresql-version: [17.3-alpine, latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -76,7 +76,7 @@ jobs:
     strategy:
       matrix:
         redis-version: [3]
-        postgresql-version: [9.4-alpine]
+        postgresql-version: [17.3-alpine]
 
     steps:
       - uses: actions/checkout@v4
