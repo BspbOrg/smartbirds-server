@@ -2,6 +2,7 @@ const _ = require('lodash')
 const { assign } = Object
 const bgatlas2008 = require('./_fields/bgatlas2008')
 const newSpeciesModeratorReview = require('./_fields/newSpeciesModeratorReview')
+const etrs89GridCode = require('./_fields/etrs89GridCode')
 
 exports = module.exports = _.cloneDeep(require('./_common'))
 
@@ -9,10 +10,12 @@ exports.tableName = 'FormCiconia'
 exports.hasSpecies = false
 exports.hasThreats = true
 exports.hasBgAtlas2008 = true
+exports.hasEtrs89GridCode = true
 
 exports.fields = assign(exports.fields, {
   ...bgatlas2008.fields,
   ...newSpeciesModeratorReview.fields,
+  ...etrs89GridCode.fields,
   primarySubstrateType: {
     type: 'choice',
     uniqueHash: true,
