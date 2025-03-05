@@ -127,6 +127,16 @@ const getProtocol = async () => {
   return protocolSetting?.value
 }
 
+const getCbmProtocol = async () => {
+  const protocolSetting = await api.models.settings.findOne({
+    where: {
+      name: 'ebp_cbm_protocol'
+    }
+  })
+
+  return protocolSetting?.value
+}
+
 const loadRecords = async (forms, startDate, endDate) => {
   const allowedOrganizations = await getAllowedOrganizations()
   const allowedSources = await getAllowedSources()
@@ -310,6 +320,7 @@ const prepareEbpData = async (startDate, endDate, mode) => {
   const ebpSpecies = await getEbpSpecies()
   const ebpSpeciesStatus = await getEbpSpeciesStatus()
   const protocol = await getProtocol()
+  const cbmProtocol = await getCbmProtocol()
 
   // load all records for the given date
   const birdsRecords = await loadRecords([api.forms.formBirds, api.forms.formCiconia], startDate, endDate)
@@ -321,7 +332,7 @@ const prepareEbpData = async (startDate, endDate, mode) => {
 
   const ebpEvents = []
   ebpEvents.push(...generateEvents(birdsFiltered, ebpSpecies, ebpSpeciesStatus, mode, protocol))
-  ebpEvents.push(...generateEvents(cbmFiltered, ebpSpecies, ebpSpeciesStatus, mode, '92', 'CBM'))
+  ebpEvents.push(...generateEvents(cbmFiltered, ebpSpecies, ebpSpeciesStatus, mode, cbmProtocol, 'CBM'))
 
   return {
     mode: apiParams.provisionMode.test.code,
