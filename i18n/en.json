@@ -1354,6 +1354,7 @@
     "EBP_SETTINGS_ORGANIZATIONS": "Organizations",
     "EBP_SETTINGS_SOURCES": "Sources",
     "EBP_SETTINGS_PROTOCOL": "Protocol",
+    "EBP_SETTINGS_CBM_PROTOCOL": "CBM protocol",
     "EBP_SETTINGS_SPECIES": "Species",
     "EBP_SETTINGS_SPECIES_STATUS": "Species status",
     "EBP_SETTINGS_NO_PERMISSION": "You do not have permission to access this page",
