@@ -4,8 +4,6 @@ const { Op } = sequelize
 const format = require('date-fns/format')
 const fetch = require('node-fetch')
 
-const availableForms = [api.forms.formCBM, api.forms.formBirds, api.forms.formCiconia]
-
 // eslint-disable-next-line no-unused-vars
 const API_TOKEN = process.env.EBP_API_TOKEN
 const API_URL = 'https://api-v2.eurobirdportal.org'
@@ -180,24 +178,14 @@ const filterRecords = async (records, ebpSpecies, ebpSpeciesStatus) => {
     .filter(record => !sensitiveSpecies.find(species => {
       return species.labelLa === record.species
     }))
-    .filter(record => record.speciesStatusEn === null || ebpSpeciesStatus.find(status => status.sbNameEn === record.speciesStatusEn))
+    .filter(record => !record.speciesStatusEn || ebpSpeciesStatus.find(status => status.sbNameEn === record.speciesStatusEn))
 }
 
-const generateEventId = (etrsCode, date) => {
-  return format(date, 'yyyyMMdd') + '_' + etrsCode
+const generateEventId = (etrsCode, date, suffix) => {
+  return format(date, 'yyyyMMdd') + '_' + etrsCode + (suffix ? '_' + suffix : '')
 }
 
-const prepareEbpData = async (startDate, endDate, mode) => {
-  const ebpSpecies = await getEbpSpecies()
-  const ebpSpeciesStatus = await getEbpSpeciesStatus()
-  const protocol = await getProtocol()
-
-  // load all records for the given date
-  const records = await loadRecords(availableForms, startDate, endDate)
-
-  // additional filtering
-  const filtered = await filterRecords(records, ebpSpecies, ebpSpeciesStatus)
-
+const generateEvents = (records, ebpSpecies, ebpSpeciesStatus, mode, protocol, eventSuffix) => {
   // set event and records state based on the mode
   const eventState = mode === 'delete' ? apiParams.eventState.removed.code : apiParams.eventState.modified.code
   const recordsUpdateMode = mode === 'replace' ? apiParams.updateMode.all.code : apiParams.updateMode.modify.code
@@ -216,7 +204,7 @@ const prepareEbpData = async (startDate, endDate, mode) => {
   }
 
   // group records by date
-  const recordsByDate = filtered.reduce((acc, record) => {
+  const recordsByDate = records.reduce((acc, record) => {
     const formattedDate = format(record.observationDateTime, 'yyyy-MM-dd')
     if (!acc[formattedDate]) {
       acc[formattedDate] = []
@@ -243,7 +231,7 @@ const prepareEbpData = async (startDate, endDate, mode) => {
     ebpEvents.push(Object.entries(etrsRecords).reduce((acc, [etrsCode, records]) => {
       const eventData = {
         event: {
-          event_id: generateEventId(etrsCode, new Date(formattedDate)),
+          event_id: generateEventId(etrsCode, new Date(formattedDate), eventSuffix),
           location: etrsCode,
           date: formattedDate,
           ...ebpEvent
@@ -315,6 +303,26 @@ const prepareEbpData = async (startDate, endDate, mode) => {
     }, []))
   }
 
+  return ebpEvents
+}
+
+const prepareEbpData = async (startDate, endDate, mode) => {
+  const ebpSpecies = await getEbpSpecies()
+  const ebpSpeciesStatus = await getEbpSpeciesStatus()
+  const protocol = await getProtocol()
+
+  // load all records for the given date
+  const birdsRecords = await loadRecords([api.forms.formBirds, api.forms.formCiconia], startDate, endDate)
+  const cbmRecords = await loadRecords([api.forms.formCBM], startDate, endDate)
+
+  // additional filtering
+  const birdsFiltered = await filterRecords(birdsRecords, ebpSpecies, ebpSpeciesStatus)
+  const cbmFiltered = await filterRecords(cbmRecords, ebpSpecies, ebpSpeciesStatus)
+
+  const ebpEvents = []
+  ebpEvents.push(...generateEvents(birdsFiltered, ebpSpecies, ebpSpeciesStatus, mode, protocol))
+  ebpEvents.push(...generateEvents(cbmFiltered, ebpSpecies, ebpSpeciesStatus, mode, '92', 'CBM'))
+
   return {
     mode: apiParams.provisionMode.test.code,
     partner_source: apiParams.partnerSource,
@@ -358,8 +366,8 @@ module.exports = class UploadToEBP extends Task {
       console.log('Failed to upload data to EBP', error)
     }
 
-    // api.log(`Successfully uploaded  ${eventsData.events.length} events and ${eventsData.records.length} records to EBP`, 'info')
-    // console.log('+++++ EBP DATA: ', JSON.stringify(eventsData))
+    api.log(`Successfully uploaded  ${eventsData.events.length} events and ${eventsData.records.length} records to EBP`, 'info')
+    console.log('+++++ EBP DATA: ', JSON.stringify(eventsData))
     console.log('+++++ OPERATION TIME: ', operationTime)
   }
 }
