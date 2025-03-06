@@ -297,7 +297,7 @@ const generateEvents = (records, ebpSpecies, ebpSpeciesStatus, mode, protocol, e
             event_id: eventData.event.event_id,
             record_id: eventData.event.event_id + '_' + speciesRecord.species_code,
             species_code: speciesRecord.species_code,
-            count: speciesRecord.records.reduce((acc, record) => acc + Math.max(record.count, record.countMin, record.countMax), 0),
+            count: speciesRecord.records.reduce((acc, record) => acc + Math.max(record.count || 0, record.countMin || 0, record.countMax || 0), 0),
             records_of_species: speciesRecord.users.length,
             breeding_code: speciesRecord.breeding_code,
             state: recordState
