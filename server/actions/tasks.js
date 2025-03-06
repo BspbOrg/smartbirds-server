@@ -137,22 +137,23 @@ module.exports.ebpUpload = class EnqueueEbpUpload extends Action {
     this.inputs = {
       startDate: {},
       endDate: {},
-      mode: {}
+      mode: {},
+      bulk: {}
     }
   }
 
-  async run ({ params: { startDate, endDate, mode }, response }) {
+  async run ({ params: { startDate, endDate, mode, bulk }, response }) {
     if (startDate && endDate) {
       // check if startDate is before endDate
       if (new Date(startDate) > new Date(endDate)) {
         throw new Error('startDate must be before endDate')
       }
 
-      if (differenceInDays(new Date(endDate), new Date(startDate)) > 31) {
+      if (!bulk && differenceInDays(new Date(endDate), new Date(startDate)) > 31) {
         throw new Error('Date range must be less than 31 days')
       }
     }
 
-    response.result = await api.tasks.enqueue('ebpUpload', { startDate, endDate, mode: mode || 'insert' })
+    response.result = await api.tasks.enqueue('ebpUpload', { startDate, endDate, mode: mode || 'insert', bulk })
   }
 }

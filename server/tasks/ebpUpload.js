@@ -316,7 +316,7 @@ const generateEvents = (records, ebpSpecies, ebpSpeciesStatus, mode, protocol, e
   return ebpEvents
 }
 
-const prepareEbpData = async (startDate, endDate, mode) => {
+const prepareEbpData = async (startDate, endDate, mode, bulk) => {
   const ebpSpecies = await getEbpSpecies()
   const ebpSpeciesStatus = await getEbpSpeciesStatus()
   const protocol = await getProtocol()
@@ -335,7 +335,7 @@ const prepareEbpData = async (startDate, endDate, mode) => {
   ebpEvents.push(...generateEvents(cbmFiltered, ebpSpecies, ebpSpeciesStatus, mode, cbmProtocol, 'CBM'))
 
   return {
-    mode: apiParams.provisionMode.test.code,
+    mode: bulk ? apiParams.provisionMode.bulk.code : apiParams.provisionMode.test.code,
     partner_source: apiParams.partnerSource,
     start_date: format(startDate, 'yyyy-MM-dd'),
     end_date: format(endDate, 'yyyy-MM-dd'),
@@ -354,10 +354,10 @@ module.exports = class UploadToEBP extends Task {
     this.frequency = 0
   }
 
-  async run ({ startDate, endDate, mode } = {}) {
+  async run ({ startDate, endDate, mode, bulk } = {}) {
     const startTimestamp = new Date().getTime()
 
-    const eventsData = await prepareEbpData(startDate ? new Date(startDate) : new Date(), endDate ? new Date(endDate) : new Date(), mode)
+    const eventsData = await prepareEbpData(startDate ? new Date(startDate) : new Date(), endDate ? new Date(endDate) : new Date(), mode, bulk)
 
     const operationTime = new Date().getTime() - startTimestamp
 
@@ -377,8 +377,8 @@ module.exports = class UploadToEBP extends Task {
       console.log('Failed to upload data to EBP', error)
     }
 
-    api.log(`Successfully uploaded  ${eventsData.events.length} events and ${eventsData.records.length} records to EBP`, 'info')
-    console.log('+++++ EBP DATA: ', JSON.stringify(eventsData))
+    // api.log(`Successfully uploaded  ${eventsData.events.length} events and ${eventsData.records.length} records to EBP`, 'info')
+    // console.log('+++++ EBP DATA: ', JSON.stringify(eventsData))
     console.log('+++++ OPERATION TIME: ', operationTime)
   }
 }
