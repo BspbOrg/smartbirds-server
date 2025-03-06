@@ -112,7 +112,12 @@ exports.default = {
         { path: '/threats', action: 'formThreats:list' },
         { path: '/threats.csv', action: 'formThreats:list' },
         { path: '/threats.zip', action: 'formThreats:list' },
-        { path: '/threats/:id', action: 'formThreats:view' }
+        { path: '/threats/:id', action: 'formThreats:view' },
+
+        { path: '/ebp/species', action: 'ebp:speciesList' },
+        { path: '/ebp/species-status', action: 'ebp:speciesStatusList' },
+
+        { path: '/settings/:key', action: 'settings:read' }
       ],
 
       post: [
@@ -133,6 +138,8 @@ exports.default = {
         { path: '/zone/:id/owner', action: 'zone:requestOwnership' },
         { path: '/zone/:id/owner/response', action: 'zone:respondOwnershipRequest' },
         { path: '/tasks/auto-translate-nomenclatures', action: 'tasks:enqueue:autoTranslateNomenclatures' },
+        { path: '/tasks/etrs89', action: 'tasks:enqueue:etrs89Codes' },
+        { path: '/tasks/ebp-upload', action: 'tasks:enqueue:ebpUpload' },
 
         // forms
         { path: '/bats', action: 'formBats:create' },
@@ -210,7 +217,11 @@ exports.default = {
         { path: '/pois/:type', action: 'poi:updateType' },
         { path: '/session', action: 'session:check' },
         { path: '/species/:type', action: 'species:updateType' },
-        { path: '/zone/:id/owner', action: 'zone:setOwner' }
+        { path: '/zone/:id/owner', action: 'zone:setOwner' },
+        { path: '/ebp/species', action: 'ebp:speciesUpdate' },
+        { path: '/ebp/species-status', action: 'ebp:speciesStatusUpdate' },
+
+        { path: '/settings/:key', action: 'settings:update' }
       ],
 
       patch: [
