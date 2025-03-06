@@ -1357,5 +1357,6 @@
     "EBP_SETTINGS_SPECIES_EBP_NAME": "Име в EBP",
     "EBP_SETTINGS_SPECIES_STATUS_CODE": "EBP Код",
     "EBP_SETTINGS_SPECIES_STATUS_SB_NAME": "Име в smartbirds",
-    "NAV_EBP": "EBP"
+    "NAV_EBP": "EBP",
+    "EBP_UPLOAD_BULK_WARNING": "Тази операция ще презапише всички данни в EBP портала за въведения период! Продължете само ако сте сигурни!"
 }
