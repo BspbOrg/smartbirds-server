@@ -316,34 +316,6 @@ const generateEvents = (records, ebpSpecies, ebpSpeciesStatus, mode, protocol, e
   return ebpEvents
 }
 
-const prepareEbpData = async (startDate, endDate, mode, bulk) => {
-  const ebpSpecies = await getEbpSpecies()
-  const ebpSpeciesStatus = await getEbpSpeciesStatus()
-  const protocol = await getProtocol()
-  const cbmProtocol = await getCbmProtocol()
-
-  // load all records for the given date
-  const birdsRecords = await loadRecords([api.forms.formBirds, api.forms.formCiconia], startDate, endDate)
-  const cbmRecords = await loadRecords([api.forms.formCBM], startDate, endDate)
-
-  // additional filtering
-  const birdsFiltered = await filterRecords(birdsRecords, ebpSpecies, ebpSpeciesStatus)
-  const cbmFiltered = await filterRecords(cbmRecords, ebpSpecies, ebpSpeciesStatus)
-
-  const ebpEvents = []
-  ebpEvents.push(...generateEvents(birdsFiltered, ebpSpecies, ebpSpeciesStatus, mode, protocol))
-  ebpEvents.push(...generateEvents(cbmFiltered, ebpSpecies, ebpSpeciesStatus, mode, cbmProtocol, 'CBM'))
-
-  return {
-    mode: bulk ? apiParams.provisionMode.bulk.code : apiParams.provisionMode.test.code,
-    partner_source: apiParams.partnerSource,
-    start_date: format(startDate, 'yyyy-MM-dd'),
-    end_date: format(endDate, 'yyyy-MM-dd'),
-    events: ebpEvents.flat().map(event => event.event),
-    records: mode !== 'delete' ? ebpEvents.flat().map(event => event.records).flat() : []
-  }
-}
-
 module.exports = class UploadToEBP extends Task {
   constructor () {
     super()
@@ -354,10 +326,38 @@ module.exports = class UploadToEBP extends Task {
     this.frequency = 0
   }
 
+  async prepareEbpData (startDate, endDate, mode, bulk) {
+    const ebpSpecies = await getEbpSpecies()
+    const ebpSpeciesStatus = await getEbpSpeciesStatus()
+    const protocol = await getProtocol()
+    const cbmProtocol = await getCbmProtocol()
+
+    // load all records for the given date
+    const birdsRecords = await loadRecords([api.forms.formBirds, api.forms.formCiconia], startDate, endDate)
+    const cbmRecords = await loadRecords([api.forms.formCBM], startDate, endDate)
+
+    // additional filtering
+    const birdsFiltered = await filterRecords(birdsRecords, ebpSpecies, ebpSpeciesStatus)
+    const cbmFiltered = await filterRecords(cbmRecords, ebpSpecies, ebpSpeciesStatus)
+
+    const ebpEvents = []
+    ebpEvents.push(...generateEvents(birdsFiltered, ebpSpecies, ebpSpeciesStatus, mode, protocol))
+    ebpEvents.push(...generateEvents(cbmFiltered, ebpSpecies, ebpSpeciesStatus, mode, cbmProtocol, 'CBM'))
+
+    return {
+      mode: bulk ? apiParams.provisionMode.bulk.code : apiParams.provisionMode.test.code,
+      partner_source: apiParams.partnerSource,
+      start_date: format(startDate, 'yyyy-MM-dd'),
+      end_date: format(endDate, 'yyyy-MM-dd'),
+      events: ebpEvents.flat().map(event => event.event),
+      records: mode !== 'delete' ? ebpEvents.flat().map(event => event.records).flat() : []
+    }
+  }
+
   async run ({ startDate, endDate, mode, bulk } = {}) {
     const startTimestamp = new Date().getTime()
 
-    const eventsData = await prepareEbpData(startDate ? new Date(startDate) : new Date(), endDate ? new Date(endDate) : new Date(), mode, bulk)
+    const eventsData = await this.prepareEbpData(startDate ? new Date(startDate) : new Date(), endDate ? new Date(endDate) : new Date(), mode, bulk)
 
     const operationTime = new Date().getTime() - startTimestamp
 
