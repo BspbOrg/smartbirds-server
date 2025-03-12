@@ -2,6 +2,7 @@
 /* globals setup */
 
 const formBirdsFactory = require('../../__utils__/factories/formBirdsFactory')
+const fromCbmFactory = require('../../__utils__/factories/formCBMFactory')
 const prepareEbpData = (...args) => setup.api.tasks.tasks.ebpUpload.prepareEbpData(...args)
 
 const startDate = new Date('2025-03-01')
@@ -19,6 +20,11 @@ describe('upload to EBP task', () => {
   beforeEach(async () => {
     // clean all observations
     await setup.api.models.formBirds.destroy({
+      where: {},
+      force: true
+    })
+
+    await setup.api.models.formCBM.destroy({
       where: {},
       force: true
     })
@@ -128,7 +134,13 @@ describe('upload to EBP task', () => {
     expect(result.events[0].protocol_id).toBe('EBP_BIRDS')
   })
 
-  it.skip('should use CBM protocol from the settings', async () => {
+  it('should use CBM protocol from the settings', async () => {
+    await fromCbmFactory(setup.api, {
+      ...baseBirdsRecord
+    })
+
+    const result = await prepareEbpData(startDate, endDate, 'insert', false)
+    expect(result.events[0].protocol_id).toBe('EBP_CBM')
   })
 
   it('should not upload records withoud ETRS89 grid code', async () => {
@@ -144,7 +156,27 @@ describe('upload to EBP task', () => {
     expect(result.records[0].count).toBe(1)
   })
 
-  it('should aggregate events by date and etrs89 grid code', async () => {
+  it('should aggregate events by date', async () => {
+    await formBirdsFactory(setup.api, {
+      ...baseBirdsRecord,
+      observationDateTime: new Date('2025-03-15T10:15:01Z')
+    })
+
+    await formBirdsFactory(setup.api, {
+      ...baseBirdsRecord,
+      observationDateTime: new Date('2025-03-15T10:20:01Z')
+    })
+
+    await formBirdsFactory(setup.api, {
+      ...baseBirdsRecord,
+      observationDateTime: new Date('2025-03-16T10:15:01Z')
+    })
+
+    const result = await prepareEbpData(startDate, endDate, 'insert', false)
+    expect(result.events).toHaveLength(2)
+  })
+
+  it('should aggregate events by etrs89 grid code', async () => {
     await formBirdsFactory(setup.api, {
       ...baseBirdsRecord,
       etrs89GridCode: '1'
@@ -181,5 +213,17 @@ describe('upload to EBP task', () => {
 
     const result = await prepareEbpData(startDate, endDate, 'insert', false)
     expect(result.records).toHaveLength(2)
+  })
+
+  it('should use separate events for CBM and regular birds', async () => {
+    await formBirdsFactory(setup.api, {
+      ...baseBirdsRecord
+    })
+    await fromCbmFactory(setup.api, {
+      ...baseBirdsRecord
+    })
+
+    const result = await prepareEbpData(startDate, endDate, 'insert', false)
+    expect(result.events).toHaveLength(2)
   })
 })
