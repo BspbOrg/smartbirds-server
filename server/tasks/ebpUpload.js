@@ -347,7 +347,7 @@ module.exports = class UploadToEBP extends Task {
     ebpEvents.push(...generateEvents(cbmFiltered, ebpSpecies, ebpSpeciesStatus, mode, cbmProtocol, 'CBM'))
 
     return {
-      mode: bulk ? apiParams.provisionMode.bulk.code : apiParams.provisionMode.test.code,
+      mode: bulk ? apiParams.provisionMode.bulk.code : apiParams.provisionMode.standard.code,
       partner_source: apiParams.partnerSource,
       start_date: format(startDate, 'yyyy-MM-dd'),
       end_date: format(endDate, 'yyyy-MM-dd'),
