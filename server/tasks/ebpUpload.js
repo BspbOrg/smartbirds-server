@@ -3,10 +3,12 @@ const sequelize = require('sequelize')
 const { Op } = sequelize
 const format = require('date-fns/format')
 const fetch = require('node-fetch')
+const moment = require('moment')
 
 // eslint-disable-next-line no-unused-vars
 const API_TOKEN = process.env.EBP_API_TOKEN
 const API_URL = 'https://api-v2.eurobirdportal.org'
+const DEFAULT_START_DATE_OFFSET = 7
 // eslint-disable-next-line no-unused-vars
 const apiParams = {
   partnerSource: 'BUL_SBI',
@@ -357,7 +359,15 @@ module.exports = class UploadToEBP extends Task {
   async run ({ startDate, endDate, mode, bulk } = {}) {
     const startTimestamp = new Date().getTime()
 
-    const eventsData = await this.prepareEbpData(startDate ? new Date(startDate) : new Date(), endDate ? new Date(endDate) : new Date(), mode, bulk)
+    const ebpDataStartDate = startDate
+      ? new Date(startDate)
+      : moment(new Date()).subtract(DEFAULT_START_DATE_OFFSET, 'days').startOf('day').toDate()
+
+    const ebpDataEndDate = endDate
+      ? new Date(endDate)
+      : moment(new Date()).subtract(DEFAULT_START_DATE_OFFSET, 'days').endOf('day').toDate()
+
+    const eventsData = await this.prepareEbpData(ebpDataStartDate, ebpDataEndDate, mode, bulk)
 
     const operationTime = new Date().getTime() - startTimestamp
 
