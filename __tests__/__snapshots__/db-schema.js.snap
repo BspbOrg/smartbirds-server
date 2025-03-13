@@ -141,7 +141,8 @@ CREATE TABLE public.\\"FormBirds\\" (
     \\"observationMethodologyEn\\" text,
     \\"observationMethodologyLocal\\" text,
     \\"observationMethodologyLang\\" character varying(3),
-    \\"newSpeciesModeratorReview\\" boolean
+    \\"newSpeciesModeratorReview\\" boolean,
+    \\"etrs89GridCode\\" character varying(20)
 );
 
 
@@ -448,7 +449,8 @@ CREATE TABLE public.\\"FormCBM\\" (
     \\"newSpeciesModeratorReview\\" boolean,
     \\"sourceLocal\\" text,
     \\"sourceLang\\" character varying(3),
-    \\"sourceEn\\" text
+    \\"sourceEn\\" text,
+    \\"etrs89GridCode\\" character varying(20)
 );
 
 
@@ -563,7 +565,8 @@ CREATE TABLE public.\\"FormCiconia\\" (
     \\"observationMethodologyEn\\" text,
     \\"observationMethodologyLocal\\" text,
     \\"observationMethodologyLang\\" character varying(3),
-    \\"newSpeciesModeratorReview\\" boolean
+    \\"newSpeciesModeratorReview\\" boolean,
+    \\"etrs89GridCode\\" character varying(20)
 );
 
 
@@ -2463,6 +2466,86 @@ ALTER SEQUENCE public.duplicates_id_seq OWNED BY public.duplicates.id;
 
 
 --
+-- Name: ebp_birds; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ebp_birds (
+    id integer NOT NULL,
+    \\"ebpId\\" integer NOT NULL,
+    \\"ebpNameLa\\" text,
+    \\"sbNameLa\\" text
+);
+
+
+--
+-- Name: ebp_birds_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.ebp_birds_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ebp_birds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.ebp_birds_id_seq OWNED BY public.ebp_birds.id;
+
+
+--
+-- Name: ebp_birds_status; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ebp_birds_status (
+    id integer NOT NULL,
+    \\"ebpId\\" integer NOT NULL,
+    \\"sbNameEn\\" text
+);
+
+
+--
+-- Name: ebp_birds_status_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.ebp_birds_status_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ebp_birds_status_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.ebp_birds_status_id_seq OWNED BY public.ebp_birds_status.id;
+
+
+--
+-- Name: etrs89_cells; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.etrs89_cells (
+    code character varying(20) NOT NULL,
+    lat1 double precision NOT NULL,
+    lon1 double precision NOT NULL,
+    lat2 double precision NOT NULL,
+    lon2 double precision NOT NULL,
+    lat3 double precision NOT NULL,
+    lon3 double precision NOT NULL,
+    lat4 double precision NOT NULL,
+    lon4 double precision NOT NULL
+);
+
+
+--
 -- Name: fishes_observations; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -3078,6 +3161,39 @@ ALTER SEQUENCE public.pois_id_seq OWNED BY public.pois.id;
 
 
 --
+-- Name: settings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.settings (
+    id integer NOT NULL,
+    name text NOT NULL,
+    value text,
+    \\"createdAt\\" timestamp with time zone,
+    \\"updatedAt\\" timestamp with time zone
+);
+
+
+--
+-- Name: settings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.settings_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: settings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.settings_id_seq OWNED BY public.settings.id;
+
+
+--
 -- Name: settlements; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3565,10 +3681,31 @@ ALTER TABLE ONLY public.duplicates ALTER COLUMN id SET DEFAULT nextval('public.d
 
 
 --
+-- Name: ebp_birds id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ebp_birds ALTER COLUMN id SET DEFAULT nextval('public.ebp_birds_id_seq'::regclass);
+
+
+--
+-- Name: ebp_birds_status id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ebp_birds_status ALTER COLUMN id SET DEFAULT nextval('public.ebp_birds_status_id_seq'::regclass);
+
+
+--
 -- Name: pois id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.pois ALTER COLUMN id SET DEFAULT nextval('public.pois_id_seq'::regclass);
+
+
+--
+-- Name: settings id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.settings ALTER COLUMN id SET DEFAULT nextval('public.settings_id_seq'::regclass);
 
 
 --
@@ -3811,11 +3948,43 @@ ALTER TABLE ONLY public.duplicates
 
 
 --
+-- Name: ebp_birds ebp_birds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ebp_birds
+    ADD CONSTRAINT ebp_birds_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ebp_birds_status ebp_birds_status_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ebp_birds_status
+    ADD CONSTRAINT ebp_birds_status_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: etrs89_cells etrs89_cells_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.etrs89_cells
+    ADD CONSTRAINT etrs89_cells_pkey PRIMARY KEY (code);
+
+
+--
 -- Name: pois pois_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.pois
     ADD CONSTRAINT pois_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: settings settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.settings
+    ADD CONSTRAINT settings_pkey PRIMARY KEY (id);
 
 
 --
@@ -3967,6 +4136,83 @@ CREATE UNIQUE INDEX duplicates_form_id1 ON public.duplicates USING btree (form, 
 
 
 --
+-- Name: ebp_birds_ebp_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX ebp_birds_ebp_id ON public.ebp_birds USING btree (\\"ebpId\\");
+
+
+--
+-- Name: ebp_birds_sb_name_la; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX ebp_birds_sb_name_la ON public.ebp_birds USING btree (\\"sbNameLa\\");
+
+
+--
+-- Name: ebp_birds_status_sb_name_en; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX ebp_birds_status_sb_name_en ON public.ebp_birds_status USING btree (\\"sbNameEn\\");
+
+
+--
+-- Name: etrs89_cells_lat1; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX etrs89_cells_lat1 ON public.etrs89_cells USING btree (lat1);
+
+
+--
+-- Name: etrs89_cells_lat2; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX etrs89_cells_lat2 ON public.etrs89_cells USING btree (lat2);
+
+
+--
+-- Name: etrs89_cells_lat3; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX etrs89_cells_lat3 ON public.etrs89_cells USING btree (lat3);
+
+
+--
+-- Name: etrs89_cells_lat4; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX etrs89_cells_lat4 ON public.etrs89_cells USING btree (lat4);
+
+
+--
+-- Name: etrs89_cells_lon1; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX etrs89_cells_lon1 ON public.etrs89_cells USING btree (lon1);
+
+
+--
+-- Name: etrs89_cells_lon2; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX etrs89_cells_lon2 ON public.etrs89_cells USING btree (lon2);
+
+
+--
+-- Name: etrs89_cells_lon3; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX etrs89_cells_lon3 ON public.etrs89_cells USING btree (lon3);
+
+
+--
+-- Name: etrs89_cells_lon4; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX etrs89_cells_lon4 ON public.etrs89_cells USING btree (lon4);
+
+
+--
 -- Name: form_birds_auto_location_en; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3985,6 +4231,13 @@ CREATE INDEX form_birds_auto_location_local ON public.\\"FormBirds\\" USING btre
 --
 
 CREATE INDEX form_birds_bgatlas2008_utm_code ON public.\\"FormBirds\\" USING btree (\\"bgatlas2008UtmCode\\");
+
+
+--
+-- Name: form_birds_etrs89_grid_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_birds_etrs89_grid_code ON public.\\"FormBirds\\" USING btree (\\"etrs89GridCode\\");
 
 
 --
@@ -4191,6 +4444,13 @@ CREATE INDEX form_c_b_m_bgatlas2008_utm_code ON public.\\"FormCBM\\" USING btree
 
 
 --
+-- Name: form_c_b_m_etrs89_grid_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_c_b_m_etrs89_grid_code ON public.\\"FormCBM\\" USING btree (\\"etrs89GridCode\\");
+
+
+--
 -- Name: form_c_b_m_hash; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4300,6 +4560,13 @@ CREATE INDEX form_ciconia_auto_location_local ON public.\\"FormCiconia\\" USING 
 --
 
 CREATE INDEX form_ciconia_bgatlas2008_utm_code ON public.\\"FormCiconia\\" USING btree (\\"bgatlas2008UtmCode\\");
+
+
+--
+-- Name: form_ciconia_etrs89_grid_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX form_ciconia_etrs89_grid_code ON public.\\"FormCiconia\\" USING btree (\\"etrs89GridCode\\");
 
 
 --
@@ -5175,6 +5442,13 @@ CREATE UNIQUE INDEX pois_type_label_sq ON public.pois USING btree (type, label_s
 --
 
 CREATE UNIQUE INDEX pois_type_label_tr ON public.pois USING btree (type, label_tr);
+
+
+--
+-- Name: settings_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX settings_name ON public.settings USING btree (name);
 
 
 --
