@@ -7,7 +7,7 @@ const moment = require('moment')
 
 // eslint-disable-next-line no-unused-vars
 const API_TOKEN = process.env.EBP_API_TOKEN
-const API_URL = 'https://api-v2.eurobirdportal.org'
+const API_URL = process.env.EBP_API_BASE_URL
 const DEFAULT_START_DATE_OFFSET = 7
 // eslint-disable-next-line no-unused-vars
 const apiParams = {
@@ -371,20 +371,24 @@ module.exports = class UploadToEBP extends Task {
 
     const operationTime = new Date().getTime() - startTimestamp
 
-    try {
-      const response = await fetch(`${API_URL}/data/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${API_TOKEN}`
-        },
-        body: JSON.stringify(eventsData)
-      })
+    if (!!API_TOKEN && !!API_URL) {
+      try {
+        const response = await fetch(`${API_URL}/data/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${API_TOKEN}`
+          },
+          body: JSON.stringify(eventsData)
+        })
 
-      api.log(`Successfully uploaded  ${eventsData.events.length} events and ${eventsData.records.length} records to EBP`, 'info')
-      api.log(`EBP response: ${response.status} ${response.statusText}`, 'info')
-    } catch (error) {
-      console.log('Failed to upload data to EBP', error)
+        api.log(`Successfully uploaded  ${eventsData.events.length} events and ${eventsData.records.length} records to EBP`, 'info')
+        api.log(`EBP response: ${response.status} ${response.statusText}`, 'info')
+      } catch (error) {
+        console.log('Failed to upload data to EBP', error)
+      }
+    } else {
+      api.log('EBP API token or URL is not set', 'warning')
     }
 
     // api.log(`Successfully uploaded  ${eventsData.events.length} events and ${eventsData.records.length} records to EBP`, 'info')
