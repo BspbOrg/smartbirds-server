@@ -15,10 +15,6 @@ module.exports = class ServerConfigInit extends Initializer {
       pendingConfigurationChange: false,
       supportedConfigVariables: [
         'EBP_API_TOKEN',
-        'REDIS_HOST',
-        'REDIS_PORT',
-        'DATABASE_USER',
-        'DATABASE_PASSWORD',
         'MAILGUN_API',
         'MAILGUN_DOMAIN',
         'MAILCHIMP_ENABLED',
@@ -39,7 +35,9 @@ module.exports = class ServerConfigInit extends Initializer {
         'ETRS89_TASK_MAX_RECORDS',
         'ETRS89_TASK_START_TIME',
         'BG_ATLAS_2008_GRID_SIZE',
-        'BG_ATLAS_2008_START_TIMESTAMP'
+        'BG_ATLAS_2008_START_TIMESTAMP',
+        'EBP_API_TOKEN',
+        'EBP_API_BASE_URL'
       ],
       get: async () => {
         try {
