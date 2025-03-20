@@ -1344,7 +1344,6 @@
     "EBP_SETTINGS_ORGANIZATIONS": "Организации",
     "EBP_SETTINGS_SOURCES": "Източници",
     "EBP_SETTINGS_PROTOCOL": "Протокол",
-    "EBP_SETTINGS_CBM_PROTOCOL": "МОВП протокол",
     "EBP_SETTINGS_SPECIES": "Видове",
     "EBP_SETTINGS_SPECIES_STATUS": "Статус на вид",
     "EBP_SETTINGS_NO_PERMISSION": "Нямате достъп до тази страница",
@@ -1358,5 +1357,13 @@
     "EBP_SETTINGS_SPECIES_STATUS_CODE": "EBP Код",
     "EBP_SETTINGS_SPECIES_STATUS_SB_NAME": "Име в smartbirds",
     "NAV_EBP": "EBP",
-    "EBP_UPLOAD_BULK_WARNING": "Тази операция ще презапише всички данни в EBP портала за въведения период! Продължете само ако сте сигурни!"
+    "EBP_SETTINGS_CBM_PROTOCOL": "МОВП протокол",
+    "EBP_UPLOAD_BULK_WARNING": "Тази операция ще презапише всички данни в EBP портала за въведения период! Продължете само ако сте сигурни!",
+    "NAV_CONFIG": "Настройки",
+    "SERVER_CONFIG_TITLE": "Настройки на сървъра",
+    "SERVER_CONFIG_PENDING_CHANGES": "Има предстоящи промени в конфигурацията, които ще бъдат приложени при следващото рестартиране на сървъра.",
+    "SERVER_CONFIG_KEY": "Име",
+    "SERVER_CONFIG_VALUE": "Стойност",
+    "SERVER_CONFIG_BUTTON_SAVE": "Запази",
+    "SERVER_CONFIG_CONFIRMATION_MESSAGE": "Сигурни ли сте, че искате да промените конфигурацията?"
 }
