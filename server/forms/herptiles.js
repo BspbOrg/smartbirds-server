@@ -78,7 +78,8 @@ exports.fields = assign(exports.fields, {
   speciesNotes: {
     type: 'text',
     uniqueHash: true
-  }
+  },
+  trapsCount: '+int'
 })
 
 exports.simpleExportFields = [
