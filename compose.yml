@@ -49,6 +49,8 @@ services:
     env_file:
       - path: ./.env
         required: false
+      - path: ./config/config.env
+        required: false
     environment:
       PORT: 5000
       DATABASE_URL: 'postgres://smartbirds:secret@db:5432/smartbirds'
@@ -159,6 +161,8 @@ services:
     volumes:
       - ./backups:/backups
       - ./restore:/restore
+    profiles:
+      - tools
 
 volumes:
   public:
