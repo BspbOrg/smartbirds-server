@@ -886,7 +886,8 @@ CREATE TABLE public.\\"FormHerptiles\\" (
     \\"observationMethodologyLang\\" character varying(3),
     \\"sourceLocal\\" text,
     \\"sourceLang\\" character varying(3),
-    \\"sourceEn\\" text
+    \\"sourceEn\\" text,
+    \\"trapsCount\\" integer
 );
 
 
