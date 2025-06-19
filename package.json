@@ -24,7 +24,7 @@
     "standard": "^17.0.0"
   },
   "scripts": {
-    "deploy": "yarn version && git push && git push --tags && while ! git push origin HEAD:production; do sleep 1m; done && echo 'ssh smartbirds.org \"smartbirds update-srv\"'",
+    "deploy": "yarn version && git push && git push --tags && while ! git push origin HEAD:production; do sleep 1m; done",
     "commit": "git-cz",
     "help": "npm run ah -- help",
     "start": "npm run ah -- start",
