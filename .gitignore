@@ -13,3 +13,4 @@ public/organizations.json
 .env
 backups/
 restore/
+confog/config.env
