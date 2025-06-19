@@ -36,7 +36,6 @@ module.exports = class ServerConfigInit extends Initializer {
         'ETRS89_TASK_START_TIME',
         'BG_ATLAS_2008_GRID_SIZE',
         'BG_ATLAS_2008_START_TIMESTAMP',
-        'EBP_API_TOKEN',
         'EBP_API_BASE_URL'
       ],
       get: async () => {
