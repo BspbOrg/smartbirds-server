@@ -63,7 +63,7 @@
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "email-templates": "^10.0.1",
-    "form-data": "^4.0.0",
+    "form-data": "^4.0.1",
     "geolib": "^3.3.4",
     "husky": "^8.0.3",
     "ioredis": "^5.4.1",
