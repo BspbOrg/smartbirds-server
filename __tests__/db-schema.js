@@ -6,7 +6,7 @@ const api = setup.api
 
 test('db schema', async () => {
   const { error, stdout, stderr } = await new Promise((resolve) => {
-    exec('pg_dump --schema-only --format=plain --no-owner --no-privileges', {
+    exec(`pg_dump --schema-only --format=plain --no-owner --no-privileges --restrict-key='${'A'.repeat(10)}'`, {
       env: {
         PGHOST: api.config.sequelize.host,
         PGPORT: api.config.sequelize.port,

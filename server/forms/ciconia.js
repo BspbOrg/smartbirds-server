@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const { assign } = Object
+const moment = require('moment')
 const bgatlas2008 = require('./_fields/bgatlas2008')
 const newSpeciesModeratorReview = require('./_fields/newSpeciesModeratorReview')
 const etrs89GridCode = require('./_fields/etrs89GridCode')
@@ -139,3 +140,11 @@ exports.simpleExportFields = [
   'speciesNotes',
   'notes'
 ]
+
+exports.prepareCsv = async function (api, record, csv) {
+  return {
+    ...csv,
+    approximateDateStorksAppeared: record.approximateDateStorksAppeared ? moment.tz(record.approximateDateStorksAppeared, api.config.formats.tz).format(api.config.formats.date) : '',
+    approximateDateDisappearanceWhiteStorks: record.approximateDateDisappearanceWhiteStorks ? moment.tz(record.approximateDateDisappearanceWhiteStorks, api.config.formats.tz).format(api.config.formats.date) : ''
+  }
+}
