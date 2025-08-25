@@ -5,6 +5,8 @@ exports[`db schema: schema 1`] = `
 -- PostgreSQL database dump
 --
 
+\\\\restrict AAAAAAAAAA
+
 
 
 
@@ -5601,6 +5603,8 @@ CREATE OR REPLACE VIEW public.cbm_stats AS
 --
 -- PostgreSQL database dump complete
 --
+
+\\\\unrestrict AAAAAAAAAA
 
 "
 `;
