@@ -49,7 +49,7 @@ function encryptEnvelope (api, payloadBuffer) {
     kid,
     iv: iv.toString('base64'),
     tag: tag.toString('base64'),
-    data: ciphertext.toString('base64')
+    payload: ciphertext.toString('base64')
   }
 }
 
@@ -67,15 +67,19 @@ module.exports = upgradeInitializer('ah17', {
             if (!shouldEncrypt(api, data)) return done()
 
             const cfg = api.config.encryption
-            const plaintext = JSON.stringify(data.response)
-            const envelope = encryptEnvelope(api, Buffer.from(plaintext, 'utf8'))
+            // Only encrypt the data property, keep count and other metadata unencrypted
+            if (data.response.data !== undefined) {
+              const plaintext = JSON.stringify(data.response.data)
+              const envelope = encryptEnvelope(api, Buffer.from(plaintext, 'utf8'))
 
-            // replace response and mark header
-            data.response = envelope
-            data.connection.rawConnection.responseHeaders.push([
-              cfg.responseHeader,
-              `${envelope.alg}; kid=${envelope.kid}`
-            ])
+              // Replace only the data property with the encrypted envelope
+              data.response.data = envelope
+              // Add generic header to indicate encryption (no algorithm/key details)
+              data.connection.rawConnection.responseHeaders.push([
+                cfg.responseHeader,
+                '1'
+              ])
+            }
           } catch (e) {
             api.log(`responseEncryption error: ${e.message}`, 'error', e)
           }

@@ -25,6 +25,7 @@ exports.default = {
           'Access-Control-Allow-Origin': 'http://localhost:9966',
           'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS, TRACE',
           'Access-Control-Allow-Headers': 'Content-Type, X-SB-CSRF-Token, Language, X-SB-Accept-Encrypted, X-SB-Encrypted',
+          'Access-Control-Expose-Headers': 'X-SB-Encrypted',
           'Access-Control-Allow-Credentials': 'true'
         },
         // Route that actions will be served from secondary route against this route will be treated as actions,
@@ -99,6 +100,7 @@ exports.staging = {
           'Access-Control-Allow-Origin': 'http://sb.87.252.173.51.xip.io',
           'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS, TRACE',
           'Access-Control-Allow-Headers': 'Content-Type, X-SB-CSRF-Token, X-SB-Accept-Encrypted, X-SB-Encrypted',
+          'Access-Control-Expose-Headers': 'X-SB-Encrypted',
           'Access-Control-Allow-Credentials': 'true'
         }
       }
@@ -116,6 +118,7 @@ exports.production = {
           'Access-Control-Allow-Origin': 'https://smartbirds.org',
           'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS, TRACE',
           'Access-Control-Allow-Headers': 'Content-Type, X-SB-CSRF-Token, X-SB-Accept-Encrypted, X-SB-Encrypted',
+          'Access-Control-Expose-Headers': 'X-SB-Encrypted',
           'Access-Control-Allow-Credentials': 'true'
         },
         metadataOptions: {

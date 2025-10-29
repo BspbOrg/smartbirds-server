@@ -278,7 +278,7 @@ function generateFormActions (form) {
   actions.formView = {
     name: `${form.modelName}:view`,
     description: `${form.modelName}:view`,
-    middleware: ['auth', 'responseEncryption'],
+    middleware: ['auth'],
     inputs: { id: { required: true } },
     run: generateViewAction(form)
   }
@@ -294,7 +294,7 @@ function generateFormActions (form) {
   actions.formList = {
     name: `${form.modelName}:list`,
     description: `${form.modelName}:list`,
-    middleware: ['auth', 'responseEncryption'],
+    middleware: ['auth'],
     inputs: listInputs,
     run: generateListAction(form)
   }
