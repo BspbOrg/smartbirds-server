@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Action: fromCBM.create admin cannot create without count: Missing param 1`] = `"Error: missingParams: [\\"count\\"]"`;
 
