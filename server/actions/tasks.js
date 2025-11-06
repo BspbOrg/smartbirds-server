@@ -1,5 +1,5 @@
 const { Action, api } = require('actionhero')
-const differenceInDays = require('date-fns/differenceInDays')
+const { differenceInDays } = require('date-fns/differenceInDays')
 
 class BaseAction extends Action {
   constructor () {

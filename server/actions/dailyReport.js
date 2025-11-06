@@ -3,8 +3,8 @@ const {
   api
 } = require('actionhero')
 const Sequelize = require('sequelize')
-const startOfDay = require('date-fns/startOfDay')
-const endOfDay = require('date-fns/endOfDay')
+const { startOfDay } = require('date-fns/startOfDay')
+const { endOfDay } = require('date-fns/endOfDay')
 const inputHelpers = require('../helpers/inputs')
 
 const { Op } = Sequelize

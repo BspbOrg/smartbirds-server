@@ -1,6 +1,6 @@
-const addDays = require('date-fns/addDays')
-const format = require('date-fns/format')
-const parse = require('date-fns/parseISO')
+const { addDays } = require('date-fns/addDays')
+const { format } = require('date-fns/format')
+const { parseISO: parse } = require('date-fns/parseISO')
 
 const baseModelFields = {
   latitude: 42.1463749,
