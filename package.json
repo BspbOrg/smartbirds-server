@@ -79,7 +79,7 @@
     "sequelize": "^5.22.3",
     "sequelize-cli": "^6.6.3",
     "sharp": "^0.34.4",
-    "umzug": "~3.2.1",
+    "umzug": "^3.8.2",
     "uuid": "^9.0.1",
     "validator": "^13.15.20"
   },
