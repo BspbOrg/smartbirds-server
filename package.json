@@ -30,7 +30,7 @@
     "start": "npm run ah -- start",
     "ah": "/usr/bin/env PROJECT_ROOT=`pwd`/server node --max_old_space_size=2048 node_modules/.bin/actionhero",
     "sq": "sequelize",
-    "jest": "NODE_ENV=test PROJECT_ROOT=`pwd`/server jest",
+    "jest": "NODE_ENV=test PROJECT_ROOT=`pwd`/server node --require ./suppress-dep0174.js node_modules/.bin/jest",
     "less": "lessc",
     "pretest": "standard",
     "test": "npm run test:sqlite && npm run test:pg",
