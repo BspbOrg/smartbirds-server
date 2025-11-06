@@ -5,7 +5,7 @@
   "author": "Geno Roupsky",
   "private": true,
   "engines": {
-    "node": "16"
+    "node": "22"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
