@@ -12,6 +12,7 @@
     "@commitlint/config-conventional": "^17.6.6",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
+    "husky": "^9.1.7",
     "jest": "^30.2.0",
     "jest-runner-mocha": "^0.6.0",
     "lint-staged": "^16.2.6",
@@ -44,7 +45,7 @@
     "seed": "npm run sq -- db:seed",
     "enqueue": "npm run ah -- task enqueue --name",
     "heroku-postbuild": "npm run ah -- db migrate;(echo \"Promise.all(['organizations:export', 'stats:generate', 'banner:generate'].map(t => api.tasks.tasks[t].run(api, {}))).then(() => console.log('DONE'), (e) => console.error('BAD', e))\";sleep 10) | npm run ah console",
-    "prepare": "husky install"
+    "prepare": "node .husky/install.mjs"
   },
   "dependencies": {
     "@sentry/node": "^10.23.0",
@@ -65,7 +66,6 @@
     "email-templates": "^12.0.3",
     "form-data": "^4.0.0",
     "geolib": "^3.3.4",
-    "husky": "^8.0.3",
     "ioredis": "^5.8.2",
     "lodash": "^4.17.21",
     "mailchimp-api-v3": "^1.15.0",
