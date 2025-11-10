@@ -45,7 +45,7 @@
     "seed": "npm run sq -- db:seed",
     "enqueue": "npm run ah -- task enqueue --name",
     "heroku-postbuild": "npm run ah -- db migrate;(echo \"Promise.all(['organizations:export', 'stats:generate', 'banner:generate'].map(t => api.tasks.tasks[t].run(api, {}))).then(() => console.log('DONE'), (e) => console.error('BAD', e))\";sleep 10) | npm run ah console",
-    "prepare": "node .husky/install.mjs"
+    "prepare": "husky || true"
   },
   "dependencies": {
     "@sentry/node": "^10.23.0",
