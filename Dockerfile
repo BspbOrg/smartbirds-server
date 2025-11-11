@@ -32,7 +32,7 @@ USER node-app
 RUN npm ci --no-update-notifier --only=production
 
 #### Stage RELEASE #####################################################################################################
-FROM base AS RELEASE
+FROM base AS release
 
 # stricter mode
 ENV NODE_OPTIONS="--unhandled-rejections=strict"
