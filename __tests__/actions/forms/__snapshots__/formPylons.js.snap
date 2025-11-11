@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Action: fromPylons.create admin cannot create without pylonType: Missing param 1`] = `"Error: missingParams: [\\"pylonType\\"]"`;
 

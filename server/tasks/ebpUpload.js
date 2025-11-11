@@ -1,7 +1,7 @@
 const { Task, api } = require('actionhero')
 const sequelize = require('sequelize')
 const { Op } = sequelize
-const format = require('date-fns/format')
+const { format } = require('date-fns/format')
 const fetch = require('node-fetch')
 const moment = require('moment')
 
