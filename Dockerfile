@@ -1,6 +1,12 @@
 #### Stage BASE ########################################################################################################
 FROM node:16.14.0 AS base
 
+# Install image processing libraries for Sharp (including HEIF/HEIC support)
+RUN apt-get update && apt-get install -y \
+    libvips-dev \
+    libheif-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 # Install tools, create app dir, add user and set rights
 RUN set -ex && \
     mkdir -p /app && \
