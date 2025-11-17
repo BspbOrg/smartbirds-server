@@ -18,9 +18,10 @@ jobs:
         redis-version: [3, latest]
 
     steps:
-      - name: Install imagemagick
+      - name: Install imagemagick and HEIF support
         run: |
-          sudo apt-get install imagemagick -y
+          sudo apt-get update
+          sudo apt-get install -y imagemagick libheif-examples
       - uses: actions/checkout@v4
 
       - name: Use Node.js ${{ matrix.node-version }}
@@ -47,6 +48,11 @@ jobs:
         postgresql-version: [17.3-alpine, latest]
 
     steps:
+      - name: Install HEIF support
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libheif-examples
+
       - uses: actions/checkout@v4
 
       - name: Start Postgres ${{ matrix.postgresql-version }}
@@ -82,13 +88,13 @@ jobs:
         postgresql-version: [17.3-alpine]
 
     steps:
-      # Step to install PostgreSQL 17 client tools
+      # Step to install PostgreSQL 17 client tools and HEIF support
       - name: Add PostgreSQL 17 repository
         run: |
           sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
           wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
           sudo apt-get update
-          sudo apt-get install -y postgresql-client-17
+          sudo apt-get install -y postgresql-client-17 libheif-examples
 
       # Ensure PostgreSQL 17 binaries are used by exporting the correct PATH
       - name: Check version of pg_dump

@@ -1,8 +1,12 @@
 #### Stage BASE ########################################################################################################
 FROM node:22 AS base
 
-# Install tools, create app dir, add user and set rights
+# Install HEIF support and tools, create app dir, add user and set rights
 RUN set -ex && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        libheif-examples && \
+    rm -rf /var/lib/apt/lists/* && \
     mkdir -p /app && \
     deluser --remove-home node && \
     useradd --home-dir /app --no-create-home node-app --uid 1000 && \
