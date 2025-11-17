@@ -113,55 +113,63 @@ module.exports = upgradeInitializer('ah17', {
           return next(err)
         }
 
-        const processPath = preprocessed.path
-        const deflator = api.filestorage.deflator(mime, filters)
-        const r = fs.createReadStream(processPath).pipe(deflator)
+        // Wrap stream setup in try/catch to ensure cleanup on synchronous errors
+        try {
+          const processPath = preprocessed.path
+          const deflator = api.filestorage.deflator(mime, filters)
+          const r = fs.createReadStream(processPath).pipe(deflator)
 
-        r.on('error', function (err) {
-          api.log('read stream error', 'error', err)
-          preprocessed.cleanup()
-          fs.unlink(file.path, function () {})
-          next(err)
-        })
-
-        deflator.on('error', function (err) {
-          api.log('image processing failed: %s', 'error', err.message)
-          preprocessed.cleanup()
-          fs.unlink(file.path, function () {})
-          next(err)
-        })
-
-        const wb = self.storage.createWriteStream()
-        wb.on('error', function (err) {
-          api.log('write blob stream error', 'error', err)
-          preprocessed.cleanup()
-          fs.unlink(file.path, function () {})
-          next(err)
-        })
-
-        api.log('piping blob', 'info')
-        r.pipe(wb)
-        wb.on('finish', function () {
-          preprocessed.cleanup()
-          fs.unlink(file.path, function () {})
-          const wm = self.storage.createWriteStream()
-          wm.on('error', function (err) {
-            api.log('write meta stream error', 'error', err)
+          r.on('error', function (err) {
+            api.log('read stream error', 'error', err)
+            preprocessed.cleanup()
+            fs.unlink(file.path, function () {})
             next(err)
           })
-          const meta = {
-            name: file.name,
-            blob: wb.key,
-            length: wb.size,
-            custom: extra,
-            type: mime,
-            filters
-          }
-          wm.write(JSON.stringify(meta))
-          wm.end(function () {
-            next(null, wm.key, meta)
+
+          deflator.on('error', function (err) {
+            api.log('image processing failed: %s', 'error', err.message)
+            preprocessed.cleanup()
+            fs.unlink(file.path, function () {})
+            next(err)
           })
-        })
+
+          const wb = self.storage.createWriteStream()
+          wb.on('error', function (err) {
+            api.log('write blob stream error', 'error', err)
+            preprocessed.cleanup()
+            fs.unlink(file.path, function () {})
+            next(err)
+          })
+
+          api.log('piping blob', 'info')
+          r.pipe(wb)
+          wb.on('finish', function () {
+            preprocessed.cleanup()
+            fs.unlink(file.path, function () {})
+            const wm = self.storage.createWriteStream()
+            wm.on('error', function (err) {
+              api.log('write meta stream error', 'error', err)
+              next(err)
+            })
+            const meta = {
+              name: file.name,
+              blob: wb.key,
+              length: wb.size,
+              custom: extra,
+              type: mime,
+              filters
+            }
+            wm.write(JSON.stringify(meta))
+            wm.end(function () {
+              next(null, wm.key, meta)
+            })
+          })
+        } catch (err) {
+          api.log('stream setup error: %s', 'error', err.message)
+          preprocessed.cleanup()
+          fs.unlink(file.path, function () {})
+          return next(err)
+        }
       },
 
       /**
