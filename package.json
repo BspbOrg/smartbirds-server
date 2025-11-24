@@ -48,7 +48,7 @@
     "prepare": "husky || true"
   },
   "dependencies": {
-    "@sentry/node": "^10.24.0",
+    "@sentry/node": "^10.27.0",
     "actionhero": "^20.0.0",
     "archiver": "^7.0.1",
     "bcrypt": "^6.0.0",
