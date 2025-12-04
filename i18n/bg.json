@@ -700,7 +700,7 @@
     "WARNING_EXPORT_DISABLED": "Експортът на данни от други потребители не е разрешен",
     "PUBLIC_BIRDS_STATISTIC_TABLE_COL_COUNT_SPECIES": "{{count}} вида",
     "PUBLIC_BIRDS_STATISTIC_TABLE_COL_COUNT_RECORDS": "{{count}} записа",
-    "NAV_PRIVATE_FORMS": "Лични и споделени данни",
+    "NAV_PRIVATE_FORMS": "Лични данни",
     "NAV_PUBLIC_FORMS": "Публични данни",
     "CBM_PUBLIC_LIST_TITLE_MAIN": "МОВП",
     "CBM_PUBLIC_LIST_TITLE_SECONDARY": "Mониторинг на обикновените видове птици",
