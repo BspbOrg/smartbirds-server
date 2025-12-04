@@ -160,14 +160,6 @@ exports.userView = upgradeAction('ah17', {
       // need access to all users because they may be accessing a record in their own organization of
       // user who already switched to another
       q.where.id = data.params.id
-    } else {
-      // data.connection.rawConnection.responseHttpCode = 403
-      // return next(new Error('Admin required'))
-      q.where.id = data.params.id
-      q.include = q.include || []
-      q.include.push(api.models.user.associations.sharees)
-      q.where['$sharees.id$'] = data.session.userId
-      scope = 'sharee'
     }
     api.models.user.findOne(q).then(function (user) {
       if (!user) {
@@ -359,19 +351,6 @@ exports.userList = upgradeAction('ah17', {
       // limit only to organization users
       q.where = q.where || {}
       q.where.organizationSlug = data.session.user.organizationSlug
-    } else if (!data.session.user.isAdmin) {
-      promise = api.models.user
-        .findByPk(data.session.userId)
-        .then(function (user) {
-          if (!user) return { count: 0, rows: [] }
-          return user
-            .getSharers(q)
-            .then(function (users) {
-              if (!users) users = []
-              users.unshift(user)
-              return { count: users.length, rows: users }
-            })
-        })
     }
     if (!promise) promise = api.models.user.findAndCountAll(q)
 
@@ -436,157 +415,6 @@ exports.userChangePassword = upgradeAction('ah17', {
         api.logger.error(error)
         next(error)
       })
-  }
-})
-
-exports.userSharers = upgradeAction('ah17', {
-  name: 'user:sharers',
-  description: 'user:sharers',
-  outputExample: {
-    data: ['user@example.com'],
-    count: 123
-  },
-  middleware: ['auth', 'owner'],
-
-  inputs: {
-    id: { required: true }
-  },
-
-  run: function (api, data, next) {
-    if (!data.session.user.isAdmin) {
-      if (data.params.id === 'me' || parseInt(data.params.id) === data.session.userId) {
-        data.params.id = data.session.userId
-      } else {
-        data.connection.rawConnection.responseHttpCode = 403
-        return next(new Error('Admin required'))
-      }
-    }
-
-    const query = {
-      include: [
-        api.models.user.associations.sharers
-      ],
-      where: { id: data.params.id }
-    }
-
-    api.models.user.findOne(query).then(function (user) {
-      if (!user) {
-        data.connection.rawConnection.responseHttpCode = 404
-        return next(new Error('Няма такъв потребител'))
-      }
-
-      data.response.count = user.sharers.length
-      data.response.data = user.sharers.map(function (user) {
-        return user.apiData(api, 'sharee')
-      })
-      next()
-    })
-      .catch(next)
-  }
-})
-
-exports.userSharees = upgradeAction('ah17', {
-  name: 'user:sharees',
-  description: 'user:sharees',
-  outputExample: {
-    data: ['user@example.com'],
-    count: 123
-  },
-  middleware: ['auth', 'owner'],
-
-  inputs: {
-    id: { required: true }
-  },
-
-  run: function (api, data, next) {
-    if (!data.session.user.isAdmin) {
-      if (data.params.id === 'me' || parseInt(data.params.id) === data.session.userId) {
-        data.params.id = data.session.userId
-      } else {
-        data.connection.rawConnection.responseHttpCode = 403
-        return next(new Error('Admin required'))
-      }
-    }
-
-    const query = {
-      include: [
-        api.models.user.associations.sharees
-      ],
-      where: { id: data.params.id }
-    }
-
-    api.models.user.findOne(query).then(function (user) {
-      if (!user) {
-        data.connection.rawConnection.responseHttpCode = 404
-        return next(new Error('Няма такъв потребител'))
-      }
-
-      data.response.count = user.sharees.length
-      data.response.data = user.sharees.map(function (user) {
-        return user.apiData(api, 'sharer')
-      })
-      next()
-    })
-      .catch(next)
-  }
-})
-
-exports.updateSharees = upgradeAction('ah17', {
-  name: 'user:sharees:update',
-  description: 'user:sharees:update',
-  outputExample: {
-    data: ['user@example.com'],
-    count: 123
-  },
-  middleware: ['auth'],
-
-  inputs: {
-    sharees: { required: true }
-  },
-
-  run: function (api, data, next) {
-    const query = {
-      include: [
-        api.models.user.associations.sharees
-      ],
-      where: { id: data.session.userId }
-    }
-
-    api.models.user.findOne(query)
-      .then(function (user) {
-        if (!user) {
-          data.connection.rawConnection.responseHttpCode = 404
-          return next(new Error('Няма такъв потребител'))
-        }
-
-        return Promise
-          .all(data.params.sharees.map(function (filter) {
-            if (filter.id) {
-              return api.models.user.findByPk(filter.id)
-            }
-            return api.models.user.findOne({ where: { email: filter.email } })
-          }))
-          .then(function (sharees) {
-            return {
-              user,
-              sharees: sharees.filter(function (u) { return u && u.id !== user.id })
-            }
-          })
-      })
-      .then(function ({ user, sharees }) {
-        return user.setSharees(sharees).then(function () { return user })
-      })
-      .then(function (user) {
-        return user.getSharees()
-      })
-      .then(function (sharees) {
-        data.response.count = sharees.length
-        data.response.data = sharees.map(function (user) {
-          return user.apiData('sharer')
-        })
-        next()
-      })
-      .catch(next)
   }
 })
 
