@@ -227,22 +227,6 @@ function generatePrepareQuery (form) {
     } else {
       query.where = query.where || {}
       query.where.userId = user.id
-      if (params.user && params.user !== user.id) {
-        const share = await api.models.share.findOne({
-          where: {
-            sharer: parseInt(params.user),
-            sharee: user.id
-          }
-        })
-        if (share) {
-          query.where.userId = params.user
-          if (form.model.associations.speciesInfo) {
-            query.include = query.include || []
-            query.include.push(form.model.associations.speciesInfo)
-            query.where['$speciesInfo.sensitive$'] = false
-          }
-        }
-      }
     }
 
     return query
@@ -263,15 +247,6 @@ function generateRetrieveRecord (form) {
       data.session.user.organizationSlug === record.organization &&
       api.forms.userCanManage(data.session.user, form.modelName)) allowedAccess = true
     if (!allowedAccess && record.userId === data.session.userId) allowedAccess = true
-    if (!allowedAccess && context === 'view') {
-      const share = await api.models.share.findOne({
-        where: {
-          sharer: record.userId,
-          sharee: data.session.userId
-        }
-      })
-      if (share) allowedAccess = true
-    }
 
     if (!allowedAccess) {
       data.connection.rawConnection.responseHttpCode = 401

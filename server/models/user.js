@@ -113,18 +113,6 @@ module.exports = function (sequelize, DataTypes) {
       associate: function (models) {
         // associations can be defined here
         // models.user.hasMany(models.zone, {foreignKey: 'ownerId', as: 'zones'});
-        models.user.belongsToMany(models.user, {
-          as: 'sharers',
-          through: 'Share',
-          foreignKey: 'sharee',
-          otherKey: 'sharer'
-        })
-        models.user.belongsToMany(models.user, {
-          as: 'sharees',
-          through: 'Share',
-          foreignKey: 'sharer',
-          otherKey: 'sharee'
-        })
         models.user.belongsToMany(models.bgatlas2008_stats_global, {
           as: 'bgatlas2008Cells',
           through: 'bgatlas2008_user_selected',
@@ -206,14 +194,6 @@ module.exports = function (sequelize, DataTypes) {
           case 'foreign':
             return {
               id: this.id,
-              firstName: this.firstName,
-              lastName: this.lastName
-            }
-          case 'sharer':
-          case 'sharee':
-            return {
-              id: this.id,
-              email: this.email,
               firstName: this.firstName,
               lastName: this.lastName
             }

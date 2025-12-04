@@ -23,14 +23,12 @@ const org2Moderator = 'mod@new.org'
 const org1Admin = 'admin@old.org'
 const org2Admin = 'admin@new.org'
 const admin = 'admin@root.admin'
-const org1Friend = 'friend@old.org'
-const org2Friend = 'friend@new.org'
 
-function runAs (operator) {
+function runAs(operator) {
   return (action, params) => setup.runActionAs(action, params, operator)
 }
 
-function promoteAndRunAs (operator, role) {
+function promoteAndRunAs(operator, role) {
   const runAction = runAs(operator)
   return async (...args) => {
     // find the user record
@@ -55,14 +53,6 @@ function promoteAndRunAs (operator, role) {
 }
 
 before(async function () {
-  // create friend in first organization
-  await setup.createUser({
-    ...requiredUserRegistration,
-    email: org1Friend,
-    organization: 'org1',
-    role: 'user'
-  })
-
   // create moderator in first organization
   await setup.createUser({
     ...requiredUserRegistration,
@@ -78,14 +68,6 @@ before(async function () {
     email: org1Admin,
     organization: 'org1',
     role: 'org-admin'
-  })
-
-  // create friend in second organization
-  await setup.createUser({
-    ...requiredUserRegistration,
-    email: org2Friend,
-    organization: 'org2',
-    role: 'user'
   })
 
   // create moderator in second organization
@@ -152,8 +134,6 @@ describe('form permissions', () => {
       organization: 'org1'
     })
     userId = response.id
-
-    await setup.runActionAs('user:sharees:update', { sharees: [{ email: org1Friend }, { email: org2Friend }] }, user)
 
     // create record in first organization
     response = (await setup.runActionAs(`${testForm}:create`, { ...recordData, latitude: 1 }, user))
@@ -392,54 +372,6 @@ describe('form permissions', () => {
 
     it('cannot edit created in other org and updated in own', async function () {
       const response = await runTestAction(`${testForm}:edit`, { ...org1RecordUpdatedInOrg2 })
-
-      response.should.have.property('error')
-    })
-  })
-
-  // friend's records
-  setup.jestEach(describe, [
-    ['old org friend', runAs(org1Friend)],
-    ['new org friend', runAs(org2Friend)]
-  ])('%s', (_, runTestAction) => {
-    setup.jestEach(it, [
-      ['from old org', () => org1Record],
-      ['from new org', () => org2Record],
-      ['created in old org and updated in new', () => org1RecordUpdatedInOrg2]
-    ])('can list %s', async (_, record) => {
-      const response = await runTestAction(`${testForm}:list`, { user: userId })
-
-      response.should.not.have.property('error')
-      response.data.should.matchAny((rec) => rec.id === record().id)
-    })
-
-    setup.jestEach(it, [
-      ['from old org', () => org1Record],
-      ['from new org', () => org2Record],
-      ['created in old org and updated in new', () => org1RecordUpdatedInOrg2]
-    ])('can get %s', async (_, record) => {
-      const response = await runTestAction(`${testForm}:view`, { id: record().id })
-
-      response.should.not.have.property('error')
-      response.data.id.should.equal(record().id)
-    })
-
-    setup.jestEach(it, [
-      ['from old org', () => org1Record],
-      ['from new org', () => org2Record],
-      ['created in old org and updated in new', () => org1RecordUpdatedInOrg2]
-    ])('cannot delete %s', async (_, record) => {
-      const response = await runTestAction(`${testForm}:delete`, { id: record().id })
-
-      response.should.have.property('error')
-    })
-
-    setup.jestEach(it, [
-      ['from old org', () => org1Record],
-      ['from new org', () => org2Record],
-      ['created in old org and updated in new', () => org1RecordUpdatedInOrg2]
-    ])('cannot edit %s', async (_, record) => {
-      const response = await runTestAction(`${testForm}:edit`, { ...record() })
 
       response.should.have.property('error')
     })
