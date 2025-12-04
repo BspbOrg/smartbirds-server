@@ -160,6 +160,10 @@ exports.userView = upgradeAction('ah17', {
       // need access to all users because they may be accessing a record in their own organization of
       // user who already switched to another
       q.where.id = data.params.id
+    } else {
+      // regular users can only view themselves
+      data.connection.rawConnection.responseHttpCode = 403
+      return next(new Error('Access denied'))
     }
     api.models.user.findOne(q).then(function (user) {
       if (!user) {
@@ -351,6 +355,10 @@ exports.userList = upgradeAction('ah17', {
       // limit only to organization users
       q.where = q.where || {}
       q.where.organizationSlug = data.session.user.organizationSlug
+    } else if (!data.session.user.isAdmin) {
+      // regular users can only see themselves
+      q.where = q.where || {}
+      q.where.id = data.session.userId
     }
     if (!promise) promise = api.models.user.findAndCountAll(q)
 
