@@ -92,7 +92,11 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false
     },
     allowDataMosv: DataTypes.BOOLEAN,
-    allowDataSciencePublications: DataTypes.BOOLEAN
+    allowDataSciencePublications: DataTypes.BOOLEAN,
+    moderatorOrganizations: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true
+    }
   }, {
     indexes: [
       {
