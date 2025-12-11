@@ -607,6 +607,57 @@ module.exports = upgradeInitializer('ah17', {
       userCanManage (user, modelName) {
         return ['admin', 'org-admin'].includes(user.role) || (user.role === 'moderator' && user.forms && user.forms[modelName])
       },
+
+      userCanManageInOrganization (user, modelName, organization) {
+        // Admin can manage anywhere
+        if (user.role === 'admin') return true
+
+        // Check if user has permission for this form
+        if (!this.userCanManage(user, modelName)) return false
+
+        // org-admin can only moderate in their primary organization
+        if (user.role === 'org-admin') {
+          return user.organizationSlug === organization
+        }
+
+        // moderator can moderate in primary + additional orgs
+        if (user.role === 'moderator') {
+          if (user.organizationSlug === organization) return true
+
+          const additionalOrgs = user.moderatorOrganizations && Array.isArray(user.moderatorOrganizations)
+            ? user.moderatorOrganizations
+            : []
+
+          return additionalOrgs.includes(organization)
+        }
+
+        return false
+      },
+      getUserOrganizationsForForm (user, modelName) {
+        // Check if user has form permission first
+        if (!this.userCanManage(user, modelName)) return []
+
+        // org-admin only has access to primary organization
+        if (user.role === 'org-admin') {
+          return [user.organizationSlug]
+        }
+
+        // Moderator gets primary + additional organizations
+        if (user.role === 'moderator') {
+          const orgs = [user.organizationSlug]
+
+          const additionalOrgs = user.moderatorOrganizations && Array.isArray(user.moderatorOrganizations)
+            ? user.moderatorOrganizations
+            : []
+
+          orgs.push(...additionalOrgs)
+
+          // Deduplicate (in case primary org is also in moderatorOrganizations)
+          return [...new Set(orgs)]
+        }
+
+        return []
+      },
       import (filename) {
         const form = require(filename)
         form.modelName = form.modelName || `form${capitalizeFirstLetter(filename.split('/').pop().split('.')[0])}`
