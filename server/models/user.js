@@ -94,8 +94,20 @@ module.exports = function (sequelize, DataTypes) {
     allowDataMosv: DataTypes.BOOLEAN,
     allowDataSciencePublications: DataTypes.BOOLEAN,
     moderatorOrganizations: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: true
+      type: DataTypes.TEXT,
+      allowNull: true,
+      get () {
+        const raw = this.getDataValue('moderatorOrganizations')
+        if (!raw) return []
+        try {
+          return JSON.parse(raw)
+        } catch (e) {
+          return []
+        }
+      },
+      set (value) {
+        this.setDataValue('moderatorOrganizations', value ? JSON.stringify(value) : null)
+      }
     }
   }, {
     indexes: [
@@ -226,6 +238,39 @@ module.exports = function (sequelize, DataTypes) {
 
       apiUpdate: function (data) {
         _.assign(this, _.pick(data, 'firstName', 'lastName', 'notes', 'language', 'forms', 'privacy', 'organization'))
+      },
+
+      getAllModeratorOrganizations: function () {
+        // ONLY moderators get multi-org access (NOT org-admin, NOT admin)
+        if (this.role !== 'moderator') return []
+
+        // Start with primary organization
+        const orgs = [this.organizationSlug]
+
+        // Add additional organizations from moderatorOrganizations field
+        if (this.moderatorOrganizations && Array.isArray(this.moderatorOrganizations)) {
+          orgs.push(...this.moderatorOrganizations)
+        }
+
+        // Return deduplicated list
+        return [...new Set(orgs)]
+      },
+
+      canModerateInOrganization: function (organizationSlug) {
+        if (this.role === 'admin') return true
+
+        // org-admin can only moderate in their primary organization
+        if (this.role === 'org-admin') {
+          return this.organizationSlug === organizationSlug
+        }
+
+        // moderator can moderate in primary + additional orgs
+        if (this.role === 'moderator') {
+          if (this.organizationSlug === organizationSlug) return true
+          return this.moderatorOrganizations && this.moderatorOrganizations.includes(organizationSlug)
+        }
+
+        return false
       }
     }
   })
