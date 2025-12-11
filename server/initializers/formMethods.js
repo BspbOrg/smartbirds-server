@@ -198,6 +198,9 @@ function generatePrepareQuery (form) {
     } else if (api.forms.userCanManage(user, form.modelName)) {
       // only admins can access without organization limit
       if (!user.isAdmin) {
+        // Get all organizations where user can manage this form
+        const moderatorOrganizations = api.forms.getUserOrganizationsForForm(user, form.modelName)
+
         query.where = query.where || {}
         query.where[Op.and] = query.where[Op.and] || []
         query.where[Op.and] = [
@@ -205,11 +208,18 @@ function generatePrepareQuery (form) {
           // limit to same organization or own records
           {
             [Op.or]: [
-              { organization: user.organizationSlug },
+              { organization: { [Op.in]: moderatorOrganizations } },
               { userId: user.id }
             ]
           }
         ]
+
+        if (params.organization) {
+          // Verify user has access to requested organization
+          if (api.forms.userCanManageInOrganization(user, form.modelName, params.organization)) {
+            query.where[Op.and].push({ organization: params.organization })
+          }
+        }
       } else {
         if (params.organization) {
           query.where = _.extend(query.where || {}, {
@@ -241,7 +251,15 @@ function generateRetrieveRecord (form) {
       throw new Error(api.config.errors.formNotFound(data.connection, form.modelName, data.params.id))
     }
 
-    let allowedAccess = data.session.user.isAdmin
+    let allowedAccess = false
+
+    if (api.forms.userCanManageInOrganization(data.session.user, form.modelName, record.organization)) {
+      allowedAccess = true
+    }
+
+    if (!allowedAccess && record.userId === data.session.userId) {
+      allowedAccess = true
+    }
 
     if (!allowedAccess &&
       data.session.user.organizationSlug === record.organization &&
