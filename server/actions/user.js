@@ -19,7 +19,8 @@ exports.userCreate = upgradeAction('ah17', {
     forms: { required: false },
     privacy: { required: false },
     gdprConsent: { required: false, default: false },
-    organization: { required: true }
+    organization: { required: true },
+    moderatorOrganizations: { required: false }
   },
 
   run: function (api, data, next) {
@@ -199,7 +200,8 @@ exports.userEdit = upgradeAction('ah17', {
     notes: { required: false },
     language: { required: false },
     privacy: { required: false },
-    organization: { required: false }
+    organization: { required: false },
+    moderatorOrganizations: { required: false }
   },
 
   run: function (api, {
@@ -259,6 +261,7 @@ exports.userEdit = upgradeAction('ah17', {
           user.organizationSlug = paramOrganization
           user.role = 'user'
           user.forms = null
+          user.moderatorOrganizations = null
         }
       }
 
