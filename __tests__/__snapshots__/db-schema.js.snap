@@ -1700,37 +1700,6 @@ CREATE TABLE public.\\"SequelizeMeta\\" (
 
 
 --
--- Name: Shares; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.\\"Shares\\" (
-    id integer NOT NULL,
-    sharer integer NOT NULL,
-    sharee integer NOT NULL
-);
-
-
---
--- Name: Shares_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.\\"Shares_id_seq\\"
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: Shares_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.\\"Shares_id_seq\\" OWNED BY public.\\"Shares\\".id;
-
-
---
 -- Name: Species; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3649,13 +3618,6 @@ ALTER TABLE ONLY public.\\"Organizations\\" ALTER COLUMN id SET DEFAULT nextval(
 
 
 --
--- Name: Shares id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.\\"Shares\\" ALTER COLUMN id SET DEFAULT nextval('public.\\"Shares_id_seq\\"'::regclass);
-
-
---
 -- Name: Species id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3868,14 +3830,6 @@ ALTER TABLE ONLY public.\\"Organizations\\"
 
 ALTER TABLE ONLY public.\\"SequelizeMeta\\"
     ADD CONSTRAINT \\"SequelizeMeta_pkey\\" PRIMARY KEY (name);
-
-
---
--- Name: Shares Shares_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.\\"Shares\\"
-    ADD CONSTRAINT \\"Shares_pkey\\" PRIMARY KEY (id);
 
 
 --
