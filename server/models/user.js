@@ -95,18 +95,11 @@ module.exports = function (sequelize, DataTypes) {
     allowDataSciencePublications: DataTypes.BOOLEAN,
     moderatorOrganizations: {
       type: DataTypes.TEXT,
-      allowNull: true,
-      get () {
-        const raw = this.getDataValue('moderatorOrganizations')
-        if (!raw) return []
-        try {
-          return JSON.parse(raw)
-        } catch (e) {
-          return []
-        }
+      get: function () {
+        return this.getDataValue('moderatorOrganizations') && JSON.parse(this.getDataValue('moderatorOrganizations'))
       },
-      set (value) {
-        this.setDataValue('moderatorOrganizations', value ? JSON.stringify(value) : null)
+      set: function (val) {
+        this.setDataValue('moderatorOrganizations', JSON.stringify(val))
       }
     }
   }, {

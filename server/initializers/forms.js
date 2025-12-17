@@ -624,11 +624,7 @@ module.exports = upgradeInitializer('ah17', {
         if (user.role === 'moderator') {
           if (user.organizationSlug === organization) return true
 
-          const additionalOrgs = user.moderatorOrganizations && Array.isArray(user.moderatorOrganizations)
-            ? user.moderatorOrganizations
-            : []
-
-          return additionalOrgs.includes(organization)
+          return !!(user.moderatorOrganizations && user.moderatorOrganizations[organization])
         }
 
         return false
@@ -646,11 +642,10 @@ module.exports = upgradeInitializer('ah17', {
         if (user.role === 'moderator') {
           const orgs = [user.organizationSlug]
 
-          const additionalOrgs = user.moderatorOrganizations && Array.isArray(user.moderatorOrganizations)
-            ? user.moderatorOrganizations
-            : []
-
-          orgs.push(...additionalOrgs)
+          if (user.moderatorOrganizations) {
+            const additionalOrgs = Object.keys(user.moderatorOrganizations).filter(key => user.moderatorOrganizations[key])
+            orgs.push(...additionalOrgs)
+          }
 
           // Deduplicate (in case primary org is also in moderatorOrganizations)
           return [...new Set(orgs)]

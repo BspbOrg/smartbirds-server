@@ -412,7 +412,7 @@ describe('form permissions with multi-org moderators', () => {
     // Add org2 to moderatorOrganizations
     await setup.runActionAsAdmin('user:edit', {
       id: moderator.id,
-      moderatorOrganizations: ['org2']
+      moderatorOrganizations: { org2: true }
     })
 
     // Create test user in org3 (for negative tests)
@@ -808,7 +808,7 @@ describe('user permissions with multi-org moderators', () => {
     // Add org2 to moderatorOrganizations
     await setup.runActionAsAdmin('user:edit', {
       id: moderator.id,
-      moderatorOrganizations: ['org2']
+      moderatorOrganizations: { org2: true }
     })
   })
 
@@ -878,41 +878,42 @@ describe('moderatorOrganizations field editing', () => {
   it('admin can set moderatorOrganizations', async () => {
     const response = await setup.runActionAsAdmin('user:edit', {
       id: moderatorId,
-      moderatorOrganizations: ['org2', 'org3']
+      moderatorOrganizations: { org2: true, org3: true }
     })
 
     response.should.not.have.property('error')
     response.data.should.have.property('moderatorOrganizations')
-    response.data.moderatorOrganizations.should.containDeep(['org2', 'org3'])
+    response.data.moderatorOrganizations.should.have.property('org2', true)
+    response.data.moderatorOrganizations.should.have.property('org3', true)
   })
 
   it('admin can update moderatorOrganizations', async () => {
     const response = await setup.runActionAsAdmin('user:edit', {
       id: moderatorId,
-      moderatorOrganizations: ['org2'] // Remove org3
+      moderatorOrganizations: { org2: true } // Remove org3
     })
 
     response.should.not.have.property('error')
-    response.data.moderatorOrganizations.should.have.length(1)
-    response.data.moderatorOrganizations.should.containDeep(['org2'])
+    response.data.moderatorOrganizations.should.have.property('org2', true)
+    response.data.moderatorOrganizations.should.not.have.property('org3')
   })
 
   it('admin can clear moderatorOrganizations', async () => {
     const response = await setup.runActionAsAdmin('user:edit', {
       id: moderatorId,
-      moderatorOrganizations: []
+      moderatorOrganizations: {}
     })
 
     response.should.not.have.property('error')
-    // Should be empty array or null
-    const orgs = response.data.moderatorOrganizations || []
-    orgs.should.have.length(0)
+    // Should be empty object or null
+    const orgs = response.data.moderatorOrganizations || {}
+    Object.keys(orgs).should.have.length(0)
   })
 
   it('moderator cannot set their own moderatorOrganizations', async () => {
     const response = await setup.runActionAs('user:edit', {
       id: moderatorId,
-      moderatorOrganizations: ['org2']
+      moderatorOrganizations: { org2: true }
     }, testModerator)
 
     // Should either fail or ignore the field
@@ -924,7 +925,7 @@ describe('moderatorOrganizations field editing', () => {
     // org1Admin tries to modify moderatorOrganizations
     const response = await setup.runActionAs('user:edit', {
       id: moderatorId,
-      moderatorOrganizations: ['org2']
+      moderatorOrganizations: { org2: true }
     }, org1Admin)
 
     // Should fail - only admins can modify this field

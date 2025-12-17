@@ -178,8 +178,9 @@ exports.userView = upgradeAction('ah17', {
         const sessionUserOrgs = [data.session.user.organizationSlug]
 
         // Only moderators can have additional organizations
-        if (data.session.user.isModerator && data.session.user.moderatorOrganizations && Array.isArray(data.session.user.moderatorOrganizations)) {
-          sessionUserOrgs.push(...data.session.user.moderatorOrganizations)
+        if (data.session.user.isModerator && data.session.user.moderatorOrganizations) {
+          const additionalOrgs = Object.keys(data.session.user.moderatorOrganizations).filter(key => data.session.user.moderatorOrganizations[key])
+          sessionUserOrgs.push(...additionalOrgs)
         }
 
         const hasSharedOrg = sessionUserOrgs.includes(user.organizationSlug)
@@ -290,9 +291,7 @@ exports.userEdit = upgradeAction('ah17', {
       if (paramModeratorOrganizations !== undefined) {
         if (sessionUser.isAdmin && !isUpdatingSelf) {
           // Admin can set any organizations
-          user.moderatorOrganizations = Array.isArray(paramModeratorOrganizations)
-            ? paramModeratorOrganizations
-            : []
+          user.moderatorOrganizations = paramModeratorOrganizations
         } else if (!isUpdatingSelf) {
           // Non-admins cannot modify moderatorOrganizations
           connection.rawConnection.responseHttpCode = 403
@@ -389,8 +388,9 @@ exports.userList = upgradeAction('ah17', {
       if (data.session.user.isModerator) {
         // Moderators see users from ALL their organizations
         const userOrgSlugs = [data.session.user.organizationSlug]
-        if (data.session.user.moderatorOrganizations && Array.isArray(data.session.user.moderatorOrganizations)) {
-          userOrgSlugs.push(...data.session.user.moderatorOrganizations)
+        if (data.session.user.moderatorOrganizations) {
+          const additionalOrgs = Object.keys(data.session.user.moderatorOrganizations).filter(key => data.session.user.moderatorOrganizations[key])
+          userOrgSlugs.push(...additionalOrgs)
         }
         q.where.organizationSlug = { [Op.in]: [...new Set(userOrgSlugs)] }
       } else {
