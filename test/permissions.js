@@ -497,6 +497,31 @@ describe('form permissions with multi-org moderators', () => {
       response.should.not.have.property('error')
       response.data.every(rec => rec.organization === 'org2').should.be.true()
     })
+
+    it('can only create records in primary organization', async function () {
+      // Try to create with organization: 'org2' (additional org)
+      const response = await runTestAction(`${testForm}:create`, {
+        ...recordData,
+        latitude: 99,
+        organization: 'org2'
+      })
+
+      response.should.not.have.property('error')
+      // Record should be created in primary org (org1), not org2
+      response.data.should.have.property('organization', 'org1')
+    })
+
+    it('creates records in primary organization by default', async function () {
+      // Don't specify organization
+      const response = await runTestAction(`${testForm}:create`, {
+        ...recordData,
+        latitude: 100
+      })
+
+      response.should.not.have.property('error')
+      // Should default to primary org
+      response.data.should.have.property('organization', 'org1')
+    })
   })
 
   describe('org-admin still limited to primary org', () => {
