@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const Promise = require('bluebird')
+const { Op } = require('sequelize')
 const { upgradeAction } = require('../utils/upgrade')
 
 exports.userCreate = upgradeAction('ah17', {
@@ -172,8 +173,20 @@ exports.userView = upgradeAction('ah17', {
         return next(new Error('Няма такъв потребител'))
       }
 
-      if (scope === 'default' && !data.session.user.isAdmin && user.organizationSlug !== data.session.user.organizationSlug) {
-        scope = 'foreign'
+      // Check if user shares any organization with session user
+      if (scope === 'default' && !data.session.user.isAdmin) {
+        const sessionUserOrgs = [data.session.user.organizationSlug]
+
+        // Only moderators can have additional organizations
+        if (data.session.user.isModerator && data.session.user.moderatorOrganizations && Array.isArray(data.session.user.moderatorOrganizations)) {
+          sessionUserOrgs.push(...data.session.user.moderatorOrganizations)
+        }
+
+        const hasSharedOrg = sessionUserOrgs.includes(user.organizationSlug)
+
+        if (!hasSharedOrg) {
+          scope = 'foreign'
+        }
       }
       data.response.data = user.apiData(api, scope)
       next()
@@ -210,6 +223,7 @@ exports.userEdit = upgradeAction('ah17', {
       id: paramId,
       organization: paramOrganization,
       role: paramRole,
+      moderatorOrganizations: paramModeratorOrganizations,
       ...paramsUpdate
     },
     response,
@@ -269,6 +283,20 @@ exports.userEdit = upgradeAction('ah17', {
       if (paramRole) {
         if ((sessionUser.isAdmin || sessionUser.isOrgAdmin) && !isUpdatingSelf) {
           user.role = paramRole
+        }
+      }
+
+      // changing moderatorOrganizations
+      if (paramModeratorOrganizations !== undefined) {
+        if (sessionUser.isAdmin && !isUpdatingSelf) {
+          // Admin can set any organizations
+          user.moderatorOrganizations = Array.isArray(paramModeratorOrganizations)
+            ? paramModeratorOrganizations
+            : []
+        } else if (!isUpdatingSelf) {
+          // Non-admins cannot modify moderatorOrganizations
+          connection.rawConnection.responseHttpCode = 403
+          return next(new Error('Only admins can modify moderator organizations'))
         }
       }
 
@@ -357,7 +385,18 @@ exports.userList = upgradeAction('ah17', {
     } else if (data.session.user.isModerator || data.session.user.isOrgAdmin) {
       // limit only to organization users
       q.where = q.where || {}
-      q.where.organizationSlug = data.session.user.organizationSlug
+
+      if (data.session.user.isModerator) {
+        // Moderators see users from ALL their organizations
+        const userOrgSlugs = [data.session.user.organizationSlug]
+        if (data.session.user.moderatorOrganizations && Array.isArray(data.session.user.moderatorOrganizations)) {
+          userOrgSlugs.push(...data.session.user.moderatorOrganizations)
+        }
+        q.where.organizationSlug = { [Op.in]: [...new Set(userOrgSlugs)] }
+      } else {
+        // org-admin sees only their primary organization
+        q.where.organizationSlug = data.session.user.organizationSlug
+      }
     } else if (!data.session.user.isAdmin) {
       // regular users can only see themselves
       q.where = q.where || {}
