@@ -1769,7 +1769,7 @@ CREATE TABLE public.\\"Users\\" (
     \\"organizationSlug\\" text NOT NULL,
     \\"allowDataMosv\\" boolean,
     \\"allowDataSciencePublications\\" boolean,
-    \\"moderatorOrganizations\\" character varying(255)[]
+    \\"moderatorOrganizations\\" text
 );
 
 
@@ -5505,13 +5505,6 @@ CREATE UNIQUE INDEX species_type_label_tr ON public.\\"Species\\" USING btree (t
 --
 
 CREATE UNIQUE INDEX users_email ON public.\\"Users\\" USING btree (email);
-
-
---
--- Name: users_moderator_organizations_gin; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX users_moderator_organizations_gin ON public.\\"Users\\" USING gin (\\"moderatorOrganizations\\");
 
 
 --
