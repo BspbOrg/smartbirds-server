@@ -1,5 +1,5 @@
 #### Stage BASE ########################################################################################################
-FROM node:22 AS base
+FROM node:24 AS base
 
 # Install HEIF support and tools, create app dir, add user and set rights
 RUN set -ex && \
