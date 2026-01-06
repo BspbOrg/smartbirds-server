@@ -1377,5 +1377,6 @@
     "ETRS89_TASK_START_TIME": "Начален час на ETRS89 задача",
     "BG_ATLAS_2008_GRID_SIZE": "Размер на BG Атлас 2008 мрежа (в km)",
     "BG_ATLAS_2008_START_TIMESTAMP": "Начален времеви печат за BG Атлас 2008",
-    "EBP_API_BASE_URL": "EBP API базов URL"
+    "EBP_API_BASE_URL": "EBP API базов URL",
+    "USER_DETAIL_MODERATOR_ORGANIZATIONS": "Организации за модериране"
 }
