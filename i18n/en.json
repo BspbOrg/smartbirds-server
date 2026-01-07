@@ -1384,5 +1384,6 @@
     "AUTO_TRANSLATE_MAX_RECORDS": "AutoTranslate max records",
     "TASKS_MAX_RECORDS": "Tasks max records",
     "ETRS89_TASK_MAX_RECORDS": "ETRS89 task max records",
-    "ETRS89_TASK_START_TIME": "ETRS89 task start time"
+    "ETRS89_TASK_START_TIME": "ETRS89 task start time",
+    "USER_DETAIL_MODERATOR_ORGANIZATIONS": "Moderator organizations"
 }

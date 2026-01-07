@@ -1768,7 +1768,8 @@ CREATE TABLE public.\\"Users\\" (
     \\"gdprConsent\\" boolean,
     \\"organizationSlug\\" text NOT NULL,
     \\"allowDataMosv\\" boolean,
-    \\"allowDataSciencePublications\\" boolean
+    \\"allowDataSciencePublications\\" boolean,
+    \\"moderatorOrganizations\\" text
 );
 
 

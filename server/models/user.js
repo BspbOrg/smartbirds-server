@@ -92,7 +92,16 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false
     },
     allowDataMosv: DataTypes.BOOLEAN,
-    allowDataSciencePublications: DataTypes.BOOLEAN
+    allowDataSciencePublications: DataTypes.BOOLEAN,
+    moderatorOrganizations: {
+      type: DataTypes.TEXT,
+      get: function () {
+        return this.getDataValue('moderatorOrganizations') && JSON.parse(this.getDataValue('moderatorOrganizations'))
+      },
+      set: function (val) {
+        this.setDataValue('moderatorOrganizations', JSON.stringify(val))
+      }
+    }
   }, {
     indexes: [
       {
@@ -215,13 +224,14 @@ module.exports = function (sequelize, DataTypes) {
               gdprConsent: this.gdprConsent,
               organization: this.organizationSlug,
               allowDataMosv: this.allowDataMosv,
-              allowDataSciencePublications: this.allowDataSciencePublications
+              allowDataSciencePublications: this.allowDataSciencePublications,
+              moderatorOrganizations: this.moderatorOrganizations
             }
         }
       },
 
       apiUpdate: function (data) {
-        _.assign(this, _.pick(data, 'firstName', 'lastName', 'notes', 'language', 'forms', 'privacy', 'organization'))
+        _.assign(this, _.pick(data, 'firstName', 'lastName', 'notes', 'language', 'forms', 'privacy', 'organization', 'moderatorOrganizations'))
       }
     }
   })
