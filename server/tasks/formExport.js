@@ -128,6 +128,8 @@ exports.task = upgradeTask('ah17', {
 
       api.log(`Fetched ${result.count} ${form.modelName} record`, 'debug')
 
+      await api.audit.logAccessBulk(api.audit.actions.export, form.modelName, result.rows.map(row => row.id), result.rows.map(row => row.userId), user.id, user.role, user.organizationSlug)
+
       const outputFilename = path.join(api.config.general.paths.fileupload[0], `${uuidv4()}.${outputType}`)
 
       switch (outputType) {
