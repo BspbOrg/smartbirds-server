@@ -54,7 +54,10 @@ function generateEditAction (form) {
 
       await record.apiUpdate(data.params, data.session.user.language, role)
       await record.save()
+
       data.response.data = await record.apiData(api)
+
+      await api.audit.logAccess(api.audit.actions.edit, form.modelName, record.id, record.userId, data.session.user.id, data.session.user.role, data.session.user.organizationSlug)
       next()
     } catch (error) {
       api.log(error, 'error')
