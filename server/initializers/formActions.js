@@ -93,6 +93,9 @@ function generateDeleteAction (form) {
     try {
       const record = await form.retrieveRecord(api, data, { context: 'delete' })
       await record.destroy()
+
+      await api.audit.logAccess(api.audit.actions.delete, form.modelName, record.id, record.userId, data.session.user.id, data.session.user.role, data.session.user.organizationSlug)
+
       next()
     } catch (error) {
       api.log(error, 'error')
