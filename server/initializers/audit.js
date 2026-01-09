@@ -17,6 +17,10 @@ module.exports = class AuditInit extends Initializer {
         list: 'LIST'
       },
       logAccessBulk: async (action, recordType, recordIds, ownerUserIds, actorUserId, actorRole, actorOrganization, meta) => {
+        if (api.sequelize.sequelize.options.dialect !== 'postgres') {
+          return
+        }
+
         const recordIdsToAudit = []
         const ownerUserIdsToAudit = []
         for (let i = 0; i < recordIds.length; i++) {
@@ -33,6 +37,10 @@ module.exports = class AuditInit extends Initializer {
         await api.audit.logAccessBulk(action, recordType, [recordId], [ownerUserId], actorUserId, actorRole, actorOrganization, meta)
       },
       createAuditRecords: async (action, recordType, recordIds, ownerUserIds, actorUserId, actorRole, actorOrganization, meta) => {
+        if (api.sequelize.sequelize.options.dialect !== 'postgres') {
+          return
+        }
+
         const occurredAt = new Date()
         const recordIdChunks = []
         const ownerUserIdChunks = []
