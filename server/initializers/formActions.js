@@ -117,7 +117,7 @@ function generateListAction (form) {
         data.response.data = await Promise.all(result.rows.map(async (model) => model.apiData(api, data.params.context)))
         data.response.count = result.count
 
-        await api.audit.logAccessBulk(api.audit.actions.list, form.modelName, result.rows.map(row => row.id), result.rows.map(row => row.userId), data.session.user.id, data.session.user.role, data.session.user.organizationSlug)
+        await api.audit.logAccessBulk(api.audit.actions.list, form.modelName, result.rows.map(row => row.id), result.rows.map(row => row.userId), data.session.user.id, data.session.user.role, data.session.user.organizationSlug, { params: data.params })
       } else {
         data.response.count = await api.models[form.modelName].count(query)
       }
