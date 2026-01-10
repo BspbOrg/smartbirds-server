@@ -29,7 +29,7 @@ OBJECTID *;species;bg;en;EURING;Code
 28;Amandava amandava;;;20250;
 29;Ammomanes deserti;Пустинна чучулига;Desert Lark;9570;
 30;Ammoperdix griseogularis;Персийска пустинна яребица;See-see Partridge;3620;
-31;Anas acuta;Шилоопшата патица;Pintail;1890;
+31;Anas acuta;Шилоопашата патица;Pintail;1890;
 32;Anas clypeata;Клопач;Shoveler;1940;
 33;Anas crecca;Зимно бърне;Teal;1840;
 34;Anas discors;Синьокрило бърне;Blue-winged teal;1920;
@@ -279,13 +279,13 @@ OBJECTID *;species;bg;en;EURING;Code
 278;Larus audouinii;Средиземноморската чайка;Audouin's Gull ;5880;
 279;Larus canus;Чайка буревестница;Common Gull ;5900;
 280;Larus delawarensis;Пръстенчатоклюна чайка;Ring-billed Gull;5890;
-281;Larus fuscus;Малката черногърба чайка;Lesser Black-backed Gull ;5910;
+281;Larus fuscus;Малка черногърба чайка;Lesser Black-backed Gull ;5910;
 282;Larus genei;Дългоклюна чайка;Slender-billed Gull;5850;
 283;Larus glaucoides;Малка белокрила чайка;Iceland Gull;5980;
 284;Larus hyperboreus;Голяма белокрила чайка;Glaucous Gull ;5990;
 285;Larus ichthyaetus;Голяма черноглава чайка;Great Black-headed Gull;5730;
 286;Larus marinus;Голяма черногърба чайка;Great Black-backed Gull ;6000;
-287;Larus melanocephalus;Малката черноглава чайка;Mediterranean Gull;5750;
+287;Larus melanocephalus;Малка черноглава чайка;Mediterranean Gull;5750;
 288;Larus minutus;Малка чайка;Little Gull;5780;
 289;Larus relictus;Реликтна чайка;Relict Gull;5740;
 290;Larus ridibundus;Речна чайка;Black-headed Gull;5820;РЧ
