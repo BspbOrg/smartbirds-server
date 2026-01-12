@@ -30,7 +30,8 @@ module.exports = function (sequelize, DataTypes) {
     ownerUserId: DataTypes.INTEGER,
     actorRole: DataTypes.STRING,
     actorOrganization: DataTypes.TEXT,
-    meta: DataTypes.TEXT
+    meta: DataTypes.TEXT,
+    operationId: DataTypes.STRING
   }, {
     tableName: 'access_audit',
     timestamps: false,
@@ -43,6 +44,9 @@ module.exports = function (sequelize, DataTypes) {
       },
       {
         fields: ['occurredAt']
+      },
+      {
+        fields: ['operationId']
       }
     ]
   })

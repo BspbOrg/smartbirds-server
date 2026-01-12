@@ -46,6 +46,10 @@ module.exports = {
       meta: {
         type: Sequelize.TEXT,
         allowNull: true
+      },
+      operationId: {
+        type: Sequelize.STRING,
+        allowNull: true
       }
     })
     await queryInterface.addIndex(tableName, {
@@ -56,6 +60,9 @@ module.exports = {
     })
     await queryInterface.addIndex(tableName, {
       fields: ['occurredAt']
+    })
+    await queryInterface.addIndex(tableName, {
+      fields: ['operationId']
     })
   },
 

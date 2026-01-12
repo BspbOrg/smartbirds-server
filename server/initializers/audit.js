@@ -1,4 +1,5 @@
 const { Initializer, api } = require('actionhero')
+const { v7: uuidv7 } = require('uuid')
 
 module.exports = class AuditInit extends Initializer {
   constructor () {
@@ -62,6 +63,9 @@ module.exports = class AuditInit extends Initializer {
           return
         }
 
+        // Generate operationId once for all records in this batch
+        // Using UUID v7 for better index performance (time-ordered)
+        const operationId = uuidv7()
         const occurredAt = new Date()
         const recordIdChunks = []
         const ownerUserIdChunks = []
@@ -74,7 +78,7 @@ module.exports = class AuditInit extends Initializer {
 
         const sql = `
           INSERT INTO access_audit
-            ("action", "recordType", "recordId", "ownerUserId", "actorUserId", "actorRole", "actorOrganization", "meta", "occurredAt")
+            ("action", "recordType", "recordId", "ownerUserId", "actorUserId", "actorRole", "actorOrganization", "meta", "operationId", "occurredAt")
           SELECT
             $1 AS "action",
             $2 AS "recordType",
@@ -84,14 +88,15 @@ module.exports = class AuditInit extends Initializer {
             $6 AS "actorRole",
             $7 AS "actorOrganization",
             $8 AS "meta",
-            $9 AS "occurredAt"
+            $9 AS "operationId",
+            $10 AS "occurredAt"
           FROM unnest($3::int[], $4::int[]) AS x("recordId", "ownerUserId")
           WHERE x."ownerUserId" <> $5
         `
 
         for (let i = 0; i < recordIdChunks.length; i++) {
           await api.sequelize.sequelize.query(sql, {
-            bind: [action, recordType, recordIdChunks[i], ownerUserIdChunks[i], actorUserId, actorRole, actorOrganization, meta ?? null, occurredAt]
+            bind: [action, recordType, recordIdChunks[i], ownerUserIdChunks[i], actorUserId, actorRole, actorOrganization, meta ?? null, operationId, occurredAt]
           })
         }
       }

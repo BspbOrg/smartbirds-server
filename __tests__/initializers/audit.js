@@ -174,6 +174,10 @@ describe('Initializer audit', () => {
       expect(records[2].ownerUserId).toBe(owner.id)
       expect(records.every(r => r.action === 'LIST')).toBe(true)
       expect(records.every(r => r.meta === '{"context":"list"}')).toBe(true)
+
+      // Verify all records have the same operationId (generated automatically)
+      expect(records[0].operationId).toBeTruthy()
+      expect(records.every(r => r.operationId === records[0].operationId)).toBe(true)
     })
 
     it('skips records where owner equals actor', async () => {

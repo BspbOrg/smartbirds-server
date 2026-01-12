@@ -231,6 +231,10 @@ describe('Actions with audit logging', () => {
       expect(auditRecords.length).toBe(3)
       expect(auditRecords.every(r => r.ownerUserId === owner.id)).toBe(true)
       expect(auditRecords.every(r => r.actorRole === 'admin')).toBe(true)
+
+      // Verify all records from the same list operation share the same operationId
+      expect(auditRecords[0].operationId).toBeTruthy()
+      expect(auditRecords.every(r => r.operationId === auditRecords[0].operationId)).toBe(true)
     })
 
     it('does not log audit for actor own records in list', async () => {
