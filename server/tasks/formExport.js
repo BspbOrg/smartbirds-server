@@ -128,7 +128,16 @@ exports.task = upgradeTask('ah17', {
 
       api.log(`Fetched ${result.count} ${form.modelName} record`, 'debug')
 
-      await api.audit.logAccessBulk(api.audit.actions.export, form.modelName, result.rows.map(row => row.id), result.rows.map(row => row.userId), user.id, user.role, user.organizationSlug, { params })
+      await api.audit.logAccessBulk({
+        action: api.audit.actions.export,
+        recordType: form.modelName,
+        recordIds: result.rows.map(row => row.id),
+        ownerUserIds: result.rows.map(row => row.userId),
+        actorUserId: user.id,
+        actorRole: user.role,
+        actorOrganization: user.organizationSlug,
+        meta: { context: params?.context || '' }
+      })
 
       const outputFilename = path.join(api.config.general.paths.fileupload[0], `${uuidv4()}.${outputType}`)
 

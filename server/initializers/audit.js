@@ -16,7 +16,8 @@ module.exports = class AuditInit extends Initializer {
         export: 'EXPORT',
         list: 'LIST'
       },
-      logAccessBulk: async (action, recordType, recordIds, ownerUserIds, actorUserId, actorRole, actorOrganization, meta) => {
+      logAccessBulk: async (options) => {
+        const { action, recordType, recordIds, ownerUserIds, actorUserId, actorRole, actorOrganization, meta = null } = options
         if (api.sequelize.sequelize.options.dialect !== 'postgres') {
           return
         }
@@ -30,13 +31,33 @@ module.exports = class AuditInit extends Initializer {
           }
         }
         if (recordIdsToAudit.length > 0) {
-          await api.audit.createAuditRecords(action, recordType, recordIdsToAudit, ownerUserIdsToAudit, actorUserId, actorRole, actorOrganization, meta)
+          await api.audit.createAuditRecords({
+            action,
+            recordType,
+            recordIds: recordIdsToAudit,
+            ownerUserIds: ownerUserIdsToAudit,
+            actorUserId,
+            actorRole,
+            actorOrganization,
+            meta
+          })
         }
       },
-      logAccess: async (action, recordType, recordId, ownerUserId, actorUserId, actorRole, actorOrganization, meta) => {
-        await api.audit.logAccessBulk(action, recordType, [recordId], [ownerUserId], actorUserId, actorRole, actorOrganization, meta)
+      logAccess: async (options) => {
+        const { action, recordType, recordId, ownerUserId, actorUserId, actorRole, actorOrganization, meta = null } = options
+        await api.audit.logAccessBulk({
+          action,
+          recordType,
+          recordIds: [recordId],
+          ownerUserIds: [ownerUserId],
+          actorUserId,
+          actorRole,
+          actorOrganization,
+          meta
+        })
       },
-      createAuditRecords: async (action, recordType, recordIds, ownerUserIds, actorUserId, actorRole, actorOrganization, meta) => {
+      createAuditRecords: async (options) => {
+        const { action, recordType, recordIds, ownerUserIds, actorUserId, actorRole, actorOrganization, meta = null } = options
         if (api.sequelize.sequelize.options.dialect !== 'postgres') {
           return
         }

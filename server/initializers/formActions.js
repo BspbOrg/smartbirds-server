@@ -57,7 +57,16 @@ function generateEditAction (form) {
 
       data.response.data = await record.apiData(api)
 
-      await api.audit.logAccess(api.audit.actions.edit, form.modelName, record.id, record.userId, data.session.user.id, data.session.user.role, data.session.user.organizationSlug)
+      await api.audit.logAccess({
+        action: api.audit.actions.edit,
+        recordType: form.modelName,
+        recordId: record.id,
+        ownerUserId: record.userId,
+        actorUserId: data.session.user.id,
+        actorRole: data.session.user.role,
+        actorOrganization: data.session.user.organizationSlug,
+        meta: { context: data.params?.context || '' }
+      })
       next()
     } catch (error) {
       api.log(error, 'error')
@@ -75,7 +84,16 @@ function generateViewAction (form) {
     try {
       const record = await form.retrieveRecord(api, data, { context: 'view' })
       data.response.data = await record.apiData(api)
-      await api.audit.logAccess(api.audit.actions.view, form.modelName, record.id, record.userId, data.session.user.id, data.session.user.role, data.session.user.organizationSlug)
+      await api.audit.logAccess({
+        action: api.audit.actions.view,
+        recordType: form.modelName,
+        recordId: record.id,
+        ownerUserId: record.userId,
+        actorUserId: data.session.user.id,
+        actorRole: data.session.user.role,
+        actorOrganization: data.session.user.organizationSlug,
+        meta: { context: data.params?.context || '' }
+      })
       next()
     } catch (error) {
       api.log(error, 'error')
@@ -94,7 +112,16 @@ function generateDeleteAction (form) {
       const record = await form.retrieveRecord(api, data, { context: 'delete' })
       await record.destroy()
 
-      await api.audit.logAccess(api.audit.actions.delete, form.modelName, record.id, record.userId, data.session.user.id, data.session.user.role, data.session.user.organizationSlug)
+      await api.audit.logAccess({
+        action: api.audit.actions.delete,
+        recordType: form.modelName,
+        recordId: record.id,
+        ownerUserId: record.userId,
+        actorUserId: data.session.user.id,
+        actorRole: data.session.user.role,
+        actorOrganization: data.session.user.organizationSlug,
+        meta: { context: data.params?.context || '' }
+      })
 
       next()
     } catch (error) {
@@ -117,7 +144,16 @@ function generateListAction (form) {
         data.response.data = await Promise.all(result.rows.map(async (model) => model.apiData(api, data.params.context)))
         data.response.count = result.count
 
-        await api.audit.logAccessBulk(api.audit.actions.list, form.modelName, result.rows.map(row => row.id), result.rows.map(row => row.userId), data.session.user.id, data.session.user.role, data.session.user.organizationSlug, { params: data.params })
+        await api.audit.logAccessBulk({
+          action: api.audit.actions.list,
+          recordType: form.modelName,
+          recordIds: result.rows.map(row => row.id),
+          ownerUserIds: result.rows.map(row => row.userId),
+          actorUserId: data.session.user.id,
+          actorRole: data.session.user.role,
+          actorOrganization: data.session.user.organizationSlug,
+          meta: { context: data.params?.context || '' }
+        })
       } else {
         data.response.count = await api.models[form.modelName].count(query)
       }
