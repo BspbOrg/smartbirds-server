@@ -54,6 +54,9 @@ module.exports = {
     await queryInterface.addIndex(tableName, {
       fields: ['actorUserId', 'occurredAt']
     })
+    await queryInterface.addIndex(tableName, {
+      fields: ['occurredAt']
+    })
   },
 
   async down (queryInterface, Sequelize) {

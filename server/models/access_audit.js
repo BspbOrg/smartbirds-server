@@ -40,6 +40,9 @@ module.exports = function (sequelize, DataTypes) {
       },
       {
         fields: ['actorUserId', 'occurredAt']
+      },
+      {
+        fields: ['occurredAt']
       }
     ]
   })
