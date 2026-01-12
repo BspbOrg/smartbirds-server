@@ -65,7 +65,7 @@ function generateEditAction (form) {
         actorUserId: data.session.user.id,
         actorRole: data.session.user.role,
         actorOrganization: data.session.user.organizationSlug,
-        meta: { context: data.params?.context || '' }
+        meta: { context: 'edit' }
       })
       next()
     } catch (error) {
@@ -92,7 +92,7 @@ function generateViewAction (form) {
         actorUserId: data.session.user.id,
         actorRole: data.session.user.role,
         actorOrganization: data.session.user.organizationSlug,
-        meta: { context: data.params?.context || '' }
+        meta: { context: 'view' }
       })
       next()
     } catch (error) {
@@ -120,7 +120,7 @@ function generateDeleteAction (form) {
         actorUserId: data.session.user.id,
         actorRole: data.session.user.role,
         actorOrganization: data.session.user.organizationSlug,
-        meta: { context: data.params?.context || '' }
+        meta: { context: 'delete' }
       })
 
       next()
