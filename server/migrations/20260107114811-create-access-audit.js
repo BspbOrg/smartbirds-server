@@ -7,29 +7,33 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable(tableName, {
       id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
         primaryKey: true,
         autoIncrement: true
       },
-      recordType: {
+      operationId: {
         type: Sequelize.STRING,
+        allowNull: true
+      },
+      action: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
+      actorUserId: {
+        type: Sequelize.INTEGER,
         allowNull: false
       },
       recordId: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
+      recordType: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       ownerUserId: {
         type: Sequelize.INTEGER,
         allowNull: true
-      },
-      actorUserId: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      action: {
-        type: Sequelize.TEXT,
-        allowNull: false
       },
       occurredAt: {
         type: Sequelize.DATE,
@@ -45,10 +49,6 @@ module.exports = {
       },
       meta: {
         type: Sequelize.TEXT,
-        allowNull: true
-      },
-      operationId: {
-        type: Sequelize.STRING,
         allowNull: true
       }
     })

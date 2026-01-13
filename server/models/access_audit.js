@@ -3,7 +3,7 @@
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('access_audit', {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       primaryKey: true,
       autoIncrement: true
     },
