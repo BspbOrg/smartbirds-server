@@ -13,7 +13,7 @@ module.exports = {
     FROM "mammals_observations" form
     LEFT OUTER JOIN "Users" u ON user_id = u.id
     LEFT OUTER JOIN "Species" s ON "labelLa" = species
-      AND ((form_name = 'FormMammals' AND type = 'mammals') OR (form_name = 'FormBats' AND type = 'bats'))
+      AND ((form_name = 'FormMammals' AND type = 'mammals') OR (form_name = 'FormBats' AND type = 'bats') OR (form_name = 'FormBears' AND type = 'mammals'))
     WHERE "observation_date_time" >= CURRENT_DATE - INTERVAL '1 month'
     AND count > 0
     AND (NOT confidential OR confidential IS NULL)
