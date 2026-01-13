@@ -95,3 +95,13 @@ exports.fields = assign(exports.fields, {
   footprintHindPawWidth: 'num',
   footprintHindPawLength: 'num'
 })
+
+exports.foreignKeys.push({
+  targetModelName: 'species',
+  as: 'speciesInfo',
+  foreignKey: 'species',
+  targetKey: 'labelLa',
+  scope: { type: 'mammals' }
+})
+
+exports.indexes.push({ fields: ['species'] })
