@@ -96,6 +96,39 @@ exports.fields = assign(exports.fields, {
   footprintHindPawLength: 'num'
 })
 
+exports.simpleExportFields = [
+  'id',
+  'observationDate',
+  'observationTime',
+  'firstName',
+  'lastName',
+  'email',
+  'otherObservers',
+  'autoLocationLocal',
+  'autoLocationEn',
+  'latitude',
+  'longitude',
+  'location',
+  'species',
+  'speciesBg',
+  'speciesEn',
+  'count',
+  'ageLocal',
+  'ageEn',
+  'sexLocal',
+  'sexEn',
+  'habitatEn',
+  'habitatLocal',
+  'findingsLocal',
+  'findingsEn',
+  'threatsBearsLocal',
+  'threatsBearsEn',
+  'sourceLocal',
+  'sourceEn',
+  'speciesNotes',
+  'notes'
+]
+
 exports.foreignKeys.push({
   targetModelName: 'species',
   as: 'speciesInfo',
@@ -105,3 +138,12 @@ exports.foreignKeys.push({
 })
 
 exports.indexes.push({ fields: ['species'] })
+
+exports.validate = {
+  ...exports.validate,
+  validateSpecies: function () {
+    if (this.species && this.species !== 'Ursus arctos') {
+      throw new Error('Only Ursus arctos is allowed as species for bear observations')
+    }
+  }
+}
