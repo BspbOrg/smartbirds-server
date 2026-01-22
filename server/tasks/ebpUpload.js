@@ -162,7 +162,8 @@ const loadRecords = async (forms, startDate, endDate) => {
         sourceEn: {
           [Op.or]: [
             { [Op.in]: allowedSources },
-            { [Op.is]: null }
+            { [Op.is]: null },
+            { [Op.eq]: '' }
           ]
         }
       }
