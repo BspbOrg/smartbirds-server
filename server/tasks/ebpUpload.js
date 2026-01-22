@@ -258,8 +258,10 @@ const generateEvents = (records, ebpSpecies, ebpSpeciesStatus, mode, protocol, e
       if (mode !== 'delete') {
         // group records by species
         const speciesRecords = records.reduce((acc, record) => {
+          const ebpSpeciesCode = ebpSpecies.find(species => species.sbNameLa === record.species)?.ebpId
+
           // count unique species-users records
-          const key = `${record.species}_${record.userId}`
+          const key = `${ebpSpeciesCode}_${record.userId}`
           if (!speciesUsersRecords.includes(key)) {
             speciesUsersRecords.push(key)
           }
@@ -269,28 +271,28 @@ const generateEvents = (records, ebpSpecies, ebpSpeciesStatus, mode, protocol, e
             observers.push(record.userId)
           }
 
-          if (!acc[record.species]) {
-            acc[record.species] = {
+          if (!acc[ebpSpeciesCode]) {
+            acc[ebpSpeciesCode] = {
               species: record.species,
-              species_code: ebpSpecies.find(species => species.sbNameLa === record.species)?.ebpId,
+              species_code: ebpSpeciesCode,
               breeding_code: null,
               users: [],
               records: []
             }
           }
 
-          if (!acc[record.species].users.includes(record.userId)) {
-            acc[record.species].users.push(record.userId)
+          if (!acc[ebpSpeciesCode].users.includes(record.userId)) {
+            acc[ebpSpeciesCode].users.push(record.userId)
           }
 
           if (record.speciesStatusEn) {
             const breedingCode = ebpSpeciesStatus.find(status => status.sbNameEn === record.speciesStatusEn)?.ebpId
-            if (!acc[record.species].breeding_code || acc[record.species].breeding_code < breedingCode) {
-              acc[record.species].breeding_code = breedingCode
+            if (!acc[ebpSpeciesCode].breeding_code || acc[ebpSpeciesCode].breeding_code < breedingCode) {
+              acc[ebpSpeciesCode].breeding_code = breedingCode
             }
           }
 
-          acc[record.species].records.push(record)
+          acc[ebpSpeciesCode].records.push(record)
 
           return acc
         }, {})
