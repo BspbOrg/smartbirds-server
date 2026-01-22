@@ -4094,13 +4094,6 @@ CREATE UNIQUE INDEX duplicates_form_id1 ON public.duplicates USING btree (form, 
 
 
 --
--- Name: ebp_birds_ebp_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX ebp_birds_ebp_id ON public.ebp_birds USING btree (\\"ebpId\\");
-
-
---
 -- Name: ebp_birds_sb_name_la; Type: INDEX; Schema: public; Owner: -
 --
 
