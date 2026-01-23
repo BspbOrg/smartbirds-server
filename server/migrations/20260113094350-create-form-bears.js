@@ -90,7 +90,7 @@ const nomenclatures = {
     { label: { bg: '9. Интензивни овощни градини и лозя - лишени от тревно покритие', en: '9. Intensive orchards and vineyards - No grass cover' } }
   ],
 
-  bears_danger_observation: [
+  bears_threats: [
     { label: { bg: 'Строежи', en: 'Construction / development' } },
     { label: { bg: 'Опасен път', en: 'Dangerous road' } },
     { label: { bg: 'Пресъхващи водни тела', en: 'Dried up waterbodies' } },

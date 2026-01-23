@@ -85,7 +85,7 @@ describe('Action: formBears', () => {
       ],
       threatsBears: [
         {
-          type: 'bears_danger_observation',
+          type: 'bears_threats',
           label: {
             bg: 'Браконерство',
             en: 'Poaching'
@@ -147,15 +147,6 @@ describe('Action: formBears', () => {
       cloudsType: 'Cirrus clouds',
       visibility: 8.5,
       mto: 'Clear weather with light breeze',
-      threats: [
-        {
-          type: 'main_threats',
-          label: {
-            bg: 'Безпокойство',
-            en: 'Disturbance'
-          }
-        }
-      ],
       notes: 'Additional observation notes'
     }
 
@@ -337,7 +328,7 @@ describe('Action: formBears', () => {
           ],
           threatsBears: [
             {
-              type: 'bears_danger_observation',
+              type: 'bears_threats',
               label: {
                 bg: 'Браконерство',
                 en: 'Poaching'

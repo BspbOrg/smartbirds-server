@@ -5,7 +5,7 @@ exports = module.exports = _.cloneDeep(require('./_common'))
 
 exports.tableName = 'FormBears'
 exports.hasSpecies = true
-exports.hasThreats = true
+exports.hasThreats = false
 
 exports.fields = assign(exports.fields, {
   species: {
@@ -75,7 +75,7 @@ exports.fields = assign(exports.fields, {
     type: 'multi',
     relation: {
       model: 'nomenclature',
-      filter: { type: 'bears_danger_observation' }
+      filter: { type: 'bears_threats' }
     }
   },
   findings: {
