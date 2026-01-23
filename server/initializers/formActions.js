@@ -191,7 +191,6 @@ function generateImportAction (form) {
 
 function generateFormActions (form) {
   const actions = {}
-
   if (!form || !form.modelName) return actions
 
   const insertInputs = {}
@@ -226,7 +225,14 @@ function generateFormActions (form) {
       }
     : {},
   form.hasSpecies ? { species: {} } : {},
-  form.listInputs || {})
+  form.listInputs || {},
+  form.modelName === 'formBears'
+    ? {
+        threatsBears: {
+          formatter: inputHelpers.formatter.nomenclature
+        }
+      }
+    : {})
 
   const exportInputs = _.extend({}, listInputs, {
     exportType: {

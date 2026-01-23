@@ -142,6 +142,17 @@ function generatePrepareQuery (form) {
       })
     }
 
+    // filter by threatsBears
+    if (params.threatsBears) {
+      query.where = _.extend(query.where || {}, {
+        $and: [
+          { threatsBearsEn: { $not: null } },
+          { threatsBearsEn: { $not: '' } },
+          { threatsBearsEn: { $like: '%' + params.threatsBears + '%' } }
+        ]
+      })
+    }
+
     // filter by moderatorReview
     if (params.moderatorReview != null) {
       query.where = {
