@@ -42,6 +42,7 @@ exports.default = {
         { path: '/storage/:id', action: 'downloader' },
         { path: '/user', action: 'user:list' },
         { path: '/user/:id', action: 'user:view' },
+        { path: '/access-audit', action: 'accessAudit:list' },
         { path: '/visit', action: 'visit:list' },
         { path: '/visit/:year', action: 'visit:view' },
         { path: '/zone', action: 'zone:list' },

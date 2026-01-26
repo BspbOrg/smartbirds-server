@@ -1,0 +1,278 @@
+/* eslint-env node, jest */
+/* globals setup */
+
+const userFactory = require('../../__utils__/factories/userFactory')
+
+describe('Action: accessAudit:list', () => {
+  let testUser
+  let auditRecords
+
+  beforeAll(async () => {
+    // Create test user for audit records
+    testUser = await userFactory(setup.api, { role: 'user', organizationSlug: 'test-org' })
+
+    // Create test audit records
+    auditRecords = await setup.api.models.access_audit.bulkCreate([
+      {
+        recordType: 'formBirds',
+        recordId: 1001,
+        actorUserId: testUser.id,
+        action: 'VIEW',
+        occurredAt: new Date('2026-01-10T10:00:00Z'),
+        ownerUserId: testUser.id + 1,
+        actorRole: 'user',
+        actorOrganization: 'test-org',
+        operationId: 'op-123'
+      },
+      {
+        recordType: 'formMammals',
+        recordId: 1002,
+        actorUserId: testUser.id,
+        action: 'EDIT',
+        occurredAt: new Date('2026-01-12T11:00:00Z'),
+        ownerUserId: testUser.id + 1,
+        actorRole: 'user',
+        actorOrganization: 'test-org'
+      },
+      {
+        recordType: 'formBirds',
+        recordId: 1003,
+        actorUserId: testUser.id,
+        action: 'DELETE',
+        occurredAt: new Date('2026-01-15T12:00:00Z'),
+        ownerUserId: testUser.id + 1,
+        actorRole: 'user',
+        actorOrganization: 'test-org',
+        operationId: 'op-456'
+      },
+      {
+        recordType: 'formBirds',
+        recordId: 1004,
+        actorUserId: testUser.id,
+        action: 'LIST',
+        occurredAt: new Date('2026-01-17T13:00:00Z'),
+        ownerUserId: testUser.id + 1,
+        actorRole: 'user',
+        actorOrganization: 'test-org',
+        operationId: 'op-789'
+      },
+      {
+        recordType: 'formBirds',
+        recordId: 1005,
+        actorUserId: testUser.id,
+        action: 'EXPORT',
+        occurredAt: new Date('2026-01-18T14:00:00Z'),
+        ownerUserId: testUser.id + 1,
+        actorRole: 'user',
+        actorOrganization: 'test-org',
+        operationId: 'op-789'
+      }
+    ])
+  })
+
+  describe('Authorization', () => {
+    it('allows admin users to access audit logs', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', {})
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      expect(response).toEqual(expect.objectContaining({
+        data: expect.any(Array),
+        count: expect.any(Number)
+      }))
+    })
+
+    it('denies non-admin users', async () => {
+      const response = await setup.runActionAsUser('accessAudit:list', {})
+
+      expect(response).toEqual(expect.objectContaining({
+        error: expect.stringMatching(/Admin required/)
+      }))
+    })
+
+    it('denies birds moderator', async () => {
+      const response = await setup.runActionAsBirds('accessAudit:list', {})
+
+      expect(response).toEqual(expect.objectContaining({
+        error: expect.stringMatching(/Admin required/)
+      }))
+    })
+
+    it('denies guest users', async () => {
+      const response = await setup.runActionAsGuest('accessAudit:list', {})
+
+      expect(response.error).toMatch(/Please log in to continue/)
+    })
+  })
+
+  describe('Pagination', () => {
+    it('returns records with count', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', {})
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      expect(response).toEqual(expect.objectContaining({
+        data: expect.any(Array),
+        count: expect.any(Number)
+      }))
+      expect(response.count).toBeGreaterThanOrEqual(auditRecords.length)
+    })
+
+    it('respects limit parameter', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', { limit: 2 })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      expect(response.data.length).toBeLessThanOrEqual(2)
+    })
+
+    it('respects offset parameter', async () => {
+      const response1 = await setup.runActionAsAdmin('accessAudit:list', { limit: 1, offset: 0 })
+      const response2 = await setup.runActionAsAdmin('accessAudit:list', { limit: 1, offset: 1 })
+
+      expect(response1).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      expect(response2).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+
+      if (response1.data.length > 0 && response2.data.length > 0) {
+        expect(response1.data[0].id).not.toBe(response2.data[0].id)
+      }
+    })
+  })
+
+  describe('Filtering', () => {
+    it('filters by actorUserId', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', { actorUserId: testUser.id })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      expect(response.data.length).toBeGreaterThan(0)
+      response.data.forEach(row => {
+        expect(row.actorUserId).toBe(testUser.id)
+      })
+    })
+
+    it('filters by ownerUserId', async () => {
+      const ownerUserId = testUser.id + 1
+      const response = await setup.runActionAsAdmin('accessAudit:list', { ownerUserId })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      response.data.forEach(row => {
+        expect(row.ownerUserId).toBe(ownerUserId)
+      })
+    })
+
+    it('filters by recordType', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', { recordType: 'formBirds' })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      expect(response.data.length).toBeGreaterThan(0)
+      response.data.forEach(row => {
+        expect(row.recordType).toBe('formBirds')
+      })
+    })
+
+    it('filters by userAction', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', { userAction: 'VIEW' })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      expect(response.data.length).toBeGreaterThan(0)
+      response.data.forEach(row => {
+        expect(row.action).toBe('VIEW')
+      })
+    })
+
+    it('filters by operationId', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', { operationId: 'op-123' })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      expect(response.data.length).toBeGreaterThan(0)
+      response.data.forEach(row => {
+        expect(row.operationId).toBe('op-123')
+      })
+    })
+
+    it('filters by date range', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', {
+        fromDate: '2026-01-12T00:00:00Z',
+        toDate: '2026-01-15T23:59:59Z'
+      })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      response.data.forEach(row => {
+        const date = new Date(row.occurredAt)
+        expect(date.getTime()).toBeGreaterThanOrEqual(new Date('2026-01-12T00:00:00Z').getTime())
+        expect(date.getTime()).toBeLessThanOrEqual(new Date('2026-01-15T23:59:59Z').getTime())
+      })
+    })
+  })
+
+  describe('Data Fields', () => {
+    it('includes all required audit fields', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', { actorUserId: testUser.id, limit: 1 })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      expect(response.data.length).toBeGreaterThan(0)
+
+      const record = response.data[0]
+      expect(record).toMatchObject({
+        id: expect.any(Number),
+        recordType: expect.any(String),
+        recordId: expect.any(Number),
+        action: expect.any(String),
+        actorUserId: testUser.id,
+        ownerUserId: expect.any(Number),
+        actorRole: expect.any(String),
+        actorOrganization: expect.any(String)
+      })
+      expect(record.occurredAt).toBeDefined()
+    })
+
+    it('tracks cross-user access correctly', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', {
+        actorUserId: testUser.id,
+        limit: 10
+      })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      expect(response.data.length).toBeGreaterThan(0)
+
+      // All records should have ownerUserId (cross-user access tracking)
+      response.data.forEach(row => {
+        expect(row.ownerUserId).toBeDefined()
+        expect(row.ownerUserId).not.toBe(row.actorUserId)
+      })
+    })
+  })
+
+  describe('Sorting', () => {
+    it('sorts by occurredAt DESC by default', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', {
+        actorUserId: testUser.id,
+        limit: 10
+      })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      expect(response.data.length).toBeGreaterThan(1)
+
+      for (let i = 1; i < response.data.length; i++) {
+        const prevDate = new Date(response.data[i - 1].occurredAt)
+        const currDate = new Date(response.data[i].occurredAt)
+        expect(prevDate.getTime()).toBeGreaterThanOrEqual(currDate.getTime())
+      }
+    })
+
+    it('respects sortOrder ASC parameter', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', {
+        actorUserId: testUser.id,
+        sortBy: 'occurredAt',
+        sortOrder: 'ASC',
+        limit: 10
+      })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      expect(response.data.length).toBeGreaterThan(1)
+
+      for (let i = 1; i < response.data.length; i++) {
+        const prevDate = new Date(response.data[i - 1].occurredAt)
+        const currDate = new Date(response.data[i].occurredAt)
+        expect(prevDate.getTime()).toBeLessThanOrEqual(currDate.getTime())
+      }
+    })
+  })
+})
