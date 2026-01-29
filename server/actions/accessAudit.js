@@ -13,6 +13,7 @@ module.exports.accessAuditList = class AccessAuditList extends Action {
       actorUserId: { required: false },
       ownerUserId: { required: false },
       recordType: { required: false },
+      recordId: { required: false },
       userAction: { required: false },
       fromDate: { required: false },
       toDate: { required: false },
@@ -46,6 +47,10 @@ module.exports.accessAuditList = class AccessAuditList extends Action {
 
     if (params.recordType) {
       query.where.recordType = params.recordType
+    }
+
+    if (params.recordId) {
+      query.where.recordId = parseInt(params.recordId)
     }
 
     if (params.userAction) {
