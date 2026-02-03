@@ -1424,5 +1424,7 @@
     "AUDIT_LOADING": "Зареждане...",
     "AUDIT_NO_RECORDS": "Не са намерени одитни записи",
     "AUDIT_END_OF_RESULTS": "Край на резултатите",
-    "AUDIT_USER_UNKNOWN": "Потребител {{userId}}"
+    "AUDIT_USER_UNKNOWN": "Потребител {{userId}}",
+    "BEARS_PUBLIC_LIST_TITLE_MAIN": "Форма Мечки",
+    "BEARS_PUBLIC_LIST_TITLE_SECONDARY": "Наблюдения на мечки"
 }

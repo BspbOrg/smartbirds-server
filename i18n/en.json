@@ -1431,5 +1431,7 @@
     "AUDIT_LOADING": "Loading...",
     "AUDIT_NO_RECORDS": "No audit records found",
     "AUDIT_END_OF_RESULTS": "End of results",
-    "AUDIT_USER_UNKNOWN": "User {{userId}}"
+    "AUDIT_USER_UNKNOWN": "User {{userId}}",
+    "BEARS_PUBLIC_LIST_TITLE_MAIN": "Form Bears",
+    "BEARS_PUBLIC_LIST_TITLE_SECONDARY": "Bear observations"
 }
