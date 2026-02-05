@@ -112,6 +112,11 @@ exports.default = {
         { path: '/threats.zip', action: 'formThreats:list' },
         { path: '/threats/:id', action: 'formThreats:view' },
 
+        { path: '/bears', action: 'formBears:list' },
+        { path: '/bears.csv', action: 'formBears:list' },
+        { path: '/bears.zip', action: 'formBears:list' },
+        { path: '/bears/:id', action: 'formBears:view' },
+
         { path: '/ebp/species', action: 'ebp:speciesList' },
         { path: '/ebp/species-status', action: 'ebp:speciesStatusList' },
 
@@ -179,6 +184,9 @@ exports.default = {
         { path: '/threats', action: 'formThreats:create' },
         { path: '/threats/:id', action: 'formThreats:edit' },
 
+        { path: '/bears', action: 'formBears:create' },
+        { path: '/bears/:id', action: 'formBears:edit' },
+
         // form exports
         { path: '/export/bats', action: 'formBats:export' },
         { path: '/export/birds', action: 'formBirds:export' },
@@ -193,6 +201,7 @@ exports.default = {
         { path: '/export/pylons', action: 'formPylons:export' },
         { path: '/export/pylons-casualties', action: 'formPylonsCasualties:export' },
         { path: '/export/threats', action: 'formThreats:export' },
+        { path: '/export/bears', action: 'formBears:export' },
 
         // form imports
         { path: '/import/bats', action: 'formBats:import' },
@@ -207,7 +216,8 @@ exports.default = {
         { path: '/import/plants', action: 'formPlants:import' },
         { path: '/import/pylons', action: 'formPylons:import' },
         { path: '/import/pylons-casualties', action: 'formPylonsCasualties:import' },
-        { path: '/import/threats', action: 'formThreats:import' }
+        { path: '/import/threats', action: 'formThreats:import' },
+        { path: '/import/bears', action: 'formBears:import' }
       ],
 
       put: [
@@ -249,7 +259,8 @@ exports.default = {
         { path: '/plants/:id', action: 'formPlants:delete' },
         { path: '/pylons/:id', action: 'formPylons:delete' },
         { path: '/pylons-casualties/:id', action: 'formPylonsCasualties:delete' },
-        { path: '/threats/:id', action: 'formThreats:delete' }
+        { path: '/threats/:id', action: 'formThreats:delete' },
+        { path: '/bears/:id', action: 'formBears:delete' }
       ]
     }
   }

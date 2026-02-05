@@ -271,6 +271,95 @@ CREATE TABLE public.\\"FormBats\\" (
 
 
 --
+-- Name: FormBears; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.\\"FormBears\\" (
+    id integer DEFAULT nextval('public.\\"FormBirds_id_seq\\"'::regclass) NOT NULL,
+    hash character varying(64),
+    species text NOT NULL,
+    count integer,
+    \\"sexEn\\" text,
+    \\"sexLocal\\" text,
+    \\"sexLang\\" character varying(3),
+    \\"ageEn\\" text,
+    \\"ageLocal\\" text,
+    \\"ageLang\\" character varying(3),
+    \\"excrementContentEn\\" text,
+    \\"excrementContentLocal\\" text,
+    \\"excrementContentLang\\" character varying(3),
+    \\"excrementConsistenceEn\\" text,
+    \\"excrementConsistenceLocal\\" text,
+    \\"excrementConsistenceLang\\" character varying(3),
+    \\"denEn\\" text,
+    \\"denLocal\\" text,
+    \\"denLang\\" character varying(3),
+    \\"habitatEn\\" text,
+    \\"habitatLocal\\" text,
+    \\"habitatLang\\" character varying(3),
+    \\"threatsBearsEn\\" text,
+    \\"threatsBearsLocal\\" text,
+    \\"threatsBearsLang\\" character varying(3),
+    \\"findingsEn\\" text,
+    \\"findingsLocal\\" text,
+    \\"findingsLang\\" character varying(3),
+    \\"markingHeight\\" double precision,
+    \\"footprintFrontPawWidth\\" double precision,
+    \\"footprintFrontPawLength\\" double precision,
+    \\"footprintHindPawWidth\\" double precision,
+    \\"footprintHindPawLength\\" double precision,
+    \\"speciesNotes\\" text,
+    \\"autoLocationEn\\" text,
+    \\"autoLocationLocal\\" text,
+    \\"autoLocationLang\\" character varying(3),
+    \\"observationMethodologyEn\\" text,
+    \\"observationMethodologyLocal\\" text,
+    \\"observationMethodologyLang\\" character varying(3),
+    \\"moderatorReview\\" boolean,
+    \\"sourceEn\\" text,
+    \\"sourceLocal\\" text,
+    \\"sourceLang\\" character varying(3),
+    latitude double precision,
+    longitude double precision,
+    \\"observationDateTime\\" timestamp with time zone,
+    \\"monitoringCode\\" text,
+    \\"endDateTime\\" timestamp with time zone,
+    \\"startDateTime\\" timestamp with time zone,
+    observers text,
+    \\"rainEn\\" text,
+    \\"rainLocal\\" text,
+    \\"rainLang\\" character varying(3),
+    temperature double precision,
+    \\"windDirectionEn\\" text,
+    \\"windDirectionLocal\\" text,
+    \\"windDirectionLang\\" character varying(3),
+    \\"windSpeedEn\\" text,
+    \\"windSpeedLocal\\" text,
+    \\"windSpeedLang\\" character varying(3),
+    \\"cloudinessEn\\" text,
+    \\"cloudinessLocal\\" text,
+    \\"cloudinessLang\\" character varying(3),
+    \\"cloudsType\\" text,
+    visibility double precision,
+    mto text,
+    notes text,
+    \\"threatsEn\\" text,
+    \\"threatsLocal\\" text,
+    \\"threatsLang\\" character varying(3),
+    pictures text,
+    track text,
+    confidential boolean,
+    \\"geolocationAccuracy\\" double precision,
+    location text,
+    \\"userId\\" integer,
+    organization text,
+    imported integer,
+    \\"createdAt\\" timestamp with time zone,
+    \\"updatedAt\\" timestamp with time zone
+);
+
+
+--
 -- Name: FormBirdsMigrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2912,7 +3001,36 @@ CREATE VIEW public.mammals_observations AS
             \\"FormBats\\".location,
             \\"FormBats\\".\\"createdAt\\",
             \\"FormBats\\".\\"updatedAt\\"
-           FROM public.\\"FormBats\\") mammals_observations;
+           FROM public.\\"FormBats\\"
+        UNION ALL
+         SELECT 'FormBears'::text AS form_name,
+            \\"FormBears\\".id,
+            \\"FormBears\\".latitude,
+            \\"FormBears\\".longitude,
+            \\"FormBears\\".\\"geolocationAccuracy\\",
+            \\"FormBears\\".\\"userId\\",
+            \\"FormBears\\".organization,
+            \\"FormBears\\".\\"observationDateTime\\",
+            \\"FormBears\\".species,
+            \\"FormBears\\".count,
+            \\"FormBears\\".\\"monitoringCode\\",
+            \\"FormBears\\".\\"startDateTime\\",
+            \\"FormBears\\".\\"endDateTime\\",
+            \\"FormBears\\".confidential,
+            \\"FormBears\\".\\"moderatorReview\\",
+            \\"FormBears\\".\\"autoLocationEn\\",
+            \\"FormBears\\".\\"autoLocationLocal\\",
+            \\"FormBears\\".\\"autoLocationLang\\",
+            \\"FormBears\\".\\"observationMethodologyEn\\",
+            \\"FormBears\\".\\"observationMethodologyLocal\\",
+            \\"FormBears\\".\\"observationMethodologyLang\\",
+            \\"FormBears\\".\\"sourceLocal\\",
+            \\"FormBears\\".\\"sourceLang\\",
+            \\"FormBears\\".\\"sourceEn\\",
+            \\"FormBears\\".location,
+            \\"FormBears\\".\\"createdAt\\",
+            \\"FormBears\\".\\"updatedAt\\"
+           FROM public.\\"FormBears\\") mammals_observations;
 
 
 --
@@ -2943,7 +3061,7 @@ CREATE VIEW public.mammals_top_interesting_species_month AS
     form.auto_location_lang AS \\"autoLocationLang\\"
    FROM ((public.mammals_observations form
      LEFT JOIN public.\\"Users\\" u ON ((form.user_id = u.id)))
-     LEFT JOIN public.\\"Species\\" s ON (((s.\\"labelLa\\" = form.species) AND (((form.form_name = 'FormMammals'::text) AND ((s.type)::text = 'mammals'::text)) OR ((form.form_name = 'FormBats'::text) AND ((s.type)::text = 'bats'::text))))))
+     LEFT JOIN public.\\"Species\\" s ON (((s.\\"labelLa\\" = form.species) AND (((form.form_name = 'FormMammals'::text) AND ((s.type)::text = 'mammals'::text)) OR ((form.form_name = 'FormBats'::text) AND ((s.type)::text = 'bats'::text)) OR ((form.form_name = 'FormBears'::text) AND ((s.type)::text = 'mammals'::text))))))
   WHERE ((form.observation_date_time >= (CURRENT_DATE - '1 mon'::interval)) AND (form.count > 0) AND ((NOT form.confidential) OR (form.confidential IS NULL)) AND (s.interesting = true) AND ((NOT s.sensitive) OR (s.sensitive IS NULL)) AND ((u.privacy)::text = 'public'::text))
   ORDER BY form.observation_date_time DESC;
 
@@ -3687,6 +3805,14 @@ ALTER TABLE ONLY public.settlements ALTER COLUMN id SET DEFAULT nextval('public.
 
 ALTER TABLE ONLY public.\\"FormBats\\"
     ADD CONSTRAINT \\"FormBats_pkey\\" PRIMARY KEY (id);
+
+
+--
+-- Name: FormBears FormBears_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.\\"FormBears\\"
+    ADD CONSTRAINT \\"FormBears_pkey\\" PRIMARY KEY (id);
 
 
 --

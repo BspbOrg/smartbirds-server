@@ -140,6 +140,13 @@ module.exports = [
       labelLa: 'Myotis sp.'
     }
   },
+  {
+    model: 'species',
+    data: {
+      type: 'mammals',
+      labelLa: 'Ursus arctos'
+    }
+  },
 ]
 
 for (let i = 1; i < 10; i++) {

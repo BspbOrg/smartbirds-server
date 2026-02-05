@@ -46,6 +46,22 @@ module.exports = {
           location,
           "createdAt", "updatedAt"
         FROM "FormBats"
+
+        UNION ALL
+
+        SELECT
+          'FormBears' as form_name, id,
+          latitude, longitude, "geolocationAccuracy",
+          "userId", organization,
+          "observationDateTime", species, count,
+          "monitoringCode", "startDateTime", "endDateTime", confidential,
+          "moderatorReview",
+          "autoLocationEn", "autoLocationLocal", "autoLocationLang",
+          "observationMethodologyEn", "observationMethodologyLocal", "observationMethodologyLang",
+          "sourceLocal", "sourceLang", "sourceEn",
+          location,
+          "createdAt", "updatedAt"
+        FROM "FormBears"
       ) mammals_observations
   `,
   down: `
