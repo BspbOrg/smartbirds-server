@@ -21,9 +21,8 @@ exports.default = {
         }
       },
 
-      // Automated detection
-      autoDetect: false,
-      detectIntervalMinutes: 5
+      // Automated detection settings
+      autoDetect: false // Enable/disable automated detection
     }
   }
 }
