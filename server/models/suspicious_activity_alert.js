@@ -20,11 +20,6 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       defaultValue: 'new' // api.suspiciousActivityDetector.statuses.NEW (can't use at define time)
     },
-    severity: {
-      type: DataTypes.STRING(20),
-      allowNull: false,
-      defaultValue: 'medium' // api.suspiciousActivityDetector.severities.MEDIUM (can't use at define time)
-    },
     detectedAt: {
       type: DataTypes.DATE,
       allowNull: false

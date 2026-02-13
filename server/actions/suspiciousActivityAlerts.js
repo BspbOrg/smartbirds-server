@@ -65,7 +65,6 @@ module.exports.suspiciousActivityAlertList = class SuspiciousActivityAlertList e
       userId: row.userId,
       patternType: row.patternType,
       status: row.status,
-      severity: row.severity,
       detectedAt: row.detectedAt,
       resolvedAt: row.resolvedAt,
       resolvedBy: row.resolvedBy,
@@ -110,7 +109,6 @@ module.exports.suspiciousActivityAlertView = class SuspiciousActivityAlertView e
       userId: alert.userId,
       patternType: alert.patternType,
       status: alert.status,
-      severity: alert.severity,
       detectedAt: alert.detectedAt,
       resolvedAt: alert.resolvedAt,
       resolvedBy: alert.resolvedBy,
@@ -137,8 +135,7 @@ module.exports.suspiciousActivityAlertUpdate = class SuspiciousActivityAlertUpda
     this.inputs = {
       id: { required: true },
       status: { required: false },
-      adminNotes: { required: false },
-      severity: { required: false }
+      adminNotes: { required: false }
     }
   }
 
@@ -177,15 +174,6 @@ module.exports.suspiciousActivityAlertUpdate = class SuspiciousActivityAlertUpda
       updates.adminNotes = params.adminNotes
     }
 
-    // Update severity
-    if (params.severity) {
-      const validSeverities = Object.values(api.suspiciousActivityDetector.severities)
-      if (!validSeverities.includes(params.severity)) {
-        throw new Error('Invalid severity. Must be one of: ' + validSeverities.join(', '))
-      }
-      updates.severity = params.severity
-    }
-
     await alert.update(updates)
 
     response.data = {
@@ -193,7 +181,6 @@ module.exports.suspiciousActivityAlertUpdate = class SuspiciousActivityAlertUpda
       userId: alert.userId,
       patternType: alert.patternType,
       status: alert.status,
-      severity: alert.severity,
       detectedAt: alert.detectedAt,
       resolvedAt: alert.resolvedAt,
       resolvedBy: alert.resolvedBy,
@@ -251,17 +238,6 @@ module.exports.suspiciousActivityAlertStats = class SuspiciousActivityAlertStats
       raw: true
     })
 
-    // Count by severity
-    const bySeverity = await api.models.suspicious_activity_alert.findAll({
-      where,
-      attributes: [
-        'severity',
-        [api.sequelize.sequelize.fn('COUNT', api.sequelize.sequelize.col('id')), 'count']
-      ],
-      group: ['severity'],
-      raw: true
-    })
-
     // Count resolved in last 7 days
     const resolvedThisWeekWhere = {
       ...where,
@@ -283,11 +259,6 @@ module.exports.suspiciousActivityAlertStats = class SuspiciousActivityAlertStats
       return acc
     }, {})
 
-    const severityCounts = bySeverity.reduce((acc, row) => {
-      acc[row.severity] = parseInt(row.count)
-      return acc
-    }, {})
-
     // Total count
     const total = await api.models.suspicious_activity_alert.count({ where })
 
@@ -299,8 +270,7 @@ module.exports.suspiciousActivityAlertStats = class SuspiciousActivityAlertStats
       falsePositiveCount: statusCounts.false_positive || 0,
       resolvedThisWeek,
       byStatus: statusCounts,
-      byPattern: patternCounts,
-      bySeverity: severityCounts
+      byPattern: patternCounts
     }
   }
 }

@@ -17,13 +17,6 @@ module.exports = class SuspiciousActivityDetectorInit extends Initializer {
         FALSE_POSITIVE: 'false_positive'
       },
 
-      // Alert severity constants
-      severities: {
-        LOW: 'low',
-        MEDIUM: 'medium',
-        HIGH: 'high'
-      },
-
       // Pattern definitions - each pattern is self-contained
       patterns: {
         bulkOperations: {
@@ -270,7 +263,6 @@ module.exports = class SuspiciousActivityDetectorInit extends Initializer {
           userId,
           patternType,
           status: api.suspiciousActivityDetector.statuses.NEW,
-          severity: api.suspiciousActivityDetector.severities.MEDIUM,
           detectedAt,
           detectionData,
           requestCount: summary.requestCount,

@@ -23,10 +23,6 @@ module.exports = {
         type: Sequelize.STRING(20),
         allowNull: false
       },
-      severity: {
-        type: Sequelize.STRING(20),
-        allowNull: false
-      },
       detectedAt: {
         type: Sequelize.DATE,
         allowNull: false
