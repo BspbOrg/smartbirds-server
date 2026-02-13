@@ -251,19 +251,56 @@ module.exports.suspiciousActivityAlertStats = class SuspiciousActivityAlertStats
       raw: true
     })
 
+    // Count by severity
+    const bySeverity = await api.models.suspicious_activity_alert.findAll({
+      where,
+      attributes: [
+        'severity',
+        [api.sequelize.sequelize.fn('COUNT', api.sequelize.sequelize.col('id')), 'count']
+      ],
+      group: ['severity'],
+      raw: true
+    })
+
+    // Count resolved in last 7 days
+    const resolvedThisWeekWhere = {
+      ...where,
+      status: 'resolved',
+      resolvedAt: {
+        [Op.gte]: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+      }
+    }
+    const resolvedThisWeek = await api.models.suspicious_activity_alert.count({ where: resolvedThisWeekWhere })
+
+    // Convert to object for easy access
+    const statusCounts = byStatus.reduce((acc, row) => {
+      acc[row.status] = parseInt(row.count)
+      return acc
+    }, {})
+
+    const patternCounts = byPattern.reduce((acc, row) => {
+      acc[row.patternType] = parseInt(row.count)
+      return acc
+    }, {})
+
+    const severityCounts = bySeverity.reduce((acc, row) => {
+      acc[row.severity] = parseInt(row.count)
+      return acc
+    }, {})
+
     // Total count
     const total = await api.models.suspicious_activity_alert.count({ where })
 
     response.data = {
       total,
-      byStatus: byStatus.reduce((acc, row) => {
-        acc[row.status] = parseInt(row.count)
-        return acc
-      }, {}),
-      byPattern: byPattern.reduce((acc, row) => {
-        acc[row.patternType] = parseInt(row.count)
-        return acc
-      }, {})
+      newCount: statusCounts.new || 0,
+      investigatingCount: statusCounts.investigating || 0,
+      resolvedCount: statusCounts.resolved || 0,
+      falsePositiveCount: statusCounts.false_positive || 0,
+      resolvedThisWeek,
+      byStatus: statusCounts,
+      byPattern: patternCounts,
+      bySeverity: severityCounts
     }
   }
 }
