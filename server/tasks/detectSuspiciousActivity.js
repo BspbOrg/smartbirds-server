@@ -17,12 +17,6 @@ module.exports = class DetectSuspiciousActivity extends Task {
       return
     }
 
-    // Check if auto-detection is enabled
-    if (!api.config.suspiciousActivity.autoDetect) {
-      api.log('Auto-detection disabled, skipping', 'debug')
-      return
-    }
-
     api.log('Running suspicious activity detection...', 'info')
 
     try {

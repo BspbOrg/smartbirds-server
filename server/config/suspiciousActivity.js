@@ -19,10 +19,7 @@ exports.default = {
         sessionAnomalies: {
           timeWindowMinutes: 15 // 15 minutes
         }
-      },
-
-      // Automated detection settings
-      autoDetect: false // Enable/disable automated detection
+      }
     }
   }
 }
