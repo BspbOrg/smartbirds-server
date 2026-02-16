@@ -8,9 +8,19 @@ module.exports = class IpLoggerInit extends Initializer {
   }
 
   async initialize () {
+    // Endpoints excluded from IP logging (metadata-only, no data access)
+    const EXCLUDED_ENDPOINTS = new Set([
+      'i18n', // Translations
+      'nomenclature:types', // Type lists (not actual data)
+      'species:types',
+      'poi:types',
+      'map_layer:types',
+      'session:check' // Session validation only
+    ])
+
     api.ipLogger = {
       logRequest: async (userId, connection, endpoint) => {
-        // Only PostgreSQL
+        // Only log to PostgreSQL
         if (api.sequelize.sequelize.options.dialect !== 'postgres') {
           return
         }
@@ -19,7 +29,12 @@ module.exports = class IpLoggerInit extends Initializer {
           return
         }
 
-        // Get IP address - ActionHero connection provides this
+        // Skip excluded endpoints
+        if (EXCLUDED_ENDPOINTS.has(endpoint)) {
+          return
+        }
+
+        // Extract request metadata
         // Note: connection.remoteIP handles X-Forwarded-For automatically
         const ipAddress = connection.remoteIP
         const sessionFingerprint = connection.fingerprint
@@ -37,24 +52,34 @@ module.exports = class IpLoggerInit extends Initializer {
             userAgent
           })
         } catch (error) {
-          // Log errors but don't break requests (non-blocking)
+          // Non-blocking: log error but don't fail the request
           api.log(`IP logging error: ${error.message}`, 'error')
         }
       }
     }
 
-    // Add middleware
     const ipLoggerMiddleware = {
       name: 'ipLogger',
       global: true,
-      priority: 25, // After session middleware (20)
+      priority: 25, // After session middleware
       preProcessor: async (data) => {
         // Only log authenticated requests
         if (data.session && data.session.userId) {
+          const endpoint = data.actionTemplate?.name
+
+          // Skip form list count queries (return only counts, not data)
+          // Restricted to form*:list endpoints to prevent bypass attacks
+          if (data.params?.context === 'count') {
+            const isFormListEndpoint = endpoint?.match(/^form[A-Z][a-zA-Z]+:list$/)
+            if (isFormListEndpoint) {
+              return
+            }
+          }
+
           await api.ipLogger.logRequest(
             data.session.userId,
             data.connection,
-            data.actionTemplate?.name
+            endpoint
           )
         }
       }
