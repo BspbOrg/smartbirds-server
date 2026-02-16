@@ -45,7 +45,10 @@ module.exports.suspiciousActivityAlertList = class SuspiciousActivityAlertList e
         where.detectedAt[Op.gte] = new Date(params.fromDate)
       }
       if (params.toDate) {
-        where.detectedAt[Op.lte] = new Date(params.toDate)
+        // Add 1 day and use < (less than) to include the entire toDate day
+        const toDateEnd = new Date(params.toDate)
+        toDateEnd.setDate(toDateEnd.getDate() + 1)
+        where.detectedAt[Op.lt] = toDateEnd
       }
     }
 
@@ -212,7 +215,10 @@ module.exports.suspiciousActivityAlertStats = class SuspiciousActivityAlertStats
         where.detectedAt[Op.gte] = new Date(params.fromDate)
       }
       if (params.toDate) {
-        where.detectedAt[Op.lte] = new Date(params.toDate)
+        // Add 1 day and use < (less than) to include the entire toDate day
+        const toDateEnd = new Date(params.toDate)
+        toDateEnd.setDate(toDateEnd.getDate() + 1)
+        where.detectedAt[Op.lt] = toDateEnd
       }
     }
 
