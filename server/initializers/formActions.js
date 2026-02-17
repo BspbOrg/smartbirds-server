@@ -54,7 +54,20 @@ function generateEditAction (form) {
 
       await record.apiUpdate(data.params, data.session.user.language, role)
       await record.save()
+
       data.response.data = await record.apiData(api)
+
+      // Blocking audit logging - operation fails if audit fails
+      await api.audit.logAccess({
+        action: api.audit.actions.edit,
+        recordType: form.modelName,
+        recordId: record.id,
+        ownerUserId: record.userId,
+        actorUserId: data.session.user.id,
+        actorRole: data.session.user.role,
+        actorOrganization: data.session.user.organizationSlug,
+        meta: JSON.stringify({ context: 'edit' })
+      })
       next()
     } catch (error) {
       api.log(error, 'error')
@@ -72,6 +85,18 @@ function generateViewAction (form) {
     try {
       const record = await form.retrieveRecord(api, data, { context: 'view' })
       data.response.data = await record.apiData(api)
+
+      // Blocking audit logging - operation fails if audit fails
+      await api.audit.logAccess({
+        action: api.audit.actions.view,
+        recordType: form.modelName,
+        recordId: record.id,
+        ownerUserId: record.userId,
+        actorUserId: data.session.user.id,
+        actorRole: data.session.user.role,
+        actorOrganization: data.session.user.organizationSlug,
+        meta: JSON.stringify({ context: 'view' })
+      })
       next()
     } catch (error) {
       api.log(error, 'error')
@@ -88,7 +113,23 @@ function generateDeleteAction (form) {
   return async function (api, data, next) {
     try {
       const record = await form.retrieveRecord(api, data, { context: 'delete' })
+
+      // Log audit BEFORE destroying record
+      // This ensures we have an audit trail even if delete succeeds but audit fails
+      await api.audit.logAccess({
+        action: api.audit.actions.delete,
+        recordType: form.modelName,
+        recordId: record.id,
+        ownerUserId: record.userId,
+        actorUserId: data.session.user.id,
+        actorRole: data.session.user.role,
+        actorOrganization: data.session.user.organizationSlug,
+        meta: JSON.stringify({ context: 'delete' })
+      })
+
+      // Now safe to destroy - audit record exists
       await record.destroy()
+
       next()
     } catch (error) {
       api.log(error, 'error')
@@ -109,6 +150,20 @@ function generateListAction (form) {
         // prepare the output
         data.response.data = await Promise.all(result.rows.map(async (model) => model.apiData(api, data.params.context)))
         data.response.count = result.count
+
+        // Blocking bulk audit logging - operation fails if audit fails
+        if (result.rows.length > 0) {
+          await api.audit.logAccessBulk({
+            action: api.audit.actions.list,
+            recordType: form.modelName,
+            recordIds: result.rows.map(row => row.id),
+            ownerUserIds: result.rows.map(row => row.userId),
+            actorUserId: data.session.user.id,
+            actorRole: data.session.user.role,
+            actorOrganization: data.session.user.organizationSlug,
+            meta: JSON.stringify({ context: data.params?.context || '' })
+          })
+        }
       } else {
         data.response.count = await api.models[form.modelName].count(query)
       }

@@ -1941,6 +1941,44 @@ CREATE TABLE public.\\"Zones\\" (
 
 
 --
+-- Name: access_audit; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.access_audit (
+    id bigint NOT NULL,
+    \\"operationId\\" character varying(255),
+    action text NOT NULL,
+    \\"actorUserId\\" integer NOT NULL,
+    \\"recordId\\" integer NOT NULL,
+    \\"recordType\\" character varying(255) NOT NULL,
+    \\"ownerUserId\\" integer,
+    \\"occurredAt\\" timestamp with time zone NOT NULL,
+    \\"actorRole\\" character varying(255),
+    \\"actorOrganization\\" text,
+    meta text
+);
+
+
+--
+-- Name: access_audit_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.access_audit_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: access_audit_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.access_audit_id_seq OWNED BY public.access_audit.id;
+
+
+--
 -- Name: bgatlas2008_cell_status; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3758,6 +3796,13 @@ ALTER TABLE ONLY public.\\"Visits\\" ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
+-- Name: access_audit id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.access_audit ALTER COLUMN id SET DEFAULT nextval('public.access_audit_id_seq'::regclass);
+
+
+--
 -- Name: duplicates id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3992,6 +4037,14 @@ ALTER TABLE ONLY public.\\"Zones\\"
 
 
 --
+-- Name: access_audit access_audit_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.access_audit
+    ADD CONSTRAINT access_audit_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: bgatlas2008_cell_status bgatlas2008_cell_status_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4133,6 +4186,41 @@ CREATE INDEX \\"FormMammals_threatsEn\\" ON public.\\"FormMammals\\" USING btree
 --
 
 CREATE INDEX \\"FormPlants_threatsEn\\" ON public.\\"FormPlants\\" USING btree (\\"threatsEn\\");
+
+
+--
+-- Name: access_audit_actor_user_id_occurred_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX access_audit_actor_user_id_occurred_at ON public.access_audit USING btree (\\"actorUserId\\", \\"occurredAt\\");
+
+
+--
+-- Name: access_audit_occurred_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX access_audit_occurred_at ON public.access_audit USING btree (\\"occurredAt\\");
+
+
+--
+-- Name: access_audit_operation_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX access_audit_operation_id ON public.access_audit USING btree (\\"operationId\\");
+
+
+--
+-- Name: access_audit_owner_occurred_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX access_audit_owner_occurred_idx ON public.access_audit USING btree (\\"ownerUserId\\", \\"occurredAt\\");
+
+
+--
+-- Name: access_audit_record_type_record_id_occurred_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX access_audit_record_type_record_id_occurred_at ON public.access_audit USING btree (\\"recordType\\", \\"recordId\\", \\"occurredAt\\");
 
 
 --
