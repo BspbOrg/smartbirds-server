@@ -275,4 +275,109 @@ describe('Action: accessAudit:list', () => {
       }
     })
   })
+
+  describe('Input Validation', () => {
+    it('defaults to safe sortBy when invalid field provided', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', {
+        sortBy: 'maliciousField; DROP TABLE access_audit;'
+      })
+
+      // Should not error, should default to occurredAt
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      expect(response.data).toBeDefined()
+    })
+
+    it('rejects invalid fromDate format', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', {
+        fromDate: 'not-a-date'
+      })
+
+      expect(response.error).toMatch(/Invalid fromDate format/)
+    })
+
+    it('rejects invalid toDate format', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', {
+        toDate: 'invalid-date-string'
+      })
+
+      expect(response.error).toMatch(/Invalid toDate format/)
+    })
+
+    it('rejects invalid actorUserId', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', {
+        actorUserId: 'abc'
+      })
+
+      expect(response.error).toMatch(/must be a valid positive integer/)
+    })
+
+    it('rejects invalid ownerUserId', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', {
+        ownerUserId: 'not-a-number'
+      })
+
+      expect(response.error).toMatch(/must be a valid positive integer/)
+    })
+
+    it('rejects invalid recordId', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', {
+        recordId: '-123'
+      })
+
+      expect(response.error).toMatch(/must be a valid positive integer/)
+    })
+
+    it('rejects invalid recordType', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', {
+        recordType: 'formInvalid'
+      })
+
+      expect(response.error).toMatch(/Invalid recordType/)
+    })
+
+    it('rejects invalid userAction', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', {
+        userAction: 'MALICIOUS_ACTION'
+      })
+
+      expect(response.error).toMatch(/Invalid userAction/)
+    })
+
+    it('enforces maximum limit of 500', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', {
+        limit: 9999
+      })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      expect(response.data.length).toBeLessThanOrEqual(500)
+    })
+
+    it('filters by recordId', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', {
+        recordId: 1001
+      })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      if (response.data.length > 0) {
+        response.data.forEach(row => {
+          expect(row.recordId).toBe(1001)
+        })
+      }
+    })
+
+    it('handles toDate as inclusive of entire day', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:list', {
+        toDate: '2026-01-15'
+      })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      // Should include records from entire day of 2026-01-15
+      const hasRecordFromThatDay = response.data.some(row => {
+        const date = new Date(row.occurredAt)
+        return date >= new Date('2026-01-15T00:00:00Z') &&
+               date < new Date('2026-01-16T00:00:00Z')
+      })
+      expect(hasRecordFromThatDay).toBe(true)
+    })
+  })
 })
