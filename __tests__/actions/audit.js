@@ -190,6 +190,30 @@ describe('Actions with audit logging', () => {
 
       expect(auditCountAfter).toBe(auditCountBefore)
     })
+
+    it('calls audit.logAccess before record.destroy (verifies ordering)', async () => {
+      const record = await formBirdsFactory(setup.api, { userId: owner.id })
+
+      // Spy on both methods to track call order
+      const auditSpy = jest.spyOn(setup.api.audit, 'logAccess')
+      const destroySpy = jest.spyOn(setup.api.models.formBirds.prototype, 'destroy')
+
+      actorConnection.params = { id: record.id }
+      await setup.runAction('formBirds:delete', actorConnection)
+
+      // Verify both were called
+      expect(auditSpy).toHaveBeenCalled()
+      expect(destroySpy).toHaveBeenCalled()
+
+      // Verify audit was called BEFORE destroy
+      const auditCallOrder = auditSpy.mock.invocationCallOrder[0]
+      const destroyCallOrder = destroySpy.mock.invocationCallOrder[0]
+      expect(auditCallOrder).toBeLessThan(destroyCallOrder)
+
+      // Cleanup spies
+      auditSpy.mockRestore()
+      destroySpy.mockRestore()
+    })
   })
 
   describe('formBirds:list', () => {

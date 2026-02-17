@@ -113,9 +113,9 @@ function generateDeleteAction (form) {
   return async function (api, data, next) {
     try {
       const record = await form.retrieveRecord(api, data, { context: 'delete' })
-      await record.destroy()
 
-      // Blocking audit logging - operation fails if audit fails
+      // Log audit BEFORE destroying record
+      // This ensures we have an audit trail even if delete succeeds but audit fails
       await api.audit.logAccess({
         action: api.audit.actions.delete,
         recordType: form.modelName,
@@ -126,6 +126,9 @@ function generateDeleteAction (form) {
         actorOrganization: data.session.user.organizationSlug,
         meta: JSON.stringify({ context: 'delete' })
       })
+
+      // Now safe to destroy - audit record exists
+      await record.destroy()
 
       next()
     } catch (error) {
