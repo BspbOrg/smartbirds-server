@@ -47,6 +47,9 @@ module.exports = function (sequelize, DataTypes) {
       },
       {
         fields: ['operationId']
+      },
+      {
+        fields: ['ownerUserId', 'occurredAt']
       }
     ]
   })
