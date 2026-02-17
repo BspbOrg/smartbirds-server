@@ -4210,6 +4210,13 @@ CREATE INDEX access_audit_operation_id ON public.access_audit USING btree (\\"op
 
 
 --
+-- Name: access_audit_owner_occurred_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX access_audit_owner_occurred_idx ON public.access_audit USING btree (\\"ownerUserId\\", \\"occurredAt\\");
+
+
+--
 -- Name: access_audit_record_type_record_id_occurred_at; Type: INDEX; Schema: public; Owner: -
 --
 

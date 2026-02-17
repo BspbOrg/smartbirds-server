@@ -11,7 +11,7 @@ describe('Action: accessAudit:list', () => {
     // Create test user for audit records
     testUser = await userFactory(setup.api, { role: 'user', organizationSlug: 'test-org' })
 
-    // Create test audit records
+    // Create test audit records with valid UUID v7 operationIds
     auditRecords = await setup.api.models.access_audit.bulkCreate([
       {
         recordType: 'formBirds',
@@ -22,7 +22,7 @@ describe('Action: accessAudit:list', () => {
         ownerUserId: testUser.id + 1,
         actorRole: 'user',
         actorOrganization: 'test-org',
-        operationId: 'op-123'
+        operationId: '01936d8f-7c4a-7b32-9c5e-1a2b3c4d5e6f' // Valid UUID v7
       },
       {
         recordType: 'formMammals',
@@ -43,7 +43,7 @@ describe('Action: accessAudit:list', () => {
         ownerUserId: testUser.id + 1,
         actorRole: 'user',
         actorOrganization: 'test-org',
-        operationId: 'op-456'
+        operationId: '01936d90-1234-7abc-8def-0123456789ab' // Valid UUID v7
       },
       {
         recordType: 'formBirds',
@@ -54,7 +54,7 @@ describe('Action: accessAudit:list', () => {
         ownerUserId: testUser.id + 1,
         actorRole: 'user',
         actorOrganization: 'test-org',
-        operationId: 'op-789'
+        operationId: '01936d91-5678-7def-9abc-fedcba987654' // Valid UUID v7
       },
       {
         recordType: 'formBirds',
@@ -65,7 +65,7 @@ describe('Action: accessAudit:list', () => {
         ownerUserId: testUser.id + 1,
         actorRole: 'user',
         actorOrganization: 'test-org',
-        operationId: 'op-789'
+        operationId: '01936d91-5678-7def-9abc-fedcba987654' // Same UUID v7 as LIST (same operation)
       }
     ])
   })
@@ -178,12 +178,12 @@ describe('Action: accessAudit:list', () => {
     })
 
     it('filters by operationId', async () => {
-      const response = await setup.runActionAsAdmin('accessAudit:list', { operationId: 'op-123' })
+      const response = await setup.runActionAsAdmin('accessAudit:list', { operationId: '01936d8f-7c4a-7b32-9c5e-1a2b3c4d5e6f' })
 
       expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
       expect(response.data.length).toBeGreaterThan(0)
       response.data.forEach(row => {
-        expect(row.operationId).toBe('op-123')
+        expect(row.operationId).toBe('01936d8f-7c4a-7b32-9c5e-1a2b3c4d5e6f')
       })
     })
 
@@ -378,6 +378,23 @@ describe('Action: accessAudit:list', () => {
                date < new Date('2026-01-16T00:00:00Z')
       })
       expect(hasRecordFromThatDay).toBe(true)
+    })
+
+    it('rejects SQL injection attempts in operationId', async () => {
+      const sqlInjectionAttempts = [
+        '\'; DROP TABLE access_audit; --',
+        '1\' OR \'1\'=\'1',
+        'admin\'--',
+        'not-a-uuid'
+      ]
+
+      for (const malicious of sqlInjectionAttempts) {
+        const response = await setup.runActionAsAdmin('accessAudit:list', {
+          operationId: malicious
+        })
+
+        expect(response.error).toMatch(/operationId must be a valid UUID v7 format/)
+      }
     })
   })
 })
