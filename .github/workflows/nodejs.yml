@@ -15,7 +15,18 @@ jobs:
 
     strategy:
       matrix:
-        redis-version: [3, latest]
+        redis-version: ['3', 'latest']
+
+    services:
+      redis:
+        image: redis:${{ matrix.redis-version }}
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
 
     steps:
       - name: Install imagemagick and HEIF support
@@ -29,11 +40,6 @@ jobs:
         with:
           node-version-file: .nvmrc
 
-      - name: Start Redis ${{ matrix.redis-version }}
-        uses: zhulik/redis-action@1.1.0
-        with:
-          redis version: ${{ matrix.redis-version }}
-
       - run: npm ci
       - run: npm run test:sqlite
         env:
@@ -44,8 +50,33 @@ jobs:
 
     strategy:
       matrix:
-        redis-version: [3, latest]
-        postgresql-version: [17.3-alpine, latest]
+        redis-version: ['3', 'latest']
+        postgresql-version: ['17.3-alpine', 'latest']
+
+    services:
+      postgres:
+        image: postgres:${{ matrix.postgresql-version }}
+        env:
+          POSTGRES_DB: testdb
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpass
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:${{ matrix.redis-version }}
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
 
     steps:
       - name: Install HEIF support
@@ -55,23 +86,10 @@ jobs:
 
       - uses: actions/checkout@v6
 
-      - name: Start Postgres ${{ matrix.postgresql-version }}
-        uses: harmon758/postgresql-action@v1
-        with:
-          postgresql version: ${{ matrix.postgresql-version }}
-          postgresql db: testdb
-          postgresql user: testuser
-          postgresql password: testpass
-
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
-
-      - name: Start Redis ${{ matrix.redis-version }}
-        uses: zhulik/redis-action@1.1.0
-        with:
-          redis version: ${{ matrix.redis-version }}
 
       - run: npm ci
       - run: npm run test:pg
@@ -84,8 +102,33 @@ jobs:
 
     strategy:
       matrix:
-        redis-version: [3]
-        postgresql-version: [17.3-alpine]
+        redis-version: ['3']
+        postgresql-version: ['17.3-alpine']
+
+    services:
+      postgres:
+        image: postgres:${{ matrix.postgresql-version }}
+        env:
+          POSTGRES_DB: testdb
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpass
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:${{ matrix.redis-version }}
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
 
     steps:
       # Step to install PostgreSQL 17 client tools and HEIF support
@@ -104,23 +147,10 @@ jobs:
 
       - uses: actions/checkout@v6
 
-      - name: Start Postgres ${{ matrix.postgresql-version }}
-        uses: harmon758/postgresql-action@v1
-        with:
-          postgresql version: ${{ matrix.postgresql-version }}
-          postgresql db: testdb
-          postgresql user: testuser
-          postgresql password: testpass
-
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
-
-      - name: Start Redis ${{ matrix.redis-version }}
-        uses: zhulik/redis-action@1.1.0
-        with:
-          redis version: ${{ matrix.redis-version }}
 
       - run: npm ci
       - run: npm run test:dbschema
