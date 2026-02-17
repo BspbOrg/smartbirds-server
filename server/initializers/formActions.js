@@ -57,6 +57,7 @@ function generateEditAction (form) {
 
       data.response.data = await record.apiData(api)
 
+      // Blocking audit logging - operation fails if audit fails
       await api.audit.logAccess({
         action: api.audit.actions.edit,
         recordType: form.modelName,
@@ -65,7 +66,7 @@ function generateEditAction (form) {
         actorUserId: data.session.user.id,
         actorRole: data.session.user.role,
         actorOrganization: data.session.user.organizationSlug,
-        meta: { context: 'edit' }
+        meta: JSON.stringify({ context: 'edit' })
       })
       next()
     } catch (error) {
@@ -84,6 +85,8 @@ function generateViewAction (form) {
     try {
       const record = await form.retrieveRecord(api, data, { context: 'view' })
       data.response.data = await record.apiData(api)
+
+      // Blocking audit logging - operation fails if audit fails
       await api.audit.logAccess({
         action: api.audit.actions.view,
         recordType: form.modelName,
@@ -92,7 +95,7 @@ function generateViewAction (form) {
         actorUserId: data.session.user.id,
         actorRole: data.session.user.role,
         actorOrganization: data.session.user.organizationSlug,
-        meta: { context: 'view' }
+        meta: JSON.stringify({ context: 'view' })
       })
       next()
     } catch (error) {
@@ -112,6 +115,7 @@ function generateDeleteAction (form) {
       const record = await form.retrieveRecord(api, data, { context: 'delete' })
       await record.destroy()
 
+      // Blocking audit logging - operation fails if audit fails
       await api.audit.logAccess({
         action: api.audit.actions.delete,
         recordType: form.modelName,
@@ -120,7 +124,7 @@ function generateDeleteAction (form) {
         actorUserId: data.session.user.id,
         actorRole: data.session.user.role,
         actorOrganization: data.session.user.organizationSlug,
-        meta: { context: 'delete' }
+        meta: JSON.stringify({ context: 'delete' })
       })
 
       next()
@@ -144,16 +148,19 @@ function generateListAction (form) {
         data.response.data = await Promise.all(result.rows.map(async (model) => model.apiData(api, data.params.context)))
         data.response.count = result.count
 
-        await api.audit.logAccessBulk({
-          action: api.audit.actions.list,
-          recordType: form.modelName,
-          recordIds: result.rows.map(row => row.id),
-          ownerUserIds: result.rows.map(row => row.userId),
-          actorUserId: data.session.user.id,
-          actorRole: data.session.user.role,
-          actorOrganization: data.session.user.organizationSlug,
-          meta: { context: data.params?.context || '' }
-        })
+        // Blocking bulk audit logging - operation fails if audit fails
+        if (result.rows.length > 0) {
+          await api.audit.logAccessBulk({
+            action: api.audit.actions.list,
+            recordType: form.modelName,
+            recordIds: result.rows.map(row => row.id),
+            ownerUserIds: result.rows.map(row => row.userId),
+            actorUserId: data.session.user.id,
+            actorRole: data.session.user.role,
+            actorOrganization: data.session.user.organizationSlug,
+            meta: JSON.stringify({ context: data.params?.context || '' })
+          })
+        }
       } else {
         data.response.count = await api.models[form.modelName].count(query)
       }
