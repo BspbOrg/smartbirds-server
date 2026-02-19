@@ -222,29 +222,6 @@ module.exports.suspiciousActivityAlertStats = class SuspiciousActivityAlertStats
       }
     }
 
-    // Count by status
-    const byStatus = await api.models.suspicious_activity_alert.findAll({
-      where,
-      attributes: [
-        'status',
-        [api.sequelize.sequelize.fn('COUNT', api.sequelize.sequelize.col('id')), 'count']
-      ],
-      group: ['status'],
-      raw: true
-    })
-
-    // Count by pattern type
-    const byPattern = await api.models.suspicious_activity_alert.findAll({
-      where,
-      attributes: [
-        'patternType',
-        [api.sequelize.sequelize.fn('COUNT', api.sequelize.sequelize.col('id')), 'count']
-      ],
-      group: ['patternType'],
-      raw: true
-    })
-
-    // Count resolved in last 7 days
     const resolvedThisWeekWhere = {
       ...where,
       status: 'resolved',
@@ -252,7 +229,33 @@ module.exports.suspiciousActivityAlertStats = class SuspiciousActivityAlertStats
         [Op.gte]: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
       }
     }
-    const resolvedThisWeek = await api.models.suspicious_activity_alert.count({ where: resolvedThisWeekWhere })
+
+    const [byStatus, byPattern, resolvedThisWeek, total] = await Promise.all([
+      // Count by status
+      api.models.suspicious_activity_alert.findAll({
+        where,
+        attributes: [
+          'status',
+          [api.sequelize.sequelize.fn('COUNT', api.sequelize.sequelize.col('id')), 'count']
+        ],
+        group: ['status'],
+        raw: true
+      }),
+      // Count by pattern type
+      api.models.suspicious_activity_alert.findAll({
+        where,
+        attributes: [
+          'patternType',
+          [api.sequelize.sequelize.fn('COUNT', api.sequelize.sequelize.col('id')), 'count']
+        ],
+        group: ['patternType'],
+        raw: true
+      }),
+      // Count resolved in last 7 days
+      api.models.suspicious_activity_alert.count({ where: resolvedThisWeekWhere }),
+      // Total count
+      api.models.suspicious_activity_alert.count({ where })
+    ])
 
     // Convert to object for easy access
     const statusCounts = byStatus.reduce((acc, row) => {
@@ -264,9 +267,6 @@ module.exports.suspiciousActivityAlertStats = class SuspiciousActivityAlertStats
       acc[row.patternType] = parseInt(row.count)
       return acc
     }, {})
-
-    // Total count
-    const total = await api.models.suspicious_activity_alert.count({ where })
 
     response.data = {
       total,
