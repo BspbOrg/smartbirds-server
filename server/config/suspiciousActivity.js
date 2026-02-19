@@ -1,6 +1,9 @@
 exports.default = {
   suspiciousActivity: function (api) {
     return {
+      // How long to keep request_ip_log records (days)
+      retentionDays: 90,
+
       // Detection thresholds
       thresholds: {
         bulkOperations: {
