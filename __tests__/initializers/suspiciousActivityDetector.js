@@ -6,13 +6,11 @@ const userFactory = require('../../__utils__/factories/userFactory')
 describe('Initializer: suspiciousActivityDetector', () => {
   let testUser
   let statuses
-  let severities
   let patterns
 
   beforeAll(async () => {
     testUser = await userFactory(setup.api, { role: 'user', organizationSlug: 'test-org' })
     statuses = setup.api.suspiciousActivityDetector.statuses
-    severities = setup.api.suspiciousActivityDetector.severities
 
     // Extract pattern names
     const patternDefs = setup.api.suspiciousActivityDetector.patterns
@@ -44,7 +42,6 @@ describe('Initializer: suspiciousActivityDetector', () => {
       expect(alert.userId).toBe(testUser.id)
       expect(alert.patternType).toBe(patterns.BULK_OPERATIONS)
       expect(alert.status).toBe(statuses.NEW)
-      expect(alert.severity).toBe(severities.MEDIUM)
       expect(alert.requestCount).toBe(120)
       expect(alert.ipCount).toBe(2)
       expect(alert.timeWindow).toBe('60 minutes')

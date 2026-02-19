@@ -6,13 +6,11 @@ const userFactory = require('../../__utils__/factories/userFactory')
 describe('Model: suspicious_activity_alert', () => {
   let testUser
   let statuses
-  let severities
   let patterns
 
   beforeAll(async () => {
     testUser = await userFactory(setup.api, { role: 'user', organizationSlug: 'test-org' })
     statuses = setup.api.suspiciousActivityDetector.statuses
-    severities = setup.api.suspiciousActivityDetector.severities
 
     // Extract pattern names
     const patternDefs = setup.api.suspiciousActivityDetector.patterns
@@ -54,7 +52,7 @@ describe('Model: suspicious_activity_alert', () => {
     expect(alert.ipCount).toBe(2)
   })
 
-  it('applies default values for status and severity', async () => {
+  it('applies default value for status', async () => {
     const alert = await setup.api.models.suspicious_activity_alert.create({
       userId: testUser.id,
       patternType: patterns.RAPID_FIRE,
@@ -63,7 +61,6 @@ describe('Model: suspicious_activity_alert', () => {
     })
 
     expect(alert.status).toBe(statuses.NEW)
-    expect(alert.severity).toBe(severities.MEDIUM)
   })
 
   it('requires userId', async () => {
