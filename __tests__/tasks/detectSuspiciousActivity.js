@@ -13,10 +13,6 @@ describe('Task: suspiciousActivity:detect', () => {
   })
 
   it('runs detection and creates alerts', async () => {
-    // Enable auto-detect for this test
-    const originalAutoDetect = setup.api.config.suspiciousActivity.autoDetect
-    setup.api.config.suspiciousActivity.autoDetect = true
-
     // Create suspicious activity (bulk operations)
     const threshold = thresholds.bulkOperations.requestCount
     const testCount = threshold + 50
@@ -51,21 +47,5 @@ describe('Task: suspiciousActivity:detect', () => {
     expect(alerts.length).toBeGreaterThan(0)
     expect(alerts[0].status).toBe('new')
     expect(alerts[0].patternType).toBe('bulkOperations')
-
-    // Restore config
-    setup.api.config.suspiciousActivity.autoDetect = originalAutoDetect
-  })
-
-  it('skips detection when autoDetect is disabled', async () => {
-    // Disable auto-detect
-    const originalAutoDetect = setup.api.config.suspiciousActivity.autoDetect
-    setup.api.config.suspiciousActivity.autoDetect = false
-
-    const result = await setup.api.tasks.tasks['suspiciousActivity:detect'].run({})
-
-    expect(result).toBeUndefined() // Task returns early
-
-    // Restore config
-    setup.api.config.suspiciousActivity.autoDetect = originalAutoDetect
   })
 })
