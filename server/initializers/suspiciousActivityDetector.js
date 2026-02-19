@@ -38,12 +38,12 @@ module.exports = class SuspiciousActivityDetectorInit extends Initializer {
                 COUNT(DISTINCT "ipAddress") as ip_count,
                 COUNT(DISTINCT endpoint) as endpoint_count
               FROM request_ip_log
-              WHERE "occurredAt" > NOW() - INTERVAL '${timeWindowMinutes} minutes'
+              WHERE "occurredAt" > NOW() - (:timeWindowMinutes * INTERVAL '1 minute')
               GROUP BY "userId"
               HAVING COUNT(*) > :requestCount
               ORDER BY request_count DESC
             `, {
-              replacements: { requestCount },
+              replacements: { requestCount, timeWindowMinutes },
               type: api.sequelize.sequelize.QueryTypes.SELECT
             })
 
@@ -80,7 +80,7 @@ module.exports = class SuspiciousActivityDetectorInit extends Initializer {
                 MIN("occurredAt") as burst_start,
                 MAX("occurredAt") as burst_end
               FROM request_ip_log
-              WHERE "occurredAt" > NOW() - INTERVAL '${lookbackMinutes} minutes'
+              WHERE "occurredAt" > NOW() - (:lookbackMinutes * INTERVAL '1 minute')
               GROUP BY
                 "userId",
                 "ipAddress",
@@ -90,7 +90,7 @@ module.exports = class SuspiciousActivityDetectorInit extends Initializer {
               HAVING COUNT(*) > :requestCount
               ORDER BY burst_count DESC, burst_minute DESC
             `, {
-              replacements: { requestCount },
+              replacements: { requestCount, lookbackMinutes },
               type: api.sequelize.sequelize.QueryTypes.SELECT
             })
 
@@ -127,12 +127,12 @@ module.exports = class SuspiciousActivityDetectorInit extends Initializer {
                 MAX("occurredAt") as last_seen,
                 COUNT(*) as total_requests
               FROM request_ip_log
-              WHERE "occurredAt" > NOW() - INTERVAL '${timeWindowMinutes} minutes'
+              WHERE "occurredAt" > NOW() - (:timeWindowMinutes * INTERVAL '1 minute')
               GROUP BY "userId"
               HAVING COUNT(DISTINCT "ipAddress") >= :distinctIPs
               ORDER BY ip_count DESC
             `, {
-              replacements: { distinctIPs },
+              replacements: { distinctIPs, timeWindowMinutes },
               type: api.sequelize.sequelize.QueryTypes.SELECT
             })
 
@@ -168,13 +168,14 @@ module.exports = class SuspiciousActivityDetectorInit extends Initializer {
                 MIN("occurredAt") as first_seen,
                 MAX("occurredAt") as last_seen
               FROM request_ip_log
-              WHERE "occurredAt" > NOW() - INTERVAL '${timeWindowMinutes} minutes'
+              WHERE "occurredAt" > NOW() - (:timeWindowMinutes * INTERVAL '1 minute')
                 AND "sessionFingerprint" IS NOT NULL
               GROUP BY "userId"
               HAVING COUNT(DISTINCT "sessionFingerprint") > 1
                 AND COUNT(DISTINCT "ipAddress") > 1
               ORDER BY session_count DESC, ip_count DESC
             `, {
+              replacements: { timeWindowMinutes },
               type: api.sequelize.sequelize.QueryTypes.SELECT
             })
 
