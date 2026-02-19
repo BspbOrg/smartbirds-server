@@ -395,14 +395,11 @@ describe('Initializer: suspiciousActivityDetector', () => {
 
         const results = await setup.api.suspiciousActivityDetector.patterns.sessionAnomalies.detect(thresholds)
 
-        if (results.length > 0) {
-          const detected = results.find(p => p.userId === testUser.id)
-          if (detected) {
-            expect(detected.sessionCount).toBeGreaterThanOrEqual(2)
-            expect(detected.ipCount).toBeGreaterThanOrEqual(2)
-            expect(detected.pattern).toBe(patterns.SESSION_ANOMALIES)
-          }
-        }
+        const detected = results.find(p => p.userId === testUser.id)
+        expect(detected).toBeDefined()
+        expect(detected.sessionCount).toBeGreaterThanOrEqual(2)
+        expect(detected.ipCount).toBeGreaterThanOrEqual(2)
+        expect(detected.pattern).toBe(patterns.SESSION_ANOMALIES)
       })
 
       it('does NOT detect single session from single IP', async () => {

@@ -82,6 +82,14 @@ describe('Action: suspiciousActivityAlert', () => {
       })
     })
 
+    it('returns error for non-existent alert id on view', async () => {
+      const response = await setup.runActionAsAdmin('suspiciousActivityAlert:view', { id: 999999 })
+
+      expect(response).toEqual(expect.objectContaining({
+        error: expect.stringMatching(/Alert not found/)
+      }))
+    })
+
     it('views single alert', async () => {
       const alert = await setup.api.models.suspicious_activity_alert.create({
         userId: testUser.id,
@@ -118,6 +126,33 @@ describe('Action: suspiciousActivityAlert', () => {
 
       expect(response.data.status).toBe('investigating')
       expect(response.data.adminNotes).toBe('Looking into this user')
+    })
+
+    it('returns error for non-existent alert id on update', async () => {
+      const response = await setup.runActionAsAdmin('suspiciousActivityAlert:update', { id: 999999, status: statuses.RESOLVED })
+
+      expect(response).toEqual(expect.objectContaining({
+        error: expect.stringMatching(/Alert not found/)
+      }))
+    })
+
+    it('returns error for invalid status', async () => {
+      const alert = await setup.api.models.suspicious_activity_alert.create({
+        userId: testUser.id,
+        patternType: patterns.BULK_OPERATIONS,
+        status: statuses.NEW,
+        detectedAt: new Date(),
+        detectionData: {}
+      })
+
+      const response = await setup.runActionAsAdmin('suspiciousActivityAlert:update', {
+        id: alert.id,
+        status: 'invalid_status'
+      })
+
+      expect(response).toEqual(expect.objectContaining({
+        error: expect.stringMatching(/Invalid status/)
+      }))
     })
 
     it('marks alert as false positive', async () => {
