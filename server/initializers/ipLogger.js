@@ -1,4 +1,5 @@
 const { Initializer, api } = require('actionhero')
+const Sentry = require('@sentry/node')
 
 module.exports = class IpLoggerInit extends Initializer {
   constructor () {
@@ -35,7 +36,6 @@ module.exports = class IpLoggerInit extends Initializer {
         }
 
         // Extract request metadata
-        // Note: connection.remoteIP handles X-Forwarded-For automatically
         const ipAddress = connection.remoteIP
         const sessionFingerprint = connection.fingerprint
         const httpMethod = connection.rawConnection.req?.method
@@ -52,8 +52,8 @@ module.exports = class IpLoggerInit extends Initializer {
             userAgent
           })
         } catch (error) {
-          // Non-blocking: log error but don't fail the request
           api.log(`IP logging error: ${error.message}`, 'error')
+          Sentry.captureException(error)
         }
       }
     }
@@ -76,11 +76,14 @@ module.exports = class IpLoggerInit extends Initializer {
             }
           }
 
-          await api.ipLogger.logRequest(
+          api.ipLogger.logRequest(
             data.session.userId,
             data.connection,
             endpoint
-          )
+          ).catch(err => {
+            api.log(`IP log error: ${err.message}`, 'error')
+            Sentry.captureException(err)
+          })
         }
       }
     }
