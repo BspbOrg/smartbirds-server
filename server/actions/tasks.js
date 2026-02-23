@@ -157,3 +157,16 @@ module.exports.ebpUpload = class EnqueueEbpUpload extends Action {
     response.result = await api.tasks.enqueue('ebpUpload', { startDate, endDate, mode: mode || 'insert', bulk })
   }
 }
+
+module.exports.detectSuspiciousActivity = class EnqueueDetectSuspiciousActivity extends Action {
+  constructor () {
+    super()
+    this.name = 'tasks:enqueue:detectSuspiciousActivity'
+    this.description = 'Trigger suspicious activity detection'
+    this.middleware = ['auth', 'admin']
+  }
+
+  async run ({ response }) {
+    response.result = await api.tasks.enqueue('suspiciousActivity:detect', {})
+  }
+}
