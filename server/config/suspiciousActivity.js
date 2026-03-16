@@ -2,25 +2,25 @@ exports.default = {
   suspiciousActivity: function (api) {
     return {
       // How long to keep request_ip_log records (days)
-      retentionDays: 90,
+      retentionDays: parseInt(process.env.SUSPICIOUS_ACTIVITY_RETENTION_DAYS, 10) || 90,
 
       // Detection thresholds
       thresholds: {
         bulkOperations: {
-          requestCount: 100,
-          timeWindowMinutes: 60 // 1 hour
+          requestCount: parseInt(process.env.SUSPICIOUS_ACTIVITY_BULK_REQUEST_COUNT, 10) || 200,
+          timeWindowMinutes: parseInt(process.env.SUSPICIOUS_ACTIVITY_BULK_TIME_WINDOW_MINUTES, 10) || 60
         },
         rapidFire: {
-          requestCount: 10,
-          timeWindowMinutes: 1, // Threshold per minute
-          lookbackMinutes: 60 // How far back to search for bursts
+          requestCount: parseInt(process.env.SUSPICIOUS_ACTIVITY_RAPID_REQUEST_COUNT, 10) || 30,
+          timeWindowMinutes: parseInt(process.env.SUSPICIOUS_ACTIVITY_RAPID_TIME_WINDOW_MINUTES, 10) || 1,
+          lookbackMinutes: parseInt(process.env.SUSPICIOUS_ACTIVITY_RAPID_LOOKBACK_MINUTES, 10) || 60
         },
         ipSwitching: {
-          distinctIPs: 3,
-          timeWindowMinutes: 60 // 1 hour
+          distinctIPs: parseInt(process.env.SUSPICIOUS_ACTIVITY_IP_SWITCHING_DISTINCT_IPS, 10) || 3,
+          timeWindowMinutes: parseInt(process.env.SUSPICIOUS_ACTIVITY_IP_SWITCHING_TIME_WINDOW_MINUTES, 10) || 60
         },
         sessionAnomalies: {
-          timeWindowMinutes: 15 // 15 minutes
+          timeWindowMinutes: parseInt(process.env.SUSPICIOUS_ACTIVITY_SESSION_TIME_WINDOW_MINUTES, 10) || 15
         }
       }
     }
