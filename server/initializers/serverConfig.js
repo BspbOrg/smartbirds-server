@@ -7,7 +7,7 @@ module.exports = class ServerConfigInit extends Initializer {
   constructor () {
     super()
     this.name = 'server-config'
-    this.loadPriority = 300
+    this.loadPriority = 500
   }
 
   async initialize () {
