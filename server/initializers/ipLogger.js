@@ -19,6 +19,32 @@ module.exports = class IpLoggerInit extends Initializer {
       'session:check' // Session validation only
     ])
 
+    /**
+     * Extract real client IP address from connection, handling proxy headers
+     * Priority: CF-Connecting-IP (Cloudflare) > X-Real-IP > X-Forwarded-For > connection.remoteIP
+     */
+    const getRealClientIP = (connection) => {
+      const headers = connection.rawConnection.req?.headers || {}
+
+      // Cloudflare's most reliable header (can't be spoofed by client)
+      if (headers['cf-connecting-ip']) {
+        return headers['cf-connecting-ip']
+      }
+
+      // Standard proxy headers
+      if (headers['x-real-ip']) {
+        return headers['x-real-ip']
+      }
+
+      if (headers['x-forwarded-for']) {
+        // Take first IP in the chain (original client)
+        return headers['x-forwarded-for'].split(',')[0].trim()
+      }
+
+      // Fallback to direct connection IP
+      return connection.remoteIP
+    }
+
     api.ipLogger = {
       logRequest: async (userId, connection, endpoint) => {
         // Only log to PostgreSQL
@@ -36,7 +62,7 @@ module.exports = class IpLoggerInit extends Initializer {
         }
 
         // Extract request metadata
-        const ipAddress = connection.remoteIP
+        const ipAddress = getRealClientIP(connection)
         const sessionFingerprint = connection.fingerprint
         const httpMethod = connection.rawConnection.req?.method
         const userAgent = connection.rawConnection.req?.headers['user-agent']
