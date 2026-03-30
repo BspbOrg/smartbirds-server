@@ -39,7 +39,8 @@ describe('Initializer audit', () => {
         actorUserId: actor.id,
         actorRole: actor.role,
         actorOrganization: actor.organizationSlug,
-        meta: JSON.stringify({ context: 'view' })
+        meta: JSON.stringify({ context: 'view' }),
+        species: 'Ciconia ciconia'
       })
 
       const recordsAfter = await setup.api.models.access_audit.findAll({
@@ -56,6 +57,26 @@ describe('Initializer audit', () => {
       expect(newRecord.actorRole).toBe('moderator')
       expect(newRecord.actorOrganization).toBe('test-org')
       expect(newRecord.meta).toBe('{"context":"view"}')
+      expect(newRecord.species).toBe('Ciconia ciconia')
+    })
+
+    it('stores null species when not provided', async () => {
+      await setup.api.audit.logAccess({
+        action: setup.api.audit.actions.view,
+        recordType: 'formThreats',
+        recordId: 124,
+        ownerUserId: owner.id,
+        actorUserId: actor.id,
+        actorRole: actor.role,
+        actorOrganization: actor.organizationSlug
+      })
+
+      const record = await setup.api.models.access_audit.findOne({
+        where: { actorUserId: actor.id, recordId: 124 }
+      })
+
+      expect(record).toBeTruthy()
+      expect(record.species).toBeNull()
     })
 
     it('does not create audit record when owner equals actor', async () => {
@@ -148,7 +169,8 @@ describe('Initializer audit', () => {
         actorUserId: actor.id,
         actorRole: actor.role,
         actorOrganization: actor.organizationSlug,
-        meta: JSON.stringify({ context: 'list' })
+        meta: JSON.stringify({ context: 'list' }),
+        speciesList: ['Ciconia ciconia', 'Aquila heliaca', 'Ciconia ciconia']
       })
 
       const countAfter = await setup.api.models.access_audit.count({
@@ -168,16 +190,66 @@ describe('Initializer audit', () => {
       expect(records).toHaveLength(3)
       expect(records[0].recordId).toBe(1001)
       expect(records[0].ownerUserId).toBe(owner.id)
+      expect(records[0].species).toBe('Ciconia ciconia')
       expect(records[1].recordId).toBe(1002)
       expect(records[1].ownerUserId).toBe(owner2.id)
+      expect(records[1].species).toBe('Aquila heliaca')
       expect(records[2].recordId).toBe(1003)
       expect(records[2].ownerUserId).toBe(owner.id)
+      expect(records[2].species).toBe('Ciconia ciconia')
       expect(records.every(r => r.action === 'LIST')).toBe(true)
       expect(records.every(r => r.meta === '{"context":"list"}')).toBe(true)
 
       // Verify all records have the same operationId (generated automatically)
       expect(records[0].operationId).toBeTruthy()
       expect(records.every(r => r.operationId === records[0].operationId)).toBe(true)
+    })
+
+    it('stores null species when speciesList is not provided', async () => {
+      const owner3 = await userFactory(setup.api, { role: 'user' })
+
+      await setup.api.audit.logAccessBulk({
+        action: setup.api.audit.actions.list,
+        recordType: 'formThreats',
+        recordIds: [1101, 1102],
+        ownerUserIds: [owner3.id, owner3.id],
+        actorUserId: actor.id,
+        actorRole: actor.role,
+        actorOrganization: actor.organizationSlug
+      })
+
+      const records = await setup.api.models.access_audit.findAll({
+        where: { actorUserId: actor.id, recordId: [1101, 1102] },
+        order: [['recordId', 'ASC']]
+      })
+
+      expect(records).toHaveLength(2)
+      expect(records.every(r => r.species === null)).toBe(true)
+    })
+
+    it('stores null for individual null entries in speciesList', async () => {
+      const owner4 = await userFactory(setup.api, { role: 'user' })
+
+      await setup.api.audit.logAccessBulk({
+        action: setup.api.audit.actions.list,
+        recordType: 'formBirds',
+        recordIds: [1201, 1202, 1203],
+        ownerUserIds: [owner4.id, owner4.id, owner4.id],
+        actorUserId: actor.id,
+        actorRole: actor.role,
+        actorOrganization: actor.organizationSlug,
+        speciesList: ['Ciconia ciconia', null, 'Aquila heliaca']
+      })
+
+      const records = await setup.api.models.access_audit.findAll({
+        where: { actorUserId: actor.id, recordId: [1201, 1202, 1203] },
+        order: [['recordId', 'ASC']]
+      })
+
+      expect(records).toHaveLength(3)
+      expect(records[0].species).toBe('Ciconia ciconia')
+      expect(records[1].species).toBeNull()
+      expect(records[2].species).toBe('Aquila heliaca')
     })
 
     it('skips records where owner equals actor', async () => {

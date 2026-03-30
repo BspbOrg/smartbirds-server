@@ -66,7 +66,8 @@ function generateEditAction (form) {
         actorUserId: data.session.user.id,
         actorRole: data.session.user.role,
         actorOrganization: data.session.user.organizationSlug,
-        meta: JSON.stringify({ context: 'edit' })
+        meta: JSON.stringify({ context: 'edit' }),
+        species: record.species
       })
       next()
     } catch (error) {
@@ -95,7 +96,8 @@ function generateViewAction (form) {
         actorUserId: data.session.user.id,
         actorRole: data.session.user.role,
         actorOrganization: data.session.user.organizationSlug,
-        meta: JSON.stringify({ context: 'view' })
+        meta: JSON.stringify({ context: 'view' }),
+        species: record.species
       })
       next()
     } catch (error) {
@@ -124,7 +126,8 @@ function generateDeleteAction (form) {
         actorUserId: data.session.user.id,
         actorRole: data.session.user.role,
         actorOrganization: data.session.user.organizationSlug,
-        meta: JSON.stringify({ context: 'delete' })
+        meta: JSON.stringify({ context: 'delete' }),
+        species: record.species
       })
 
       // Now safe to destroy - audit record exists
@@ -161,7 +164,8 @@ function generateListAction (form) {
             actorUserId: data.session.user.id,
             actorRole: data.session.user.role,
             actorOrganization: data.session.user.organizationSlug,
-            meta: JSON.stringify({ context: data.params?.context || '' })
+            meta: JSON.stringify({ context: data.params?.context || '' }),
+            speciesList: result.rows.map(row => row.species || null)
           })
         }
       } else {
