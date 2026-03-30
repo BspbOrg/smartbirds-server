@@ -21,7 +21,8 @@ describe('Model access_audit', () => {
         occurredAt: new Date(),
         actorRole: 'moderator',
         actorOrganization: 'test-org',
-        meta: JSON.stringify({ context: 'view' })
+        meta: JSON.stringify({ context: 'view' }),
+        species: 'Ciconia ciconia'
       })
 
       expect(auditRecord).toBeTruthy()
@@ -35,6 +36,7 @@ describe('Model access_audit', () => {
       expect(auditRecord.actorRole).toBe('moderator')
       expect(auditRecord.actorOrganization).toBe('test-org')
       expect(auditRecord.meta).toBe('{"context":"view"}')
+      expect(auditRecord.species).toBe('Ciconia ciconia')
     })
 
     it('creates an audit record with minimal required fields', async () => {
@@ -57,6 +59,7 @@ describe('Model access_audit', () => {
       expect(auditRecord.actorRole).toBeNull()
       expect(auditRecord.actorOrganization).toBeNull()
       expect(auditRecord.meta).toBeNull()
+      expect(auditRecord.species).toBeNull()
     })
   })
 

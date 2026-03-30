@@ -138,7 +138,8 @@ exports.task = upgradeTask('ah17', {
           actorUserId: user.id,
           actorRole: user.role,
           actorOrganization: user.organizationSlug,
-          meta: JSON.stringify({ context: params?.context || '', format: outputType })
+          meta: JSON.stringify({ context: params?.context || '', format: outputType }),
+          speciesList: result.rows.map(row => row.species || null)
         })
       }
 

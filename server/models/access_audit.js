@@ -31,7 +31,8 @@ module.exports = function (sequelize, DataTypes) {
     actorRole: DataTypes.STRING,
     actorOrganization: DataTypes.TEXT,
     meta: DataTypes.TEXT,
-    operationId: DataTypes.STRING
+    operationId: DataTypes.STRING,
+    species: DataTypes.TEXT
   }, {
     tableName: 'access_audit',
     timestamps: false,

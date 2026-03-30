@@ -88,7 +88,8 @@ module.exports.accessAuditList = class AccessAuditList extends Action {
       actorRole: row.actorRole,
       actorOrganization: row.actorOrganization,
       meta: row.meta,
-      operationId: row.operationId
+      operationId: row.operationId,
+      species: row.species
     }))
 
     response.count = result.count

@@ -18,7 +18,7 @@ module.exports = class AuditInit extends Initializer {
         list: 'LIST'
       },
       logAccessBulk: async (options) => {
-        const { action, recordType, recordIds, ownerUserIds, actorUserId, actorRole, actorOrganization, meta = null } = options
+        const { action, recordType, recordIds, ownerUserIds, actorUserId, actorRole, actorOrganization, meta = null, speciesList } = options
         if (api.sequelize.sequelize.options.dialect !== 'postgres') {
           return
         }
@@ -40,12 +40,13 @@ module.exports = class AuditInit extends Initializer {
             actorUserId,
             actorRole,
             actorOrganization,
-            meta
+            meta,
+            speciesList
           })
         }
       },
       logAccess: async (options) => {
-        const { action, recordType, recordId, ownerUserId, actorUserId, actorRole, actorOrganization, meta = null } = options
+        const { action, recordType, recordId, ownerUserId, actorUserId, actorRole, actorOrganization, meta = null, species } = options
         await api.audit.logAccessBulk({
           action,
           recordType,
@@ -54,11 +55,12 @@ module.exports = class AuditInit extends Initializer {
           actorUserId,
           actorRole,
           actorOrganization,
-          meta
+          meta,
+          speciesList: species ? [species] : null
         })
       },
       createAuditRecords: async (options) => {
-        const { action, recordType, recordIds, ownerUserIds, actorUserId, actorRole, actorOrganization, meta = null } = options
+        const { action, recordType, recordIds, ownerUserIds, actorUserId, actorRole, actorOrganization, meta = null, speciesList } = options
         if (api.sequelize.sequelize.options.dialect !== 'postgres') {
           return
         }
@@ -69,16 +71,18 @@ module.exports = class AuditInit extends Initializer {
         const occurredAt = new Date()
         const recordIdChunks = []
         const ownerUserIdChunks = []
+        const speciesListChunks = []
 
         // chunk the record ids and owner user ids
         for (let i = 0; i < recordIds.length; i += api.config.audit.chunkSize) {
           recordIdChunks.push(recordIds.slice(i, i + api.config.audit.chunkSize))
           ownerUserIdChunks.push(ownerUserIds.slice(i, i + api.config.audit.chunkSize))
+          speciesListChunks.push(speciesList ? speciesList.slice(i, i + api.config.audit.chunkSize) : null)
         }
 
         const sql = `
           INSERT INTO access_audit
-            ("action", "recordType", "recordId", "ownerUserId", "actorUserId", "actorRole", "actorOrganization", "meta", "operationId", "occurredAt")
+            ("action", "recordType", "recordId", "ownerUserId", "actorUserId", "actorRole", "actorOrganization", "meta", "operationId", "occurredAt", "species")
           SELECT
             $1 AS "action",
             $2 AS "recordType",
@@ -89,14 +93,15 @@ module.exports = class AuditInit extends Initializer {
             $7 AS "actorOrganization",
             $8 AS "meta",
             $9 AS "operationId",
-            $10 AS "occurredAt"
-          FROM unnest($3::int[], $4::int[]) AS x("recordId", "ownerUserId")
+            $10 AS "occurredAt",
+            x."species" AS "species"
+          FROM unnest($3::int[], $4::int[], $11::text[]) AS x("recordId", "ownerUserId", "species")
           WHERE x."ownerUserId" <> $5
         `
 
         for (let i = 0; i < recordIdChunks.length; i++) {
           await api.sequelize.sequelize.query(sql, {
-            bind: [action, recordType, recordIdChunks[i], ownerUserIdChunks[i], actorUserId, actorRole, actorOrganization, meta ?? null, operationId, occurredAt]
+            bind: [action, recordType, recordIdChunks[i], ownerUserIdChunks[i], actorUserId, actorRole, actorOrganization, meta ?? null, operationId, occurredAt, speciesListChunks[i]]
           })
         }
       }
