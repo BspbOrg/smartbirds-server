@@ -321,7 +321,10 @@ describe('Initializer: suspiciousActivityDetector', () => {
         const threshold = thresholds.rapidFire.requestCount
         const testCount = threshold + 5
 
-        const now = new Date()
+        // Anchor to 5 minutes ago, truncated to minute boundary so all logs land in the same
+        // DATE_TRUNC('minute') bucket regardless of when the test runs
+        const anchor = new Date(Date.now() - 5 * 60 * 1000)
+        anchor.setSeconds(0, 0)
         const logs = []
         for (let i = 0; i < testCount; i++) {
           logs.push({
@@ -329,7 +332,7 @@ describe('Initializer: suspiciousActivityDetector', () => {
             ipAddress: '192.168.1.10',
             endpoint: 'formBirds:view',
             httpMethod: 'GET',
-            occurredAt: new Date(now.getTime() - 60000 + (i * 1000))
+            occurredAt: new Date(anchor.getTime() + (i * 1000))
           })
         }
         await setup.api.models.request_ip_log.bulkCreate(logs)
