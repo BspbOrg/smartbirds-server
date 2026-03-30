@@ -1,6 +1,76 @@
 const { Action, api } = require('actionhero')
 const auditHelpers = require('../helpers/auditHelpers')
 
+module.exports.accessAuditSummary = class AccessAuditSummary extends Action {
+  constructor () {
+    super()
+    this.name = 'accessAudit:summary'
+    this.description = 'Daily summary of access audit by user. Admin only. Returns per-user counts of each action type (VIEW, EDIT, DELETE, LIST, EXPORT) for a given date.'
+    this.middleware = ['admin']
+    this.inputs = {
+      date: { required: true },
+      actorUserId: { required: false }
+    }
+  }
+
+  async run ({ params, response }) {
+    // Validate date
+    const date = auditHelpers.validateDate(params.date, 'date')
+    if (!date) throw new Error('date is required')
+
+    const dayStart = new Date(date)
+    dayStart.setUTCHours(0, 0, 0, 0)
+    const dayEnd = new Date(dayStart)
+    dayEnd.setUTCDate(dayEnd.getUTCDate() + 1)
+
+    // Validate optional actorUserId filter
+    const actorUserId = auditHelpers.validateInteger(params.actorUserId, 'actorUserId')
+
+    const bindParams = { dayStart, dayEnd }
+    const actorFilter = actorUserId
+      ? 'AND "actorUserId" = :actorUserId'
+      : ''
+    if (actorUserId) bindParams.actorUserId = actorUserId
+
+    const sql = `
+      SELECT
+        "actorUserId",
+        "actorRole",
+        "actorOrganization",
+        COUNT(*) FILTER (WHERE action = 'VIEW')   AS "viewCount",
+        COUNT(*) FILTER (WHERE action = 'EDIT')   AS "editCount",
+        COUNT(*) FILTER (WHERE action = 'DELETE') AS "deleteCount",
+        COUNT(*) FILTER (WHERE action = 'LIST')   AS "listCount",
+        COUNT(*) FILTER (WHERE action = 'EXPORT') AS "exportCount",
+        COUNT(*) AS "totalCount"
+      FROM access_audit
+      WHERE "occurredAt" >= :dayStart
+        AND "occurredAt" <  :dayEnd
+        ${actorFilter}
+      GROUP BY "actorUserId", "actorRole", "actorOrganization"
+      ORDER BY "totalCount" DESC
+    `
+
+    const rows = await api.sequelize.sequelize.query(sql, {
+      replacements: bindParams,
+      type: api.sequelize.sequelize.QueryTypes.SELECT
+    })
+
+    response.date = params.date
+    response.data = rows.map(row => ({
+      actorUserId: row.actorUserId,
+      actorRole: row.actorRole,
+      actorOrganization: row.actorOrganization,
+      viewCount: parseInt(row.viewCount),
+      editCount: parseInt(row.editCount),
+      deleteCount: parseInt(row.deleteCount),
+      listCount: parseInt(row.listCount),
+      exportCount: parseInt(row.exportCount),
+      totalCount: parseInt(row.totalCount)
+    }))
+  }
+}
+
 module.exports.accessAuditList = class AccessAuditList extends Action {
   constructor () {
     super()

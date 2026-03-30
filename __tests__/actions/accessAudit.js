@@ -398,3 +398,161 @@ describe('Action: accessAudit:list', () => {
     })
   })
 })
+
+describe('Action: accessAudit:summary', () => {
+  let summaryUser
+
+  beforeAll(async () => {
+    summaryUser = await userFactory(setup.api, { role: 'user', organizationSlug: 'summary-org' })
+
+    await setup.api.models.access_audit.bulkCreate([
+      {
+        recordType: 'formBirds',
+        recordId: 2001,
+        actorUserId: summaryUser.id,
+        action: 'VIEW',
+        occurredAt: new Date('2026-02-15T08:00:00Z'),
+        actorRole: 'user',
+        actorOrganization: 'summary-org'
+      },
+      {
+        recordType: 'formBirds',
+        recordId: 2002,
+        actorUserId: summaryUser.id,
+        action: 'VIEW',
+        occurredAt: new Date('2026-02-15T09:00:00Z'),
+        actorRole: 'user',
+        actorOrganization: 'summary-org'
+      },
+      {
+        recordType: 'formMammals',
+        recordId: 2003,
+        actorUserId: summaryUser.id,
+        action: 'EDIT',
+        occurredAt: new Date('2026-02-15T10:00:00Z'),
+        actorRole: 'user',
+        actorOrganization: 'summary-org'
+      },
+      {
+        recordType: 'formBirds',
+        recordId: 2004,
+        actorUserId: summaryUser.id,
+        action: 'EXPORT',
+        occurredAt: new Date('2026-02-15T11:00:00Z'),
+        actorRole: 'user',
+        actorOrganization: 'summary-org',
+        operationId: '01936d92-aaaa-7bbb-8ccc-ddddeeeeeeee'
+      },
+      // Record outside of target date - should not be included
+      {
+        recordType: 'formBirds',
+        recordId: 2005,
+        actorUserId: summaryUser.id,
+        action: 'VIEW',
+        occurredAt: new Date('2026-02-16T08:00:00Z'),
+        actorRole: 'user',
+        actorOrganization: 'summary-org'
+      }
+    ])
+  })
+
+  describe('Authorization', () => {
+    it('allows admin users', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:summary', { date: '2026-02-15' })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+    })
+
+    it('denies non-admin users', async () => {
+      const response = await setup.runActionAsUser('accessAudit:summary', { date: '2026-02-15' })
+
+      expect(response).toEqual(expect.objectContaining({
+        error: expect.stringMatching(/Admin required/)
+      }))
+    })
+
+    it('denies guest users', async () => {
+      const response = await setup.runActionAsGuest('accessAudit:summary', { date: '2026-02-15' })
+
+      expect(response.error).toMatch(/Please log in to continue/)
+    })
+  })
+
+  describe('Response shape', () => {
+    it('returns date and data array', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:summary', { date: '2026-02-15' })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      expect(response.date).toBe('2026-02-15')
+      expect(Array.isArray(response.data)).toBe(true)
+    })
+
+    it('returns correct count fields for the test user', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:summary', { date: '2026-02-15' })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+
+      const userRow = response.data.find(row => row.actorUserId === summaryUser.id)
+      expect(userRow).toBeDefined()
+      expect(userRow.viewCount).toBe(2)
+      expect(userRow.editCount).toBe(1)
+      expect(userRow.exportCount).toBe(1)
+      expect(userRow.deleteCount).toBe(0)
+      expect(userRow.listCount).toBe(0)
+      expect(userRow.totalCount).toBe(4)
+    })
+
+    it('excludes records from other dates', async () => {
+      // Records on 2026-02-16 should not appear in the 2026-02-15 summary
+      const response = await setup.runActionAsAdmin('accessAudit:summary', { date: '2026-02-15' })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+
+      const userRow = response.data.find(row => row.actorUserId === summaryUser.id)
+      expect(userRow.totalCount).toBe(4) // Not 5
+    })
+
+    it('returns empty data for a date with no records', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:summary', { date: '2020-01-01' })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      expect(response.data).toEqual([])
+    })
+  })
+
+  describe('Filtering', () => {
+    it('filters by actorUserId', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:summary', {
+        date: '2026-02-15',
+        actorUserId: summaryUser.id
+      })
+
+      expect(response).not.toEqual(expect.objectContaining({ error: expect.anything() }))
+      expect(response.data.length).toBe(1)
+      expect(response.data[0].actorUserId).toBe(summaryUser.id)
+    })
+  })
+
+  describe('Input Validation', () => {
+    it('requires date parameter', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:summary', {})
+
+      expect(response.error).toBeDefined()
+    })
+
+    it('rejects invalid date format', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:summary', { date: 'not-a-date' })
+
+      expect(response.error).toMatch(/Invalid date format/)
+    })
+
+    it('rejects invalid actorUserId', async () => {
+      const response = await setup.runActionAsAdmin('accessAudit:summary', {
+        date: '2026-02-15',
+        actorUserId: 'abc'
+      })
+
+      expect(response.error).toMatch(/must be a valid positive integer/)
+    })
+  })
+})
