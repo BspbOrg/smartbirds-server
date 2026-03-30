@@ -1955,7 +1955,8 @@ CREATE TABLE public.access_audit (
     \\"occurredAt\\" timestamp with time zone NOT NULL,
     \\"actorRole\\" character varying(255),
     \\"actorOrganization\\" text,
-    meta text
+    meta text,
+    species text
 );
 
 
