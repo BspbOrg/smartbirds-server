@@ -75,9 +75,10 @@ module.exports = class AuditInit extends Initializer {
 
         // chunk the record ids and owner user ids
         for (let i = 0; i < recordIds.length; i += api.config.audit.chunkSize) {
-          recordIdChunks.push(recordIds.slice(i, i + api.config.audit.chunkSize))
+          const chunkSlice = recordIds.slice(i, i + api.config.audit.chunkSize)
+          recordIdChunks.push(chunkSlice)
           ownerUserIdChunks.push(ownerUserIds.slice(i, i + api.config.audit.chunkSize))
-          speciesListChunks.push(speciesList ? speciesList.slice(i, i + api.config.audit.chunkSize) : null)
+          speciesListChunks.push(speciesList ? speciesList.slice(i, i + api.config.audit.chunkSize) : new Array(chunkSlice.length).fill(null))
         }
 
         const sql = `
