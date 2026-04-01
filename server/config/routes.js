@@ -42,6 +42,7 @@ exports.default = {
         { path: '/storage/:id', action: 'downloader' },
         { path: '/user', action: 'user:list' },
         { path: '/user/:id', action: 'user:view' },
+        { path: '/access-audit/summary', action: 'accessAudit:summary' },
         { path: '/access-audit', action: 'accessAudit:list' },
         { path: '/suspicious-activity-alert', action: 'suspiciousActivityAlert:list' },
         { path: '/suspicious-activity-alert/stats', action: 'suspiciousActivityAlert:stats' },
