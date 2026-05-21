@@ -32,7 +32,7 @@ jobs:
       - name: Install imagemagick and HEIF support
         run: |
           sudo apt-get update
-          sudo apt-get install -y imagemagick libheif-examples
+          sudo apt-get install -y imagemagick libheif-examples libheif-plugin-libde265
       - uses: actions/checkout@v6
 
       - name: Use Node.js ${{ matrix.node-version }}
@@ -82,7 +82,7 @@ jobs:
       - name: Install HEIF support
         run: |
           sudo apt-get update
-          sudo apt-get install -y libheif-examples
+          sudo apt-get install -y libheif-examples libheif-plugin-libde265
 
       - uses: actions/checkout@v6
 
@@ -137,7 +137,7 @@ jobs:
           sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
           wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
           sudo apt-get update
-          sudo apt-get install -y postgresql-client-17 libheif-examples
+          sudo apt-get install -y postgresql-client-17 libheif-examples libheif-plugin-libde265
 
       # Ensure PostgreSQL 17 binaries are used by exporting the correct PATH
       - name: Check version of pg_dump
