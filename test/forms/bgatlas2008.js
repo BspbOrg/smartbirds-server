@@ -25,7 +25,7 @@ describe('Forms:bgatlas2008', () => {
     const prec = Math.pow(10, 10)
     bounds = getBoundsOfDistance(center, setup.api.config.app.bgatlas2008.gridSize * 0.5)
       // round because records on edges fail due to precision limitation
-      .map(({latitude, longitude}) => ({
+      .map(({ latitude, longitude }) => ({
         latitude: Math.round(latitude * prec) / prec,
         longitude: Math.round(longitude * prec) / prec
       }))
@@ -231,7 +231,8 @@ describe('Forms:bgatlas2008', () => {
     it('center point', async function () {
       const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, {
         observationDateTime: Date.now(),
-        ...center })
+        ...center
+      })
 
       await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: modelName, id })
       const { data: { bgatlas2008UtmCode: utmCode } } = await setup.runActionAsAdmin(`${modelName}:view`, { id })
@@ -348,7 +349,9 @@ describe('Forms:bgatlas2008', () => {
       await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: modelName, id })
       const { data: { bgatlas2008UtmCode: utmCode } } = await setup.runActionAsAdmin(`${modelName}:view`, { id })
 
-      should(utmCode).equal('CNTR')
+      // Shared corner between CNTR and TOP. TOP's polygon claims it (ray-casting includes
+      // a cell's south/bottom boundary), so TOP is returned.
+      should(utmCode).equal('TOP')
     })
 
     it('top right point', async function () {
@@ -360,6 +363,7 @@ describe('Forms:bgatlas2008', () => {
       await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: modelName, id })
       const { data: { bgatlas2008UtmCode: utmCode } } = await setup.runActionAsAdmin(`${modelName}:view`, { id })
 
+      // No polygon claims this corner; first isPointInLine match (alphabetical) is CNTR.
       should(utmCode).equal('CNTR')
     })
 
@@ -372,7 +376,9 @@ describe('Forms:bgatlas2008', () => {
       await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: modelName, id })
       const { data: { bgatlas2008UtmCode: utmCode } } = await setup.runActionAsAdmin(`${modelName}:view`, { id })
 
-      should(utmCode).equal('BTM')
+      // Shared corner between CNTR and BTM. CNTR's polygon claims it (ray-casting includes
+      // a cell's south/bottom boundary), so CNTR is returned.
+      should(utmCode).equal('CNTR')
     })
 
     it('bottom right point', async function () {
@@ -384,7 +390,50 @@ describe('Forms:bgatlas2008', () => {
       await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: modelName, id })
       const { data: { bgatlas2008UtmCode: utmCode } } = await setup.runActionAsAdmin(`${modelName}:view`, { id })
 
+      // No polygon claims this corner; first isPointInLine match (alphabetical) is BTM.
       should(utmCode).equal('BTM')
+    })
+
+    it('assigns correct cell when isPointInLine fires falsely on adjacent cell edge', async function () {
+      // Regression test for the exact reported bug: point 42.0536538686896, 23.9798799902201
+      // was assigned to GM45 instead of GM46. The point is ~28m north of GM45's sloped north
+      // edge, but geolib's isPointInLine (integer-metre distances) returned true for that edge,
+      // causing the old reduce-with-early-exit to return GM45 before ever checking GM46's polygon.
+      // The fix: run isPointInPolygon across all candidates first; only fall back to isPointInLine
+      // when no polygon contains the point.
+      await setup.api.models.bgatlas2008_cells.create({
+        utm_code: 'GM45',
+        lat1: 41.9654666028698,
+        lon1: 23.8962360006181,
+        lat2: 42.0554176557511,
+        lon2: 23.900322789609675,
+        lat3: 42.0528532562912,
+        lon3: 23.999999997224453,
+        lat4: 41.9627997618343,
+        lon4: 23.999999999230187
+      })
+      await setup.api.models.bgatlas2008_cells.create({
+        utm_code: 'GM46',
+        lat1: 42.0554176557511,
+        lon1: 23.900322789609675,
+        lat2: 42.145366990593,
+        lon2: 23.904428247088475,
+        lat3: 42.1429057387222,
+        lon3: 23.999999999372083,
+        lat4: 42.0528532562912,
+        lon4: 23.999999997224453
+      })
+
+      const { data: { id } } = await setup.runActionAsAdmin(`${modelName}:create`, {
+        observationDateTime: Date.now(),
+        latitude: 42.0536538686896,
+        longitude: 23.9798799902201
+      })
+
+      await setup.api.tasks.tasks.forms_fill_bgatlas2008_utmcode.run({ form: modelName, id })
+      const { data: { bgatlas2008UtmCode: utmCode } } = await setup.runActionAsAdmin(`${modelName}:view`, { id })
+
+      should(utmCode).equal('GM46')
     })
   })
 })
