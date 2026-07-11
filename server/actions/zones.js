@@ -5,6 +5,7 @@
 const Promise = require('bluebird')
 const _ = require('lodash')
 const { upgradeAction } = require('../utils/upgrade')
+const { resolveLimit, clampOffset } = require('../helpers/pagination')
 
 exports.zoneList = upgradeAction('ah17', {
   name: 'zone:list',
@@ -20,15 +21,13 @@ exports.zoneList = upgradeAction('ah17', {
   },
 
   run: function (api, data, next) {
-    // var limit = Math.min(1000, data.params.limit || 20);
-    // var offset = data.params.offset || 0;
-
+    // -1 (load all zones) resolves to the configured max.
     const q = {
       include: [
         { model: api.models.location, as: 'location' }
-      ]
-      // limit: limit,
-      // offset: offset
+      ],
+      limit: resolveLimit(data.params.limit, api.config.pagination.zoneListMax),
+      offset: clampOffset(data.params.offset)
     }
     if (!data.params.nomenclature) {
       if (!api.forms.userCanManage(data.session.user, 'formCBM')) {

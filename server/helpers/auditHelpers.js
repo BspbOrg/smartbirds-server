@@ -1,4 +1,5 @@
 const { Op } = require('sequelize')
+const { clampLimit, clampOffset } = require('./pagination')
 
 /**
  * Validation helpers for audit logging system
@@ -131,8 +132,9 @@ module.exports = {
    * @returns {Object} { limit, offset }
    */
   validatePagination (limit, offset, maxLimit = 500) {
-    const validatedLimit = Math.min(maxLimit, Math.max(1, parseInt(limit, 10) || 50))
-    const validatedOffset = Math.max(0, parseInt(offset, 10) || 0)
-    return { limit: validatedLimit, offset: validatedOffset }
+    return {
+      limit: clampLimit(limit, maxLimit, { defaultLimit: 50 }),
+      offset: clampOffset(offset)
+    }
   }
 }
