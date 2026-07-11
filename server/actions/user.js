@@ -2,6 +2,7 @@ const _ = require('lodash')
 const Promise = require('bluebird')
 const { Op } = require('sequelize')
 const { upgradeAction } = require('../utils/upgrade')
+const { resolveLimit, clampOffset } = require('../helpers/pagination')
 
 exports.userCreate = upgradeAction('ah17', {
   name: 'user:create',
@@ -327,15 +328,10 @@ exports.userList = upgradeAction('ah17', {
   },
 
   run: function (api, data, next) {
-    const limit = Math.min(5000, data.params.limit || 20)
-    const offset = data.params.offset || 0
-
+    // -1 (load the whole directory) resolves to the configured max.
     const q = {
-      offset
-    }
-
-    if (limit !== -1) {
-      q.limit = limit
+      limit: resolveLimit(data.params.limit, api.config.pagination.userListMax),
+      offset: clampOffset(data.params.offset)
     }
 
     if (data.params.q) {

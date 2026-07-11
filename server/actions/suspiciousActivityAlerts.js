@@ -1,5 +1,6 @@
 const { Action, api } = require('actionhero')
 const { Op } = require('sequelize')
+const { clampLimit, clampOffset } = require('../helpers/pagination')
 
 // List alerts with filtering
 module.exports.suspiciousActivityAlertList = class SuspiciousActivityAlertList extends Action {
@@ -22,8 +23,8 @@ module.exports.suspiciousActivityAlertList = class SuspiciousActivityAlertList e
   }
 
   async run ({ params, response }) {
-    const limit = Math.min(500, params.limit || 50)
-    const offset = params.offset || 0
+    const limit = clampLimit(params.limit, api.config.pagination.alertListMax, { defaultLimit: 50 })
+    const offset = clampOffset(params.offset)
 
     const where = {}
 

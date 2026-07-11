@@ -169,7 +169,9 @@ function generateListAction (form) {
           })
         }
       } else {
-        data.response.count = await api.models[form.modelName].count(query)
+        // Count the full matching set — the page limit/offset must not bound it.
+        const countQuery = _.omit(query, ['limit', 'offset'])
+        data.response.count = await api.models[form.modelName].count(countQuery)
       }
 
       next()

@@ -3,27 +3,27 @@ const moment = require('moment')
 const { upgradeInitializer } = require('../utils/upgrade')
 const { Op } = require('sequelize')
 const { getBoundsOfDistance } = require('geolib')
+const { resolveLimit, clampOffset } = require('../helpers/pagination')
 
 function generatePrepareQuery (form) {
   const prepareQuery = form.filterList
 
-  return async function (api, { params, session: { user: sessionUser } = {}, user = sessionUser }, query) {
+  return async function (api, { params, session: { user: sessionUser } = {}, user = sessionUser }, query, opts = {}) {
     query = query || { where: {} }
 
-    const limit = parseInt(params.limit) || 20
-    const offset = parseInt(params.offset) || 0
+    const pagination = api.config.pagination
+    // `opts.max` lets the export path use a higher ceiling than the interactive
+    // list cap; both are hard bounds and a client -1 resolves to the ceiling.
+    const max = opts.max || pagination.formListMax
+    const offset = clampOffset(params.offset)
 
     query = _.extend(query, {
       order: [['observationDateTime', 'DESC']],
       offset
     })
-    if (limit !== -1) {
-      query.limit = limit
-    } else {
-      query.limit = user.isAdmin ? 50000 : 20000
-    }
+    query.limit = resolveLimit(params.limit, max)
     if (params.context === 'public') {
-      query.limit = Math.max(0, Math.min(query.limit, 1000 - query.offset))
+      query.limit = Math.max(0, Math.min(query.limit, pagination.publicMax - offset))
     }
 
     // filter by period
@@ -288,7 +288,7 @@ function generateRetrieveRecord (form) {
 
 function generatePrepareCsvQuery (form) {
   return async function (api, data, query) {
-    query = await form.prepareQuery(api, data, query)
+    query = await form.prepareQuery(api, data, query, { max: api.config.pagination.formExportMax })
 
     query = query || {}
 
