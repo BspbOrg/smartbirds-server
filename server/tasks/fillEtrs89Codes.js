@@ -20,10 +20,14 @@ module.exports = class FillEtrs89Codes extends FormsTask {
     return super.getForms().filter((form) => form.hasEtrs89GridCode)
   }
 
-  filterRecords ({ force }) {
+  filterRecords ({ force, form }) {
     return {
       ...(force ? {} : { etrs89GridCode: null }),
-      observationDateTime: { [Op.gte]: api.config.app.etrs89.startTimestamp }
+      observationDateTime: { [Op.gte]: api.config.app.etrs89.startTimestamp },
+      // known duplicates cannot be saved, so they would stay in every batch and block older records
+      id: {
+        [Op.notIn]: sequelize.literal(`(SELECT id1 FROM duplicates WHERE form = ${api.sequelize.sequelize.escape(form)} AND id1 IS NOT NULL)`)
+      }
     }
   }
 
