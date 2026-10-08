@@ -1492,6 +1492,7 @@
     "SUSPICIOUS_ACTIVITY_CONFIRM_UPDATE": "Запази промените по сигнала?",
     "SUSPICIOUS_ACTIVITY_UPDATE_SUCCESS": "Сигналът е обновен успешно",
     "SUSPICIOUS_ACTIVITY_UPDATE_ERROR": "Грешка при обновяване на сигнала",
+    "AUDIT_RETENTION_DAYS": "Одит на достъпа: период на съхранение (дни)",
     "SUSPICIOUS_ACTIVITY_RETENTION_DAYS": "Подозрителна активност: период на съхранение (дни)",
     "SUSPICIOUS_ACTIVITY_BULK_REQUEST_COUNT": "Подозрителна активност: праг за масови операции",
     "SUSPICIOUS_ACTIVITY_BULK_TIME_WINDOW_MINUTES": "Подозрителна активност: времеви прозорец за масови операции (минути)",
